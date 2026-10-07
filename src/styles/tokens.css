@@ -1,0 +1,166 @@
+/* Tailwind v4 CSS-first theme. All shared visual values live here. */
+@theme static {
+  --color-*: initial;
+  --color-primary: #fb2c36;
+  --color-secondary: #dddc8c;
+  --color-dark: #262626;
+  --color-light: #fbfbff;
+
+  --color-background: var(--color-light);
+  --color-background-inverse: var(--color-dark);
+  --color-surface: color-mix(in srgb, var(--color-dark) 5%, var(--color-light));
+  --color-surface-strong: color-mix(
+    in srgb,
+    var(--color-dark) 90%,
+    var(--color-light)
+  );
+  --color-text-primary: var(--color-dark);
+  --color-text-secondary: color-mix(
+    in srgb,
+    var(--color-dark) 70%,
+    transparent
+  );
+  --color-text-inverse: var(--color-light);
+  --color-text-secondary-inverse: color-mix(
+    in srgb,
+    var(--color-light) 80%,
+    transparent
+  );
+  --color-border: color-mix(in srgb, var(--color-dark) 25%, var(--color-light));
+  --color-border-strong: var(--color-dark);
+  --color-accent: var(--color-primary);
+  --color-focus: var(--color-dark);
+  --color-overlay: color-mix(in srgb, var(--color-dark) 40%, transparent);
+  /* Pure primary cannot meet 4.5:1 with either brand text color at UI sizes. */
+  --color-action-primary: color-mix(
+    in srgb,
+    var(--color-primary) 80%,
+    var(--color-dark)
+  );
+  --color-action-primary-hover: color-mix(
+    in srgb,
+    var(--color-primary) 65%,
+    var(--color-dark)
+  );
+  --color-action-secondary-hover: color-mix(
+    in srgb,
+    var(--color-secondary) 85%,
+    var(--color-dark)
+  );
+
+  --spacing: 0.25rem;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
+  --spacing-30: 7.5rem;
+  --spacing-40: 10rem;
+  --container-site: 90rem;
+  --container-prose: 65ch;
+
+  --radius-*: initial;
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-pill: 999rem;
+  --shadow-*: initial;
+  --shadow-hard: 0.25rem 0.25rem 0 var(--color-dark);
+
+  --text-display: clamp(5rem, 11vw, 10rem);
+  --text-display--line-height: 0.82;
+  --text-display--letter-spacing: -0.035em;
+  --text-h1: clamp(4rem, 9vw, 9rem);
+  --text-h1--line-height: 0.86;
+  --text-h1--letter-spacing: -0.03em;
+  --text-h2: clamp(3rem, 6vw, 6rem);
+  --text-h2--line-height: 0.9;
+  --text-h2--letter-spacing: -0.025em;
+  --text-h3: clamp(2rem, 3vw, 3rem);
+  --text-h3--line-height: 1;
+  --text-h3--letter-spacing: -0.02em;
+  --text-h4: 1.5rem;
+  --text-h4--line-height: 1.15;
+  --text-body-lg: 1.25rem;
+  --text-body-lg--line-height: 1.5;
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line-height: 1.55;
+  --text-label: 0.875rem;
+  --text-label--line-height: 1.2;
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.4;
+}
+
+@theme inline {
+  --font-display: var(--font-danidin-bold, Arial, sans-serif);
+  --font-body: var(--font-leon, Arial, Helvetica, sans-serif);
+  --font-sans: var(--font-body);
+  /* Compatibility aliases for existing wireframe markup; prefer semantic names. */
+  --color-canvas: var(--color-background);
+  --color-ink: var(--color-dark);
+  --color-muted: var(--color-text-secondary);
+  --color-line: var(--color-border);
+  --color-placeholder: var(--color-surface);
+}
+
+:root {
+  --space-1: var(--spacing-1);
+  --space-2: var(--spacing-2);
+  --space-3: var(--spacing-3);
+  --space-4: var(--spacing-4);
+  --space-6: var(--spacing-6);
+  --space-8: var(--spacing-8);
+  --space-10: var(--spacing-10);
+  --space-12: var(--spacing-12);
+  --space-16: var(--spacing-16);
+  --space-20: var(--spacing-20);
+  --space-24: var(--spacing-24);
+  --space-30: var(--spacing-30);
+  --space-40: var(--spacing-40);
+  --section-space-sm: clamp(4rem, 7vw, 6rem);
+  --section-space-md: clamp(5rem, 9vw, 8rem);
+  --section-space-lg: clamp(6rem, 12vw, 10rem);
+  --page-gutter: clamp(1rem, 3vw, 3rem);
+  --border-width-default: 0.0625rem;
+  --border-width-strong: 0.125rem;
+  --font-weight-display: 700;
+  --font-weight-heading: 900;
+  --font-weight-body: 400;
+  --font-weight-label: 900;
+  --duration-fast: 0.15s;
+  --duration-normal: 0.3s;
+  --duration-slow: 0.6s;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-exit: cubic-bezier(0.7, 0, 0.84, 0);
+  --focus-ring-width: var(--border-width-strong);
+  --focus-ring-offset: var(--space-1);
+  --control-height-sm: 2.75rem;
+  --control-height-md: var(--space-12);
+  --control-height-lg: 3.5rem;
+  --opacity-disabled: 0.5;
+  --icon-size: var(--space-6);
+  /* Existing trial metrics are centralized, but deliberately not the new type scale. */
+  --trial-hero-size: clamp(2.5rem, 8vw, 4.5rem);
+  --trial-hero-size-desktop: clamp(3.5rem, 6.6vw, 6rem);
+  --trial-description-size: clamp(1rem, 1.25vw, 1.125rem);
+  --trial-wordmark-size: clamp(1.125rem, 2vw, 1.5rem);
+  --trial-menu-size: clamp(1.75rem, 4vw, 2.5rem);
+  --trial-section-heading-size: clamp(1.75rem, 3.5vw, 2.75rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0s;
+    --duration-normal: 0s;
+    --duration-slow: 0s;
+  }
+}

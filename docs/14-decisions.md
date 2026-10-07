@@ -1,0 +1,1149 @@
+# Decision log
+
+Record important UX, branding, and other project decisions here when they are explicitly made. Preserve reasons, evidence, and alternatives so decisions are not lost. A TODO or an inspiration item is not a decision.
+
+## Recorded decisions
+
+Requirements and confirmed positioning notes are documented in [00-project-brief.md](00-project-brief.md).
+
+### Preferred projects and studio differentiators
+
+#### Date
+
+2026-10-05
+
+#### Topic
+
+Project focus and studio positioning.
+
+#### Decision
+
+Focus on attracting web-system projects covering specification, design, and development. Record in-depth design and UX research, a degree in Learning Technologies, visually appealing design, and the ability to both design and develop as the owner-identified differentiators.
+
+#### Reason
+
+The project owner identified these as the preferred work and the studio's differentiators.
+
+#### Evidence/research
+
+Direct answers from the project owner in the planning conversation on 2026-10-05. These statements have not been independently validated through customer research.
+
+#### Alternatives considered
+
+TODO: Decision required
+
+#### Status
+
+Confirmed by the project owner; final positioning copy remains undecided.
+
+### Primary conversion through WhatsApp
+
+#### Date
+
+2026-10-05
+
+#### Topic
+
+Primary website conversion goal.
+
+#### Decision
+
+The primary desired action is for an interested visitor to send a WhatsApp message about a potential project.
+
+#### Reason
+
+The project owner selected WhatsApp as the main action for an interested visitor.
+
+#### Evidence/research
+
+Direct answer from the project owner in the planning conversation on 2026-10-05. No conversion-performance research has been conducted.
+
+#### Alternatives considered
+
+TODO: Decision required
+
+#### Status
+
+Confirmed by the project owner. Homepage placement was subsequently selected in [the floating-only access record](#floating-only-whatsapp-access). CTA wording, exact side, message content, and contact number remain undecided.
+
+### Desired brand perception
+
+#### Date
+
+2026-10-05
+
+#### Topic
+
+Brand perception goals.
+
+#### Decision
+
+The studio should be perceived as innovative, original, technological, and delivering a high standard of design.
+
+#### Reason
+
+The project owner identified these four qualities as the desired perception of the studio.
+
+#### Evidence/research
+
+Direct answer from the project owner in the planning conversation on 2026-10-05.
+
+#### Alternatives considered
+
+TODO: Decision required
+
+#### Status
+
+Confirmed by the project owner; visual identity remains undecided.
+
+### Minimum budget for projects built from scratch
+
+#### Date
+
+2026-10-05
+
+#### Topic
+
+Business constraints and project eligibility.
+
+#### Decision
+
+The minimum accepted budget for a project built from scratch is NIS 12,000. Projects below that amount are not accepted.
+
+Do not display this threshold on the website; retain it as an internal business constraint.
+
+#### Reason
+
+The project owner specified this as an existing business constraint.
+
+#### Evidence/research
+
+Direct answer from the project owner in the planning conversation on 2026-10-05.
+
+#### Alternatives considered
+
+TODO: Decision required
+
+#### Status
+
+Confirmed by the project owner for projects built from scratch. The owner explicitly selected not to display this threshold on the website.
+
+### Initial timebox and continued improvement
+
+#### Date
+
+2026-10-05
+
+#### Topic
+
+Website project timing.
+
+#### Decision
+
+Prefer an initial timebox of no more than one week, then continue adding to and improving the website.
+
+The initial milestone is a developed homepage together with entirely new branding. Subsequent work includes About, Projects, individual Project / Case Study pages, the articles and research area, and the Diagnostic Questionnaire page.
+
+#### Reason
+
+The project owner expressed this timing preference and intention to continue improving afterward.
+
+#### Evidence/research
+
+Direct answer from the project owner in the planning conversation on 2026-10-05.
+
+#### Alternatives considered
+
+TODO: Decision required
+
+#### Status
+
+Confirmed timing preference, developed-homepage deliverable, and new-branding priority. Branding deliverable types have subsequently been confirmed as fonts, typography, colors, a logo, and graphic elements. Specific visual choices, deployment/public-launch timing, and calendar dates remain undecided. This does not establish a committed public-launch date or an order among the subsequent pages.
+
+### Entirely new branding and black-and-white wireframe first
+
+#### Date
+
+2026-10-05
+
+#### Topic
+
+Brand exploration scope and starting point.
+
+#### Decision
+
+Create entirely new branding. Begin with a black-and-white homepage wireframe before developing and applying the visual identity.
+
+#### Reason
+
+The project owner is experiencing a blocker and has chosen to start with a black-and-white wireframe to help move forward.
+
+#### Evidence/research
+
+Direct clarification from the project owner in the planning conversation on 2026-10-05. The black-and-white-first sequence also matches the original project instructions.
+
+#### Alternatives considered
+
+Updating the existing branding was raised as a clarification option; the project owner selected entirely new branding.
+
+#### Status
+
+Confirmed by the project owner; branding deliverable types are recorded in [08-brand-direction.md](08-brand-direction.md#confirmed-first-milestone-branding-scope). Visual choices remain undecided.
+
+### Diagnostic Questionnaire visual redesign scope
+
+#### Date
+
+2026-10-05
+
+#### Topic
+
+Scope of changes to the existing Diagnostic Questionnaire.
+
+#### Decision
+
+The questionnaire page is subsequent work after the homepage and branding milestone, and its scope is a visual redesign only.
+
+#### Reason
+
+The project owner explicitly limited this page to a redesign of the existing feature.
+
+#### Evidence/research
+
+Direct clarification from the project owner in the planning conversation on 2026-10-05.
+
+#### Alternatives considered
+
+TODO: Decision required
+
+#### Status
+
+Confirmed by the project owner. No changes to questions, answer options, logic, or result behavior have been selected; the existing feature has not yet been audited.
+
+### Preferred client starting point
+
+#### Date
+
+2026-10-05
+
+#### Topic
+
+Ideal client profile.
+
+#### Decision
+
+The preferred client is an existing business or company with roughly 3–50 employees and a clear, identified need.
+
+#### Reason
+
+The project owner specified this as the preferred client starting point.
+
+#### Evidence/research
+
+Direct answer from the project owner in the planning conversation on 2026-10-05.
+
+#### Alternatives considered
+
+TODO: Decision required
+
+#### Status
+
+Confirmed by the project owner. Preferred needs have subsequently been identified as learning/training and digitizing services; the client's existing project materials remain undecided.
+
+### Initial portfolio project selection
+
+#### Date
+
+2026-10-05
+
+#### Topic
+
+Products to showcase on the website.
+
+#### Decision
+
+Include the practice ai learning system, the Haaretz project (supplied label: “וורגעל”; final title pending clarification), and Chabad Club (חב״ד קלאב).
+
+#### Reason
+
+The project owner named these as the products intended for inclusion and will provide their details later.
+
+#### Evidence/research
+
+Direct selection by the project owner in the planning conversation on 2026-10-05. No project roles, results, or case study content have been inferred.
+
+#### Alternatives considered
+
+TODO: Decision required
+
+#### Status
+
+Confirmed project selection; project details, final titles, presentation order, and case study hierarchy remain open.
+
+### Preferred client needs and engagement scope
+
+#### Date
+
+2026-10-05
+
+#### Topic
+
+Client needs and accepted engagement types.
+
+#### Decision
+
+Focus on learning/training needs and digitizing services. Accept both full projects covering specification, design, and development, and engagements focused on individual project phases.
+
+#### Reason
+
+The project owner identified these as the needs they want to address and confirmed interest in both full-project and individual-phase work.
+
+#### Evidence/research
+
+Direct answers from the project owner in the planning conversation on 2026-10-05.
+
+#### Alternatives considered
+
+Full-project engagements only, versus accepting both full projects and individual-phase work. The owner selected both.
+
+#### Status
+
+Confirmed by the project owner; final service naming, packaging, and presentation remain undecided.
+
+### Primary decision-makers and personal working model
+
+#### Date
+
+2026-10-05
+
+#### Topic
+
+Client-side audience and how the studio works with clients.
+
+#### Decision
+
+Product managers are the primary client-side decision-makers. Present the working model as personal, direct work with the studio owner, who provides coverage across the project's needs and brings in colleagues when needed.
+
+#### Reason
+
+The project owner identified product managers as the people who decide to engage and described the personal working model with colleagues involved as needed.
+
+#### Evidence/research
+
+Direct answers from the project owner in the planning conversation on 2026-10-05. These are owner-supplied planning inputs, not independently validated customer-research findings.
+
+#### Alternatives considered
+
+Personal, direct work with the owner versus presenting the engagement as work with a studio team. The owner selected personal work with colleagues involved when needed.
+
+#### Status
+
+Confirmed by the project owner; final website wording remains undecided.
+
+### Target visit-to-inquiry conversion rate
+
+#### Date
+
+2026-10-05
+
+#### Topic
+
+Website success metric.
+
+#### Decision
+
+Target 5 inquiries for every 100 website visits, equivalent to a 5% visit-to-inquiry conversion rate. WhatsApp is the previously selected primary inquiry channel.
+
+#### Reason
+
+The project owner specified this as the desired measure of website success.
+
+#### Evidence/research
+
+Direct answer from the project owner in the planning conversation on 2026-10-05. The 5% figure is calculated from the supplied target of 5 inquiries per 100 visits.
+
+#### Alternatives considered
+
+TODO: Decision required
+
+#### Status
+
+Confirmed owner-set target. Visit/inquiry counting definitions, measurement period, and tracking implementation remain undecided.
+
+### Desired homepage visitor response
+
+#### Date
+
+2026-10-05
+
+#### Topic
+
+Homepage purpose and business goal.
+
+#### Decision
+
+The homepage should create a strong overall impression and a sense of distinctiveness. The desired visitor response is to feel strongly decided on asking the owner to develop their product before contacting them through WhatsApp.
+
+#### Reason
+
+The project owner described this as the desired state of an interested visitor after viewing the homepage.
+
+#### Evidence/research
+
+Direct answer from the project owner in the planning conversation on 2026-10-05. This records an intended outcome; no user-research finding or conversion result is asserted.
+
+#### Alternatives considered
+
+TODO: Decision required
+
+#### Status
+
+Confirmed by the project owner; available credibility material is now recorded in [03-content.md](03-content.md#available-credibility-material). Proof selection, page sections, hierarchy, and website copy remain undecided.
+
+### Blog audience, topical organization, and reputation goals
+
+#### Date
+
+2026-10-05
+
+#### Topic
+
+Audience and purpose of the articles and research area.
+
+#### Decision
+
+Address a broad audience, organize content by topic, and use the content platform to support studio promotion and reputation.
+
+#### Reason
+
+The project owner intends the content for everyone and identified promotion and reputation as part of its purpose.
+
+#### Evidence/research
+
+Direct answer from the project owner in the planning conversation on 2026-10-05.
+
+#### Alternatives considered
+
+Limiting the audience to clients/product managers or to designers/developers. The project owner selected a broad audience.
+
+#### Status
+
+Confirmed by the project owner; final categories, filtering/navigation, SEO requirements, and article structure remain undecided.
+
+### Desired distinctiveness and things to avoid
+
+#### Date
+
+2026-10-05
+
+#### Topic
+
+Desired experience and differentiation.
+
+#### Decision
+
+Record a cohesive, refined, clear, and clean experience with a high standard of design as the owner's intended distinction. Avoid clichés, empty slogans, and mediocre design.
+
+#### Reason
+
+The owner clarified what prospective clients should perceive as different about the offering and experience.
+
+#### Evidence/research
+
+Direct answer from the project owner in the planning conversation on 2026-10-05. This is an intended experience, not a validated user-research conclusion.
+
+#### Alternatives considered
+
+TODO: Decision required
+
+#### Status
+
+Confirmed owner-defined direction. Content, hierarchy, and visual implementation remain undecided.
+
+### Available credibility material
+
+#### Date
+
+2026-10-05
+
+#### Topic
+
+Inventory of material that may support trust.
+
+#### Decision
+
+Record the owner's five available testimonials, actual usage figures for existing products, and experience with well-known organizations through both employee roles and independent engagements as available planning inputs.
+
+#### Reason
+
+The owner identified these materials when asked what evidence is available beyond the projects and degree.
+
+#### Evidence/research
+
+Direct answers from the project owner in the planning conversation on 2026-10-05. The owner clarified that the figures describe actual usage of existing products, and that the experience includes both employee roles and independent engagements. Testimonial text, numerical values, organization names, specific roles, and supporting sources have not yet been supplied. The owner will provide the organization and engagement details later.
+
+#### Alternatives considered
+
+TODO: Decision required
+
+#### Status
+
+Owner-reported inventory recorded. Publication constraints, final selection, page placement, and presentation remain undecided.
+
+### Current website concerns
+
+#### Date
+
+2026-10-05
+
+#### Topic
+
+Owner-reported reasons for redesigning the current website.
+
+#### Decision
+
+Record that the projects currently showcased are old, the owner dislikes the current hero's visual appearance, and the owner strongly dislikes the existing logo as planning and research inputs.
+
+#### Reason
+
+The owner identified these as the main concerns with the existing website.
+
+#### Evidence/research
+
+Direct answer from the project owner in the planning conversation on 2026-10-05. These are owner assessments, not independently observed audit findings.
+
+#### Alternatives considered
+
+TODO: Decision required
+
+#### Status
+
+Owner-reported concerns recorded. Replacement content, hero hierarchy, and visual solutions remain undecided.
+
+### First-milestone branding deliverables
+
+#### Date
+
+2026-10-05
+
+#### Topic
+
+Scope of the entirely new branding for the initial milestone.
+
+#### Decision
+
+Include fonts, typography, colors, a logo, and graphic elements in the first-milestone branding scope.
+
+#### Reason
+
+The project owner named these as the required branding deliverable types for the first stage.
+
+#### Evidence/research
+
+Direct answer from the project owner in the planning conversation on 2026-10-05.
+
+#### Alternatives considered
+
+TODO: Decision required
+
+#### Status
+
+Scope confirmed by the owner. Specific visual choices remain undecided; black-and-white wireframes still precede visual identity exploration.
+
+### Owner-provided inspiration references
+
+#### Date
+
+2026-10-06
+
+#### Topic
+
+Website references for planning and future exploration.
+
+#### Decision
+
+Record Huncwot for form / shapes, page structure, and specifically the project presentation layout; Mammoth Murals for the owner's appreciation of brutalism; and Stokt for an overall atmosphere that feels technological to the owner.
+
+#### Reason
+
+The owner supplied these websites and explained what she likes about each.
+
+#### Evidence/research
+
+Direct answers from the project owner in the planning conversation on 2026-10-06, including the clarification that the appealing aspect of Huncwot's project presentation is its layout. See [the reference records](research/owner-inspiration-references.md). These are owner-reported preferences; launch/redesign dates have not been verified for the 2025–2026 requirement.
+
+#### Alternatives considered
+
+TODO: Decision required
+
+#### Status
+
+Inspiration inputs recorded. No UX pattern or visual identity has been selected from them.
+
+### Proposed homepage sections and possible testimonial placement
+
+#### Date
+
+2026-10-06
+
+#### Topic
+
+Owner-proposed homepage section inventory and testimonial placement.
+
+#### Decision
+
+Record the owner's proposed sections: hero, three services or advantages, projects, a brief introduction to the owner, testimonials / reviews, questions and answers / FAQ, and "How it works." Record that the owner is considering also including testimonials / reviews on the Projects page.
+
+#### Reason
+
+The owner supplied the section inventory and explicitly clarified that she is not yet settled on the order.
+
+#### Evidence/research
+
+Direct answer from the project owner in the planning conversation on 2026-10-06. See [the page structure document](02-page-structure.md#home).
+
+#### Alternatives considered
+
+The owner mentioned services or advantages for the three-item section, and is considering testimonials on the Projects page as well. Selection: TODO: Decision required
+
+#### Status
+
+Proposed inventory recorded. The three communication themes and the "How it works" purpose were clarified in the later records below. Final order, hierarchy, supporting details, and testimonial placement remain open.
+
+### Three homepage communication themes
+
+#### Date
+
+2026-10-06
+
+#### Topic
+
+Content themes for the proposed three-item homepage section.
+
+#### Decision
+
+Record the owner's selected themes: research-based specification, an interactive and attractive experience, and development. Preserve the image and original Hebrew labels in [the content document](03-content.md#supporting-messages).
+
+#### Reason
+
+The owner supplied the image in response to the question about what the three-item section should present, and said this is what she wants to show.
+
+#### Evidence/research
+
+Direct answer and image from the project owner in the planning conversation on 2026-10-06. Source image: [homepage-three-themes-2026-10-06.png](research/assets/owner-inputs/homepage-three-themes-2026-10-06.png).
+
+#### Alternatives considered
+
+The preceding question asked whether the section should present services or advantages. The owner answered by supplying the three themes. Final section label: TODO: Decision required
+
+#### Status
+
+Themes confirmed by the owner. Final wording, supporting details, the scope of the development claim, and visual treatment remain open.
+
+### How to start working together
+
+#### Date
+
+2026-10-06
+
+#### Topic
+
+Purpose of the proposed "How it works" homepage section.
+
+#### Decision
+
+The section should explain how a prospective client starts working with the owner.
+
+#### Reason
+
+The owner clarified that this is the intended purpose of the section.
+
+#### Evidence/research
+
+Direct answer from the project owner in the planning conversation on 2026-10-06.
+
+#### Alternatives considered
+
+The question distinguished the product work process from how the working relationship begins. The owner selected how to start working together.
+
+#### Status
+
+Section purpose confirmed. The three steps were supplied by the owner in the later record below. Supporting information, wording, and placement remain open.
+
+### Initial client-engagement steps
+
+#### Date
+
+2026-10-06
+
+#### Topic
+
+Source information for the proposed "How it works" homepage section.
+
+#### Decision
+
+Record the owner's sequence: a short telephone call lasting 5–10 minutes, an in-depth specification discussion, and the prospective client receiving a quote.
+
+#### Reason
+
+The owner supplied these steps when asked what happens after a prospective client contacts her through WhatsApp.
+
+#### Evidence/research
+
+Direct answer from the project owner in the planning conversation on 2026-10-06. See [the content-planning source information](03-content.md#how-it-works--source-information).
+
+#### Alternatives considered
+
+TODO: Decision required
+
+#### Status
+
+Three-step sequence and the initial call's duration confirmed by the owner. Homepage placement was subsequently confirmed in [the placement record](#client-starting-section-placement). Supporting details, subsequent steps, and final website wording remain open.
+
+### Advance to homepage structure planning
+
+#### Date
+
+2026-10-06
+
+#### Topic
+
+Current work stage and planning focus.
+
+#### Decision
+
+Move beyond question-led planning and begin stage 4, homepage structure planning, using the owner's seven proposed sections and confirmed information as the working inventory.
+
+#### Reason
+
+The owner asked to move on from the questions and advance to the next stage. Page structure and hierarchy follow research in the recorded project process.
+
+#### Evidence/research
+
+Direct request from the project owner in the planning conversation on 2026-10-06. Existing inputs include the project brief, initial sitemap, Mobbin report, owner-provided inspiration references, section inventory, and initial client-engagement steps.
+
+#### Alternatives considered
+
+TODO: Decision required
+
+#### Status
+
+Current work focus updated and the section planning inventory prepared. The opening sequence and subsequent sections were later confirmed in [the opening record](#homepage-opening-sequence), [the continuation record](#homepage-sequence-after-projects), and [the client-starting placement record](#client-starting-section-placement). The complete section sequence is confirmed. Internal hierarchy and detailed CTA placement remain undecided. The subsequent design stage is black-and-white wireframes.
+
+### Homepage opening sequence
+
+#### Date
+
+2026-10-06
+
+#### Topic
+
+The relationship between the three communication themes / advantages and the projects in the homepage opening.
+
+#### Decision
+
+Use the opening sequence: Hero → three communication themes / advantages → projects.
+
+#### Reason
+
+The owner selected advantages before projects when presented with the two opening-sequence alternatives. Further rationale: TODO: Decision required
+
+#### Evidence/research
+
+Direct answer from the project owner: "קודם יתרונות ואז פרויקטים". The comparison followed [the Mobbin homepage-structure research](research/mobbin-homepage-structure-2025-2026.md). This is the owner's preference, not a measured conversion finding.
+
+#### Alternatives considered
+
+- Hero → three communication themes / advantages → projects: selected.
+- Hero → projects → three communication themes / advantages: not selected.
+
+#### Status
+
+Opening sequence confirmed by the owner and recorded in [02-page-structure.md](02-page-structure.md#hierarchy). The continuation was subsequently specified in the record below. Hierarchy within sections, final wording, visual treatment, and detailed CTA placement remain open.
+
+### Homepage sequence after projects
+
+#### Date
+
+2026-10-06
+
+#### Topic
+
+The homepage sequence following Projects, including Contact and the footer.
+
+#### Decision
+
+After Projects, use this order: brief owner introduction → client testimonials → questions and answers / FAQ → contact → footer.
+
+Together with the previously selected opening, the specified sequence is: Hero → three communication themes / advantages → projects → brief owner introduction → client testimonials → FAQ → contact → footer.
+
+#### Reason
+
+The owner supplied this complete continuation when asked what should follow the projects. Further rationale: TODO: Decision required
+
+#### Evidence/research
+
+Direct answer from the project owner: "קצת עלי ואז המלצות מלקוחות ואז שאלות תשובות ואז יצירת קשר ואז פוטר". See [the page-structure record](02-page-structure.md#hierarchy). Research is context for discussion; this sequence is an explicit owner choice.
+
+#### Alternatives considered
+
+The preceding question offered the brief owner introduction or client testimonials immediately after Projects. The owner selected the introduction first, followed by testimonials, and specified the remaining continuation.
+
+#### Status
+
+Specified continuation confirmed. Contact and footer added to the planning inventory. The owner subsequently clarified the client-starting section's inclusion and position in [the placement record below](#client-starting-section-placement). Hierarchy within sections, content, presentation, and detailed WhatsApp placement remain open. FAQ content remains deferred.
+
+### Client-starting section placement
+
+#### Date
+
+2026-10-06
+
+#### Topic
+
+Inclusion and homepage position of "How to start working together".
+
+#### Decision
+
+Include the client-starting section after client testimonials and before FAQ.
+
+The complete confirmed homepage sequence is: Hero → three communication themes / advantages → projects → brief owner introduction → client testimonials → how to start working together → FAQ → contact → footer.
+
+#### Reason
+
+The owner explicitly selected this position when asked about the previously proposed section. Further rationale: TODO: Decision required
+
+#### Evidence/research
+
+Direct answer from the project owner: "אחרי המלצות מלקוחות". See [the confirmed hierarchy](02-page-structure.md#hierarchy). The existing three-step source information remains in [03-content.md](03-content.md#how-it-works--source-information).
+
+#### Alternatives considered
+
+The preceding question offered grouping the information with Contact, keeping a separate section, or omitting it from Home. The owner specified a position after client testimonials.
+
+#### Status
+
+Section inclusion and position confirmed. The overall nine-part homepage sequence is now recorded. Hierarchy within sections, supporting information, final wording, visual treatment, and detailed CTA placement remain open.
+
+### Floating-only WhatsApp access
+
+#### Date
+
+2026-10-06
+
+#### Topic
+
+Homepage WhatsApp CTA placement.
+
+#### Decision
+
+Provide WhatsApp access only through a floating control at the lower side of the viewport. Do not include an inline WhatsApp CTA in the hero or other homepage sections. Exact left/right side: TODO: Decision required
+
+#### Reason
+
+The owner declined a hero WhatsApp button and specified floating-only access. Further rationale: TODO: Decision required
+
+#### Evidence/research
+
+Direct answer from the project owner: "לא, רק בfloating בצד למטה". See [the homepage CTA record](02-page-structure.md#primary-cta).
+
+#### Alternatives considered
+
+- An inline WhatsApp button in the hero: declined.
+- Floating-only WhatsApp access at the lower side: selected.
+
+#### Status
+
+Homepage placement approach confirmed. Exact side, responsive states, visibility/scroll behavior, destination, wording, visual treatment, and motion remain open. Applicability to other pages: TODO: Decision required. The Contact section remains in the confirmed page sequence; its contents and other actions are not defined.
+
+### Owner text editing and continued structure planning
+
+#### Date
+
+2026-10-06
+
+#### Topic
+
+Text editing and the next planning focus.
+
+#### Decision
+
+The owner will edit the text. Continue with documentation status and structural planning rather than requesting final hero wording. Keep content in [03-content.md](03-content.md#text-editing) and page structure in [02-page-structure.md](02-page-structure.md).
+
+#### Reason
+
+The owner stated that she will edit the text and asked for the status of the files, what remains to fill, and how to proceed.
+
+#### Evidence/research
+
+Direct request from the owner in the planning conversation. The status review is recorded in [README.md](../README.md#planning-files-and-current-status).
+
+#### Alternatives considered
+
+The preceding question asked what the visitor should understand in the hero. The owner redirected the work to documentation status and the next steps while taking text editing herself.
+
+#### Status
+
+Historical workflow direction recorded; the later [collaborative homepage workbook decision](#collaborative-homepage-workbook) supersedes the separate owner-only text-editing process. The section sequence and WhatsApp placement approach remain confirmed. Internal section hierarchy, navigation, Home project selection, Contact/Footer contents, and final text remain open. No wireframe, visual identity, or code was created by that earlier update.
+
+### Local homepage wireframe and development stack
+
+#### Date
+
+2026-10-06
+
+#### Topic
+
+Starting the black-and-white wireframe implementation and selecting its stack.
+
+#### Decision
+
+Start a local coded homepage wireframe using React, Next.js, Tailwind CSS, and Node.js. Preserve the owner-confirmed section sequence and floating-only WhatsApp access. Use placeholders where content, navigation, project selection, assets, or internal hierarchy remain unresolved.
+
+#### Reason
+
+The owner asked to move to development of the wireframe and supplied this stack. The owner will edit the text herself.
+
+#### Evidence/research
+
+Direct owner request to start wireframe development, followed by "react nectjs tailwind nodejs". Source structure is in [02-page-structure.md](02-page-structure.md#hierarchy); the prototype review record distinguishes confirmed requirements from temporary layout proposals.
+
+#### Alternatives considered
+
+No alternative stack was selected by the owner. Further alternatives: TODO: Decision required
+
+#### Status
+
+Local draft implemented for review. TypeScript, npm, Biome, temporary layout values and locale-prefixed routes are implementation choices, not owner-selected branding or final UX. Production website development, visual identity and publishing remain later stages. Home project selection and final text remain open.
+
+### Hebrew-first implementation with bilingual-ready architecture
+
+#### Date
+
+2026-10-06
+
+#### Topic
+
+Language, direction, shared components and future English support.
+
+#### Decision
+
+Implement Hebrew first, with default document language `he` and direction `rtl`. Prepare English language `en` and direction `ltr` through language-driven document attributes, separate textual content, shared components and direction-aware CSS. Include a language toggle in the main navigation. Do not translate or invent English content now; enable English only after its content is supplied.
+
+#### Reason
+
+The owner explicitly requires Hebrew-first implementation with a frontend architecture ready for the future bilingual website.
+
+#### Evidence/research
+
+Direct owner instruction on bilingual architecture and RTL/LTR requirements. Recorded in [12-responsive-and-rtl.md](12-responsive-and-rtl.md#confirmed-bilingual-architecture-requirements).
+
+#### Alternatives considered
+
+The instruction rules out direction-specific component copies, reading-direction positioning hardcoded to left/right, and premature English translations. Other language routing and SEO alternatives: TODO: Decision required
+
+#### Status
+
+Foundation implemented: Hebrew dictionary, typed language/direction configuration, locale root layout, shared components, logical styling and an unavailable English option. Only Hebrew content is published locally. Final language URL/SEO policy, English translations and future LTR content verification remain open.
+
+### Collaborative homepage workbook
+
+#### Date
+
+2026-10-06
+
+#### Topic
+
+Shared homepage content and black-and-white layout planning before coded homepage updates.
+
+#### Decision
+
+Create [docs/homepage-workbook.md](homepage-workbook.md) as the shared workspace, with English planning notes and Hebrew website copy. Keep the nine confirmed sections in their existing order; hero In progress, later sections Not started. For each section, define purpose/information, review relevant saved Mobbin references together, draft 2–3 Hebrew options and refine the preferred version, compare desktop/mobile layouts, and record agreed content and layout before moving on. Distinguish proposals, agreed choices and remaining questions.
+
+Start with the hero message that Moriz combines research, UX/UI design and web app development. Begin with saved Locomotive and Unseen references; retain Fiasco as a typography study. Compare a centered composition with text beside a main visual. WhatsApp remains floating only; discuss a separate work-viewing action during layout review.
+
+Complete the workbook through joint content/layout review before updating the coded homepage. Keep exploration black and white; branding follows later. This task includes documentation only, with no application code or API changes.
+
+#### Reason
+
+The owner requested implementation of the supplied homepage-workbook plan, establishing a collaborative copywriting and layout process in place of the earlier separate owner-only text-editing workflow.
+
+#### Evidence/research
+
+The approved plan supplied in the current request; existing [hero research](research/mobbin-agency-hero-research.md), [homepage hierarchy](02-page-structure.md#hierarchy), [studio facts](00-project-brief.md#studio-positioning) and [floating-only WhatsApp decision](#floating-only-whatsapp-access).
+
+#### Alternatives considered
+
+Centered and text-beside-visual compositions are proposals to compare. A separate work-viewing action is open. No final copy, composition or action was selected by this instruction.
+
+#### Status
+
+Historical status at workbook creation: three Hebrew hero options, an assistant-preferred refinement and desktop/mobile layout comparisons; application code and APIs were unchanged. The later [Mammoth hero trial](#mammoth-murals-hero-trial) grants a specific exception to the timing requirement for the hero/header. Later sections remain Not started.
+
+### Owner-supplied hero copy
+
+#### Date
+
+2026-10-06
+
+#### Topic
+
+Homepage hero H1 and supporting paragraph.
+
+#### Decision
+
+Use the owner's exact supplied Hebrew headline as the hero H1 and the following paragraph as supporting text. The agreed wording is preserved in [the workbook](homepage-workbook.md#h1) and [the content inventory](03-content.md#headlines). It uses a first-person feminine voice and connects research, design and code to a system suited to the business and its users.
+
+#### Reason
+
+The owner explicitly identified the headline as the H1 and supplied its supporting paragraph.
+
+#### Evidence/research
+
+Direct owner message providing both Hebrew texts. The Learning Technologies degree was previously recorded in the brief; years of development experience is now owner-supplied, with no exact duration specified.
+
+#### Alternatives considered
+
+The earlier three hero drafts and assistant-preferred refinement are retained as history in the workbook and superseded by the supplied copy.
+
+#### Status
+
+Hero copy agreed. At that point layout, visual and work-viewing action remained open, with no code changes included. The later [Mammoth hero trial](#mammoth-murals-hero-trial) selects those details for a coded trial. Hero stays In progress and later sections Not started. WhatsApp remains floating only.
+
+### Mammoth Murals hero trial
+
+#### Date
+
+2026-10-06
+
+#### Topic
+
+Local coded hero/header trial before completing the remaining homepage workbook sections.
+
+#### Decision
+
+Implement the approved [Mammoth trial layout](homepage-workbook.md#selected-trial--mammoth-murals-layout) in the existing local homepage. Preserve the exact owner-supplied H1 and description. Use a large right-aligned desktop H1, description and CTA below on the right, and empty 16:9 video div at bottom left. Mobile/tablet order: H1 → video placeholder → description → CTA. Use black/white/grayscale and the existing temporary system font. The owner will create the video later.
+
+Include exactly one inline hero CTA, **לצפיה בפרויקטים**, targeting `#projects`. Use a text-only **Moriz Studio** logo and hamburger-only navigation at every width. The menu contains **פרויקטים** (`#projects`), **קצת עליי** (`#about`), **יצירת קשר** (`#contact`), and language selection; English remains disabled. WhatsApp remains floating only, with its provisional position/configuration preserved.
+
+This specifically supersedes the requirement to finish all workbook sections before changing the coded hero/header. Do not change later section content/layout or their order. Trial implementation does not establish final branding, approval of the rendered result, new pages, APIs or publishing.
+
+#### Reason
+
+The owner supplied desktop and mobile reference images, requested trying the layout, selected the local coded trial, same-page CTA target and menu contents, approved the proposed plan with “+”, and explicitly requested implementation.
+
+#### Evidence/research
+
+[Mammoth Murals live page](https://mammothmurals.com/), accessed 2026-10-06; [owner-supplied desktop screenshot](research/assets/owner-inputs/mammoth-murals-hero-desktop-2026-10-06.png); [owner-supplied mobile screenshot](research/assets/owner-inputs/mammoth-murals-hero-mobile-2026-10-06.png); direct owner choices and implementation request. Do not infer source launch dates, motion, conversion or accessibility from screenshots.
+
+#### Alternatives considered
+
+Documentation-only trial versus local coded hero/header: local implementation selected. Separate Projects page versus existing homepage Projects section: homepage anchor selected. Placeholder/all-section menu versus selected homepage links and language: selected links and language chosen. Earlier Locomotive/Unseen layouts and their mobile reading order are retained as history, superseded for this trial.
+
+#### Status
+
+Hero/header trial implemented locally; visual acceptance remains pending. Hero is In progress and the other eight sections remain Not started. Video source/playback behavior, final branding and final WhatsApp side/destination remain future decisions. Verification results are recorded in the prototype review status after checks complete.
+
+### Hero wording correction
+
+Date: 2026-10-06.
+
+The owner requested replacing **עיצוב וטכנולוגיות** with **עיצובה&טכנולוגיה** in the hero H1. Apply the exact requested spelling and ampersand in the Hebrew dictionary, [agreed content](03-content.md#headlines) and [workbook H1](homepage-workbook.md#h1). The supporting description remains the agreed paragraph. Source: direct owner correction; implemented locally.
+
+### Desktop header navigation revision
+
+Date: 2026-10-06.
+
+The owner requested visible centered navigation on desktop, rather than inside a hamburger, and a CTA on the left. Keep the text logo on the right and the hamburger on mobile/tablet. This supersedes the original all-width hamburger choice for desktop only. Existing homepage navigation anchors and Hebrew/disabled-English language selection remain available.
+
+The header CTA text/destination were not specified. A clarification was requested; provisionally reuse the already agreed **לצפיה בפרויקטים** → `#projects`. This is an assistant default for review, not an additional owner-approved copy decision. Preserve the hero's existing single CTA, floating-only WhatsApp and later section contents/layout. Implement locally; final visual acceptance remains pending. See [current workbook details](homepage-workbook.md#selected-trial--mammoth-murals-layout).
+
+### Hero headline replacement
+
+Date: 2026-10-06.
+
+The owner supplied the replacement H1 **יוצרת פתרונות דיגיטליים מבוססי מחקר**, superseding the previous problem-solving headline and its wording correction. Implement the exact new headline in the Hebrew dictionary, [agreed content](03-content.md#headlines) and [workbook H1](homepage-workbook.md#h1). Source: direct owner message. The supporting description and layout remain as previously agreed; hero visual review is still In progress.
+
+### Compact language link
+
+Date: 2026-10-06.
+
+The owner requested replacing the Hebrew/English buttons with an underlined **EN** text link beside **לצפיה בפרויקטים** in the desktop header, matching [the supplied screenshot](research/assets/owner-inputs/language-link-en-2026-10-06.png). Keep the three page links centered; place language selection in the left action group beside the CTA. Mobile keeps the same single text link in its drawer. The current-language button is removed. English remains unavailable and has no navigable destination until content is supplied; this visual change does not create an English page or translation. The shared control will show **HE** when English is enabled in the future. Source: direct owner instruction and supplied image; implemented locally.
+
+### Owner-supplied font candidates
+
+Date: 2026-10-06.
+
+The owner requested adding Danidin CondensedBold, Futurism Black, Manhattan 650, Polin Bold and Polin Regular from the supplied local folders, using **WOFF2 only**, to check them. Copy those five files and register reusable local font definitions. A separate `/he/fonts` review utility compares the agreed hero text with editable headline and a shared size control. This is an implementation aid for the requested review, not a planned public website page or a selected brand direction. The homepage font remains unchanged pending a choice. See [typography notes](08-brand-direction.md#typography).
+
+### Logo carousel below the hero
+
+Date: 2026-10-06.
+
+The owner requested adding React Bits LogoLoop using `npx jsrepo@latest add https://reactbits.dev/r/LogoLoop-TS-CSS` below the hero, with images to be supplied later. The component was installed through jsrepo 3.8.1; its TSX and CSS live together in `src/components/react-bits/`. The wrapper displays neutral, explicitly labeled placeholders until `src/content/homepage-logos.ts` contains image paths and real alt names. Assets belong in `public/logos/`. Implement as a hero extension before the three communication themes, preserving the existing nine section markers and subsequent content. Grayscale, 48px height, 64px gap and 60px/s leftward movement are assistant defaults for local review. Hover pause, a keyboard/touch pause button and reduced-motion support are included. Final images and visual acceptance remain pending. Source: direct owner request and [React Bits LogoLoop](https://reactbits.dev/animations/logo-loop).
+
+### Foundational design system
+
+Date: 2026-10-06.
+
+The owner requested a small, shared foundation before further page-specific UI: supplied Primary #FB2C36, Secondary #DDDC8C, Dark #262626 and Light #FBFBFF; semantic tokens; fluid type; rem spacing; a logical 90rem container; restrained radii/borders/shadows; button variants/sizes/states; shared motion and reduced-motion/RTL/LTR support. Keep installed Tailwind 4.3.3 and normal root font-size. No logo, page layout redesign or new page animation.
+
+Font clarification: the owner supplied Danidin CondensedBold, Leon Regular and Leon Heavy WOFF2 paths. Reuse the existing Danidin face/loader; load Leon's real 400/900 weights. The earlier requested Black name is not used to mislabel the supplied Bold face. Preserve earlier comparison candidates with preloading disabled. Primary button backgrounds derive a darker red from the palette because the pure primary fails normal-text contrast with both brand foreground colors. Existing page compositions remain intact; shared colors/fonts/container values adopt the foundation. The source and usage rules are in [the concise design-system guide](09-design-system.md).
+
+### Research advantages card with falling pills
+
+Date: 2026-10-07.
+
+The owner requested beginning the advantages section with the first research card, supplied its new title/paragraph and the React Bits FallingText installation command, and requested UI/UX terms in wireframe colors. During planning the owner selected automatic falling on viewport entry and placement below the text, then explicitly requested implementation of the complete plan.
+
+Use **איפיון ועיצוב מבוססי מחקר** (correcting the supplied typo “ויעצוב”) and **כל כפתור, כל אנימציה וכל בחירה היא מושכלת. אני מתעדכנת כל הזמן במחקרים ומתודולוגיות חדשות.** Nine whole pills are **מחקר משתמשים, UI, UX, מסע משתמש, בדיקות שמישות, נגישות, ארכיטקטורת מידע, פרוטוטייפ, Design System**. The latter six terms, 280px minimum area, 30% visibility trigger, restrained physics and mouse-only dragging were proposed in the approved plan. The area is open, below the paragraph, and uses only existing light/dark/grayscale tokens and Leon.
+
+Installed using `npx jsrepo@latest add https://reactbits.dev/r/FallingText-TS-CSS` (jsrepo 3.8.1), with Matter.js 0.20.0 and TypeScript declarations. Local changes preserve multiword terms, semantic server-rendered markup, lazy import, responsive boundaries, pointer capture, native touch scrolling and reduced motion. A single physics loop pauses outside the viewport and in hidden tabs, sleeps after settling, and is fully cleaned up on unmount. The remaining cards and page sequence stay as supplied.
+
+Status: implemented locally, awaiting owner visual review. The advantages section is In progress; the other two cards remain placeholders. This request supersedes the earlier instruction to defer advantages until hero acceptance, without declaring the hero accepted or authorizing publishing. Source: direct owner request, planning choices, implementation authorization, and [React Bits FallingText](https://reactbits.dev/text-animations/falling-text).
+
+Verification on 2026-10-07: lint, TypeScript and production build pass. Chrome checks pass at 320, 390, 768, 1024, 1440 and 1920px, including containment and sleeping after settling, no replay on scroll re-entry, desktop dragging/release, live resize, initial/live reduced motion, static and live-physics 200% text enlargement (390/768px), native mobile swipe scrolling and readable content with JavaScript disabled. Responsive padding reserves room for rotated pill corners; bodies are resized in their local axes to avoid distortion when enlarged labels wrap. Production checks confirm a separate deferred physics chunk loads only after 30% viewport entry and is never requested for reduced motion; offscreen/hidden-tab pause, navigation cleanup and a failed-chunk static fallback pass without runtime or hydration errors. Development Turbopack eagerly includes async chunks in its entry manifest, so network deferral is verified on the production build.
+
+#### Subsequent pill-content revision
+
+Date: 2026-10-07. The owner requested removing **נגישות** and **פרוטוטייפ** and adding **מחקר מתחרים**. The current eight terms are **מחקר משתמשים, UI, UX, מסע משתמש, בדיקות שמישות, מחקר מתחרים, ארכיטקטורת מידע, Design System**. The original nine-term plan above is retained as history; the dictionary, workbook and content inventory reflect the revision.
+
+### External inspector toggle
+
+Date: 2026-10-07. The owner requested an external toggle because closing Developer tools previously stopped inspection. Move the existing Inspector ON/OFF button into the always-visible launcher controls, independent of panel visibility. Closing the panel now hides only the details, retaining inspection, selection and the prompt draft. Escape, switching OFF and route changes retain their existing stop/clear behavior. External controls stack on narrow screens, and the panel fits above their actual height. This remains development-only and sends no external messages.
+
+Verification: all 16 inspector browser tests pass, including keyboard activation of the external toggle, closed-panel selection and touch scrolling, collapse/reopen preservation, modal menus, RTL/LTR, narrow layouts and 200% text enlargement. Lint, TypeScript, production build and the production-exclusion browser test pass. The revised eight pill labels were checked visually at 390/1440px and settle successfully.
+
+## Reusable decision template
+
+
+
+This blank template is not a recorded decision.
+
+### Date
+
+TODO: Decision required
+
+### Topic
+
+TODO: Decision required
+
+### Decision
+
+TODO: Decision required
+
+### Reason
+
+TODO: Decision required
+
+### Evidence/research
+
+TODO: Decision required
+
+### Alternatives considered
+
+TODO: Decision required
+
+### Status
+
+TODO: Decision required

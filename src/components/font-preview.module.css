@@ -1,0 +1,109 @@
+.preview {
+  padding-block: var(--space-8) var(--space-20);
+}
+
+.header {
+  max-inline-size: 45rem;
+}
+
+.header a {
+  display: inline-flex;
+  min-block-size: var(--space-12);
+  align-items: center;
+  text-underline-offset: 0.2em;
+}
+
+.header h1 {
+  margin-block: var(--space-6) var(--space-3);
+  font-size: var(--text-h3);
+  font-weight: 700;
+}
+
+.header p {
+  font-size: var(--text-body);
+  line-height: 1.6;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--space-6);
+  margin-block: var(--space-8) var(--space-12);
+}
+
+.controls label {
+  display: grid;
+  min-inline-size: 0;
+  gap: var(--space-3);
+}
+
+.textControl {
+  flex: 1 1 24rem;
+}
+
+.textControl textarea {
+  inline-size: 100%;
+  min-block-size: var(--space-20);
+  resize: vertical;
+  padding: var(--space-3);
+  border: var(--border-width-default) solid var(--color-text-secondary);
+  border-radius: 0;
+  font: inherit;
+  line-height: 1.5;
+  background: var(--color-background);
+  color: var(--color-dark);
+}
+
+.sizeControl {
+  flex: 1 1 14rem;
+}
+
+.sizeControl input {
+  inline-size: 100%;
+  min-block-size: var(--space-12);
+  accent-color: var(--color-dark);
+  cursor: pointer;
+}
+
+.sample {
+  min-inline-size: 0;
+  padding-block: var(--space-8) var(--space-12);
+  border-block-start: var(--border-width-default) solid var(--color-border);
+}
+
+.fontName {
+  font-family: var(--font-body);
+  margin-block: 0 var(--space-8);
+  font-size: var(--text-body);
+  font-weight: 400;
+  color: var(--color-text-secondary);
+}
+
+.specimen {
+  font-synthesis: none;
+}
+
+.headline {
+  max-inline-size: 56rem;
+  margin: 0;
+  line-height: 1.12;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+.description {
+  max-inline-size: 36rem;
+  margin-block: var(--space-8) var(--space-6);
+  font-size: var(--text-body-lg);
+  line-height: 1.5;
+}
+
+.cta {
+  display: inline-block;
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-dark);
+  color: var(--color-background);
+  font-size: var(--text-body);
+  line-height: 1.5;
+}
