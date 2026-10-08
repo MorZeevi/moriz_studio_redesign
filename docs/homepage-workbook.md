@@ -38,7 +38,7 @@ Saved Mobbin screenshots establish visible desktop composition only. The owner s
 | Order | Section | Status |
 | --- | --- | --- |
 | 1 | [Hero](#1-hero) | In progress |
-| 2 | [Three communication themes / advantages](#2-three-communication-themes--advantages) | In progress — research card |
+| 2 | [Three communication themes / advantages](#2-three-communication-themes--advantages) | In progress — research card and Party Mode |
 | 3 | [Projects](#3-projects) | Not started |
 | 4 | [Brief owner introduction](#4-brief-owner-introduction) | Not started |
 | 5 | [Client testimonials](#5-client-testimonials) | Not started |
@@ -166,7 +166,7 @@ Next step: review the implemented Mammoth trial locally, refine it as needed, an
 
 ## 2. Three communication themes / advantages
 
-Status: **In progress — first research card implemented locally; visual acceptance pending**. On 2026-10-07 the owner requested the research card and approved its implementation plan. The other two cards remain source inputs/placeholders.
+Status: **In progress — research card and Party Mode implemented locally; visual acceptance pending**. On 2026-10-07 the owner requested and approved both interactions. The second card retains its supporting-copy placeholder; the third card remains a placeholder.
 
 ### Purpose and information
 
@@ -187,11 +187,15 @@ Inclusion, position 2 and the three theme inputs are confirmed. The first card n
 - Adapt React Bits FallingText to drop whole pills once when 30% of the area enters the viewport. Allow mouse dragging; preserve native touch scrolling. Reduced motion and missing JavaScript retain the readable static list.
 - Lazy-load Matter.js, measure after fonts load, resize boundaries, pause outside the viewport/hidden tabs, and stop when all pills sleep. No changes to the other cards or new public routes.
 
-Section title, final visual acceptance, and the content/interactions of the remaining two cards are still open. See [the implementation decision](14-decisions.md#research-advantages-card-with-falling-pills).
+The second card retains **חוויה אינטראקטיבית ואטרקטיבית** and **מידע תומך — להשלמה**, replacing its decorative lines with a bold **NORMAL / PARTY** switch. The owner approved a viewport-wide, light-page party with a realistic rotating alpha-video ball, a physical drop/exit, restrained brand lighting, selected UI motion and compact/reduced-motion variants. See [Party Mode behavior and verification](party-mode.md).
+
+The approved refinement strengthens red/yellow lighting with a temporary cyan accent, shrinks the existing ball by 20%, places it slightly left of center and adds projected heading color plus two cycling colored research tags. The compact toggle and section structure remain intact. NORMAL restores all original colors and transforms.
+
+Section title, final visual acceptance, second-card supporting copy and third-card content/interaction remain open. See [the implementation decision](14-decisions.md#research-advantages-card-with-falling-pills).
 
 ### Remaining questions
 
-Does the research-card trial receive visual acceptance? What information and interactions support the other two themes? What does the development claim mean in a publishable, specific form?
+Does the research-card trial receive visual acceptance? Does Party Mode receive visual acceptance? What supporting copy belongs in the second card, and what content/interaction supports the third theme? What does the development claim mean in a publishable, specific form?
 
 ## 3. Projects
 

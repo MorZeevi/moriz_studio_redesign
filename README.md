@@ -10,6 +10,8 @@ At the owner's request, [focused Mobbin research on homepage structure](docs/res
 
 Update, 2026-10-07: the owner authorized the [first advantages research card](docs/homepage-workbook.md#2-three-communication-themes--advantages). It now shows the agreed Hebrew title/paragraph and eight grayscale UI/UX pills, adapted from React Bits FallingText; the subsequent revision replaces נגישות/פרוטוטייפ with מחקר מתחרים. They drop once on viewport entry, support mouse dragging, resize with the card and remain static for reduced motion or missing JavaScript. The advantages section is In progress; the other two cards remain placeholders, and visual acceptance is pending.
 
+Update, 2026-10-07: the second advantages card demonstrates its interactive-experience message with viewport-wide **NORMAL / PARTY** mode: a real rotating disco ball, stronger red/yellow lighting with a temporary cyan accent, projected heading color, two cycling colored tags and selected typography/CTA motion. The refined ball is smaller and sits slightly left of center. The underlying light theme, fonts and navigation remain usable. Mobile composition, reduced motion, keyboard controls and a clean return to NORMAL are implemented. No runtime dependency was added. See [Party Mode](docs/party-mode.md); owner visual acceptance and final supporting copy remain pending.
+
 ## Local development
 
 Sharing or reusing the complete project? See [SHARING.md](SHARING.md) for setup and customization instructions.
@@ -85,7 +87,7 @@ LogoLoop verification on 2026-10-06: lint, typecheck and production build pass. 
 Use [the homepage workbook](docs/homepage-workbook.md) as the shared workspace for English planning notes and Hebrew website copy. It supersedes the earlier workflow in which the owner handled text separately. The owner authorized specific exceptions to the all-sections-before-code timing: the local hero/header trial and, on 2026-10-07, the first advantages research card.
 
 1. Review the Mammoth-inspired trial locally at `/he`, including desktop headline wrapping and mobile H1 → video → description → CTA order. Review the centered desktop navigation/left CTA, mobile hamburger and **לצפיה בפרויקטים** anchor.
-2. Review the first research-card trial at `/he#advantages`, including the supplied text, grayscale falling pills, mouse dragging and stacked mobile layout. The other two cards remain placeholders awaiting their own content and interaction ideas. Hero acceptance is still pending; the owner will create its video later, and branding/playback behavior remain open.
+2. Review the first research-card trial at `/he#advantages`, including the supplied text, grayscale falling pills, mouse dragging and stacked mobile layout. Review the second card’s Party Mode as described in the guide; its supporting copy and the third card remain placeholders. Hero acceptance is still pending; the owner will create its video later, and branding/playback behavior remain open.
 3. Work through later sections in confirmed order: define information, review relevant references, draft/refine Hebrew options and compare desktop/mobile layouts before recording agreement. Keep deferred source material explicit.
 4. Reflect agreements in content, page planning and decision records. Later coded updates follow their section reviews; no change to later sections, new pages, APIs or publishing is part of the hero trial.
 

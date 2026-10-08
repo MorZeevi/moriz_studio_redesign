@@ -1114,6 +1114,30 @@ Date: 2026-10-07. The owner requested an external toggle because closing Develop
 
 Verification: all 16 inspector browser tests pass, including keyboard activation of the external toggle, closed-panel selection and touch scrolling, collapse/reopen preservation, modal menus, RTL/LTR, narrow layouts and 200% text enlargement. Lint, TypeScript, production build and the production-exclusion browser test pass. The revised eight pill labels were checked visually at 390/1440px and settle successfully.
 
+### Viewport-wide Party Mode
+
+Date: 2026-10-07.
+
+The owner requested an interactive demonstration for **חוויה אינטראקטיבית ואטרקטיבית**, approved the inspected implementation plan, and explicitly requested implementation. Use a chunky **NORMAL / PARTY** switch and keep the existing light page. A realistic isolated disco ball drops/sways/settles, rotates around its vertical axis, and drives restrained brand red/yellow reflections plus a few graphic beams across the whole viewport. Animate only selected headings and the hero CTA. Retain the existing paragraph placeholder.
+
+Use centralized page-local state, a body portal and coordinated native Web Animations. No GSAP, Three.js or other runtime dependency. Desktop uses a left ball, 24 reflections and 3 beams; compact layouts use a centered smaller ball, 10 reflections and 2 beams. A fixed NORMAL control appears when the original switch is offscreen; same-page scrolling preserves the mode, routes/reload reset it. Reduced motion keeps a static party. All decorative layers pass pointer input through, and cancel/unmount restores the existing styles.
+
+The owner authorized Magnific for the realistic still, rotation and isolation. Responsive VP9 alpha WebM and Apple-native HEVC alpha MOV preserve real transparency. The final media meets the desktop ≤2MB and compact ≤750KB per-source budgets. Source creations, prompts and reproducible offline preparation are recorded in [asset provenance](../public/party-mode/README.md).
+
+Status: implemented locally, awaiting owner visual review. This authorization permits imagery and page motion for this specific interaction; it does not accept the hero, finalize supporting copy, alter the third card or authorize publishing. See [the integration/verification guide](party-mode.md).
+
+### Party Mode color and composition refinement
+
+Date: 2026-10-07. The owner approved the inspected refinement plan and selected cyan as the single temporary accent and a ball position slightly left of center. Preserve the existing photorealistic alpha-video asset and compact toggle; no Magnific work or new dependency.
+
+Use a 20% smaller ball (128–154px desktop, 77px compact), at 40%/47% viewport width. Strengthen colored reflections, replace washed-out gradients with three narrow red/yellow/cyan desktop cones and two compact cones, and retain a 3% warm atmospheric tint. Shared cone geometry projects color onto large headings. A cached, softly edged readability mask reduces beams behind copy and controls. Two research tags at a time receive temporary contrasting fills, changing pair every six seconds while their existing physics remain independent. Motion is limited to hero/advantages headings and the hero CTA; projects typography receives light only. Reduced motion keeps static lights and one fixed colored tag pair. Returning to NORMAL cancels the additions and restores the original cascade.
+
+### Dancing research tags in Party Mode
+
+Date: 2026-10-08. The owner chose dancing tags over a dancing headline or new character and approved implementation. Make the two currently colored tags alternate upward hops and small tilts, passing the groove with the existing six-second color cycle. Desktop uses 6px/±4°, three cycles at 1.2 seconds, and a 300ms partner offset. Compact layouts use 4px/±2°, two cycles at 1.8 seconds, with a proportional 450ms partner offset. Rest before each color handoff.
+
+Use the current native animation controller and ball clock; additive transforms preserve the existing physics variable. Suspend the groove while mouse dragging, cancel offscreen, pause when hidden and omit it with reduced motion. OFF settles the dance contribution over 180ms without resetting physical positions. No new assets, dependencies, public props or section changes. All 40 Chrome/WebKit Party Mode checks, lint, typecheck and production build pass. See [the implementation guide](party-mode.md).
+
 ## Reusable decision template
 
 

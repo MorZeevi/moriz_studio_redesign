@@ -1,15 +1,19 @@
 import type { ReactNode } from "react";
+import { PartyHeadingLight } from "./party-mode/party-heading-light";
+import partyStyles from "./party-mode/party-mode.module.css";
 
 export function Section({
   id,
   title,
   children,
   className = "",
+  partyReaction = false,
 }: {
   id: string;
   title: string;
   children: ReactNode;
   className?: string;
+  partyReaction?: boolean;
 }) {
   return (
     <section
@@ -19,8 +23,13 @@ export function Section({
       data-wireframe-section={id}
     >
       <div className="page-shell">
-        <h2 id={`${id}-heading`} className="section-heading">
+        <h2
+          id={`${id}-heading`}
+          className={`section-heading${partyReaction ? ` ${partyStyles.lightHeading}` : ""}`}
+          data-party-react={partyReaction ? "heading" : undefined}
+        >
           {title}
+          {partyReaction && <PartyHeadingLight text={title} />}
         </h2>
         {children}
       </div>

@@ -1,0 +1,312 @@
+.controlSlot {
+  container-type: inline-size;
+  margin-block-start: var(--space-8);
+  padding-inline-end: var(--space-2);
+  padding-block-end: var(--space-2);
+}
+
+.toggle.toggle {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0;
+  inline-size: min(100%, 16rem);
+  min-block-size: 3rem;
+  padding: var(--space-1);
+  border-color: var(--color-dark);
+  border-radius: var(--radius-xs);
+  box-shadow: var(--shadow-hard);
+  background: var(--color-light);
+  color: var(--color-dark);
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 6cqi, 1.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.015em;
+  text-decoration: none;
+  isolation: isolate;
+  overflow: clip;
+}
+
+.toggle.toggle:hover {
+  background: var(--color-light);
+  color: var(--color-dark);
+  text-decoration: none;
+}
+
+.selection {
+  position: absolute;
+  inset-block: var(--space-1);
+  inset-inline-start: var(--space-1);
+  inline-size: calc(50% - var(--space-1));
+  background: var(--color-dark);
+  transition:
+    transform 180ms cubic-bezier(0.2, 0, 0, 1),
+    background-color 180ms;
+  z-index: -1;
+}
+
+.toggle[data-enabled="true"] .selection {
+  transform: translateX(100%);
+  background: var(--color-action-primary);
+}
+
+.toggle[data-enabled="true"] {
+  animation: partySnap 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toggle[data-enabled="true"] .toggleLabel:last-child {
+  color: var(--color-light);
+}
+
+@keyframes partySnap {
+  0% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(2px);
+  }
+  65% {
+    transform: translateY(-1px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.toggleLabel {
+  display: inline-flex;
+  min-block-size: 2rem;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1);
+  white-space: nowrap;
+}
+
+.toggle:not([data-enabled="true"]) .selection + .toggleLabel {
+  color: var(--color-light);
+}
+
+.partyDot,
+.offDot {
+  inline-size: 0.5rem;
+  block-size: 0.5rem;
+  border-radius: 50%;
+  background: var(--color-primary);
+  flex: none;
+}
+
+.toggle[data-enabled="true"] .partyDot {
+  background: var(--color-secondary);
+}
+
+.offControl.offControl {
+  position: fixed;
+  inset-inline-start: max(var(--space-4), env(safe-area-inset-right));
+  inset-block-end: calc(
+    max(var(--space-4), env(safe-area-inset-bottom)) +
+    var(--party-dev-clearance, 0px)
+  );
+  z-index: 21;
+  gap: var(--space-2);
+  border-radius: var(--radius-xs);
+  box-shadow: var(--shadow-hard);
+}
+
+/* Preserve whole labels when enlarged text leaves a narrow card. */
+@container (max-width: 15rem) {
+  .toggle.toggle {
+    grid-template-columns: minmax(0, 1fr);
+    font-size: clamp(1rem, 12cqi, 1.5rem);
+  }
+  .selection {
+    inset-block-end: auto;
+    inline-size: calc(100% - var(--space-2));
+    block-size: calc(50% - var(--space-1));
+  }
+  .toggle[data-enabled="true"] .selection {
+    transform: translateY(100%);
+  }
+}
+
+.effects {
+  --ball-size: clamp(128px, 10.4vw, 154px);
+  --cable-length: 64px;
+  --ball-left: calc(40% - var(--ball-size) / 2);
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  overflow: clip;
+  contain: layout style;
+}
+
+.effects *,
+.effects *::before,
+.effects *::after {
+  pointer-events: none;
+}
+
+.atmosphere,
+.reflections,
+.beams {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.atmosphere {
+  background: var(--color-primary);
+}
+
+.reflections {
+  z-index: 1;
+}
+.beams {
+  z-index: 0;
+  mix-blend-mode: multiply;
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+  mask-mode: luminance;
+}
+
+.reflection {
+  position: absolute;
+  inset: 0 auto auto 0;
+  inline-size: var(--reflection-size);
+  block-size: calc(var(--reflection-size) * 0.7);
+  border-radius: 1px;
+  opacity: var(--reflection-brightness);
+  background: var(--reflection-color);
+}
+
+.reflection[data-soft="true"] {
+  inline-size: calc(var(--reflection-size) + 4px);
+  block-size: calc(var(--reflection-size) + 2px);
+  background: radial-gradient(
+    ellipse,
+    var(--reflection-color) 0 35%,
+    transparent 85%
+  );
+}
+
+.beam {
+  position: absolute;
+  inset-block-start: var(--party-anchor-y, 8rem);
+  left: var(--party-anchor-x, 8rem);
+  inline-size: var(--beam-width);
+  block-size: var(--beam-length);
+  margin-left: calc(var(--beam-width) / -2);
+  transform-origin: 50% 0;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  opacity: var(--beam-opacity);
+  background: var(--beam-color);
+}
+
+.lightHeading {
+  position: relative;
+}
+
+.headingProjection,
+.headingLight {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  user-select: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-wrap: inherit;
+}
+
+.headingProjection {
+  opacity: 0;
+  --party-cyan: #00c9d8;
+}
+
+.headingLight {
+  clip-path: polygon(0 0, 0 0, 0 0);
+  color: var(--color-action-primary);
+}
+
+.headingLight:nth-child(2) {
+  color: color-mix(in srgb, var(--color-secondary) 45%, var(--color-dark));
+}
+
+.headingLight:nth-child(3) {
+  color: color-mix(in srgb, var(--party-cyan) 55%, var(--color-dark));
+}
+
+.rig {
+  position: absolute;
+  inset-block-start: env(safe-area-inset-top, 0px);
+  /* Physical left is deliberate: it is away from the Hebrew text column. */
+  left: var(--ball-left);
+  inline-size: var(--ball-size);
+  transform-origin: 50% 0;
+  transform: translateY(calc(-100% - 1rem));
+  opacity: 0;
+  z-index: 2;
+}
+
+.cable {
+  display: block;
+  inline-size: 1px;
+  block-size: var(--cable-length);
+  margin-inline: auto;
+  background: var(--color-dark);
+  opacity: 0.7;
+}
+
+.ball {
+  position: relative;
+  inline-size: 100%;
+  aspect-ratio: 1;
+}
+
+.poster,
+.video {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+}
+
+.video {
+  opacity: 0;
+}
+.video[data-playing="true"] {
+  opacity: 1;
+}
+
+@media (max-width: 63.999rem) {
+  .effects {
+    --ball-size: 77px;
+    --cable-length: 32px;
+    --ball-left: calc(47% - 38.5px);
+  }
+  .reflection:nth-child(n + 11),
+  .beam:nth-child(3) {
+    display: none;
+  }
+  .headingLight:nth-child(3) {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .selection {
+    transition: none;
+  }
+  .reflection:nth-child(n + 7),
+  .beam:nth-child(3) {
+    display: none;
+  }
+  .toggle.toggle:active {
+    translate: none;
+  }
+  .toggle[data-enabled="true"] {
+    animation: none;
+  }
+}

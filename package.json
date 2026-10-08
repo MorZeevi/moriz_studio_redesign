@@ -6,8 +6,9 @@
     "dev": "next dev --hostname 127.0.0.1",
     "build": "next build",
     "start": "next start --hostname 127.0.0.1",
-    "lint": "biome lint src tools/devtools tests/devtools playwright.inspector.config.ts next.config.ts postcss.config.mjs --error-on-warnings",
+    "lint": "biome lint src tools/devtools tests playwright.inspector.config.ts playwright.party.config.ts next.config.ts postcss.config.mjs --error-on-warnings",
     "typecheck": "tsc --noEmit",
+    "test:party": "playwright test --config=playwright.party.config.ts",
     "test:inspector:unit": "node --test tests/devtools/source-loader.test.cjs",
     "test:inspector": "playwright test --config=playwright.inspector.config.ts",
     "test:inspector:production": "INSPECTOR_PRODUCTION=1 playwright test --config=playwright.inspector.config.ts"

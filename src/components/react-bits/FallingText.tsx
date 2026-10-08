@@ -12,6 +12,7 @@ export interface FallingTextProps {
   items: readonly string[];
   label: string;
   className?: string;
+  partyReactive?: boolean;
 }
 
 interface Pill {
@@ -27,6 +28,7 @@ export default function FallingText({
   items,
   label,
   className = "",
+  partyReactive = false,
 }: FallingTextProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
@@ -441,10 +443,15 @@ export default function FallingText({
       ref={containerRef}
       className={`falling-text-container ${className}`}
       data-falling-state="static"
+      data-party-tags={partyReactive ? "" : undefined}
     >
       <ul ref={listRef} className="falling-text-list" aria-label={label}>
-        {items.map((item) => (
-          <li key={item} className="falling-text-pill">
+        {items.map((item, index) => (
+          <li
+            key={item}
+            className="falling-text-pill"
+            data-party-tag={partyReactive ? index : undefined}
+          >
             <bdi>{item}</bdi>
           </li>
         ))}

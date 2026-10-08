@@ -1,8 +1,12 @@
 import { notFound } from "next/navigation";
-import { Navigation } from "@/components/navigation";
+import { HeroDescription } from "@/components/hero-description";
 import { LanguageLink } from "@/components/language-link";
 import { LogoCarousel } from "@/components/logo-carousel";
-import { HeroDescription } from "@/components/hero-description";
+import { Navigation } from "@/components/navigation";
+import { PartyHeadingLight } from "@/components/party-mode/party-heading-light";
+import partyStyles from "@/components/party-mode/party-mode.module.css";
+import { PartyModeProvider } from "@/components/party-mode/party-mode-provider";
+import { PartyModeToggle } from "@/components/party-mode/party-mode-toggle";
 import FallingText from "@/components/react-bits/FallingText";
 import {
   FloatingWhatsApp,
@@ -29,7 +33,7 @@ export default async function Home({
     minimumIntegerDigits: 2,
   });
   return (
-    <>
+    <PartyModeProvider labels={content.advantages.party}>
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:start-5 focus:top-5 focus:z-30 focus:bg-background focus:p-4"
@@ -38,27 +42,33 @@ export default async function Home({
       </a>
 
       <header className="hero-shell site-header">
-        <bdi className="studio-wordmark">
-          {content.studioName}
-        </bdi>
+        <bdi className="studio-wordmark">{content.studioName}</bdi>
         <Navigation locale={locale} content={content.navigation} />
         <div className="header-actions">
-          <LanguageLink locale={locale} content={content.navigation.languages} />
+          <LanguageLink
+            locale={locale}
+            content={content.navigation.languages}
+          />
           <a className="header-cta" href={content.navigation.cta.href}>
             {content.navigation.cta.label}
           </a>
         </div>
       </header>
 
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1}>
         <section
           id="hero"
           data-wireframe-section="hero"
           aria-labelledby="hero-heading"
           className="hero-shell hero"
         >
-          <h1 id="hero-heading" className="hero-heading">
+          <h1
+            id="hero-heading"
+            className={`hero-heading ${partyStyles.lightHeading}`}
+            data-party-react="heading"
+          >
             {content.hero.heading}
+            <PartyHeadingLight text={content.hero.heading} />
           </h1>
           <div className="hero-video-placeholder" aria-hidden="true" />
           <div className="hero-copy">
@@ -66,7 +76,11 @@ export default async function Home({
               className="hero-description"
               content={content.hero.description}
             />
-            <a className="hero-projects-link" href="#projects">
+            <a
+              className="hero-projects-link"
+              href="#projects"
+              data-party-react="cta"
+            >
               {content.hero.projectsLink}
             </a>
           </div>
@@ -74,7 +88,11 @@ export default async function Home({
 
         <LogoCarousel labels={content.logoCarousel} />
 
-        <Section id="advantages" title={content.advantages.heading}>
+        <Section
+          id="advantages"
+          title={content.advantages.heading}
+          partyReaction
+        >
           <div className="grid gap-9 md:grid-cols-3 md:gap-12">
             {content.advantages.themes.map((theme, index) => (
               <div key={theme} className="min-w-0">
@@ -90,7 +108,10 @@ export default async function Home({
                   <FallingText
                     items={content.advantages.research.terms}
                     label={content.advantages.research.termsLabel}
+                    partyReactive
                   />
+                ) : index === 1 ? (
+                  <PartyModeToggle />
                 ) : (
                   <TextLines className="mt-4" />
                 )}
@@ -99,7 +120,7 @@ export default async function Home({
           </div>
         </Section>
 
-        <Section id="projects" title={content.projects.heading}>
+        <Section id="projects" title={content.projects.heading} partyReaction>
           <div className="space-y-12 md:space-y-16">
             {projectSlots.map((slot) => (
               <article
@@ -234,6 +255,6 @@ export default async function Home({
       </footer>
 
       <FloatingWhatsApp labels={content.whatsapp} />
-    </>
+    </PartyModeProvider>
   );
 }
