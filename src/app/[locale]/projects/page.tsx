@@ -6,8 +6,15 @@ import { ProjectArrow, ProjectsSection } from "@/components/projects-section";
 import { FloatingWhatsApp } from "@/components/wireframe";
 import { isEnabledLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
+import { getPublicProjects } from "@/lib/cms/queries";
+import { projectCard } from "@/lib/cms/project-card";
+import { CategoryTags } from "@/components/category-tags";
+import { StudioLogo } from "@/components/studio-logo";
 
-type PageParams = { params: Promise<{ locale: string }> };
+type PageParams = {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ category?: string }>;
+};
 
 export async function generateMetadata({
   params,
@@ -18,10 +25,25 @@ export async function generateMetadata({
   return { title: `${content.projects.allHeading} | ${content.studioName}` };
 }
 
-export default async function ProjectsPage({ params }: PageParams) {
+export default async function ProjectsPage({
+  params,
+  searchParams,
+}: PageParams) {
   const { locale } = await params;
   if (!isEnabledLocale(locale)) notFound();
   const content = await getDictionary(locale);
+  const projects = await getPublicProjects("projects");
+  const { category: selectedCategory } = await searchParams;
+  const categories = [
+    ...new Map(
+      projects.flatMap((p) => p.categories).map((c) => [c.id, c]),
+    ).values(),
+  ].sort((a, b) => a.sort_order - b.sort_order || a.name.localeCompare(b.name));
+  const filtered = selectedCategory
+    ? projects.filter((p) =>
+        p.categories.some((c) => c.slug === selectedCategory),
+      )
+    : projects;
   return (
     <div className={styles.projectPage}>
       <a
@@ -33,7 +55,7 @@ export default async function ProjectsPage({ params }: PageParams) {
       <div className="site-container">
         <header className={styles.pageHeader}>
           <Link href={`/${locale}`} className={styles.wordmark}>
-            <bdi>{content.studioName}</bdi>
+            <StudioLogo name={content.studioName} />
           </Link>
           <Link href={`/${locale}#projects`} className={styles.backLink}>
             <ProjectArrow back />
@@ -42,11 +64,45 @@ export default async function ProjectsPage({ params }: PageParams) {
         </header>
       </div>
       <main>
+        {!!categories.length && (
+          <nav
+            className="site-container"
+            aria-label="סינון פרויקטים לפי קטגוריה"
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "var(--space-3)",
+              paddingBlock: "var(--space-4)",
+            }}
+          >
+            <Link
+              href={`/${locale}/projects`}
+              aria-current={!selectedCategory ? "page" : undefined}
+            >
+              הכל
+            </Link>
+            {categories.map((category) => (
+              <Link
+                key={category.id}
+                href={`/${locale}/projects?category=${encodeURIComponent(category.slug)}`}
+                aria-current={
+                  selectedCategory === category.slug ? "page" : undefined
+                }
+              >
+                <CategoryTags categories={[category]} />
+              </Link>
+            ))}
+          </nav>
+        )}
         <ProjectsSection
+          projects={filtered.map((project) => projectCard(project, "projects"))}
           locale={locale}
           content={content.projects}
           collection
         />
+        {!filtered.length && (
+          <p className="site-container">אין פרויקטים להצגה בקטגוריה זו.</p>
+        )}
       </main>
       <FloatingWhatsApp labels={content.whatsapp} />
     </div>

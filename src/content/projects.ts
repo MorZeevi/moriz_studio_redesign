@@ -11,4 +11,5 @@ export type Project = {
   contribution: string | null;
   image: { src: string; alt: string } | null;
   details: ProjectDetail[];
+  categories?: import("@/types/project").Category[];
 };

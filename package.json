@@ -6,17 +6,21 @@
     "dev": "next dev --hostname 127.0.0.1",
     "build": "next build",
     "start": "next start --hostname 127.0.0.1",
-    "lint": "biome lint src tools/devtools tests playwright.inspector.config.ts playwright.party.config.ts next.config.ts postcss.config.mjs --error-on-warnings",
+    "lint": "biome lint src tools/devtools tools/cms tests playwright.inspector.config.ts playwright.party.config.ts playwright.cms.config.ts next.config.ts postcss.config.mjs --error-on-warnings",
     "typecheck": "tsc --noEmit",
     "test:party": "playwright test --config=playwright.party.config.ts",
     "test:inspector:unit": "node --test tests/devtools/source-loader.test.cjs",
     "test:inspector": "playwright test --config=playwright.inspector.config.ts",
-    "test:inspector:production": "INSPECTOR_PRODUCTION=1 playwright test --config=playwright.inspector.config.ts"
+    "test:inspector:production": "INSPECTOR_PRODUCTION=1 playwright test --config=playwright.inspector.config.ts",
+    "test:cms": "playwright test --config=playwright.cms.config.ts",
+    "cms:configure-auth": "node tools/cms/configure-auth.mjs"
   },
   "engines": {
-    "node": ">=20.9.0"
+    "node": ">=22.0.0"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.117.3",
     "matter-js": "0.20.0",
     "next": "16.3.8",
     "react": "19.3.0",
@@ -32,6 +36,7 @@
     "@types/react-dom": "19.3.0",
     "dom-accessibility-api": "0.7.1",
     "postcss": "8.5.29",
+    "supabase": "^2.120.0",
     "tailwindcss": "4.3.3",
     "typescript": "6.0.3"
   }

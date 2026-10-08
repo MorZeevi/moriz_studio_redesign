@@ -7,6 +7,7 @@ import { PartyHeadingLight } from "./party-mode/party-heading-light";
 import partyStyles from "./party-mode/party-mode.module.css";
 import { ProjectScrollSurface } from "./project-scroll-surface";
 import styles from "./projects.module.css";
+import { CategoryTags } from "./category-tags";
 
 type ProjectLabels = SiteContent["projects"];
 
@@ -49,6 +50,7 @@ export function ProjectMedia({
               : "(min-width: 960px) 54vw, 94vw"
           }
           className={styles.image}
+          unoptimized={project.image.src.startsWith("/media/")}
         />
       ) : (
         <div className={styles.mediaPlaceholder}>
@@ -102,11 +104,13 @@ export function ProjectsSection({
   content,
   collection = false,
   partyReaction = false,
+  projects,
 }: {
   locale: EnabledLocale;
   content: ProjectLabels;
   collection?: boolean;
   partyReaction?: boolean;
+  projects: Project[];
 }) {
   const Heading = collection ? "h1" : "h2";
   const contents = (
@@ -131,7 +135,7 @@ export function ProjectsSection({
         )}
       </div>
       <div className={styles.list}>
-        {content.items.map((project) => (
+        {projects.map((project) => (
           <article
             key={project.slug}
             className={styles.row}
@@ -148,6 +152,7 @@ export function ProjectsSection({
               <p className={styles.contribution}>
                 {project.contribution ?? content.contributionPlaceholder}
               </p>
+              <CategoryTags categories={project.categories ?? []} />
               <div className={styles.rowDetails}>
                 <ProjectAccordion
                   project={project}

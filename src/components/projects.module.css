@@ -322,3 +322,48 @@
 .scrollSurface .projectLink {
   transition: background-color var(--duration-fast);
 }
+.contentBlocks {
+  min-inline-size: 0;
+  display: grid;
+  gap: var(--space-8);
+}
+.contentText {
+  max-inline-size: var(--container-prose);
+}
+.contentText h2 {
+  font-family: var(--font-body);
+  font-size: var(--text-h4);
+  margin-block-end: var(--space-3);
+}
+.contentText p,
+.answer {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.contentFigure {
+  margin: 0;
+  min-inline-size: 0;
+}
+.contentFigure figcaption {
+  margin-block-start: var(--space-2);
+  font-size: var(--text-body-sm);
+}
+.blockImage,
+.blockVideo {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+.imagePair,
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  align-items: start;
+}
+@media (max-width: 640px) {
+  .imagePair,
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+}

@@ -17,6 +17,8 @@ import {
 } from "@/components/wireframe";
 import { isEnabledLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
+import { getPublicProjects } from "@/lib/cms/queries";
+import { projectCard } from "@/lib/cms/project-card";
 
 export default async function Home({
   params,
@@ -26,6 +28,7 @@ export default async function Home({
   const { locale } = await params;
   if (!isEnabledLocale(locale)) notFound();
   const content = await getDictionary(locale);
+  const projects = await getPublicProjects("homepage");
   const stepNumbers = new Intl.NumberFormat(locale, {
     minimumIntegerDigits: 2,
   });
@@ -118,6 +121,7 @@ export default async function Home({
         </Section>
 
         <ProjectsSection
+          projects={projects.map((project) => projectCard(project, "homepage"))}
           locale={locale}
           content={content.projects}
           partyReaction
