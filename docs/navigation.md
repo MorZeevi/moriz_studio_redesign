@@ -10,13 +10,13 @@ Desktop links use the owner's exact wording and RTL order:
 
 | Label | Native anchor |
 | --- | --- |
-| קצת עלי | `#about` |
 | פרויקטים | `#projects` |
+| קצת עלי | `#about` |
 | איך מתחילים | `#getting-started` |
 | שאלות תשובות | `#faq` |
 | בואו נדבר | `#contact` |
 
-The latest explicit correction overrides the earlier yellow/bold direction: links use Leon Regular (400), light-gray pills from `--color-surface`, and brand red `--color-primary` (`#FB2C36`) for the cursor glow and current-section dot. The glow's maximum red mix is 32% to preserve body-size text readability. The user-approved SVG goo filter connects the pills with a stretching neck as hover, focus or current-state gaps open; each component instance receives a unique filter ID. Keyboard focus uses an underline inside the filtered silhouette so it stays visible.
+Links use Leon Regular (400) and light-gray pills from `--color-surface`. The owner's latest hover-color correction uses secondary yellow `--color-secondary` (`#DDDC8C`) for the cursor glow; its maximum mix stays at 32%. The current-section dot retains brand red `--color-primary` (`#FB2C36`). The user-approved SVG goo filter connects the pills with a stretching neck as hover, focus or current-state gaps open; each component instance receives a unique filter ID. Keyboard focus uses an underline inside the filtered silhouette so it stays visible.
 
 Links remain native anchors. `aria-current="location"` follows the tracked sections in page order, independently of menu order: Projects precedes About in the page. No item is current before the first tracked target; Contact becomes current at the document bottom. Desktop scroll padding uses measured `--site-header-height` plus 16px so targets clear the sticky header.
 
@@ -38,3 +38,7 @@ The existing palette, shared Danidin/Leon font families, Party Mode, Projects an
 The latest wordmark motion correction passed nine navbar/wordmark Playwright tests, TypeScript, production build, two-file targeted Biome checks and diff whitespace checks. Earlier validation passed all 16 development Inspector tests, the production Inspector test (1/1) and full navbar lint; the Inspector tests were not rerun for the motion correction. The corrected pressure field and the independent review of six motion-fidelity fixes are recorded in [the wordmark guide](wordmark.md). Navigation/wordmark command: `npx playwright test --config=playwright.navigation.config.ts`; existing checks: `npm run lint`, `npm run typecheck`, `npm run build`, `npm run test:inspector`, `npm run test:inspector:production`.
 
 The independent reviewer visually inspected the local `.impeccable/review/` captures `desktop`, `mobile`, `header-1440`, `header-1280`, `header-1024`, `active-hover`, `header-active-hover`, `header-keyboard-reduced`, `party` and `mobile-menu` and accepted rendering/source behavior at the requested scope. The review's documentation-persistence finding is resolved by this guide and the current guidance in [PRODUCT.md](../PRODUCT.md). Impeccable launcher/engine was unavailable, so the detector could not run; manual craft checks were performed. Owner visual acceptance has not been recorded. No deployment or publication was performed.
+
+## Page-order refinement, 2026-10-08
+
+The owner’s small-changes request supersedes the earlier link order. Desktop RTL reading order is now **פרויקטים → קצת עלי → איך מתחילים → שאלות תשובות → בואו נדבר**. Destinations, centered composition, liquid interaction and scroll tracking remain unchanged. Closing the mobile drawer on entry to desktop returns focus to the first desktop link, Projects. The existing three mobile links already follow page order. Browser tests can target an isolated preview with `NAVIGATION_TEST_PORT=3108`; the default remains 3000.

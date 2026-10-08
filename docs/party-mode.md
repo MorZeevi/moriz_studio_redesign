@@ -1,11 +1,11 @@
 # Party Mode
 
-The second advantages card demonstrates **חוויה אינטראקטיבית ואטרקטיבית** with a NORMAL / PARTY switch. The supporting paragraph remains **מידע תומך — להשלמה**. This is a local implementation awaiting owner visual review.
+The second advantages card demonstrates **חוויה אינטראקטיבית ואטרקטיבית** with a “let’s party?” label beside a No / Yes switch. The supporting paragraph remains **מידע תומך — להשלמה**. This is a local implementation awaiting owner visual review.
 
 ## Integration
 
 - The server homepage passes its existing content through `PartyModeProvider`; only the state, controls and effects are client components.
-- `PartyModeToggle` reuses the shared Button, dictionary, Danidin font, borders, hard shadow and palette.
+- `PartyModeToggle` reuses the shared Button, dictionary, display font and palette. Its outlined light track uses the liquid corner token, a hard offset shadow and bold Danidin type. No is selected in charcoal; Yes is selected in red with a yellow dot and the original brief snap. The English question and choices use LTR direction; the accessible switch name remains Hebrew.
 - `PartyModeEffects` mounts a fixed, non-interactive body portal while entering, active or exiting. It does not alter document layout or the page theme.
 - `PartyAnimations` owns Web Animations, media playback, visibility/resize/motion listeners and intersection observers. React updates at phase boundaries, never per frame.
 - `party-light-model` shares each cone's origin, geometry and phase with `PartyHeadingLight`, which projects color onto the original large type. Hidden decorative text copies preserve accessible heading names and selection.
@@ -24,17 +24,17 @@ The page stays light, with a 3% warm atmospheric cast. Narrow, flat colored cone
 
 Reflections vary between 3–12px, brightness and sharpness. Their coordinated orbital paths share the ball clock, with 12/24/36-second periods. Only five reflections have softer gradient edges; there are no blur filters on moving lights.
 
-The hero H1 and advantages H2 move by approximately 2.5px/0.35°; the hero project link moves by 2px/0.7°. Projects H2 receives projected light without motion. Each reaction runs only while visible. Two research tags at a time receive red/yellow/cyan fills, with the pair moving every six seconds. Foreground/background colors switch together to preserve contrast. Body text, navigation and the logo strip retain their own behavior.
+The hero H1 moves by approximately 2.5px/0.35°; the hero project link moves by 2px/0.7°. Projects H2 receives projected light without motion. Each reaction runs only while visible. Two research tags at a time receive red/yellow/cyan fills, with the pair moving every six seconds. Foreground/background colors switch together to preserve contrast. Body text, navigation and the logo strip retain their own behavior.
 
 The colored tag pair dances with alternating upward hops and left/right tilts. Desktop uses 6px/±4° on a 1.2-second rhythm, three cycles per colored interval, with partners offset by 300ms. Compact layouts use 4px/±2° on a 1.8-second rhythm, two cycles, offset by 450ms. Each tag rests before its color clears. Native additive transform animations follow the existing cumulative ball clock without replacing Matter's transform variable or adding DOM nodes. The groove suspends during mouse dragging, cancels offscreen and resumes at the current phase. Switching OFF settles only the additional dance transform over 180ms; physical positions remain intact. Reduced motion has no dance.
 
-The toggle keeps its compact 256×48px composition at normal text size. PARTY uses the accessible brand action red, light lettering, a yellow dot and a 240ms snap. Narrow/enlarged-text layouts stack the labels and move the indicator vertically; its movement stays clipped inside the control.
+The switch uses its original maximum width of 256px and 48px minimum height. No is selected initially in charcoal; Yes activates Party Mode and uses light lettering on accessible brand action red with a yellow dot and 240ms snap. The question wraps above the switch when needed. Below a 15rem container width, choices stack and the indicator moves vertically; enlarged text can grow the control. The outer and inset indicator corners retain the current liquid radius.
 
 ## Layers and cleanup
 
 Effects use z-index 10 and pointer-events none throughout. Existing WhatsApp stays at 20, the NORMAL control at 21 and the skip link at 30. Native dialogs and the development inspector remain in the browser top layer. In development a ResizeObserver measures the inspector launcher so the off control sits above its actual wrapped height.
 
-Hidden documents pause running animations and video; finished entrance animations stay finished on resume. Changing reduced motion cancels spatial loops and uses the still poster, 6 static reflections, 2 static beams and one fixed pair of colored tags. The toggle snap is removed. An initially reduced-motion visit downloads no video. Failed playback retains the transparent poster. A missing poster restores NORMAL with a Hebrew status message.
+Hidden documents pause running animations and video; finished entrance animations stay finished on resume. Changing reduced motion cancels spatial loops and uses the still poster, 6 static reflections, 2 static beams and one fixed pair of colored tags. The switch indicator transition and snap are removed. An initially reduced-motion visit downloads no video. Failed playback retains the transparent poster. A missing poster restores NORMAL with a Hebrew status message.
 
 All animation instances, video decoding, observers, event listeners, timeouts and resize callbacks are cleaned up. There is no runtime dependency added. Large blur filters, canvas/WebGL and frame-based React state are absent.
 
@@ -61,3 +61,5 @@ The Chrome and WebKit suite covers real video transparency and advancing playbac
 Refinement verified 2026-10-07: the full 30-case Chrome/WebKit suite passed; the final readability-mask adjustment passed all eight focused color/projection/reduced-motion checks, including two new overlap-contrast cases (32 distinct browser cases total). Inspector development checks (16/16), unit checks (6/6), production exclusion, lint, TypeScript and the production build pass. Touch activation works in both simulated mobile browsers; a Chromium native CDP swipe scrolls the page while Party Mode remains active. The enlarged-label check runs after hydration and verifies the compact ball retains its 77px size under 200% text enlargement. No hydration/runtime errors occurred in the batched visual review.
 
 Dancing-tag verification, 2026-10-08: all 40 Chrome/WebKit Party Mode checks pass, including pair handoff, preservation of live physics transforms, real mouse dragging, offscreen/hidden cleanup, reduced motion and compact choreography after resize. Lint, TypeScript and production build pass. Batched review at 320/390/768/1024/1440px found all sampled tag poses contained and no horizontal overflow or runtime errors. Enlarged text was reviewed after hydration, and native Chromium touch scrolling retained active Party Mode. No assets or dependencies changed.
+
+Homepage refinement verification, 2026-10-08: all 40 distinct Chrome/WebKit Party Mode scenarios pass across the full run and targeted retest. The projection check now scrolls the retained Projects heading into view and waits for geometry refresh. Test cleanup uses the inline switch to avoid an observer race with the floating off control after resize; dedicated floating-off checks remain. The white cards and their long Hebrew headings fit 200% text at 320/390/1024/1440px. Existing full-page overflow at 200% is also present in the original workspace (1024px: 1045px scroll width in both; 320px: original 469px, refined 334px) and was not expanded into an unrelated layout change. Targeted lint, TypeScript and the production build pass.

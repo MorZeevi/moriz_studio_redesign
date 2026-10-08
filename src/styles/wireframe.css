@@ -287,27 +287,47 @@ html:has(.navigation-dialog[open]) {
   text-align: center;
 }
 
-.logo-carousel-pause {
-  display: grid;
-  flex: none;
-  inline-size: var(--space-12);
-  min-block-size: var(--space-12);
-  place-items: center;
-  border: var(--border-width-default) solid var(--color-border);
-  border-radius: 0;
-  background: var(--color-background);
-  color: var(--color-dark);
-  font-size: var(--text-body-lg);
-  cursor: pointer;
-}
-
-.logo-carousel-pause:hover {
-  background: var(--color-surface);
-}
-
 .wireframe-section {
   padding-block: var(--section-space-sm);
   border-block-start: var(--border-width-default) solid var(--color-border);
+}
+
+.advantages-section {
+  position: relative;
+  isolation: isolate;
+  border-radius: var(--radius-liquid);
+  background-color: var(--color-background);
+}
+
+.advantages-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background-image: url("/images/advantages-garden.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.advantages-card {
+  padding: var(--space-6);
+  border-radius: var(--radius-liquid);
+  background: #fff;
+  color: var(--color-dark);
+}
+
+.advantages-card h3 {
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 64rem) {
+  .advantages-card {
+    padding: var(--space-8);
+  }
 }
 
 .section-heading {

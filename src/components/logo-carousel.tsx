@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  type CSSProperties,
-  useMemo,
-  useState,
-  useSyncExternalStore,
-} from "react";
+import { type CSSProperties, useMemo, useSyncExternalStore } from "react";
 import { homepageLogos } from "@/content/homepage-logos";
 import type { SiteContent } from "@/i18n/dictionaries";
 import LogoLoop, { type LogoItem } from "./react-bits/LogoLoop";
@@ -24,7 +19,6 @@ export function LogoCarousel({
 }: {
   labels: SiteContent["logoCarousel"];
 }) {
-  const [paused, setPaused] = useState(false);
   const reducedMotion = useSyncExternalStore(
     subscribeMotion,
     readMotion,
@@ -47,21 +41,10 @@ export function LogoCarousel({
   return (
     <div className="logo-carousel" data-logo-carousel>
       <div className="hero-shell logo-carousel-shell">
-        {!reducedMotion && (
-          <button
-            type="button"
-            className="logo-carousel-pause"
-            aria-label={paused ? labels.resume : labels.pause}
-            aria-pressed={paused}
-            onClick={() => setPaused((value) => !value)}
-          >
-            <span aria-hidden="true">{paused ? "▶" : "Ⅱ"}</span>
-          </button>
-        )}
         <div className="logo-carousel-window" dir="ltr">
           <LogoLoop
             logos={logos}
-            speed={paused || reducedMotion ? 0 : 60}
+            speed={reducedMotion ? 0 : 60}
             direction="left"
             style={
               {
@@ -70,6 +53,8 @@ export function LogoCarousel({
               } as CSSProperties
             }
             hoverSpeed={0}
+            fadeOut
+            fadeOutColor="var(--color-background)"
             ariaLabel={labels.label}
           />
         </div>

@@ -1,15 +1,15 @@
 import { expect, test, type Page } from "@playwright/test";
 
 const labels = [
-  "קצת עלי",
   "פרויקטים",
+  "קצת עלי",
   "איך מתחילים",
   "שאלות תשובות",
   "בואו נדבר",
 ];
 const destinations = [
-  "#about",
   "#projects",
+  "#about",
   "#getting-started",
   "#faq",
   "#contact",
@@ -94,7 +94,7 @@ test("desktop copy, RTL order and the full expanded menu fit every target width"
     await page.setViewportSize({ width, height: 1000 });
     await page.mouse.move(0, 200);
     await expectHeaderFits(page);
-    const first = await link(page, "#about").boundingBox();
+    const first = await link(page, "#projects").boundingBox();
     const last = await link(page, "#contact").boundingBox();
     expect(first?.x).toBeGreaterThan(last?.x ?? 0);
     await link(page, "#projects").click();
@@ -255,5 +255,5 @@ test("mobile keeps its original menu and closes it when entering desktop", async
   await page.locator(".mobile-menu-toggle").click();
   await page.setViewportSize({ width: 1024, height: 1000 });
   await expect(page.locator(".navigation-dialog")).toBeHidden();
-  await expect(link(page, "#about")).toBeFocused();
+  await expect(link(page, "#projects")).toBeFocused();
 });

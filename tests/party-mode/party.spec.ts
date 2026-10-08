@@ -9,9 +9,10 @@ async function start(page: Page) {
 }
 
 async function stop(page: Page) {
-  if (await page.locator("[data-party-off]").count())
-    await page.locator("[data-party-off]").click();
-  else await toggle(page).click();
+  // Resize/scroll observers can briefly retain an offscreen control.
+  // Use the inline switch for cleanup; dedicated cases exercise the floating one.
+  await toggle(page).scrollIntoViewIfNeeded();
+  await toggle(page).click();
   await expect(state(page)).toHaveAttribute("data-party-state", "idle");
   await expect(page.locator("[data-party-effects]")).toHaveCount(0);
   await expect(page.locator("[data-party-projection]")).toHaveCount(0);
@@ -501,41 +502,55 @@ test("heading projections share the ball origin without changing accessible name
 }) => {
   const heading = page.getByRole("heading", {
     level: 2,
-    name: "שלושת היתרונות",
+    name: "פרויקטים",
     exact: true,
   });
   await start(page);
   await expect(heading).toHaveCount(1);
-  await expect(page.locator("[data-party-projection]")).toHaveCount(3);
-  const geometry = await page.evaluate(() => {
-    const rig = document.querySelector<HTMLElement>("[data-party-rig]");
-    const effects = document.querySelector<HTMLElement>("[data-party-effects]");
-    const light = document.querySelector<HTMLElement>(
-      "#advantages-heading [data-party-heading-light='0']",
-    );
-    if (!rig || !effects || !light) throw new Error("Missing geometry");
-    const bounds = rig.getBoundingClientRect();
-    const apex = getComputedStyle(light).clipPath.match(
-      /polygon\(([-\d.]+)px ([-\d.]+)px/,
-    );
-    const rect = light.getBoundingClientRect();
-    return {
-      centerX: bounds.left + bounds.width / 2,
-      anchorX: Number.parseFloat(
-        effects.style.getPropertyValue("--party-anchor-x"),
-      ),
-      apexX: apex ? Number(apex[1]) + rect.left : NaN,
-      apexY: apex ? Number(apex[2]) + rect.top : NaN,
-      anchorY: Number.parseFloat(
-        effects.style.getPropertyValue("--party-anchor-y"),
-      ),
-      mask: getComputedStyle(
-        document.querySelector<HTMLElement>(
-          "[data-party-beams]",
-        ) as HTMLElement,
-      ).maskImage,
-    };
-  });
+  await expect(page.locator("[data-party-projection]")).toHaveCount(2);
+  await heading.scrollIntoViewIfNeeded();
+  const readGeometry = () =>
+    page.evaluate(() => {
+      const rig = document.querySelector<HTMLElement>("[data-party-rig]");
+      const effects = document.querySelector<HTMLElement>(
+        "[data-party-effects]",
+      );
+      const light = document.querySelector<HTMLElement>(
+        "#projects-heading [data-party-heading-light='0']",
+      );
+      if (!rig || !effects || !light) throw new Error("Missing geometry");
+      const bounds = rig.getBoundingClientRect();
+      const apex = getComputedStyle(light).clipPath.match(
+        /polygon\(([-\d.]+)px ([-\d.]+)px/,
+      );
+      const rect = light.getBoundingClientRect();
+      return {
+        centerX: bounds.left + bounds.width / 2,
+        anchorX: Number.parseFloat(
+          effects.style.getPropertyValue("--party-anchor-x"),
+        ),
+        apexX: apex ? Number(apex[1]) + rect.left : NaN,
+        apexY: apex ? Number(apex[2]) + rect.top : NaN,
+        anchorY: Number.parseFloat(
+          effects.style.getPropertyValue("--party-anchor-y"),
+        ),
+        mask: getComputedStyle(
+          document.querySelector<HTMLElement>(
+            "[data-party-beams]",
+          ) as HTMLElement,
+        ).maskImage,
+      };
+    });
+  await expect
+    .poll(async () => {
+      const geometry = await readGeometry();
+      return Math.max(
+        Math.abs(geometry.apexX - geometry.anchorX),
+        Math.abs(geometry.apexY - geometry.anchorY),
+      );
+    })
+    .toBeLessThan(4);
+  const geometry = await readGeometry();
   expect(geometry.centerX).toBeCloseTo(1440 * 0.4, 0);
   expect(Math.abs(geometry.apexX - geometry.anchorX)).toBeLessThan(4);
   expect(Math.abs(geometry.apexY - geometry.anchorY)).toBeLessThan(4);

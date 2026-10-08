@@ -23,8 +23,8 @@ export const he = {
     openLabel: "פתיחת תפריט",
     closeLabel: "סגירת תפריט",
     desktopLinks: [
-      { label: "קצת עלי", href: "#about" },
       { label: "פרויקטים", href: "#projects" },
+      { label: "קצת עלי", href: "#about" },
       { label: "איך מתחילים", href: "#getting-started" },
       { label: "שאלות תשובות", href: "#faq" },
       { label: "בואו נדבר", href: "#contact" },
@@ -73,6 +73,9 @@ export const he = {
     ],
     supportingInformation: "מידע תומך — להשלמה",
     party: {
+      prompt: "let’s party?",
+      no: "No",
+      yes: "Yes",
       normal: "NORMAL",
       party: "PARTY",
       label: "מצב מסיבה",

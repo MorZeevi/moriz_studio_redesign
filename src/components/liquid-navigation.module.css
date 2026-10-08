@@ -13,7 +13,7 @@
 .list {
   --nav-pill: var(--color-surface);
   --nav-ink: var(--color-dark);
-  --nav-glow: var(--color-primary);
+  --nav-glow: var(--color-secondary);
   --liquid-pad: clamp(1rem, calc(2.8125vw - 0.8rem), 1.45rem);
   --liquid-gap-rest: 2px;
   --liquid-gap-open: clamp(1.125rem, calc(3.28125vw - 0.975rem), 1.65rem);
@@ -122,7 +122,7 @@
   block-size: 0.3em;
   margin-inline-start: -0.15em;
   border-radius: 50%;
-  background: var(--nav-glow);
+  background: var(--color-primary);
 }
 
 /* Keep focus inside the filtered silhouette, where it cannot be clipped. */

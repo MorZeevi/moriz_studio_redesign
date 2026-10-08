@@ -133,6 +133,7 @@ for (const width of [1440, 390]) {
 test("reduced motion and no JavaScript retain readable project navigation", async ({
   page,
   browser,
+  baseURL,
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/he");
@@ -147,7 +148,7 @@ test("reduced motion and no JavaScript retain readable project navigation", asyn
   await capture(page, "reduced-dark");
   const context = await browser.newContext({ javaScriptEnabled: false });
   const staticPage = await context.newPage();
-  await staticPage.goto("http://127.0.0.1:3000/he");
+  await staticPage.goto(`${baseURL}/he`);
   expect(
     await staticPage
       .locator("body")

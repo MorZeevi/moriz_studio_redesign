@@ -4,6 +4,7 @@ import type { Project } from "@/content/projects";
 import type { EnabledLocale } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
 import { PartyHeadingLight } from "./party-mode/party-heading-light";
+import { LiquidLink } from "./ui/liquid-link";
 import partyStyles from "./party-mode/party-mode.module.css";
 import { ProjectScrollSurface } from "./project-scroll-surface";
 import styles from "./projects.module.css";
@@ -125,13 +126,14 @@ export function ProjectsSection({
           {partyReaction && <PartyHeadingLight text={content.heading} />}
         </Heading>
         {!collection && (
-          <Link
+          <LiquidLink
             href={`/${locale}/projects`}
-            className={`${styles.projectLink} ${styles.allProjectsLink}`}
+            className={styles.allProjectsLink}
+            variant="secondary"
+            navigation="client"
           >
             {content.allLink}
-            <ProjectArrow />
-          </Link>
+          </LiquidLink>
         )}
       </div>
       <div className={styles.list}>

@@ -182,6 +182,7 @@ test("reduced motion has a static bold wordmark and visible keyboard focus", asy
 
 test("touch and no-JavaScript wordmarks remain native homepage links", async ({
   browser,
+  baseURL,
 }) => {
   const touch = await browser.newContext({
     viewport: { width: 390, height: 844 },
@@ -189,7 +190,7 @@ test("touch and no-JavaScript wordmarks remain native homepage links", async ({
     isMobile: true,
   });
   const page = await touch.newPage();
-  await page.goto("http://127.0.0.1:3000/he");
+  await page.goto(`${baseURL}/he`);
   await page.evaluate(() => document.fonts.ready);
   await capture(page, "mobile");
   await page.locator(selector).tap();
@@ -198,7 +199,7 @@ test("touch and no-JavaScript wordmarks remain native homepage links", async ({
   await touch.close();
   const noJS = await browser.newContext({ javaScriptEnabled: false });
   const staticPage = await noJS.newPage();
-  await staticPage.goto("http://127.0.0.1:3000/he/projects");
+  await staticPage.goto(`${baseURL}/he/projects`);
   await staticPage
     .getByRole("link", { name: "moriz.studio", exact: true })
     .click();

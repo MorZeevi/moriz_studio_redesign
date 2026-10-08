@@ -1,20 +1,33 @@
 .controlSlot {
   container-type: inline-size;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
   margin-block-start: var(--space-8);
   padding-inline-end: var(--space-2);
   padding-block-end: var(--space-2);
+}
+
+.prompt {
+  max-inline-size: 100%;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--font-weight-body);
+  overflow-wrap: anywhere;
 }
 
 .toggle.toggle {
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  flex: none;
   gap: 0;
   inline-size: min(100%, 16rem);
   min-block-size: 3rem;
   padding: var(--space-1);
   border-color: var(--color-dark);
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-liquid);
   box-shadow: var(--shadow-hard);
   background: var(--color-light);
   color: var(--color-dark);
@@ -39,6 +52,7 @@
   inset-block: var(--space-1);
   inset-inline-start: var(--space-1);
   inline-size: calc(50% - var(--space-1));
+  border-radius: calc(var(--radius-liquid) - var(--space-1));
   background: var(--color-dark);
   transition:
     transform 180ms cubic-bezier(0.2, 0, 0, 1),
@@ -53,10 +67,6 @@
 
 .toggle[data-enabled="true"] {
   animation: partySnap 240ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.toggle[data-enabled="true"] .toggleLabel:last-child {
-  color: var(--color-light);
 }
 
 @keyframes partySnap {
@@ -82,6 +92,15 @@
   gap: var(--space-2);
   padding: var(--space-1);
   white-space: nowrap;
+}
+
+.toggle:focus-visible .toggleLabel {
+  text-decoration: underline 2px;
+  text-underline-offset: 0.2em;
+}
+
+.toggle[data-enabled="true"] .toggleLabel:last-child {
+  color: var(--color-light);
 }
 
 .toggle:not([data-enabled="true"]) .selection + .toggleLabel {

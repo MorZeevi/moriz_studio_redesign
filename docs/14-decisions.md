@@ -1215,6 +1215,24 @@ Implemented locally. Five Liquid Button tests, five navbar tests, 16 development
 
 Latest owner correction: use the existing red CTA fill (`--color-action-primary`) and light text with no hover shadow, cursor glow or gradient. Press uses the darker red action token. This supersedes the gray/glow styling above while retaining the liquid geometry and native interaction.
 
+### Homepage refinements and advantages background
+
+Date: 2026-10-08. The owner approved the small-changes-8.10 plan using the current uncommitted UI as the new worktree baseline. Increase the hero liquid CTA to 48px with 16px regular text; reuse it in secondary yellow for the all-projects link. Remove the logo pause button and add gentle side fades. Remove the advantages/testimonials headings while retaining named sections. Use the supplied abstract garden image as the full-width advantages background and give its three cards opaque white fills, 24px/32px padding and the liquid button’s shared 0.72rem corners. Stack below 1024px. Replace the inline NORMAL/PARTY presentation with “let’s party?” beside a No/Yes switch, retaining the existing Party Mode behavior. Reorder existing desktop navigation to Projects, About, Getting started, FAQ, Contact. Preserve **איך מתחילים לעבוד יחד**. No deployment is included.
+
+Implemented locally. All 51 distinct navigation/liquid-link/Party Mode scenarios pass across the full runs and targeted retests. The image is a 2560×1911 WebP (276,404 bytes). Desktop/mobile review and normal/enlarged card geometry checks pass; existing page-level enlarged-text overflow remains. TypeScript, targeted lint, diff whitespace validation and the production build pass. Owner visual acceptance remains pending.
+
+### Navbar hover color
+
+Date: 2026-10-08. The owner requested secondary color for the navbar hover treatment. Use `--color-secondary` for the cursor glow; retain the existing intensity, liquid interaction and red current-section dot.
+
+### Advantages section corners and image opacity
+
+Date: 2026-10-08. The owner requested button-matched corners for the advantages section and reduced opacity for its background. Use the shared liquid radius on the section and an image-only decorative layer at 50% opacity. Cards and foreground content remain opaque, and interactive content is not clipped by the section.
+
+### Restore the original Party switch styling
+
+Date: 2026-10-08. The owner requested the original switch’s visual character with different text and the current corner radius. Restore the outlined light track, bold display type, 256px maximum width, hard shadow, charcoal off state, red on state, party dot and brief snap. Preserve “let’s party?” and No/Yes labels, the liquid corner token and existing behavior.
+
 ## Reusable decision template
 
 

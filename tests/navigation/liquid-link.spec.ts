@@ -69,7 +69,7 @@ test("hero link has regular text, RTL arrow, independent liquid motion and press
     };
   });
   expect(initial.weight).toBe("400");
-  expect(initial.height).toBe(44);
+  expect(initial.height).toBe(48);
   expect(initial.arrow).toBe("-1 1");
   expect(initial.iconX).toBeGreaterThan(initial.labelX ?? 0);
   expect(initial.filter).not.toBe(initial.navFilter);
@@ -188,6 +188,7 @@ test("mobile sizes and enlarged text keep the hero link in its available space",
 
 test("touch press has feedback and activates the native destination", async ({
   browser,
+  baseURL,
 }) => {
   const context = await browser.newContext({
     viewport: { width: 390, height: 844 },
@@ -195,7 +196,7 @@ test("touch press has feedback and activates the native destination", async ({
     isMobile: true,
   });
   const page = await context.newPage();
-  await page.goto("http://127.0.0.1:3000/he");
+  await page.goto(`${baseURL}/he`);
   await page.evaluate(() => document.fonts.ready);
   const link = page.locator(selector);
   const session = await context.newCDPSession(page);
@@ -223,13 +224,14 @@ test("touch press has feedback and activates the native destination", async ({
 
 test("the liquid hero remains a usable link without JavaScript and mirrors in LTR", async ({
   browser,
+  baseURL,
 }) => {
   const context = await browser.newContext({
     javaScriptEnabled: false,
     viewport: { width: 1440, height: 1000 },
   });
   const page = await context.newPage();
-  await page.goto("http://127.0.0.1:3000/he");
+  await page.goto(`${baseURL}/he`);
   const link = page.locator(selector);
   await expect(link).toHaveAccessibleName("לצפיה בפרויקטים");
   await capture(page, "no-js");
@@ -240,7 +242,7 @@ test("the liquid hero remains a usable link without JavaScript and mirrors in LT
     viewport: { width: 1440, height: 1000 },
   });
   const ltrPage = await ltrContext.newPage();
-  await ltrPage.goto("http://127.0.0.1:3000/he");
+  await ltrPage.goto(`${baseURL}/he`);
   await ltrPage.evaluate(() => {
     document.documentElement.dir = "ltr";
   });
@@ -251,4 +253,43 @@ test("the liquid hero remains a usable link without JavaScript and mirrors in LT
   ).toBe("none");
   await capture(ltrPage, "ltr");
   await ltrContext.close();
+});
+
+test("secondary liquid link opens the projects collection with independent styling", async ({
+  page,
+}) => {
+  await page.goto("/he");
+  const hero = page.locator(selector);
+  const collection = page.getByRole("link", {
+    name: "לצפייה בכל הפרויקטים",
+    exact: true,
+  });
+  await collection.scrollIntoViewIfNeeded();
+  await expect(collection).toHaveAttribute("href", "/he/projects");
+  const appearance = await collection.evaluate((element) => {
+    const shape = element.querySelector("[data-liquid-shape]");
+    const sample = document.createElement("span");
+    sample.style.backgroundColor = "var(--color-secondary)";
+    element.appendChild(sample);
+    const expected = getComputedStyle(sample).backgroundColor;
+    sample.remove();
+    return {
+      fill: getComputedStyle(shape as Element).backgroundColor,
+      expected,
+      border: getComputedStyle(element).borderWidth,
+    };
+  });
+  expect(appearance.fill).toBe(appearance.expected);
+  expect(appearance.border).toBe("0px");
+  expect(
+    await collection.evaluate((element) => getComputedStyle(element).filter),
+  ).not.toBe(
+    await hero.evaluate((element) => getComputedStyle(element).filter),
+  );
+  await collection.focus();
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/\/he\/projects$/);
+  await expect(
+    page.getByRole("heading", { level: 1, name: "כל הפרויקטים" }),
+  ).toBeVisible();
 });

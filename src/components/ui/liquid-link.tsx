@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   type ComponentPropsWithoutRef,
   type CSSProperties,
@@ -9,15 +10,24 @@ import {
 } from "react";
 import styles from "./liquid-link.module.css";
 
+type LiquidLinkProps = Omit<ComponentPropsWithoutRef<"a">, "href"> & {
+  href: string;
+  variant?: "primary" | "secondary";
+  navigation?: "native" | "client";
+};
+
 export function LiquidLink({
   className,
   children,
   style,
+  variant = "primary",
+  navigation = "native",
   ...props
-}: ComponentPropsWithoutRef<"a">) {
+}: LiquidLinkProps) {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const blurRef = useRef<SVGFEGaussianBlurElement>(null);
   const filterId = `liquid-link-${useId().replace(/:/g, "")}`;
+  const LinkElement = navigation === "client" ? Link : "a";
 
   useEffect(() => {
     const link = linkRef.current;
@@ -113,10 +123,10 @@ export function LiquidLink({
           </filter>
         </defs>
       </svg>
-      <a
+      <LinkElement
         {...props}
         ref={linkRef}
-        className={`${className ?? ""} ${styles.link}`}
+        className={`${className ?? ""} ${styles.link}${variant === "secondary" ? ` ${styles.secondary}` : ""}`}
         style={
           { ...style, "--lb-filter": `url("#${filterId}")` } as CSSProperties
         }
@@ -140,7 +150,7 @@ export function LiquidLink({
         <span className={styles.label} data-liquid-shape>
           {children}
         </span>
-      </a>
+      </LinkElement>
     </>
   );
 }

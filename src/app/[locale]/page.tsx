@@ -96,11 +96,12 @@ export default async function Home({
         <Section
           id="advantages"
           title={content.advantages.heading}
-          partyReaction
+          showHeading={false}
+          className="advantages-section"
         >
-          <div className="grid gap-9 md:grid-cols-3 md:gap-12">
+          <div className="grid gap-9 lg:grid-cols-3 lg:gap-12">
             {content.advantages.themes.map((theme, index) => (
-              <div key={theme} className="min-w-0">
+              <div key={theme} className="min-w-0 advantages-card">
                 <h3 className="max-w-[18ch] text-xl leading-relaxed font-medium lg:text-2xl">
                   {theme}
                 </h3>
@@ -153,6 +154,7 @@ export default async function Home({
         <Section
           id="testimonials"
           title={content.testimonials.heading}
+          showHeading={false}
           className="bg-surface"
         >
           <div className="grid gap-10 md:grid-cols-2 md:gap-20">

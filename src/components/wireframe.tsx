@@ -8,29 +8,34 @@ export function Section({
   children,
   className = "",
   partyReaction = false,
+  showHeading = true,
 }: {
   id: string;
   title: string;
   children: ReactNode;
   className?: string;
   partyReaction?: boolean;
+  showHeading?: boolean;
 }) {
   return (
     <section
       id={id}
-      aria-labelledby={`${id}-heading`}
+      aria-labelledby={showHeading ? `${id}-heading` : undefined}
+      aria-label={showHeading ? undefined : title}
       className={`wireframe-section ${className}`}
       data-wireframe-section={id}
     >
       <div className="page-shell">
-        <h2
-          id={`${id}-heading`}
-          className={`section-heading${partyReaction ? ` ${partyStyles.lightHeading}` : ""}`}
-          data-party-react={partyReaction ? "heading" : undefined}
-        >
-          {title}
-          {partyReaction && <PartyHeadingLight text={title} />}
-        </h2>
+        {showHeading && (
+          <h2
+            id={`${id}-heading`}
+            className={`section-heading${partyReaction ? ` ${partyStyles.lightHeading}` : ""}`}
+            data-party-react={partyReaction ? "heading" : undefined}
+          >
+            {title}
+            {partyReaction && <PartyHeadingLight text={title} />}
+          </h2>
+        )}
         {children}
       </div>
     </section>
