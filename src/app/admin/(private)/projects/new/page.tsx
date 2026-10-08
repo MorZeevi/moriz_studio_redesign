@@ -12,7 +12,7 @@ export default async function NewProject() {
   const initial: ProjectInput = {
     id: randomUUID(),
     title: "",
-    slug: "",
+    slug: null,
     client: null,
     year: null,
     headline: null,

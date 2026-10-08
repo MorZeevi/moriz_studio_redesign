@@ -43,13 +43,11 @@ test("RLS, category cascades, atomic saving and media privacy", async ({
   const slug = `${f.prefix}-api`;
   expect(
     (
-      await owner
-        .from("categories")
-        .insert({
-          id: categoryId,
-          name: `${f.prefix} API`,
-          slug: `${f.prefix}-api-category`,
-        })
+      await owner.from("categories").insert({
+        id: categoryId,
+        name: `${f.prefix} API`,
+        slug: `${f.prefix}-api-category`,
+      })
     ).error,
   ).toBeNull();
   const fields = {
@@ -535,11 +533,9 @@ test("global categories can be created, renamed and deleted without deleting pro
   await expect(
     page.getByRole("alert").filter({ hasText: "כבר קיימים" }),
   ).toBeVisible();
-  row = page
-    .locator("main > div")
-    .filter({
-      has: page.getByLabel(`שם קטגוריה: ${renamed}`, { exact: true }),
-    });
+  row = page.locator("main > div").filter({
+    has: page.getByLabel(`שם קטגוריה: ${renamed}`, { exact: true }),
+  });
   page.once("dialog", async (dialog) => {
     expect(dialog.message()).toContain("2 פרויקטים");
     await dialog.dismiss();
@@ -560,4 +556,118 @@ test("global categories can be created, renamed and deleted without deleting pro
         .eq("category_id", category.id)
     ).data,
   ).toEqual([]);
+});
+
+test("projects without URLs save, publish and duplicate without public detail links", async ({
+  page,
+  browser,
+}) => {
+  const f = fixture();
+  const owner = createClient<Database>(f.url, f.key, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+  await owner.auth.setSession(f.owner);
+  function record(id: string) {
+    const folders: string[] = JSON.parse(
+      readFileSync(".cache/cms-qa-folders.json", "utf8"),
+    );
+    writeFileSync(
+      ".cache/cms-qa-folders.json",
+      JSON.stringify([...folders, id]),
+    );
+  }
+  await page.context().addCookies(f.cookies);
+  await page.goto("/admin/projects/new");
+  const title = `${f.prefix} No URL`;
+  await page.getByLabel("שם הפרויקט", { exact: true }).fill(title);
+  const slugInput = page.getByLabel("כתובת הפרויקט (Slug)");
+  await expect(slugInput).not.toHaveValue("");
+  await slugInput.fill("");
+  await expect(slugInput).not.toHaveAttribute("required", "");
+  await page.getByRole("button", { name: "שמירת טיוטה", exact: true }).click();
+  await expect(page).toHaveURL(/admin\/projects\/[0-9a-f-]{36}$/);
+  const id = page.url().split("/").pop() ?? "";
+  record(id);
+  expect(
+    (await owner.from("projects").select("slug").eq("id", id).single()).data
+      ?.slug,
+  ).toBeNull();
+  await page.reload();
+  await expect(slugInput).toHaveValue("");
+  await page.getByLabel("שם הפרויקט", { exact: true }).fill(`${title} edited`);
+  await expect(slugInput).toHaveValue("");
+  await page.getByRole("button", { name: "תצוגה מקדימה", exact: true }).click();
+  await expect(
+    page
+      .locator("#project-content")
+      .getByRole("heading", { name: `${title} edited`, exact: true }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "חזרה לעריכה", exact: true }).click();
+  await page.getByRole("button", { name: "פרסום", exact: true }).click();
+  await expect(page.getByRole("status")).toContainText("מפורסם");
+  const secondId = randomUUID();
+  record(secondId);
+  expect(
+    (
+      await owner.rpc("cms_save_project", {
+        project_id: secondId,
+        project_data: {
+          title: `${f.prefix} Another no URL`,
+          slug: null,
+          published: true,
+        },
+        category_ids: [],
+      })
+    ).error,
+  ).toBeNull();
+  const publicContext = await browser.newContext();
+  const publicPage = await publicContext.newPage();
+  for (const path of ["/he", "/he/projects"]) {
+    await publicPage.goto(path);
+    for (const projectId of [id, secondId]) {
+      const card = publicPage.locator(
+        `article[aria-labelledby="project-${projectId}"]`,
+      );
+      await expect(card).toBeVisible();
+      await expect(card.getByRole("link")).toHaveCount(0);
+    }
+  }
+  const addedSlug = `${f.prefix}-added-url`;
+  await slugInput.fill(addedSlug);
+  await page
+    .getByRole("button", { name: "שמירת שינויים", exact: true })
+    .click();
+  await expect(page.getByRole("status")).toContainText("מפורסם");
+  await publicPage.goto("/he/projects");
+  await expect(
+    publicPage.locator(`article a[href="/he/projects/${addedSlug}"]`),
+  ).toBeVisible();
+  await publicPage.goto(`/he/projects/${addedSlug}`);
+  await expect(
+    publicPage.getByRole("heading", { name: `${title} edited`, exact: true }),
+  ).toBeVisible();
+  await slugInput.fill("");
+  await page
+    .getByRole("button", { name: "שמירת שינויים", exact: true })
+    .click();
+  await expect(page.getByRole("status")).toContainText("מפורסם");
+  await publicPage.reload();
+  await expect(publicPage.getByText("404", { exact: true })).toBeVisible();
+  await page.goto("/admin/projects");
+  await page
+    .locator("article")
+    .filter({ hasText: `${title} edited` })
+    .getByRole("button", { name: "שכפול", exact: true })
+    .click();
+  await expect(page).toHaveURL(/admin\/projects\/[0-9a-f-]{36}$/);
+  const duplicateId = page.url().split("/").pop() ?? "";
+  record(duplicateId);
+  await expect(slugInput).toHaveValue("");
+  const duplicate = await owner
+    .from("projects")
+    .select("slug,published")
+    .eq("id", duplicateId)
+    .single();
+  expect(duplicate.data).toEqual({ slug: null, published: false });
+  await publicContext.close();
 });

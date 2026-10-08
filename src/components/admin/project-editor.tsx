@@ -84,7 +84,11 @@ export function ProjectEditor({
           setError(result.error);
           return;
         }
-        setProject((current) => ({ ...current, published }));
+        setProject((current) => ({
+          ...current,
+          published,
+          slug: current.slug?.trim() || null,
+        }));
         setDirty(false);
         setSlugTouched(true);
         setMessage(
@@ -195,7 +199,7 @@ export function ProjectEditor({
                     setProject((current) => ({
                       ...current,
                       title,
-                      ...(!slugTouched ? { slug: slugify(title) } : {}),
+                      ...(!slugTouched ? { slug: slugify(title) || null } : {}),
                     }));
                     setDirty(true);
                   }}
@@ -204,15 +208,17 @@ export function ProjectEditor({
               <label className={styles.field}>
                 <span>כתובת הפרויקט (Slug)</span>
                 <input
-                  value={project.slug}
+                  value={project.slug ?? ""}
                   dir="ltr"
-                  required
                   onChange={(e) => {
                     setSlugTouched(true);
-                    field("slug", e.target.value);
+                    field("slug", e.target.value || null);
                   }}
                 />
-                <small>שינוי כתובת של פרויקט שמור משנה את הקישור אליו.</small>
+                <small>
+                  לא חובה. השאירו ריק כדי להציג פרויקט בלי עמוד נפרד. שינוי
+                  כתובת של פרויקט שמור משנה את הקישור אליו.
+                </small>
               </label>
               <label className={styles.field}>
                 <span>שנה</span>

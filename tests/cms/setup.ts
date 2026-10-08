@@ -142,6 +142,12 @@ export default async function setup() {
           .from("project-media")
           .remove(files.map((file) => `${folder}/${file.name}`));
     }
+    // Recorded UUIDs also include this run's projects with no slug.
+    if (folders.size)
+      await admin
+        .from("projects")
+        .delete()
+        .in("id", [...folders]);
     await admin.from("projects").delete().like("slug", `${prefix}%`);
     await admin.from("categories").delete().like("slug", `${prefix}%`);
     await admin.auth.admin.deleteUser(newUser.user.id);

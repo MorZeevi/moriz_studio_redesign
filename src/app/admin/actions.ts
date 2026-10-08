@@ -67,6 +67,11 @@ export async function saveProject(
 ): Promise<Result<{ id: string }>> {
   const client = await requireAdmin();
   try {
+    input = {
+      ...input,
+      slug:
+        typeof input.slug === "string" ? input.slug.trim() || null : input.slug,
+    };
     validateProject(input);
     const existing = await getAdminProject(input.id);
     const { id, category_ids, ...fields } = input;
@@ -154,7 +159,7 @@ export async function duplicateProject(
     ...input,
     id: newId,
     title: `${input.title} — העתק`,
-    slug: `${input.slug}-copy-${newId.slice(0, 8)}`,
+    slug: input.slug ? `${input.slug}-copy-${newId.slice(0, 8)}` : null,
     published: false,
     category_ids: categories.map((c) => c.id),
   });

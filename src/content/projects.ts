@@ -5,7 +5,8 @@ export type ProjectDetail = {
 };
 
 export type Project = {
-  slug: string;
+  id?: string;
+  slug: string | null;
   title: string;
   description: string | null;
   contribution: string | null;

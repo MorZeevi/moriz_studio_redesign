@@ -297,7 +297,7 @@ export type Database = {
           short_description: string | null;
           show_on_homepage: boolean;
           show_on_projects: boolean;
-          slug: string;
+          slug: string | null;
           title: string;
           updated_at: string;
           year: number | null;
@@ -320,7 +320,7 @@ export type Database = {
           short_description?: string | null;
           show_on_homepage?: boolean;
           show_on_projects?: boolean;
-          slug: string;
+          slug?: string | null;
           title: string;
           updated_at?: string;
           year?: number | null;
@@ -343,7 +343,7 @@ export type Database = {
           short_description?: string | null;
           show_on_homepage?: boolean;
           show_on_projects?: boolean;
-          slug?: string;
+          slug?: string | null;
           title?: string;
           updated_at?: string;
           year?: number | null;

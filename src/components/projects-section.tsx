@@ -137,11 +137,14 @@ export function ProjectsSection({
       <div className={styles.list}>
         {projects.map((project) => (
           <article
-            key={project.slug}
+            key={project.id ?? project.slug}
             className={styles.row}
-            aria-labelledby={`project-${project.slug}`}
+            aria-labelledby={`project-${project.slug ?? project.id}`}
           >
-            <h3 id={`project-${project.slug}`} className={styles.title}>
+            <h3
+              id={`project-${project.slug ?? project.id}`}
+              className={styles.title}
+            >
               <bdi>{project.title}</bdi>
             </h3>
             <ProjectMedia project={project} label={content.visualLabel} />
@@ -157,16 +160,18 @@ export function ProjectsSection({
                 <ProjectAccordion
                   project={project}
                   labels={content}
-                  group={`home-${project.slug}`}
+                  group={`home-${project.slug ?? project.id}`}
                 />
-                <Link
-                  href={`/${locale}/projects/${project.slug}`}
-                  className={styles.projectLink}
-                  aria-label={`${content.projectLink}: ${project.title}`}
-                >
-                  {content.projectLink}
-                  <ProjectArrow />
-                </Link>
+                {project.slug && (
+                  <Link
+                    href={`/${locale}/projects/${project.slug}`}
+                    className={styles.projectLink}
+                    aria-label={`${content.projectLink}: ${project.title}`}
+                  >
+                    {content.projectLink}
+                    <ProjectArrow />
+                  </Link>
+                )}
               </div>
             </div>
           </article>

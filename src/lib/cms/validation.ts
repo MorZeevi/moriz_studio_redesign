@@ -101,7 +101,12 @@ export function validateContent(
 export function validateProject(value: ProjectInput) {
   if (!UUID.test(value.id) || !value.title.trim())
     throw new Error("שם הפרויקט נדרש.");
-  if (value.title.length > 250 || !SLUG.test(value.slug))
+  if (value.title.length > 250)
+    throw new Error("שם הפרויקט ארוך מדי. ניתן להזין עד 250 תווים.");
+  if (
+    value.slug !== null &&
+    (typeof value.slug !== "string" || !SLUG.test(value.slug))
+  )
     throw new Error("יש להזין כתובת תקינה: אותיות, מספרים ומקפים.");
   if (
     value.year !== null &&

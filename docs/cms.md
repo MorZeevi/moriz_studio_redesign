@@ -18,6 +18,9 @@ also provides a private preview of the last saved version.
 Saving edits to a published project updates its public content immediately.
 Unpublish explicitly to hide it. Homepage and Projects visibility and ordering
 are controlled separately. Slugs stay fixed when an existing title changes.
+The slug is optional: clear it to show a project in public lists without a separate
+project page or a detail-page link. Private preview still works. Multiple projects
+can have no slug; provided slugs must remain valid and unique.
 
 Categories are global, reusable, and support multiple assignments per project.
 Renaming keeps assignments and the category slug. Deleting asks for confirmation,
@@ -75,6 +78,8 @@ CMS migrations:
 - `20261008120100_cms_storage.sql`: private bucket and media access policies.
 - `20261008120200_cms_seed.sql`: preserved existing projects and example categories.
 - `20261008120300_cms_save_project.sql`: transactional project/category saving.
+- `20261008120400_cms_optional_slug.sql`: optional project URLs, retaining all
+  existing slugs, their uniqueness, and their format constraint.
 
 The six earlier diagnostic migrations were recovered from the remote migration
 history before adding the CMS. Unrelated diagnostic schema objects were checked

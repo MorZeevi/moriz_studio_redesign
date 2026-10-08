@@ -11,6 +11,7 @@ export function projectCard(
         ? project.projects_image_url
         : null) ?? project.cover_image_url;
   return {
+    id: project.id,
     slug: project.slug,
     title: project.title,
     description: project.short_description ?? project.description,
