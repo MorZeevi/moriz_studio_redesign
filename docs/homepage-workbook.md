@@ -2,7 +2,7 @@
 
 Created: 2026-10-06. Planning notes are English; proposed website copy is Hebrew and should be reviewed in RTL.
 
-This is our shared workspace for homepage content and layout. Work through one section at a time, starting with the hero. The owner subsequently authorized a local coded hero/header trial before the rest of the workbook is complete. This exception implements the approved Mammoth Murals layout plan only; later sections remain untouched and Not started. See [the trial decision](14-decisions.md#mammoth-murals-hero-trial).
+This is our shared workspace for homepage content and layout. Work through one section at a time, starting with the hero. The owner subsequently authorized a local coded hero/header trial before the rest of the workbook is complete. That exception covered the Mammoth Murals layout plan. On 2026-10-07 the owner separately authorized the first advantages research card and Projects section with dedicated pages; these three areas remain In progress pending visual acceptance, while remaining sections are Not started. See [the trial decision](14-decisions.md#mammoth-murals-hero-trial).
 
 ## Working process
 
@@ -14,7 +14,7 @@ This is our shared workspace for homepage content and layout. Work through one s
 
 **Proposals** are drafts or recommendations for discussion. **Agreed choices** record only explicit owner choices, with their date and source. **Remaining questions** identify decisions or facts still needed. An assistant preference is a proposal, not an agreement. Status moves from **Not started** to **In progress** to **Agreed** after joint review; missing publication material remains an explicit dependency.
 
-Use black, white, grayscale and a temporary system font to explore hierarchy. Branding, custom typography, colors, logo, decorative imagery and motion follow later. Do not invent project roles, results, testimonials, delivery promises or English website copy. The internal minimum project budget stays out of website copy.
+The original workbook used black, white, grayscale and a temporary system font to explore hierarchy. The subsequent foundation authorization established the supplied palette and Danidin/Leon; new local work reuses [those foundations](09-design-system.md). Logo, project imagery and remaining page art direction are still open. Do not invent project roles, results, testimonials, delivery promises or English website copy. The internal minimum project budget stays out of website copy.
 
 ## Sources and existing agreements
 
@@ -39,7 +39,7 @@ Saved Mobbin screenshots establish visible desktop composition only. The owner s
 | --- | --- | --- |
 | 1 | [Hero](#1-hero) | In progress |
 | 2 | [Three communication themes / advantages](#2-three-communication-themes--advantages) | In progress — research card |
-| 3 | [Projects](#3-projects) | Not started |
+| 3 | [Projects](#3-projects) | In progress — section, collection and dedicated pages |
 | 4 | [Brief owner introduction](#4-brief-owner-introduction) | Not started |
 | 5 | [Client testimonials](#5-client-testimonials) | Not started |
 | 6 | [How to start working together](#6-how-to-start-working-together) | Not started |
@@ -195,23 +195,45 @@ Does the research-card trial receive visual acceptance? What information and int
 
 ## 3. Projects
 
-Status: **Not started**.
+Status: **In progress — implemented locally, awaiting owner visual acceptance and content/assets**.
 
 ### Purpose and information
 
-Purpose to confirm: demonstrate relevant work and clarify the studio's contribution. Three projects are selected for the website, but Home selection/order, roles, scope, visuals and outcomes are open in the [project inventory](04-projects-and-case-studies.md#projects-to-appear-on-the-website).
+Demonstrate relevant work and give each project a clear path to its own page. The existing three website projects are used provisionally in inventory order: practice ai, Haaretz, Chabad Club. Final Home selection/order, accurate roles/scopes, visuals and outcomes remain open in the [project inventory](04-projects-and-case-studies.md#projects-to-appear-on-the-website). No additional claims or images are invented.
 
-### Proposals
+### Reference and implemented layout
 
-Reference review pending: [basement.studio project rows](research/mobbin-homepage-structure-2025-2026.md#2-basementstudio--project-rows-with-context), [Fiasco selected work](research/mobbin-agency-inspiration-2025-2026.md#5-fiasco--selected-work-with-project-context), and the owner's [Huncwot preference](research/owner-inspiration-references.md#huncwot). Hebrew options/refinement: TODO: Draft 2–3 from supplied project facts. Layout comparison: TODO: Compare desktop and mobile project/description order and link destinations.
+The owner-requested [Projects presentation research](research/mobbin-projects-2026-10-07.md) and [visual gallery](research/mobbin-projects-2026-10-07.html) contain 10 desktop website references and 10 native mobile app screens. Mobile website captures are not verified. The owner subsequently selected the supplied [basement.studio image](research/assets/mobbin-projects-2026-10-07/d01-basement-studio.jpg) directly; the mobile implementation is a responsive adaptation for Moriz, not a verified basement.studio mobile pattern.
 
-### Agreed choices
+Home uses a large heading with **לצפייה בכל הפרויקטים** linking to `/he/projects`, fine horizontal rules and generous project rows. The owner expressly selected section-only scope, then requested a seamless join after the earlier fade showed a stripe at the section start. The owner’s 2026-10-08 timing-only request moves entry 40% of viewport height earlier and exit 40% later, preserving the restored 12%-of-viewport smoothstep fade span. Entry starts with the section top at 40% of viewport height and reaches charcoal at 28%; exit starts with the section bottom at 72% and returns to light at 60%. The section may now be dark with its boundary visible. The background remains a flat solid layer, with no gradient mask or time-based damping. Scroll updates use one requested animation frame; resize and content-height changes refresh geometry. Contrast adapts to the composited background. Reduced motion switches immediately; SSR/no JavaScript stays light. The page body and other sections remain light; standalone project pages stay dark. At desktop widths from 960px, each RTL row places the project name on the right, description/contribution and details in the middle, and a large 16:9 media frame on the left. Mobile stacks name → image → information → four details → page button. The established palette, Danidin/Leon, container and spacing foundations remain; other homepage sections are preserved. [Surface direction contract](projects-surface-brief.md).
 
-Section inclusion and position 3 confirmed. Selected Home projects, copy and layout: TODO: Decision required.
+Each button opens its own local page: `/he/projects/practice-ai`, `/he/projects/haaretz`, `/he/projects/chabad-club`. Dedicated pages share the same data, large media, four details, studio link and return links to `/he#projects`. Unknown slugs return 404. The subsequent owner refinement adds a static dark `/he/projects` collection with the same three projects, four details per project (twelve total), three dedicated-page buttons and studio/home-return header. It reuses the rows and shared dictionary without the Home scroll effect.
+
+### Agreed choices and implementation defaults
+
+Section inclusion and position 3 remain confirmed. On 2026-10-07 the owner authorized the basement.studio-based section, individual project page buttons, and four expandable details per project, with data to follow. The later collection-page request extends this specific exception to `/he/projects` as well as the project-detail routes; no publication is included. The owner also corrected the Haaretz label to **וורדעל**, rendered **הארץ — וורדעל**. See [the decision](14-decisions.md#projects-section-and-dedicated-project-pages).
+
+The supplied website inventory is a provisional implementation default, not owner-approved final Home selection/order. Four placeholder question labels and null answers appear for every project on Home, the collection and its own page. Description/contribution/image fields remain null where no facts were supplied; all missing values have explicit completion labels. Native `<details>` groups permit one open question within each project; other projects remain independent. Immediate disclosure changes and restrained link hover use existing motion/focus foundations.
+
+Content is edited once in `projects.items` in `src/i18n/dictionaries/he.ts`; `src/content/projects.ts` defines its shape. Replace the four labels and answers with owner data. Add owner-supplied local files to `public/projects/`, then set `image` to `{ src: "/projects/filename.jpg", alt: "Accurate image description" }`. No shipping image assets were added.
+
+Verification on 2026-10-07: lint, TypeScript and production build pass. Browser checks passed at 320, 390, 768 and 1440px for links/return links, exclusive and independent accordions, keyboard Enter, unknown-slug 404, no horizontal overflow and no runtime errors. Finish review identified low contrast on the dedicated-page focused skip link; `focus:text-dark` resolves its foreground against the light background, final re-verification passed, and the implementation finish reviewer returned **ship** with no visible regressions. Technical checks do not establish owner visual acceptance or final copy approval.
+
+Previous refinement verification, 2026-10-07 (superseded motion/fallback): lint, typecheck and production build pass. Browser checks at 320/390/1440/2048px confirm the corrected label, collection link/header, twelve details and three project buttons, section entry/exit fades in both directions with a light page body, 0ms reduced-motion transitions, static dark no-JavaScript fallback with working links, no overflow and no runtime errors. The compatibility detector returned `[]`. Fresh finish review returned **ship**, with no material fixes; these checks do not establish owner acceptance.
+
+Latest seamless-join revision verification, 2026-10-07: lint, typecheck and production build pass. Targeted browser checks at 1440/390px covered 21 paused scroll positions per width: opacity is monotonic on entry/exit, either visible boundary keeps opacity at zero, and primary/secondary/placeholder contrast stays at least 4.5:1. The body stays light; links, twelve collection details and four details per dedicated page remain; **הארץ — וורדעל** appears on all three surfaces. Reduced motion switches immediately between 0/1, and the light no-JavaScript fallback retains working links. No overflow or runtime errors were observed. The compatibility detector previously returned `[]`. Fresh finish review returned **ship**, with no scoped rendering/source findings; owner visual acceptance remains pending and no publication is authorized.
+
+Timing refinement, 2026-10-08: the owner reported that darkness arrived too late and left too soon. The fade span is now 12% of viewport height instead of 35%, so full charcoal is reached 23% of a viewport earlier on entry and held 23% longer on exit. The visible-boundary rule, smoothstep, section-only scope and accessible fallbacks remain. Lint/typecheck and desktop/mobile browser checks at 1440/390px pass, including 21 opacity/contrast samples per width, entry/exit timing, seamless joins, routes/details, reduced motion and no-JavaScript behavior.
+
+Rejected smoothed fade trial, 2026-10-08: the owner said the shortened fade still arrived late and was not smooth enough. The offscreen-edge guard is now replaced: fade starts with the Projects top at 80% of viewport height and is fully dark at 20%, while the heading remains visible. It holds until the bottom reaches 20%, then fades out by -40%. Smoothstep targets use 90ms time-based damping, with a frame loop that stops at rest. The background mask blends only the existing section padding at each end; content stays on the uniform surface and the body stays light. Lint, typecheck and production build pass. Desktop/mobile Chrome checks at 1440/390px verify 21 paused contrast/opacity samples each (at least 4.5:1), multi-frame damping, reversal during entry, entry/exit positions, masked joins, links/details, light no-JavaScript rendering, immediate reduced-motion states, and no overflow/runtime errors. Captures and frame evidence are local review artifacts. Owner visual acceptance remains pending.
+
+Rollback, 2026-10-08: the owner rejected this trial’s appearance and requested undo. Restored the immediately preceding 12%-of-viewport reveal, including its visible-boundary guard, without the mask or temporal damping. Project content, layout and navigation are retained.
+
+Timing-only adjustment after rollback, 2026-10-08: at the owner’s request, shifted entry 40% of viewport height earlier and exit 40% later, retaining the previous 12%-of-viewport smoothstep fade and flat background layer. No gradient mask or temporal damping was reintroduced. The old offscreen-boundary guard no longer defines entry/exit. Lint/typecheck and desktop/mobile browser checks at 1440/390px pass, including both shifted trigger locations, 21 contrast/opacity samples per width, preserved links/details, reduced motion, no-JavaScript rendering, and no overflow/runtime errors. Owner visual acceptance remains pending.
 
 ### Remaining questions
 
-Which projects appear, in what order, with which visuals and accurately attributed roles? What should a project link open? No metrics or outcomes can be drafted until supplied.
+Does the rendered section/page layout receive owner visual acceptance? Which projects finally appear on Home and in what order? Supply accurate visuals/alt descriptions, final titles/descriptions/contributions and four questions/answers for each project. The owner-confirmed Haaretz spelling correction is recorded; final title copy, selection and order still await review. No metrics or outcomes can be drafted until supplied.
 
 ## 4. Brief owner introduction
 
@@ -342,4 +364,4 @@ Which identity details and links belong here? What information is required? Reta
 - [x] Original research links checked against saved provenance and local assets on 2026-10-06. Mammoth's root page was subsequently accessed and the owner-supplied desktop/mobile screenshots saved; earlier external Mobbin availability was not rechecked.
 - [ ] Agreed content reflected in [03-content.md](03-content.md), layout in [02-page-structure.md](02-page-structure.md), and owner choices in [14-decisions.md](14-decisions.md), with links back here rather than competing draft versions.
 
-Workbook creation is complete; joint section review is still open. The owner authorized and requested the hero/header trial before later sections are reviewed. Continue section-by-section collaboration after the trial review; this exception does not authorize changes to later sections. Branding follows black-and-white exploration. No API changes are included.
+Workbook creation is complete; joint section review is still open. The owner authorized and requested the hero/header trial before later sections are reviewed. The later first-advantages-card and Projects section/page requests grant their own specific exceptions; these areas remain In progress and other sections remain Not started. Continue section-by-section collaboration for remaining work. The implemented shared palette/fonts now apply to local trials; logo and remaining art direction stay open. No API changes or publishing are included.

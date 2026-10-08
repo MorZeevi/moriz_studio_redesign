@@ -2,11 +2,15 @@
 
 Use these templates to record confirmed page goals and define page structure after research. Source content and agreed copy belong in [03-content.md](03-content.md). Develop homepage content and layout proposals together in [the shared workbook](homepage-workbook.md), then reflect agreed structure here.
 
+Previous refinement verification, 2026-10-07 (superseded motion/fallback): lint, typecheck and production build pass. Browser checks at 320/390/1440/2048px confirm the corrected label, collection link/header, twelve details and three project buttons, section entry/exit fades in both directions with a light page body, 0ms reduced-motion transitions, static dark no-JavaScript fallback with working links, no overflow and no runtime errors. The compatibility detector returned `[]`. Fresh finish review returned **ship**, with no material fixes; these checks do not establish owner acceptance.
+
+Latest seamless-join revision verification, 2026-10-07: lint, typecheck and production build pass. Targeted browser checks at 1440/390px covered 21 paused scroll positions per width: opacity is monotonic on entry/exit, either visible boundary keeps opacity at zero, and primary/secondary/placeholder contrast stays at least 4.5:1. The body stays light; links, twelve collection details and four details per dedicated page remain; **הארץ — וורדעל** appears on all three surfaces. Reduced motion switches immediately between 0/1, and the light no-JavaScript fallback retains working links. No overflow or runtime errors were observed. The compatibility detector previously returned `[]`. Fresh finish review returned **ship**, with no scoped rendering/source findings; owner visual acceptance remains pending and no publication is authorized.
+
 ## Home
 
 ### Current work stage
 
-Current focus: review the implemented [first advantages research card](homepage-workbook.md#2-three-communication-themes--advantages), authorized on 2026-10-07. It presents the supplied title/paragraph and nine grayscale falling pills below the text, using a 280px minimum area that grows with its contents. The owner selected automatic falling on viewport entry. The advantages section is In progress; its other two cards remain placeholders. The [Mammoth hero/header trial](homepage-workbook.md#selected-trial--mammoth-murals-layout) also remains In progress. Both trials await visual acceptance. The confirmed sequence remains Hero → three communication themes / advantages → projects → brief owner introduction → client testimonials → how to start working together → FAQ → contact → footer. WhatsApp remains floating-only; final branding and later section layouts/content remain open.
+Current focus includes the implemented [Projects section and dedicated pages](homepage-workbook.md#3-projects), authorized on 2026-10-07 from the supplied basement.studio image. Projects is In progress pending owner visual acceptance, assets and final content; the existing three website projects appear provisionally in inventory order. Each has a page button and four details with explicit placeholder questions/null answers. The subsequent refinement also permits `/he/projects` through **לצפייה בכל הפרויקטים** beside the Home heading and corrects the Haaretz label to **הארץ — וורדעל**. Only the Home Projects section changes light/dark with scroll, keeping both visible joins light; SSR/no-JavaScript is light, while the collection remains dark. Also review the implemented [first advantages research card](homepage-workbook.md#2-three-communication-themes--advantages), authorized on 2026-10-07. It presents the supplied title/paragraph and nine grayscale falling pills below the text, using a 280px minimum area that grows with its contents. The owner selected automatic falling on viewport entry. The advantages section is In progress; its other two cards remain placeholders. The [Mammoth hero/header trial](homepage-workbook.md#selected-trial--mammoth-murals-layout) also remains In progress. Both trials await visual acceptance. The confirmed sequence remains Hero → three communication themes / advantages → projects → brief owner introduction → client testimonials → how to start working together → FAQ → contact → footer. WhatsApp remains floating-only; final branding and later section layouts/content remain open.
 
 ### Wireframe prototype / review status
 
@@ -16,7 +20,7 @@ Temporary implementation proposals, not final owner decisions:
 
 - Hero: exact owner-agreed H1 and description; Mammoth-inspired asymmetry, with large headline and description/CTA on the right and empty future-video div at bottom left from 1024px. Mobile/tablet order: H1 → video → description → CTA. One inline CTA **לצפיה בפרויקטים** → `#projects`. No inline WhatsApp CTA. See [trial details](homepage-workbook.md#selected-trial--mammoth-murals-layout).
 - Advantages: three owner-supplied themes with supporting-content placeholders.
-- Projects: three unassigned review slots. These do not select actual Home projects or their order.
+- Projects: owner-authorized basement.studio-based rows, using the three existing website projects provisionally in inventory order. Desktop from 960px: name right, information/four details middle, large media left; mobile: name → image → information → four details → page button. Final Home selection/order and visual acceptance remain open. Buttons open `/he/projects/practice-ai`, `/he/projects/haaretz` and `/he/projects/chabad-club`; pages share the four details and return to `/he#projects`. The heading action **לצפייה בכל הפרויקטים** opens `/he/projects`. The owner’s 2026-10-08 timing-only request moves entry 40% of viewport height earlier and exit 40% later, preserving the restored 12%-of-viewport smoothstep fade span. Entry starts with the section top at 40% of viewport height and reaches charcoal at 28%; exit starts with the section bottom at 72% and returns to light at 60%. The section may now be dark with its boundary visible. The background remains a flat solid layer, with no gradient mask or time-based damping. Scroll updates use one requested animation frame; resize and content-height changes refresh geometry. Contrast adapts to the composited background. Reduced motion switches immediately; SSR/no JavaScript stays light. The page body and other sections remain light; standalone project pages stay dark. Missing content/images remain explicit placeholders.
 - About: text and optional visual placeholders.
 - Testimonials: two review slots; no client names or quotes supplied or invented.
 - Starting together: the three owner-supplied steps, with remaining details marked for completion.
@@ -33,6 +37,8 @@ Review checklist:
 - [ ] Review and approve or revise the draft layout with the owner. TODO: Decision required
 - [ ] Supply selected project visuals, testimonials, and final text when available. TODO: Decision required
 - [ ] Confirm the final floating-control side and destination. TODO: Decision required
+
+Projects verification on 2026-10-07: lint, TypeScript and production build pass. Browser checks passed at 320/390/768/1440px for project links/backlinks, independent exclusive disclosures, keyboard Enter, unknown-slug 404 and no overflow/runtime errors. The focused project-page skip-link contrast finding was corrected with `focus:text-dark`; final re-verification passed and the finish reviewer returned **ship** with no visible regressions. Owner visual acceptance and assets/content remain pending.
 
 Hero/header trial verification on 2026-10-06: lint, typecheck and production build pass. Browser checks cover 320/390/768/1024/1440/1920px and 200% text enlargement, exact hero copy, one hero CTA, same-page anchors, RTL/mobile order and all nine section IDs. The menu supports keyboard focus cycling, Escape/close/backdrop dismissal, focus restoration and touch navigation; English stays disabled. No browser runtime errors were observed. Saved desktop/mobile/menu captures and remaining visual acceptance are recorded in [the workbook](homepage-workbook.md#selected-trial--mammoth-murals-layout).
 
@@ -101,7 +107,7 @@ Selected opening sequence: **Hero → three communication themes / advantages �
 
 With the overall sequence confirmed, the owner previously requested a coded wireframe. Its later-section layouts serve as provisional references for [the workbook](homepage-workbook.md). Define each section's information, draft/refine Hebrew content together and compare desktop/mobile layouts; record agreed choices before moving on. The owner subsequently authorized the [Mammoth hero/header trial](14-decisions.md#mammoth-murals-hero-trial) before completing the workbook. Contact/Footer contents and final floating-control details remain open. Deferred FAQ copy remains a later source dependency. Record approved choices in [14-decisions.md](14-decisions.md).
 
-The earlier owner-only text-editing workflow is superseded by collaborative copywriting in [the workbook](homepage-workbook.md#working-process). Keep source facts and agreed wording in [03-content.md](03-content.md#text-editing). Project presentation on Home still requires selecting from the three website projects and recording available source material. Trial navigation is selected; future multi-page navigation remains open in [01-sitemap.md](01-sitemap.md#final-navigation-structure).
+The earlier owner-only text-editing workflow is superseded by collaborative copywriting in [the workbook](homepage-workbook.md#working-process). Keep source facts and agreed wording in [03-content.md](03-content.md#text-editing). The three website projects now populate Home provisionally under the subsequent Projects authorization; final selection/order and available source material still require owner confirmation. Trial navigation is selected; future multi-page navigation remains open in [01-sitemap.md](01-sitemap.md#final-navigation-structure).
 
 ### Required information
 
@@ -122,7 +128,7 @@ See [the decision record](14-decisions.md#floating-only-whatsapp-access) and [th
 
 ### Secondary actions
 
-One inline hero CTA: **לצפיה בפרויקטים** → homepage Projects section (`#projects`). No separate Projects page is created by the trial.
+One inline hero CTA: **לצפיה בפרויקטים** → homepage Projects section (`#projects`). The hero trial did not create a collection page. Subsequent owner requests add **לצפייה בכל הפרויקטים** beside the Projects heading → `/he/projects`, plus a button from each project to `/he/projects/[slug]`, returning to `/he#projects`.
 
 ### Trust / proof elements
 
@@ -161,7 +167,7 @@ This table groups the available inputs by the owner's sections. The complete con
 | --- | --- | --- |
 | Hero | Exact agreed H1/description, Mammoth desktop/mobile trial, future-video placeholder and one **לצפיה בפרויקטים** → `#projects` action; see [the workbook hero](homepage-workbook.md#1-hero). The owner selected no inline WhatsApp CTA. | Visual acceptance of the trial, future video asset/playback and branding remain open. |
 | Three-item section | The owner supplied three themes and an image; see [the content source](03-content.md#supporting-messages). | Section label, supporting information, final wording, and presentation: TODO: Decision required |
-| Projects | Three products are selected for the website; see [the portfolio inventory](04-projects-and-case-studies.md#projects-to-appear-on-the-website). Huncwot's project layout is an owner-provided reference. | Which projects appear on Home, what information to show, their order, and the relationship to project pages: TODO: Decision required |
+| Projects | Three products are selected for the website; see [the portfolio inventory](04-projects-and-case-studies.md#projects-to-appear-on-the-website). The owner subsequently authorized the supplied basement.studio row layout, four details per project and dedicated project-page buttons; implemented locally. | Owner visual acceptance, final Home selection/order, assets, four questions/answers and accurate description/contribution fields: TODO: Decision required |
 | Brief owner introduction | The owner proposed a short introduction. Existing background and working-model facts are in [the brief](00-project-brief.md#studio-positioning). | Which facts to include, the amount of information, and the relationship to About: TODO: Decision required |
 | Testimonials / reviews | Five testimonials are reported as available; see [the evidence inventory](03-content.md#testimonials). The owner is considering also showing reviews on Projects. | Selection, attribution, presentation, and use across pages: TODO: Decision required |
 | How to start working together | Confirmed after client testimonials and before FAQ. The owner supplied an initial call of 5–10 minutes, an in-depth specification discussion, and receipt of a quote; see [the source information](03-content.md#how-it-works--source-information). | Supporting details, internal hierarchy, final wording, and presentation: TODO: Decision required |
@@ -190,6 +196,10 @@ This table groups the available inputs by the owner's sections. The complete con
 - [ ] Approve or revise the draft section layouts and internal hierarchy. TODO: Decision required
 
 ## Projects
+
+### Current implementation
+
+**In progress**, authorized on 2026-10-07. `/he/projects` uses the shared three-project inventory on a static dark surface, with a collection H1, four native details per project (twelve total) and three dedicated-page buttons. Studio/home-return navigation precedes the rows. Desktop/mobile composition matches Home; no additional claims, answers or images are supplied. This collection does not use the Home scroll effect. Final selection/order, content/assets and owner visual acceptance remain pending.
 
 ### Page goal
 
@@ -241,6 +251,10 @@ TODO: Decision required
 
 ## Project / Case Study
 
+### Current implementation
+
+**In progress**, authorized on 2026-10-07 as part of [Projects](homepage-workbook.md#3-projects). Three local routes use the shared dictionary inventory: `/he/projects/practice-ai`, `/he/projects/haaretz`, `/he/projects/chabad-club`. A studio link and return link precede project title/description, large 16:9 media, contribution and four native exclusive details; a further return link follows. Both return links target `/he#projects`. Unknown slugs return 404. The floating WhatsApp control retains its existing configuration. No project visuals were added; missing data remains explicitly marked. This is a local review structure, not final full case-study hierarchy or approved publication copy.
+
 ### Page goal
 
 TODO: Decision required
@@ -255,13 +269,11 @@ TODO: Decision required
 
 ### Possible sections
 
-No sections have been selected. This area is reserved for future planning.
-
-TODO: Decision required
+The authorized local page contains title/description, large media, contribution and four expandable details, plus studio/return navigation. Final case-study sections beyond this local review structure remain open.
 
 ### Hierarchy
 
-TODO: Define hierarchy after UX/UI research.
+Local review hierarchy: studio/return navigation → title and description → large media → contribution and four details → return link. Final full case-study hierarchy: TODO: Decision required.
 
 ### Required information
 

@@ -1,6 +1,6 @@
 # Initial sitemap
 
-This is a conceptual page inventory. The nested entries express collection/detail relationships only; they do not establish final navigation, URLs, menu order, or page-section hierarchy.
+This is a conceptual page inventory. The nested entries express collection/detail relationships; the local Projects routes are recorded below. The inventory does not establish final navigation, URL/SEO policy, menu order, or page-section hierarchy.
 
 ## Hierarchical inventory
 
@@ -21,12 +21,14 @@ The owner requires language switching and subsequently selected one underlined *
 
 For the local hero/header trial, use visible centered navigation on desktop (from 1024px) and hamburger navigation on mobile/tablet. Ordered page links are **פרויקטים** (`#projects`), **קצת עליי** (`#about`), and **יצירת קשר** (`#contact`). Desktop has a CTA and adjacent EN language link on the left, with text logo on the right; the CTA provisionally reuses **לצפיה בפרויקטים** → `#projects` pending the owner's text/destination preference. These are existing homepage anchors, not new pages. See [the header revision](14-decisions.md#desktop-header-navigation-revision) and [language-link choice](14-decisions.md#compact-language-link). Final multi-page navigation beyond this trial: TODO: Decision required
 
+On 2026-10-07 the owner specifically authorized buttons from every Home project to dedicated local project pages: `/he/projects/practice-ai`, `/he/projects/haaretz`, `/he/projects/chabad-club`, with return links to `/he#projects`. The subsequent owner request also implements `/he/projects`, linked by **לצפייה בכל הפרויקטים** beside the Home heading. This extends the earlier no-new-pages trial exception to the collection and project-detail routes. The dark collection repeats all three projects, twelve details and three page buttons, with studio/home-return navigation. The existing three website projects/order are provisional on Home. Pages remain In progress pending owner visual acceptance and final assets/content. See [the decision](14-decisions.md#projects-section-and-dedicated-project-pages).
+
 The local prototype uses `/he` and redirects `/` to it; this technical convention does not establish the final multilingual URL or SEO strategy. See [the architecture record](12-responsive-and-rtl.md#confirmed-bilingual-architecture-requirements).
 
 ## Delivery priorities
 
 - Initial milestone, within the preferred first-week timebox: a developed Home page together with entirely new branding. Start with a black-and-white homepage wireframe before visual identity work. Deployment/public-launch timing: TODO: Decision required
-- Subsequent work: About, Projects, Project / Case Study, the articles and research area, and Diagnostic Questionnaire.
+- Subsequent work: About, final Projects content/case studies, articles and research, and Diagnostic Questionnaire. The owner’s 2026-10-07 request makes a specific local implementation exception for the Home Projects section, collection and three dedicated project-detail pages; their visual acceptance and content remain open.
 - The project owner referred to the content area as articles and research. Its final navigation label: TODO: Decision required
 - The existing planned Research / Article detail page remains in the inventory. This priority update does not establish an implementation order among the subsequent pages.
 - Diagnostic Questionnaire scope: visual redesign of the existing feature only.
@@ -119,7 +121,7 @@ TODO: Decision required
 
 ### Relationship to other pages
 
-TODO: Decision required
+Home project buttons open the three dedicated local routes, and each detail page links back to `/he#projects` and `/he`. The collection at `/he/projects` repeats the three project rows and links to their dedicated routes; its header links to Home and `/he#projects`. Final navigation and URL/SEO policy remain open.
 
 ### Open questions
 

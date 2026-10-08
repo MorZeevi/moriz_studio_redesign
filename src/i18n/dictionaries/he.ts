@@ -1,3 +1,5 @@
+import type { Project } from "@/content/projects";
+
 // Owner-supplied wording and explicitly marked wireframe placeholders only.
 // Final website content remains planned separately in docs/03-content.md.
 export const he = {
@@ -8,7 +10,8 @@ export const he = {
   studioName: "Moriz Studio",
   fontPreview: {
     title: "השוואת פונטים",
-    introduction: "חמישה פונטים עם טקסט ההירו. אפשר לערוך את הכותרת ולשנות את הגודל כדי להשוות.",
+    introduction:
+      "חמישה פונטים עם טקסט ההירו. אפשר לערוך את הכותרת ולשנות את הגודל כדי להשוות.",
     back: "חזרה לעמוד הבית",
     textLabel: "טקסט לבדיקה",
     sizeLabel: "גודל הכותרת",
@@ -26,8 +29,16 @@ export const he = {
       { label: "יצירת קשר", href: "#contact" },
     ],
     languages: {
-      he: { label: "עברית", shortLabel: "HE", unavailableLabel: "עברית — בהמשך" },
-      en: { label: "אנגלית", shortLabel: "EN", unavailableLabel: "אנגלית — בהמשך" },
+      he: {
+        label: "עברית",
+        shortLabel: "HE",
+        unavailableLabel: "עברית — בהמשך",
+      },
+      en: {
+        label: "אנגלית",
+        shortLabel: "EN",
+        unavailableLabel: "אנגלית — בהמשך",
+      },
     },
   },
   hero: {
@@ -56,7 +67,8 @@ export const he = {
     ],
     supportingInformation: "מידע תומך — להשלמה",
     research: {
-      description: "כל כפתור, כל אנימציה וכל בחירה היא מושכלת. אני מתעדכנת כל הזמן במחקרים ומתודולוגיות חדשות.",
+      description:
+        "כל כפתור, כל אנימציה וכל בחירה היא מושכלת. אני מתעדכנת כל הזמן במחקרים ומתודולוגיות חדשות.",
       termsLabel: "מונחים מעולם המחקר ועיצוב חוויית המשתמש",
       terms: [
         "מחקר משתמשים",
@@ -72,10 +84,57 @@ export const he = {
   },
   projects: {
     heading: "פרויקטים",
-    projectName: "שם הפרויקט — לבחירה",
-    description: "תיאור ותפקיד — להשלמה",
-    linkPlaceholder: "קישור לפרויקט — להחלטה",
+    allHeading: "כל הפרויקטים",
+    allLink: "לצפייה בכל הפרויקטים",
+    homeLink: "חזרה לעמוד הבית",
     visualLabel: "מסכים / ויזואל — להוספה",
+    descriptionPlaceholder: "תיאור הפרויקט — להשלמה",
+    contributionPlaceholder: "התפקיד שלי בפרויקט — להשלמה",
+    answerPlaceholder: "תשובה — להשלמה",
+    detailsHeading: "על הפרויקט",
+    projectLink: "לפרויקט המלא",
+    backLink: "חזרה לפרויקטים",
+    items: [
+      {
+        slug: "practice-ai",
+        title: "practice ai learning system",
+        description: "מערכת למידה עבור practice ai.",
+        contribution: null,
+        image: null,
+        details: [
+          { id: "question-1", question: "שאלה 1 — להשלמה", answer: null },
+          { id: "question-2", question: "שאלה 2 — להשלמה", answer: null },
+          { id: "question-3", question: "שאלה 3 — להשלמה", answer: null },
+          { id: "question-4", question: "שאלה 4 — להשלמה", answer: null },
+        ],
+      },
+      {
+        slug: "haaretz",
+        title: "הארץ — וורדעל",
+        description: "פרויקט עבור עיתון הארץ.",
+        contribution: null,
+        image: null,
+        details: [
+          { id: "question-1", question: "שאלה 1 — להשלמה", answer: null },
+          { id: "question-2", question: "שאלה 2 — להשלמה", answer: null },
+          { id: "question-3", question: "שאלה 3 — להשלמה", answer: null },
+          { id: "question-4", question: "שאלה 4 — להשלמה", answer: null },
+        ],
+      },
+      {
+        slug: "chabad-club",
+        title: "חב״ד קלאב",
+        description: null,
+        contribution: null,
+        image: null,
+        details: [
+          { id: "question-1", question: "שאלה 1 — להשלמה", answer: null },
+          { id: "question-2", question: "שאלה 2 — להשלמה", answer: null },
+          { id: "question-3", question: "שאלה 3 — להשלמה", answer: null },
+          { id: "question-4", question: "שאלה 4 — להשלמה", answer: null },
+        ],
+      },
+    ] satisfies Project[],
   },
   about: {
     heading: "קצת עליי",

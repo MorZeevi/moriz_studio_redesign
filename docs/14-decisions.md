@@ -1114,6 +1114,59 @@ Date: 2026-10-07. The owner requested an external toggle because closing Develop
 
 Verification: all 16 inspector browser tests pass, including keyboard activation of the external toggle, closed-panel selection and touch scrolling, collapse/reopen preservation, modal menus, RTL/LTR, narrow layouts and 200% text enlargement. Lint, TypeScript, production build and the production-exclusion browser test pass. The revised eight pill labels were checked visually at 390/1440px and settle successfully.
 
+### Projects section and dedicated project pages
+
+Date: 2026-10-07.
+
+The owner requested implementing Projects according to the supplied basement.studio image, adding a button for every project to its own page, and four expandable question/answer details per project. The owner will supply project data later. This specifically authorizes the local project-detail routes `/he/projects/practice-ai`, `/he/projects/haaretz` and `/he/projects/chabad-club`, superseding the earlier hero/wireframe no-new-pages restriction only for this addition. At this initial step no standalone Projects collection page, unrelated pages, API or publication was included; the collection restriction is superseded by the subsequent refinement below.
+
+Preserve the established palette, Danidin/Leon, RTL foundations, homepage sequence and other sections. Desktop rows have name right, information/details middle and large media left; mobile stacks name, image, information, four details and button. Dedicated pages share content and four details, with return links to `/he#projects`. Native exclusive disclosure groups are independent for each project.
+
+The existing selected website inventory is used provisionally in its recorded order, not as final owner-approved Home selection/order. Questions are explicit completion labels with null answers; unsupported description/contribution/image fields stay null. No roles, results, metrics or project images are invented. Owner assets later go in `public/projects/`, referenced from `projects.items` in `src/i18n/dictionaries/he.ts`.
+
+Evidence: direct owner implementation request and supplied basement.studio image; [Projects research](research/mobbin-projects-2026-10-07.md), [surface brief](projects-surface-brief.md), [workbook](homepage-workbook.md#3-projects), and [existing inventory](04-projects-and-case-studies.md). Mobile composition is Moriz’s responsive adaptation; native mobile app research does not establish a basement.studio mobile website pattern.
+
+Status: section/pages implemented locally, **In progress**, awaiting owner visual acceptance, assets and final four questions/answers/content per project. Lint/typecheck/build and browser behavior checks pass; the finish-review skip-link contrast finding was corrected with `focus:text-dark`, final re-verification passed, and the finish reviewer returned **ship** with no visible regressions. Technical verification does not approve final copy, Home selection/order or production publication.
+
+### Projects label, collection and section-only scroll fade
+
+Date: 2026-10-07.
+
+The owner corrected **וורגעל** to **לוורדעל**; the shared current title renders **הארץ — לוורדעל**. The earlier inventory label above remains historical. Final title copy, Home selection/order, assets and questions/answers still await owner review.
+
+The owner requested **לצפייה בכל הפרויקטים** beside the Home Projects heading opening a new `/he/projects` collection. This supersedes the initial no-collection constraint and extends the specific route authorization. The static dark collection reuses the same three projects, twelve native details and three dedicated-page buttons, with studio/home-return navigation. The hero CTA and header anchors retain their existing destinations.
+
+For the scroll effect the owner expressly chose **Projects section only**. Native IntersectionObserver uses height-based negative pixel margins of 25% above/below, detecting the central 50% of the viewport on wide and mobile screens. Projects fades its background/text to dark on intersection and back to light on exit in either direction; the body and other sections stay light. Existing 600ms `--ease-enter` motion is reused, reduced motion gives 0ms, and absent JavaScript/observer leaves static dark. Resize rebuilds the observer; unmount disconnects it and removes the listener. No new global design rules are introduced.
+
+Evidence: direct owner correction, collection request and explicit section-only answer; implemented `src/components/project-scroll-surface.tsx`, shared Projects rows/CSS/dictionary and `src/app/[locale]/projects/page.tsx`. The existing palette, Danidin/Leon, layout tokens, disclosure semantics and placeholder policy are retained. No new images or answers are supplied.
+
+Previous refinement verification, 2026-10-07 (superseded motion/fallback): lint, typecheck and production build pass. Browser checks at 320/390/1440/2048px confirm the corrected label, collection link/header, twelve details and three project buttons, section entry/exit fades in both directions with a light page body, 0ms reduced-motion transitions, static dark no-JavaScript fallback with working links, no overflow and no runtime errors. The compatibility detector returned `[]`. Fresh finish review returned **ship**, with no material fixes; these checks do not establish owner acceptance.
+
+Status: **In progress**, implemented locally; fresh finish review returned **ship** and owner visual acceptance remains pending. Assets and final questions/content are still required. No API changes or production publication are included.
+
+
+### Projects seamless joins and revised label
+
+**Date:** 2026-10-07
+
+The owner corrected **לוורדעל** to **וורדעל**; the current shared title is **הארץ — וורדעל** on Home, the collection and its dedicated page. Earlier spellings and corrections above remain historical. Final title copy, Home selection/order, assets and four questions/answers per project remain pending.
+
+The owner reported that the earlier fade showed a stripe at the section start and requested a seamless, unnoticeable join. The prior explicit **Projects section only** scope continues to apply. The implemented revision keeps either visible boundary light, with no decorative gradient or blur band: an isolated solid charcoal layer is revealed only while the viewport is fully inside Projects. Its opacity follows smoothstep of the nearest edge distance over 35% of viewport height. Intermediate foregrounds adapt between black and white for readability, returning to existing brand foregrounds at the endpoints. Only the following section’s top separator at this join is removed; the global body remains light. Static collection and dedicated pages remain dark.
+
+`src/components/project-scroll-surface.tsx` uses passive scroll events with one queued animation frame, resize/ResizeObserver updates and reduced-motion media-query changes, with full cleanup. Reduced motion switches immediately between 0/1. SSR and missing JavaScript render a light section. This supersedes the earlier IntersectionObserver, time fade and static-dark fallback; inherited palette, Danidin/Leon, tokens, links and four details per project remain unchanged. No new design-system rule, assets, answers or publication is implied.
+
+Latest seamless-join revision verification, 2026-10-07: lint, typecheck and production build pass. Targeted browser checks at 1440/390px covered 21 paused scroll positions per width: opacity is monotonic on entry/exit, either visible boundary keeps opacity at zero, and primary/secondary/placeholder contrast stays at least 4.5:1. The body stays light; links, twelve collection details and four details per dedicated page remain; **הארץ — וורדעל** appears on all three surfaces. Reduced motion switches immediately between 0/1, and the light no-JavaScript fallback retains working links. No overflow or runtime errors were observed. The compatibility detector previously returned `[]`. Fresh finish review returned **ship**, with no scoped rendering/source findings; owner visual acceptance remains pending and no publication is authorized.
+
+### Projects fade timing refinement
+
+Timing refinement, 2026-10-08: the owner reported that darkness arrived too late and left too soon. The fade span is now 12% of viewport height instead of 35%, so full charcoal is reached 23% of a viewport earlier on entry and held 23% longer on exit. The visible-boundary rule, smoothstep, section-only scope and accessible fallbacks remain. Lint/typecheck and desktop/mobile browser checks at 1440/390px pass, including 21 opacity/contrast samples per width, entry/exit timing, seamless joins, routes/details, reduced motion and no-JavaScript behavior.
+
+Rejected smoothed fade trial, 2026-10-08: the owner said the shortened fade still arrived late and was not smooth enough. The offscreen-edge guard is now replaced: fade starts with the Projects top at 80% of viewport height and is fully dark at 20%, while the heading remains visible. It holds until the bottom reaches 20%, then fades out by -40%. Smoothstep targets use 90ms time-based damping, with a frame loop that stops at rest. The background mask blends only the existing section padding at each end; content stays on the uniform surface and the body stays light. Lint, typecheck and production build pass. Desktop/mobile Chrome checks at 1440/390px verify 21 paused contrast/opacity samples each (at least 4.5:1), multi-frame damping, reversal during entry, entry/exit positions, masked joins, links/details, light no-JavaScript rendering, immediate reduced-motion states, and no overflow/runtime errors. Captures and frame evidence are local review artifacts. Owner visual acceptance remains pending.
+
+Rollback, 2026-10-08: the owner rejected this trial’s appearance and requested undo. Restored the immediately preceding 12%-of-viewport reveal, including its visible-boundary guard, without the mask or temporal damping. Project content, layout and navigation are retained.
+
+Timing-only adjustment after rollback, 2026-10-08: at the owner’s request, shifted entry 40% of viewport height earlier and exit 40% later, retaining the previous 12%-of-viewport smoothstep fade and flat background layer. No gradient mask or temporal damping was reintroduced. The old offscreen-boundary guard no longer defines entry/exit. Lint/typecheck and desktop/mobile browser checks at 1440/390px pass, including both shifted trigger locations, 21 contrast/opacity samples per width, preserved links/details, reduced motion, no-JavaScript rendering, and no overflow/runtime errors. Owner visual acceptance remains pending.
+
 ## Reusable decision template
 
 

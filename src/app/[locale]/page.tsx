@@ -3,6 +3,7 @@ import { Navigation } from "@/components/navigation";
 import { LanguageLink } from "@/components/language-link";
 import { LogoCarousel } from "@/components/logo-carousel";
 import { HeroDescription } from "@/components/hero-description";
+import { ProjectsSection } from "@/components/projects-section";
 import FallingText from "@/components/react-bits/FallingText";
 import {
   FloatingWhatsApp,
@@ -12,10 +13,6 @@ import {
 } from "@/components/wireframe";
 import { isEnabledLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-
-// Unassigned review slots. Website project selection is recorded in docs/04;
-// neither the Home selection nor its project order has been decided.
-const projectSlots = [1, 2, 3];
 
 export default async function Home({
   params,
@@ -99,37 +96,7 @@ export default async function Home({
           </div>
         </Section>
 
-        <Section id="projects" title={content.projects.heading}>
-          <div className="space-y-12 md:space-y-16">
-            {projectSlots.map((slot) => (
-              <article
-                key={slot}
-                className="grid items-center gap-7 md:grid-cols-[1fr_1.7fr] md:gap-14"
-                aria-labelledby={`project-slot-${slot}`}
-              >
-                <div className="min-w-0">
-                  <h3
-                    id={`project-slot-${slot}`}
-                    className="text-2xl font-medium"
-                  >
-                    {content.projects.projectName}
-                  </h3>
-                  <p className="mt-5 text-sm text-muted">
-                    {content.projects.description}
-                  </p>
-                  <TextLines className="mt-4" />
-                  <p className="mt-7 text-sm text-muted">
-                    {content.projects.linkPlaceholder}
-                  </p>
-                </div>
-                <MediaPlaceholder
-                  label={content.projects.visualLabel}
-                  className="aspect-[16/10]"
-                />
-              </article>
-            ))}
-          </div>
-        </Section>
+        <ProjectsSection locale={locale} content={content.projects} />
 
         <Section id="about" title={content.about.heading}>
           <div className="grid items-center gap-8 md:grid-cols-[1.2fr_1fr] md:gap-24">
