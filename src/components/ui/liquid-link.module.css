@@ -1,0 +1,124 @@
+@property --lb-gap {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 2px;
+}
+
+.filter {
+  position: absolute;
+  pointer-events: none;
+}
+
+.link {
+  --lb-gap: 2px;
+  --lb-height: var(--control-height-sm);
+  --lb-ease: cubic-bezier(0.3, 1.45, 0.55, 1);
+  display: inline-flex;
+  align-items: stretch;
+  gap: var(--lb-gap);
+  min-block-size: var(--lb-height);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-inverse);
+  font: var(--font-weight-body) var(--text-body-sm) / 1.4 var(--font-body);
+  text-decoration: none;
+  filter: var(--lb-filter);
+  transition: --lb-gap 0.55s var(--lb-ease);
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.icon,
+.label,
+.bridge {
+  background: var(--color-action-primary);
+  pointer-events: none;
+}
+
+.icon {
+  position: relative;
+  flex: 0 0 var(--lb-height);
+  display: grid;
+  place-items: center;
+  border-radius: 0.72em;
+}
+
+.label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-inline-size: 0;
+  padding: 0.6em 1.15em;
+  border-radius: 0.72em;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.bridge {
+  position: absolute;
+  inset-inline-start: calc(100% - 8px);
+  top: 50%;
+  inline-size: calc(var(--lb-gap) + 16px);
+  block-size: clamp(0.6em, calc(1.55em - var(--lb-gap) * 0.28), 1.55em);
+  translate: 0 -50%;
+}
+
+.glyph {
+  position: relative;
+  z-index: 1;
+  inline-size: 1.15em;
+  block-size: 1.15em;
+  transition: translate 0.45s var(--lb-ease);
+}
+
+[dir="rtl"] .link .glyph {
+  scale: -1 1;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link:hover {
+    --lb-gap: 1.35em;
+  }
+  .link:hover .glyph {
+    translate: 0.14em 0;
+  }
+  [dir="rtl"] .link:hover .glyph {
+    translate: -0.14em 0;
+  }
+}
+
+.link:focus-visible {
+  --lb-gap: 1.35em;
+  outline: none;
+  box-shadow: none;
+}
+.link:focus-visible .label {
+  text-decoration: underline 2px;
+  text-underline-offset: 0.2em;
+}
+.link:is(:active, [data-liquid-pressed]) {
+  --lb-gap: 2px;
+  transition-duration: 0.18s;
+}
+.link:is(:active, [data-liquid-pressed]) .icon,
+.link:is(:active, [data-liquid-pressed]) .label,
+.link:is(:active, [data-liquid-pressed]) .bridge {
+  background-color: var(--color-action-primary-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link,
+  .link:hover,
+  .link:focus-visible,
+  .link:is(:active, [data-liquid-pressed]) {
+    --lb-gap: 2px;
+    transition: none;
+  }
+  .link .glyph,
+  .link:hover .glyph,
+  [dir="rtl"] .link:hover .glyph {
+    transition: none;
+    translate: none;
+  }
+}

@@ -42,7 +42,7 @@ export default async function RootLayout({
       dir={localeConfig[locale].direction}
       className={`${danidin.variable} ${leon.variable}`}
     >
-      <body>
+      <body id="top">
         {children}
         {developerTools}
       </body>

@@ -8,7 +8,9 @@ import partyStyles from "@/components/party-mode/party-mode.module.css";
 import { PartyModeProvider } from "@/components/party-mode/party-mode-provider";
 import { PartyModeToggle } from "@/components/party-mode/party-mode-toggle";
 import { ProjectsSection } from "@/components/projects-section";
+import { StudioLogo } from "@/components/studio-logo";
 import FallingText from "@/components/react-bits/FallingText";
+import { LiquidLink } from "@/components/ui/liquid-link";
 import {
   FloatingWhatsApp,
   MediaPlaceholder,
@@ -41,17 +43,20 @@ export default async function Home({
         {content.skipToContent}
       </a>
 
-      <header className="hero-shell site-header">
-        <bdi className="studio-wordmark">{content.studioName}</bdi>
-        <Navigation locale={locale} content={content.navigation} />
-        <div className="header-actions">
-          <LanguageLink
+      <header className="site-header">
+        <div className="hero-shell site-header-inner">
+          <StudioLogo
+            name={content.studioName}
             locale={locale}
-            content={content.navigation.languages}
+            className="studio-wordmark"
           />
-          <a className="header-cta" href={content.navigation.cta.href}>
-            {content.navigation.cta.label}
-          </a>
+          <Navigation locale={locale} content={content.navigation} />
+          <div className="header-actions">
+            <LanguageLink
+              locale={locale}
+              content={content.navigation.languages}
+            />
+          </div>
         </div>
       </header>
 
@@ -76,13 +81,13 @@ export default async function Home({
               className="hero-description"
               content={content.hero.description}
             />
-            <a
+            <LiquidLink
               className="hero-projects-link"
               href="#projects"
               data-party-react="cta"
             >
               {content.hero.projectsLink}
-            </a>
+            </LiquidLink>
           </div>
         </section>
 
@@ -224,7 +229,7 @@ export default async function Home({
         className="border-t border-line pt-8 pb-28"
       >
         <div className="page-shell flex flex-wrap items-center justify-between gap-6 text-sm">
-          <bdi className="font-semibold">{content.studioName}</bdi>
+          <StudioLogo name={content.studioName} locale={locale} />
           <span className="text-muted">{content.footer.information}</span>
         </div>
       </footer>

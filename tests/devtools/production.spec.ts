@@ -13,7 +13,7 @@ test("production includes no inspector markup, source annotations or inspector c
     page.getByRole("button", { name: "Developer tools", exact: true }),
   ).toHaveCount(0);
   await expect(page.locator("[data-inspector-file]")).toHaveCount(0);
-  await page.locator(".header-cta").click();
+  await page.locator(".hero-projects-link").click();
   await expect(page).toHaveURL(/#projects$/);
   await page.goto("/he/fonts");
   await expect(page.locator("[data-devtools-owned]")).toHaveCount(0);

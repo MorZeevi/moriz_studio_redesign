@@ -1,5 +1,5 @@
 /* Existing page compositions: retained for review, not new design-system patterns. */
-.site-header {
+.site-header-inner {
   display: flex;
   min-block-size: var(--space-24);
   align-items: center;
@@ -64,30 +64,6 @@
   margin-block-start: auto;
 }
 
-.desktop-navigation-links {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--space-2) var(--space-6);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.desktop-navigation-links a {
-  display: inline-flex;
-  min-block-size: var(--space-12);
-  align-items: center;
-  padding-block: var(--space-2);
-  text-decoration: none;
-  overflow-wrap: anywhere;
-}
-
-.desktop-navigation-links a:hover {
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-}
-
 .hero {
   display: grid;
   grid-template-areas: "heading" "video" "copy";
@@ -137,25 +113,12 @@
 }
 
 .hero-projects-link {
-  display: inline-flex;
   /* Reserve the provisional floating WhatsApp control's inline-end space. */
-  max-inline-size: calc(100% - calc(var(--control-height-lg) + var(--space-4)));
-  min-block-size: var(--space-12);
-  align-items: center;
-  justify-content: center;
+  max-inline-size: calc(
+    100% -
+    min(var(--control-height-lg) + var(--space-4), 25%)
+  );
   margin-block-start: var(--space-6);
-  padding: var(--space-3) clamp(var(--space-3), 3vw, var(--space-6));
-  background: var(--color-dark);
-  color: var(--color-background);
-  font-size: var(--text-body);
-  line-height: 1.5;
-  text-align: center;
-  overflow-wrap: anywhere;
-  text-decoration: none;
-}
-
-.hero-projects-link:hover {
-  background: var(--color-surface-strong);
 }
 
 html:has(.navigation-dialog[open]) {
@@ -218,55 +181,48 @@ html:has(.navigation-dialog[open]) {
 }
 
 @media (min-width: 64rem) {
+  html:has(.site-header) {
+    scroll-padding-block-start: calc(
+      var(--site-header-height, 6rem) +
+      var(--space-4)
+    );
+  }
+
   .site-header {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 20;
+    background: var(--color-light);
+  }
+
+  .site-header-inner {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  }
+
+  .site-header .studio-wordmark {
+    flex: none;
+    white-space: nowrap;
   }
 
   .desktop-navigation {
     display: flex;
     min-inline-size: 0;
-    flex-wrap: wrap;
+    flex: 1;
     align-items: center;
     justify-content: center;
-    gap: var(--space-2) var(--space-6);
   }
 
   .header-actions {
     display: flex;
-    min-inline-size: 0;
-    max-inline-size: 100%;
-    flex-wrap: wrap;
+    flex: none;
     align-items: center;
     justify-content: end;
     justify-self: end;
-    gap: var(--space-2) var(--space-6);
   }
 
   .mobile-menu-toggle {
     display: none;
-  }
-
-  .header-cta {
-    display: inline-flex;
-    min-inline-size: 0;
-    min-block-size: var(--space-12);
-    max-inline-size: 100%;
-    align-items: center;
-    justify-content: center;
-    justify-self: end;
-    padding: var(--space-3) var(--space-6);
-    background: var(--color-dark);
-    color: var(--color-background);
-    font-size: var(--text-body);
-    line-height: 1.5;
-    text-align: center;
-    text-decoration: none;
-    overflow-wrap: anywhere;
-  }
-
-  .header-cta:hover {
-    background: var(--color-surface-strong);
   }
 
   .hero {
@@ -449,4 +405,47 @@ html:has(.navigation-dialog[open]) {
 
 .floating-whatsapp:hover:not(:disabled) {
   background: var(--color-surface-strong);
+}
+
+/* Homepage-only canvas transition, owned and cleaned up by Projects. */
+body[data-project-backdrop] {
+  --color-background: var(--home-project-surface, var(--color-light));
+  --color-text-primary: var(--home-project-foreground, var(--color-dark));
+  --color-text-secondary: var(--home-project-secondary, var(--color-dark));
+  --color-border: color-mix(
+    in srgb,
+    var(--color-text-primary) 27%,
+    var(--color-background)
+  );
+  --color-focus: var(--color-text-primary);
+  background: var(--color-background);
+  color: var(--color-text-primary);
+}
+
+body[data-project-backdrop] .site-header {
+  background: var(--color-background);
+}
+
+body[data-project-backdrop] .header-actions .language-link,
+body[data-project-backdrop] .mobile-menu-toggle {
+  color: var(--color-text-primary);
+  border-color: currentColor;
+}
+
+/* These controls/media keep their own light ground. */
+body[data-project-backdrop]
+:is(
+  .navigation-dialog,
+  .media-placeholder,
+  .logo-placeholder,
+  .logo-carousel-pause
+) {
+  --color-background: var(--color-light);
+  --color-text-secondary: color-mix(
+    in srgb,
+    var(--color-dark) 70%,
+    transparent
+  );
+  --color-border: color-mix(in srgb, var(--color-dark) 25%, var(--color-light));
+  --color-focus: var(--color-dark);
 }

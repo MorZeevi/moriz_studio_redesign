@@ -4,6 +4,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import type { EnabledLocale } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
 import { LanguageLink } from "@/components/language-link";
+import { LiquidNavigation } from "@/components/liquid-navigation";
 
 export function Navigation({
   locale,
@@ -51,13 +52,7 @@ export function Navigation({
         className="desktop-navigation"
         aria-label={content.label}
       >
-        <ul className="desktop-navigation-links">
-          {content.links.map((link) => (
-            <li key={link.href}>
-              <a href={link.href}>{link.label}</a>
-            </li>
-          ))}
-        </ul>
+        <LiquidNavigation links={content.desktopLinks} />
       </nav>
 
       <button

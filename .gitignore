@@ -6,6 +6,7 @@ out/
 coverage/
 test-results/
 playwright-report/
+.impeccable/review/
 exports/
 *.tsbuildinfo
 next-env.d.ts

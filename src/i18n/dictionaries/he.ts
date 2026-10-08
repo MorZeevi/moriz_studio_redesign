@@ -22,7 +22,13 @@ export const he = {
     label: "ניווט ראשי",
     openLabel: "פתיחת תפריט",
     closeLabel: "סגירת תפריט",
-    cta: { label: "לצפיה בפרויקטים", href: "#projects" },
+    desktopLinks: [
+      { label: "קצת עלי", href: "#about" },
+      { label: "פרויקטים", href: "#projects" },
+      { label: "איך מתחילים", href: "#getting-started" },
+      { label: "שאלות תשובות", href: "#faq" },
+      { label: "בואו נדבר", href: "#contact" },
+    ],
     links: [
       { label: "פרויקטים", href: "#projects" },
       { label: "קצת עליי", href: "#about" },

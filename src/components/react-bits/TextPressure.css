@@ -1,0 +1,51 @@
+@font-face {
+  font-family: "Roboto Flex Pressure";
+  src: url("/fonts/roboto-flex-moriz.woff2") format("woff2");
+  font-weight: 100 1000;
+  font-stretch: 25% 151%;
+  font-style: normal;
+  font-display: swap;
+}
+
+.text-pressure {
+  position: relative;
+  display: inline-grid;
+  font-family: "Roboto Flex Pressure", var(--font-body);
+  font-kerning: none;
+  font-variant-ligatures: none;
+  line-height: 1.2;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.text-pressure-measure,
+.text-pressure-visual {
+  grid-area: 1 / 1;
+}
+
+.text-pressure-measure {
+  visibility: hidden;
+  font-variation-settings:
+    "wght" 900,
+    "wdth" 151,
+    "opsz" 24;
+}
+
+.text-pressure-visual {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+}
+
+.text-pressure-visual > span {
+  display: inline-block;
+}
+
+.text-pressure-readable {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

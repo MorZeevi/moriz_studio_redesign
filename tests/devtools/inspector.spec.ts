@@ -29,14 +29,18 @@ test("double-click copies ID first, otherwise classes, without website activatio
   expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
     "#hero-heading",
   );
-  await page.locator(".header-cta").dblclick();
+  await page.getByRole("button", { name: "Move panel left" }).click();
+  await page.locator(".hero-projects-link").dblclick();
   await expect(
-    page.getByRole("status").filter({ hasText: "Copied: .header-cta" }),
+    page.getByRole("status").filter({ hasText: "Copied: .hero-projects-link" }),
   ).toBeVisible();
-  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-    ".header-cta",
+  const linkSelector = await page.evaluate(() =>
+    navigator.clipboard.readText(),
   );
+  expect(linkSelector).toContain(".hero-projects-link");
+  await expect(page.locator(linkSelector)).toHaveAttribute("href", "#projects");
   await expect(page).not.toHaveURL(/#projects$/);
+  await page.getByRole("button", { name: "Move panel right" }).click();
   const disabled = await page.locator(".floating-whatsapp").boundingBox();
   if (!disabled) throw new Error("Missing disabled control");
   await page.mouse.click(disabled.x + disabled.width / 2, disabled.y + 8);
@@ -139,7 +143,7 @@ test("OFF is inert; hover and lock show exact source without shifting layout", a
     page.getByRole("button", { name: "Inspector: OFF" }),
   ).toBeVisible();
   await expect(page.locator("[data-inspector-overlay]")).toHaveCount(0);
-  await page.locator(".header-cta").click();
+  await page.locator(".hero-projects-link").click();
   await expect(page).toHaveURL(/#projects$/);
 });
 
@@ -147,9 +151,9 @@ test("links, FAQ buttons and keyboard activation are blocked during inspection",
   page,
 }) => {
   await openTools(page);
-  await select(page, ".header-cta");
+  await select(page, ".hero-projects-link");
   await expect(page).not.toHaveURL(/#projects$/);
-  await page.locator(".header-cta").focus();
+  await page.locator(".hero-projects-link").focus();
   await page.keyboard.press("Enter");
   await expect(page).not.toHaveURL(/#projects$/);
   await page.locator(".faq-item summary").first().scrollIntoViewIfNeeded();
@@ -184,12 +188,12 @@ test("external toggle works with the panel closed and never opens it", async ({
   await expect(
     page.getByRole("complementary", { name: "Developer tools" }),
   ).toHaveCount(0);
-  await select(page, ".header-cta");
+  await select(page, ".hero-projects-link");
   await expect(page).not.toHaveURL(/#projects$/);
   await page.getByRole("button", { name: "Inspector: ON" }).click();
   await expect(toggle).toHaveAttribute("aria-pressed", "false");
   await expect(page.locator("[data-inspector-overlay]")).toHaveCount(0);
-  await page.locator(".header-cta").click();
+  await page.locator(".hero-projects-link").click();
   await expect(page).toHaveURL(/#projects$/);
 });
 
@@ -338,7 +342,7 @@ test("prompts preserve Hebrew and accessible names, with clipboard success and f
 }) => {
   await context.grantPermissions(["clipboard-read", "clipboard-write"]);
   await openTools(page);
-  await select(page, ".header-cta");
+  await select(page, ".hero-projects-link");
   await page
     .getByLabel("Ask Codex about this element")
     .fill("Make this button taller.");
@@ -347,7 +351,7 @@ test("prompts preserve Hebrew and accessible names, with clipboard success and f
     page.getByRole("status").filter({ hasText: "Prompt copied." }),
   ).toBeVisible();
   const copied = await page.evaluate(() => navigator.clipboard.readText());
-  expect(copied).toContain("File: src/app/[locale]/page.tsx");
+  expect(copied).toContain("File: src/components/ui/liquid-link.tsx");
   expect(copied).toContain("Accessible name: לצפיה בפרויקטים");
   expect(copied).toContain("Request:\nMake this button taller.");
   await page.evaluate(() => {

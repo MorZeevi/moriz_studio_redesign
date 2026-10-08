@@ -28,9 +28,11 @@ export function ProjectDetail({
       <div className="site-container">
         {!preview && (
           <header className={styles.pageHeader}>
-            <Link href={`/${locale}`} className={styles.wordmark}>
-              <StudioLogo name={content.studioName} />
-            </Link>
+            <StudioLogo
+              name={content.studioName}
+              locale={locale}
+              className={styles.wordmark}
+            />
             <Link href={back} className={styles.backLink}>
               <ProjectArrow back />
               {content.projects.backLink}

@@ -1,0 +1,165 @@
+@property --liquid-gap {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --liquid-glow-mix {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 0%;
+}
+
+.list {
+  --nav-pill: var(--color-surface);
+  --nav-ink: var(--color-dark);
+  --nav-glow: var(--color-primary);
+  --liquid-pad: clamp(1rem, calc(2.8125vw - 0.8rem), 1.45rem);
+  --liquid-gap-rest: 2px;
+  --liquid-gap-open: clamp(1.125rem, calc(3.28125vw - 0.975rem), 1.65rem);
+  --liquid-neck: 1.6em;
+  --liquid-glow-radius: 3.9em;
+  --ease-liquid: cubic-bezier(0.3, 1.45, 0.55, 1);
+  --liquid-glow-mix: 0%;
+
+  display: flex;
+  flex: none;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-body);
+  font-size: clamp(0.875rem, calc(0.78125vw + 0.375rem), 1rem);
+  font-weight: var(--font-weight-body);
+  line-height: 1;
+  filter: var(--liquid-filter);
+  transition: --liquid-glow-mix 0.5s ease;
+}
+
+.item {
+  --liquid-gap: var(--liquid-gap-rest);
+  display: flex;
+  padding-inline-end: var(--liquid-gap);
+  transition: --liquid-gap 0.65s var(--ease-liquid);
+}
+
+.item:last-child {
+  padding-inline-end: 0;
+}
+
+.item:focus-within,
+.item:has(> [aria-current="location"]),
+.item:has(+ .item:focus-within),
+.item:has(+ .item > [aria-current="location"]) {
+  --liquid-gap: var(--liquid-gap-open);
+}
+
+.pill,
+.bridge {
+  background:
+    radial-gradient(
+      circle var(--liquid-glow-radius) at var(--liquid-gx, -999px)
+        var(--liquid-gy, -999px),
+      color-mix(
+          in srgb,
+          var(--nav-glow) calc(var(--liquid-glow-mix) * 0.32),
+          transparent
+        )
+        0%,
+      color-mix(
+          in srgb,
+          var(--nav-glow) calc(var(--liquid-glow-mix) * 0.176),
+          transparent
+        )
+        40%,
+      transparent 100%
+    ),
+    var(--nav-pill);
+}
+
+.pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  block-size: var(--control-height-sm);
+  padding-inline: var(--liquid-pad);
+  border-radius: 0.7em;
+  color: var(--nav-ink);
+  text-decoration: none;
+  white-space: nowrap;
+  letter-spacing: 0;
+}
+
+.label {
+  position: relative;
+  z-index: 1;
+}
+
+.bridge {
+  position: absolute;
+  inset-inline-start: calc(100% - 8px);
+  inset-block-start: 50%;
+  inline-size: calc(var(--liquid-gap) + 16px);
+  block-size: clamp(
+    0.6em,
+    calc(var(--liquid-neck) - var(--liquid-gap) * 0.28),
+    var(--liquid-neck)
+  );
+  translate: 0 -50%;
+  pointer-events: none;
+}
+
+.item:last-child .bridge {
+  display: none;
+}
+
+.pill[aria-current="location"]::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-end: 0.35em;
+  inline-size: 0.3em;
+  block-size: 0.3em;
+  margin-inline-start: -0.15em;
+  border-radius: 50%;
+  background: var(--nav-glow);
+}
+
+/* Keep focus inside the filtered silhouette, where it cannot be clipped. */
+.pill:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.pill:focus-visible .label {
+  text-decoration: underline 2px;
+  text-underline-offset: 0.2em;
+}
+
+.filter {
+  position: absolute;
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .list:hover {
+    --liquid-glow-mix: 100%;
+  }
+
+  .item:hover,
+  .item:has(+ .item:hover) {
+    --liquid-gap: var(--liquid-gap-open);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .list,
+  .item {
+    transition: none;
+  }
+
+  .pill,
+  .bridge {
+    background: var(--nav-pill);
+  }
+}

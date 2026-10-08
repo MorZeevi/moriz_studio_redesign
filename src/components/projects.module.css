@@ -25,18 +25,7 @@
 
 .scrollSurface {
   position: relative;
-  isolation: isolate;
-  background: var(--color-light);
-}
-
-.scrollSurface::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: var(--color-dark);
-  opacity: var(--project-reveal, 0);
+  background: transparent;
 }
 
 .scrollSurface + section {

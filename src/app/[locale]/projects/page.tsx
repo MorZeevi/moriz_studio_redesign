@@ -54,9 +54,11 @@ export default async function ProjectsPage({
       </a>
       <div className="site-container">
         <header className={styles.pageHeader}>
-          <Link href={`/${locale}`} className={styles.wordmark}>
-            <StudioLogo name={content.studioName} />
-          </Link>
+          <StudioLogo
+            name={content.studioName}
+            locale={locale}
+            className={styles.wordmark}
+          />
           <Link href={`/${locale}#projects`} className={styles.backLink}>
             <ProjectArrow back />
             {content.projects.homeLink}
