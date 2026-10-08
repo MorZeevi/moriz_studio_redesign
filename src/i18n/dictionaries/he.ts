@@ -66,6 +66,15 @@ export const he = {
       "פיתוח ללא גבולות",
     ],
     supportingInformation: "מידע תומך — להשלמה",
+    party: {
+      normal: "NORMAL",
+      party: "PARTY",
+      label: "מצב מסיבה",
+      off: "חזרה למצב רגיל",
+      preparing: "מצב מסיבה מופעל",
+      active: "האתר במצב מסיבה",
+      unavailable: "לא ניתן לטעון את מצב המסיבה. אפשר לנסות שוב.",
+    },
     research: {
       description:
         "כל כפתור, כל אנימציה וכל בחירה היא מושכלת. אני מתעדכנת כל הזמן במחקרים ומתודולוגיות חדשות.",

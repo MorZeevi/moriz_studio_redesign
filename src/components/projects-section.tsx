@@ -3,6 +3,8 @@ import Link from "next/link";
 import type { Project } from "@/content/projects";
 import type { EnabledLocale } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
+import { PartyHeadingLight } from "./party-mode/party-heading-light";
+import partyStyles from "./party-mode/party-mode.module.css";
 import { ProjectScrollSurface } from "./project-scroll-surface";
 import styles from "./projects.module.css";
 
@@ -99,17 +101,24 @@ export function ProjectsSection({
   locale,
   content,
   collection = false,
+  partyReaction = false,
 }: {
   locale: EnabledLocale;
   content: ProjectLabels;
   collection?: boolean;
+  partyReaction?: boolean;
 }) {
   const Heading = collection ? "h1" : "h2";
   const contents = (
     <div className="site-container">
       <div className={styles.sectionHeader}>
-        <Heading id="projects-heading" className={styles.heading}>
+        <Heading
+          id="projects-heading"
+          className={`${styles.heading}${partyReaction ? ` ${partyStyles.lightHeading}` : ""}`}
+          data-party-react={partyReaction ? "heading" : undefined}
+        >
           {collection ? content.allHeading : content.heading}
+          {partyReaction && <PartyHeadingLight text={content.heading} />}
         </Heading>
         {!collection && (
           <Link

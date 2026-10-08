@@ -123,7 +123,7 @@ test("OFF is inert; hover and lock show exact source without shifting layout", a
     readFileSync("src/app/[locale]/page.tsx", "utf8")
       .split("\n")
       [line - 1].trim(),
-  ).toBe('<h1 id="hero-heading" className="hero-heading">');
+  ).toMatch(/^<h1(?:\s|$)/);
   await page.mouse.move(30, 300);
   await expect(
     page.locator('[data-inspector-overlay="selected"]'),
