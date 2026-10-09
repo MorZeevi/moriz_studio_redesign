@@ -49,6 +49,8 @@ export const he = {
   },
   hero: {
     heading: "יוצרת פתרונות דיגיטליים מבוססי מחקר",
+    introduction: "נעים להכיר, אני מור",
+    portraitAlt: "מור — בעלת הסטודיו",
     description: {
       emphasis: "מחקר מנצח טיעונים",
       firstLine: ". מתוך התפיסה הזו אני ניגשת לכל פרויקט – מורכב ככל שיהיה.",

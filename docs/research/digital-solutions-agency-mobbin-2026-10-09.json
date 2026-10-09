@@ -1,0 +1,551 @@
+{
+  "date": "2026-10-09",
+  "scope": "Mobbin section research for Moriz Studio, a web/app design and development studio",
+  "method": "Twelve focused searches; returned images visually inspected before selection. No live-site interaction or performance testing.",
+  "searches": [
+    {
+      "query": "Digital agency hero section with a headline explaining design and development services and featured client work",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "0b70740a-eb7a-415b-b48d-09d66ce3ec38",
+          "image_url": "https://mobbin.com/api/mcp/short/uKX5AXNv",
+          "mobbin_url": "https://mobbin.com/sites/sections/0b70740a-eb7a-415b-b48d-09d66ce3ec38",
+          "site_name": "OFF+BRAND"
+        },
+        {
+          "id": "caa1a6b1-4b01-4b6a-8d30-df5454015bbf",
+          "image_url": "https://mobbin.com/api/mcp/short/SVzYQ67L",
+          "mobbin_url": "https://mobbin.com/sites/sections/caa1a6b1-4b01-4b6a-8d30-df5454015bbf",
+          "site_name": "basement.studio"
+        },
+        {
+          "id": "13e9b9a2-6d65-4d48-a556-3cf8210fca33",
+          "image_url": "https://mobbin.com/api/mcp/short/rmSfLoha",
+          "mobbin_url": "https://mobbin.com/sites/sections/13e9b9a2-6d65-4d48-a556-3cf8210fca33",
+          "site_name": "Phantom Studios"
+        },
+        {
+          "id": "2ce48fe2-bea1-438e-a2aa-0b1af12f7996",
+          "image_url": "https://mobbin.com/api/mcp/short/7IYrUyaX",
+          "mobbin_url": "https://mobbin.com/sites/sections/2ce48fe2-bea1-438e-a2aa-0b1af12f7996",
+          "site_name": "Koto"
+        },
+        {
+          "id": "3c27d7b2-ad8b-4944-bd38-0ac547363073",
+          "image_url": "https://mobbin.com/api/mcp/short/l45B6Bw6",
+          "mobbin_url": "https://mobbin.com/sites/sections/3c27d7b2-ad8b-4944-bd38-0ac547363073",
+          "site_name": "Instrument"
+        }
+      ]
+    },
+    {
+      "query": "Agency services section showing website design, software development and digital product capabilities",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "9bd5d780-e303-4640-b68f-d0a9f9dc2862",
+          "image_url": "https://mobbin.com/api/mcp/short/u0RLh37B",
+          "mobbin_url": "https://mobbin.com/sites/sections/9bd5d780-e303-4640-b68f-d0a9f9dc2862",
+          "site_name": "Aino Agency"
+        },
+        {
+          "id": "caa1a6b1-4b01-4b6a-8d30-df5454015bbf",
+          "image_url": "https://mobbin.com/api/mcp/short/mAxArDfP",
+          "mobbin_url": "https://mobbin.com/sites/sections/caa1a6b1-4b01-4b6a-8d30-df5454015bbf",
+          "site_name": "basement.studio"
+        },
+        {
+          "id": "2e849094-8800-4bbb-95c8-6bc09f2f6a8f",
+          "image_url": "https://mobbin.com/api/mcp/short/Dg1uVhNe",
+          "mobbin_url": "https://mobbin.com/sites/sections/2e849094-8800-4bbb-95c8-6bc09f2f6a8f",
+          "site_name": "Miro"
+        },
+        {
+          "id": "0789240f-37f9-4452-b1f9-2e29b8a7ff6e",
+          "image_url": "https://mobbin.com/api/mcp/short/yk2D5j1D",
+          "mobbin_url": "https://mobbin.com/sites/sections/0789240f-37f9-4452-b1f9-2e29b8a7ff6e",
+          "site_name": "Locomotive"
+        },
+        {
+          "id": "83653e9e-1c8a-4dbb-b9e2-103d731e662f",
+          "image_url": "https://mobbin.com/api/mcp/short/aeuOP397",
+          "mobbin_url": "https://mobbin.com/sites/sections/83653e9e-1c8a-4dbb-b9e2-103d731e662f",
+          "site_name": "Mother Design"
+        }
+      ]
+    },
+    {
+      "query": "Design agency portfolio section showing selected client projects with large images and project descriptions",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "2c741505-173b-4cfa-a885-ca4429184887",
+          "image_url": "https://mobbin.com/api/mcp/short/W1r090W2",
+          "mobbin_url": "https://mobbin.com/sites/sections/2c741505-173b-4cfa-a885-ca4429184887",
+          "site_name": "Büro"
+        },
+        {
+          "id": "de775a01-d612-4b85-9278-13f3a91312f9",
+          "image_url": "https://mobbin.com/api/mcp/short/ihZ6MmVQ",
+          "mobbin_url": "https://mobbin.com/sites/sections/de775a01-d612-4b85-9278-13f3a91312f9",
+          "site_name": "Trawelt"
+        },
+        {
+          "id": "4ed7c118-a866-41fa-824c-32a24323c927",
+          "image_url": "https://mobbin.com/api/mcp/short/vmgo6Jec",
+          "mobbin_url": "https://mobbin.com/sites/sections/4ed7c118-a866-41fa-824c-32a24323c927",
+          "site_name": "Fiasco"
+        },
+        {
+          "id": "280c1a2d-41d4-4495-a4bd-816763c93ad3",
+          "image_url": "https://mobbin.com/api/mcp/short/mpFJMW5y",
+          "mobbin_url": "https://mobbin.com/sites/sections/280c1a2d-41d4-4495-a4bd-816763c93ad3",
+          "site_name": "Locomotive"
+        },
+        {
+          "id": "05811dd7-a07a-41ae-9fa7-192b8eede1b1",
+          "image_url": "https://mobbin.com/api/mcp/short/q1ZHjHxX",
+          "mobbin_url": "https://mobbin.com/sites/sections/05811dd7-a07a-41ae-9fa7-192b8eede1b1",
+          "site_name": "Instrument"
+        }
+      ]
+    },
+    {
+      "query": "Agency homepage opening section with a large positioning headline and a short explanation of the digital products the studio builds",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "42aaad97-8c45-41d3-be1e-c4b9b9654332",
+          "image_url": "https://mobbin.com/api/mcp/short/GMTTd9Oh",
+          "mobbin_url": "https://mobbin.com/sites/sections/42aaad97-8c45-41d3-be1e-c4b9b9654332",
+          "site_name": "Büro"
+        },
+        {
+          "id": "caa1a6b1-4b01-4b6a-8d30-df5454015bbf",
+          "image_url": "https://mobbin.com/api/mcp/short/7cvUASx8",
+          "mobbin_url": "https://mobbin.com/sites/sections/caa1a6b1-4b01-4b6a-8d30-df5454015bbf",
+          "site_name": "basement.studio"
+        },
+        {
+          "id": "a3cf46f9-dafe-4cee-9fee-186aabb025aa",
+          "image_url": "https://mobbin.com/api/mcp/short/TlksrnR5",
+          "mobbin_url": "https://mobbin.com/sites/sections/a3cf46f9-dafe-4cee-9fee-186aabb025aa",
+          "site_name": "basement.studio"
+        }
+      ]
+    },
+    {
+      "query": "Agency project case study section explaining the client challenge, design solution and final digital product",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "0e52c0f5-c6f6-40a3-be31-06a104e486a1",
+          "image_url": "https://mobbin.com/api/mcp/short/fbVal3bc",
+          "mobbin_url": "https://mobbin.com/sites/sections/0e52c0f5-c6f6-40a3-be31-06a104e486a1",
+          "site_name": "Koto"
+        },
+        {
+          "id": "e15c2850-a6fd-4c05-8848-e578c0ed21ad",
+          "image_url": "https://mobbin.com/api/mcp/short/YNZJ3aJ2",
+          "mobbin_url": "https://mobbin.com/sites/sections/e15c2850-a6fd-4c05-8848-e578c0ed21ad",
+          "site_name": "Twenty"
+        },
+        {
+          "id": "05811dd7-a07a-41ae-9fa7-192b8eede1b1",
+          "image_url": "https://mobbin.com/api/mcp/short/pbRGQTtD",
+          "mobbin_url": "https://mobbin.com/sites/sections/05811dd7-a07a-41ae-9fa7-192b8eede1b1",
+          "site_name": "Instrument"
+        }
+      ]
+    },
+    {
+      "query": "Agency process section describing how a client starts a project from discovery through design and development",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "628d4c6b-cea8-49f0-88ca-353161a59678",
+          "image_url": "https://mobbin.com/api/mcp/short/2TfPhWOZ",
+          "mobbin_url": "https://mobbin.com/sites/sections/628d4c6b-cea8-49f0-88ca-353161a59678",
+          "site_name": "Fiasco"
+        },
+        {
+          "id": "2f8c5c81-1584-415c-80b2-3ac03ae68a80",
+          "image_url": "https://mobbin.com/api/mcp/short/s3u4AfVY",
+          "mobbin_url": "https://mobbin.com/sites/sections/2f8c5c81-1584-415c-80b2-3ac03ae68a80",
+          "site_name": "Ragged Edge"
+        },
+        {
+          "id": "bd4402a4-00cb-4cf7-9194-8cd589829e94",
+          "image_url": "https://mobbin.com/api/mcp/short/WacEqK3G",
+          "mobbin_url": "https://mobbin.com/sites/sections/bd4402a4-00cb-4cf7-9194-8cd589829e94",
+          "site_name": "MOUTHWASH Studio"
+        }
+      ]
+    },
+    {
+      "query": "Agency testimonial section with a client quote and the client's name, role and organization",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "704067c5-c837-45ce-ac9b-05c9bc54d2b2",
+          "image_url": "https://mobbin.com/api/mcp/short/eUjHXg3j",
+          "mobbin_url": "https://mobbin.com/sites/sections/704067c5-c837-45ce-ac9b-05c9bc54d2b2",
+          "site_name": "Front"
+        },
+        {
+          "id": "4660cdff-279d-4a6c-9708-2cca679432f8",
+          "image_url": "https://mobbin.com/api/mcp/short/yiJT3Cng",
+          "mobbin_url": "https://mobbin.com/sites/sections/4660cdff-279d-4a6c-9708-2cca679432f8",
+          "site_name": "Analogue Agency"
+        },
+        {
+          "id": "2ce67fb5-10f1-49fa-8ba6-e94d7bf516aa",
+          "image_url": "https://mobbin.com/api/mcp/short/IfgCRUMg",
+          "mobbin_url": "https://mobbin.com/sites/sections/2ce67fb5-10f1-49fa-8ba6-e94d7bf516aa",
+          "site_name": "Attio"
+        }
+      ]
+    },
+    {
+      "query": "Agency contact section inviting prospective clients to discuss a project",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "5323b0ec-3ed9-4bb0-a5a0-5f575d60333b",
+          "image_url": "https://mobbin.com/api/mcp/short/rnEjmBJM",
+          "mobbin_url": "https://mobbin.com/sites/sections/5323b0ec-3ed9-4bb0-a5a0-5f575d60333b",
+          "site_name": "Unseen Studio"
+        },
+        {
+          "id": "fa4ba62d-f77e-4210-9b3b-993d86580db5",
+          "image_url": "https://mobbin.com/api/mcp/short/tKiS0UEB",
+          "mobbin_url": "https://mobbin.com/sites/sections/fa4ba62d-f77e-4210-9b3b-993d86580db5",
+          "site_name": "Fiasco"
+        },
+        {
+          "id": "9f16b7dd-83a5-494f-aeb0-4b34fd1c9005",
+          "image_url": "https://mobbin.com/api/mcp/short/zQ9XWdXt",
+          "mobbin_url": "https://mobbin.com/sites/sections/9f16b7dd-83a5-494f-aeb0-4b34fd1c9005",
+          "site_name": "Koto"
+        }
+      ]
+    },
+    {
+      "query": "Agency frequently asked questions section answering questions about working together",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "f70bcc66-4f6c-4101-90ad-6aab1e9f49a0",
+          "image_url": "https://mobbin.com/api/mcp/short/CYEPXzBE",
+          "mobbin_url": "https://mobbin.com/sites/sections/f70bcc66-4f6c-4101-90ad-6aab1e9f49a0",
+          "site_name": "Fourmula AI"
+        },
+        {
+          "id": "57a45734-0e16-4229-a2eb-f7e69d85d2f0",
+          "image_url": "https://mobbin.com/api/mcp/short/Y0MrNGry",
+          "mobbin_url": "https://mobbin.com/sites/sections/57a45734-0e16-4229-a2eb-f7e69d85d2f0",
+          "site_name": "United Carriers"
+        },
+        {
+          "id": "5f5cb72b-b18d-4f5e-bd82-70944bd2386a",
+          "image_url": "https://mobbin.com/api/mcp/short/TDfcifIU",
+          "mobbin_url": "https://mobbin.com/sites/sections/5f5cb72b-b18d-4f5e-bd82-70944bd2386a",
+          "site_name": "Analogue Agency"
+        }
+      ]
+    },
+    {
+      "query": "basement.studio featured projects section with project images, descriptions and service labels",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "f890a5d7-f914-4f60-8ec2-a15350081db4",
+          "image_url": "https://mobbin.com/api/mcp/short/r1JwLgSS",
+          "mobbin_url": "https://mobbin.com/sites/sections/f890a5d7-f914-4f60-8ec2-a15350081db4",
+          "site_name": "OFF+BRAND"
+        },
+        {
+          "id": "48890788-7d16-4887-baaa-5b22583ef055",
+          "image_url": "https://mobbin.com/api/mcp/short/GKJBl2HL",
+          "mobbin_url": "https://mobbin.com/sites/sections/48890788-7d16-4887-baaa-5b22583ef055",
+          "site_name": "Cloudstudio"
+        }
+      ]
+    },
+    {
+      "query": "Büro frequently asked questions about client projects and working with the agency",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "2ecc50d0-4f74-4e6b-be84-848204dc64d9",
+          "image_url": "https://mobbin.com/api/mcp/short/kiMwcodV",
+          "mobbin_url": "https://mobbin.com/sites/sections/2ecc50d0-4f74-4e6b-be84-848204dc64d9",
+          "site_name": "Büro"
+        },
+        {
+          "id": "4452d9d9-cc41-49bf-9303-81190e5a672d",
+          "image_url": "https://mobbin.com/api/mcp/short/v8pO4MwC",
+          "mobbin_url": "https://mobbin.com/sites/sections/4452d9d9-cc41-49bf-9303-81190e5a672d",
+          "site_name": "Büro"
+        }
+      ]
+    },
+    {
+      "query": "Büro client testimonial quote with the speaker's name, company and role",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "3e179ff8-d623-4415-9848-be2e5ecdb66c",
+          "image_url": "https://mobbin.com/api/mcp/short/9r7hCpVU",
+          "mobbin_url": "https://mobbin.com/sites/sections/3e179ff8-d623-4415-9848-be2e5ecdb66c",
+          "site_name": "Büro"
+        },
+        {
+          "id": "1db111d6-8c11-461a-9ad1-6e0d9c0817a3",
+          "image_url": "https://mobbin.com/api/mcp/short/zmtzuKKi",
+          "mobbin_url": "https://mobbin.com/sites/sections/1db111d6-8c11-461a-9ad1-6e0d9c0817a3",
+          "site_name": "Ditto"
+        }
+      ]
+    }
+  ],
+  "selected": [
+    {
+      "number": 1,
+      "id": "a3cf46f9-dafe-4cee-9fee-186aabb025aa",
+      "image_url": "https://mobbin.com/api/mcp/short/TlksrnR5",
+      "mobbin_url": "https://mobbin.com/sites/sections/a3cf46f9-dafe-4cee-9fee-186aabb025aa",
+      "site_name": "basement.studio",
+      "slug": "basement-positioning",
+      "category": "Positioning",
+      "title": "Large positioning statement with client proof",
+      "fit": "direct",
+      "observation": "A large studio statement sits above a short explanation and a multi-row client-logo grid.",
+      "benefit": "The agency’s category and supporting proof are visible together.",
+      "tradeoff": "The dense logo wall takes substantial space; it does not explain each engagement or contribution.",
+      "application": "Use the relationship between claim and evidence. Moriz already has a logo strip; add only accurately attributed organizations and retain the agreed hero copy.",
+      "local_image": "assets/digital-solutions-agency-2026-10-09/basement-positioning.webp"
+    },
+    {
+      "number": 2,
+      "id": "3c27d7b2-ad8b-4944-bd38-0ac547363073",
+      "image_url": "https://mobbin.com/api/mcp/short/l45B6Bw6",
+      "mobbin_url": "https://mobbin.com/sites/sections/3c27d7b2-ad8b-4944-bd38-0ac547363073",
+      "site_name": "Instrument",
+      "slug": "instrument-services",
+      "category": "Capabilities",
+      "title": "Service promise paired with real work",
+      "fit": "direct",
+      "observation": "A short service statement and explanatory paragraph sit beside a large Notion campaign image, with an offerings link.",
+      "benefit": "A capability claim is paired with an example rather than an abstract icon.",
+      "tradeoff": "This image demonstrates brand work; it does not establish software delivery or technical depth.",
+      "application": "When relevant assets are available, connect each confirmed theme to real work. Keep the current three themes; do not introduce extra service categories.",
+      "local_image": "assets/digital-solutions-agency-2026-10-09/instrument-services.webp"
+    },
+    {
+      "number": 3,
+      "id": "0789240f-37f9-4452-b1f9-2e29b8a7ff6e",
+      "image_url": "https://mobbin.com/api/mcp/short/yk2D5j1D",
+      "mobbin_url": "https://mobbin.com/sites/sections/0789240f-37f9-4452-b1f9-2e29b8a7ff6e",
+      "site_name": "Locomotive",
+      "slug": "locomotive-capabilities",
+      "category": "Capabilities",
+      "title": "Services grouped into two domains",
+      "fit": "direct",
+      "observation": "A red section splits a portrait, category labels, and service lists into columns. Digital and Branding are separate groups.",
+      "benefit": "Visitors can distinguish service families and scan the individual disciplines.",
+      "tradeoff": "The list is long, and its scope includes many capabilities not established for Moriz.",
+      "application": "Use grouping to clarify specification, UX/UI and development coverage. Include only confirmed capabilities; do not copy the agency’s service list.",
+      "local_image": "assets/digital-solutions-agency-2026-10-09/locomotive-capabilities.webp"
+    },
+    {
+      "number": 4,
+      "id": "9bd5d780-e303-4640-b68f-d0a9f9dc2862",
+      "image_url": "https://mobbin.com/api/mcp/short/u0RLh37B",
+      "mobbin_url": "https://mobbin.com/sites/sections/9bd5d780-e303-4640-b68f-d0a9f9dc2862",
+      "site_name": "Aino Agency",
+      "slug": "aino-capabilities",
+      "category": "Capabilities",
+      "title": "Technical capabilities made explicit",
+      "fit": "direct",
+      "observation": "Three compact capability columns include design, engineering and commerce terms. A project-start button sits at the lower right.",
+      "benefit": "Engineering work is named explicitly alongside design.",
+      "tradeoff": "Dense technical terminology and commerce-specific scope may be difficult for small-business buyers.",
+      "application": "Consider a short, plain-language explanation of design and development coverage when content is reviewed. The visible extra contact button is not a fit for the confirmed floating-only WhatsApp choice.",
+      "local_image": "assets/digital-solutions-agency-2026-10-09/aino-capabilities.webp"
+    },
+    {
+      "number": 5,
+      "id": "4ed7c118-a866-41fa-824c-32a24323c927",
+      "image_url": "https://mobbin.com/api/mcp/short/vmgo6Jec",
+      "mobbin_url": "https://mobbin.com/sites/sections/4ed7c118-a866-41fa-824c-32a24323c927",
+      "site_name": "Fiasco",
+      "slug": "fiasco-work",
+      "category": "Selected work",
+      "title": "Editorial project grid with context",
+      "fit": "direct",
+      "observation": "An uneven two-column grid combines project imagery, names, short descriptions and small classification labels.",
+      "benefit": "The description gives each visual a purpose; individual projects retain their own character.",
+      "tradeoff": "Staggered reading order needs care on mobile and in RTL. It is an alternative composition, not evidence to replace the approved rows.",
+      "application": "Carry project name, what was built and Moriz’s contribution alongside each image within the existing project-row layout.",
+      "local_image": "assets/digital-solutions-agency-2026-10-09/fiasco-work.webp"
+    },
+    {
+      "number": 6,
+      "id": "48890788-7d16-4887-baaa-5b22583ef055",
+      "image_url": "https://mobbin.com/api/mcp/short/GKJBl2HL",
+      "mobbin_url": "https://mobbin.com/sites/sections/48890788-7d16-4887-baaa-5b22583ef055",
+      "site_name": "Cloudstudio",
+      "slug": "cloudstudio-work",
+      "category": "Selected work",
+      "title": "Product previews with visible project titles",
+      "fit": "direct",
+      "observation": "A selected-work heading precedes a two-column collection of large previews. Project names and small labels appear over the tiles; one tile has a case-study label.",
+      "benefit": "Digital artifacts occupy most of the space and make product output visible.",
+      "tradeoff": "Several previews are darkened in this capture, and overlaid text depends on contrast. Their hover and link behavior cannot be verified.",
+      "application": "Prefer real product screenshots or recordings over generic mockups when assets arrive. Retain visible names and a clear link to each existing project page.",
+      "local_image": "assets/digital-solutions-agency-2026-10-09/cloudstudio-work.webp"
+    },
+    {
+      "number": 7,
+      "id": "0e52c0f5-c6f6-40a3-be31-06a104e486a1",
+      "image_url": "https://mobbin.com/api/mcp/short/fbVal3bc",
+      "mobbin_url": "https://mobbin.com/sites/sections/0e52c0f5-c6f6-40a3-be31-06a104e486a1",
+      "site_name": "Koto",
+      "slug": "koto-case-study",
+      "category": "Case studies",
+      "title": "Narrative topics beside large project media",
+      "fit": "adjacent branding",
+      "observation": "A narrow left column shows the Lyft project identity, a visible challenge paragraph and topic labels; large project visuals fill the right column.",
+      "benefit": "The visual work is accompanied by a narrative entry point and a list of project topics.",
+      "tradeoff": "Only the challenge text is expanded in the screenshot. Sticky navigation, other topic content and mobile behavior are unverified.",
+      "application": "Use problem, audience, contribution, solution and verified outcomes as questions to investigate in future case studies. Keep the existing four details per project until their questions and answers are agreed.",
+      "local_image": "assets/digital-solutions-agency-2026-10-09/koto-case-study.webp"
+    },
+    {
+      "number": 8,
+      "id": "e15c2850-a6fd-4c05-8848-e578c0ed21ad",
+      "image_url": "https://mobbin.com/api/mcp/short/YNZJ3aJ2",
+      "mobbin_url": "https://mobbin.com/sites/sections/e15c2850-a6fd-4c05-8848-e578c0ed21ad",
+      "site_name": "Twenty",
+      "slug": "twenty-outcomes",
+      "category": "Case studies",
+      "title": "Customer evidence with concrete outcome fields",
+      "fit": "adjacent software",
+      "observation": "A customer-story panel pairs imagery with a business-use headline, a quote, three outcome fields and attributed speaker details.",
+      "benefit": "It demonstrates how a product story can connect an artifact to practical use and reported outcomes.",
+      "tradeoff": "This is a software customer story, not an agency portfolio. Its figures are that customer’s claims and cannot establish Moriz’s results.",
+      "application": "Use actual usage or outcome evidence only when its source, timeframe and Moriz’s role are supplied. Do not fill missing data with decorative metrics.",
+      "local_image": "assets/digital-solutions-agency-2026-10-09/twenty-outcomes.webp"
+    },
+    {
+      "number": 9,
+      "id": "2f8c5c81-1584-415c-80b2-3ac03ae68a80",
+      "image_url": "https://mobbin.com/api/mcp/short/s3u4AfVY",
+      "mobbin_url": "https://mobbin.com/sites/sections/2f8c5c81-1584-415c-80b2-3ac03ae68a80",
+      "site_name": "Ragged Edge",
+      "slug": "ragged-edge-process",
+      "category": "Process",
+      "title": "Numbered stages with explanatory copy",
+      "fit": "adjacent branding",
+      "observation": "Four vertically stacked numbered stages pair large titles with short explanatory paragraphs.",
+      "benefit": "The stages are readable in a still image and do not rely on a hidden interaction to communicate their meaning.",
+      "tradeoff": "This describes a full branding engagement, rather than just starting a client relationship.",
+      "application": "Apply the clear numbering to the already confirmed starting steps: initial 5–10 minute call, in-depth specification discussion, then a quote. Supporting copy remains to be agreed.",
+      "local_image": "assets/digital-solutions-agency-2026-10-09/ragged-edge-process.webp"
+    },
+    {
+      "number": 10,
+      "id": "bd4402a4-00cb-4cf7-9194-8cd589829e94",
+      "image_url": "https://mobbin.com/api/mcp/short/WacEqK3G",
+      "mobbin_url": "https://mobbin.com/sites/sections/bd4402a4-00cb-4cf7-9194-8cd589829e94",
+      "site_name": "MOUTHWASH Studio",
+      "slug": "mouthwash-approach",
+      "category": "Process",
+      "title": "Approach connected to creative technology",
+      "fit": "direct",
+      "observation": "A large approach statement sits above a two-by-two set of short descriptions for strategy, direction, design and creative technology.",
+      "benefit": "Technology is presented as part of a broader delivery approach.",
+      "tradeoff": "The oversized paragraph is demanding to scan, and these four stages are not Moriz’s confirmed client-starting steps.",
+      "application": "Useful as a comparison for explaining the connection between research, design and implementation in future About or case-study content. Keep the homepage starting section focused on how the client begins.",
+      "local_image": "assets/digital-solutions-agency-2026-10-09/mouthwash-approach.webp"
+    },
+    {
+      "number": 11,
+      "id": "3e179ff8-d623-4415-9848-be2e5ecdb66c",
+      "image_url": "https://mobbin.com/api/mcp/short/9r7hCpVU",
+      "mobbin_url": "https://mobbin.com/sites/sections/3e179ff8-d623-4415-9848-be2e5ecdb66c",
+      "site_name": "Büro",
+      "slug": "buro-testimonial",
+      "category": "Trust",
+      "title": "Quote with separate speaker attribution",
+      "fit": "direct",
+      "observation": "A large client quote occupies the right side; the speaker, organization and role sit in a smaller left column.",
+      "benefit": "The source of the endorsement is visible beside the statement.",
+      "tradeoff": "A long quote uses substantial page height. The still image does not establish a carousel or its controls.",
+      "application": "Select from the five reported testimonials and preserve accurate attribution. A quote related to the featured project may offer more context; this is a research hypothesis.",
+      "local_image": "assets/digital-solutions-agency-2026-10-09/buro-testimonial.webp"
+    },
+    {
+      "number": 12,
+      "id": "2ecc50d0-4f74-4e6b-be84-848204dc64d9",
+      "image_url": "https://mobbin.com/api/mcp/short/kiMwcodV",
+      "mobbin_url": "https://mobbin.com/sites/sections/2ecc50d0-4f74-4e6b-be84-848204dc64d9",
+      "site_name": "Büro",
+      "slug": "buro-faq",
+      "category": "FAQ",
+      "title": "Questions about working with the agency",
+      "fit": "direct",
+      "observation": "Seven numbered FAQ rows address client fit, scope, industries, capacity and technology. The first answer is visible; the other rows show collapsed states.",
+      "benefit": "The topics concern decisions a prospective client may need to make before starting.",
+      "tradeoff": "The expanded body appears low contrast in the capture. Interaction semantics and keyboard behavior are untested.",
+      "application": "Use real client questions when the owner supplies them. Keep the confirmed FAQ position. Client fit and phase-specific engagements are candidate research topics, not approved questions or answers.",
+      "local_image": "assets/digital-solutions-agency-2026-10-09/buro-faq.webp"
+    },
+    {
+      "number": 13,
+      "id": "f70bcc66-4f6c-4101-90ad-6aab1e9f49a0",
+      "image_url": "https://mobbin.com/api/mcp/short/CYEPXzBE",
+      "mobbin_url": "https://mobbin.com/sites/sections/f70bcc66-4f6c-4101-90ad-6aab1e9f49a0",
+      "site_name": "Fourmula AI",
+      "slug": "fourmula-faq",
+      "category": "FAQ",
+      "title": "Practical objections collected in one place",
+      "fit": "adjacent creative service",
+      "observation": "A large FAQ introduction precedes six rows covering output, starting requirements, brand fit, ownership, turnaround and team relationships. One answer is visible.",
+      "benefit": "The questions are concrete and focus on practical purchase concerns.",
+      "tradeoff": "AI asset production differs from web-system work; its scope and promises cannot transfer directly.",
+      "application": "Compare topic coverage with actual Moriz inquiries. Inputs, ownership and handover may merit investigation; publish answers only after the owner confirms the facts.",
+      "local_image": "assets/digital-solutions-agency-2026-10-09/fourmula-faq.webp"
+    },
+    {
+      "number": 14,
+      "id": "fa4ba62d-f77e-4210-9b3b-993d86580db5",
+      "image_url": "https://mobbin.com/api/mcp/short/tKiS0UEB",
+      "mobbin_url": "https://mobbin.com/sites/sections/fa4ba62d-f77e-4210-9b3b-993d86580db5",
+      "site_name": "Fiasco",
+      "slug": "fiasco-contact",
+      "category": "Contact",
+      "title": "A concentrated closing invitation",
+      "fit": "direct",
+      "observation": "A dark contact section contains a small invitation label and a large multi-line message about a new project or collaboration.",
+      "benefit": "Contact intent is immediately legible through scale and concentration.",
+      "tradeoff": "No functional contact action is visible in this crop, so a complete inquiry flow cannot be inferred.",
+      "application": "Use the section’s focus as a content comparison. Contact content remains open, and the floating WhatsApp control remains the confirmed inquiry access.",
+      "local_image": "assets/digital-solutions-agency-2026-10-09/fiasco-contact.webp"
+    }
+  ]
+}

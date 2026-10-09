@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { HeroDescription } from "@/components/hero-description";
 import { LanguageLink } from "@/components/language-link";
@@ -67,14 +68,29 @@ export default async function Home({
           aria-labelledby="hero-heading"
           className="hero-shell hero"
         >
-          <h1
-            id="hero-heading"
-            className={`hero-heading ${partyStyles.lightHeading}`}
-            data-party-react="heading"
-          >
-            {content.hero.heading}
-            <PartyHeadingLight text={content.hero.heading} />
-          </h1>
+          <div className="hero-heading-block">
+            <div className="hero-introduction mb-6 flex items-center gap-3">
+              <Image
+                src="/images/mor-avatar.png"
+                alt={content.hero.portraitAlt}
+                width={600}
+                height={684}
+                sizes="(min-width: 768px) 56px, 48px"
+                className="block h-auto w-12 shrink-0 md:w-14"
+              />
+              <p className="text-base md:text-lg">
+                {content.hero.introduction}
+              </p>
+            </div>
+            <h1
+              id="hero-heading"
+              className={`hero-heading ${partyStyles.lightHeading}`}
+              data-party-react="heading"
+            >
+              {content.hero.heading}
+              <PartyHeadingLight text={content.hero.heading} />
+            </h1>
+          </div>
           <div className="hero-video-placeholder" aria-hidden="true" />
           <div className="hero-copy">
             <HeroDescription

@@ -71,8 +71,12 @@
   padding-block: var(--space-6) var(--space-16);
 }
 
-.hero-heading {
+.hero-heading-block {
   grid-area: heading;
+  min-inline-size: 0;
+}
+
+.hero-heading {
   min-inline-size: 0;
   margin: 0;
   overflow-wrap: anywhere;
@@ -236,9 +240,12 @@ html:has(.navigation-dialog[open]) {
     padding-block: var(--space-10) var(--space-24);
   }
 
-  .hero-heading {
+  .hero-heading-block {
     grid-column: 1 / span 8;
     grid-row: 1;
+  }
+
+  .hero-heading {
     font-size: var(--trial-hero-size-desktop);
   }
 

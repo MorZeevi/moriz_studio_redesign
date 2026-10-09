@@ -124,6 +124,7 @@ TODO: Decision required
 
 ### Research reports
 
+- [Digital solutions agency — visual Mobbin research](research/digital-solutions-agency-mobbin-2026-10-09.html), researched 2026-10-09. Fourteen selected references from twelve sites covering positioning, capabilities, work, case studies, process, testimonials, FAQ and contact; includes local full-resolution images, tradeoffs and recommendations within Moriz's established structure. [Structured source/search record](research/digital-solutions-agency-mobbin-2026-10-09.json).
 - [Hero references for a web app development agency](research/mobbin-agency-hero-research.md), researched 2026-10-06. Focused comparison of Locomotive and Unseen Studio heroes, plus a limited Fiasco brand frame, with downloaded screenshots and Hebrew/RTL considerations.
 - [Agency inspiration — 2025–2026 date checks and Mobbin references](research/mobbin-agency-inspiration-2025-2026.md), researched 2026-10-05. Website-date evidence and its limits are documented in the report; no design direction is selected.
 - [Homepage structure — Mobbin sections and source-page comparison](research/mobbin-homepage-structure-2025-2026.md), researched 2026-10-06 at the owner's request before choosing the structure. Covers the seven proposed sections, screenshots, 2025 website provenance, capture-date limits, possible tradeoffs, and research gaps. No Moriz hierarchy is selected.

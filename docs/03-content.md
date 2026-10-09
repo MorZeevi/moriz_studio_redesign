@@ -85,6 +85,8 @@ Hero H1 — agreed, supplied by the owner on 2026-10-06; preserved verbatim:
 
 > יוצרת פתרונות דיגיטליים מבוססי מחקר
 
+Owner clarification, 2026-10-09: **נעים להכיר, אני מור** is small introductory text above the existing H1, beside the supplied avatar in a horizontal RTL row. The portrait is 48px wide on mobile and 56px from 768px, preserving its full proportions; the introduction is 16px/18px. The H1, supporting copy and hero action remain unchanged. The subsequent enlargement and move beside the H1 were undone at the owner's request.
+
 Later section headlines: TODO: Decision required
 
 ### Body copy

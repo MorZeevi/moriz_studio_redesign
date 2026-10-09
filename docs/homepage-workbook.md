@@ -51,6 +51,8 @@ Saved Mobbin screenshots establish visible desktop composition only. The owner s
 
 Status: **In progress**.
 
+Latest owner request, 2026-10-09: undo the last two completed changes (avatar enlargement and move beside the H1). The supplied avatar and **נעים להכיר, אני מור** are restored together in a horizontal RTL introduction row above the original H1 **יוצרת פתרונות דיגיטליים מבוססי מחקר**. The greeting is a paragraph beside the portrait, not a replacement heading. The portrait is 48px wide on mobile and 56px from 768px; greeting text is 16px/18px. The introduction and H1 share the original heading grid position; supporting copy, video placeholder and project CTA remain in their existing positions. The interrupted advantages-background request was not applied.
+
 ### Purpose and information
 
 Help a first-time visitor understand that Moriz combines research, UX/UI design and web app development. The headline and supporting text should explain the offer before relying on a visual to communicate it.
