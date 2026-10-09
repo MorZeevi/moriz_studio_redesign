@@ -303,21 +303,6 @@ html:has(.navigation-dialog[open]) {
   position: relative;
   isolation: isolate;
   border-radius: var(--radius-liquid);
-  background-color: var(--color-background);
-}
-
-.advantages-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  background-image: url("/images/advantages-garden.webp");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0.5;
-  pointer-events: none;
 }
 
 .advantages-card {
