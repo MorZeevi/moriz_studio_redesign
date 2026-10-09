@@ -10,6 +10,7 @@ import { getPublicProjects } from "@/lib/cms/queries";
 import { projectCard } from "@/lib/cms/project-card";
 import { CategoryTags } from "@/components/category-tags";
 import { StudioLogo } from "@/components/studio-logo";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 type PageParams = {
   params: Promise<{ locale: string }>;
@@ -48,7 +49,7 @@ export default async function ProjectsPage({
     <div className={styles.projectPage}>
       <a
         href="#projects"
-        className="sr-only focus:not-sr-only focus:absolute focus:start-5 focus:top-5 focus:z-30 focus:bg-background focus:p-4 focus:text-dark"
+        className="sr-only focus:not-sr-only focus:absolute focus:start-5 focus:top-5 focus:z-30 focus:bg-background focus:p-4"
       >
         {content.skipToContent}
       </a>
@@ -59,10 +60,13 @@ export default async function ProjectsPage({
             locale={locale}
             className={styles.wordmark}
           />
-          <Link href={`/${locale}#projects`} className={styles.backLink}>
-            <ProjectArrow back />
-            {content.projects.homeLink}
-          </Link>
+          <div className="project-header-actions">
+            <ThemeToggle labels={content.theme} />
+            <Link href={`/${locale}#projects`} className={styles.backLink}>
+              <ProjectArrow back />
+              {content.projects.homeLink}
+            </Link>
+          </div>
         </header>
       </div>
       <main>

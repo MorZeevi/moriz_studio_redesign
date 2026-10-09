@@ -26,11 +26,11 @@
   inline-size: min(100%, 16rem);
   min-block-size: 3rem;
   padding: var(--space-1);
-  border-color: var(--color-dark);
+  border-color: var(--site-foreground, var(--color-dark));
   border-radius: var(--radius-liquid);
   box-shadow: var(--shadow-hard);
-  background: var(--color-light);
-  color: var(--color-dark);
+  background: var(--site-card, var(--color-light));
+  color: var(--site-foreground, var(--color-dark));
   font-family: var(--font-display);
   font-size: clamp(1rem, 6cqi, 1.5rem);
   font-weight: 700;
@@ -42,8 +42,8 @@
 }
 
 .toggle.toggle:hover {
-  background: var(--color-light);
-  color: var(--color-dark);
+  background: var(--site-card, var(--color-light));
+  color: var(--site-foreground, var(--color-dark));
   text-decoration: none;
 }
 
@@ -53,7 +53,7 @@
   inset-inline-start: var(--space-1);
   inline-size: calc(50% - var(--space-1));
   border-radius: calc(var(--radius-liquid) - var(--space-1));
-  background: var(--color-dark);
+  background: var(--site-foreground, var(--color-dark));
   transition:
     transform 180ms cubic-bezier(0.2, 0, 0, 1),
     background-color 180ms;
@@ -104,7 +104,7 @@
 }
 
 .toggle:not([data-enabled="true"]) .selection + .toggleLabel {
-  color: var(--color-light);
+  color: var(--site-background, var(--color-light));
 }
 
 .partyDot,
@@ -245,7 +245,7 @@
 
 .headingLight {
   clip-path: polygon(0 0, 0 0, 0 0);
-  color: var(--color-action-primary);
+  color: var(--site-heading-accent, var(--color-action-primary));
 }
 
 .headingLight:nth-child(2) {

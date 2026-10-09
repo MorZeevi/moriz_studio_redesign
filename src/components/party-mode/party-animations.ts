@@ -103,13 +103,7 @@ export class PartyAnimations {
         "main p, main a, main button, main summary, header a, header button, footer p, footer a, [data-party-tags]",
       ),
     ];
-    for (const tag of this.tags) {
-      const style = getComputedStyle(tag);
-      this.tagNormals.set(tag, {
-        backgroundColor: style.backgroundColor,
-        color: style.color,
-      });
-    }
+    this.refreshTheme();
     const brand = getComputedStyle(root);
     this.tagPalette = [
       {
@@ -368,6 +362,32 @@ export class PartyAnimations {
       if (this.poster.complete)
         this.poster.naturalWidth > 0 ? loaded() : failed();
     });
+  }
+
+  refreshTheme() {
+    // Remove only our color frames before sampling the new CSS theme. Keep the
+    // ball, tag dance, physics and current Party state running without replay.
+    for (const tag of this.tags) {
+      this.stopLoop(tag);
+      for (const animation of this.animations) {
+        const effect = animation.effect;
+        if (
+          effect instanceof KeyframeEffect &&
+          effect.target === tag &&
+          effect
+            .getKeyframes()
+            .some((frame) => "backgroundColor" in frame || "color" in frame)
+        ) {
+          this.cancel(animation);
+        }
+      }
+      const style = getComputedStyle(tag);
+      this.tagNormals.set(tag, {
+        backgroundColor: style.backgroundColor,
+        color: style.color,
+      });
+    }
+    if (this.enabled && this.phase === "active") this.animateTags();
   }
 
   request(enabled: boolean) {

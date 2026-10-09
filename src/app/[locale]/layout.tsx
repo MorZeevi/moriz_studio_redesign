@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { enabledLocales, isEnabledLocale, localeConfig } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
+import { pixelRevealBootstrap } from "@/lib/pixel-reveal";
+import { themeBootstrap } from "@/lib/theme";
+import { ThemeProvider } from "@/components/theme-provider";
 import { danidin, leon } from "@/styles/fonts";
 import "../globals.css";
 
@@ -40,10 +43,22 @@ export default async function RootLayout({
     <html
       lang={locale}
       dir={localeConfig[locale].direction}
+      data-public-site=""
       className={`${danidin.variable} ${leon.variable}`}
+      suppressHydrationWarning
     >
+      <head>
+        <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: First-party pre-paint theme initialization; no user input.
+          dangerouslySetInnerHTML={{ __html: themeBootstrap }}
+        />
+        <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: First-party pre-paint initialization with a validated locale.
+          dangerouslySetInnerHTML={{ __html: pixelRevealBootstrap(locale) }}
+        />
+      </head>
       <body id="top">
-        {children}
+        <ThemeProvider>{children}</ThemeProvider>
         {developerTools}
       </body>
     </html>

@@ -1,7 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { type CSSProperties, memo, useEffect, useRef } from "react";
+import {
+  type CSSProperties,
+  memo,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+} from "react";
+import { useTheme } from "@/components/theme-provider";
 import { partyPoster } from "./media";
 import { PartyAnimations } from "./party-animations";
 import { partyCyan, reflectionSpecs } from "./party-light-model";
@@ -19,6 +26,7 @@ export const PartyModeEffects = memo(function PartyModeEffects({
 }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const controller = useRef<PartyAnimations | null>(null);
+  const { resolvedTheme } = useTheme();
   const latest = useRef({ onPhase, onFailure });
   latest.current = { onPhase, onFailure };
 
@@ -38,6 +46,11 @@ export const PartyModeEffects = memo(function PartyModeEffects({
   useEffect(() => {
     controller.current?.request(enabled);
   }, [enabled]);
+
+  useLayoutEffect(() => {
+    if (document.documentElement.dataset.theme === resolvedTheme)
+      controller.current?.refreshTheme();
+  }, [resolvedTheme]);
 
   return (
     <div

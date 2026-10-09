@@ -1,3 +1,5 @@
+import Link from "next/link";
+import type { EnabledLocale } from "@/i18n/config";
 import styles from "./studio-logo.module.css";
 
 export function StudioLogo({
@@ -17,10 +19,8 @@ export function StudioLogo({
       aria-label="moriz.studio"
       className={[styles.wordmark, className].filter(Boolean).join(" ")}
     >
-      <TextPressure text="moriz.studio" baseWeight={400} boldPrefix="moriz." />
+      <span>moriz.</span>
+      <span className={styles.suffix}>studio</span>
     </Link>
   );
 }
-import Link from "next/link";
-import TextPressure from "@/components/react-bits/TextPressure";
-import type { EnabledLocale } from "@/i18n/config";

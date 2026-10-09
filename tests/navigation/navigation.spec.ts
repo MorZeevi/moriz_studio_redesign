@@ -1,19 +1,7 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
 
-const labels = [
-  "פרויקטים",
-  "קצת עלי",
-  "איך מתחילים",
-  "שאלות תשובות",
-  "בואו נדבר",
-];
-const destinations = [
-  "#projects",
-  "#about",
-  "#getting-started",
-  "#faq",
-  "#contact",
-];
+const labels = ["פרויקטים", "קצת עלי", "איך מתחילים", "שאלות תשובות"];
+const destinations = ["#projects", "#about", "#getting-started", "#faq"];
 const navSelector = ".desktop-navigation";
 
 function link(page: Page, href: string) {
@@ -82,7 +70,11 @@ test("desktop copy, RTL order and the full expanded menu fit every target width"
       (element) => getComputedStyle(element).fontWeight,
     ),
   ).toBe("400");
-  await expect(page.locator(".header-cta")).toHaveCount(0);
+  await expect(page.locator(".header-contact-link")).toHaveText("בואו נדבר");
+  await expect(page.locator(".header-contact-link")).toHaveAttribute(
+    "href",
+    "#contact",
+  );
   await expect(page.locator(`${navSelector} [aria-current]`)).toHaveCount(0);
   for (let index = 0; index < destinations.length; index++) {
     await expect(page.locator(`${navSelector} a`).nth(index)).toHaveAttribute(
@@ -95,7 +87,7 @@ test("desktop copy, RTL order and the full expanded menu fit every target width"
     await page.mouse.move(0, 200);
     await expectHeaderFits(page);
     const first = await link(page, "#projects").boundingBox();
-    const last = await link(page, "#contact").boundingBox();
+    const last = await link(page, "#faq").boundingBox();
     expect(first?.x).toBeGreaterThan(last?.x ?? 0);
     await link(page, "#projects").click();
     await expect(link(page, "#projects")).toHaveAttribute(
@@ -112,7 +104,7 @@ test("desktop copy, RTL order and the full expanded menu fit every target width"
       .poll(() =>
         page
           .locator(`${navSelector} li`)
-          .nth(3)
+          .nth(2)
           .evaluate((element) =>
             parseFloat(getComputedStyle(element).paddingInlineEnd),
           ),
@@ -130,13 +122,7 @@ test("native anchors stay clear of the sticky header and scroll-spy follows page
   page,
 }) => {
   await page.goto("/he");
-  for (const href of [
-    "#about",
-    "#projects",
-    "#getting-started",
-    "#faq",
-    "#contact",
-  ]) {
+  for (const href of ["#about", "#projects", "#getting-started", "#faq"]) {
     await link(page, href).click();
     await expect(page).toHaveURL(new RegExp(`${href}$`));
     await expect(link(page, href)).toHaveAttribute("aria-current", "location");
@@ -156,10 +142,12 @@ test("native anchors stay clear of the sticky header and scroll-spy follows page
   await page.evaluate(() =>
     window.scrollTo(0, document.documentElement.scrollHeight),
   );
-  await expect(link(page, "#contact")).toHaveAttribute(
-    "aria-current",
-    "location",
-  );
+  await expect(link(page, "#faq")).toHaveAttribute("aria-current", "location");
+  await page.locator(".header-contact-link").click();
+  await expect(page).toHaveURL(/#contact$/);
+  const header = await page.locator(".site-header").boundingBox();
+  const contact = await page.locator("#contact").boundingBox();
+  expect(contact?.y).toBeGreaterThanOrEqual((header?.height ?? 0) + 15);
   await page.evaluate(() => window.scrollTo(0, 0));
   await expect(page.locator(`${navSelector} [aria-current]`)).toHaveCount(0);
 });
@@ -237,11 +225,12 @@ test("mobile keeps its original menu and closes it when entering desktop", async
   await page.goto("/he");
   await expect(page.locator(navSelector)).toBeHidden();
   await expect(page.locator(".mobile-menu-toggle")).toBeVisible();
+  await expect(page.locator(".pixel-reveal")).toBeHidden();
   expect(
     await page
       .locator(".site-header")
       .evaluate((element) => getComputedStyle(element).position),
-  ).toBe("static");
+  ).toBe("relative");
   await page.locator(".mobile-menu-toggle").click();
   await expect(page.locator(".navigation-dialog")).toBeVisible();
   await expect(page.locator(".navigation-links a")).toHaveText([

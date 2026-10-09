@@ -52,7 +52,7 @@
   font: inherit;
   line-height: 1.5;
   background: var(--color-background);
-  color: var(--color-dark);
+  color: var(--color-text-primary);
 }
 
 .sizeControl {
@@ -62,7 +62,7 @@
 .sizeControl input {
   inline-size: 100%;
   min-block-size: var(--space-12);
-  accent-color: var(--color-dark);
+  accent-color: var(--color-text-primary);
   cursor: pointer;
 }
 
@@ -103,7 +103,7 @@
   display: inline-block;
   padding: var(--space-3) var(--space-6);
   background: var(--color-dark);
-  color: var(--color-background);
+  color: var(--color-light);
   font-size: var(--text-body);
   line-height: 1.5;
 }

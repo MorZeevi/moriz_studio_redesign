@@ -1,14 +1,18 @@
 "use client";
 
-import { type ReactNode, useEffect, useRef } from "react";
+import { type ReactNode, useLayoutEffect, useRef } from "react";
+import { useTheme } from "./theme-provider";
 import styles from "./projects.module.css";
 
 export function ProjectScrollSurface({ children }: { children: ReactNode }) {
   const sectionRef = useRef<HTMLElement>(null);
+  const { resolvedTheme } = useTheme();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
+    const dark =
+      (document.documentElement.dataset.theme ?? resolvedTheme) === "dark";
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const body = document.body;
@@ -42,11 +46,13 @@ export function ProjectScrollSurface({ children }: { children: ReactNode }) {
           (bottom - height * 0.15) / (height * 0.45),
         ),
       );
-      target = reducedMotion.matches
-        ? progress >= 0.5
-          ? 1
-          : 0
-        : progress * progress * (3 - 2 * progress);
+      target = dark
+        ? 1
+        : reducedMotion.matches
+          ? progress >= 0.5
+            ? 1
+            : 0
+          : progress * progress * (3 - 2 * progress);
     };
     const update = (time: number) => {
       frame = 0;
@@ -132,7 +138,7 @@ export function ProjectScrollSurface({ children }: { children: ReactNode }) {
         else body.style.removeProperty(property);
       });
     };
-  }, []);
+  }, [resolvedTheme]);
 
   return (
     <section

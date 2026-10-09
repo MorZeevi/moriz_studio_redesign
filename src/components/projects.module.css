@@ -33,10 +33,10 @@
 }
 
 .scrollSurface[data-project-theme="light"] {
-  --project-foreground: var(--color-dark);
-  --project-background: var(--color-light);
+  --project-foreground: var(--site-foreground, var(--color-dark));
+  --project-background: var(--site-background, var(--color-light));
   --project-media: var(--color-surface);
-  --project-hover: var(--color-dark);
+  --project-hover: var(--site-foreground, var(--color-dark));
 }
 
 .sectionHeader {
@@ -223,6 +223,14 @@
 .projectPage {
   min-block-size: 100vh;
   padding-block-end: var(--section-space-sm);
+}
+
+.projectPage,
+.projectPage .section {
+  --project-background: var(--site-background, var(--color-dark));
+  --project-foreground: var(--site-foreground, var(--color-light));
+  --project-media: var(--site-surface, var(--color-surface-strong));
+  --project-hover: var(--site-foreground, var(--color-secondary));
 }
 
 .pageHeader {

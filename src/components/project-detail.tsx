@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CategoryTags } from "@/components/category-tags";
 import { StudioLogo } from "@/components/studio-logo";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { ProjectContent } from "@/components/project-content";
 import { ProjectArrow, ProjectMedia } from "@/components/projects-section";
 import { FloatingWhatsApp } from "@/components/wireframe";
@@ -33,10 +34,13 @@ export function ProjectDetail({
               locale={locale}
               className={styles.wordmark}
             />
-            <Link href={back} className={styles.backLink}>
-              <ProjectArrow back />
-              {content.projects.backLink}
-            </Link>
+            <div className="project-header-actions">
+              <ThemeToggle labels={content.theme} />
+              <Link href={back} className={styles.backLink}>
+                <ProjectArrow back />
+                {content.projects.backLink}
+              </Link>
+            </div>
           </header>
         )}
         <Main id="project-content" tabIndex={-1}>

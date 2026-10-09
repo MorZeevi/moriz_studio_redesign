@@ -8,9 +8,13 @@ import { PartyHeadingLight } from "@/components/party-mode/party-heading-light";
 import partyStyles from "@/components/party-mode/party-mode.module.css";
 import { PartyModeProvider } from "@/components/party-mode/party-mode-provider";
 import { PartyModeToggle } from "@/components/party-mode/party-mode-toggle";
+import { PixelReveal } from "@/components/pixel-reveal";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { HeroSlideshow } from "@/components/hero-slideshow";
 import { ProjectsSection } from "@/components/projects-section";
-import { StudioLogo } from "@/components/studio-logo";
 import FallingText from "@/components/react-bits/FallingText";
+import Noise from "@/components/react-bits/Noise";
+import { StudioLogo } from "@/components/studio-logo";
 import { LiquidLink } from "@/components/ui/liquid-link";
 import {
   FloatingWhatsApp,
@@ -20,8 +24,8 @@ import {
 } from "@/components/wireframe";
 import { isEnabledLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { getPublicProjects } from "@/lib/cms/queries";
 import { projectCard } from "@/lib/cms/project-card";
+import { getPublicProjects } from "@/lib/cms/queries";
 
 export default async function Home({
   params,
@@ -37,6 +41,7 @@ export default async function Home({
   });
   return (
     <PartyModeProvider labels={content.advantages.party}>
+      <PixelReveal />
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:start-5 focus:top-5 focus:z-30 focus:bg-background focus:p-4"
@@ -45,18 +50,35 @@ export default async function Home({
       </a>
 
       <header className="site-header">
+        <Noise
+          patternSize={340}
+          patternScaleX={1}
+          patternScaleY={0.3}
+          patternRefreshInterval={2}
+          patternAlpha={10}
+        />
         <div className="hero-shell site-header-inner">
           <StudioLogo
             name={content.studioName}
             locale={locale}
             className="studio-wordmark"
           />
+          <div className="header-theme-mobile">
+            <ThemeToggle labels={content.theme} />
+          </div>
           <Navigation locale={locale} content={content.navigation} />
           <div className="header-actions">
+            <ThemeToggle labels={content.theme} />
             <LanguageLink
               locale={locale}
               content={content.navigation.languages}
             />
+            <LiquidLink
+              className="header-contact-link"
+              href={content.navigation.contactLink.href}
+            >
+              {content.navigation.contactLink.label}
+            </LiquidLink>
           </div>
         </div>
       </header>
@@ -66,44 +88,53 @@ export default async function Home({
           id="hero"
           data-wireframe-section="hero"
           aria-labelledby="hero-heading"
-          className="hero-shell hero"
+          className="hero-background"
         >
-          <div className="hero-heading-block">
-            <div className="hero-introduction mb-6 flex items-center gap-3">
-              <Image
-                src="/images/mor-avatar.png"
-                alt={content.hero.portraitAlt}
-                width={600}
-                height={684}
-                sizes="(min-width: 768px) 56px, 48px"
-                className="block h-auto w-12 shrink-0 md:w-14"
-              />
-              <p className="text-base md:text-lg">
-                {content.hero.introduction}
-              </p>
+          <Noise
+            patternSize={340}
+            patternScaleX={1}
+            patternScaleY={0.3}
+            patternRefreshInterval={2}
+            patternAlpha={10}
+          />
+          <div className="hero-shell hero">
+            <div className="hero-heading-block">
+              <div className="hero-introduction mb-6 flex items-center gap-3">
+                <Image
+                  src="/images/mor-avatar.png"
+                  alt={content.hero.portraitAlt}
+                  width={600}
+                  height={684}
+                  sizes="(min-width: 768px) 56px, 48px"
+                  className="block h-auto w-12 shrink-0 md:w-14"
+                />
+                <p className="text-base md:text-lg">
+                  {content.hero.introduction}
+                </p>
+              </div>
+              <h1
+                id="hero-heading"
+                className={`hero-heading ${partyStyles.lightHeading}`}
+                data-party-react="heading"
+              >
+                {content.hero.heading}
+                <PartyHeadingLight text={content.hero.heading} />
+              </h1>
             </div>
-            <h1
-              id="hero-heading"
-              className={`hero-heading ${partyStyles.lightHeading}`}
-              data-party-react="heading"
-            >
-              {content.hero.heading}
-              <PartyHeadingLight text={content.hero.heading} />
-            </h1>
-          </div>
-          <div className="hero-video-placeholder" aria-hidden="true" />
-          <div className="hero-copy">
-            <HeroDescription
-              className="hero-description"
-              content={content.hero.description}
-            />
-            <LiquidLink
-              className="hero-projects-link"
-              href="#projects"
-              data-party-react="cta"
-            >
-              {content.hero.projectsLink}
-            </LiquidLink>
+            <HeroSlideshow labels={content.hero.slideshow} />
+            <div className="hero-copy">
+              <HeroDescription
+                className="hero-description"
+                content={content.hero.description}
+              />
+              <LiquidLink
+                className="hero-projects-link"
+                href="#projects"
+                data-party-react="cta"
+              >
+                {content.hero.projectsLink}
+              </LiquidLink>
+            </div>
           </div>
         </section>
 

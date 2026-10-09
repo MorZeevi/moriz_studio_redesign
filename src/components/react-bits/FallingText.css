@@ -23,10 +23,10 @@
   max-inline-size: 100%;
   min-inline-size: 0;
   padding: var(--space-2) var(--space-4);
-  border: var(--border-width-default) solid var(--color-dark);
+  border: var(--border-width-default) solid var(--color-border-strong);
   border-radius: var(--radius-pill);
-  background: var(--color-light);
-  color: var(--color-dark);
+  background: var(--site-card, var(--color-light));
+  color: var(--site-foreground, var(--color-dark));
   font-family: var(--font-body);
   font-size: var(--text-body);
   font-weight: var(--font-weight-body);

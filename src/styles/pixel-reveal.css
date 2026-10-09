@@ -1,0 +1,68 @@
+/* Supplied pixel-reveal-nextjs_new liquid windows; no headline animation. */
+.pixel-reveal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  overflow: hidden;
+  pointer-events: none;
+  animation: pr-failsafe 0s linear 3s forwards;
+}
+
+/* No JavaScript, returning sessions and section links show the page directly. */
+html[data-pixel-reveal="active"] .pixel-reveal {
+  display: block;
+}
+
+.pixel-reveal__solid {
+  position: absolute;
+  inset: 0;
+  background: var(--color-secondary);
+}
+
+.pixel-reveal__svg {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.pixel-reveal__window {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0.62);
+  opacity: 0;
+}
+
+.pixel-reveal__windows.is-playing .pixel-reveal__window {
+  animation: pr-open var(--pr-duration, 460ms) cubic-bezier(0.22, 0.7, 0.2, 1)
+    forwards;
+}
+
+@keyframes pr-open {
+  0% {
+    transform: scale(0.62);
+    opacity: 0;
+  }
+  55% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+/* Applies to the entire cover, even if hydration or the grid animation stops. */
+@keyframes pr-failsafe {
+  to {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-pixel-reveal="active"] .pixel-reveal {
+    display: none;
+    animation: none;
+  }
+}

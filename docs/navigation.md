@@ -4,7 +4,9 @@ Implemented locally on 2026-10-08. This is a desktop navigation extension using 
 
 ## Current behavior
 
-At `min-width: 64rem` (1024px with the unchanged default root size), the homepage header is sticky, light and full-width. The **moriz.studio** wordmark remains on the right; the underlined, unavailable **EN** control remains on the left. The separate desktop projects CTA is removed, while **לצפיה בפרויקטים** → `#projects` remains in the hero.
+Latest background correction, 2026-10-09: the full homepage header now uses the same light base and animated Noise settings as the hero (340, 1, 0.3, 2, 10). Header controls sit above the decorative canvas; desktop remains sticky and mobile remains in normal flow. Navigation pills and bridges use a solid white `#fff` base, superseding the light-gray base described below; the existing yellow hover glow is retained. The header remains hidden during the opening reveal.
+
+At `min-width: 64rem` (1024px with the unchanged default root size), the homepage header is sticky, light and full-width. The **moriz.studio** wordmark remains on the right. Following the owner's latest 2026-10-09 correction, **בואו נדבר** → `#contact` is a separate LiquidLink to the left of the underlined, unavailable **EN** control, with charcoal `--color-dark` fill and white `--color-text-inverse` text/arrow, replacing the earlier CTA red/secondary yellow ink. It shares the hero's 48px geometry and liquid interaction; press uses `--color-surface-strong`. The hero retains **לצפיה בפרויקטים** → `#projects`.
 
 Desktop links use the owner's exact wording and RTL order:
 
@@ -14,11 +16,10 @@ Desktop links use the owner's exact wording and RTL order:
 | קצת עלי | `#about` |
 | איך מתחילים | `#getting-started` |
 | שאלות תשובות | `#faq` |
-| בואו נדבר | `#contact` |
 
 Links use Leon Regular (400) and light-gray pills from `--color-surface`. The owner's latest hover-color correction uses secondary yellow `--color-secondary` (`#DDDC8C`) for the cursor glow; its maximum mix stays at 32%. The current-section dot retains brand red `--color-primary` (`#FB2C36`). The user-approved SVG goo filter connects the pills with a stretching neck as hover, focus or current-state gaps open; each component instance receives a unique filter ID. Keyboard focus uses an underline inside the filtered silhouette so it stays visible.
 
-Links remain native anchors. `aria-current="location"` follows the tracked sections in page order, independently of menu order: Projects precedes About in the page. No item is current before the first tracked target; Contact becomes current at the document bottom. Desktop scroll padding uses measured `--site-header-height` plus 16px so targets clear the sticky header.
+Links remain native anchors. `aria-current="location"` follows the four tracked sections in page order, independently of menu order: Projects precedes About in the page. No item is current before the first tracked target; FAQ is the last tracked menu item. Desktop scroll padding uses measured `--site-header-height` plus 16px so targets, including the separate contact CTA, clear the sticky header.
 
 Below the desktop breakpoint, the existing hamburger/dialog drawer retains its three links, EN, Escape behavior and focus trap. Separate `navigation.desktopLinks` dictionary data preserves the existing `navigation.links` mobile labels and order. An open drawer closes when the viewport enters desktop.
 

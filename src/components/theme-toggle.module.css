@@ -1,0 +1,42 @@
+.controls {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: var(--color-text-primary);
+}
+
+.toggle {
+  display: grid;
+  place-items: center;
+  flex: none;
+  block-size: var(--control-height-sm);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-liquid);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.toggle {
+  inline-size: var(--control-height-sm);
+}
+.toggle:hover {
+  background: var(--site-surface);
+  color: var(--site-foreground);
+}
+.toggle svg {
+  inline-size: 1.375rem;
+  block-size: 1.375rem;
+}
+.moon {
+  display: var(--theme-moon-display, block);
+}
+.sun {
+  display: var(--theme-sun-display, none);
+}

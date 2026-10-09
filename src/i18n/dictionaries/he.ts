@@ -8,6 +8,10 @@ export const he = {
     description: "שלד עמוד בית בשחור־לבן לבחינת המבנה.",
   },
   studioName: "Moriz Studio",
+  theme: {
+    switchToDark: "מעבר למצב כהה",
+    switchToLight: "מעבר למצב בהיר",
+  },
   fontPreview: {
     title: "השוואת פונטים",
     introduction:
@@ -27,8 +31,8 @@ export const he = {
       { label: "קצת עלי", href: "#about" },
       { label: "איך מתחילים", href: "#getting-started" },
       { label: "שאלות תשובות", href: "#faq" },
-      { label: "בואו נדבר", href: "#contact" },
     ],
+    contactLink: { label: "בואו נדבר", href: "#contact" },
     links: [
       { label: "פרויקטים", href: "#projects" },
       { label: "קצת עליי", href: "#about" },
@@ -59,6 +63,21 @@ export const he = {
       fourthLine: "ללכוד את תשומת לבו ולהביא לפעולה.",
     },
     projectsLink: "לצפיה בפרויקטים",
+    slideshow: {
+      pause: "עצירת מצגת העבודות",
+      resume: "הפעלת מצגת העבודות",
+      images: [
+        "פרקטיקל AI — אירוע קרוב ועוזר אישי בוואטסאפ במובייל",
+        "פרקטיקל AI — המשך למידה במובייל",
+        "פרקטיקל AI — יכולות העוזר האישי במובייל",
+        "פרקטיקל AI — קורסים ואירוע קרוב במחשב נייד",
+        "פרקטיקל AI — עמוד הבית במחשב נייד",
+        "פרקטיקל AI — מסלול למידה ותכנים במובייל",
+        "Awescience — סימולציית מטריצות בשני מסכי מובייל",
+        "Awescience — שיעור על מטריצות במחשב נייד",
+        "פרקטיקל AI — העוזר האישי והקהילה במחשב נייד",
+      ],
+    },
   },
   logoCarousel: {
     label: "לוגואים",

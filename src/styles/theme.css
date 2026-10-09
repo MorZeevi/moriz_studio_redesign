@@ -1,0 +1,102 @@
+/* Public-only roles. Brand primitives and the admin root stay unchanged. */
+:root[data-public-site] {
+  --site-background: var(--color-light);
+  --site-foreground: var(--color-dark);
+  --site-muted: color-mix(in srgb, var(--color-dark) 70%, transparent);
+  --site-surface: color-mix(in srgb, var(--color-dark) 5%, var(--color-light));
+  --site-card: #fff;
+  --site-border: color-mix(in srgb, var(--color-dark) 25%, var(--color-light));
+  --site-focus: var(--color-dark);
+  --site-heading-accent: var(--color-action-primary);
+  --site-scheme: light;
+  --theme-moon-display: block;
+  --theme-sun-display: none;
+  --color-background: var(--site-background);
+  --color-text-primary: var(--site-foreground);
+  --color-text-secondary: var(--site-muted);
+  --color-surface: var(--site-surface);
+  --color-border: var(--site-border);
+  --color-border-strong: var(--site-foreground);
+  --color-focus: var(--site-focus);
+  color-scheme: var(--site-scheme);
+  accent-color: var(--color-secondary);
+  scrollbar-color: var(--site-muted) var(--site-background);
+}
+
+:root[data-public-site][data-theme="dark"] {
+  --site-background: var(--color-dark);
+  --site-foreground: var(--color-light);
+  --site-muted: color-mix(in srgb, var(--color-light) 80%, transparent);
+  --site-surface: color-mix(in srgb, var(--color-light) 7%, var(--color-dark));
+  --site-card: var(--site-surface);
+  --site-border: color-mix(in srgb, var(--color-light) 25%, var(--color-dark));
+  --site-focus: var(--color-secondary);
+  --site-heading-accent: var(--color-primary);
+  --site-scheme: dark;
+  --theme-moon-display: none;
+  --theme-sun-display: block;
+}
+
+/* No-JavaScript and pre-bootstrap fallback. An explicit light choice wins. */
+@media (prefers-color-scheme: dark) {
+  :root[data-public-site]:not([data-theme="light"]) {
+    --site-background: var(--color-dark);
+    --site-foreground: var(--color-light);
+    --site-muted: color-mix(in srgb, var(--color-light) 80%, transparent);
+    --site-surface: color-mix(
+      in srgb,
+      var(--color-light) 7%,
+      var(--color-dark)
+    );
+    --site-card: var(--site-surface);
+    --site-border: color-mix(
+      in srgb,
+      var(--color-light) 25%,
+      var(--color-dark)
+    );
+    --site-focus: var(--color-secondary);
+    --site-heading-accent: var(--color-primary);
+    --site-scheme: dark;
+    --theme-moon-display: none;
+    --theme-sun-display: block;
+  }
+}
+
+/* Do not let stale scroll variables show a light frame during a theme switch. */
+html[data-public-site][data-theme="dark"] body[data-project-backdrop] {
+  --color-background: var(--site-background);
+  --color-text-primary: var(--site-foreground);
+  --color-text-secondary: var(--site-muted);
+  --color-border: var(--site-border);
+  --color-focus: var(--site-focus);
+}
+
+.header-theme-mobile {
+  display: flex;
+  margin-inline-start: auto;
+}
+
+html:not([data-theme]) [data-theme-controls] {
+  display: none;
+}
+.project-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+@media (min-width: 64rem) {
+  .header-theme-mobile {
+    display: none;
+  }
+}
+
+@media (min-width: 64rem) and (max-width: 74.99rem) {
+  .header-actions {
+    gap: var(--space-1);
+  }
+  .header-actions .header-contact-link {
+    --lb-height: var(--control-height-sm);
+    font-size: var(--text-body-sm);
+  }
+}

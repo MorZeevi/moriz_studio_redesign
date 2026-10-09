@@ -1,5 +1,13 @@
 /* Existing page compositions: retained for review, not new design-system patterns. */
+.site-header {
+  position: relative;
+  isolation: isolate;
+  background: var(--color-background);
+}
+
 .site-header-inner {
+  position: relative;
+  z-index: 1;
   display: flex;
   min-block-size: var(--space-24);
   align-items: center;
@@ -25,10 +33,10 @@
   inline-size: var(--space-12);
   block-size: var(--space-12);
   padding: 0;
-  border: var(--border-width-default) solid var(--color-dark);
+  border: var(--border-width-default) solid var(--color-text-primary);
   border-radius: 0;
   background: var(--color-background);
-  color: var(--color-dark);
+  color: var(--color-text-primary);
   cursor: pointer;
 }
 
@@ -47,7 +55,7 @@
   min-block-size: var(--space-12);
   align-items: center;
   justify-content: center;
-  color: var(--color-dark);
+  color: var(--color-text-primary);
   font-size: var(--text-body-sm);
   line-height: 1.5;
   text-decoration: underline;
@@ -59,14 +67,33 @@
   cursor: not-allowed;
 }
 
+.header-actions .header-contact-link {
+  --lb-fill: var(--site-foreground, var(--color-dark));
+  --lb-pressed-fill: color-mix(
+    in srgb,
+    var(--site-foreground, var(--color-dark)) 85%,
+    var(--site-background, var(--color-light))
+  );
+  --lb-ink: var(--site-background, var(--color-light));
+  white-space: nowrap;
+}
+
 .navigation-panel > .language-link {
   align-self: start;
   margin-block-start: auto;
 }
 
+.hero-background {
+  position: relative;
+  isolation: isolate;
+  background: var(--color-background);
+}
+
 .hero {
+  position: relative;
+  z-index: 1;
   display: grid;
-  grid-template-areas: "heading" "video" "copy";
+  grid-template-areas: "heading" "media" "copy";
   gap: var(--space-8);
   padding-block: var(--space-6) var(--space-16);
 }
@@ -74,6 +101,10 @@
 .hero-heading-block {
   grid-area: heading;
   min-inline-size: 0;
+}
+
+.hero-introduction {
+  display: none;
 }
 
 .hero-heading {
@@ -86,11 +117,13 @@
   letter-spacing: -0.025em;
 }
 
-.hero-video-placeholder {
-  grid-area: video;
+.hero-slideshow {
+  position: relative;
+  overflow: hidden;
+  grid-area: media;
   inline-size: 75%;
   max-inline-size: 30rem;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 3 / 2;
   align-self: end;
   background: var(--color-surface);
 }
@@ -142,7 +175,7 @@ html:has(.navigation-dialog[open]) {
   padding: 0;
   border: none;
   background: var(--color-background);
-  color: var(--color-dark);
+  color: var(--site-foreground, var(--color-dark));
   text-align: start;
 }
 
@@ -196,7 +229,6 @@ html:has(.navigation-dialog[open]) {
     position: sticky;
     inset-block-start: 0;
     z-index: 20;
-    background: var(--color-light);
   }
 
   .site-header-inner {
@@ -223,6 +255,7 @@ html:has(.navigation-dialog[open]) {
     align-items: center;
     justify-content: end;
     justify-self: end;
+    gap: var(--space-2);
   }
 
   .mobile-menu-toggle {
@@ -249,7 +282,7 @@ html:has(.navigation-dialog[open]) {
     font-size: var(--trial-hero-size-desktop);
   }
 
-  .hero-video-placeholder {
+  .hero-slideshow {
     grid-column: 10 / -1;
     grid-row: 1 / span 2;
     inline-size: 100%;
@@ -306,10 +339,20 @@ html:has(.navigation-dialog[open]) {
 }
 
 .advantages-card {
+  --color-text-primary: var(--site-foreground, var(--color-dark));
+  --color-text-secondary: var(
+    --site-muted,
+    color-mix(in srgb, var(--color-dark) 70%, transparent)
+  );
+  --color-border: var(
+    --site-border,
+    color-mix(in srgb, var(--color-dark) 25%, var(--color-light))
+  );
+  --color-focus: var(--site-focus, var(--color-dark));
   padding: var(--space-6);
   border-radius: var(--radius-liquid);
-  background: #fff;
-  color: var(--color-dark);
+  background: var(--site-card, #fff);
+  color: var(--color-text-primary);
 }
 
 .advantages-card h3 {
@@ -405,7 +448,8 @@ html:has(.navigation-dialog[open]) {
   width: var(--control-height-lg);
   height: var(--control-height-lg);
   place-items: center;
-  border: var(--border-width-default) solid var(--color-dark);
+  border: var(--border-width-default) solid
+    var(--site-foreground, var(--color-dark));
   border-radius: var(--radius-pill);
   background: var(--color-dark);
   color: var(--color-text-inverse);
@@ -434,17 +478,13 @@ body[data-project-backdrop] {
   color: var(--color-text-primary);
 }
 
-body[data-project-backdrop] .site-header {
-  background: var(--color-background);
-}
-
 body[data-project-backdrop] .header-actions .language-link,
 body[data-project-backdrop] .mobile-menu-toggle {
   color: var(--color-text-primary);
   border-color: currentColor;
 }
 
-/* These controls/media keep their own light ground. */
+/* Controls and media use the chosen theme, independently of the scroll fade. */
 body[data-project-backdrop]
 :is(
   .navigation-dialog,
@@ -452,12 +492,15 @@ body[data-project-backdrop]
   .logo-placeholder,
   .logo-carousel-pause
 ) {
-  --color-background: var(--color-light);
-  --color-text-secondary: color-mix(
-    in srgb,
-    var(--color-dark) 70%,
-    transparent
+  --color-background: var(--site-background, var(--color-light));
+  --color-text-primary: var(--site-foreground, var(--color-dark));
+  --color-text-secondary: var(
+    --site-muted,
+    color-mix(in srgb, var(--color-dark) 70%, transparent)
   );
-  --color-border: color-mix(in srgb, var(--color-dark) 25%, var(--color-light));
-  --color-focus: var(--color-dark);
+  --color-border: var(
+    --site-border,
+    color-mix(in srgb, var(--color-dark) 25%, var(--color-light))
+  );
+  --color-focus: var(--site-focus, var(--color-dark));
 }
