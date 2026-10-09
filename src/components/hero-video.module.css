@@ -1,0 +1,52 @@
+/* Physical top/left: Flip writes width/height, and inset would over-constrain in RTL. */
+.target {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  will-change: transform, width, height;
+  /* The control scales down with the video on narrow screens. */
+  container-type: size;
+}
+
+.video {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+.control {
+  position: absolute;
+  z-index: 2;
+  inset-block-end: clamp(0.125rem, 4cqb, var(--space-2));
+  inset-inline-end: clamp(0.125rem, 4cqb, var(--space-2));
+  display: grid;
+  place-items: center;
+  inline-size: clamp(1.5rem, 45cqb, var(--control-height-sm));
+  block-size: clamp(1.5rem, 45cqb, var(--control-height-sm));
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-liquid);
+  background: var(--color-dark);
+  color: var(--color-light);
+  cursor: pointer;
+  --color-focus: var(--color-secondary);
+}
+
+.control svg {
+  inline-size: 55%;
+  block-size: 55%;
+}
+.control:hover {
+  background: var(--color-surface-strong);
+}
+.control:focus-visible {
+  outline-offset: -4px;
+  box-shadow: none;
+}

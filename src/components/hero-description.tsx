@@ -14,8 +14,7 @@ export function HeroDescription({
         {content.firstLine}
       </span>{" "}
       <span className="hero-description-line">{content.secondLine}</span>{" "}
-      <span className="hero-description-line">{content.thirdLine}</span>{" "}
-      <span className="hero-description-line">{content.fourthLine}</span>
+      <span className="hero-description-line">{content.thirdLine}</span>
     </p>
   );
 }

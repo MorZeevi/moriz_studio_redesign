@@ -14,7 +14,7 @@ The locale layout's static first-party head script initializes the cover before 
 
 Reduced motion, disabled JavaScript, hidden documents and direct section links skip the cover. `#top` is eligible. Skipped reduced-motion/section visits and visits to other pages do not consume the stored session opening. Project pages, font previews and admin have no cover.
 
-The overlay is decorative (`aria-hidden`) and uses `pointer-events: none`. Keyboard, pointer, scrolling, hash changes, resize, motion-preference changes and hiding the tab dismiss it immediately without preventing the underlying action. It does not lock scrolling or move focus. Timers, animation frames and event listeners are cancelled on completion/unmount. The CSS fallback also clears the SVG cover if JavaScript stops during startup. Without JavaScript the cover is hidden by default.
+The overlay is decorative (`aria-hidden`) and uses `pointer-events: none`. Keyboard, pointer, scrolling, hash changes, resize, motion-preference changes and hiding the tab dismiss it immediately without preventing the underlying action. Only a viewport `resize` counts: the capture listener ignores media elements' own `resize` events, which the hero video fires when its metadata loads (2026-10-09). It does not lock scrolling or move focus. Timers, animation frames and event listeners are cancelled on completion/unmount. The CSS fallback also clears the SVG cover if JavaScript stops during startup. Without JavaScript the cover is hidden by default.
 
 ## Implementation and verification
 

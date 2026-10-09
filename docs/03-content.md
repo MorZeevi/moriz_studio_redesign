@@ -95,8 +95,7 @@ Hero supporting text — agreed, supplied by the owner on 2026-10-06; preserved 
 
 > **מחקר מנצח טיעונים**. מתוך התפיסה הזו אני ניגשת לכל פרויקט – מורכב ככל שיהיה.  
 > עם תואר בטכנולוגיות למידה מ-HIT וניסיון עשיר בפיתוח  
-> אצור עבורכם כלי דיגיטלי שבאמת יודע לעצור את הגולש,  
-> ללכוד את תשומת לבו ולהביא לפעולה.
+> אצור עבורכם כלי דיגיטלי שבאמת מביא לפעולה.
 
 The owner now supplies years of development experience as a fact; no exact duration is recorded. Later section body copy: TODO: Decision required
 

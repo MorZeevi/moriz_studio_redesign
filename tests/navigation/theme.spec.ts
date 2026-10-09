@@ -25,7 +25,7 @@ for (const colorScheme of ["light", "dark"] as const) {
     await expect(
       page.locator(".hero-background .react-bits-noise"),
     ).toHaveCount(1);
-    await expect(page.locator(".hero-introduction")).toBeHidden();
+    await expect(page.locator(".header-contact-link img")).toBeVisible();
     await context.close();
   });
 }

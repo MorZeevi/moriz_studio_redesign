@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { HeroDescription } from "@/components/hero-description";
+import { HeroVideo } from "@/components/hero-video";
 import { LanguageLink } from "@/components/language-link";
 import { LogoCarousel } from "@/components/logo-carousel";
 import { Navigation } from "@/components/navigation";
@@ -10,7 +11,6 @@ import { PartyModeProvider } from "@/components/party-mode/party-mode-provider";
 import { PartyModeToggle } from "@/components/party-mode/party-mode-toggle";
 import { PixelReveal } from "@/components/pixel-reveal";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { HeroSlideshow } from "@/components/hero-slideshow";
 import { ProjectsSection } from "@/components/projects-section";
 import FallingText from "@/components/react-bits/FallingText";
 import Noise from "@/components/react-bits/Noise";
@@ -75,7 +75,17 @@ export default async function Home({
             />
             <LiquidLink
               className="header-contact-link"
+              variant="secondary"
               href={content.navigation.contactLink.href}
+              icon={
+                <Image
+                  src="/images/mor-avatar-cutout.webp"
+                  alt=""
+                  width={600}
+                  height={600}
+                  sizes="48px"
+                />
+              }
             >
               {content.navigation.contactLink.label}
             </LiquidLink>
@@ -99,19 +109,6 @@ export default async function Home({
           />
           <div className="hero-shell hero">
             <div className="hero-heading-block">
-              <div className="hero-introduction mb-6 flex items-center gap-3">
-                <Image
-                  src="/images/mor-avatar.png"
-                  alt={content.hero.portraitAlt}
-                  width={600}
-                  height={684}
-                  sizes="(min-width: 768px) 56px, 48px"
-                  className="block h-auto w-12 shrink-0 md:w-14"
-                />
-                <p className="text-base md:text-lg">
-                  {content.hero.introduction}
-                </p>
-              </div>
               <h1
                 id="hero-heading"
                 className={`hero-heading ${partyStyles.lightHeading}`}
@@ -121,20 +118,29 @@ export default async function Home({
                 <PartyHeadingLight text={content.hero.heading} />
               </h1>
             </div>
-            <HeroSlideshow labels={content.hero.slideshow} />
             <div className="hero-copy">
               <HeroDescription
                 className="hero-description"
                 content={content.hero.description}
               />
-              <LiquidLink
-                className="hero-projects-link"
-                href="#projects"
-                data-party-react="cta"
-              >
-                {content.hero.projectsLink}
-              </LiquidLink>
+              <div className="hero-actions">
+                <LiquidLink
+                  className="hero-projects-link"
+                  href="#projects"
+                  data-party-react="cta"
+                >
+                  {content.hero.projectsLink}
+                </LiquidLink>
+              </div>
             </div>
+            <HeroVideo labels={content.hero.video} />
+          </div>
+          <div className="hero-shell hero-video-stage">
+            <div
+              className="hero-video-end"
+              data-hero-video-end
+              aria-hidden="true"
+            />
           </div>
         </section>
 

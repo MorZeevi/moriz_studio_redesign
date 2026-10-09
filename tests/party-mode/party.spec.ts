@@ -842,7 +842,8 @@ test("the tag dance pauses while hidden and cancels offscreen or with reduced mo
   await expect.poll(danceStates).toHaveLength(8);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(state(page)).toHaveAttribute("data-party-state", "active");
-  expect(await danceStates()).toEqual([]);
+  // Media-query change events arrive at the next rendering step, not on emulateMedia.
+  await expect.poll(danceStates).toEqual([]);
   await stop(page);
 });
 
@@ -851,7 +852,20 @@ test("compact tags use gentler hops and update when the viewport changes", async
 }) => {
   await start(page);
   await page.setViewportSize({ width: 390, height: 844 });
-  await toggle(page).scrollIntoViewIfNeeded();
+  // Offscreen tags stop dancing; bring the tags themselves into view at the new width.
+  await page.locator("[data-party-tags]").scrollIntoViewIfNeeded();
+  await expect
+    .poll(() =>
+      page
+        .locator("[data-party-tag]")
+        .evaluateAll(
+          (elements) =>
+            elements
+              .flatMap((element) => element.getAnimations())
+              .filter((animation) => animation.id === "party-tag-dance").length,
+        ),
+    )
+    .toBe(8);
   await expect(page.locator("[data-party-video]")).toHaveAttribute(
     "src",
     /-mobile\.(webm|mov)$/,

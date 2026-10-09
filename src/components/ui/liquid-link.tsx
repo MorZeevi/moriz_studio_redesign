@@ -4,6 +4,7 @@ import Link from "next/link";
 import {
   type ComponentPropsWithoutRef,
   type CSSProperties,
+  type ReactNode,
   useEffect,
   useId,
   useRef,
@@ -14,6 +15,8 @@ type LiquidLinkProps = Omit<ComponentPropsWithoutRef<"a">, "href"> & {
   href: string;
   variant?: "primary" | "secondary";
   navigation?: "native" | "client";
+  /** Replaces the arrow inside the round blob (e.g. a portrait). */
+  icon?: ReactNode;
 };
 
 export function LiquidLink({
@@ -22,6 +25,7 @@ export function LiquidLink({
   style,
   variant = "primary",
   navigation = "native",
+  icon,
   ...props
 }: LiquidLinkProps) {
   const linkRef = useRef<HTMLAnchorElement>(null);
@@ -89,6 +93,32 @@ export function LiquidLink({
     };
   }, []);
 
+  const shapes = (
+    <>
+      <span className={styles.icon} data-liquid-shape aria-hidden="true">
+        {!icon && (
+          <svg
+            className={styles.glyph}
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            focusable="false"
+            aria-hidden="true"
+          >
+            <path d="M3 8h10M9 4l4 4-4 4" />
+          </svg>
+        )}
+        <span className={styles.bridge} data-liquid-shape />
+      </span>
+      <span className={styles.label} data-liquid-shape>
+        {children}
+      </span>
+    </>
+  );
+
   return (
     <>
       <svg
@@ -131,25 +161,17 @@ export function LiquidLink({
           { ...style, "--lb-filter": `url("#${filterId}")` } as CSSProperties
         }
       >
-        <span className={styles.icon} data-liquid-shape aria-hidden="true">
-          <svg
-            className={styles.glyph}
-            viewBox="0 0 16 16"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            focusable="false"
-            aria-hidden="true"
-          >
-            <path d="M3 8h10M9 4l4 4-4 4" />
-          </svg>
-          <span className={styles.bridge} data-liquid-shape />
-        </span>
-        <span className={styles.label} data-liquid-shape>
-          {children}
-        </span>
+        {icon ? (
+          <>
+            {/* Only the shapes melt together; the goo would smear the portrait. */}
+            <span className={styles.shapes}>{shapes}</span>
+            <span className={styles.portrait} aria-hidden="true">
+              {icon}
+            </span>
+          </>
+        ) : (
+          shapes
+        )}
       </LinkElement>
     </>
   );

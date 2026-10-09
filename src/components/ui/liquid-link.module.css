@@ -81,6 +81,54 @@
   transition: translate 0.45s var(--lb-ease);
 }
 
+/* With a portrait, the goo filter moves from the link to the shapes so the
+   portrait can sit above it unfiltered. */
+.link:has(> .portrait) {
+  --lb-icon-size: calc(var(--lb-height) * 1.4);
+  position: relative;
+  filter: none;
+}
+
+.shapes {
+  display: inline-flex;
+  align-items: stretch;
+  gap: var(--lb-gap);
+  filter: var(--lb-filter);
+}
+
+/* A wider blob leaves the secondary fill visible beside the portrait. */
+.shapes .icon {
+  flex-basis: var(--lb-icon-size);
+}
+
+/* Over the blob at the inline-start end. It pops out above the blob; the
+   sides and rounded bottom clip it. */
+.portrait {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: var(--lb-icon-size);
+  /* 1px past the bottom covers the goo's slightly larger blob edge. */
+  clip-path: inset(
+    -50% 0 -1px round 0 0 var(--radius-liquid) var(--radius-liquid)
+  );
+  pointer-events: none;
+}
+
+/* As wide as the blob so the shoulders meet its edges, sunk so they are
+   cropped. Physical left: centering with translate, independent of direction. */
+.portrait img {
+  position: absolute;
+  bottom: -10%;
+  left: 50%;
+  display: block;
+  inline-size: auto;
+  block-size: 140%;
+  max-inline-size: none;
+  aspect-ratio: 1;
+  translate: -50% 0;
+}
+
 [dir="rtl"] .link .glyph {
   scale: -1 1;
 }

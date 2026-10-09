@@ -112,7 +112,12 @@ export function PixelReveal() {
       Math.max(...cells.map((cell) => cell.delay)) + WINDOW_DURATION;
     setGrid({ w, h, cw, ch, ox: -cw / 2, oy: -ch / 2, cells });
 
-    const dismiss = () => finish();
+    // Capture also sees media elements' own `resize` (e.g. the hero video
+    // loading metadata); only a viewport resize should end the opening.
+    const dismiss = (event?: Event) => {
+      if (event?.type === "resize" && event.target !== window) return;
+      finish();
+    };
     const options = { capture: true, passive: true, signal: listeners.signal };
     for (const event of [
       "keydown",
