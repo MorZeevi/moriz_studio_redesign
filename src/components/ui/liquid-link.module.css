@@ -133,6 +133,12 @@
   scale: -1 1;
 }
 
+/* Points down in either direction: no mirror, a quarter turn. */
+.link .glyph.down {
+  scale: none;
+  rotate: 90deg;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .link:hover {
     --lb-gap: 1.35em;
@@ -142,6 +148,9 @@
   }
   [dir="rtl"] .link:hover .glyph {
     translate: -0.14em 0;
+  }
+  .link:hover .glyph.down {
+    translate: 0 0.14em;
   }
 }
 
@@ -174,7 +183,8 @@
   }
   .link .glyph,
   .link:hover .glyph,
-  [dir="rtl"] .link:hover .glyph {
+  [dir="rtl"] .link:hover .glyph,
+  .link:hover .glyph.down {
     transition: none;
     translate: none;
   }

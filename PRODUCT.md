@@ -101,4 +101,26 @@ Corner hero layout, 2026-10-09: following an owner-supplied reference, the hero 
 
 Hero trim and avatar contact pill, 2026-10-09: the owner removes the video caption, the hero introduction (avatar and "נעים להכיר, אני מור") and the hero "בואו נדבר" button; "לצפיה בפרויקטים" stays as the hero's single primary CTA. The description now ends "אצור עבורכם אתר, אפליקציית Web או מערכת לעסק, מהרעיון ועד שזה עובד." The header "בואו נדבר" becomes a secondary (yellow) pill with the owner's cut-out portrait in place of the arrow, following the supplied pill reference; the label is unchanged.
 
+Hero layout aligned to the header grid, 2026-10-09: following the owner's mockup, positions only (copy, design and colors unchanged). The description and projects link sit top-right and the showreel video top-left, in the header's side columns either side of the menu; the heading sits at the bottom of the first viewport, right-aligned on two lines; the logo carousel moves into the hero below the heading. The video still grows on scroll to the full-width end slot. This supersedes the corner hero layout.
+
+Header controls beside the wordmark, 2026-10-09: on desktop the theme toggle and the EN language link move from the left-hand actions to sit beside the moriz.studio wordmark on the right; the "בואו נדבר" pill stays alone on the left. Mobile is unchanged.
+
+Client logos and CTA alignment, 2026-10-09: the hero logo carousel shows the owner-supplied client logos (Amdocs, Stratasys, ממר״ם, TheMarker, הארץ) instead of placeholders. Each is converted to black ink on a transparent background (colored areas become grey tones, white details stay knocked out) in `public/logos/`, and painted through a CSS mask in the text color so it reads in light and dark themes. The loop runs at half speed (30); later the same day the owner asks for a really slow loop, now 12. On desktop, "לצפיה בפרויקטים" ends on the video's bottom edge.
+
+Logo font in the site font, 2026-10-09: the owner asks for the moriz.studio wordmark to use the same font as everything else. It now uses Leon (`--font-body`), `moriz.` 900 and `studio` 400. This supersedes the Helvetica logo font correction.
+
+Client logos on one gray, 2026-10-09: the owner asks for every client logo to share the same gray palette and adds FedEx and Matrix (originals saved to the assets folder). All seven logos are regenerated as solid silhouettes (any color becomes full ink, white details stay knocked out) and painted in one gray mixed 50/50 from the theme's text and background colors, so they match each other in light and dark themes. This supersedes the grey-tone ink conversion.
+
+Contact pill colors, 2026-10-09: the header "בואו נדבר" pill becomes white (#fff, in both themes) with CTA-red text (`--color-action-primary`); the portrait sits on the white blob. This supersedes the secondary-yellow fill.
+
+Louder grain, 2026-10-09: the owner asks for a stronger background noise. The header and hero `Noise` layers go from `patternAlpha` 10 to 22 (kept equal so the seam stays invisible). The logo strip now fades its edges with a CSS mask instead of painting the background color over them, so the grain is not interrupted at the ends.
+
+Rotating hero heading, 2026-10-09: the owner replaces the h1 with "יוצרת" + a rotating phrase (אתרים מורכבים → אפליקציות Web → איפיון ועיצוב → כלי AI) over a second line "מבוססי מחקר", using React Bits RotatingText (`src/components/react-bits/RotatingText.tsx`, `motion` dependency; local patch: each word gets `dir="auto"` so Latin words keep their order in RTL). Same color and size as the heading; letters slide up every 2.5s, clipped to the ink so they never show outside the line. Desktop is two lines, mobile three fixed lines. The h1's accessible name lists every option; reduced motion holds the first option; party mode pauses rotation so the light projections match.
+
+CTA beside the heading, 2026-10-09: the owner felt the projects CTA was misplaced under the description. On desktop "לצפיה בפרויקטים" now sits in the left column beside the heading, its left edge on the video's and its bottom on the heading's last line ("מבוססי מחקר"); the description stands alone at the top. Mobile keeps it after the description. This supersedes aligning the CTA to the video's bottom.
+
+Heading and description swapped, 2026-10-09: on desktop the h1 moves to the top row beside the video (tops aligned) and the description to the bottom of the first viewport; "לצפיה בפרויקטים" stays in the left column, now bottom-aligned with the description. The CTA uses the secondary (yellow) fill and its arrow points down (LiquidLink `arrow="down"`), since it leads to a section below. Mobile order is unchanged.
+
+Button colors corrected, 2026-10-09: the header "בואו נדבר" pill goes back to the secondary (yellow) fill with the palette's dark ink, superseding the white/red pill; the hero "לצפיה בפרויקטים" CTA uses the CTA red with light (white) text, keeping its down arrow.
+
 Header opening correction, 2026-10-09: render `.site-header` immediately beneath the pixel opening cover on desktop and mobile, so it appears through the opening windows with the page. Remove the separate header visibility delay and its fallback animation. This supersedes the earlier instruction to hide the header during playback.

@@ -14,7 +14,7 @@ async function capture(page: Page, name: string) {
   });
 }
 
-test("Helvetica wordmark preserves the weight split and centered menu", async ({
+test("wordmark uses the site font, keeps the weight split and centered menu", async ({
   page,
 }) => {
   await page.goto("/he#top");
@@ -23,8 +23,11 @@ test("Helvetica wordmark preserves the weight split and centered menu", async ({
   await expect(logo).toHaveAccessibleName("moriz.studio");
   await expect(logo).toHaveAttribute("href", "/he#top");
   await expect(logo).toHaveText("moriz.studio");
-  await expect(logo).toHaveCSS("font-family", "Helvetica, Arial, sans-serif");
-  await expect(logo.locator("span").first()).toHaveCSS("font-weight", "700");
+  await expect(logo).toHaveCSS(
+    "font-family",
+    await page.evaluate(() => getComputedStyle(document.body).fontFamily),
+  );
+  await expect(logo.locator("span").first()).toHaveCSS("font-weight", "900");
   await expect(logo.locator("span").last()).toHaveCSS("font-weight", "400");
   await expect(page.locator("h1")).toHaveCount(1);
   const center = await page.locator(".site-header-inner").evaluate((header) => {
@@ -74,8 +77,11 @@ test("reduced motion has a static bold wordmark and visible keyboard focus", asy
     await logo.evaluate((element) => element.matches(":focus-visible")),
   ).toBe(true);
   await logo.hover();
-  await expect(logo).toHaveCSS("font-family", "Helvetica, Arial, sans-serif");
-  await expect(logo.locator("span").first()).toHaveCSS("font-weight", "700");
+  await expect(logo).toHaveCSS(
+    "font-family",
+    await page.evaluate(() => getComputedStyle(document.body).fontFamily),
+  );
+  await expect(logo.locator("span").first()).toHaveCSS("font-weight", "900");
   await capture(page, "keyboard-reduced");
 });
 

@@ -21,7 +21,7 @@ export function FontPreview({
   hero: SiteContent["hero"];
   samples: FontSample[];
 }) {
-  const [heading, setHeading] = useState(hero.heading);
+  const [heading, setHeading] = useState(hero.heading.label);
   const [size, setSize] = useState(64);
 
   return (
@@ -60,7 +60,7 @@ export function FontPreview({
           variant="outline"
           type="button"
           onClick={() => {
-            setHeading(hero.heading);
+            setHeading(hero.heading.label);
             setSize(64);
           }}
         >

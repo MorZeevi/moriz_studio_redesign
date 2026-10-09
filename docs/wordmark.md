@@ -1,6 +1,8 @@
 # Studio wordmark
 
-Current font correction, 2026-10-09: the shared `StudioLogo` now uses `Helvetica, Arial, sans-serif`, with `moriz.` bold 700 and `studio` regular 400. It renders static text because Helvetica does not provide the variable width axes used by Text Pressure. The existing size, color, native home link and accessible name remain. Helvetica uses the installed system font, with Arial and sans-serif fallbacks. The earlier implementation below is historical; its motion tests have been replaced with current typography checks.
+Current font correction, 2026-10-09 (later the same day): the owner asks for the logo to use the same font as everything else, superseding Helvetica. The shared `StudioLogo` now uses `var(--font-body)` (Leon), with `moriz.` at the heading weight 900 and `studio` at 400, since Leon ships only those two weights. The `.studio-wordmark` composition rule no longer sets its own weight.
+
+Previous: Current font correction, 2026-10-09: the shared `StudioLogo` now uses `Helvetica, Arial, sans-serif`, with `moriz.` bold 700 and `studio` regular 400. It renders static text because Helvetica does not provide the variable width axes used by Text Pressure. The existing size, color, native home link and accessible name remain. Helvetica uses the installed system font, with Arial and sans-serif fallbacks. The earlier implementation below is historical; its motion tests have been replaced with current typography checks.
 
 Implemented locally on 2026-10-08 as an extension of the existing studio identity. The owner's latest correction requires the exact lowercase `moriz.studio`, without a space: `moriz.` rests at bold 700 and `studio` stays regular 400, including during pressure. This supersedes the earlier `moriz.`-only, all-regular Leon and displayed SVG treatments. The subsequent motion correction follows the owner's rejection of the initial animation.
 

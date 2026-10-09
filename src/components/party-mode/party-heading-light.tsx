@@ -1,10 +1,11 @@
 "use client";
 
+import type { ReactNode } from "react";
 import styles from "./party-mode.module.css";
 import { usePartyMode } from "./party-mode-provider";
 
 /** Original heading text remains the only accessible/selectable content. */
-export function PartyHeadingLight({ text }: { text: string }) {
+export function PartyHeadingLight({ text }: { text: ReactNode }) {
   const { enabled, phase } = usePartyMode();
   if (!enabled && phase === "idle") return null;
   return (

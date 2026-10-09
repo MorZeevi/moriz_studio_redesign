@@ -17,6 +17,8 @@ type LiquidLinkProps = Omit<ComponentPropsWithoutRef<"a">, "href"> & {
   navigation?: "native" | "client";
   /** Replaces the arrow inside the round blob (e.g. a portrait). */
   icon?: ReactNode;
+  /** "down" for links to a section further down the page. */
+  arrow?: "forward" | "down";
 };
 
 export function LiquidLink({
@@ -26,6 +28,7 @@ export function LiquidLink({
   variant = "primary",
   navigation = "native",
   icon,
+  arrow = "forward",
   ...props
 }: LiquidLinkProps) {
   const linkRef = useRef<HTMLAnchorElement>(null);
@@ -98,7 +101,7 @@ export function LiquidLink({
       <span className={styles.icon} data-liquid-shape aria-hidden="true">
         {!icon && (
           <svg
-            className={styles.glyph}
+            className={`${styles.glyph}${arrow === "down" ? ` ${styles.down}` : ""}`}
             viewBox="0 0 16 16"
             fill="none"
             stroke="currentColor"

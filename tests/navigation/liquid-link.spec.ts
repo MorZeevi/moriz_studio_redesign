@@ -43,7 +43,7 @@ async function capture(page: Page, name: string) {
   }
 }
 
-test("hero link has regular text, RTL arrow, independent liquid motion and press feedback", async ({
+test("hero link has regular text, a down arrow, independent liquid motion and press feedback", async ({
   page,
 }) => {
   await page.goto("/he");
@@ -59,7 +59,10 @@ test("hero link has regular text, RTL arrow, independent liquid motion and press
     return {
       weight: cs.fontWeight,
       height: element.getBoundingClientRect().height,
-      arrow: getComputedStyle(element.querySelector("svg") as Element).scale,
+      arrow: [
+        getComputedStyle(element.querySelector("svg") as Element).scale,
+        getComputedStyle(element.querySelector("svg") as Element).rotate,
+      ],
       iconX: icon?.getBoundingClientRect().x,
       labelX: label?.getBoundingClientRect().x,
       filter: cs.filter,
@@ -70,7 +73,8 @@ test("hero link has regular text, RTL arrow, independent liquid motion and press
   });
   expect(initial.weight).toBe("400");
   expect(initial.height).toBe(48);
-  expect(initial.arrow).toBe("-1 1");
+  // It leads to a section below, so it points down in either direction.
+  expect(initial.arrow).toEqual(["none", "90deg"]);
   expect(initial.iconX).toBeGreaterThan(initial.labelX ?? 0);
   expect(initial.filter).not.toBe(initial.navFilter);
   expect(await gap(page)).toBe(2);

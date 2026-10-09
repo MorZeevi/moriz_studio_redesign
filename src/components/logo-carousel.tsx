@@ -27,7 +27,23 @@ export function LogoCarousel({
   const logos = useMemo<LogoItem[]>(
     () =>
       homepageLogos.length > 0
-        ? homepageLogos
+        ? homepageLogos.map(({ src, alt, ratio, scale }) => ({
+            node: (
+              <span
+                className="client-logo"
+                role="img"
+                aria-label={alt}
+                style={
+                  {
+                    "--logo-src": `url(${src})`,
+                    "--logo-ratio": ratio,
+                    "--logo-scale": scale,
+                  } as CSSProperties
+                }
+              />
+            ),
+            title: alt,
+          }))
         : Array.from({ length: 6 }, () => ({
             node: (
               <span className="logo-placeholder" dir="rtl">
@@ -40,21 +56,19 @@ export function LogoCarousel({
 
   return (
     <div className="logo-carousel" data-logo-carousel>
-      <div className="hero-shell logo-carousel-shell">
+      <div className="logo-carousel-shell">
         <div className="logo-carousel-window" dir="ltr">
           <LogoLoop
             logos={logos}
-            speed={reducedMotion ? 0 : 60}
+            speed={reducedMotion ? 0 : 12}
             direction="left"
             style={
               {
-                "--logoloop-logoHeight": "var(--space-12)",
+                "--logoloop-logoHeight": "var(--space-8)",
                 "--logoloop-gap": "var(--space-16)",
               } as CSSProperties
             }
             hoverSpeed={0}
-            fadeOut
-            fadeOutColor="var(--color-background)"
             ariaLabel={labels.label}
           />
         </div>

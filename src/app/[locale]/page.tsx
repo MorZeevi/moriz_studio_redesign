@@ -1,12 +1,11 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { HeroDescription } from "@/components/hero-description";
+import { HeroHeading } from "@/components/hero-heading";
 import { HeroVideo } from "@/components/hero-video";
 import { LanguageLink } from "@/components/language-link";
 import { LogoCarousel } from "@/components/logo-carousel";
 import { Navigation } from "@/components/navigation";
-import { PartyHeadingLight } from "@/components/party-mode/party-heading-light";
-import partyStyles from "@/components/party-mode/party-mode.module.css";
 import { PartyModeProvider } from "@/components/party-mode/party-mode-provider";
 import { PartyModeToggle } from "@/components/party-mode/party-mode-toggle";
 import { PixelReveal } from "@/components/pixel-reveal";
@@ -55,24 +54,29 @@ export default async function Home({
           patternScaleX={1}
           patternScaleY={0.3}
           patternRefreshInterval={2}
-          patternAlpha={10}
+          patternAlpha={22}
         />
         <div className="hero-shell site-header-inner">
-          <StudioLogo
-            name={content.studioName}
-            locale={locale}
-            className="studio-wordmark"
-          />
+          <div className="header-brand">
+            <StudioLogo
+              name={content.studioName}
+              locale={locale}
+              className="studio-wordmark"
+            />
+            {/* Desktop: theme and language sit beside the wordmark. */}
+            <div className="header-brand-controls">
+              <ThemeToggle labels={content.theme} />
+              <LanguageLink
+                locale={locale}
+                content={content.navigation.languages}
+              />
+            </div>
+          </div>
           <div className="header-theme-mobile">
             <ThemeToggle labels={content.theme} />
           </div>
           <Navigation locale={locale} content={content.navigation} />
           <div className="header-actions">
-            <ThemeToggle labels={content.theme} />
-            <LanguageLink
-              locale={locale}
-              content={content.navigation.languages}
-            />
             <LiquidLink
               className="header-contact-link"
               variant="secondary"
@@ -105,35 +109,30 @@ export default async function Home({
             patternScaleX={1}
             patternScaleY={0.3}
             patternRefreshInterval={2}
-            patternAlpha={10}
+            patternAlpha={22}
           />
           <div className="hero-shell hero">
             <div className="hero-heading-block">
-              <h1
-                id="hero-heading"
-                className={`hero-heading ${partyStyles.lightHeading}`}
-                data-party-react="heading"
-              >
-                {content.hero.heading}
-                <PartyHeadingLight text={content.hero.heading} />
-              </h1>
+              <HeroHeading content={content.hero.heading} />
             </div>
             <div className="hero-copy">
               <HeroDescription
                 className="hero-description"
                 content={content.hero.description}
               />
-              <div className="hero-actions">
-                <LiquidLink
-                  className="hero-projects-link"
-                  href="#projects"
-                  data-party-react="cta"
-                >
-                  {content.hero.projectsLink}
-                </LiquidLink>
-              </div>
+            </div>
+            <div className="hero-actions">
+              <LiquidLink
+                className="hero-projects-link"
+                arrow="down"
+                href="#projects"
+                data-party-react="cta"
+              >
+                {content.hero.projectsLink}
+              </LiquidLink>
             </div>
             <HeroVideo labels={content.hero.video} />
+            <LogoCarousel labels={content.logoCarousel} />
           </div>
           <div className="hero-shell hero-video-stage">
             <div
@@ -143,8 +142,6 @@ export default async function Home({
             />
           </div>
         </section>
-
-        <LogoCarousel labels={content.logoCarousel} />
 
         <Section
           id="advantages"

@@ -22,7 +22,6 @@
   justify-self: start;
   overflow-wrap: anywhere;
   font-size: var(--trial-wordmark-size);
-  font-weight: 700;
   line-height: 1.2;
 }
 
@@ -44,8 +43,17 @@
   background: var(--color-surface);
 }
 
+.header-brand {
+  display: flex;
+  min-inline-size: 0;
+  align-items: center;
+  gap: var(--space-4);
+  justify-self: start;
+}
+
 .desktop-navigation,
-.header-actions {
+.header-actions,
+.header-brand-controls {
   display: none;
 }
 
@@ -67,6 +75,7 @@
   cursor: not-allowed;
 }
 
+/* Secondary variant: yellow fill, dark ink from the palette. */
 .header-actions .header-contact-link {
   white-space: nowrap;
 }
@@ -86,8 +95,10 @@
   position: relative;
   z-index: 1;
   display: grid;
+  /* minmax: the logo strip's long track must not widen the column. */
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-8);
-  padding-block: var(--space-6) var(--space-16);
+  padding-block: var(--space-6) 0;
   text-align: start;
 }
 
@@ -104,6 +115,23 @@
   line-height: 1;
   letter-spacing: -0.025em;
   text-wrap: balance;
+}
+
+/* "יוצרת" + rotating phrase / "מבוססי מחקר". On mobile the phrase takes its
+   own line so the heading keeps three fixed lines while it rotates. */
+.hero-heading-line {
+  display: block;
+}
+
+.hero-heading-rotating {
+  display: flex;
+}
+
+/* Clips each word's slide to the ink, not the line box: with line-height 1
+   Hebrew letters sit low (ink from ~0.24em, ל from ~0.09em, ק down to
+   ~1.06em), so a box clip would show letters leaving through the empty top. */
+.hero-heading-rotating-word {
+  clip-path: inset(0.07em -0.1em -0.07em);
 }
 
 /* Inline-end (left in RTL) corner; narrower on mobile so it still has room to grow. */
@@ -277,46 +305,90 @@ html:has(.navigation-dialog[open]) {
     gap: var(--space-2);
   }
 
+  .header-brand-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
   .mobile-menu-toggle {
     display: none;
   }
 
-  /* Heading across the top; copy and video in the bottom corners. */
+  /* Columns follow the header: the menu's measured width in the middle,
+     the same gap, so copy and video end where the menu begins. Copy and video
+     on top; heading and logos at the bottom of the first viewport. */
   .hero {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    grid-template-rows: auto 1fr;
+    grid-template-columns:
+      minmax(0, 1fr) var(--site-nav-inline-size, 34rem)
+      minmax(0, 1fr);
+    grid-template-rows: auto 1fr auto auto;
     column-gap: var(--space-6);
-    row-gap: var(--space-12);
+    row-gap: 0;
     min-block-size: calc(100svh - var(--site-header-height, var(--space-24)));
-    /* The bottom row clears the floating WhatsApp control in the same corner. */
-    padding-block: var(--space-6) var(--space-24);
+    padding-block: var(--space-6) 0;
   }
 
+  /* Bottom row, from the wordmark to about the middle of the menu. */
+  .hero-copy {
+    grid-column: 1 / span 2;
+    grid-row: 3;
+    align-self: end;
+    max-inline-size: calc(100% - var(--site-nav-inline-size, 34rem) / 2);
+    margin-block: var(--space-16) var(--space-10);
+  }
+
+  /* Beside the description in the left column: its bottom meets the
+     description's last line and its left edge the video's. */
+  .hero-actions {
+    grid-column: 3;
+    grid-row: 3;
+    align-self: end;
+    justify-self: end;
+    max-inline-size: none;
+    margin-block: 0 var(--space-10);
+  }
+
+  .hero-video {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: start;
+    justify-self: stretch;
+    inline-size: auto;
+  }
+
+  /* Top row beside the video, from the wordmark to the menu's far edge. */
   .hero-heading-block {
-    grid-column: 1 / span 9;
+    grid-column: 1 / span 2;
+    grid-row: 1;
+    align-self: start;
   }
 
   .hero-heading {
     font-size: var(--trial-hero-size-desktop);
   }
 
-  .hero-copy {
-    grid-column: 1 / span 6;
-    align-self: end;
-    max-inline-size: 40rem;
+  .hero-heading-line {
+    white-space: nowrap;
   }
 
-  .hero-video {
-    grid-column: 9 / -1;
-    align-self: end;
-    justify-self: stretch;
-    inline-size: auto;
+  .hero-heading-rotating {
+    display: inline-flex;
+    vertical-align: bottom;
+  }
+
+  .hero .logo-carousel {
+    grid-column: 1 / -1;
+    grid-row: 4;
   }
 }
 
 .logo-carousel {
+  /* Contains the loop's fade z-indexes so the growing hero video passes over. */
+  position: relative;
+  z-index: 0;
   padding-block: var(--space-8) var(--space-12);
-  border-block-start: var(--border-width-default) solid var(--color-border);
+  border-block-start: var(--border-width-default) solid #fff;
 }
 
 .logo-carousel-shell {
@@ -326,9 +398,41 @@ html:has(.navigation-dialog[open]) {
   gap: var(--space-4);
 }
 
+/* Edges fade by masking the strip (not painting the background over it), so
+   the hero grain stays visible right to the ends. Same width as LogoLoop's fade. */
 .logo-carousel-window {
+  --logo-fade: clamp(var(--space-6), 8%, var(--space-30));
   flex: 1;
   min-inline-size: 0;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 var(--logo-fade),
+    #000 calc(100% - var(--logo-fade)),
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 var(--logo-fade),
+    #000 calc(100% - var(--logo-fade)),
+    transparent
+  );
+}
+
+/* Silhouettes painted in one shared gray, mixed from the theme's text and
+   background so it works in light and dark. */
+.client-logo {
+  display: block;
+  block-size: calc(var(--logoloop-logoHeight) * var(--logo-scale, 1));
+  aspect-ratio: var(--logo-ratio);
+  background: color-mix(
+    in srgb,
+    var(--color-text-primary) 50%,
+    var(--color-background)
+  );
+  -webkit-mask: var(--logo-src) center / contain no-repeat;
+  mask: var(--logo-src) center / contain no-repeat;
 }
 
 .logo-placeholder {

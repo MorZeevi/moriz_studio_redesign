@@ -83,8 +83,8 @@ test("first homepage visit opens liquid windows and skips refresh and client ret
   await expect(page).toHaveURL(/\/he\/projects$/);
   await page.locator('a[href="/he#top"]').first().click();
   await expect(page.locator(cover)).toBeHidden();
-  await expect(page.locator("#hero-heading")).toHaveText(
-    "יוצרת פתרונות דיגיטליים מבוססי מחקר",
+  await expect(page.locator("#hero-heading")).toHaveAccessibleName(
+    "יוצרת אתרים מורכבים, אפליקציות Web, איפיון ועיצוב וכלי AI מבוססי מחקר",
   );
   expect(errors).toEqual([]);
 });

@@ -8,7 +8,7 @@ The source is the owner's placeholder `magnific_create-a-show-reel…_55548.mp4`
 
 ## Behavior
 
-- The hero follows a reference corner layout. On desktop it is a 12-column grid at least one viewport tall: the heading spans the top nine columns from the inline-start (right) edge, the copy block (description and the primary projects link) sits bottom-right in six columns (at most 40rem), and the video sits bottom-left in four columns. Extra bottom padding keeps the video clear of the floating WhatsApp control in the same corner. On mobile everything stacks (heading, copy, video), and the video is 75% wide at the left so it still has room to grow.
+- The hero follows the owner's mockup and lines up with the header grid. On desktop it uses the header's three columns: the menu's measured width in the middle (`--site-nav-inline-size`, written by the liquid navigation beside `--site-header-height`) and the same `--space-6` gap. The description runs from the wordmark to the middle of the menu (right column plus half the menu column; the last description sentence is bold), the video fills the left column (contact pill to the menu's left edge), the heading spans the right and middle columns in the top row beside the video, the description sits at the bottom of the first viewport with the projects CTA (CTA red with white text, down arrow) beside it in the left column (left edge on the video's, bottom on the description's last line), and the logo carousel (moved into the hero) runs full width beneath it after its rule line. On mobile everything stacks (heading, copy, video, logos), and the video is 75% wide at the left so it still has room to grow.
 - The hero slot (`.hero-video-slot`) is a 3:2 block; the video is named by `aria-label` ("שואוריל — עבודות נבחרות").
 - The video lives in an absolutely positioned target inside the slot, so growing never shifts layout. The pause button scales with the target (container query units, 24 px minimum) so it fits the small mobile video.
 - An empty end slot (`.hero-video-end`) sits at the bottom of the hero section: full container width, 3:2, capped at `100svh` minus `--space-16`. Excess height is cropped by `object-fit: cover`.
@@ -17,7 +17,7 @@ The source is the owner's placeholder `magnific_create-a-show-reel…_55548.mp4`
 - Reduced motion: no autoplay (poster shown, the button can start it) and no scaling. The scroll effect is keyed on the component's own reduced-motion state rather than `gsap.matchMedia()`: a GSAP matchMedia change reverts and refreshes every ScrollTrigger and dropped the reader to the top of the page.
 - With reduced motion or without JavaScript (no `data-pixel-reveal` on `<html>`), `.hero-video-stage` is `display: none`, so no empty end slot is left. The timeline is also rebuilt when `data-pixel-reveal` changes, since client navigation sets it after first render.
 - The pixel opening ignores the video's own `resize` event; see [pixel opening](pixel-reveal.md).
-- Known trade-off: on desktop the video grows from the bottom-left corner toward the full-width end slot, so mid-scroll it passes over the description beside it.
+- Known trade-off: the video grows from the top-left toward the full-width end slot below the hero, so mid-scroll it passes over the heading and logos. The carousel is its own stacking context (`z-index: 0`) so its edge fades stay under the video.
 
 ## Implementation and verification
 

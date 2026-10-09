@@ -20,6 +20,10 @@ export function LiquidNavigation({
     const desktop = window.matchMedia("(min-width: 64rem)");
     const root = document.documentElement;
     const previousHeight = root.style.getPropertyValue("--site-header-height");
+    const previousNavSize = root.style.getPropertyValue(
+      "--site-nav-inline-size",
+    );
+    const menu = header.querySelector<HTMLElement>(".desktop-navigation");
     const sections = links.flatMap(({ href }) => {
       const element = document.getElementById(href.slice(1));
       return element ? [{ href, element }] : [];
@@ -54,6 +58,15 @@ export function LiquidNavigation({
       ) {
         current = positions.at(-1)?.href ?? current;
       }
+      // The hero grid lines up with the header's centered menu column. Measure
+      // only with no active link (the hero's state): the active pill widens the
+      // menu. The observer re-measures once the pill is gone.
+      if (menu && current === null) {
+        root.style.setProperty(
+          "--site-nav-inline-size",
+          getComputedStyle(menu).width,
+        );
+      }
       setActiveHref(current);
     }
 
@@ -63,6 +76,7 @@ export function LiquidNavigation({
 
     const observer = new ResizeObserver(schedule);
     observer.observe(header);
+    if (menu) observer.observe(menu);
     const main = document.getElementById("main-content");
     if (main) observer.observe(main);
     window.addEventListener("scroll", schedule, { passive: true });
@@ -82,6 +96,11 @@ export function LiquidNavigation({
         root.style.setProperty("--site-header-height", previousHeight);
       } else {
         root.style.removeProperty("--site-header-height");
+      }
+      if (previousNavSize) {
+        root.style.setProperty("--site-nav-inline-size", previousNavSize);
+      } else {
+        root.style.removeProperty("--site-nav-inline-size");
       }
     };
   }, [links]);
