@@ -259,7 +259,7 @@ Does the rendered section/page layout receive owner visual acceptance? Which pro
 
 ## 4. Brief owner introduction
 
-Status: **Not started**.
+Status: **In progress** — local trial, 2026-10-10.
 
 ### Purpose and information
 
@@ -271,11 +271,11 @@ Reference review pending: [Mother Design introduction](research/mobbin-homepage-
 
 ### Agreed choices
 
-Section inclusion and position 4 confirmed. Content, voice, image and layout: TODO: Decision required.
+Section inclusion and position 4 confirmed. Owner-supplied biography (three paragraphs, bold phrases kept) and the contact-button portrait, presented as a reading-focus and highlighter trial; see [the decision](14-decisions.md#about-section-reading-focus-and-highlighter) and [the creative research](research/about-me-creative-2026-10-10.md). Visual acceptance: pending.
 
 ### Remaining questions
 
-Which personal facts and name should appear? Is a portrait appropriate and available? Should there be an About link?
+Are the bold spans correct as read from the screenshot? When will the higher-resolution portrait arrive? Should there be an About link? (Placeholder kept.)
 
 ## 5. Client testimonials
 
