@@ -15,6 +15,7 @@ import { PixelReveal } from "@/components/pixel-reveal";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { ProjectsSection } from "@/components/projects-section";
 import { SecondaryScrollSurface } from "@/components/secondary-scroll-surface";
+import { SiteFooter } from "@/components/site-footer";
 import FallingText from "@/components/react-bits/FallingText";
 import { StudioLogo } from "@/components/studio-logo";
 import { Testimonials } from "@/components/testimonials";
@@ -227,15 +228,7 @@ export default async function Home({
         </Section>
       </main>
 
-      <footer
-        data-wireframe-section="footer"
-        className="border-t border-line pt-8 pb-28"
-      >
-        <div className="page-shell flex flex-wrap items-center justify-between gap-6 text-sm">
-          <StudioLogo name={content.studioName} locale={locale} />
-          <span className="text-muted">{content.footer.information}</span>
-        </div>
-      </footer>
+      <SiteFooter content={content} locale={locale} />
 
       <FloatingWhatsApp labels={content.whatsapp} />
     </PartyModeProvider>

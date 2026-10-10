@@ -331,7 +331,44 @@ export const he = {
     heading: "יצירת קשר",
     information: "מידע ופעולות בסקשן — להחלטה",
   },
-  footer: { information: "פרטי הפוטר והקישורים — להשלמה" },
+  footer: {
+    information: "פרטי הפוטר והקישורים — להשלמה",
+    label: "קישורי פוטר",
+    // Section anchors resolve on the homepage; page paths get the locale prefix.
+    columns: [
+      {
+        heading: "ניווט",
+        links: [
+          { label: "פרויקטים", href: "#projects" },
+          { label: "קצת עליי", href: "#about" },
+          { label: "איך מתחילים", href: "#getting-started" },
+          { label: "שאלות ותשובות", href: "#faq" },
+          { label: "יצירת קשר", href: "#contact" },
+        ],
+      },
+      {
+        heading: "עמודים",
+        links: [
+          { label: "עמוד הבית", href: "/" },
+          { label: "כל הפרויקטים", href: "/projects" },
+        ],
+      },
+    ],
+    socialsHeading: "עקבו",
+    // TODO: owner to supply profile URLs. An empty href renders as a placeholder, not a link.
+    socials: [
+      { network: "instagram" as const, label: "אינסטגרם", href: "" },
+      { network: "linkedin" as const, label: "לינקדאין", href: "" },
+    ],
+    // TODO: owner to supply legal pages. An empty href renders as a placeholder, not a link.
+    legal: [
+      { label: "פרטיות", href: "" },
+      { label: "תנאי שימוש", href: "" },
+      { label: "הצהרת נגישות", href: "" },
+    ],
+    copyright: "moriz.studio",
+    wordmark: [{ text: "moriz", bold: true }],
+  },
   whatsapp: {
     label: "פנייה בוואטסאפ",
     unconfiguredLabel: "וואטסאפ — מספר יצירת הקשר טרם הוזן",
