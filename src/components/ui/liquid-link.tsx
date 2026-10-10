@@ -7,6 +7,7 @@ import {
   type ReactNode,
   useEffect,
   useId,
+  type Ref,
   useRef,
 } from "react";
 import styles from "./liquid-link.module.css";
@@ -97,9 +98,99 @@ export function LiquidLink({
   }, []);
 
   const shapes = (
+    <LiquidShapes icon={!icon} arrow={arrow}>
+      {children}
+    </LiquidShapes>
+  );
+
+  return (
+    <>
+      <LiquidFilter id={filterId} blurRef={blurRef} />
+      <LinkElement
+        {...props}
+        ref={linkRef}
+        className={`${className ?? ""} ${styles.link}${variant === "secondary" ? ` ${styles.secondary}` : ""}`}
+        style={
+          { ...style, "--lb-filter": `url("#${filterId}")` } as CSSProperties
+        }
+      >
+        {icon ? (
+          <>
+            {/* Only the shapes melt together; the goo would smear the portrait. */}
+            <span className={styles.shapes}>{shapes}</span>
+            <span className={styles.portrait} aria-hidden="true">
+              {icon}
+            </span>
+          </>
+        ) : (
+          shapes
+        )}
+      </LinkElement>
+    </>
+  );
+}
+
+/** Goo filter shared by every liquid shape; each instance needs its own id. */
+function LiquidFilter({
+  id,
+  blurRef,
+  blur = 3.5,
+}: {
+  id: string;
+  blurRef?: Ref<SVGFEGaussianBlurElement>;
+  /** Wider gaps need more blur to keep the neck connected. */
+  blur?: number;
+}) {
+  return (
+    <svg
+      width="0"
+      height="0"
+      className={styles.filter}
+      aria-hidden="true"
+      focusable="false"
+    >
+      <defs>
+        <filter
+          id={id}
+          x="-10%"
+          y="-50%"
+          width="120%"
+          height="200%"
+          colorInterpolationFilters="sRGB"
+        >
+          <feGaussianBlur
+            ref={blurRef}
+            in="SourceGraphic"
+            stdDeviation={blur}
+            result="blur"
+          />
+          <feColorMatrix
+            in="blur"
+            type="matrix"
+            values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 22 -10"
+            result="goo"
+          />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+      </defs>
+    </svg>
+  );
+}
+
+function LiquidShapes({
+  icon,
+  arrow,
+  children,
+}: {
+  /** Draws the arrow glyph inside the round blob. */
+  icon: boolean;
+  arrow: "forward" | "down";
+  children: ReactNode;
+}) {
+  return (
     <>
       <span className={styles.icon} data-liquid-shape aria-hidden="true">
-        {!icon && (
+        {icon && (
           <svg
             className={`${styles.glyph}${arrow === "down" ? ` ${styles.down}` : ""}`}
             viewBox="0 0 16 16"
@@ -121,61 +212,32 @@ export function LiquidLink({
       </span>
     </>
   );
+}
 
+/** Visual-only liquid button for use inside another interactive element. */
+export function LiquidBadge({
+  children,
+  variant = "primary",
+  open = false,
+}: {
+  children: ReactNode;
+  variant?: "primary" | "secondary";
+  /** Shows the stretched hover silhouette. */
+  open?: boolean;
+}) {
+  const filterId = `liquid-badge-${useId().replace(/:/g, "")}`;
   return (
     <>
-      <svg
-        width="0"
-        height="0"
-        className={styles.filter}
-        aria-hidden="true"
-        focusable="false"
+      <LiquidFilter id={filterId} blur={open ? 7 : 3.5} />
+      <span
+        className={`${styles.link}${variant === "secondary" ? ` ${styles.secondary}` : ""}`}
+        data-liquid-open={open ? "" : undefined}
+        style={{ "--lb-filter": `url("#${filterId}")` } as CSSProperties}
       >
-        <defs>
-          <filter
-            id={filterId}
-            x="-10%"
-            y="-50%"
-            width="120%"
-            height="200%"
-            colorInterpolationFilters="sRGB"
-          >
-            <feGaussianBlur
-              ref={blurRef}
-              in="SourceGraphic"
-              stdDeviation="3.5"
-              result="blur"
-            />
-            <feColorMatrix
-              in="blur"
-              type="matrix"
-              values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 22 -10"
-              result="goo"
-            />
-            <feComposite in="SourceGraphic" in2="goo" operator="atop" />
-          </filter>
-        </defs>
-      </svg>
-      <LinkElement
-        {...props}
-        ref={linkRef}
-        className={`${className ?? ""} ${styles.link}${variant === "secondary" ? ` ${styles.secondary}` : ""}`}
-        style={
-          { ...style, "--lb-filter": `url("#${filterId}")` } as CSSProperties
-        }
-      >
-        {icon ? (
-          <>
-            {/* Only the shapes melt together; the goo would smear the portrait. */}
-            <span className={styles.shapes}>{shapes}</span>
-            <span className={styles.portrait} aria-hidden="true">
-              {icon}
-            </span>
-          </>
-        ) : (
-          shapes
-        )}
-      </LinkElement>
+        <LiquidShapes icon arrow="forward">
+          {children}
+        </LiquidShapes>
+      </span>
     </>
   );
 }

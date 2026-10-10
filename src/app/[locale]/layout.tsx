@@ -5,6 +5,7 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { pixelRevealBootstrap } from "@/lib/pixel-reveal";
 import { themeBootstrap } from "@/lib/theme";
 import { ThemeProvider } from "@/components/theme-provider";
+import Noise from "@/components/react-bits/Noise";
 import { danidin, leon } from "@/styles/fonts";
 import "../globals.css";
 
@@ -58,6 +59,15 @@ export default async function RootLayout({
         />
       </head>
       <body id="top">
+        <div className="page-grain" aria-hidden="true">
+          <Noise
+            patternSize={340}
+            patternScaleX={1}
+            patternScaleY={0.3}
+            patternRefreshInterval={2}
+            patternAlpha={22}
+          />
+        </div>
         <ThemeProvider>{children}</ThemeProvider>
         {developerTools}
       </body>

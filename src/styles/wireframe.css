@@ -636,6 +636,14 @@ html:has(.navigation-dialog[open]) {
   }
 }
 
+/* Site-wide grain on the canvas, behind all content; opaque surfaces cover it. */
+.page-grain {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
 /* Homepage-only canvas transition, owned and cleaned up by Projects. */
 body[data-project-backdrop] {
   --color-background: var(--home-project-surface, var(--color-light));

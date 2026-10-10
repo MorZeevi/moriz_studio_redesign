@@ -1,0 +1,379 @@
+{
+  "date": "2026-10-10",
+  "scope": "Homepage #projects section: alternatives to the current basement.studio-based rows, plus live mobile website captures. Research only; no implementation changes.",
+  "assumption": "Owner selected scope: alternatives to current rows + real mobile website captures (2026-10-10).",
+  "method": "Seven Mobbin section searches (110 results). All previews visually inspected. Sections used in mobbin-projects-2026-10-07 were excluded; 12 new references selected and downloaded at full resolution. Live mobile homepages captured with Playwright WebKit, iPhone 13 profile (390px), after one scroll pass; cookie banners accepted.",
+  "task_intent": "Research layout alternatives for the selected projects section on a digital studio portfolio homepage.",
+  "excluded_from_2026_10_07": [
+    "0964cb3b-e8a4-4e57-a6d1-e2ecfe445497",
+    "1ddce7a9-2f0c-4020-ac01-d853579e54ac",
+    "2c1653b2-e228-4044-bd56-10be54f7403c",
+    "48890788-7d16-4887-baaa-5b22583ef055",
+    "4ed7c118-a866-41fa-824c-32a24323c927",
+    "79d328bc-800b-4830-9de1-7ef8fd2dd00f",
+    "88014607-d7fa-4793-a09b-de483fe6c931",
+    "b497edad-c01e-4184-8d52-12689631b694",
+    "c18cb634-beea-4af7-8d3a-08211610a68b",
+    "e2bc218a-3568-43c0-a95e-b95b0d829e6c"
+  ],
+  "searches": [
+    {
+      "query": "Selected work section on a design studio homepage with large project images, project names and short descriptions",
+      "page": 1,
+      "has_next_page": true,
+      "result_count": 20,
+      "result_id_prefixes": [
+        "48890788",
+        "797682f6",
+        "4ed7c118",
+        "c18cb634",
+        "e2bc218a",
+        "45b0cd5e",
+        "851e3996",
+        "79d328bc",
+        "d7f7059d",
+        "f1b600da",
+        "b497edad",
+        "1ddce7a9",
+        "de775a01",
+        "933958ee",
+        "103632e2",
+        "05811dd7",
+        "f890a5d7",
+        "21fcb0a7",
+        "bce8b55e",
+        "8e1d64b0"
+      ]
+    },
+    {
+      "query": "Project list where hovering a project name shows a floating image preview of the work",
+      "page": 1,
+      "has_next_page": true,
+      "result_count": 15,
+      "result_id_prefixes": [
+        "b645a881",
+        "de775a01",
+        "3641b988",
+        "851e3996",
+        "750811ae",
+        "606e7e35",
+        "45b0cd5e",
+        "883db2f4",
+        "1aa05a05",
+        "b40a6e32",
+        "103632e2",
+        "84db44c9",
+        "e979a89e",
+        "22c68f7a",
+        "ceab4ab4"
+      ]
+    },
+    {
+      "query": "Case study cards showing website and app interface screenshots inside device frames with client name and project type",
+      "page": 1,
+      "has_next_page": true,
+      "result_count": 15,
+      "result_id_prefixes": [
+        "2971fcd4",
+        "c27f50ff",
+        "66ffa87c",
+        "3234074f",
+        "15ad3271",
+        "0c296f15",
+        "0c5600f6",
+        "c18cb634",
+        "67b1c0d4",
+        "9d8ebd21",
+        "1daa8f6e",
+        "2d100fc2",
+        "7fb3a81c",
+        "d7394009",
+        "88014607"
+      ]
+    },
+    {
+      "query": "Stacked full-width project cards, one featured case study per screen with title, tags and view project button",
+      "page": 1,
+      "has_next_page": true,
+      "result_count": 15,
+      "result_id_prefixes": [
+        "f890a5d7",
+        "94d359fe",
+        "abc34dbf",
+        "933958ee",
+        "bd58336d",
+        "851e3996",
+        "88014607",
+        "ab65e620",
+        "8e070129",
+        "c18cb634",
+        "2971fcd4",
+        "15971564",
+        "bce8b55e",
+        "4a166782",
+        "7ea4ce8e"
+      ]
+    },
+    {
+      "query": "Split layout with sticky project title and description on one side while large project screenshots scroll on the other side",
+      "page": 1,
+      "has_next_page": true,
+      "result_count": 15,
+      "result_id_prefixes": [
+        "59838174",
+        "3507e53f",
+        "139768ad",
+        "c88d7a4b",
+        "45b0cd5e",
+        "cddfb2f3",
+        "eb379572",
+        "de775a01",
+        "18bf1b78",
+        "6896be25",
+        "e17cb69f",
+        "8b316f72",
+        "0964cb3b",
+        "f2b417c9",
+        "3c690a5e"
+      ]
+    },
+    {
+      "query": "Digital product agency featured case study showing web app dashboard screenshots with project name, services and results",
+      "page": 1,
+      "has_next_page": true,
+      "result_count": 15,
+      "result_id_prefixes": [
+        "e15c2850",
+        "c27f50ff",
+        "46fa7378",
+        "e6f6cfe2",
+        "7a5a9c52",
+        "4a166782",
+        "9fff6104",
+        "d7394009",
+        "e4293d17",
+        "3653e701",
+        "9207082c",
+        "39910b37",
+        "b0e1a272",
+        "0a28f333",
+        "55721a73"
+      ]
+    },
+    {
+      "query": "Numbered list of three featured projects with large index numbers, project name, year and category",
+      "page": 1,
+      "has_next_page": true,
+      "result_count": 15,
+      "result_id_prefixes": [
+        "04bc9268",
+        "d7f7059d",
+        "b645a881",
+        "1aa05a05",
+        "83492699",
+        "c18cb634",
+        "1fa138a4",
+        "aee9192a",
+        "103632e2",
+        "96fdaa44",
+        "70c3a42f",
+        "5e1ab7e2",
+        "22c68f7a",
+        "280c1a2d",
+        "18bf1b78"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "site": "Locomotive",
+      "id": "d7f7059d-53e2-4055-83e2-4408b715a307",
+      "mobbin_url": "https://mobbin.com/sites/sections/d7f7059d-53e2-4055-83e2-4408b715a307",
+      "pattern": "Huge serif names in ruled rows",
+      "direction": "A typographic index",
+      "file": "assets/homepage-projects-2026-10-10/locomotive-featured-index.webp",
+      "page_context": "Homepage; live project list differs",
+      "live_mobile_file": "assets/homepage-projects-2026-10-10/mobile-locomotive-text-index.jpg"
+    },
+    {
+      "site": "Freshman",
+      "id": "3641b988-b26c-471d-a177-c5fc2254b123",
+      "mobbin_url": "https://mobbin.com/sites/sections/3641b988-b26c-471d-a177-c5fc2254b123",
+      "pattern": "Centered names with side images",
+      "direction": "A typographic index",
+      "file": "assets/homepage-projects-2026-10-10/freshman-name-index.webp",
+      "page_context": "Directors list, not client work"
+    },
+    {
+      "site": "A24",
+      "id": "b645a881-adf5-43f3-a86c-758cd54f0b72",
+      "mobbin_url": "https://mobbin.com/sites/sections/b645a881-adf5-43f3-a86c-758cd54f0b72",
+      "pattern": "Giant titles with superscript years",
+      "direction": "A typographic index",
+      "file": "assets/homepage-projects-2026-10-10/a24-title-index.webp",
+      "page_context": "Film studio catalog"
+    },
+    {
+      "site": "Analogue Agency",
+      "id": "c27f50ff-dd09-41f9-afc8-598c3ccae77a",
+      "mobbin_url": "https://mobbin.com/sites/sections/c27f50ff-dd09-41f9-afc8-598c3ccae77a",
+      "pattern": "Single case on colored stage with name pill",
+      "direction": "B featured stage",
+      "file": "assets/homepage-projects-2026-10-10/analogue-success-case-stage.webp",
+      "page_context": "Live site not identified"
+    },
+    {
+      "site": "Pentagram",
+      "id": "933958ee-3d23-4692-bcb7-650e850a84ee",
+      "mobbin_url": "https://mobbin.com/sites/sections/933958ee-3d23-4692-bcb7-650e850a84ee",
+      "pattern": "Full-bleed slideshow with caption",
+      "direction": "B featured stage",
+      "file": "assets/homepage-projects-2026-10-10/pentagram-featured-slideshow.webp",
+      "page_context": "Homepage hero",
+      "live_mobile_file": "assets/homepage-projects-2026-10-10/mobile-pentagram-feature-and-carousel.jpg"
+    },
+    {
+      "site": "Webflow",
+      "id": "103632e2-e594-4aba-8287-68eedd2cfb44",
+      "mobbin_url": "https://mobbin.com/sites/sections/103632e2-e594-4aba-8287-68eedd2cfb44",
+      "pattern": "Centered card with next-card peek",
+      "direction": "B featured stage",
+      "file": "assets/homepage-projects-2026-10-10/webflow-peek-carousel.webp",
+      "page_context": "Product showcase"
+    },
+    {
+      "site": "Zipline",
+      "id": "9fff6104-d098-4039-a6c5-5f8521058cad",
+      "mobbin_url": "https://mobbin.com/sites/sections/9fff6104-d098-4039-a6c5-5f8521058cad",
+      "pattern": "UI fragments beside accordion",
+      "direction": "C case-study panels",
+      "file": "assets/homepage-projects-2026-10-10/zipline-product-accordion.webp",
+      "page_context": "Product page"
+    },
+    {
+      "site": "Twenty",
+      "id": "e15c2850-a6fd-4c05-8848-e578c0ed21ad",
+      "mobbin_url": "https://mobbin.com/sites/sections/e15c2850-a6fd-4c05-8848-e578c0ed21ad",
+      "pattern": "Image + category, title, quote, metrics",
+      "direction": "C case-study panels",
+      "file": "assets/homepage-projects-2026-10-10/twenty-case-study-card.webp",
+      "page_context": "Customer story card"
+    },
+    {
+      "site": "Sketch",
+      "id": "83492699-4967-4510-9f31-337fc2494aa4",
+      "mobbin_url": "https://mobbin.com/sites/sections/83492699-4967-4510-9f31-337fc2494aa4",
+      "pattern": "Device screenshots over dark caption panels",
+      "direction": "C case-study panels",
+      "file": "assets/homepage-projects-2026-10-10/sketch-device-cards.webp",
+      "page_context": "Community showcase"
+    },
+    {
+      "site": "Instrument",
+      "id": "05811dd7-a07a-41ae-9fa7-192b8eede1b1",
+      "mobbin_url": "https://mobbin.com/sites/sections/05811dd7-a07a-41ae-9fa7-192b8eede1b1",
+      "pattern": "Lead + secondary project",
+      "direction": "Image-led variant",
+      "file": "assets/homepage-projects-2026-10-10/instrument-lead-and-secondary.webp",
+      "page_context": "Work page; also in 2026-10-06 research",
+      "live_mobile_file": "assets/homepage-projects-2026-10-10/mobile-instrument-stacked-images.jpg"
+    },
+    {
+      "site": "Vucko",
+      "id": "ceab4ab4-d046-4356-bde4-32acd9781fa8",
+      "mobbin_url": "https://mobbin.com/sites/sections/ceab4ab4-d046-4356-bde4-32acd9781fa8",
+      "pattern": "Horizontal project strip",
+      "direction": "Image-led variant",
+      "file": "assets/homepage-projects-2026-10-10/vucko-horizontal-strip.webp",
+      "page_context": "Homepage capture; live mobile differs",
+      "live_mobile_file": "assets/homepage-projects-2026-10-10/mobile-vucko-single-feature.jpg"
+    },
+    {
+      "site": "Fiasco",
+      "id": "606e7e35-d462-4a42-939e-df4d3a19af0a",
+      "mobbin_url": "https://mobbin.com/sites/sections/606e7e35-d462-4a42-939e-df4d3a19af0a",
+      "pattern": "Text beside website-screen collage",
+      "direction": "Image-led variant",
+      "file": "assets/homepage-projects-2026-10-10/fiasco-screen-collage.webp",
+      "page_context": "Approach block, not project list",
+      "live_mobile_file": "assets/homepage-projects-2026-10-10/mobile-fiasco-offset-stack.jpg"
+    }
+  ],
+  "live_mobile_captures": [
+    {
+      "site": "basement.studio",
+      "url": "https://basement.studio/",
+      "section": "Featured Projects",
+      "file": "assets/homepage-projects-2026-10-10/mobile-basement-stacked-rows.jpg",
+      "observed": "Image -> name -> description, rules between; no tags or buttons."
+    },
+    {
+      "site": "Locomotive",
+      "url": "https://locomotive.ca/en",
+      "section": "Featured work",
+      "file": "assets/homepage-projects-2026-10-10/mobile-locomotive-text-index.jpg",
+      "observed": "Text-only centered serif names between rules; All Work as last row."
+    },
+    {
+      "site": "Fiasco",
+      "url": "https://fiasco.design/",
+      "section": "Selected works",
+      "file": "assets/homepage-projects-2026-10-10/mobile-fiasco-offset-stack.jpg",
+      "observed": "~70%-width images alternating left/right with italic name, description, pills. Floating Book a chat control visible."
+    },
+    {
+      "site": "Instrument",
+      "url": "https://www.instrument.com/",
+      "section": "Recent work",
+      "file": "assets/homepage-projects-2026-10-10/mobile-instrument-stacked-images.jpg",
+      "observed": "Full-width images on black with small labels; no descriptions."
+    },
+    {
+      "site": "Vucko",
+      "url": "https://vucko.co/",
+      "section": "Featured project card",
+      "file": "assets/homepage-projects-2026-10-10/mobile-vucko-single-feature.jpg",
+      "observed": "Single rounded card with name and View project pill over image."
+    },
+    {
+      "site": "Pentagram",
+      "url": "https://www.pentagram.com/",
+      "section": "Hero feature + story carousel",
+      "file": "assets/homepage-projects-2026-10-10/mobile-pentagram-feature-and-carousel.jpg",
+      "observed": "Full-bleed featured image with caption; horizontal card row with partial next card."
+    }
+  ],
+  "not_captured": [
+    {
+      "site": "Wild",
+      "url": "https://wild.as/",
+      "reason": "Custom scroll container; capture stayed on first project"
+    },
+    {
+      "site": "Unseen Studio",
+      "url": "https://unseen.co/",
+      "reason": "Enter gate"
+    },
+    {
+      "site": "Cloudstudio",
+      "url": "https://cloudstudio.es/",
+      "reason": "Interactive 'choose your driver' gate"
+    },
+    {
+      "site": "Analogue Agency",
+      "url": "https://analogue.agency",
+      "reason": "Domain parked; live site not identified"
+    }
+  ],
+  "capture_limits": "Emulated WebKit, not a physical device. Scroll-triggered animation may be mid-state. Live pages differ from Mobbin captures. Stills do not establish hover, carousel, keyboard, accessibility or performance behavior.",
+  "owner_reference_capture": {
+    "site": "Huncwot",
+    "url": "https://huncwot.com/",
+    "source": "owner-inspiration-references.md#huncwot",
+    "desktop_file": "assets/homepage-projects-2026-10-10/huncwot-numbered-panel-desktop.jpg",
+    "mobile_file": "assets/homepage-projects-2026-10-10/mobile-huncwot-numbered-panel.jpg",
+    "capture": "Playwright WebKit, 1440x900 desktop and iPhone 13 profile, 2026-10-10",
+    "observed": "Numbered rounded panels (01/06) with Expertise/Client columns, info paragraph, modular tile collage of website screens and graphics, Visit website button; red background between panels."
+  },
+  "recommendation": "Owner-aligned Huncwot-style numbered panels as starting point; typographic index (Locomotive) as the image-free alternative."
+}

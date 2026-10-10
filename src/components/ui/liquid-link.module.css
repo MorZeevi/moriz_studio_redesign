@@ -143,10 +143,10 @@
   .link:hover {
     --lb-gap: 1.35em;
   }
-  .link:hover .glyph {
+  .link:is(:hover, [data-liquid-open]) .glyph {
     translate: 0.14em 0;
   }
-  [dir="rtl"] .link:hover .glyph {
+  [dir="rtl"] .link:is(:hover, [data-liquid-open]) .glyph {
     translate: -0.14em 0;
   }
   .link:hover .glyph.down {
@@ -154,6 +154,7 @@
   }
 }
 
+.link[data-liquid-open],
 .link:focus-visible {
   --lb-gap: 1.35em;
   outline: none;
@@ -177,13 +178,14 @@
   .link,
   .link:hover,
   .link:focus-visible,
+  .link[data-liquid-open],
   .link:is(:active, [data-liquid-pressed]) {
     --lb-gap: 2px;
     transition: none;
   }
   .link .glyph,
-  .link:hover .glyph,
-  [dir="rtl"] .link:hover .glyph,
+  .link:is(:hover, [data-liquid-open]) .glyph,
+  [dir="rtl"] .link:is(:hover, [data-liquid-open]) .glyph,
   .link:hover .glyph.down {
     transition: none;
     translate: none;

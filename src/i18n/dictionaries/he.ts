@@ -129,6 +129,7 @@ export const he = {
     answerPlaceholder: "תשובה — להשלמה",
     detailsHeading: "על הפרויקט",
     projectLink: "לפרויקט המלא",
+    viewProject: "לצפיה בפרויקט",
     backLink: "חזרה לפרויקטים",
     items: [
       {

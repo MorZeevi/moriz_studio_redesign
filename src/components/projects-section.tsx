@@ -1,14 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
+import { type CSSProperties, Fragment } from "react";
 import type { Project } from "@/content/projects";
 import type { EnabledLocale } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
 import { PartyHeadingLight } from "./party-mode/party-heading-light";
 import { LiquidLink } from "./ui/liquid-link";
 import partyStyles from "./party-mode/party-mode.module.css";
+import { ProjectMediaLink } from "./project-media-link";
 import { ProjectScrollSurface } from "./project-scroll-surface";
 import styles from "./projects.module.css";
 import { CategoryTags } from "./category-tags";
+import Noise from "./react-bits/Noise";
 
 type ProjectLabels = SiteContent["projects"];
 
@@ -116,7 +119,23 @@ export function ProjectsSection({
   const Heading = collection ? "h1" : "h2";
   const contents = (
     <div className="site-container">
-      <div className={styles.sectionHeader}>
+      <div
+        className={
+          collection
+            ? styles.sectionHeader
+            : `${styles.sectionHeader} ${styles.stackIntro}`
+        }
+        data-stack-intro={collection ? undefined : ""}
+      >
+        {!collection && (
+          <Noise
+            patternSize={340}
+            patternScaleX={1}
+            patternScaleY={0.3}
+            patternRefreshInterval={2}
+            patternAlpha={22}
+          />
+        )}
         <Heading
           id="projects-heading"
           className={`${styles.heading}${partyReaction ? ` ${partyStyles.lightHeading}` : ""}`}
@@ -136,48 +155,111 @@ export function ProjectsSection({
           </LiquidLink>
         )}
       </div>
-      <div className={styles.list}>
-        {projects.map((project) => (
-          <article
-            key={project.id ?? project.slug}
-            className={styles.row}
-            aria-labelledby={`project-${project.slug ?? project.id}`}
-          >
-            <h3
-              id={`project-${project.slug ?? project.id}`}
-              className={styles.title}
+      <div
+        className={
+          collection ? styles.list : `${styles.list} ${styles.stackList}`
+        }
+      >
+        {!collection &&
+          projects.map((project, index) => {
+            const id = `project-${project.slug ?? project.id}`;
+            const description =
+              project.description ?? content.descriptionPlaceholder;
+            return (
+              // Strips and bodies are siblings so every strip sticks within
+              // the whole list and the strips pile up while scrolling.
+              <Fragment key={project.id ?? project.slug}>
+                <header
+                  className={styles.stackHead}
+                  data-stack-head=""
+                  style={{ "--stack-index": index } as CSSProperties}
+                >
+                  <Noise
+                    patternSize={340}
+                    patternScaleX={1}
+                    patternScaleY={0.3}
+                    patternRefreshInterval={2}
+                    patternAlpha={22}
+                  />
+                  <span className={styles.stackNumber} aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <h3 id={id} className={styles.stackTitle}>
+                    <bdi>{project.title}</bdi>
+                  </h3>
+                  <p className={styles.stackDescription}>{description}</p>
+                </header>
+                <div className={styles.stackBody}>
+                  <div className={styles.stackInfo}>
+                    <p className={styles.stackBodyDescription}>{description}</p>
+                    <p className={styles.contribution}>
+                      {project.contribution ?? content.contributionPlaceholder}
+                    </p>
+                    <CategoryTags categories={project.categories ?? []} />
+                  </div>
+                  {project.slug ? (
+                    <ProjectMediaLink
+                      href={`/${locale}/projects/${project.slug}`}
+                      label={content.viewProject}
+                      title={project.title}
+                    >
+                      <ProjectMedia
+                        project={project}
+                        label={content.visualLabel}
+                      />
+                    </ProjectMediaLink>
+                  ) : (
+                    <ProjectMedia
+                      project={project}
+                      label={content.visualLabel}
+                    />
+                  )}
+                </div>
+              </Fragment>
+            );
+          })}
+        {collection &&
+          projects.map((project) => (
+            <article
+              key={project.id ?? project.slug}
+              className={styles.row}
+              aria-labelledby={`project-${project.slug ?? project.id}`}
             >
-              <bdi>{project.title}</bdi>
-            </h3>
-            <ProjectMedia project={project} label={content.visualLabel} />
-            <div className={styles.information}>
-              <p className={styles.description}>
-                {project.description ?? content.descriptionPlaceholder}
-              </p>
-              <p className={styles.contribution}>
-                {project.contribution ?? content.contributionPlaceholder}
-              </p>
-              <CategoryTags categories={project.categories ?? []} />
-              <div className={styles.rowDetails}>
-                <ProjectAccordion
-                  project={project}
-                  labels={content}
-                  group={`home-${project.slug ?? project.id}`}
-                />
-                {project.slug && (
-                  <Link
-                    href={`/${locale}/projects/${project.slug}`}
-                    className={styles.projectLink}
-                    aria-label={`${content.projectLink}: ${project.title}`}
-                  >
-                    {content.projectLink}
-                    <ProjectArrow />
-                  </Link>
-                )}
+              <h3
+                id={`project-${project.slug ?? project.id}`}
+                className={styles.title}
+              >
+                <bdi>{project.title}</bdi>
+              </h3>
+              <ProjectMedia project={project} label={content.visualLabel} />
+              <div className={styles.information}>
+                <p className={styles.description}>
+                  {project.description ?? content.descriptionPlaceholder}
+                </p>
+                <p className={styles.contribution}>
+                  {project.contribution ?? content.contributionPlaceholder}
+                </p>
+                <CategoryTags categories={project.categories ?? []} />
+                <div className={styles.rowDetails}>
+                  <ProjectAccordion
+                    project={project}
+                    labels={content}
+                    group={`home-${project.slug ?? project.id}`}
+                  />
+                  {project.slug && (
+                    <Link
+                      href={`/${locale}/projects/${project.slug}`}
+                      className={styles.projectLink}
+                      aria-label={`${content.projectLink}: ${project.title}`}
+                    >
+                      {content.projectLink}
+                      <ProjectArrow />
+                    </Link>
+                  )}
+                </div>
               </div>
-            </div>
-          </article>
-        ))}
+            </article>
+          ))}
       </div>
     </div>
   );

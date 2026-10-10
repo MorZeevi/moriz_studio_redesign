@@ -140,6 +140,32 @@ export function ProjectScrollSurface({ children }: { children: ReactNode }) {
     };
   }, [resolvedTheme]);
 
+  // Pin each project strip below the heading and every earlier strip.
+  useLayoutEffect(() => {
+    const section = sectionRef.current;
+    if (!section || typeof ResizeObserver === "undefined") return;
+    const intro = section.querySelector<HTMLElement>("[data-stack-intro]");
+    const heads = [
+      ...section.querySelectorAll<HTMLElement>("[data-stack-head]"),
+    ];
+    const measure = () => {
+      section.style.setProperty(
+        "--stack-intro",
+        `${intro?.offsetHeight ?? 0}px`,
+      );
+      let offset = 0;
+      for (const head of heads) {
+        head.style.setProperty("--stack-offset", `${offset}px`);
+        offset += head.offsetHeight;
+      }
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    if (intro) observer.observe(intro);
+    for (const head of heads) observer.observe(head);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
       ref={sectionRef}

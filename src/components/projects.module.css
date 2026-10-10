@@ -103,6 +103,96 @@
   font-size: var(--text-body-sm);
 }
 
+/* Home rows: the media is the project link, with a pointer-following badge. */
+.mediaLink {
+  grid-area: media;
+  position: relative;
+  display: block;
+  min-inline-size: 0;
+  inline-size: 100%;
+  overflow: clip;
+  color: inherit;
+  text-decoration: none;
+}
+
+.mediaLink .mediaPlaceholder {
+  transition: background-color var(--duration-normal, 0.2s) ease;
+}
+
+.mediaLink:hover .mediaPlaceholder {
+  background: color-mix(
+    in srgb,
+    var(--project-media) 90%,
+    var(--project-foreground)
+  );
+}
+
+.mediaLink:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 4px;
+}
+
+.mediaBadge {
+  position: absolute;
+  inset-block-start: var(--badge-y, 50%);
+  left: var(--badge-x, 50%);
+  z-index: 1;
+  translate: -50% -50%;
+  scale: 0.6;
+  opacity: 0;
+  white-space: nowrap;
+  /* Inverts whatever is under it, like a cursor. */
+  mix-blend-mode: difference;
+  pointer-events: none;
+  transition:
+    scale 0.3s cubic-bezier(0.3, 1.45, 0.55, 1),
+    opacity 0.2s ease;
+}
+
+.mediaBadge > span {
+  --lb-fill: var(--color-light);
+  --lb-ink: var(--color-dark);
+}
+
+/* Pointer: the badge replaces the arrow and sits on the pointer. */
+.mediaLink[data-pointer-inside] {
+  cursor: none;
+}
+
+.mediaLink[data-pointer-inside] .mediaBadge {
+  scale: 1;
+  opacity: 1;
+}
+
+/* Keyboard: centered, independent of the last pointer position. */
+.mediaLink:focus-visible:not([data-pointer-inside]) .mediaBadge {
+  inset-block-start: 50%;
+  left: 50%;
+  scale: 1;
+  opacity: 1;
+}
+
+/* Touch has no hover: keep the badge visible in the inline-start corner. */
+@media (hover: none) {
+  .mediaBadge,
+  .mediaLink:focus-visible:not([data-pointer-inside]) .mediaBadge {
+    inset-block-start: auto;
+    inset-block-end: var(--space-4);
+    left: auto;
+    inset-inline-start: var(--space-4);
+    translate: none;
+    scale: 1;
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mediaLink .mediaPlaceholder,
+  .mediaBadge {
+    transition: none;
+  }
+}
+
 .information {
   grid-area: information;
   display: flex;
@@ -363,5 +453,140 @@
   .imagePair,
   .gallery {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Home: project strips stick and pile up while their bodies scroll beneath. */
+.scrollSurface {
+  --stack-top: 0px;
+  --stack-step: 2.25rem;
+}
+
+.stackList {
+  border-block-start: 0;
+}
+
+@media (min-width: 64rem) {
+  /* The site header is sticky from 64rem; stack below it. */
+  .scrollSurface {
+    --stack-top: var(--site-header-height, 6rem);
+    --stack-step: 3rem;
+  }
+}
+
+/* The section heading stays pinned above the strips. */
+.stackIntro {
+  position: sticky;
+  inset-block-start: var(--stack-top);
+  z-index: 20;
+  isolation: isolate;
+  margin-block-end: 0;
+  padding-block: var(--space-4);
+  background: var(--project-background);
+}
+
+.stackIntro > :not(canvas) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ProjectScrollSurface measures --stack-intro and each --stack-offset so
+   every pinned strip shows its full name and description. */
+.stackHead {
+  position: sticky;
+  inset-block-start: calc(
+    var(--stack-top) +
+    var(--stack-intro, 0px) +
+    var(--stack-offset, var(--stack-index) * var(--stack-step))
+  );
+  z-index: calc(2 + var(--stack-index));
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--space-4);
+  padding-block: var(--space-3) var(--space-4);
+  border-block-start: var(--border-width-default) solid var(--project-rule);
+  background: var(--project-background);
+}
+
+.stackHead > :not(canvas) {
+  position: relative;
+  z-index: 1;
+}
+
+.stackNumber {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.stackTitle {
+  min-inline-size: 0;
+  margin: 0;
+  font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: var(--text-h3--letter-spacing);
+  overflow-wrap: anywhere;
+}
+
+.stackDescription {
+  display: none;
+  margin: 0;
+  color: var(--project-secondary);
+  font-size: var(--text-body-sm);
+  line-height: 1.45;
+}
+
+.stackBody {
+  display: grid;
+  gap: var(--space-6);
+  padding-block: var(--space-6) var(--space-16);
+}
+
+.stackInfo {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.stackBodyDescription {
+  margin: 0;
+  font-size: var(--text-body-lg);
+  line-height: 1.4;
+}
+
+.stackInfo .contribution {
+  margin-block-end: var(--space-6);
+}
+
+/* The media link's row grid-area would add an implicit column here. */
+.stackBody .mediaLink {
+  grid-area: auto;
+}
+
+@media (min-width: 60rem) {
+  .stackHead {
+    grid-template-columns: 6rem minmax(0, 1fr) minmax(0, 24rem);
+  }
+
+  .stackDescription {
+    display: block;
+    text-align: end;
+  }
+
+  .stackBodyDescription {
+    display: none;
+  }
+
+  .stackBody {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2.5fr);
+    gap: var(--space-8);
+    padding-block: var(--space-8) var(--space-24);
+  }
+
+  .stackInfo .contribution {
+    margin-block-start: 0;
   }
 }
