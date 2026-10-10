@@ -20,11 +20,28 @@
   display: flex;
   flex-direction: column;
   align-items: end;
-  gap: var(--space-2);
+  gap: var(--space-4);
 }
 
-.action {
+/* WhatsApp green (the former floating button's colour) with dark ink for
+   contrast. The doubled class outranks the pill's own module rules. */
+.action.action {
+  --whatsapp-green: #25d366;
+  --lb-height: var(--control-height-lg);
+  --lb-fill: var(--whatsapp-green);
+  --lb-pressed-fill: color-mix(
+    in srgb,
+    var(--whatsapp-green) 85%,
+    var(--color-dark)
+  );
+  --lb-ink: var(--color-dark);
   white-space: nowrap;
+}
+
+@media (min-width: 64rem) {
+  .action.action {
+    --lb-height: var(--space-16);
+  }
 }
 
 .panel {
@@ -76,10 +93,29 @@
   block-size: 1.75em;
 }
 
-/* At rest the label is a short stub melted onto the blob (the side nubs); it
-   grows out through the goo on hover. Names stay in aria-label. */
+/* Symmetric side nubs: two small shapes the goo filter melts onto the blob. */
+.action [data-liquid-icon]::before,
+.action [data-liquid-icon]::after {
+  position: absolute;
+  inset-block: 22%;
+  inline-size: 0.7em;
+  border-radius: var(--radius-liquid);
+  background: var(--lb-fill);
+  content: "";
+}
+
+.action [data-liquid-icon]::before {
+  inset-inline-start: -0.35em;
+}
+
+.action [data-liquid-icon]::after {
+  inset-inline-end: -0.35em;
+}
+
+/* At rest only the blob shows; the label grows out through the goo on hover.
+   Names stay in aria-label, so collapsing never hides them. */
 .action [data-liquid-label] {
-  max-inline-size: 0.9em;
+  max-inline-size: 0;
   padding-inline: 0;
   overflow: hidden;
   color: transparent;
@@ -87,6 +123,20 @@
     max-inline-size 0.45s var(--lb-ease),
     padding-inline 0.45s var(--lb-ease),
     color 0.3s var(--lb-ease);
+}
+
+.action [data-liquid-bridge] {
+  visibility: hidden;
+}
+
+.action:is(:focus-visible, [aria-expanded="true"]) [data-liquid-bridge] {
+  visibility: visible;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .action:hover [data-liquid-bridge] {
+    visibility: visible;
+  }
 }
 
 .action:is(:focus-visible, [aria-expanded="true"]) [data-liquid-label] {

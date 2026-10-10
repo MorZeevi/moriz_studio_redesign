@@ -103,7 +103,7 @@ export function FloatingActions({
                 alt=""
                 width={600}
                 height={600}
-                sizes="48px"
+                sizes="96px"
               />
             }
           >
