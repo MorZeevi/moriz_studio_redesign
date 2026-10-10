@@ -372,3 +372,38 @@ test("changing theme preserves an active Party and restores dark tag colors", as
   );
   expect(await canvas(page)).toBe("rgb(38, 38, 38)");
 });
+
+test("dark mode tints the rotating phrase and turns both CTAs white", async ({
+  page,
+}) => {
+  const read = () =>
+    page.evaluate(() => {
+      const style = (selector: string) =>
+        getComputedStyle(document.querySelector(selector) as Element);
+      const fill = (selector: string) =>
+        style(`${selector} [class*="label"]`).backgroundColor;
+      return {
+        rotating: style(".hero-heading-rotating").color,
+        heroFill: fill(".hero-projects-link"),
+        heroInk: style(".hero-projects-link").color,
+        contactFill: fill(".header-contact-link"),
+        contactInk: style(".header-contact-link").color,
+      };
+    });
+  await page.emulateMedia({ colorScheme: "dark" });
+  await page.goto("/he");
+  await expectTheme(page, "dark");
+  expect(await read()).toEqual({
+    rotating: "rgb(221, 220, 140)",
+    heroFill: "rgb(251, 251, 255)",
+    heroInk: "rgb(38, 38, 38)",
+    contactFill: "rgb(251, 251, 255)",
+    contactInk: "rgb(38, 38, 38)",
+  });
+  await page.emulateMedia({ colorScheme: "light" });
+  await expectTheme(page, "light");
+  const light = await read();
+  expect(light.rotating).not.toBe("rgb(221, 220, 140)");
+  expect(light.contactFill).toBe("rgb(38, 38, 38)");
+  expect(light.heroInk).toBe("rgb(251, 251, 255)");
+});

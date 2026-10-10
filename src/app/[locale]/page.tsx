@@ -15,6 +15,7 @@ import { PixelReveal } from "@/components/pixel-reveal";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { ProjectsSection } from "@/components/projects-section";
 import { SecondaryScrollSurface } from "@/components/secondary-scroll-surface";
+import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import FallingText from "@/components/react-bits/FallingText";
 import { StudioLogo } from "@/components/studio-logo";
@@ -45,7 +46,7 @@ export default async function Home({
         {content.skipToContent}
       </a>
 
-      <header className="site-header">
+      <SiteHeader>
         <div className="hero-shell site-header-inner">
           <div className="header-brand">
             <StudioLogo
@@ -53,20 +54,20 @@ export default async function Home({
               locale={locale}
               className="studio-wordmark"
             />
-            {/* Desktop: theme and language sit beside the wordmark. */}
-            <div className="header-brand-controls">
-              <ThemeToggle labels={content.theme} />
-              <LanguageLink
-                locale={locale}
-                content={content.navigation.languages}
-              />
-            </div>
           </div>
           <div className="header-theme-mobile">
             <ThemeToggle labels={content.theme} />
           </div>
           <Navigation locale={locale} content={content.navigation} />
           <div className="header-actions">
+            {/* Desktop: theme and language sit together beside the CTA. */}
+            <div className="header-controls">
+              <ThemeToggle labels={content.theme} />
+              <LanguageLink
+                locale={locale}
+                content={content.navigation.languages}
+              />
+            </div>
             <LiquidLink
               className="header-contact-link"
               variant="secondary"
@@ -85,7 +86,7 @@ export default async function Home({
             </LiquidLink>
           </div>
         </div>
-      </header>
+      </SiteHeader>
 
       <main id="main-content" tabIndex={-1}>
         <section

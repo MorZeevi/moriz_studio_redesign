@@ -103,7 +103,7 @@ export const he = {
       },
     },
     party: {
-      prompt: "let’s party?",
+      prompt: "Let’s party?",
       no: "No",
       yes: "Yes",
       normal: "NORMAL",

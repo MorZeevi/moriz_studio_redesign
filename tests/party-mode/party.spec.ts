@@ -168,6 +168,10 @@ test("keyboard switch and reduced motion retain the visual mode without loops", 
   await page.keyboard.press("Space");
   await expect(state(page)).toHaveAttribute("data-party-state", "active");
   await expect(page.locator("[data-party-rig]")).toHaveCSS("transform", "none");
+  await expect(page.locator("[data-infinity-loop] svg")).toHaveCSS(
+    "transform",
+    "none",
+  );
   expect(
     await page
       .locator("[data-party-video]")
@@ -521,7 +525,7 @@ test("heading projections share the ball origin without changing accessible name
       if (!rig || !effects || !light) throw new Error("Missing geometry");
       const bounds = rig.getBoundingClientRect();
       const contact = document
-        .querySelector(".header-actions .header-contact-link")
+        .querySelector(".header-actions")
         ?.getBoundingClientRect();
       const nav = document
         .querySelector(".desktop-navigation")
@@ -532,7 +536,7 @@ test("heading projections share the ball origin without changing accessible name
       const rect = light.getBoundingClientRect();
       return {
         centerX: bounds.left + bounds.width / 2,
-        // The ball hangs centred between the contact button and the nav.
+        // The ball hangs centred between the header actions and the nav.
         gapCenterX:
           contact && nav ? (contact.right + nav.left) / 2 : Number.NaN,
         anchorX: Number.parseFloat(
@@ -885,4 +889,26 @@ test("compact tags use gentler hops and update when the viewport changes", async
   expect(Math.abs(first[4].y)).toBeLessThan(0.1);
   expect((await seekTags(page, 1890))[4].y).toBeCloseTo(-4, 1);
   await stop(page);
+});
+
+test("the infinity sign dances while Party is on and rests after", async ({
+  page,
+}) => {
+  const sign = page.locator("[data-infinity-loop] svg");
+  const transform = () =>
+    sign.evaluate((element) => getComputedStyle(element).transform);
+  await expect(sign).toHaveCSS("transform", "none");
+  // Same row as the switch, already in view; a dancing element never
+  // settles for an actionability scroll.
+  await start(page);
+  const poses = new Set<string>();
+  for (let sample = 0; sample < 8; sample++) {
+    poses.add(await transform());
+    await page.waitForTimeout(70);
+  }
+  poses.delete("none");
+  // Lifts, tilts and squashes: several distinct poses within one beat.
+  expect(poses.size).toBeGreaterThan(3);
+  await stop(page);
+  await expect(sign).toHaveCSS("transform", "none");
 });

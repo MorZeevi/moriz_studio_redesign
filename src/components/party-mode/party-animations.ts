@@ -573,13 +573,15 @@ export class PartyAnimations {
   }
 
   /**
-   * On desktop the ball hangs centred in the gap between the contact button
-   * and the middle navigation, in either direction. Elsewhere (no visible
-   * desktop header) the CSS position applies.
+   * On desktop the ball hangs centred in the gap between the header actions
+   * (theme, language and contact) and the middle navigation, in either
+   * direction. Elsewhere (no visible desktop header) the CSS position applies.
+   * Both boxes are measured on cells that stay put while the header slides
+   * its contents off screen.
    */
   private placeRig() {
     const contact = document
-      .querySelector(".header-actions .header-contact-link")
+      .querySelector(".header-actions")
       ?.getBoundingClientRect();
     const nav = document
       .querySelector(".desktop-navigation")

@@ -32,6 +32,10 @@
   --site-border: color-mix(in srgb, var(--color-light) 25%, var(--color-dark));
   --site-focus: var(--color-secondary);
   --site-heading-accent: var(--color-primary);
+  --site-hero-rotating: var(--color-secondary);
+  --site-cta-fill: var(--color-light);
+  --site-cta-pressed: color-mix(in srgb, var(--color-light) 88%, var(--color-dark));
+  --site-cta-ink: var(--color-dark);
   --site-scheme: dark;
   --theme-moon-display: none;
   --theme-sun-display: block;
@@ -56,6 +60,14 @@
     );
     --site-focus: var(--color-secondary);
     --site-heading-accent: var(--color-primary);
+    --site-hero-rotating: var(--color-secondary);
+    --site-cta-fill: var(--color-light);
+    --site-cta-pressed: color-mix(
+      in srgb,
+      var(--color-light) 88%,
+      var(--color-dark)
+    );
+    --site-cta-ink: var(--color-dark);
     --site-scheme: dark;
     --theme-moon-display: none;
     --theme-sun-display: block;
@@ -93,7 +105,10 @@ html:not([data-theme]) [data-theme-controls] {
 
 @media (min-width: 64rem) and (max-width: 74.99rem) {
   .header-actions {
-    gap: var(--space-1);
+    gap: var(--space-2);
+  }
+  .header-controls {
+    block-size: var(--control-height-sm);
   }
   .header-actions .header-contact-link {
     --lb-height: var(--control-height-sm);

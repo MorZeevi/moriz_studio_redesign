@@ -7,6 +7,7 @@ import {
   useEffect,
   useRef,
 } from "react";
+import { usePartyMode } from "./party-mode/party-mode-provider";
 import styles from "./infinity-loop.module.css";
 
 // One closed figure-eight; the two lobes cross at the centre (100, 50).
@@ -18,12 +19,16 @@ const LAP_SECONDS = 16;
 // lap), so the dot cannot jump to the other lobe where they cross.
 const DRAG_WINDOW = 0.12;
 const KEY_STEP = 0.02;
+// Party groove: one lift and landing per beat, tilting left then right.
+const BEAT_SECONDS = 0.6;
+const PARTY_LAP_SPEED = 3;
 
 const wrap = (value: number) => ((value % 1) + 1) % 1;
 
 /**
  * Advantages card three: a dot slides slowly and endlessly along an infinity sign.
  * Visitors can drag it (or nudge it by keyboard) and it carries on from there.
+ * In Party mode the sign dances to a beat and the bead races around it.
  */
 export function InfinityLoop({
   labels,
@@ -39,7 +44,10 @@ export function InfinityLoop({
     release: () => void;
     nearest: (x: number, y: number) => number;
     progress: () => number;
+    lap: gsap.core.Tween;
   } | null>(null);
+  const { phase } = usePartyMode();
+  const dancing = phase === "active";
 
   useEffect(() => {
     const svg = svgRef.current;
@@ -114,6 +122,7 @@ export function InfinityLoop({
         return best;
       },
       progress: () => state.progress,
+      lap: tween,
     };
 
     // Off-screen, the loop rests.
@@ -135,6 +144,67 @@ export function InfinityLoop({
       control.current = null;
     };
   }, []);
+
+  useEffect(() => {
+    const svg = svgRef.current;
+    const lap = control.current?.lap;
+    if (
+      !dancing ||
+      !svg ||
+      !lap ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    )
+      return;
+    gsap.set(svg, { transformOrigin: "50% 100%" });
+    // A quick lift and a weighted landing with a small squash, like the
+    // Party tags, rather than a sinusoidal float.
+    const groove = gsap.timeline({ repeat: -1 });
+    for (const tilt of [-4, 4]) {
+      groove
+        .to(svg, {
+          y: -8,
+          rotation: tilt,
+          scaleX: 1,
+          scaleY: 1,
+          duration: BEAT_SECONDS * 0.34,
+          ease: "power3.out",
+        })
+        .to(svg, {
+          y: 0,
+          rotation: 0,
+          duration: BEAT_SECONDS * 0.41,
+          ease: "power2.in",
+        })
+        .to(svg, {
+          scaleX: 1.06,
+          scaleY: 0.94,
+          duration: BEAT_SECONDS * 0.12,
+          ease: "power1.out",
+        })
+        .to(svg, {
+          scaleX: 1,
+          scaleY: 1,
+          duration: BEAT_SECONDS * 0.13,
+          ease: "power1.in",
+        });
+    }
+    gsap.to(lap, { timeScale: PARTY_LAP_SPEED, duration: 0.6 });
+    return () => {
+      groove.kill();
+      gsap.to(lap, { timeScale: 1, duration: 0.6 });
+      gsap.to(svg, {
+        y: 0,
+        rotation: 0,
+        scaleX: 1,
+        scaleY: 1,
+        duration: 0.3,
+        ease: "power2.out",
+        overwrite: true,
+        onComplete: () =>
+          gsap.set(svg, { clearProps: "transform,transformOrigin" }),
+      });
+    };
+  }, [dancing]);
 
   const toLocal = (event: PointerEvent<SVGSVGElement>) => {
     const matrix = svgRef.current?.getScreenCTM();

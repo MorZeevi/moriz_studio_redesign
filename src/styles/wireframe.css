@@ -52,7 +52,7 @@
 
 .desktop-navigation,
 .header-actions,
-.header-brand-controls {
+.header-controls {
   display: none;
 }
 
@@ -74,12 +74,23 @@
   cursor: not-allowed;
 }
 
-/* Contact CTA: palette black with light ink; secondary color on interaction. */
+/* Contact CTA: palette black with light ink (white with black ink in dark
+   mode); secondary color on interaction. */
 .header-actions .header-contact-link {
-  --lb-fill: var(--color-dark);
-  --lb-pressed-fill: var(--color-dark);
-  --lb-ink: var(--color-text-inverse);
+  --lb-fill: var(--site-cta-fill, var(--color-dark));
+  --lb-pressed-fill: var(--site-cta-pressed, var(--color-dark));
+  --lb-ink: var(--site-cta-ink, var(--color-text-inverse));
   white-space: nowrap;
+}
+
+/* Hero CTA keeps the module's action red; dark mode turns it white. */
+.hero-actions .hero-projects-link {
+  --lb-fill: var(--site-cta-fill, var(--color-action-primary));
+  --lb-pressed-fill: var(
+    --site-cta-pressed,
+    var(--color-action-primary-hover)
+  );
+  --lb-ink: var(--site-cta-ink, var(--color-text-inverse));
 }
 
 .header-actions .header-contact-link:focus-visible {
@@ -142,7 +153,8 @@
 
 .hero-heading-rotating {
   display: flex;
-  color: var(--color-action-primary);
+  /* Dark mode swaps the action red for the secondary color. */
+  color: var(--site-hero-rotating, var(--color-action-primary));
 }
 
 /* Clips each word's slide to the ink, not the line box: with line-height 1
@@ -294,6 +306,8 @@ html:has(.navigation-dialog[open]) {
     position: sticky;
     inset-block-start: 0;
     z-index: 20;
+    /* Parts sliding off sideways must not widen the page. */
+    overflow-x: clip;
   }
 
   .site-header-inner {
@@ -320,13 +334,39 @@ html:has(.navigation-dialog[open]) {
     align-items: center;
     justify-content: end;
     justify-self: end;
-    gap: var(--space-2);
+    gap: var(--space-3);
   }
 
-  .header-brand-controls {
+  /* Theme and language, side by side, beside the contact CTA. */
+  .header-controls {
     display: flex;
+    flex: none;
     align-items: center;
-    gap: var(--space-2);
+    block-size: var(--control-height-md);
+    color: var(--color-text-primary);
+  }
+
+  .header-controls [data-theme-toggle] svg {
+    inline-size: 1.125rem;
+    block-size: 1.125rem;
+  }
+
+  .header-controls .language-link {
+    min-block-size: 100%;
+    padding-inline: var(--space-1);
+    color: inherit;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .header-controls .language-link:hover {
+    text-decoration: underline;
+  }
+
+  /* The empty strip and its off-screen parts must not catch the pointer. */
+  .site-header[data-header-hidden],
+  .site-header[data-header-hidden] * {
+    pointer-events: none;
   }
 
   .mobile-menu-toggle {
