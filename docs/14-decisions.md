@@ -1257,6 +1257,14 @@ Alternatives considered: a Büro-style stack of all testimonials (everything vis
 
 Surface update, 2026-10-10: the owner removed the section's top and bottom rules and requested a grainy background. The section keeps `bg-surface` and adds the existing hero/advantages Noise layer (340 / 1 / 0.3 / 2 / 22); the following section's top rule is also removed.
 
+### Getting-started steps on a rail
+
+Date: 2026-10-10. The owner asked for research on presenting the three-step start of a project with short descriptions, then implementation with animated icons from the project set, drawing new icons where needed. Owner facts: a short phone call with a few simple questions to check initial fit; a discovery call (שיחת אפיון) on Zoom, free of charge; a price quote valid for 14 working days. Owner decisions: hairline columns with a rail, no duration shown for the Zoom call, the existing phone icon plus two new icons, and no CTA in the section (WhatsApp stays floating only).
+
+Implement section 6 with [GettingStarted](../src/components/getting-started.tsx): three ruled columns on a 1px rail with a node per step (desktop), or a vertical rail on the right edge (mobile). Each step has an inline two-tone icon, a number, a title and one line. New icons `public/icons/video.svg` and `public/icons/quote.svg` follow the set's 24px filled style with one red accent. Motion is owner-requested for this section: the rail fills from the right, nodes light in turn, text rises in and each icon plays once (phone ring, Zoom live-dot blink, quote check draw-in). It uses the existing motion tokens, appears at once under reduced motion and is static without JavaScript. The heading **איך מתחילים לעבוד יחד** is unchanged.
+
+Alternatives considered: editorial ruled rows (reads as a list) and equal cards (generic and heavier). Evidence: [getting-started Mobbin research](research/homepage-getting-started-mobbin-2026-10-10.md). Implemented locally; lint and TypeScript pass, and the navigation suite passes apart from three Projects-backdrop and theme-opening failures that also occur with this section removed. The lines for steps 2 and 3 and the shortened step 2 title (**שיחת אפיון**, was **שיחת אפיון מעמיקה**) are drafts awaiting owner approval; visual acceptance remains pending. Owner follow-up the same day: larger Danidin step numbers, no border around the icons and larger icons (2.75rem), and no fine-print chips at all. The facts move into the step lines (Zoom and free of charge in step 2, valid for 14 working days in step 3); the 5–10 minute phone length is no longer shown.
+
 ## Reusable decision template
 
 
@@ -1290,3 +1298,7 @@ TODO: Decision required
 ### Status
 
 TODO: Decision required
+
+### Getting started and FAQ on the secondary colour
+
+Date: 2026-10-10. Owner request: sections 6 (getting started) and 7 (FAQ) fade the canvas to the secondary brand colour the way Projects fades it, while keeping the grain. [SecondaryScrollSurface](../src/components/secondary-scroll-surface.tsx) wraps both sections and uses the Projects entry/exit curve (also completing the exit at the end of the page, which is too short for the FAQ to leave the viewport). The colour is a fixed `--color-secondary` layer under the site grain whose opacity follows the reveal, so the grain stays on top and the canvas variables Projects owns are untouched. Ink flips by luminance (dark on the yellow in both themes) and, as with Projects, applies to the whole main column while revealed. Owner follow-up: the fade must read as one canvas, so the opaque neighbours (testimonials before, contact after) become transparent by a third of the reveal and their own grain fades with them, and the rules between the block and its neighbours are removed. Reduced motion switches at the midpoint; without JavaScript the sections keep the page colours. The two sections read as one block (no rule between them).

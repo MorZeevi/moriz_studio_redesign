@@ -2,7 +2,7 @@
 
 ## Selected interactions
 
-The owner has selected the floating WhatsApp contact control below. Its selected visual treatment is a WhatsApp-green circle with the owner's WhatsApp icon in palette charcoal; the confirmed destination is `+972522937174`. Placement and detailed opening behavior remain provisional. No experimental backlog idea has been promoted into this register. The wireframe's FAQ disclosure is a temporary review pattern recorded in [02-page-structure.md](02-page-structure.md#wireframe-prototype--review-status), not a selected final interaction.
+The owner has selected the floating WhatsApp contact control below. Its selected visual treatment is a WhatsApp-green circle with the owner's WhatsApp icon in palette charcoal; the confirmed destination is `+972522937174`. Placement and detailed opening behavior remain provisional. The owner also requested the getting-started rail and step-icon animation below (2026-10-10). No experimental backlog idea has been promoted into this register. The wireframe's FAQ disclosure is a temporary review pattern recorded in [02-page-structure.md](02-page-structure.md#wireframe-prototype--review-status), not a selected final interaction.
 
 Do not move ideas from [11-interaction-backlog.md](11-interaction-backlog.md) into this register until they are intentionally selected.
 
@@ -61,6 +61,36 @@ The confirmed destination is `https://wa.me/972522937174`, opening a conversatio
 #### Status
 
 Functional placement selected by the owner on 2026-10-06; circular yellow treatment and supplied icon selected on 2026-10-09 and implemented in `whatapp-btn`. The owner subsequently confirmed `+972522937174`, palette charcoal for the icon and increased padding, then requested WhatsApp green and a larger desktop button. See [the decision record](14-decisions.md#floating-only-whatsapp-access). No entrance or continuous animation has been selected.
+
+### Getting-started rail and step icons
+
+#### Location
+
+Home, section 6 (`#getting-started`). Component: [getting-started.tsx](../src/components/getting-started.tsx), styles in [getting-started.module.css](../src/components/getting-started.module.css), icons in [getting-started-icons.tsx](../src/components/getting-started-icons.tsx).
+
+#### Trigger
+
+Each step enters the viewport (IntersectionObserver, once, bottom margin −15%). Hover on a step (pointer devices only).
+
+#### Behavior
+
+Desktop: the rail fills from the inline start (right in RTL), one segment per step, staggered by `--duration-slow × 0.6`; each node fills with the accent as the line reaches it; the icon, title and line rise 0.75rem and fade in. Then each icon plays once: the phone rings and its red dot ripples twice; the Zoom live dot blinks twice; the quote's check draws in. Mobile: the same per step, along a vertical rail, without the cross-step stagger. Hover tilts the icon.
+
+#### Reduced-motion behavior
+
+Durations are 0s through the global tokens; the component also checks `matchMedia('(prefers-reduced-motion: reduce)')` and shows every step at once, with delays removed.
+
+#### Accessibility considerations
+
+Semantic `<ol>` with `h3` per step; icons, numbers and the rail are `aria-hidden`. Text keeps primary or secondary colours; the accent is used only for lines, nodes, borders and dots. Without JavaScript every step renders in its final state.
+
+#### Performance considerations
+
+CSS transitions and keyframes on transform/opacity/stroke only; one IntersectionObserver that stops watching each step once it is revealed.
+
+#### Status
+
+Implemented locally at the owner's request (2026-10-10); visual acceptance pending.
 
 ## Reusable interaction template — unselected
 

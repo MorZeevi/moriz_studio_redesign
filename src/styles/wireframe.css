@@ -519,6 +519,78 @@ html:has(.navigation-dialog[open]) {
   border-block-start: 0;
 }
 
+/* Getting started and FAQ fade the canvas to the secondary colour while they
+   cross the viewport (SecondaryScrollSurface sets the reveal and ink). The
+   fill sits under the site grain (z-index -1), so the grain stays on top. */
+.secondary-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background: var(--color-secondary);
+  opacity: var(--secondary-reveal, 0);
+  pointer-events: none;
+}
+
+/* While revealed, the whole main column takes the canvas ink, like Projects.
+   Without JavaScript there is no ink and the page keeps its colours. Muted,
+   line and surface are re-pointed: their :root aliases resolve before here. */
+body[data-secondary-ink] main {
+  --color-background: var(--secondary-surface);
+  --color-border: color-mix(
+    in srgb,
+    var(--color-text-primary) 27%,
+    var(--color-background)
+  );
+  --color-muted: var(--color-text-secondary);
+  --color-line: var(--color-border);
+  color: var(--color-text-primary);
+}
+
+body[data-secondary-ink="dark"] main {
+  --color-text-primary: var(--color-dark);
+  --color-text-secondary: color-mix(in srgb, var(--color-dark) 70%, transparent);
+  --color-focus: var(--color-dark);
+  --site-heading-accent: var(--color-action-primary);
+}
+
+body[data-secondary-ink="light"] main {
+  --color-text-primary: var(--color-light);
+  --color-text-secondary: color-mix(
+    in srgb,
+    var(--color-light) 80%,
+    transparent
+  );
+  --color-focus: var(--color-light);
+}
+
+/* The opaque neighbours (testimonials, contact) thin out at the same rate,
+   so the shared canvas and its grain show through and no edge remains. They
+   clear by a third of the reveal, before the yellow builds up. Their own
+   grain fades with them to avoid a doubled texture. */
+body[data-secondary-ink]
+  main
+  > :is(:has(+ .secondary-surface), .secondary-surface + *) {
+  --secondary-neighbour: clamp(0%, (1 - var(--secondary-reveal) * 3) * 100%, 100%);
+  background-color: color-mix(
+    in srgb,
+    var(--site-surface) var(--secondary-neighbour),
+    transparent
+  );
+}
+
+body[data-secondary-ink]
+  main
+  > :is(:has(+ .secondary-surface), .secondary-surface + *)
+  .react-bits-noise {
+  opacity: var(--secondary-neighbour);
+}
+
+/* No rules between the block and its neighbours, as with Projects. */
+.secondary-surface > .wireframe-section,
+.secondary-surface + .wireframe-section {
+  border-block-start: 0;
+}
+
 .section-heading {
   margin-block-end: clamp(1.75rem, 3vw, var(--space-12));
   font-size: var(--trial-section-heading-size);

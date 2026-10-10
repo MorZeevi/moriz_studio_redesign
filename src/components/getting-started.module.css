@@ -1,0 +1,314 @@
+/* Three steps on one rail: vertical along the start edge on small screens,
+   hairline columns with a horizontal rail on desktop. Logical properties only,
+   so the rail starts on the right in RTL. */
+.root {
+  --gs-accent: var(--site-heading-accent, var(--color-action-primary));
+  --gs-rule: var(--color-border);
+  --gs-muted: var(--color-text-secondary);
+  --gs-node: 0.75rem;
+  --gs-tile: 2.75rem;
+  /* Time for the rail to travel one step; drops to 0s with reduced motion. */
+  --gs-stagger: calc(var(--duration-slow) * 0.6);
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-inline-size: 0;
+}
+
+.step {
+  --delay: 0s;
+  position: relative;
+  min-inline-size: 0;
+  padding-inline-start: calc(var(--gs-node) + var(--space-6));
+  padding-block-end: var(--space-12);
+}
+
+.step:last-child {
+  padding-block-end: 0;
+}
+
+/* Rail: node + segment running to the next node. */
+.rail {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: var(--gs-node);
+  pointer-events: none;
+}
+
+.node {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: calc((var(--gs-tile) - var(--gs-node)) / 2);
+  inset-inline-start: 0;
+  inline-size: var(--gs-node);
+  block-size: var(--gs-node);
+  border: var(--border-width-default) solid var(--gs-accent);
+  border-radius: 50%;
+  background: var(--gs-accent);
+  transition:
+    background-color var(--duration-normal) var(--ease-standard) var(--delay),
+    border-color var(--duration-normal) var(--ease-standard) var(--delay),
+    scale var(--duration-normal) var(--ease-enter) var(--delay);
+}
+
+.segment {
+  position: absolute;
+  inset-block: calc(var(--gs-tile) / 2) calc(var(--gs-tile) / -2);
+  inset-inline-start: calc(var(--gs-node) / 2 - var(--border-width-default) / 2);
+  inline-size: var(--border-width-default);
+  background: var(--gs-rule);
+  overflow: hidden;
+}
+
+.step:last-child .segment {
+  display: none;
+}
+
+.segmentFill {
+  position: absolute;
+  inset: 0;
+  background: var(--gs-accent);
+  transform-origin: top;
+  transition: scale calc(var(--gs-stagger) * 2) var(--ease-standard)
+    calc(var(--delay) + var(--duration-fast));
+}
+
+/* Content */
+.head {
+  --d: 0s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-block-end: var(--space-6);
+}
+
+.icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  inline-size: var(--gs-tile);
+  block-size: var(--gs-tile);
+  color: var(--color-text-primary);
+}
+
+.icon svg {
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+}
+
+.number {
+  color: var(--gs-muted);
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 3.2vw, 3rem);
+  font-weight: var(--font-weight-display);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.title {
+  --d: calc(var(--gs-stagger) * 0.2);
+  margin: 0;
+  font-size: clamp(1.25rem, 1.8vw, 1.625rem);
+  line-height: 1.2;
+}
+
+.detail {
+  --d: calc(var(--gs-stagger) * 0.4);
+  max-inline-size: 34ch;
+  margin-block: var(--space-3) 0;
+  color: var(--gs-muted);
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+}
+
+/* Reveal. Without JavaScript nothing below applies and every step is final. */
+.head,
+.title,
+.detail {
+  transition:
+    opacity var(--duration-slow) var(--ease-enter) calc(var(--delay) + var(--d)),
+    translate var(--duration-slow) var(--ease-enter) calc(var(--delay) + var(--d));
+}
+
+.root[data-enhanced] .step:not([data-visible]) :is(.head, .title, .detail) {
+  opacity: 0;
+  translate: 0 0.75rem;
+}
+
+.root[data-enhanced] .step:not([data-visible]) .node {
+  border-color: var(--gs-rule);
+  background: var(--color-background);
+  scale: 0.6;
+}
+
+.root[data-enhanced] .step:not([data-visible]) .segmentFill {
+  scale: 1 0;
+}
+
+/* Icon motion plays once, after the step has settled. */
+.glyph,
+.live,
+.ripple {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.ripple {
+  opacity: 0;
+}
+
+.check {
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset var(--duration-slow) var(--ease-enter)
+    calc(var(--delay) + var(--duration-slow));
+}
+
+.root[data-enhanced] .step:not([data-visible]) .check {
+  stroke-dashoffset: 1;
+}
+
+.step[data-visible] [data-icon="phone"] {
+  transform-origin: 50% 60%;
+  animation: gs-ring calc(var(--duration-slow) * 1.6) var(--ease-standard)
+    calc(var(--delay) + var(--duration-slow)) both;
+}
+
+.step[data-visible] .ripple {
+  animation: gs-ripple calc(var(--duration-slow) * 1.6) var(--ease-exit)
+    calc(var(--delay) + var(--duration-slow) * 1.4) 2 both;
+}
+
+.step[data-visible] .live {
+  animation: gs-live calc(var(--duration-slow) * 2.4) steps(1, end)
+    calc(var(--delay) + var(--duration-slow)) both;
+}
+
+.glyph {
+  transition: rotate var(--duration-normal) var(--ease-enter),
+    scale var(--duration-normal) var(--ease-enter);
+}
+
+@media (hover: hover) {
+  .step:hover .glyph {
+    rotate: -8deg;
+    scale: 1.08;
+  }
+}
+
+@keyframes gs-ring {
+  0%,
+  70%,
+  100% {
+    rotate: 0deg;
+  }
+  10%,
+  30% {
+    rotate: -12deg;
+  }
+  20%,
+  40% {
+    rotate: 12deg;
+  }
+  50% {
+    rotate: -6deg;
+  }
+  60% {
+    rotate: 4deg;
+  }
+}
+
+@keyframes gs-ripple {
+  0% {
+    opacity: 0.9;
+    scale: 1;
+  }
+  100% {
+    opacity: 0;
+    scale: 4.5;
+  }
+}
+
+@keyframes gs-live {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  25%,
+  75% {
+    opacity: 0.15;
+  }
+}
+
+/* Desktop: hairline columns, rail across the top. */
+@media (min-width: 64rem) {
+  .root {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .step {
+    --delay: calc(var(--i) * var(--gs-stagger));
+    padding-block: var(--space-12) 0;
+    padding-inline: var(--space-8);
+    border-inline-start: var(--border-width-default) solid var(--gs-rule);
+  }
+
+  .step:first-child {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+  }
+
+  .rail {
+    inset-block: 0 auto;
+    inset-inline: 0;
+    inline-size: auto;
+    block-size: var(--gs-node);
+  }
+
+  .node {
+    inset-block-start: 0;
+    inset-inline-start: calc(var(--gs-node) / -2);
+  }
+
+  .step:first-child .node {
+    inset-inline-start: 0;
+  }
+
+  .segment,
+  .step:last-child .segment {
+    display: block;
+    inset-block: calc(var(--gs-node) / 2 - var(--border-width-default) / 2) auto;
+    inset-inline: 0;
+    inline-size: auto;
+    block-size: var(--border-width-default);
+  }
+
+  .segmentFill {
+    transform-origin: left;
+    transition-duration: var(--gs-stagger);
+    transition-timing-function: linear;
+    transition-delay: var(--delay);
+  }
+
+  .root:dir(rtl) .segmentFill {
+    transform-origin: right;
+  }
+
+  .root[data-enhanced] .step:not([data-visible]) .segmentFill {
+    scale: 0 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step,
+  .head,
+  .title,
+  .detail {
+    --delay: 0s;
+    --d: 0s;
+  }
+}

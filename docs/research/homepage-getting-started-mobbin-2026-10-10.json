@@ -1,0 +1,633 @@
+{
+  "date": "2026-10-10",
+  "scope": "Research for the homepage getting-started section (#getting-started, “איך מתחילים לעבוד יחד”). The recommended direction is implemented in src/components/getting-started.tsx and getting-started.module.css, with icons in getting-started-icons.tsx, content in src/i18n/dictionaries/he.ts (gettingStarted.steps) and the type in src/content/getting-started.ts.",
+  "assumption": "Owner request: research how to present a three-step process with short descriptions, then implement it with animated icons from the project set, drawing new icons where needed. Owner facts: a short phone call with a few simple questions to check initial fit; a discovery call on Zoom, free of charge; a price quote valid for 14 working days. Owner decisions (10 October 2026): hairline columns with a rail; no Zoom duration shown; existing phone icon plus two new icons; no CTA (WhatsApp stays floating).",
+  "method": "Six Mobbin section searches (page 1 each, limit 8, further pages available) returned 48 results: 39 distinct sections from 36 distinct sites. Eight selected images were downloaded at 1920 pixels wide as WebP with no failures. Only the eight selected images were inspected at full size; the rest were assessed from the search previews. An earlier exploratory pass in the same session used different queries; its counts were not retained and only references re-found in the logged searches are cited.",
+  "capture_limits": "Download date is not capture or redesign date. Live source sites were not checked. Static screenshots do not establish animation, scroll behaviour, responsiveness, accessibility or conversion performance. Source screenshots are LTR; Moriz adaptations mirror them for RTL.",
+  "prior_research": "homepage-section-research-2026-10-06.md#starting (Ragged Edge, Fiasco, Framer, MONOLOG, Little Plains).",
+  "steps_in_order": [
+    {
+      "order": 1,
+      "title": "שיחת טלפון קצרה",
+      "detail": "כמה שאלות פשוטות, כדי לראות אם יש התאמה ראשונית לצרכים שלכם.",
+      "chips": [
+        "5–10 דקות"
+      ],
+      "icon": "mobile.svg (existing)",
+      "source": "Owner-supplied; duration from the earlier wireframe copy"
+    },
+    {
+      "order": 2,
+      "title": "שיחת אפיון",
+      "detail": "נכיר לעומק את הפרויקט, המטרות והצרכים שלכם.",
+      "chips": [
+        "ללא עלות (emphasised)",
+        "בזום"
+      ],
+      "icon": "video.svg (new)",
+      "source": "Facts owner-supplied (free, on Zoom); title shortened from “שיחת אפיון מעמיקה” and the line drafted — awaiting approval"
+    },
+    {
+      "order": 3,
+      "title": "קבלת הצעת מחיר",
+      "detail": "הצעה מסודרת שמבוססת על מה שאפיינו יחד.",
+      "chips": [
+        "בתוקף ל־14 ימי עבודה"
+      ],
+      "icon": "quote.svg (new)",
+      "source": "Validity owner-supplied; the line drafted — awaiting approval"
+    }
+  ],
+  "content_needed": [
+    "Approval or rewording of the drafted lines for steps 2 and 3, and of the shortened step 2 title (“שיחת אפיון” instead of “שיחת אפיון מעמיקה”).",
+    "Whether the phone call is still 5–10 minutes (carried over from the earlier wireframe copy).",
+    "Optional: what the client should prepare before the Zoom call. No Zoom duration is shown (owner decision)."
+  ],
+  "directions": [
+    {
+      "name": "Hairline columns on a rail",
+      "status": "Recommended · implemented",
+      "references": [
+        "Runway",
+        "Mora",
+        "Wild",
+        "monday.com"
+      ]
+    },
+    {
+      "name": "Editorial ruled rows",
+      "status": "Alternative",
+      "references": [
+        "United Carriers"
+      ]
+    },
+    {
+      "name": "Equal cards",
+      "status": "Rejected",
+      "references": [
+        "Cloudstudio",
+        "Mews",
+        "Wise"
+      ]
+    }
+  ],
+  "rejected_patterns": [
+    {
+      "pattern": "Sticky split or stacked scroll cards",
+      "sites": [
+        "Framer",
+        "Kalstore",
+        "Air",
+        "Fiasco"
+      ],
+      "reason": "Spend a lot of scroll height on three short steps."
+    },
+    {
+      "pattern": "Accordion of steps",
+      "sites": [
+        "Titan"
+      ],
+      "reason": "Hides content behind clicks; three short steps fit on screen."
+    },
+    {
+      "pattern": "Company-history timelines",
+      "sites": [
+        "Circle",
+        "SpaceXAI",
+        "Grok",
+        "Square",
+        "Apollo",
+        "Framer"
+      ],
+      "reason": "Chronological milestones, not steps a client takes."
+    },
+    {
+      "pattern": "Illustrated centred columns",
+      "sites": [
+        "Blue Apron",
+        "ClassPass",
+        "HubSpot",
+        "Duolingo",
+        "Amie",
+        "Visitors"
+      ],
+      "reason": "Generic SaaS look; the illustration styles do not match the two-tone icon set."
+    }
+  ],
+  "not_promoted_without_recorded_reason": [
+    "Grammarly",
+    "Escape Cafe",
+    "Kastle",
+    "PayPal",
+    "Ragged Edge",
+    "Parker AI",
+    "FLORA",
+    "V7",
+    "YLLW",
+    "Maxima Therapy",
+    "Granola",
+    "Adaline"
+  ],
+  "downloads": {
+    "attempted": 8,
+    "failed": 0,
+    "converted_from_existing_asset": [],
+    "format": "webp",
+    "max_width": 1920,
+    "note": "Mobbin served WebP at 1920 pixels wide; no conversion was needed."
+  },
+  "searches": [
+    {
+      "query": "how it works section with 3 numbered steps in horizontal columns",
+      "tool": "mcp mobbin search_sections",
+      "output_destination": "doc",
+      "page": 1,
+      "limit": 8,
+      "has_next_page": true,
+      "result_count": 8,
+      "sections": [
+        {
+          "id": "1db9aea8-a59f-4359-9e58-d46d4d73b84a",
+          "image_url": "https://mobbin.com/api/mcp/short/v8xt2AUt",
+          "mobbin_url": "https://mobbin.com/sites/sections/1db9aea8-a59f-4359-9e58-d46d4d73b84a",
+          "site_name": "Grammarly"
+        },
+        {
+          "id": "0d103afa-c85e-4568-a98a-0a1e7cbd5e8f",
+          "image_url": "https://mobbin.com/api/mcp/short/KKAnrm4x",
+          "mobbin_url": "https://mobbin.com/sites/sections/0d103afa-c85e-4568-a98a-0a1e7cbd5e8f",
+          "site_name": "Titan"
+        },
+        {
+          "id": "68d54554-65f5-4fd2-a974-c30e7c9eaffc",
+          "image_url": "https://mobbin.com/api/mcp/short/R4l7uXpM",
+          "mobbin_url": "https://mobbin.com/sites/sections/68d54554-65f5-4fd2-a974-c30e7c9eaffc",
+          "site_name": "Escape Cafe"
+        },
+        {
+          "id": "a14eaef1-524c-4927-bc6f-ab54dd2aecff",
+          "image_url": "https://mobbin.com/api/mcp/short/tJPz4R8r",
+          "mobbin_url": "https://mobbin.com/sites/sections/a14eaef1-524c-4927-bc6f-ab54dd2aecff",
+          "site_name": "Kastle"
+        },
+        {
+          "id": "fc3046a5-a7dc-4377-87cc-d90bc9fd1848",
+          "image_url": "https://mobbin.com/api/mcp/short/CLFloSsw",
+          "mobbin_url": "https://mobbin.com/sites/sections/fc3046a5-a7dc-4377-87cc-d90bc9fd1848",
+          "site_name": "PayPal"
+        },
+        {
+          "id": "c5d415e9-e207-41bf-a3d4-52463474336e",
+          "image_url": "https://mobbin.com/api/mcp/short/2vIZJHid",
+          "mobbin_url": "https://mobbin.com/sites/sections/c5d415e9-e207-41bf-a3d4-52463474336e",
+          "site_name": "Blue Apron"
+        },
+        {
+          "id": "5913d254-146e-49b6-bc26-caaee21e868e",
+          "image_url": "https://mobbin.com/api/mcp/short/9p4VHIGN",
+          "mobbin_url": "https://mobbin.com/sites/sections/5913d254-146e-49b6-bc26-caaee21e868e",
+          "site_name": "Wise"
+        },
+        {
+          "id": "193363c3-3373-49a5-a1d0-00ff01f07b4d",
+          "image_url": "https://mobbin.com/api/mcp/short/xad5qHv4",
+          "mobbin_url": "https://mobbin.com/sites/sections/193363c3-3373-49a5-a1d0-00ff01f07b4d",
+          "site_name": "ClassPass"
+        }
+      ]
+    },
+    {
+      "query": "agency process steps from discovery call to proposal",
+      "tool": "mcp mobbin search_sections",
+      "output_destination": "doc",
+      "page": 1,
+      "limit": 8,
+      "has_next_page": true,
+      "result_count": 8,
+      "sections": [
+        {
+          "id": "2f8c5c81-1584-415c-80b2-3ac03ae68a80",
+          "image_url": "https://mobbin.com/api/mcp/short/FDnOJhri",
+          "mobbin_url": "https://mobbin.com/sites/sections/2f8c5c81-1584-415c-80b2-3ac03ae68a80",
+          "site_name": "Ragged Edge"
+        },
+        {
+          "id": "ae184d2c-6579-4d93-a8a2-86948ec720b1",
+          "image_url": "https://mobbin.com/api/mcp/short/6LOVCP8U",
+          "mobbin_url": "https://mobbin.com/sites/sections/ae184d2c-6579-4d93-a8a2-86948ec720b1",
+          "site_name": "Framer"
+        },
+        {
+          "id": "1bac0acb-c4fe-46ec-acd7-fe0bf057faf2",
+          "image_url": "https://mobbin.com/api/mcp/short/wNW5EIaM",
+          "mobbin_url": "https://mobbin.com/sites/sections/1bac0acb-c4fe-46ec-acd7-fe0bf057faf2",
+          "site_name": "Wild"
+        },
+        {
+          "id": "a3376afd-3fc7-4f42-94e4-a84e3b6deede",
+          "image_url": "https://mobbin.com/api/mcp/short/zs6l56ZH",
+          "mobbin_url": "https://mobbin.com/sites/sections/a3376afd-3fc7-4f42-94e4-a84e3b6deede",
+          "site_name": "Mora"
+        },
+        {
+          "id": "628d4c6b-cea8-49f0-88ca-353161a59678",
+          "image_url": "https://mobbin.com/api/mcp/short/9C0W9sms",
+          "mobbin_url": "https://mobbin.com/sites/sections/628d4c6b-cea8-49f0-88ca-353161a59678",
+          "site_name": "Fiasco"
+        },
+        {
+          "id": "21cf0851-381d-4fb1-a6fa-a22d22bb100b",
+          "image_url": "https://mobbin.com/api/mcp/short/U6zdKg0O",
+          "mobbin_url": "https://mobbin.com/sites/sections/21cf0851-381d-4fb1-a6fa-a22d22bb100b",
+          "site_name": "United Carriers"
+        },
+        {
+          "id": "02af7de2-404c-4f43-8e02-8e6e2d15d446",
+          "image_url": "https://mobbin.com/api/mcp/short/wJkeWuFZ",
+          "mobbin_url": "https://mobbin.com/sites/sections/02af7de2-404c-4f43-8e02-8e6e2d15d446",
+          "site_name": "Cloudstudio"
+        },
+        {
+          "id": "ddd0f916-8653-469d-a90f-1b99255944b2",
+          "image_url": "https://mobbin.com/api/mcp/short/NlaOrYSg",
+          "mobbin_url": "https://mobbin.com/sites/sections/ddd0f916-8653-469d-a90f-1b99255944b2",
+          "site_name": "Parker AI"
+        }
+      ]
+    },
+    {
+      "query": "horizontal timeline of steps with progress line and duration labels",
+      "tool": "mcp mobbin search_sections",
+      "output_destination": "doc",
+      "page": 1,
+      "limit": 8,
+      "has_next_page": true,
+      "result_count": 8,
+      "sections": [
+        {
+          "id": "591dfb9b-10ed-43e5-bbf6-bd91f83332bf",
+          "image_url": "https://mobbin.com/api/mcp/short/foBxV9nJ",
+          "mobbin_url": "https://mobbin.com/sites/sections/591dfb9b-10ed-43e5-bbf6-bd91f83332bf",
+          "site_name": "Circle"
+        },
+        {
+          "id": "a07d6f6e-3279-4fe4-821f-1d2d98e39645",
+          "image_url": "https://mobbin.com/api/mcp/short/rCnmKzcu",
+          "mobbin_url": "https://mobbin.com/sites/sections/a07d6f6e-3279-4fe4-821f-1d2d98e39645",
+          "site_name": "Duolingo"
+        },
+        {
+          "id": "8bd3ce2d-1ae9-4dea-864d-28025bfe2070",
+          "image_url": "https://mobbin.com/api/mcp/short/S7F71Zho",
+          "mobbin_url": "https://mobbin.com/sites/sections/8bd3ce2d-1ae9-4dea-864d-28025bfe2070",
+          "site_name": "SpaceXAI"
+        },
+        {
+          "id": "81db48e3-714d-45af-b9c6-aec58287137a",
+          "image_url": "https://mobbin.com/api/mcp/short/rZwg2fRz",
+          "mobbin_url": "https://mobbin.com/sites/sections/81db48e3-714d-45af-b9c6-aec58287137a",
+          "site_name": "Framer"
+        },
+        {
+          "id": "5809b85f-2e44-4d26-998f-9fb4e2379f13",
+          "image_url": "https://mobbin.com/api/mcp/short/rJmC0Pvl",
+          "mobbin_url": "https://mobbin.com/sites/sections/5809b85f-2e44-4d26-998f-9fb4e2379f13",
+          "site_name": "Grok"
+        },
+        {
+          "id": "1c6c21d4-cc7a-485f-b3ce-94e223cc68c6",
+          "image_url": "https://mobbin.com/api/mcp/short/a0tswBWX",
+          "mobbin_url": "https://mobbin.com/sites/sections/1c6c21d4-cc7a-485f-b3ce-94e223cc68c6",
+          "site_name": "Duolingo"
+        },
+        {
+          "id": "40dfaada-0563-453f-9aff-779e4cb58d56",
+          "image_url": "https://mobbin.com/api/mcp/short/n55lfmm8",
+          "mobbin_url": "https://mobbin.com/sites/sections/40dfaada-0563-453f-9aff-779e4cb58d56",
+          "site_name": "Square"
+        },
+        {
+          "id": "bc714a76-c905-4eba-89d0-77aeaa359580",
+          "image_url": "https://mobbin.com/api/mcp/short/q4wKtdLF",
+          "mobbin_url": "https://mobbin.com/sites/sections/bc714a76-c905-4eba-89d0-77aeaa359580",
+          "site_name": "Apollo"
+        }
+      ]
+    },
+    {
+      "query": "get started in three easy steps: book a call, video call demo, onboarding",
+      "tool": "mcp mobbin search_sections",
+      "output_destination": "doc",
+      "page": 1,
+      "limit": 8,
+      "has_next_page": true,
+      "result_count": 8,
+      "sections": [
+        {
+          "id": "192267a5-39a3-440c-bac1-220e69473600",
+          "image_url": "https://mobbin.com/api/mcp/short/KXdBJCYy",
+          "mobbin_url": "https://mobbin.com/sites/sections/192267a5-39a3-440c-bac1-220e69473600",
+          "site_name": "Mews"
+        },
+        {
+          "id": "a3376afd-3fc7-4f42-94e4-a84e3b6deede",
+          "image_url": "https://mobbin.com/api/mcp/short/xQbpyK49",
+          "mobbin_url": "https://mobbin.com/sites/sections/a3376afd-3fc7-4f42-94e4-a84e3b6deede",
+          "site_name": "Mora"
+        },
+        {
+          "id": "8cad56ed-ea47-45af-b068-54cc7212d120",
+          "image_url": "https://mobbin.com/api/mcp/short/3cC7D8q9",
+          "mobbin_url": "https://mobbin.com/sites/sections/8cad56ed-ea47-45af-b068-54cc7212d120",
+          "site_name": "Air"
+        },
+        {
+          "id": "bcbe23c6-95ea-467d-abc5-d913d2bc3667",
+          "image_url": "https://mobbin.com/api/mcp/short/r2rZRuLZ",
+          "mobbin_url": "https://mobbin.com/sites/sections/bcbe23c6-95ea-467d-abc5-d913d2bc3667",
+          "site_name": "Runway"
+        },
+        {
+          "id": "35657c50-f894-4f9e-9a02-7ec46c414587",
+          "image_url": "https://mobbin.com/api/mcp/short/jTFkkTbf",
+          "mobbin_url": "https://mobbin.com/sites/sections/35657c50-f894-4f9e-9a02-7ec46c414587",
+          "site_name": "FLORA"
+        },
+        {
+          "id": "6fbc3a73-93b8-4c35-8d6d-f8febfbcd1f5",
+          "image_url": "https://mobbin.com/api/mcp/short/QR7xVhgs",
+          "mobbin_url": "https://mobbin.com/sites/sections/6fbc3a73-93b8-4c35-8d6d-f8febfbcd1f5",
+          "site_name": "Amie"
+        },
+        {
+          "id": "19f86b97-7156-476d-a1b1-f8ef07aad47d",
+          "image_url": "https://mobbin.com/api/mcp/short/OPnK8PiF",
+          "mobbin_url": "https://mobbin.com/sites/sections/19f86b97-7156-476d-a1b1-f8ef07aad47d",
+          "site_name": "Visitors"
+        },
+        {
+          "id": "a14eaef1-524c-4927-bc6f-ab54dd2aecff",
+          "image_url": "https://mobbin.com/api/mcp/short/SOP2Weqe",
+          "mobbin_url": "https://mobbin.com/sites/sections/a14eaef1-524c-4927-bc6f-ab54dd2aecff",
+          "site_name": "Kastle"
+        }
+      ]
+    },
+    {
+      "query": "free consultation call then receive a quote, process steps with no commitment note",
+      "tool": "mcp mobbin search_sections",
+      "output_destination": "doc",
+      "page": 1,
+      "limit": 8,
+      "has_next_page": true,
+      "result_count": 8,
+      "sections": [
+        {
+          "id": "63a6a07b-7752-4faa-80fb-708c20f49a6b",
+          "image_url": "https://mobbin.com/api/mcp/short/CD2W0dbT",
+          "mobbin_url": "https://mobbin.com/sites/sections/63a6a07b-7752-4faa-80fb-708c20f49a6b",
+          "site_name": "V7"
+        },
+        {
+          "id": "a3376afd-3fc7-4f42-94e4-a84e3b6deede",
+          "image_url": "https://mobbin.com/api/mcp/short/GTzMNt1z",
+          "mobbin_url": "https://mobbin.com/sites/sections/a3376afd-3fc7-4f42-94e4-a84e3b6deede",
+          "site_name": "Mora"
+        },
+        {
+          "id": "fa9788f2-54fc-4579-9173-7052eadacd20",
+          "image_url": "https://mobbin.com/api/mcp/short/AtmeWH6B",
+          "mobbin_url": "https://mobbin.com/sites/sections/fa9788f2-54fc-4579-9173-7052eadacd20",
+          "site_name": "YLLW"
+        },
+        {
+          "id": "975a61f8-c018-4d2f-8511-a62d89f9885b",
+          "image_url": "https://mobbin.com/api/mcp/short/ObZzxqfz",
+          "mobbin_url": "https://mobbin.com/sites/sections/975a61f8-c018-4d2f-8511-a62d89f9885b",
+          "site_name": "Maxima Therapy"
+        },
+        {
+          "id": "7b55840d-17ad-4087-938e-b2dae6ad48a5",
+          "image_url": "https://mobbin.com/api/mcp/short/ziiFv4UR",
+          "mobbin_url": "https://mobbin.com/sites/sections/7b55840d-17ad-4087-938e-b2dae6ad48a5",
+          "site_name": "Kalstore"
+        },
+        {
+          "id": "ae184d2c-6579-4d93-a8a2-86948ec720b1",
+          "image_url": "https://mobbin.com/api/mcp/short/loYvYsaK",
+          "mobbin_url": "https://mobbin.com/sites/sections/ae184d2c-6579-4d93-a8a2-86948ec720b1",
+          "site_name": "Framer"
+        },
+        {
+          "id": "c360f406-a29e-4000-8d39-8599c1f7de5b",
+          "image_url": "https://mobbin.com/api/mcp/short/2kdYcms6",
+          "mobbin_url": "https://mobbin.com/sites/sections/c360f406-a29e-4000-8d39-8599c1f7de5b",
+          "site_name": "Mews"
+        },
+        {
+          "id": "c1a68e5d-cd79-4d03-8bb3-2685f74f3805",
+          "image_url": "https://mobbin.com/api/mcp/short/IcdaDmPO",
+          "mobbin_url": "https://mobbin.com/sites/sections/c1a68e5d-cd79-4d03-8bb3-2685f74f3805",
+          "site_name": "Granola"
+        }
+      ]
+    },
+    {
+      "query": "process steps with small icons, step title and one line description",
+      "tool": "mcp mobbin search_sections",
+      "output_destination": "doc",
+      "page": 1,
+      "limit": 8,
+      "has_next_page": true,
+      "result_count": 8,
+      "sections": [
+        {
+          "id": "b8003ddf-2610-495d-a036-a1cbeed2fd1f",
+          "image_url": "https://mobbin.com/api/mcp/short/3H008ZnP",
+          "mobbin_url": "https://mobbin.com/sites/sections/b8003ddf-2610-495d-a036-a1cbeed2fd1f",
+          "site_name": "Adaline"
+        },
+        {
+          "id": "0b9dd777-872f-4eff-84b5-b69353f3207b",
+          "image_url": "https://mobbin.com/api/mcp/short/T3fkFlFK",
+          "mobbin_url": "https://mobbin.com/sites/sections/0b9dd777-872f-4eff-84b5-b69353f3207b",
+          "site_name": "monday.com"
+        },
+        {
+          "id": "13833919-8bab-499c-b4f0-e18c5f125420",
+          "image_url": "https://mobbin.com/api/mcp/short/h6vqNGYH",
+          "mobbin_url": "https://mobbin.com/sites/sections/13833919-8bab-499c-b4f0-e18c5f125420",
+          "site_name": "HubSpot"
+        },
+        {
+          "id": "a14eaef1-524c-4927-bc6f-ab54dd2aecff",
+          "image_url": "https://mobbin.com/api/mcp/short/hB0qA4an",
+          "mobbin_url": "https://mobbin.com/sites/sections/a14eaef1-524c-4927-bc6f-ab54dd2aecff",
+          "site_name": "Kastle"
+        },
+        {
+          "id": "c5d415e9-e207-41bf-a3d4-52463474336e",
+          "image_url": "https://mobbin.com/api/mcp/short/1zIoi9M1",
+          "mobbin_url": "https://mobbin.com/sites/sections/c5d415e9-e207-41bf-a3d4-52463474336e",
+          "site_name": "Blue Apron"
+        },
+        {
+          "id": "5913d254-146e-49b6-bc26-caaee21e868e",
+          "image_url": "https://mobbin.com/api/mcp/short/QFoWBoyr",
+          "mobbin_url": "https://mobbin.com/sites/sections/5913d254-146e-49b6-bc26-caaee21e868e",
+          "site_name": "Wise"
+        },
+        {
+          "id": "7b55840d-17ad-4087-938e-b2dae6ad48a5",
+          "image_url": "https://mobbin.com/api/mcp/short/1Ql1b21p",
+          "mobbin_url": "https://mobbin.com/sites/sections/7b55840d-17ad-4087-938e-b2dae6ad48a5",
+          "site_name": "Kalstore"
+        },
+        {
+          "id": "1c6c21d4-cc7a-485f-b3ce-94e223cc68c6",
+          "image_url": "https://mobbin.com/api/mcp/short/JtBovwDT",
+          "mobbin_url": "https://mobbin.com/sites/sections/1c6c21d4-cc7a-485f-b3ce-94e223cc68c6",
+          "site_name": "Duolingo"
+        }
+      ]
+    }
+  ],
+  "selected": [
+    {
+      "id": "bcbe23c6-95ea-467d-abc5-d913d2bc3667",
+      "image_url": "https://mobbin.com/api/mcp/short/r2rZRuLZ",
+      "mobbin_url": "https://mobbin.com/sites/sections/bcbe23c6-95ea-467d-abc5-d913d2bc3667",
+      "slug": "runway-progress-meta",
+      "group": "Rail and meta",
+      "pattern": "Three steps on a partly filled progress line, with a meta row under each",
+      "fit": "Strong layout reference",
+      "observed": "Heading “Fast track to clarity” with a short intro on the right. A white rounded panel holds “Onboarding guided by finance experts” and an orange “Book a demo” button. A thin line runs across with a dot above each of three columns; the line is dark up to the first column’s end and pale after it. Each column has a boxed chip (“01 | Kickoff”), a bold one-line title, two lines of description and a grey meta line: “1-week average”, “4-week average”, “Ongoing”.",
+      "application": "The direct model for the rail and the meta row. Moriz moves its fine print (free of charge, Zoom, valid for 14 working days) into quiet chips in the same position, so the one-line description stays about what happens. In RTL the rail fills from the right.",
+      "tradeoff": "Runway wraps the steps in a card panel with a CTA inside; Moriz keeps the open hairline layout and adds no CTA, because WhatsApp stays floating. The static capture does not show whether the line animates.",
+      "context": "Marketing-page context with site navigation and a rating badge. Original capture page unconfirmed; live site not checked.",
+      "live_url": null,
+      "number": "01",
+      "local_image": "assets/homepage-getting-started-2026-10-10/runway-progress-meta.webp",
+      "site_name": "Runway"
+    },
+    {
+      "id": "a3376afd-3fc7-4f42-94e4-a84e3b6deede",
+      "image_url": "https://mobbin.com/api/mcp/short/zs6l56ZH",
+      "mobbin_url": "https://mobbin.com/sites/sections/a3376afd-3fc7-4f42-94e4-a84e3b6deede",
+      "slug": "mora-hairline-calls",
+      "group": "Calls as steps",
+      "pattern": "Hairline columns with boxed numbers; two of the three steps are calls",
+      "fit": "Strong layout reference",
+      "observed": "A two-tone heading (“Don’t have time? We’ll set it up for you”) on the left; an intro paragraph and a “Book demo” pill with two small avatars on the right. Below, three columns separated by vertical hairlines and dashed grid guides, each with a tiny boxed number (“01”), a short title (“Onboarding Call”, “Workspace Setup”, “Check-in Call”) and two lines of description. The timing (“You’ll be live in less than two weeks”) sits in the intro.",
+      "application": "The base of the Moriz layout: no card backgrounds, fine rules between columns, small numbers. Its content, with calls as steps, is the closest match to Moriz’s phone call → Zoom call → quote.",
+      "tradeoff": "Very quiet: without a rail or icons the steps read like a feature list. Fine print in the intro paragraph is easy to miss, which is why Moriz attaches it to each step as chips.",
+      "context": "Section context only. Original capture page unconfirmed; live site not checked.",
+      "live_url": null,
+      "number": "02",
+      "local_image": "assets/homepage-getting-started-2026-10-10/mora-hairline-calls.webp",
+      "site_name": "Mora"
+    },
+    {
+      "id": "1bac0acb-c4fe-46ec-acd7-fe0bf057faf2",
+      "image_url": "https://mobbin.com/api/mcp/short/wNW5EIaM",
+      "mobbin_url": "https://mobbin.com/sites/sections/1bac0acb-c4fe-46ec-acd7-fe0bf057faf2",
+      "slug": "wild-phase-line",
+      "group": "Rail and meta",
+      "pattern": "Phase timeline with square nodes and mono meta labels",
+      "fit": "Rail and meta reference",
+      "observed": "Heading “We build it with you.” over a paragraph that states the duration (“about 14 weeks, in four phases”). Four columns sit on a thin horizontal line; each starts with a small square node in its own colour, then a mono label (“PHASE 1 · WKS 1–4”), a title and two to three lines of description. A faint grid texture covers the background.",
+      "application": "Shows that a node on a line plus a small meta label can carry timing without crowding the description. Supports Moriz’s node-per-step rail and the quiet chips.",
+      "tradeoff": "It describes a four-phase delivery process, not client onboarding. A different colour per node would compete with Moriz’s single brand-red accent, so Moriz uses one accent for every node.",
+      "context": "Section context only. Original capture page unconfirmed; live site not checked.",
+      "live_url": null,
+      "number": "03",
+      "local_image": "assets/homepage-getting-started-2026-10-10/wild-phase-line.webp",
+      "site_name": "Wild"
+    },
+    {
+      "id": "192267a5-39a3-440c-bac1-220e69473600",
+      "image_url": "https://mobbin.com/api/mcp/short/KXdBJCYy",
+      "mobbin_url": "https://mobbin.com/sites/sections/192267a5-39a3-440c-bac1-220e69473600",
+      "slug": "mews-call-video-steps",
+      "group": "Calls as steps",
+      "pattern": "Three image cards: book a call → video demo → onboarding",
+      "fit": "Content reference",
+      "observed": "A dark section with the uppercase heading “GET STARTED IN THREE EASY STEPS” and a pink “BOOK A DEMO” button. Three pink cards hold product images: a “Book a call” interface, a video-call still of a person and a logo. Under each card a numbered circle precedes one sentence, for example “Schedule a 30-minute call with a Mews expert.”",
+      "application": "The same arc as Moriz (a call, then a video call, then the next step) and the clearest signal that one step happens on video. Moriz carries that signal with the new video icon and the “בזום” chip instead of a screenshot.",
+      "tradeoff": "Depends on product imagery Moriz does not have. One sentence per step folds the duration into the copy, where it is harder to scan.",
+      "context": "Marketing-page context with site navigation. Original capture page unconfirmed; live site not checked.",
+      "live_url": null,
+      "number": "04",
+      "local_image": "assets/homepage-getting-started-2026-10-10/mews-call-video-steps.webp",
+      "site_name": "Mews"
+    },
+    {
+      "id": "02af7de2-404c-4f43-8e02-8e6e2d15d446",
+      "image_url": "https://mobbin.com/api/mcp/short/wJkeWuFZ",
+      "mobbin_url": "https://mobbin.com/sites/sections/02af7de2-404c-4f43-8e02-8e6e2d15d446",
+      "slug": "cloudstudio-call-proposal",
+      "group": "Calls as steps",
+      "pattern": "Three bordered cards; the first is “Call → proposal” with its terms stated",
+      "fit": "Content reference",
+      "observed": "A “HOW WE WORK” eyebrow and the heading “No decks. Three moves.” with a one-line summary on the right. Three light-blue cards with dark borders each carry a mono meta line (“01 · SCOPE”), a title (“Call → proposal”, “Weekly demos”, “Production, operated”) and a paragraph. The first reads “A 30-minute call, then a technical proposal in 5 days. Fixed price or retainer — nothing starts until you say go.” A mono footnote closes the section.",
+      "application": "The closest content match to Moriz’s steps: a call that leads to a proposal, with timing and terms stated plainly. Supports stating the quote’s 14-working-day validity as a visible fact.",
+      "tradeoff": "Coloured bordered cards are heavier than the hairline layout, and terms inside a paragraph are harder to scan than a chip. The eyebrow is not borrowed.",
+      "context": "Section context only. Original capture page unconfirmed; live site not checked.",
+      "live_url": null,
+      "number": "05",
+      "local_image": "assets/homepage-getting-started-2026-10-10/cloudstudio-call-proposal.webp",
+      "site_name": "Cloudstudio"
+    },
+    {
+      "id": "0b9dd777-872f-4eff-84b5-b69353f3207b",
+      "image_url": "https://mobbin.com/api/mcp/short/T3fkFlFK",
+      "mobbin_url": "https://mobbin.com/sites/sections/0b9dd777-872f-4eff-84b5-b69353f3207b",
+      "slug": "monday-line-icons",
+      "group": "Rail and meta",
+      "pattern": "A visual above a line of dots, one per step",
+      "fit": "Icon + rail reference",
+      "observed": "Heading “Steps to get monday.com certified”. Four colourful hand illustrations sit above a thin horizontal line with a dark dot under each; below each dot are a bold title and two centred lines of description.",
+      "application": "Confirms the reading order of icon, node on the rail, then text. Moriz uses its own small two-tone icons in a ruled tile instead of illustrations.",
+      "tradeoff": "Centred text and large illustrations give a generic SaaS look, and it has four steps where Moriz has three.",
+      "context": "Certification-page context with site navigation. Original capture page unconfirmed; live site not checked.",
+      "live_url": null,
+      "number": "06",
+      "local_image": "assets/homepage-getting-started-2026-10-10/monday-line-icons.webp",
+      "site_name": "monday.com"
+    },
+    {
+      "id": "21cf0851-381d-4fb1-a6fa-a22d22bb100b",
+      "image_url": "https://mobbin.com/api/mcp/short/U6zdKg0O",
+      "mobbin_url": "https://mobbin.com/sites/sections/21cf0851-381d-4fb1-a6fa-a22d22bb100b",
+      "slug": "united-carriers-editorial-rows",
+      "group": "Rows and cards",
+      "pattern": "Editorial ruled rows: title, description, number at the far end",
+      "fit": "Alternative composition",
+      "observed": "A large uppercase heading (“HOW WE BRING PEOPLE ON BOARD”) with the last word in grey. Five full-width rows separated by rules, each with a bold uppercase title, a small description in a middle column and a grey number (“01”–“05”) at the far right. A dotted texture fills a column on the left. Descriptions state durations, for example “A 30–45 minute open dialogue”.",
+      "application": "The alternative direction: typography-led rows that suit long Hebrew titles and need no icons. Shows durations written into short descriptions.",
+      "tradeoff": "A weaker sense of progression than a rail, and with only three steps the rows look sparse under a large heading.",
+      "context": "Careers-page context. Original capture page unconfirmed; live site not checked.",
+      "live_url": null,
+      "number": "07",
+      "local_image": "assets/homepage-getting-started-2026-10-10/united-carriers-editorial-rows.webp",
+      "site_name": "United Carriers"
+    },
+    {
+      "id": "5913d254-146e-49b6-bc26-caaee21e868e",
+      "image_url": "https://mobbin.com/api/mcp/short/9p4VHIGN",
+      "mobbin_url": "https://mobbin.com/sites/sections/5913d254-146e-49b6-bc26-caaee21e868e",
+      "slug": "wise-free-in-copy",
+      "group": "Rows and cards",
+      "pattern": "Illustrated centred columns with “free” written into one line",
+      "fit": "Counter-example",
+      "observed": "Heading “Order a card in just 5 minutes.” Three columns each have a small number in a soft circle, a large circular illustration and one line (“Open a free account.”, “Order a card for a one-time $9 fee.”, “Activate to start spending.”). A blue “Order your card” button sits below.",
+      "application": "Shows the value of stating cost plainly in a step. Moriz keeps that clarity but moves “ללא עלות” into an emphasised chip, so it is seen at a glance.",
+      "tradeoff": "Illustrations and centred columns are the most template-like option, and “free” inside a sentence is easy to skim past.",
+      "context": "Product-page context. Original capture page unconfirmed; live site not checked.",
+      "live_url": null,
+      "number": "08",
+      "local_image": "assets/homepage-getting-started-2026-10-10/wise-free-in-copy.webp",
+      "site_name": "Wise"
+    }
+  ]
+}
