@@ -1,0 +1,251 @@
+.footer {
+  --footer-radius: clamp(1.5rem, 3vw, 3rem);
+  /* Risen-from-below letters must not widen or lengthen the page: a taller
+     page would move the wordmark trigger's end while it scrubs. */
+  overflow: clip;
+  position: relative;
+  /* Overlap the section above so its colour shows behind the rounded corners. */
+  margin-block-start: calc(var(--footer-radius) * -1);
+  border-start-start-radius: var(--footer-radius);
+  border-start-end-radius: var(--footer-radius);
+  padding-block-start: var(--space-16);
+  background: var(--site-background);
+  color: var(--site-foreground);
+}
+
+.top {
+  display: grid;
+  gap: var(--space-12);
+}
+
+.brand {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: var(--space-3);
+}
+
+.information {
+  max-inline-size: 22rem;
+  color: var(--site-muted);
+  font-size: var(--text-body-sm);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-10) var(--space-6);
+}
+
+.column {
+  display: grid;
+  align-content: start;
+  gap: var(--space-4);
+}
+
+.heading {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--font-weight-heading);
+  line-height: 1.2;
+}
+
+.links {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.link {
+  font-size: var(--text-body-sm);
+  line-height: 1.4;
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.link:hover {
+  color: var(--color-primary);
+}
+
+.link:focus-visible,
+.social:focus-visible,
+.tag:focus-visible {
+  outline: 2px solid var(--site-focus);
+  outline-offset: 2px;
+}
+
+.socials {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.social {
+  display: grid;
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  place-items: center;
+  border-radius: var(--radius-pill);
+  background: var(--site-surface);
+  color: inherit;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
+}
+
+.social svg {
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+a.social:hover {
+  background: var(--site-foreground);
+  color: var(--site-background);
+}
+
+.social[aria-disabled="true"] {
+  opacity: 0.45;
+}
+
+/* Full bleed: the word spans the viewport edge to edge. Offsets for letters
+   (and the image fill) are measured from this box. */
+.wordmark {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin-block-start: var(--space-16);
+  font-family: var(--font-body);
+  font-size: 39.5vw;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  /* The glyphs sit a touch below the tight line box. */
+  padding-block-end: 0.04em;
+  user-select: none;
+}
+
+.line {
+  display: flex;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.lineRegular {
+  font-weight: 400;
+}
+
+.letter {
+  display: inline-block;
+  /* The tight line box is shorter than the glyphs; padding (cancelled by the
+     margin) grows the box the image fill paints in, so nothing is cut off. */
+  margin-block: -0.15em;
+  padding-block: 0.15em;
+  will-change: transform;
+}
+
+/* A round dot over the dotless ı, measured from Leon 900 in em: the stem's
+   centre, its top above the baseline, and Leon's own gap to the dot. The
+   baseline sits 0.803em into the 0.8 line box, plus the 0.15em padding. */
+.dotted {
+  position: relative;
+}
+
+.dotted::after {
+  --dot-size: 0.2em;
+  --dot-left: calc(0.1165em - var(--dot-size) / 2);
+  --dot-top: calc(0.15em + 0.803em - 0.412em - 0.04em - var(--dot-size));
+  content: "";
+  position: absolute;
+  inset-block-start: var(--dot-top);
+  inset-inline-start: var(--dot-left);
+  inline-size: var(--dot-size);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Test: an image showing through the glyphs. Every letter clips the same
+   block-wide image, shifted by its own offset (set in footer-wordmark.tsx). */
+.filled .letter {
+  background-image: var(--fill-image);
+  background-position: var(--fill-x, 0) var(--fill-y, 50%);
+  background-size: var(--fill-w, 100vw) var(--fill-h, auto);
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* The dot continues the same picture, shifted by its place in the letter. */
+.filled .dotted::after {
+  background: var(--fill-image) no-repeat;
+  background-size: var(--fill-w, 100vw) var(--fill-h, auto);
+  background-position: calc(var(--fill-x, 0px) - var(--dot-left))
+    calc(var(--fill-y, 0px) - var(--dot-top));
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding-block: var(--space-6);
+  /* Clear the fixed WhatsApp button at the lower inline end. */
+  padding-block-end: calc(var(--control-height-lg) + var(--space-4) * 2);
+}
+
+.legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.copyright {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* Hebrew labels: monospace stacks have no Hebrew and fall back unevenly. */
+.tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  line-height: 1;
+  border-radius: var(--radius-pill);
+  padding: 0.35em 0.7em;
+  background: var(--site-foreground);
+  color: var(--site-background);
+  text-decoration: none;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+a.tag:hover {
+  background: var(--color-primary);
+}
+
+.tag[aria-disabled="true"] {
+  opacity: 0.6;
+}
+
+@media (min-width: 64rem) {
+  .top {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  }
+
+  .columns {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .bottom {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-block-end: var(--space-6);
+    padding-inline-end: calc(var(--control-height-lg) + var(--space-4) * 2);
+  }
+}

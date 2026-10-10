@@ -4,17 +4,28 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Button } from "@/components/ui/button";
+import styles from "./inspector.module.css";
 import { InspectorOverlay } from "./inspector-overlay";
-import { SelectedElementPanel } from "./selected-element-panel";
-import { formatPrompt } from "./prompt-context";
 import { elementIdentifier } from "./inspector-utils";
+import { formatPrompt } from "./prompt-context";
+import { SelectedElementPanel } from "./selected-element-panel";
 import type { SelectedElementContext } from "./types";
 import { useElementInspector } from "./use-element-inspector";
 import { useInspectorPortal } from "./use-inspector-portal";
-import styles from "./inspector.module.css";
+
+// Remembered per browser so the buttons stay out of the way across reloads.
+const hiddenKey = "devtools:hidden";
+function readHidden() {
+  try {
+    return window.localStorage.getItem(hiddenKey) === "1";
+  } catch {
+    return false;
+  }
+}
 
 export function DeveloperToolbar() {
   const [open, setOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [dockLeft, setDockLeft] = useState(false);
   const [request, setRequest] = useState("");
   const [copyStatus, setCopyStatus] = useState("");
@@ -53,6 +64,7 @@ export function DeveloperToolbar() {
   const { stop } = inspector;
   const { host, rootRef } = useInspectorPortal();
 
+  useEffect(() => setHidden(readHidden()), []);
   useEffect(() => {
     if (pathname !== previousPath.current) {
       stop();
@@ -84,6 +96,18 @@ export function DeveloperToolbar() {
     launcherRef.current?.focus({ preventScroll: true });
   }
 
+  function toggleHidden() {
+    const next = !hidden;
+    if (next) {
+      stop();
+      setOpen(false);
+    }
+    setHidden(next);
+    try {
+      window.localStorage.setItem(hiddenKey, next ? "1" : "0");
+    } catch {}
+  }
+
   async function copyPrompt() {
     const element = inspector.captureSelection();
     if (!element || !request.trim()) return;
@@ -104,27 +128,40 @@ export function DeveloperToolbar() {
       <InspectorOverlay highlight={inspector.selectedHighlight} selected />
       <div className={styles.launcher} data-devtools-launcher>
         <Button
-          ref={launcherRef}
           variant="outline"
           size="sm"
-          aria-expanded={open}
-          aria-controls={panelId}
-          onClick={() => (open ? collapse() : setOpen(true))}
+          aria-label={hidden ? "Show developer tools" : "Hide developer tools"}
+          title={hidden ? "Show developer tools" : "Hide developer tools"}
+          onClick={toggleHidden}
         >
-          {open ? "Close developer tools" : "Developer tools"}
+          {hidden ? "Dev" : "Hide"}
         </Button>
-        <Button
-          variant={inspector.enabled ? "secondary" : "outline"}
-          size="sm"
-          aria-pressed={inspector.enabled}
-          onClick={() =>
-            inspector.enabled ? stop() : inspector.setEnabled(true)
-          }
-        >
-          Inspector: {inspector.enabled ? "ON" : "OFF"}
-        </Button>
+        {!hidden && (
+          <>
+            <Button
+              ref={launcherRef}
+              variant="outline"
+              size="sm"
+              aria-expanded={open}
+              aria-controls={panelId}
+              onClick={() => (open ? collapse() : setOpen(true))}
+            >
+              {open ? "Close developer tools" : "Developer tools"}
+            </Button>
+            <Button
+              variant={inspector.enabled ? "secondary" : "outline"}
+              size="sm"
+              aria-pressed={inspector.enabled}
+              onClick={() =>
+                inspector.enabled ? stop() : inspector.setEnabled(true)
+              }
+            >
+              Inspector: {inspector.enabled ? "ON" : "OFF"}
+            </Button>
+          </>
+        )}
       </div>
-      {open && (
+      {open && !hidden && (
         <aside
           id={panelId}
           className={`${styles.panel} ${dockLeft ? styles.panelLeft : ""}`}
