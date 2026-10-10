@@ -260,7 +260,9 @@
 .rig {
   position: absolute;
   inset-block-start: env(safe-area-inset-top, 0px);
-  /* Physical left is deliberate: it is away from the Hebrew text column. */
+  /* Physical left is deliberate: it is away from the Hebrew text column. On
+     desktop, PartyAnimations sets --ball-left to centre the ball between the
+     contact button and the middle navigation. */
   left: var(--ball-left);
   inline-size: var(--ball-size);
   transform-origin: 50% 0;
