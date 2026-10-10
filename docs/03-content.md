@@ -14,8 +14,14 @@ The following material is reported by the project owner. This inventory does not
 
 ### Testimonials
 
-- Five testimonials are available.
-- Exact text, names, roles, organizations, and attribution: TODO: Decision required
+- Five testimonials are available; four were supplied on 2026-10-10 and are used verbatim in `testimonials.items` (`src/i18n/dictionaries/he.ts`).
+- **Tal Lev (טל לב), מטפלת סינית מוסמכת** — headline "אני כל כך שמחה בתוצאה, האתר משקף אותי באמת והרחיב את כמות הפניות"; five-paragraph body; portrait supplied.
+- **Elbi Ben Shimol (אלבי בן שימול), ביטוחים ופיננסים** — headline "העבודה עם מור הייתה ברמה אחרת!"; one-paragraph body; logo supplied. Spelling confirmed by the owner: אלבי.
+- **Shay Goren (שי גורן), בעלת עסק לסדנאות** — one-paragraph body ("היה לי תענוג אמיתי…"); portrait supplied. Headline: designer-proposed verbatim excerpt (see below)
+- **Gabriella Laster (גבריאלה לסטר), Product Marketing Director at Elementor** — one-paragraph body about Angie, Elementor's AI plugin ("עבדתי עם מור על פיתוח חוויות אינטראקטיביות…"); Elementor logo supplied. Headline: designer-proposed verbatim excerpt (see below)
+- Display order set by the owner: Elementor → Tal Lev → Elbi Ben Shimol → Shay Goren.
+- Headlines for Gabriella (owner-edited excerpt: "לכל אחד שמחפש שילוב של יכולת טכנית וחשיבה יצירתית.") and Shay are verbatim sentences from their bodies, Shay's proposed by the designer at the owner's request on 2026-10-10; the owner can swap them.
+- Fifth testimonial: TODO: to be supplied
 - Publication permissions and constraints: TODO: Decision required
 
 ### Product user counts

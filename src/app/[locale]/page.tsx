@@ -14,6 +14,7 @@ import { ProjectsSection } from "@/components/projects-section";
 import FallingText from "@/components/react-bits/FallingText";
 import Noise from "@/components/react-bits/Noise";
 import { StudioLogo } from "@/components/studio-logo";
+import { Testimonials } from "@/components/testimonials";
 import { LiquidLink } from "@/components/ui/liquid-link";
 import {
   FloatingWhatsApp,
@@ -205,21 +206,16 @@ export default async function Home({
           id="testimonials"
           title={content.testimonials.heading}
           showHeading={false}
-          className="bg-surface"
+          className="testimonials-section bg-surface"
         >
-          <div className="grid gap-10 md:grid-cols-2 md:gap-20">
-            {[1, 2].map((slot) => (
-              <div key={slot} className="min-w-0">
-                <p className="text-xl">
-                  {content.testimonials.quotePlaceholder}
-                </p>
-                <TextLines className="mt-6" />
-                <p className="mt-7 text-sm text-muted">
-                  {content.testimonials.attribution}
-                </p>
-              </div>
-            ))}
-          </div>
+          <Noise
+            patternSize={340}
+            patternScaleX={1}
+            patternScaleY={0.3}
+            patternRefreshInterval={2}
+            patternAlpha={22}
+          />
+          <Testimonials content={content.testimonials} />
         </Section>
 
         <Section id="getting-started" title={content.gettingStarted.heading}>

@@ -1233,6 +1233,16 @@ Date: 2026-10-08. The owner requested button-matched corners for the advantages 
 
 Date: 2026-10-08. The owner requested the original switch’s visual character with different text and the current corner radius. Restore the outlined light track, bold display type, 256px maximum width, hard shadow, charcoal off state, red on state, party dot and brief snap. Preserve “let’s party?” and No/Yes labels, the liquid corner token and existing behavior.
 
+### Testimonials spotlight with client index
+
+Date: 2026-10-10. The owner supplied four testimonials (three with images in the first message, the Elementor one during implementation) and asked for Mobbin research followed by the design judged best. Implement section 5 as a "spotlight + client index": a ruled, numbered list of clients (avatar/logo, name, role) on the start side acts as a WAI-ARIA tablist with a counter and previous/next arrows; the end side shows one testimonial at a time with a red quote mark, an optional Danidin pull-quote headline, the verbatim Leon body clamped to six lines (seven on mobile) with a **להמשך קריאה** toggle, and a ruled attribution. Panels share one grid cell for a stable height and crossfade with existing motion tokens; there is no autoplay, reduced motion switches instantly and without JavaScript all quotes are visible and unclamped. Below 64rem the index becomes a horizontal row of avatar chips above the quote. The section keeps its earlier no-visible-heading decision and `aria-label`.
+
+Content lives in `testimonials.items` in the Hebrew dictionary, so further testimonials need only a new entry. Quote wording is verbatim. Missing names/roles are marked **— להשלמה**; no headline is invented. Images are local WebP crops in `public/images/testimonials/`; logos sit on a fixed white tile in both themes, and the round Elementor mark fills its frame.
+
+Alternatives considered: a Büro-style stack of all testimonials (everything visible, but very long with a 150-word quote) and an equal card grid (ragged with a 30–150-word spread). Evidence: [testimonials Mobbin research](research/homepage-testimonials-mobbin-2026-10-10.md). Implemented locally; lint and TypeScript pass. The owner then set the order Elementor → Tal → Elbi → Shay and supplied the remaining attributions (Shay Goren, workshop business owner; Gabriella Laster, Product Marketing Director at Elementor). Follow-up the same day: the owner kept the pull-quote font but reduced it by 30% (`clamp(1.575rem, 3.22vw, 3.15rem)`) and asked for a headline-style key sentence for every testimonial, chosen by the designer, like Tal's. Tal and Elbi keep their owner-supplied headlines; Gabriella's is an owner-edited excerpt of her recommendation sentence, without the opening words "מומלצת בחום" and Shay's her verbatim sentence on the precise, personal result. Owner visual acceptance, publication permission remain open; the owner confirmed the spelling אלבי.
+
+Surface update, 2026-10-10: the owner removed the section's top and bottom rules and requested a grainy background. The section keeps `bg-surface` and adds the existing hero/advantages Noise layer (340 / 1 / 0.3 / 2 / 22); the following section's top rule is also removed.
+
 ## Reusable decision template
 
 

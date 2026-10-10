@@ -41,7 +41,7 @@ Saved Mobbin screenshots establish visible desktop composition only. The owner s
 | 2 | [Three communication themes / advantages](#2-three-communication-themes--advantages) | In progress — research card and Party Mode |
 | 3 | [Projects](#3-projects) | In progress — section, collection and dedicated pages |
 | 4 | [Brief owner introduction](#4-brief-owner-introduction) | Not started |
-| 5 | [Client testimonials](#5-client-testimonials) | Not started |
+| 5 | [Client testimonials](#5-client-testimonials) | In progress — spotlight with client index |
 | 6 | [How to start working together](#6-how-to-start-working-together) | Not started |
 | 7 | [FAQ](#7-faq) | Not started |
 | 8 | [Contact](#8-contact) | Not started |
@@ -263,23 +263,30 @@ Which personal facts and name should appear? Is a portrait appropriate and avail
 
 ## 5. Client testimonials
 
-Status: **Not started**.
+Status: **In progress**.
 
 ### Purpose and information
 
-Purpose to confirm: support credibility through actual client experiences. Five testimonials are reported available; text, attribution and publication constraints are open in the [testimonial inventory](03-content.md#testimonials).
+Support credibility through actual client experiences. Four testimonials are supplied verbatim (see the [testimonial inventory](03-content.md#testimonials)); a fifth is expected. Their length ranges from about 30 to about 150 words.
 
 ### Proposals
 
-Reference review pending: [Büro attributed testimonial](research/mobbin-homepage-structure-2025-2026.md#4-büro--testimonial-with-explicit-attribution). Hebrew options/refinement: TODO: Draft 2–3 section introductions around supplied quotes; keep testimonial wording faithful to the source. Layout comparison: TODO: Compare desktop and mobile quote/attribution reading order and access to all selected quotes.
+[Mobbin research](research/homepage-testimonials-mobbin-2026-10-10.md) (2026-10-10) compared three directions:
+
+1. **Spotlight + client index** (implemented as the local trial): one testimonial at a time, with a numbered client list acting as tabs, a counter and arrows; long text clamps behind **להמשך קריאה**.
+2. **Büro stack** (alternative): every testimonial visible in ruled rows with an attribution column; simplest, but long with four or five quotes.
+3. **Equal card grid** (rejected for now): the length spread produces ragged cards or truncation.
+
+Layout comparison: desktop reads index → spotlight (quote → attribution); mobile reads avatar chips → quote → read more → attribution → counter/arrows. All quotes remain in the DOM; without JavaScript they are shown stacked.
 
 ### Agreed choices
 
-Section inclusion and position 5 confirmed. Selection, attribution, copy and layout: TODO: Decision required.
+Section inclusion and position 5 confirmed. No visible section heading (2026-10-08). The owner asked for the design judged best after Mobbin research; the spotlight trial awaits visual acceptance.
 
 ### Remaining questions
 
-Which source quotes and attributions are available for publication? How many should Home show? Should testimonials also appear on Projects?
+- Publication permission for names, photos and logos; the fifth testimonial; display order (owner-set 2026-10-10: Elementor → Tal → Elbi → Shay).
+- Should testimonials also appear on Projects?
 
 ## 6. How to start working together
 

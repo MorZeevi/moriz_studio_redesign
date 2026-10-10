@@ -499,6 +499,17 @@ html:has(.navigation-dialog[open]) {
   }
 }
 
+/* Grain surface without the shared section rules above and below. */
+.testimonials-section {
+  position: relative;
+  isolation: isolate;
+  border-block-start: 0;
+}
+
+.testimonials-section + .wireframe-section {
+  border-block-start: 0;
+}
+
 .section-heading {
   margin-block-end: clamp(1.75rem, 3vw, var(--space-12));
   font-size: var(--trial-section-heading-size);
