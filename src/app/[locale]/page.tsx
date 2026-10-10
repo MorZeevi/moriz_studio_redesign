@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { AboutMe } from "@/components/about-me";
+import { FloatingActions } from "@/components/floating-actions";
 import { GettingStarted } from "@/components/getting-started";
 import { HeroDescription } from "@/components/hero-description";
 import { HeroHeading } from "@/components/hero-heading";
@@ -22,7 +23,7 @@ import FallingText from "@/components/react-bits/FallingText";
 import { StudioLogo } from "@/components/studio-logo";
 import { Testimonials } from "@/components/testimonials";
 import { LiquidLink } from "@/components/ui/liquid-link";
-import { FloatingWhatsApp, Section, TextLines } from "@/components/wireframe";
+import { Section, TextLines } from "@/components/wireframe";
 import { isEnabledLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { projectCard } from "@/lib/cms/project-card";
@@ -234,7 +235,10 @@ export default async function Home({
 
       <SiteFooter content={content} locale={locale} />
 
-      <FloatingWhatsApp labels={content.whatsapp} />
+      <FloatingActions
+        content={content.floatingActions}
+        ask={content.askAi}
+      />
     </PartyModeProvider>
   );
 }

@@ -1,0 +1,45 @@
+/* Lives in the floating AI panel; base tokens only, so it reads on any page. */
+.root {
+  display: grid;
+  gap: var(--space-4);
+  min-inline-size: 0;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.input {
+  flex: 1 1 12rem;
+  min-inline-size: 0;
+  min-block-size: var(--control-height-md);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width-default) solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: var(--text-body);
+}
+
+.input::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.result {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-4);
+}
+
+.answer,
+.error {
+  white-space: pre-line;
+  line-height: var(--text-body--line-height);
+}
+
+.error {
+  color: var(--color-text-secondary);
+}

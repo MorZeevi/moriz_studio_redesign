@@ -81,6 +81,19 @@
   transition: translate 0.45s var(--lb-ease);
 }
 
+.customGlyph {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  inline-size: 1.15em;
+  block-size: 1.15em;
+}
+
+.customGlyph > svg {
+  inline-size: 100%;
+  block-size: 100%;
+}
+
 /* With a portrait, the goo filter moves from the link to the shapes so the
    portrait can sit above it unfiltered. */
 .link:has(> .portrait) {
