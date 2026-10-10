@@ -385,7 +385,7 @@ export const he = {
   floatingActions: {
     label: "פעולות מהירות",
     whatsapp: "שנדבר בוואטסאפ?",
-    ai: "AI",
-    aiLabel: "שאלו את ה-AI",
+    ai: "moriz.ai",
+    aiLabel: "moriz.ai — שאלו את ה-AI",
   },
 };

@@ -81,7 +81,7 @@ export function FloatingActions({
       <nav aria-label={content.label} className={styles.stack}>
         <LiquidButton
           ref={triggerRef}
-          className={`${styles.action} floating-action`}
+          className={`${styles.action} ${styles.ai} floating-action`}
           glyph={<SparkleIcon />}
           aria-label={content.aiLabel}
           aria-expanded={open}
@@ -103,7 +103,7 @@ export function FloatingActions({
                 alt=""
                 width={600}
                 height={600}
-                sizes="96px"
+                sizes="72px"
               />
             }
           >
