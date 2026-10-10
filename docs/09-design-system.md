@@ -50,7 +50,9 @@ Display/H1/H2 use Danidin 700; H3/H4/labels/buttons use Leon 900; body/caption u
 
 Use `gap-6`, `p-8`, `py-16`, `ms-4`, `pe-6`, etc. CSS can reference the equivalent `--space-*` aliases. Additional Tailwind steps still follow the 0.25rem base rhythm; prefer the listed scale.
 
-`site-container` has **90rem total width including gutters**, centered with `margin-inline: auto` and `padding-inline: clamp(1rem, 3vw, 3rem)`. This is the only container implementation; old `page-shell` / `hero-shell` names are compatibility aliases. `section-sm`, `section-md`, `section-lg` use the supplied fluid 4–6rem, 5–8rem and 6–10rem vertical spacing. Put section spacing on an outer section and `site-container` on its inner content.
+`site-container` fills **100% of the available width**, with `padding-inline: 2rem` on both sides at every breakpoint, per the owner's 2026-10-10 update. This supersedes the previous 90rem cap and fluid gutters. This is the only container implementation; old `page-shell` / `hero-shell` names are compatibility aliases. `section-sm`, `section-md`, `section-lg` use the supplied fluid 4–6rem, 5–8rem and 6–10rem vertical spacing. Put section spacing on an outer section and `site-container` on its inner content.
+
+Local browser verification of the full-width update passed at 320, 390, 1440 and 1920px, including the Projects route at 1920px: visible shared containers fill the viewport and no horizontal overflow was found. The existing footer legal row retains extra clearance for the floating WhatsApp control. Desktop/mobile hero and advantages captures were reviewed; lint and diff whitespace checks pass.
 
 ## Shape and buttons
 

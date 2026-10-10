@@ -81,8 +81,10 @@ for (const viewport of [
     await expect
       .poll(async () => (await page.locator(target).boundingBox())?.width)
       .toBeCloseTo(slot.width, 0);
-    const grown = await page.locator(target).boundingBox();
-    expect(grown?.y).toBeCloseTo(slot.y, 0);
+    // Position and width can reach the slot on different scrubbed frames.
+    await expect
+      .poll(async () => (await page.locator(target).boundingBox())?.y)
+      .toBeCloseTo(slot.y, 0);
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth),
     ).toBe(viewport.width);
@@ -107,7 +109,9 @@ test("reduced motion keeps the video still and unscaled", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/he");
   const video = page.locator("[data-hero-video] video");
-  await expect(page.getByRole("button", { name: "הפעלת הסרטון" })).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "הפעלת הסרטון" }),
+  ).toBeVisible();
   expect(
     await video.evaluate((element: HTMLVideoElement) => element.paused),
   ).toBe(true);

@@ -62,7 +62,7 @@
   --spacing-24: 6rem;
   --spacing-30: 7.5rem;
   --spacing-40: 10rem;
-  --container-site: 90rem;
+  --container-site: 100%;
   --container-prose: 65ch;
 
   --radius-*: initial;
@@ -129,7 +129,7 @@
   --section-space-sm: clamp(4rem, 7vw, 6rem);
   --section-space-md: clamp(5rem, 9vw, 8rem);
   --section-space-lg: clamp(6rem, 12vw, 10rem);
-  --page-gutter: clamp(1rem, 3vw, 3rem);
+  --page-gutter: 2rem;
   --border-width-default: 0.0625rem;
   --border-width-strong: 0.125rem;
   --font-weight-display: 700;

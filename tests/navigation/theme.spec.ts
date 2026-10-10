@@ -137,7 +137,7 @@ test("manual choices synchronize across tabs and ignore subsequent OS changes", 
   await expectTheme(page, "light");
 });
 
-test("a dark first visit keeps the header hidden throughout the opening", async ({
+test("a dark first visit shows the header through the opening", async ({
   page,
 }) => {
   await page.emulateMedia({ colorScheme: "dark" });
@@ -146,8 +146,9 @@ test("a dark first visit keeps the header hidden throughout the opening", async 
     "data-pixel-reveal",
     "active",
   );
-  await expect(page.locator(".site-header")).toBeHidden();
+  await expect(page.locator(".site-header")).toBeVisible();
   await expectTheme(page, "dark");
+  await expect(page.locator(".pixel-reveal")).toHaveCount(0);
   await expect(page.locator(".site-header")).toBeVisible();
   expect(await canvas(page)).toBe("rgb(38, 38, 38)");
   await expect(toggle(page)).toHaveAttribute("aria-pressed", "true");

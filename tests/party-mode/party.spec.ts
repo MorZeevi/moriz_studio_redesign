@@ -113,7 +113,18 @@ test("viewport effects rotate, preserve interaction, and restore original styles
       })),
     );
   expect(after).toEqual(before);
-  expect(await page.evaluate(() => document.getAnimations().length)).toBe(0);
+  // Party cleanup must leave no animations on its targets. The hero's
+  // independent rotating-letter animation resumes when Party Mode ends.
+  expect(
+    await page
+      .locator("[data-party-react], [data-party-tag]")
+      .evaluateAll((elements) =>
+        elements.reduce(
+          (count, element) => count + element.getAnimations().length,
+          0,
+        ),
+      ),
+  ).toBe(0);
   await expect(page.locator("#main-content")).toBeFocused();
 });
 

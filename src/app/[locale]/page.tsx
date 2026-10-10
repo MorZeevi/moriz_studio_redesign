@@ -5,6 +5,7 @@ import { GettingStarted } from "@/components/getting-started";
 import { HeroDescription } from "@/components/hero-description";
 import { HeroHeading } from "@/components/hero-heading";
 import { HeroVideo } from "@/components/hero-video";
+import { HomepagePattern } from "@/components/homepage-pattern";
 import { InfinityLoop } from "@/components/infinity-loop";
 import { LanguageLink } from "@/components/language-link";
 import { LogoCarousel } from "@/components/logo-carousel";
@@ -89,82 +90,84 @@ export default async function Home({
       </SiteHeader>
 
       <main id="main-content" tabIndex={-1}>
-        <section
-          id="hero"
-          data-wireframe-section="hero"
-          aria-labelledby="hero-heading"
-          className="hero-background"
-        >
-          <div className="hero-shell hero">
-            <div className="hero-heading-block">
-              <HeroHeading content={content.hero.heading} />
-            </div>
-            <div className="hero-copy">
-              <HeroDescription
-                className="hero-description"
-                content={content.hero.description}
-              />
-              <div className="hero-actions">
-                <LiquidLink
-                  className="hero-projects-link"
-                  arrow="down"
-                  href="#projects"
-                  data-party-react="cta"
-                >
-                  {content.hero.projectsLink}
-                </LiquidLink>
+        <HomepagePattern>
+          <section
+            id="hero"
+            data-wireframe-section="hero"
+            aria-labelledby="hero-heading"
+            className="hero-background"
+          >
+            <div className="hero-shell hero">
+              <div className="hero-heading-block">
+                <HeroHeading content={content.hero.heading} />
               </div>
+              <div className="hero-copy">
+                <HeroDescription
+                  className="hero-description"
+                  content={content.hero.description}
+                />
+                <div className="hero-actions">
+                  <LiquidLink
+                    className="hero-projects-link"
+                    arrow="down"
+                    href="#projects"
+                    data-party-react="cta"
+                  >
+                    {content.hero.projectsLink}
+                  </LiquidLink>
+                </div>
+              </div>
+              <HeroVideo labels={content.hero.video} />
+              <LogoCarousel labels={content.logoCarousel} />
             </div>
-            <HeroVideo labels={content.hero.video} />
-            <LogoCarousel labels={content.logoCarousel} />
-          </div>
-          <div className="hero-shell hero-video-stage">
-            <div
-              className="hero-video-end"
-              data-hero-video-end
-              aria-hidden="true"
-            />
-          </div>
-        </section>
+            <div className="hero-shell hero-video-stage">
+              <div
+                className="hero-video-end"
+                data-hero-video-end
+                aria-hidden="true"
+              />
+            </div>
+          </section>
 
-        <Section
-          id="advantages"
-          title={content.advantages.heading}
-          showHeading={false}
-          className="advantages-section"
-        >
-          <div className="advantages-grid grid gap-4 lg:grid-cols-3 lg:gap-6">
-            {content.advantages.themes.map((theme, index) => (
-              <article key={theme} className="advantages-card min-w-0">
-                <div className="advantages-stage">
-                  {index === 0 ? (
-                    <FallingText
-                      items={content.advantages.research.terms}
-                      label={content.advantages.research.termsLabel}
-                      partyReactive
-                    />
-                  ) : index === 1 ? (
-                    <PartyModeToggle />
-                  ) : (
-                    <InfinityLoop
-                      labels={content.advantages.development.infinity}
-                    />
-                  )}
-                </div>
-                <div className="advantages-body">
-                  <h3>{theme}</h3>
-                  <p>
-                    {index === 0
-                      ? content.advantages.research.description
-                      : index === 1
-                        ? content.advantages.experience.description
-                        : content.advantages.development.description}
-                  </p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </Section>
+          <Section
+            id="advantages"
+            title={content.advantages.heading}
+            showHeading={false}
+            className="advantages-section"
+          >
+            <div className="advantages-grid grid gap-4 lg:grid-cols-3 lg:gap-6">
+              {content.advantages.themes.map((theme, index) => (
+                <article key={theme} className="advantages-card min-w-0">
+                  <div className="advantages-stage">
+                    {index === 0 ? (
+                      <FallingText
+                        items={content.advantages.research.terms}
+                        label={content.advantages.research.termsLabel}
+                        partyReactive
+                      />
+                    ) : index === 1 ? (
+                      <PartyModeToggle />
+                    ) : (
+                      <InfinityLoop
+                        labels={content.advantages.development.infinity}
+                      />
+                    )}
+                  </div>
+                  <div className="advantages-body">
+                    <h3>{theme}</h3>
+                    <p>
+                      {index === 0
+                        ? content.advantages.research.description
+                        : index === 1
+                          ? content.advantages.experience.description
+                          : content.advantages.development.description}
+                    </p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </Section>
+        </HomepagePattern>
 
         <ProjectsSection
           projects={projects.map((project) => projectCard(project, "homepage"))}

@@ -82,7 +82,8 @@ for (const width of [1440, 390]) {
           contrast: (light + 0.05) / (dark + 0.05),
           sameCanvas:
             !!header &&
-            getComputedStyle(header).backgroundColor === body.backgroundColor &&
+            // The transparent header shares the patterned canvas beneath it.
+            getComputedStyle(header).backgroundColor === "rgba(0, 0, 0, 0)" &&
             text.backgroundColor === "rgba(0, 0, 0, 0)",
         });
       }

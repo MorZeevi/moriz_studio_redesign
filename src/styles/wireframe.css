@@ -617,7 +617,7 @@ html:has(.navigation-dialog[open]) {
 
 /* Getting started and FAQ fade the canvas to the secondary colour while they
    cross the viewport (SecondaryScrollSurface sets the reveal and ink). The
-   fill sits under the site grain (z-index -1), so the grain stays on top. */
+   fill sits under the site grain (-1); the opening pattern ends at Projects. */
 .secondary-backdrop {
   position: fixed;
   inset: 0;
