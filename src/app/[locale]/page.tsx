@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { DevelopmentDemo } from "@/components/development-demo";
 import { HeroDescription } from "@/components/hero-description";
 import { HeroHeading } from "@/components/hero-heading";
 import { HeroVideo } from "@/components/hero-video";
@@ -50,13 +51,6 @@ export default async function Home({
       </a>
 
       <header className="site-header">
-        <Noise
-          patternSize={340}
-          patternScaleX={1}
-          patternScaleY={0.3}
-          patternRefreshInterval={2}
-          patternAlpha={22}
-        />
         <div className="hero-shell site-header-inner">
           <div className="header-brand">
             <StudioLogo
@@ -150,16 +144,28 @@ export default async function Home({
           showHeading={false}
           className="advantages-section"
         >
-          <div className="grid gap-9 lg:grid-cols-3 lg:gap-12">
+          <Noise
+            patternSize={340}
+            patternScaleX={1}
+            patternScaleY={0.3}
+            patternRefreshInterval={2}
+            patternAlpha={22}
+          />
+          <div className="advantages-grid grid gap-9 lg:grid-cols-3 lg:gap-12">
             {content.advantages.themes.map((theme, index) => (
-              <div key={theme} className="min-w-0 advantages-card">
+              <div
+                key={theme}
+                className={`min-w-0 advantages-card${index === 1 ? " advantages-card--interactive" : ""}`}
+              >
                 <h3 className="max-w-[18ch] text-xl leading-relaxed font-medium lg:text-2xl">
                   {theme}
                 </h3>
                 <p className="mt-5 text-sm text-muted">
                   {index === 0
                     ? content.advantages.research.description
-                    : content.advantages.supportingInformation}
+                    : index === 1
+                      ? content.advantages.experience.description
+                      : content.advantages.development.description}
                 </p>
                 {index === 0 ? (
                   <FallingText
@@ -170,7 +176,7 @@ export default async function Home({
                 ) : index === 1 ? (
                   <PartyModeToggle />
                 ) : (
-                  <TextLines className="mt-4" />
+                  <DevelopmentDemo labels={content.advantages.development.demo} />
                 )}
               </div>
             ))}

@@ -32,14 +32,15 @@ export function LiquidNavigation({
 
     function update() {
       frame = 0;
+      const bounds = header?.getBoundingClientRect();
+      if (!bounds) return;
+      root.style.setProperty("--site-header-height", `${bounds.height}px`);
+
       if (!desktop.matches) {
         setActiveHref(null);
         return;
       }
 
-      const bounds = header?.getBoundingClientRect();
-      if (!bounds) return;
-      root.style.setProperty("--site-header-height", `${bounds.height}px`);
       const activationLine = bounds.bottom + 16;
       // Page order is independent of the order of links in the menu.
       const positions = sections

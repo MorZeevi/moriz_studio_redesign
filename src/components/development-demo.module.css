@@ -1,0 +1,171 @@
+.demo {
+  margin-block-start: var(--space-6);
+  max-inline-size: 24rem;
+  color: var(--color-text-primary);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+  margin-block-end: var(--space-3);
+  font-size: var(--text-body-sm);
+  line-height: 1.5;
+}
+
+.stage {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.stage::before {
+  content: "";
+  inline-size: 0.45rem;
+  block-size: 0.45rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+}
+
+.note {
+  color: var(--color-text-secondary);
+}
+
+.app {
+  min-inline-size: 0;
+  margin: 0;
+  padding: var(--space-4);
+  border: 1px dashed currentColor;
+  border-radius: var(--radius-liquid);
+  background: transparent;
+  transition:
+    background-color var(--duration-slow) var(--ease-enter),
+    border-color var(--duration-slow) var(--ease-enter);
+}
+
+.title {
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--text-body-lg);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.tasks {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-block-size: 2.75rem;
+  padding: var(--space-2);
+  border-block-end: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-body-sm);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.task input {
+  appearance: none;
+  flex: 0 0 auto;
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  margin: 0;
+  border: 1px solid currentColor;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: inherit;
+  accent-color: var(--color-dark);
+}
+
+.task input:disabled {
+  opacity: 1;
+}
+
+.task input:checked {
+  appearance: auto;
+}
+
+.task:has(input:enabled) {
+  cursor: pointer;
+}
+
+.task:has(input:checked) span {
+  text-decoration: line-through;
+  color: var(--color-text-secondary);
+}
+
+.progress {
+  min-block-size: 3em;
+  margin: var(--space-3) 0 0;
+  font-size: var(--text-body-sm);
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.actions {
+  display: flex;
+  margin-block-start: var(--space-3);
+}
+
+.action.action {
+  max-inline-size: 100%;
+  border-color: currentColor;
+  background: transparent;
+  color: inherit;
+  font-weight: 400;
+}
+
+.demo[data-stage="live"] .stage::before {
+  background: var(--color-action-primary);
+  border-color: var(--color-action-primary);
+}
+
+.demo[data-stage="live"] .app {
+  --color-text-primary: var(--site-foreground, var(--color-dark));
+  --color-text-secondary: var(--site-muted);
+  --color-focus: var(--site-focus, var(--color-dark));
+  color: var(--color-text-primary);
+  border-style: solid;
+  background: var(--color-surface);
+}
+
+.demo[data-stage="live"] .title {
+  font-weight: 900;
+}
+
+.demo[data-stage="live"] .task {
+  border-block-end-style: solid;
+}
+
+.demo[data-stage="live"] .task input {
+  background: var(--color-secondary);
+  color: var(--color-dark);
+}
+
+@media (hover: hover) {
+  .task:has(input:enabled):hover {
+    background: var(--color-surface);
+  }
+
+  .action.action:hover {
+    background: var(--color-secondary);
+    color: var(--color-dark);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app {
+    transition: none;
+  }
+}

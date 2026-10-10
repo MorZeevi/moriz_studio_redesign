@@ -21,7 +21,7 @@ for (const colorScheme of ["light", "dark"] as const) {
     expect(await canvas(page)).toBe(
       colorScheme === "dark" ? "rgb(38, 38, 38)" : "rgb(251, 251, 255)",
     );
-    await expect(page.locator(".site-header .react-bits-noise")).toHaveCount(1);
+    await expect(page.locator(".site-header .react-bits-noise")).toHaveCount(0);
     await expect(
       page.locator(".hero-background .react-bits-noise"),
     ).toHaveCount(1);
@@ -29,6 +29,34 @@ for (const colorScheme of ["light", "dark"] as const) {
     await context.close();
   });
 }
+
+test("hero grain covers the initial header and scrolls away without a sticky overlay", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/he");
+  const header = page.locator(".site-header");
+  const grain = page.locator("#hero > .react-bits-noise");
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await expect(header).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+    await expect(header.locator("canvas")).toHaveCount(0);
+    await expect
+      .poll(async () => Math.abs((await grain.boundingBox())?.y ?? Infinity))
+      .toBeLessThan(1);
+    await page.evaluate(() => window.scrollTo(0, 240));
+    await expect
+      .poll(async () => (await grain.boundingBox())?.y ?? 0)
+      .toBeLessThan(-239);
+    if (width === 1440) {
+      expect((await header.boundingBox())?.y).toBe(0);
+    }
+    await page.screenshot({
+      path: test.info().outputPath(`header-grain-scrolled-${width}.png`),
+    });
+  }
+});
 
 test("system follows live OS changes until a manual choice survives reload and routes", async ({
   page,

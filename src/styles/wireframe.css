@@ -2,7 +2,6 @@
 .site-header {
   position: relative;
   isolation: isolate;
-  background: var(--color-background);
 }
 
 .site-header-inner {
@@ -106,6 +105,13 @@
   position: relative;
   isolation: isolate;
   background: var(--color-background);
+}
+
+/* One document-scrolling grain layer covers the initial header and hero.
+   The sticky header stays transparent instead of adding noise over content. */
+.hero-background > .react-bits-noise {
+  inset-block-start: calc(0px - var(--site-header-height, 6rem));
+  block-size: calc(100% + var(--site-header-height, 6rem));
 }
 
 .hero {
@@ -470,27 +476,30 @@ html:has(.navigation-dialog[open]) {
   position: relative;
   isolation: isolate;
   border-radius: var(--radius-liquid);
+  background: var(--color-background);
+}
+
+.advantages-grid {
+  position: relative;
+  z-index: 1;
 }
 
 .advantages-card {
-  --color-text-primary: var(--site-foreground, var(--color-dark));
-  --color-text-secondary: var(
-    --site-muted,
-    color-mix(in srgb, var(--color-dark) 70%, transparent)
-  );
-  --color-border: var(
-    --site-border,
-    color-mix(in srgb, var(--color-dark) 25%, var(--color-light))
-  );
-  --color-focus: var(--site-focus, var(--color-dark));
   padding: var(--space-6);
   border-radius: var(--radius-liquid);
-  background: var(--site-card, #fff);
   color: var(--color-text-primary);
 }
 
 .advantages-card h3 {
   overflow-wrap: anywhere;
+}
+
+.advantages-card--interactive {
+  text-align: center;
+}
+
+.advantages-card--interactive h3 {
+  margin-inline: auto;
 }
 
 @media (min-width: 64rem) {

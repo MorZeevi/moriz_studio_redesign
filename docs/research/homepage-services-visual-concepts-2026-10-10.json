@@ -1,0 +1,130 @@
+{
+  "date": "2026-10-10",
+  "scope": "Research board only; no homepage implementation changes.",
+  "confirmed": {
+    "retainExistingResearchPills": true,
+    "retainPartyMode": true,
+    "developmentMessage": "Idea becomes a working product",
+    "developmentVisual": "Wireframe becomes a live interface"
+  },
+  "method": "Three Mobbin section searches, nine returned previews visually examined; three selected development references. Original high-resolution images downloaded.",
+  "limits": "Static captures establish composition only. Wireframe-to-live transition is a proposed Moriz demonstration, not verified source-site behavior. Research date is not capture date.",
+  "searches": [
+    {
+      "query": "A website builder feature section showing an editable interface and the finished live website",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "index": 0,
+          "id": "53821c7a-592f-482a-8498-74d48f81f474",
+          "image_url": "https://mobbin.com/api/mcp/short/5Xdtw7cp",
+          "mobbin_url": "https://mobbin.com/sites/sections/53821c7a-592f-482a-8498-74d48f81f474",
+          "site_name": "Framer"
+        },
+        {
+          "index": 1,
+          "id": "ce305258-5218-49f8-8cf0-cc49059d10e4",
+          "image_url": "https://mobbin.com/api/mcp/short/5k3F3euy",
+          "mobbin_url": "https://mobbin.com/sites/sections/ce305258-5218-49f8-8cf0-cc49059d10e4",
+          "site_name": "Hashnode"
+        },
+        {
+          "index": 2,
+          "id": "33096793-b889-4bab-9470-a65e8910ec8a",
+          "image_url": "https://mobbin.com/api/mcp/short/3JY7Gerd",
+          "mobbin_url": "https://mobbin.com/sites/sections/33096793-b889-4bab-9470-a65e8910ec8a",
+          "site_name": "Retool"
+        }
+      ]
+    },
+    {
+      "query": "A developer platform feature section illustrating custom application building with connected interface components",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "index": 0,
+          "id": "cc463b41-675a-4256-ac9f-88ce9f519687",
+          "image_url": "https://mobbin.com/api/mcp/short/tYrplUlB",
+          "mobbin_url": "https://mobbin.com/sites/sections/cc463b41-675a-4256-ac9f-88ce9f519687",
+          "site_name": "Retool"
+        },
+        {
+          "index": 1,
+          "id": "7b3d2b85-5c07-4ff6-9ff2-1ce45bac300e",
+          "image_url": "https://mobbin.com/api/mcp/short/U2nmSt03",
+          "mobbin_url": "https://mobbin.com/sites/sections/7b3d2b85-5c07-4ff6-9ff2-1ce45bac300e",
+          "site_name": "Frontify"
+        },
+        {
+          "index": 2,
+          "id": "1ba5eee9-25f4-48a7-9eb3-48cdacddb654",
+          "image_url": "https://mobbin.com/api/mcp/short/nnROMBab",
+          "mobbin_url": "https://mobbin.com/sites/sections/1ba5eee9-25f4-48a7-9eb3-48cdacddb654",
+          "site_name": "Airtable"
+        }
+      ]
+    },
+    {
+      "query": "A creative studio services section with three service columns and a distinct visual demonstration for each service",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "index": 0,
+          "id": "3cf723db-92c1-4601-b820-379757d44107",
+          "image_url": "https://mobbin.com/api/mcp/short/DIr0ZBUY",
+          "mobbin_url": "https://mobbin.com/sites/sections/3cf723db-92c1-4601-b820-379757d44107",
+          "site_name": "Phantom Studios"
+        },
+        {
+          "index": 1,
+          "id": "d0850530-6f9d-4590-83bc-baa018680be2",
+          "image_url": "https://mobbin.com/api/mcp/short/cIijNKdC",
+          "mobbin_url": "https://mobbin.com/sites/sections/d0850530-6f9d-4590-83bc-baa018680be2",
+          "site_name": "Instrument"
+        },
+        {
+          "index": 2,
+          "id": "6aa10dc8-88e4-45d3-bfdb-632f5f688f20",
+          "image_url": "https://mobbin.com/api/mcp/short/APCYJuZm",
+          "mobbin_url": "https://mobbin.com/sites/sections/6aa10dc8-88e4-45d3-bfdb-632f5f688f20",
+          "site_name": "Intercom"
+        }
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "file": "assets/homepage-services-visual-2026-10-10/current-party.png",
+      "source": "Local homepage /he #advantages, second card PartyModeToggle wrapper; light, reduced motion, 1440x1000; captured 2026-10-10",
+      "bytes": 23274,
+      "sha256": "ee816e1b002301824d62e67d05609bb0f964f4e7105cc0dce950e13055acced5"
+    },
+    {
+      "file": "assets/homepage-services-visual-2026-10-10/current-research.png",
+      "source": "Local homepage /he #advantages, first card .falling-text-container; light, reduced motion, 1440x1000; captured 2026-10-10",
+      "bytes": 78349,
+      "sha256": "1920913731c691fb7af66544ddae12528ea5c43922a6a3252a0f5e13aedb0b78"
+    },
+    {
+      "file": "assets/homepage-services-visual-2026-10-10/framer-idea-to-interface.webp",
+      "source": "https://mobbin.com/sites/sections/53821c7a-592f-482a-8498-74d48f81f474",
+      "bytes": 48988,
+      "sha256": "84279f800f316f0d9dfdf8492ea7588ae1300b88726e895c532466a77efe31fd"
+    },
+    {
+      "file": "assets/homepage-services-visual-2026-10-10/frontify-custom-blocks.webp",
+      "source": "https://mobbin.com/sites/sections/7b3d2b85-5c07-4ff6-9ff2-1ce45bac300e",
+      "bytes": 48420,
+      "sha256": "0d9a640a16ab5fd96fcfff7aeb4211bfcc41850e9500852b1dc136ae9f7c4474"
+    },
+    {
+      "file": "assets/homepage-services-visual-2026-10-10/retool-working-app.webp",
+      "source": "https://mobbin.com/sites/sections/33096793-b889-4bab-9470-a65e8910ec8a",
+      "bytes": 98318,
+      "sha256": "85ea518c9523541eec9e68005576deb86c56815d672a6f905a29c6050d99dd5e"
+    }
+  ]
+}

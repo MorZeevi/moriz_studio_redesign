@@ -61,7 +61,16 @@ On 2026-10-06, the owner supplied an image showing the three themes she wants to
 
 The image is retained as a record of the owner's original input. On 2026-10-07 the owner approved implementation of the first card with heading **איפיון ועיצוב מבוססי מחקר** and supporting text **כל כפתור, כל אנימציה וכל בחירה היא מושכלת. אני מתעדכנת כל הזמן במחקרים ומתודולוגיות חדשות.** The approved plan corrects the supplied typo “ויעצוב”.
 
-Its eight grayscale falling pills are **מחקר משתמשים, UI, UX, מסע משתמש, בדיקות שמישות, מחקר מתחרים, ארכיטקטורת מידע, Design System**. The owner requested removing נגישות and פרוטוטייפ and adding מחקר מתחרים in a subsequent revision on 2026-10-07. The terms are capability labels, not results or endorsement claims. The card is implemented locally; visual acceptance is pending. See [the workbook composition](homepage-workbook.md#2-three-communication-themes--advantages). The owner approved **NORMAL / PARTY** as the second card’s interactive demonstration. Its title remains **חוויה אינטראקטיבית ואטרקטיבית** and paragraph remains **מידע תומך — להשלמה**. Accessible switch/status/off-control strings are in the Hebrew dictionary. The second card’s final supporting copy and third card’s content/treatment remain open. See [Party Mode](party-mode.md).
+Its eight grayscale falling pills are **מחקר משתמשים, UI, UX, מסע משתמש, בדיקות שמישות, מחקר מתחרים, ארכיטקטורת מידע, Design System**. The owner requested removing נגישות and פרוטוטייפ and adding מחקר מתחרים in a subsequent revision on 2026-10-07. The terms are capability labels, not results or endorsement claims. The card is implemented locally; visual acceptance is pending. See [the workbook composition](homepage-workbook.md#2-three-communication-themes--advantages). The owner approved Party Mode as the second card’s interactive demonstration, subsequently presented as **let’s party?** with **No / Yes** labels. Accessible switch/status/off-control strings are in the Hebrew dictionary. See [Party Mode](party-mode.md).
+
+On 2026-10-10 the owner approved retaining the current categories and implementing these descriptions:
+
+- **חוויה אינטראקטיבית ואטרקטיבית:** פחות טקסט, יותר ויז׳ואל ומעורבות של המשתמשים.
+- **פיתוח ללא גבולות:** אני הופכת את האפיון והעיצוב למוצר דיגיטלי עובד, עם פתרונות שמותאמים לצרכים שלכם. עד לפרטים הקטנים.
+
+These replace the supporting-copy placeholders. No development technology, integration or guarantee is inferred from the category title.
+
+The owner subsequently selected **סקיצה שהופכת לממשק חי** from [the visual research board](research/homepage-services-visual-concepts-2026-10-10.html) and authorized the third card's local demonstration. Its copy lives in `development.demo` in [the Hebrew dictionary](../src/i18n/dictionaries/he.ts): title **המשימות שלי**, note **ממשק לדוגמה**, stages **סקיצה / ממשק חי**, actions **להפוך למוצר / חזרה לסקיצה**, sketch explanation **השלב הבא: להפוך את הסקיצה למוצר**, tasks **אפיון המסך / בניית הממשק**, and completion suffix **הושלמו**. The example reuses the research board's task list; it introduces no client project, outcome or factual claim. Owner visual acceptance remains pending.
 
 ### How it works — source information
 

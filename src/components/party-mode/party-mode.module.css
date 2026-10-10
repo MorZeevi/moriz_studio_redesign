@@ -1,16 +1,17 @@
 .controlSlot {
   container-type: inline-size;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
   gap: var(--space-3);
   margin-block-start: var(--space-8);
-  padding-inline-end: var(--space-2);
+  padding-inline: var(--space-2);
   padding-block-end: var(--space-2);
 }
 
 .prompt {
   max-inline-size: 100%;
+  text-align: center;
   font-family: var(--font-body);
   font-size: var(--text-body);
   font-weight: var(--font-weight-body);

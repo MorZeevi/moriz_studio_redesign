@@ -168,7 +168,7 @@ Next step: review the implemented Mammoth trial locally, refine it as needed, an
 
 ## 2. Three communication themes / advantages
 
-Status: **In progress — research card and Party Mode implemented locally; visual acceptance pending**. On 2026-10-07 the owner requested and approved both interactions. The second card retains its supporting-copy placeholder; the third card remains a placeholder.
+Status: **In progress — descriptions implemented locally; both development visualization trials rejected**. On 2026-10-10 the owner approved the centered interactive card, continuous hero-style grain and the second and third descriptions. The implemented sketch-to-live demonstration and subsequent standalone modular preview were both rejected; they remain saved for reference before a fresh direction.
 
 ### Purpose and information
 
@@ -177,6 +177,8 @@ Purpose to confirm: explain the research, experience-design and development them
 ### Proposals
 
 Reference review pending: [basement.studio services](research/mobbin-agency-inspiration-2025-2026.md#1-basementstudio--services-presentation). A detailed capabilities list is not equivalent to three short themes. Hebrew options/refinement: TODO: Draft 2–3 together at this section. Layout comparison: TODO: Compare desktop and mobile hierarchy and reading order.
+
+Layout and presentation research, 2026-10-10: [visual Mobbin board](research/homepage-services-mobbin-2026-10-10.html) and [written findings](research/homepage-services-mobbin-2026-10-10.md). The owner confirmed keeping the current categories. Eight references compare expressive panels, full-width rows and a shared demonstration area; three panels are the recommended starting point. These are proposals, with source-page context and mobile adaptation limits recorded. No new layout, copy or implementation is approved by this research.
 
 ### Agreed choices
 
@@ -189,15 +191,25 @@ Inclusion, position 2 and the three theme inputs are confirmed. The first card n
 - Adapt React Bits FallingText to drop whole pills once when 30% of the area enters the viewport. Allow mouse dragging; preserve native touch scrolling. Reduced motion and missing JavaScript retain the readable static list.
 - Lazy-load Matter.js, measure after fonts load, resize boundaries, pause outside the viewport/hidden tabs, and stop when all pills sleep. No changes to the other cards or new public routes.
 
-The second card retains **חוויה אינטראקטיבית ואטרקטיבית** and **מידע תומך — להשלמה**, replacing its decorative lines with a bold **NORMAL / PARTY** switch. The owner approved a viewport-wide, light-page party with a realistic rotating alpha-video ball, a physical drop/exit, restrained brand lighting, selected UI motion and compact/reduced-motion variants. See [Party Mode behavior and verification](party-mode.md).
+The second card retains **חוויה אינטראקטיבית ואטרקטיבית** and now uses **פחות טקסט, יותר ויז׳ואל ומעורבות של המשתמשים.** Its heading, description and controls are centered; **let’s party?** sits above the **No / Yes** switch. The owner approved a viewport-wide party with a realistic rotating alpha-video ball, a physical drop/exit, brand lighting, selected UI motion and compact/reduced-motion variants. See [Party Mode behavior and verification](party-mode.md).
+
+The third card retains **פיתוח ללא גבולות** and now uses **אני הופכת את האפיון והעיצוב למוצר דיגיטלי עובד, עם פתרונות שמותאמים לצרכים שלכם. עד לפרטים הקטנים.** Its placeholder lines are removed. The first and third cards remain aligned to the Hebrew reading direction.
+
+Historical implementation (subsequently rejected): the owner initially selected **סקיצה שהופכת לממשק חי** from [the visual research board](research/homepage-services-visual-concepts-2026-10-10.html) ([findings and sources](research/homepage-services-visual-concepts-2026-10-10.md)) and authorized homepage implementation. Below the third description, **ממשק לדוגמה** identifies a two-task sketch: **אפיון המסך** and **בניית הממשק**. **להפוך למוצר** strengthens the title, adds the theme surface and enables native checkboxes, moving focus to the first task. A status reports `0/2 → 1/2 → 2/2`; **חזרה לסקיצה** clears the tasks and restores the disabled sketch. The live app's foreground, muted text and focus colors remain tied to the selected theme during the Projects canvas fade. Reduced motion removes the transition; SSR/no JavaScript keeps the sketch, explanatory copy and disabled controls visible. All copy comes from `development.demo` in the Hebrew dictionary. See [DevelopmentDemo](../src/components/development-demo.tsx).
+
+Development verification: four Chrome checks pass for keyboard completion/reset, stable live-app colors during actual Projects scrolling, 320/390/768/1440px in both themes with reduced motion, and the no-JavaScript sketch. The existing Party Mode keyboard/reduced-motion regression also passes. Full lint, TypeScript and diff validation pass. Independent finish review of five desktop/mobile light/dark and sketch captures returned **ship**, with no material findings. The preexisting development Inspector overlaps the mobile reset in captures; assistive-technology and cross-browser review were not performed. The Impeccable detector remains unavailable due to permission denied. Owner visual acceptance is pending; no new assets, dependencies, API, route or publication are included.
+
+The owner’s approved 2026-10-10 refinement makes all three card backgrounds transparent and adds continuous Noise behind the section using the hero’s existing settings (340 / 1 / 0.3 / 2 / 22). Existing padding, categories, research content, Party Mode behavior and mobile order remain. Text inherits the page’s adaptive colors so it stays readable during the Projects canvas transition.
+
+Verification: lint and TypeScript pass. Four targeted Chrome Party Mode tests pass for keyboard/reduced motion, mobile touch/menu behavior, 200% text and overlapping-light readability. Section checks pass at 320/390/768/1440px in both themes for centered content, transparent surfaces, grain coverage, readable text contrast and no card overflow. Desktop/mobile screenshots were inspected in both themes; owner visual acceptance remains pending.
 
 The approved refinement strengthens red/yellow lighting with a temporary cyan accent, shrinks the existing ball by 20%, places it slightly left of center and adds projected heading color plus two cycling colored research tags. The compact toggle and section structure remain intact. NORMAL restores all original colors and transforms.
 
-Section title, final visual acceptance, second-card supporting copy and third-card content/interaction remain open. See [the implementation decision](14-decisions.md#research-advantages-card-with-falling-pills).
+Latest development choice, 2026-10-10: after rejecting the task-list demonstration and requesting a new list before publication, the owner selected option 3, **מרכיבים משהו משלכם**. The [latest local preview](research/development-builder-preview-2026-10-10.html) ([behavior and validation](research/development-builder-preview-2026-10-10.md)) assembles one visual, one content block and one action into a working interface. Visitors can choose by click, touch or keyboard, optionally drag on desktop, replace parts and reset; the chosen action changes color or layout. Desktop places choices and output side by side; mobile keeps a compact output above the choices while scrolling. Three targeted Playwright checks pass, and independent finish review returned **ship for owner review** after the mobile finding was resolved. This is an extension of the incumbent visual system in a separate HTML preview, not a shared-system change. The owner subsequently rejected this modular preview and requested saving the existing work on main before starting again. Keep it as research history only; do not integrate it. The old homepage task list is still present, and the next development visualization is undecided. The section retains its agreed no-visible-heading treatment. See [the services refinement](14-decisions.md#centered-services-card-and-continuous-grain); the [earlier development decision](14-decisions.md#development-sketch-to-live-interface) records the superseded choice.
 
 ### Remaining questions
 
-Does the research-card trial receive visual acceptance? Does Party Mode receive visual acceptance? What supporting copy belongs in the second card, and what content/interaction supports the third theme? What does the development claim mean in a publishable, specific form?
+What new direction should replace the two rejected development visualization trials? Does the remaining updated section receive visual acceptance? The current wording does not specify technologies, integrations or guarantees.
 
 ## 3. Projects
 

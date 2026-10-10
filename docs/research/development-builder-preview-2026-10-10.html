@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>מרכיבים משהו משלכם — תצוגת ניסיון | Moriz Studio</title>
+<style>
+@font-face{font-family:Leon;src:url('../../src/assets/fonts/Leon-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:Leon;src:url('../../src/assets/fonts/Leon-Heavy.woff2') format('woff2');font-weight:900;font-display:swap}
+@font-face{font-family:Danidin;src:url('../../src/assets/fonts/Danidin-CondensedBold.woff2') format('woff2');font-weight:700;font-display:swap}
+:root{color-scheme:light;--paper:#fbfbff;--ink:#262626;--muted:#59595d;--line:#c5c5cd;--red:#c4252d;--bright:#fb2c36;--yellow:#dddc8c;font-family:Leon,Arial,sans-serif;color:var(--ink);background:var(--paper);scrollbar-color:var(--ink) var(--paper)}
+*{box-sizing:border-box}body{margin:0}main{max-width:1240px;margin:auto;padding:28px 40px 40px}button,a{touch-action:manipulation}button{font:inherit;color:inherit;cursor:pointer}button:disabled{cursor:default}a{color:inherit;text-underline-offset:5px}::selection{color:var(--ink);background:var(--yellow)}:focus-visible{outline:3px solid var(--red);outline-offset:5px}[hidden]{display:none!important}
+.top{display:flex;align-items:center;justify-content:space-between;gap:20px;border-block-end:1px solid var(--ink);padding-block-end:20px;font-size:14px}.wordmark{direction:ltr;font-size:24px}.wordmark strong{font-weight:900}.intro{display:flex;align-items:end;justify-content:space-between;gap:48px;margin-block:38px 32px}h1{font-family:Danidin,Arial,sans-serif;font-size:clamp(48px,6vw,76px);line-height:1.05;margin:0;font-weight:700;text-wrap:balance}h1 span{color:var(--red)}.intro p{font-size:16px;line-height:1.6;max-width:36ch;margin:0}.intro small{display:block;color:var(--muted);font-size:13px;margin-block-start:12px}
+.workshop{display:grid;grid-template-columns:minmax(240px,310px) minmax(0,1fr);gap:48px;align-items:stretch}.palette{border-block-start:1px solid var(--ink);padding-block-start:22px}.palette h2{font-size:20px;font-weight:400;margin:0 0 6px}.help{font-size:14px;color:var(--muted);line-height:1.5;margin:0 0 22px}.parts{border:0;margin:0 0 20px;padding:0;min-width:0}.parts legend{font-size:14px;margin-block-end:10px;padding:0}.options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.part{display:flex;align-items:center;justify-content:start;gap:10px;min-width:0;min-height:64px;padding:12px;border:1px solid var(--line);border-radius:12px;background:transparent;font-size:14px;text-align:start;line-height:1.4;transition:background-color .2s,border-color .2s;user-select:none}.part:hover{border-color:var(--ink);background:#efeff3}.part[aria-pressed=true]{border-color:var(--ink);background:var(--yellow)}.part.dragging{opacity:.55}.swatch{display:inline-block;flex:0 0 28px;width:28px;height:28px;border-radius:4px;background:var(--bright)}.swatch--shapes{background:var(--ink);border:7px solid var(--yellow);border-radius:50%}.sample-type{font-family:Danidin,Arial,sans-serif;font-size:28px;line-height:1;flex:0 0 28px;text-align:center}.sample-type--small{font-family:Leon,Arial,sans-serif;font-size:18px}.sample-action{flex:0 0 28px;display:grid;place-items:center;height:28px;border:1px solid currentColor;border-radius:6px}.sample-action svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5}
+.stage{position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:520px;padding:32px;background:#f0f0f4;border-radius:16px;min-width:0}.stage-heading{display:flex;justify-content:space-between;align-items:center;gap:16px;width:min(100%,420px);margin-block-end:18px;font-size:13px;color:var(--muted)}.reset{border:0;background:transparent;padding:8px 0;min-height:44px;font-size:13px;text-decoration:underline;text-underline-offset:4px}.reset:disabled{opacity:.45;text-decoration:none}.output{--art:var(--bright);width:min(100%,420px);display:grid;grid-template-areas:'visual' 'content' 'action';gap:12px;min-width:0}.slot{position:relative;display:flex;align-items:center;justify-content:center;min-width:0;border:1px dashed #77777e;border-radius:12px;transition:background-color .3s,border-color .3s}.slot[data-slot=visual]{grid-area:visual;min-height:150px;overflow:hidden}.slot[data-slot=content]{grid-area:content;min-height:100px}.slot[data-slot=action]{grid-area:action;min-height:62px}.placeholder{font-size:15px;line-height:1.5;color:var(--muted);pointer-events:none}.slot.drag-over{border:2px solid var(--red);background:var(--yellow)}.slot.filled{border:0;background:#fff}.slot.filled .placeholder{display:none}.slot:not(.filled) .piece{display:none}.piece{width:100%}.art{height:150px;background:var(--art);display:grid;place-items:center;overflow:hidden}.art .geometry{display:none}.art[data-visual=shapes]{background:var(--yellow)}.art[data-visual=shapes] .geometry{display:flex;align-items:center;gap:18px;width:78%;height:110px}.geometry .rectangle{width:54%;height:88px;background:var(--art);border-radius:6px}.geometry .circle{width:88px;height:88px;flex-shrink:0;background:var(--ink);border-radius:50%}.content{padding:20px 24px}.content h3{margin:0;font-family:Danidin,Arial,sans-serif;font-size:42px;line-height:1.05;font-weight:700;white-space:pre-line;text-wrap:balance}.content[data-content=quiet] h3{font-family:Leon,Arial,sans-serif;font-size:26px;font-weight:400;line-height:1.35}.product-action{padding:0 24px 24px}.product-button{width:100%;min-height:46px;border:1px solid var(--ink);border-radius:8px;background:var(--ink);color:var(--paper);padding:10px 16px;font-size:15px}.product-button:hover{background:var(--red);border-color:var(--red)}.product-button:disabled{background:#fff;color:var(--muted);border-color:var(--line)}
+.output.complete{gap:0;border:1px solid var(--ink);border-radius:14px;overflow:hidden;background:#fff}.output.complete .slot{border-radius:0}.output.complete .slot[data-slot=content]{justify-content:start}.output.complete.reversed{grid-template-areas:'content' 'visual' 'action'}.output.complete.reversed .content{padding-block:24px}.output.complete.reversed .product-action{padding-block-start:20px}.slot.just-added{animation:connect .45s cubic-bezier(.16,1,.3,1)}@keyframes connect{from{transform:translateY(12px) scale(.97);opacity:.55}to{transform:translateY(0) scale(1);opacity:1}}
+.feedback{width:min(100%,420px);min-height:44px;margin:18px 0 0;font-size:14px;line-height:1.5;color:var(--muted)}.explanation{display:flex;align-items:start;justify-content:space-between;gap:32px;margin-block-start:32px;padding-block-start:22px;border-block-start:1px solid var(--ink)}.explanation h2{font-size:20px;font-weight:400;margin:0;white-space:nowrap}.explanation p{font-size:15px;color:var(--muted);line-height:1.65;margin:0;max-width:65ch}.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--muted);margin-block-start:32px}.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+@media(max-width:850px){main{padding:22px 24px 32px}.intro{display:block;margin-block:28px}.intro p{max-width:60ch;margin-block-start:18px}.workshop{grid-template-columns:minmax(210px,260px) minmax(0,1fr);gap:24px}.stage{padding:24px 18px;min-height:480px}.content{padding-inline:18px}.content h3{font-size:36px}.geometry .circle{width:70px;height:70px}.geometry .rectangle{height:70px}.art[data-visual=shapes] .geometry{gap:12px}.explanation{display:block}.explanation p{margin-block-start:14px}}
+@media(max-width:600px){main{padding:18px 16px 28px}.top{font-size:12px;padding-block-end:14px}.wordmark{font-size:20px}.intro{margin-block:24px}.intro h1{font-size:48px}.intro p{font-size:15px;margin-block-start:14px}.intro small{font-size:12px}.workshop{grid-template-columns:1fr;gap:24px}.palette{padding-block-start:16px}.palette h2{font-size:18px}.help{font-size:13px;margin-block-end:18px}.parts{margin-block-end:16px}.part{min-height:56px}.parts legend{margin-block-end:8px}.stage{min-height:450px;padding:20px}.slot[data-slot=visual],.art{min-height:120px;height:120px}.slot[data-slot=content]{min-height:90px}.content h3{font-size:38px}.geometry .rectangle{height:76px}.geometry .circle{width:76px;height:76px}.content[data-content=quiet] h3{font-size:24px}.feedback{font-size:13px}.explanation{margin-block-start:26px}.explanation h2{white-space:normal}}
+@media(max-width:600px){
+ .workshop{display:flex;flex-direction:column;gap:18px}
+ .stage{order:-1;position:sticky;inset-block-start:8px;z-index:2;align-self:stretch;min-height:0;padding:12px;box-shadow:0 8px 24px rgb(38 38 38 / 10%)}
+ .stage-heading{margin-block-end:8px;gap:12px;font-size:12px}
+ .stage-heading>span{max-width:20ch;line-height:1.4}
+ .stage .reset{font-size:12px;flex-shrink:0}
+ .output{gap:8px}
+ .slot[data-slot=visual],.art{height:60px;min-height:60px}
+ .slot[data-slot=content]{min-height:70px}
+ .slot[data-slot=action]{min-height:44px}
+ .content,.output.complete.reversed .content{padding:10px 14px}
+ .content h3{font-size:26px}
+ .content[data-content=quiet] h3{font-size:20px;line-height:1.2}
+ .product-action{padding:0 14px 12px}
+ .product-button{min-height:42px;padding:8px 12px;font-size:14px}
+ .output.complete.reversed .product-action{padding-block-start:12px}
+ .art[data-visual=shapes] .geometry{height:52px;justify-content:center;gap:12px}
+ .geometry .rectangle{height:44px;width:45%}
+ .geometry .circle{width:44px;height:44px}
+ .feedback{min-height:3em;margin-block-start:10px;line-height:1.5}
+ .part{scroll-margin-block-start:340px}
+ .placeholder{font-size:13px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body><main>
+<header class="top"><div class="wordmark"><strong>moriz.</strong>studio</div><a href="homepage-services-visual-concepts-2026-10-10.html">למחקר השירותים</a></header>
+<section class="intro" aria-labelledby="title"><h1 id="title">מרכיבים משהו<br><span>משלכם.</span></h1><div><p>בחרו ויזואל, תוכן ופעולה.<br>החלקים מתחברים לממשק שאפשר להפעיל.</p><small>תצוגת ניסיון לכרטיס ״פיתוח ללא גבולות״</small></div></section>
+<div class="workshop">
+<section class="palette" aria-labelledby="parts-title"><h2 id="parts-title">מה נכנס למוצר שלכם?</h2><p class="help">לחצו על חלק כדי לחבר אותו. בדסקטופ אפשר גם לגרור למקום המתאים.</p>
+<fieldset class="parts"><legend>ויזואל</legend><div class="options"><button class="part" type="button" data-part="visual-color" aria-pressed="false" disabled><span class="swatch" aria-hidden="true"></span><span>שטח צבע</span></button><button class="part" type="button" data-part="visual-shapes" aria-pressed="false" disabled><span class="swatch swatch--shapes" aria-hidden="true"></span><span>צורות</span></button></div></fieldset>
+<fieldset class="parts"><legend>תוכן</legend><div class="options"><button class="part" type="button" data-part="content-bold" aria-pressed="false" disabled><span class="sample-type" aria-hidden="true">א</span><span>כותרת גדולה</span></button><button class="part" type="button" data-part="content-quiet" aria-pressed="false" disabled><span class="sample-type sample-type--small" aria-hidden="true">א</span><span>כותרת שקטה</span></button></div></fieldset>
+<fieldset class="parts"><legend>פעולה</legend><div class="options"><button class="part" type="button" data-part="action-color" aria-pressed="false" disabled><span class="sample-action" aria-hidden="true"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="6"/><path d="M10 4v12"/></svg></span><span>שינוי צבע</span></button><button class="part" type="button" data-part="action-layout" aria-pressed="false" disabled><span class="sample-action" aria-hidden="true"><svg viewBox="0 0 20 20"><rect x="3" y="3" width="14" height="5" rx="1"/><rect x="3" y="12" width="14" height="5" rx="1"/></svg></span><span>שינוי סדר</span></button></div></fieldset>
+</section>
+<section class="stage" aria-label="אזור ההרכבה"><div class="stage-heading"><span>הממשק שלכם · דוגמה להמחשה</span><button class="reset" type="button" id="reset" disabled>להתחיל מחדש</button></div><div class="output" id="output">
+<div class="slot" data-slot="visual"><span class="placeholder">כאן מתחיל הוויזואל</span><div class="piece art" id="art" data-visual="color" aria-label="הוויזואל שבחרתם"><div class="geometry" aria-hidden="true"><div class="rectangle"></div><div class="circle"></div></div></div></div>
+<div class="slot" data-slot="content"><span class="placeholder">כאן נכנס התוכן</span><div class="piece content" id="content" data-content="bold"><h3 id="product-title">יש מקום<br>לרעיון שלכם.</h3></div></div>
+<div class="slot" data-slot="action"><span class="placeholder">כאן מחברים פעולה</span><div class="piece product-action"><button class="product-button" type="button" id="product-action" disabled>להחליף צבע</button></div></div>
+</div><p class="feedback" id="feedback" role="status" aria-live="polite" aria-atomic="true">בחרו את החלק הראשון. אפשר להתחיל מכל אחד.</p></section>
+</div>
+<noscript><p>ההצעה מחברת שלושה חלקים — ויזואל, תוכן ופעולה — לממשק מותאם. כדי לנסות את ההרכבה בדפדפן נדרש JavaScript.</p></noscript>
+<section class="explanation" aria-labelledby="meaning"><h2 id="meaning">פיתוח ללא גבולות</h2><p>אותם חלקים, שילובים שונים. מחליפים ויזואל, תוכן או התנהגות ורואים איך המוצר משתנה. זו המחשה לפתרון שמתאים לרעיון שלכם, וכל רכיב בו עושה את מה שבחרתם.</p></section>
+<footer class="foot"><span>אב־טיפוס מקומי לבחינת הכיוון · 10.10.2026</span><span>בחירת רכיבים, חיבור ותוצאה פעילה</span></footer>
+</main>
+<script>
+const definitions={
+ 'visual-color':{kind:'visual',value:'color',name:'שטח צבע'},
+ 'visual-shapes':{kind:'visual',value:'shapes',name:'צורות'},
+ 'content-bold':{kind:'content',value:'bold',name:'כותרת גדולה'},
+ 'content-quiet':{kind:'content',value:'quiet',name:'כותרת שקטה'},
+ 'action-color':{kind:'action',value:'color',name:'שינוי צבע'},
+ 'action-layout':{kind:'action',value:'layout',name:'שינוי סדר'}
+};
+const selected={visual:null,content:null,action:null};
+const output=document.querySelector('#output');
+const feedback=document.querySelector('#feedback');
+const action=document.querySelector('#product-action');
+const reset=document.querySelector('#reset');
+const parts=[...document.querySelectorAll('[data-part]')];
+const slots=[...document.querySelectorAll('[data-slot]')];
+let colorChanged=false;
+const clearDrag=()=>{for(const slot of slots)slot.classList.remove('drag-over');for(const part of parts)part.classList.remove('dragging');};
+function assemble(id){
+ const part=definitions[id];if(!part)return;
+ selected[part.kind]=id;
+ const slot=slots.find(item=>item.dataset.slot===part.kind);
+ slot.classList.add('filled');
+ slot.classList.remove('just-added');
+ requestAnimationFrame(()=>slot.classList.add('just-added'));
+ for(const button of parts){const definition=definitions[button.dataset.part];button.setAttribute('aria-pressed',String(selected[definition.kind]===button.dataset.part));}
+ document.querySelector('#art').dataset.visual=selected.visual?definitions[selected.visual].value:'color';
+ const contentValue=selected.content?definitions[selected.content].value:'bold';
+ document.querySelector('#content').dataset.content=contentValue;
+ document.querySelector('#product-title').textContent=contentValue==='bold'?'יש מקום\nלרעיון שלכם.':'בדיוק\nבשבילכם.';
+ action.textContent=selected.action&&definitions[selected.action].value==='layout'?'לשנות סדר':'להחליף צבע';
+ output.classList.remove('reversed');
+ colorChanged=false;output.style.removeProperty('--art');
+ const complete=Object.values(selected).every(Boolean);
+ output.classList.toggle('complete',complete);
+ action.disabled=!complete;
+ reset.disabled=false;
+ feedback.textContent=complete?'יצרתם גרסה משלכם. הפעילו אותה, או החליפו חלק כדי לנסות שילוב אחר.':`${part.name} חובר. בחרו חלק נוסף כדי להמשיך.`;
+ clearDrag();
+}
+for(const button of parts){
+ button.disabled=false;button.draggable=true;
+ button.addEventListener('click',()=>assemble(button.dataset.part));
+ button.addEventListener('dragstart',event=>{event.dataTransfer.setData('application/x-moriz-part',button.dataset.part);event.dataTransfer.effectAllowed='copy';button.classList.add('dragging');});
+ button.addEventListener('dragend',clearDrag);
+}
+for(const slot of slots){
+ slot.addEventListener('dragover',event=>{if(!event.dataTransfer.types.includes('application/x-moriz-part'))return;event.preventDefault();event.dataTransfer.dropEffect='copy';slot.classList.add('drag-over');});
+ slot.addEventListener('dragleave',event=>{if(!slot.contains(event.relatedTarget))slot.classList.remove('drag-over');});
+ slot.addEventListener('drop',event=>{event.preventDefault();const id=event.dataTransfer.getData('application/x-moriz-part');const definition=definitions[id];clearDrag();if(!definition)return;if(definition.kind!==slot.dataset.slot){feedback.textContent='החלק הזה מתאים לאזור אחר. אפשר גם ללחוץ עליו כדי לחבר אותו ישירות.';return;}assemble(id);});
+}
+action.addEventListener('click',()=>{
+ if(action.disabled||!selected.action)return;
+ if(definitions[selected.action].value==='color'){
+  colorChanged=!colorChanged;output.style.setProperty('--art',colorChanged?'#262626':'#fb2c36');
+  feedback.textContent='הוויזואל החליף צבע. זו הפעולה שחיברתם למוצר.';
+ }else{
+  output.classList.toggle('reversed');feedback.textContent='הממשק שינה סדר. זו הפעולה שחיברתם למוצר.';
+ }
+});
+reset.addEventListener('click',()=>{
+ for(const kind of Object.keys(selected))selected[kind]=null;
+ for(const slot of slots)slot.classList.remove('filled','just-added','drag-over');
+ for(const button of parts)button.setAttribute('aria-pressed','false');
+ output.classList.remove('complete','reversed');output.style.removeProperty('--art');colorChanged=false;
+ action.disabled=true;feedback.textContent='מתחילים מחדש. בחרו את החלק הראשון.';
+ reset.disabled=true;parts[0].focus({preventScroll:true});
+});
+</script>
+</body></html>
