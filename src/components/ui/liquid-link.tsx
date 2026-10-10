@@ -249,7 +249,12 @@ function LiquidShapes({
 }) {
   return (
     <>
-      <span className={styles.icon} data-liquid-shape aria-hidden="true">
+      <span
+        className={styles.icon}
+        data-liquid-shape
+        data-liquid-icon
+        aria-hidden="true"
+      >
         {icon && glyph && <span className={styles.customGlyph}>{glyph}</span>}
         {icon && !glyph && (
           <svg

@@ -66,10 +66,45 @@
   cursor: pointer;
 }
 
-/* Phones and tablets: only the round blobs (face, sparkle); names stay in aria-label. */
-@media (max-width: 63.99rem) {
-  .action [data-liquid-label],
-  .action [data-liquid-bridge] {
-    display: none;
+/* Both blobs as wide as the portrait one, so the collapsed icons line up. */
+.action [data-liquid-icon] {
+  flex-basis: calc(var(--lb-height) * 1.4);
+}
+
+.action [data-liquid-icon] > span {
+  inline-size: 1.75em;
+  block-size: 1.75em;
+}
+
+/* At rest the label is a short stub melted onto the blob (the side nubs); it
+   grows out through the goo on hover. Names stay in aria-label. */
+.action [data-liquid-label] {
+  max-inline-size: 0.9em;
+  padding-inline: 0;
+  overflow: hidden;
+  color: transparent;
+  transition:
+    max-inline-size 0.45s var(--lb-ease),
+    padding-inline 0.45s var(--lb-ease),
+    color 0.3s var(--lb-ease);
+}
+
+.action:is(:focus-visible, [aria-expanded="true"]) [data-liquid-label] {
+  max-inline-size: 14em;
+  padding-inline: 1.15em;
+  color: inherit;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .action:hover [data-liquid-label] {
+    max-inline-size: 14em;
+    padding-inline: 1.15em;
+    color: inherit;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .action [data-liquid-label] {
+    transition: none;
   }
 }

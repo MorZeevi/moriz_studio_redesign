@@ -75,8 +75,9 @@
 }
 
 /* Contact CTA and the floating AI / WhatsApp pills: palette black with light
-   ink; secondary color on interaction. The doubled class outranks the pill's
-   own module rules, as the header's two-class selector does. */
+   ink. Only the header pill turns secondary on interaction; the floating ones
+   stay dark and reveal their label instead. The doubled class outranks the
+   pill's own module rules, as the header's two-class selector does. */
 .header-actions .header-contact-link,
 .floating-action.floating-action {
   --lb-fill: var(--color-dark);
@@ -85,17 +86,14 @@
   white-space: nowrap;
 }
 
-.header-actions .header-contact-link:focus-visible,
-.floating-action.floating-action:focus-visible,
-.floating-action.floating-action[aria-expanded="true"] {
+.header-actions .header-contact-link:focus-visible {
   --lb-fill: var(--color-secondary);
   --lb-pressed-fill: var(--color-action-secondary-hover);
   --lb-ink: var(--color-dark);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .header-actions .header-contact-link:hover,
-  .floating-action.floating-action:hover {
+  .header-actions .header-contact-link:hover {
     --lb-fill: var(--color-secondary);
     --lb-pressed-fill: var(--color-action-secondary-hover);
     --lb-ink: var(--color-dark);
