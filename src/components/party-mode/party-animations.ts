@@ -572,9 +572,38 @@ export class PartyAnimations {
     return !this.disposed && this.generation === generation;
   }
 
+  /**
+   * On desktop the ball hangs centred in the gap between the contact button
+   * and the middle navigation, in either direction. Elsewhere (no visible
+   * desktop header) the CSS position applies.
+   */
+  private placeRig() {
+    const contact = document
+      .querySelector(".header-actions .header-contact-link")
+      ?.getBoundingClientRect();
+    const nav = document
+      .querySelector(".desktop-navigation")
+      ?.getBoundingClientRect();
+    let gap: [number, number] | undefined;
+    if (contact?.width && nav?.width) {
+      if (contact.right <= nav.left) gap = [contact.right, nav.left];
+      else if (nav.right <= contact.left) gap = [nav.right, contact.left];
+    }
+    if (!gap) {
+      this.root.style.removeProperty("--ball-left");
+      return;
+    }
+    const centre = (gap[0] + gap[1]) / 2;
+    this.root.style.setProperty(
+      "--ball-left",
+      `${centre - this.rig.offsetWidth / 2}px`,
+    );
+  }
+
   private layout() {
     const width = window.innerWidth;
     const height = window.innerHeight;
+    this.placeRig();
     const x = this.rig.offsetLeft + this.rig.offsetWidth / 2;
     const y =
       this.rig.offsetTop + this.rig.offsetHeight - this.rig.offsetWidth / 2;

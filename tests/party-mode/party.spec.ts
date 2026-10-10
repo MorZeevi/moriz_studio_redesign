@@ -520,12 +520,21 @@ test("heading projections share the ball origin without changing accessible name
       );
       if (!rig || !effects || !light) throw new Error("Missing geometry");
       const bounds = rig.getBoundingClientRect();
+      const contact = document
+        .querySelector(".header-actions .header-contact-link")
+        ?.getBoundingClientRect();
+      const nav = document
+        .querySelector(".desktop-navigation")
+        ?.getBoundingClientRect();
       const apex = getComputedStyle(light).clipPath.match(
         /polygon\(([-\d.]+)px ([-\d.]+)px/,
       );
       const rect = light.getBoundingClientRect();
       return {
         centerX: bounds.left + bounds.width / 2,
+        // The ball hangs centred between the contact button and the nav.
+        gapCenterX:
+          contact && nav ? (contact.right + nav.left) / 2 : Number.NaN,
         anchorX: Number.parseFloat(
           effects.style.getPropertyValue("--party-anchor-x"),
         ),
@@ -551,7 +560,7 @@ test("heading projections share the ball origin without changing accessible name
     })
     .toBeLessThan(4);
   const geometry = await readGeometry();
-  expect(geometry.centerX).toBeCloseTo(1440 * 0.4, 0);
+  expect(Math.abs(geometry.centerX - geometry.gapCenterX)).toBeLessThan(1);
   expect(Math.abs(geometry.apexX - geometry.anchorX)).toBeLessThan(4);
   expect(Math.abs(geometry.apexY - geometry.anchorY)).toBeLessThan(4);
   expect(geometry.mask).toContain("data:image/svg+xml");
