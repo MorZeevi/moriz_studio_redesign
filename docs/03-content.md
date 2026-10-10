@@ -82,9 +82,11 @@ The owner supplied the following sequence on 2026-10-06 to explain how a prospec
 
 These three steps describe the start of the working relationship. The owner subsequently confirmed that this section belongs after client testimonials and before FAQ on Home. Page sequence is recorded separately in [02-page-structure.md](02-page-structure.md#hierarchy); supporting information and final copy remain open.
 
-Client preparation, the duration of the in-depth discussion, quote timing, and any subsequent steps: TODO: Decision required
+Owner update, 2026-10-10: the phone call is a few simple questions to see whether there is an initial fit with the client's needs; the discovery call (שיחת אפיון) is free of charge and takes place on Zoom; a quote is valid for 14 working days. No duration is shown for the Zoom call (owner decision).
 
-Final website wording: TODO: Decision required
+Website wording is implemented in `gettingStarted.steps` in [the Hebrew dictionary](../src/i18n/dictionaries/he.ts) and recorded in the [homepage workbook](homepage-workbook.md#6-how-to-start-working-together). The lines for steps 2 and 3 and the shortened step 2 title (**שיחת אפיון**) are drafts awaiting owner approval.
+
+Client preparation and any subsequent steps: TODO: Decision required
 
 ### FAQ — source information
 

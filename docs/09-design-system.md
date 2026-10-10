@@ -67,7 +67,7 @@ Variants: `primary`, `secondary`, `outline`, `ghost` (underlined text). Sizes: `
 
 ## Motion, direction and accessibility
 
-Use `duration-fast` / `duration-normal` / `duration-slow` (.15/.3/.6s) with `ease-standard` / `ease-enter` / `ease-exit`. CSS/GSAP may read the corresponding `--duration-*` and `--ease-*` properties from the document root. Durations become 0s under reduced motion; button translation stops. Future JS animations must also check `matchMedia('(prefers-reduced-motion: reduce)')`. No page animations are added.
+Use `duration-fast` / `duration-normal` / `duration-slow` (.15/.3/.6s) with `ease-standard` / `ease-enter` / `ease-exit`. CSS/GSAP may read the corresponding `--duration-*` and `--ease-*` properties from the document root. Durations become 0s under reduced motion; button translation stops. Future JS animations must also check `matchMedia('(prefers-reduced-motion: reduce)')`. Page animations are added only where the owner asks for them; see [10-motion-and-interactions.md](10-motion-and-interactions.md) (for example the getting-started rail and icons).
 
 Set `lang` and `dir` on the document (already driven by the locale layout); use logical spacing, `text-start`, `start`/`end` positioning and natural DOM order. `directional-icon` mirrors a right-pointing directional SVG in RTL; do not apply it to logos, media play symbols or other nondirectional artwork. Use `bdi` for mixed-language names. The logo track deliberately has its own LTR movement coordinate system, while Hebrew labels remain RTL. English page content is still pending; do not enable an empty `/en` route.
 

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { DevelopmentDemo } from "@/components/development-demo";
+import { GettingStarted } from "@/components/getting-started";
 import { HeroDescription } from "@/components/hero-description";
 import { HeroHeading } from "@/components/hero-heading";
 import { HeroVideo } from "@/components/hero-video";
@@ -12,6 +13,7 @@ import { PartyModeToggle } from "@/components/party-mode/party-mode-toggle";
 import { PixelReveal } from "@/components/pixel-reveal";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { ProjectsSection } from "@/components/projects-section";
+import { SecondaryScrollSurface } from "@/components/secondary-scroll-surface";
 import FallingText from "@/components/react-bits/FallingText";
 import Noise from "@/components/react-bits/Noise";
 import { StudioLogo } from "@/components/studio-logo";
@@ -37,9 +39,6 @@ export default async function Home({
   if (!isEnabledLocale(locale)) notFound();
   const content = await getDictionary(locale);
   const projects = await getPublicProjects("homepage");
-  const stepNumbers = new Intl.NumberFormat(locale, {
-    minimumIntegerDigits: 2,
-  });
   return (
     <PartyModeProvider labels={content.advantages.party}>
       <PixelReveal />
@@ -224,49 +223,39 @@ export default async function Home({
           <Testimonials content={content.testimonials} />
         </Section>
 
-        <Section id="getting-started" title={content.gettingStarted.heading}>
-          <ol className="grid gap-9 md:grid-cols-3 md:gap-12">
-            {content.gettingStarted.steps.map((step, index) => (
-              <li key={step.title} className="min-w-0">
-                <span
-                  aria-hidden="true"
-                  className="mb-5 block text-sm text-muted"
-                >
-                  <bdi>{stepNumbers.format(index + 1)}</bdi>
-                </span>
-                <h3 className="text-xl font-medium">{step.title}</h3>
-                <p className="mt-3 text-sm text-muted">
-                  <bdi>{step.detail}</bdi>
-                </p>
-              </li>
-            ))}
-          </ol>
-        </Section>
+        <SecondaryScrollSurface>
+          <Section id="getting-started" title={content.gettingStarted.heading}>
+            <GettingStarted
+              steps={content.gettingStarted.steps}
+              locale={locale}
+            />
+          </Section>
 
-        <Section id="faq" title={content.faq.heading}>
-          <div className="max-w-4xl border-t border-line">
-            {content.faq.questions.map((question) => (
-              <details key={question} className="faq-item border-b border-line">
-                <summary>
-                  <span className="text-lg">{question}</span>
-                  <span
-                    aria-hidden="true"
-                    className="shrink-0 text-2xl font-light"
-                  >
-                    <span className="faq-plus">+</span>
-                    <span className="faq-minus">−</span>
-                  </span>
-                </summary>
-                <div className="max-w-2xl pb-7">
-                  <p className="text-sm text-muted">
-                    {content.faq.answerPlaceholder}
-                  </p>
-                  <TextLines className="mt-4" />
-                </div>
-              </details>
-            ))}
-          </div>
-        </Section>
+          <Section id="faq" title={content.faq.heading}>
+            <div className="max-w-4xl border-t border-line">
+              {content.faq.questions.map((question) => (
+                <details key={question} className="faq-item border-b border-line">
+                  <summary>
+                    <span className="text-lg">{question}</span>
+                    <span
+                      aria-hidden="true"
+                      className="shrink-0 text-2xl font-light"
+                    >
+                      <span className="faq-plus">+</span>
+                      <span className="faq-minus">−</span>
+                    </span>
+                  </summary>
+                  <div className="max-w-2xl pb-7">
+                    <p className="text-sm text-muted">
+                      {content.faq.answerPlaceholder}
+                    </p>
+                    <TextLines className="mt-4" />
+                  </div>
+                </details>
+              ))}
+            </div>
+          </Section>
+        </SecondaryScrollSurface>
 
         <Section
           id="contact"

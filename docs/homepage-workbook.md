@@ -42,7 +42,7 @@ Saved Mobbin screenshots establish visible desktop composition only. The owner s
 | 3 | [Projects](#3-projects) | In progress — section, collection and dedicated pages |
 | 4 | [Brief owner introduction](#4-brief-owner-introduction) | Not started |
 | 5 | [Client testimonials](#5-client-testimonials) | In progress — spotlight with client index |
-| 6 | [How to start working together](#6-how-to-start-working-together) | Not started |
+| 6 | [How to start working together](#6-how-to-start-working-together) | In progress — three steps on a rail |
 | 7 | [FAQ](#7-faq) | Not started |
 | 8 | [Contact](#8-contact) | Not started |
 | 9 | [Footer](#9-footer) | Not started |
@@ -302,23 +302,39 @@ Section inclusion and position 5 confirmed. No visible section heading (2026-10-
 
 ## 6. How to start working together
 
-Status: **Not started**.
+Status: **In progress**.
 
 ### Purpose and information
 
-Explain how the working relationship begins. Confirmed inputs: a 5–10 minute telephone call → an in-depth specification discussion → receipt of a quote. This describes client onboarding, not the entire design/development process. See [the source sequence](03-content.md#how-it-works--source-information).
+Explain how the working relationship begins. This describes client onboarding, not the entire design/development process. Owner-supplied facts (2026-10-06, extended 2026-10-10): a short phone call with a few simple questions to check initial fit (5–10 minutes) → a discovery call (שיחת אפיון) on Zoom, free of charge → a price quote, valid for 14 working days. See [the source sequence](03-content.md#how-it-works--source-information).
 
 ### Proposals
 
-Reference review pending: [research coverage and gaps](research/mobbin-homepage-structure-2025-2026.md#search-coverage-and-gaps); no directly matching three-step client-starting screenshot was established. Review the available references for relevance before deciding whether more research is needed. Hebrew options/refinement: TODO: Draft 2–3 together. Layout comparison: TODO: Compare desktop RTL step order and mobile top-to-bottom order.
+[Mobbin research](research/homepage-getting-started-mobbin-2026-10-10.md) (2026-10-10) compared three directions:
+
+1. **Hairline columns on a rail** (implemented): three ruled columns on a 1px rail with a node per step; each step has a two-tone icon, a large number, a title and one line that carries the key facts (no separate fine-print line).
+2. **Editorial ruled rows** (alternative): full-width rows, typography-led; reads as a list rather than a sequence.
+3. **Equal cards** (rejected): the most generic option, and heavier than the ruled homepage.
+
+Layout comparison: desktop reads right to left across the rail (01 → 03); mobile stacks the steps top to bottom with the rail on the right edge. Motion: the rail fills from the right, nodes light in turn, text rises in and each icon plays once (phone ring, Zoom live-dot blink, quote check draw-in). Everything appears at once under reduced motion and is static without JavaScript.
+
+Implemented copy (`gettingStarted.steps` in [the Hebrew dictionary](../src/i18n/dictionaries/he.ts)):
+
+| Step | Title | Line |
+| --- | --- | --- |
+| 1 | שיחת טלפון קצרה | כמה שאלות פשוטות, כדי לראות אם יש התאמה ראשונית לצרכים שלכם. |
+| 2 | שיחת אפיון | שיחה בזום, ללא עלות, שבה נכיר לעומק את הפרויקט, המטרות והצרכים שלכם. *(draft)* |
+| 3 | קבלת הצעת מחיר | הצעה מסודרת שמבוססת על מה שאפיינו יחד, בתוקף ל־14 ימי עבודה. *(draft)* |
 
 ### Agreed choices
 
-Section inclusion and position 6, after testimonials and before FAQ, and the three source steps confirmed. Final supporting copy and layout: TODO: Decision required.
+Section inclusion and position 6, after testimonials and before FAQ, and the three steps confirmed. Owner decisions 2026-10-10: hairline columns with a rail; no duration shown for the Zoom call; the existing phone icon plus two new icons (`public/icons/video.svg`, `public/icons/quote.svg`) in the same style; animated icons; no CTA in the section (WhatsApp stays floating only). The heading stays **איך מתחילים לעבוד יחד**.
 
 ### Remaining questions
 
-What must the client prepare? What can be stated about the discussion or quote timing? Include only supplied details and keep WhatsApp access floating only.
+- Approve or reword the drafted lines for steps 2 and 3 and the shortened step 2 title (was **שיחת אפיון מעמיקה**).
+- Should the phone call's length (5–10 minutes) be shown? What, if anything, should the client prepare before the Zoom call?
+- Visual acceptance of the layout and motion.
 
 ## 7. FAQ
 

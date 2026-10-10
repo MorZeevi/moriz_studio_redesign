@@ -1,3 +1,4 @@
+import type { GettingStartedStep } from "@/content/getting-started";
 import type { Project } from "@/content/projects";
 import type { Testimonial } from "@/content/testimonials";
 
@@ -267,11 +268,27 @@ export const he = {
   },
   gettingStarted: {
     heading: "איך מתחילים לעבוד יחד",
+    // Facts are owner-supplied (2026-10-10). The step 2 and 3 lines and the
+    // shortened step 2 title are drafts awaiting owner approval.
     steps: [
-      { title: "שיחת טלפון קצרה", detail: "5–10 דקות" },
-      { title: "שיחת אפיון מעמיקה", detail: "מידע נוסף — להשלמה" },
-      { title: "קבלת הצעת מחיר", detail: "מידע נוסף — להשלמה" },
-    ],
+      {
+        icon: "phone",
+        title: "שיחת טלפון קצרה",
+        detail:
+          "כמה שאלות פשוטות, כדי לראות אם יש התאמה ראשונית לצרכים שלכם.",
+      },
+      {
+        icon: "video",
+        title: "שיחת אפיון",
+        detail:
+          "שיחה בזום, ללא עלות, שבה נכיר לעומק את הפרויקט, המטרות והצרכים שלכם.",
+      },
+      {
+        icon: "quote",
+        title: "קבלת הצעת מחיר",
+        detail: "הצעה מסודרת שמבוססת על מה שאפיינו יחד, בתוקף ל־14 ימי עבודה.",
+      },
+    ] satisfies GettingStartedStep[],
   },
   faq: {
     heading: "שאלות ותשובות",
