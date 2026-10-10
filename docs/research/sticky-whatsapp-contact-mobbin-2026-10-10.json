@@ -1,0 +1,215 @@
+{
+  "date": "2026-10-10",
+  "title": "Sticky WhatsApp contact patterns — Mobbin research",
+  "method": {
+    "source": "Mobbin search_sections and search_screens, with visual review of returned images",
+    "searches": 10,
+    "returned_results": 54,
+    "unique_candidates": 49,
+    "queries": [
+      {
+        "key": "whatsapp",
+        "query": "A floating WhatsApp contact button or WhatsApp chat bar pinned to the bottom corner of a website"
+      },
+      {
+        "key": "contact-bar",
+        "query": "A floating contact bar at the bottom of a website with a contact us button and a short invitation to start a project"
+      },
+      {
+        "key": "sticky-actions",
+        "query": "A website with a sticky bottom bar containing contact, chat or message actions"
+      },
+      {
+        "key": "chat-launcher",
+        "query": "A website landing page with a small floating live chat support launcher button in the bottom right corner"
+      },
+      {
+        "key": "floating-nav",
+        "query": "A floating pill navigation bar centered at the bottom of a website with a contact button"
+      },
+      {
+        "key": "bottom-cta",
+        "query": "A product details page with a floating bottom call to action bar containing a primary booking or contact button"
+      },
+      {
+        "key": "support-widgets",
+        "query": "A public website page with a floating customer support chat launcher button or chat with us tab at the bottom right corner"
+      },
+      {
+        "key": "bottom-pill",
+        "query": "A website hero with a floating bottom navigation dock and a let's talk contact call to action"
+      },
+      {
+        "key": "support-tab",
+        "query": "A compact live chat tab labeled chat with us or help at the bottom edge of a website"
+      },
+      {
+        "key": "whatsapp-channel",
+        "query": "A customer support page with a button to contact the business on WhatsApp"
+      }
+    ],
+    "limits": "Screenshots establish visible composition, not scroll persistence, responsive behavior, live availability or conversion performance. Most references are adjacent chat and CTA patterns. Base44 shows an explicit WhatsApp handoff, but not a sticky bar."
+  },
+  "recommendation": "Compare a green icon-and-label contact pill based on Mailchimp with a mobile bottom contact bar based on Kiwi. Preserve the confirmed WhatsApp destination, palette-charcoal mark and generous padding. These are proposals for review.",
+  "references": [
+    {
+      "id": "9a8c9561-22c3-4a9e-a0bb-6be585f7c12d",
+      "image_url": "https://mobbin.com/api/mcp/short/BJme1oaU",
+      "mobbin_url": "https://mobbin.com/sites/sections/9a8c9561-22c3-4a9e-a0bb-6be585f7c12d",
+      "site_name": "Mailchimp",
+      "query_key": "support-tab",
+      "name": "Mailchimp",
+      "rank": 1,
+      "slug": "mailchimp",
+      "group": "Contact launchers",
+      "pattern": "Labeled chat pill",
+      "observed": "A dark rounded pill with a speech icon and “Chat with us” sits at the lower-right edge.",
+      "takeaway": "Best starting point for adding a short Hebrew label beside the WhatsApp mark.",
+      "tradeoff": "Wider than the current circle; check it against the showreel and narrow viewports.",
+      "evidence": "Website capture; visible placement only.",
+      "asset": "assets/sticky-whatsapp-contact-2026-10-10/mailchimp.webp"
+    },
+    {
+      "id": "192e9497-a046-4127-a4fc-19cd461e2eaa",
+      "image_url": "https://mobbin.com/api/mcp/short/5m6SBt0C",
+      "mobbin_url": "https://mobbin.com/sites/sections/192e9497-a046-4127-a4fc-19cd461e2eaa",
+      "site_name": "ExpressVPN",
+      "query_key": "chat-launcher",
+      "name": "ExpressVPN",
+      "rank": 2,
+      "slug": "expressvpn",
+      "group": "Contact launchers",
+      "pattern": "Bottom-edge contact tab",
+      "observed": "A compact green “Need help? Chat with us!” tab sits along the lower-right edge, separate from the large support section.",
+      "takeaway": "A text label makes the contact purpose explicit while leaving most of the page clear.",
+      "tradeoff": "The captured tab is small and flush to the edge; increase its touch target and safe-area spacing for Moriz.",
+      "evidence": "Website capture; persistence while scrolling is unverified.",
+      "asset": "assets/sticky-whatsapp-contact-2026-10-10/expressvpn.webp"
+    },
+    {
+      "id": "3a502bae-1e1c-4ae4-afb3-f928ffa79ef0",
+      "image_url": "https://mobbin.com/api/mcp/short/l6DUJ5QV",
+      "mobbin_url": "https://mobbin.com/sites/sections/3a502bae-1e1c-4ae4-afb3-f928ffa79ef0",
+      "site_name": "Intercom",
+      "query_key": "chat-launcher",
+      "name": "Intercom",
+      "rank": 3,
+      "slug": "intercom",
+      "group": "Contact launchers",
+      "pattern": "Circular launcher",
+      "observed": "A blue circular chat launcher sits in the bottom-right corner beside the article layout.",
+      "takeaway": "Compare the compact footprint with Moriz’s existing green circle.",
+      "tradeoff": "An icon alone says less about who will answer or which channel opens.",
+      "evidence": "Website capture; no WhatsApp integration shown.",
+      "asset": "assets/sticky-whatsapp-contact-2026-10-10/intercom.webp"
+    },
+    {
+      "id": "82e18988-c3a4-4a47-af14-185b057901b1",
+      "image_url": "https://mobbin.com/api/mcp/short/9kDakcLw",
+      "mobbin_url": "https://mobbin.com/screens/82e18988-c3a4-4a47-af14-185b057901b1",
+      "app_name": "Kiwi.com",
+      "platform": "web",
+      "query_key": "bottom-cta",
+      "name": "Kiwi.com",
+      "rank": 4,
+      "slug": "kiwi",
+      "group": "Bottom action bars",
+      "pattern": "Full-width bottom action bar",
+      "observed": "A white rounded strip sits across the bottom of a form, containing a wide green payment action.",
+      "takeaway": "Study the bar’s separation from page content and the strong single action; adapt the destination and label to WhatsApp.",
+      "tradeoff": "A full-width bar occupies more vertical space and can cover project media.",
+      "evidence": "Booking/payment interface; transferable geometry, not a contact or WhatsApp example.",
+      "asset": "assets/sticky-whatsapp-contact-2026-10-10/kiwi.webp"
+    },
+    {
+      "id": "860674e3-a3e3-4606-982f-cec0ea82e32e",
+      "image_url": "https://mobbin.com/api/mcp/short/Ah2bkfNH",
+      "mobbin_url": "https://mobbin.com/screens/860674e3-a3e3-4606-982f-cec0ea82e32e",
+      "app_name": "Hers",
+      "platform": "web",
+      "query_key": "bottom-cta",
+      "name": "Hers",
+      "rank": 5,
+      "slug": "hers",
+      "group": "Bottom action bars",
+      "pattern": "Slim summary and action strip",
+      "observed": "A slim white strip at the bottom pairs product information with a dark action on the right.",
+      "takeaway": "Compare a short invitation plus one WhatsApp action inside a restrained horizontal strip.",
+      "tradeoff": "Long Hebrew text could make the strip too tall; test wrapping and content clearance.",
+      "evidence": "Commerce interface; visible bottom strip, not a WhatsApp implementation.",
+      "asset": "assets/sticky-whatsapp-contact-2026-10-10/hers.webp"
+    },
+    {
+      "id": "f8a06a7f-dc8d-4efd-86d5-bdf539b8f092",
+      "image_url": "https://mobbin.com/api/mcp/short/nfPTLomL",
+      "mobbin_url": "https://mobbin.com/screens/f8a06a7f-dc8d-4efd-86d5-bdf539b8f092",
+      "app_name": "Base44",
+      "platform": "web",
+      "query_key": "whatsapp-channel",
+      "name": "Base44",
+      "rank": 6,
+      "slug": "base44",
+      "group": "WhatsApp channel",
+      "pattern": "Explicit WhatsApp handoff",
+      "observed": "A WhatsApp heading and green “Open WhatsApp” button appear in a connection card.",
+      "takeaway": "Use the channel name and icon to make the transition out of the website clear.",
+      "tradeoff": "This is an account-connection flow with activation instructions; those steps do not belong in Moriz’s direct contact link.",
+      "evidence": "Actual WhatsApp action visible; static card, not a sticky bar.",
+      "asset": "assets/sticky-whatsapp-contact-2026-10-10/base44.webp"
+    },
+    {
+      "id": "1e0ce07c-8ab4-42f3-92cc-34e7478962c3",
+      "image_url": "https://mobbin.com/api/mcp/short/8QO7Kjgi",
+      "mobbin_url": "https://mobbin.com/screens/1e0ce07c-8ab4-42f3-92cc-34e7478962c3",
+      "app_name": "Loops",
+      "platform": "web",
+      "query_key": "support-widgets",
+      "name": "Loops",
+      "rank": 7,
+      "slug": "loops",
+      "group": "Expanded chat states",
+      "pattern": "Corner conversation panel",
+      "observed": "A conversation panel occupies the lower-right corner; its header shows a person’s initials, name and close control.",
+      "takeaway": "Useful if comparing a compact invitation that introduces Mor before handing off to WhatsApp.",
+      "tradeoff": "A panel adds an interaction step and covers content; a direct link is simpler.",
+      "evidence": "Authenticated support interface; expanded state, not a WhatsApp handoff.",
+      "asset": "assets/sticky-whatsapp-contact-2026-10-10/loops.webp"
+    },
+    {
+      "id": "a95099a0-f625-4f11-9ee7-789b576f5c08",
+      "image_url": "https://mobbin.com/api/mcp/short/l7bb4zXU",
+      "mobbin_url": "https://mobbin.com/screens/a95099a0-f625-4f11-9ee7-789b576f5c08",
+      "app_name": "Navan",
+      "platform": "web",
+      "query_key": "support-widgets",
+      "name": "Navan",
+      "rank": 8,
+      "slug": "navan",
+      "group": "Expanded chat states",
+      "pattern": "Left-side contact panel",
+      "observed": "A support conversation panel sits on the left over a travel page, with minimize and close controls.",
+      "takeaway": "Study the left-edge placement when comparing the Hebrew RTL contact control.",
+      "tradeoff": "The panel covers a large portion of the page; placement is a design choice, not automatically dictated by RTL.",
+      "evidence": "Authenticated travel interface; expanded chat state.",
+      "asset": "assets/sticky-whatsapp-contact-2026-10-10/navan.webp"
+    },
+    {
+      "id": "293a68c2-2a91-417b-96e0-c7b834a7d734",
+      "image_url": "https://mobbin.com/api/mcp/short/PMRBDvsc",
+      "mobbin_url": "https://mobbin.com/screens/293a68c2-2a91-417b-96e0-c7b834a7d734",
+      "app_name": "Klook",
+      "platform": "web",
+      "query_key": "support-widgets",
+      "name": "Klook",
+      "rank": 9,
+      "slug": "klook",
+      "group": "Expanded chat states",
+      "pattern": "Guided conversation surface",
+      "observed": "A centered chat panel combines a colored header, topic-choice buttons and a message field.",
+      "takeaway": "A reference for comparing a guided enquiry flow if Moriz later needs to qualify project requests.",
+      "tradeoff": "This is substantially more complex than opening a WhatsApp conversation and is not a suitable default for the current control.",
+      "evidence": "Expanded customer-support screen; centered, not a bottom contact bar.",
+      "asset": "assets/sticky-whatsapp-contact-2026-10-10/klook.webp"
+    }
+  ]
+}
