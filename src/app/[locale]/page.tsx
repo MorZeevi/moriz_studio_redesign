@@ -172,7 +172,7 @@ export default async function Home({
           partyReaction
         />
 
-        <Section id="about" title={content.about.heading}>
+        <Section id="about" title={content.about.heading} showHeading={false}>
           <AboutMe content={content.about} />
         </Section>
 

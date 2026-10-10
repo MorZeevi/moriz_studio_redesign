@@ -5,25 +5,24 @@
   --about-progress: 1;
   /* Marker: full yellow under dark ink (dark theme below). */
   --about-marker: var(--color-secondary);
-  /* Unfocused paragraphs: lighter, still above 4.5:1 in both themes. */
-  --about-dim: color-mix(in srgb, var(--color-text-primary) 60%, transparent);
+  /* Unfocused paragraphs: 65% is the lightest that keeps 4.5:1 on the light
+     canvas; the large bold phrases stay above 3:1 over the marker. */
+  --about-dim: color-mix(in srgb, var(--color-text-primary) 65%, transparent);
   display: grid;
   gap: var(--space-10);
   align-items: start;
 }
 
 /* Light ink in the dark theme reads over a translucent wash instead. */
+/* biome-ignore lint/correctness/noUnknownPseudoClass: CSS Modules global scope */
 :global(:root[data-theme="dark"]) .root {
   --about-marker: color-mix(in srgb, var(--color-secondary) 38%, transparent);
 }
 
 @media (prefers-color-scheme: dark) {
+  /* biome-ignore lint/correctness/noUnknownPseudoClass: CSS Modules global scope */
   :global(:root:not([data-theme="light"])) .root {
-    --about-marker: color-mix(
-      in srgb,
-      var(--color-secondary) 38%,
-      transparent
-    );
+    --about-marker: color-mix(in srgb, var(--color-secondary) 38%, transparent);
   }
 }
 
@@ -32,7 +31,7 @@
   gap: 1.1em;
   min-inline-size: 0;
   max-inline-size: 42rem;
-  font-size: clamp(1.25rem, 1.05rem + 0.75vw, 1.625rem);
+  font-size: clamp(1.0625rem, 0.95rem + 0.4vw, 1.25rem);
   line-height: 1.6;
 }
 

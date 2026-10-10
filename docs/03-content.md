@@ -98,6 +98,16 @@ Questions: TODO: Decision required
 
 Answers and final website wording: TODO: Decision required
 
+### About (קצת עליי) — homepage biography
+
+Supplied verbatim by the owner on 2026-10-10. Bold phrases (shown in bold) were read from her screenshot of the current site and await confirmation. Source of truth in code: `about.paragraphs` in the [Hebrew dictionary](../src/i18n/dictionaries/he.ts); presentation in [the decision](14-decisions.md#about-section-reading-focus-and-highlighter). Image: the cutout portrait from the header contact button until a higher-resolution file is supplied.
+
+אני עוזרת ליזמים, מנהלי מוצר ובעלי עסקים שמתמודדים עם קושי להעביר את הערך שלהם במרחב הדיגיטלי. הם השקיעו משאבים רבים בפיתוח המוצר או השירות שלהם, אבל **חווית המשתמש הנוכחית עושה להם עוול וההשקעה יורדת לטמיון.**
+
+עם **תואר אקדמי בטכנולוגיות למידה מ-H.I.T וניסיון של שנים בפיתוח**, יצרתי תהליך לבניית מעטפת דיגיטלית **מבוססת פרקטיקות מחקריות ומתודולוגיות מעולם שימור הקשב.** הכלים שאני יוצרת שונים בסוגם: אתרי תדמית, אפליקציות Web, מערכות מותאמות אישית וכלים אינטראקטיביים (כמו מחשבונים ואינפוגרפיקות). כולם כוללים חלוקת תוכן חכמה, משחקיות, אנימציות ומסע לקוח הדרגתי וברור.
+
+**בסוף התהליך, הלקוחות שלי מצוידים בכלים דיגיטליים שעוזרים לקהל שלהם לעשות יותר עם פחות מאמץ, ומשיגים את המטרות העסקיות שלהם.**
+
 ### Headlines
 
 Hero H1 — agreed, supplied by the owner on 2026-10-06; preserved verbatim:
