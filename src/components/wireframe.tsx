@@ -68,19 +68,7 @@ export function MediaPlaceholder({
 
 function ChatIcon() {
   return (
-    <svg
-      className="size-6"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M20.5 11.5a8.5 8.5 0 0 1-12.7 7.4L3 20.5l1.6-4.8a8.5 8.5 0 1 1 15.9-4.2Z" />
-      <path d="M8.2 7.8c.3 3.5 2.5 5.7 6 6l1.2-1.5-2.1-1.2-.8.8a7 7 0 0 1-2.3-2.3l.8-.8L9.8 6.7 8.2 7.8Z" />
-    </svg>
+    <span className="floating-whatsapp-icon" aria-hidden="true" />
   );
 }
 
@@ -89,7 +77,8 @@ export function FloatingWhatsApp({
 }: {
   labels: { label: string; unconfiguredLabel: string };
 }) {
-  const number = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() ?? "";
+  const number =
+    process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || "972522937174";
   const hasDestination = /^[1-9]\d{7,14}$/.test(number);
   const className = "floating-whatsapp";
 

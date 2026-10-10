@@ -233,7 +233,7 @@ test("closing and reopening the panel preserves inspection, selection and draft"
   await expect(page.locator("[data-inspector-overlay]")).toHaveCount(0);
 });
 
-test("nested nodes, SVG and disabled controls can be selected; source fallback is explicit", async ({
+test("nested nodes and icons can be selected; source fallback is explicit", async ({
   page,
 }) => {
   await openTools(page);
@@ -246,15 +246,14 @@ test("nested nodes, SVG and disabled controls can be selected; source fallback i
     "מחקר מנצח טיעונים",
   );
   await page.getByRole("button", { name: "Move panel right" }).click();
-  const disabled = page.locator(".floating-whatsapp");
-  const box = await disabled.boundingBox();
+  const control = page.locator(".floating-whatsapp");
+  const box = await control.boundingBox();
   if (!box) throw new Error("Missing WhatsApp control");
   await page.mouse.click(box.x + box.width / 2, box.y + 8);
   await expect(page.locator("[data-inspector-details]")).toContainText(
     "FloatingWhatsApp",
   );
-  // Playwright treats children of disabled buttons as disabled; real pointer events still reach them.
-  await page.locator(".floating-whatsapp svg").click({ force: true });
+  await page.locator(".floating-whatsapp-icon").click({ force: true });
   await expect(page.locator("[data-inspector-details]")).toContainText(
     "ChatIcon",
   );
