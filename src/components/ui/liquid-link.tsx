@@ -8,6 +8,7 @@ import {
   useEffect,
   useId,
   type Ref,
+  type RefObject,
   useRef,
 } from "react";
 import styles from "./liquid-link.module.css";
@@ -20,6 +21,14 @@ type LiquidLinkProps = Omit<ComponentPropsWithoutRef<"a">, "href"> & {
   icon?: ReactNode;
   /** "down" for links to a section further down the page. */
   arrow?: "forward" | "down";
+  /** Drawn inside the round blob instead of the arrow. */
+  glyph?: ReactNode;
+};
+
+type LiquidButtonProps = ComponentPropsWithoutRef<"button"> & {
+  variant?: "primary" | "secondary";
+  /** Drawn inside the round blob instead of the arrow. */
+  glyph?: ReactNode;
 };
 
 export function LiquidLink({
@@ -30,13 +39,93 @@ export function LiquidLink({
   navigation = "native",
   icon,
   arrow = "forward",
+  glyph,
   ...props
 }: LiquidLinkProps) {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const blurRef = useRef<SVGFEGaussianBlurElement>(null);
   const filterId = `liquid-link-${useId().replace(/:/g, "")}`;
   const LinkElement = navigation === "client" ? Link : "a";
+  useLiquidMotion(linkRef, blurRef);
 
+  const shapes = (
+    <LiquidShapes icon={!icon} arrow={arrow} glyph={glyph}>
+      {children}
+    </LiquidShapes>
+  );
+
+  return (
+    <>
+      <LiquidFilter id={filterId} blurRef={blurRef} />
+      <LinkElement
+        {...props}
+        ref={linkRef}
+        className={`${className ?? ""} ${styles.link}${variant === "secondary" ? ` ${styles.secondary}` : ""}`}
+        style={
+          { ...style, "--lb-filter": `url("#${filterId}")` } as CSSProperties
+        }
+      >
+        {icon ? (
+          <>
+            {/* Only the shapes melt together; the goo would smear the portrait. */}
+            <span className={styles.shapes}>{shapes}</span>
+            <span className={styles.portrait} aria-hidden="true">
+              {icon}
+            </span>
+          </>
+        ) : (
+          shapes
+        )}
+      </LinkElement>
+    </>
+  );
+}
+
+/** The same liquid pill for actions that are not navigation. */
+export function LiquidButton({
+  className,
+  children,
+  style,
+  variant = "primary",
+  glyph,
+  type = "button",
+  ref,
+  ...props
+}: LiquidButtonProps & { ref?: Ref<HTMLButtonElement> }) {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const blurRef = useRef<SVGFEGaussianBlurElement>(null);
+  const filterId = `liquid-button-${useId().replace(/:/g, "")}`;
+  useLiquidMotion(buttonRef, blurRef);
+
+  return (
+    <>
+      <LiquidFilter id={filterId} blurRef={blurRef} />
+      <button
+        {...props}
+        type={type}
+        ref={(node) => {
+          buttonRef.current = node;
+          if (typeof ref === "function") ref(node);
+          else if (ref) ref.current = node;
+        }}
+        className={`${className ?? ""} ${styles.link}${variant === "secondary" ? ` ${styles.secondary}` : ""}`}
+        style={
+          { ...style, "--lb-filter": `url("#${filterId}")` } as CSSProperties
+        }
+      >
+        <LiquidShapes icon arrow="forward" glyph={glyph}>
+          {children}
+        </LiquidShapes>
+      </button>
+    </>
+  );
+}
+
+/** Widens the goo blur while the gap animates, and tracks the pressed state. */
+function useLiquidMotion(
+  linkRef: RefObject<HTMLElement | null>,
+  blurRef: RefObject<SVGFEGaussianBlurElement | null>,
+) {
   useEffect(() => {
     const link = linkRef.current;
     const blur = blurRef.current;
@@ -95,39 +184,7 @@ export function LiquidLink({
       for (const event of events) link.removeEventListener(event, kick);
       reduced.removeEventListener("change", stop);
     };
-  }, []);
-
-  const shapes = (
-    <LiquidShapes icon={!icon} arrow={arrow}>
-      {children}
-    </LiquidShapes>
-  );
-
-  return (
-    <>
-      <LiquidFilter id={filterId} blurRef={blurRef} />
-      <LinkElement
-        {...props}
-        ref={linkRef}
-        className={`${className ?? ""} ${styles.link}${variant === "secondary" ? ` ${styles.secondary}` : ""}`}
-        style={
-          { ...style, "--lb-filter": `url("#${filterId}")` } as CSSProperties
-        }
-      >
-        {icon ? (
-          <>
-            {/* Only the shapes melt together; the goo would smear the portrait. */}
-            <span className={styles.shapes}>{shapes}</span>
-            <span className={styles.portrait} aria-hidden="true">
-              {icon}
-            </span>
-          </>
-        ) : (
-          shapes
-        )}
-      </LinkElement>
-    </>
-  );
+  }, [linkRef, blurRef]);
 }
 
 /** Goo filter shared by every liquid shape; each instance needs its own id. */
@@ -180,17 +237,21 @@ function LiquidFilter({
 function LiquidShapes({
   icon,
   arrow,
+  glyph,
   children,
 }: {
   /** Draws the arrow glyph inside the round blob. */
   icon: boolean;
   arrow: "forward" | "down";
+  /** Replaces the arrow; it does not mirror or nudge on hover. */
+  glyph?: ReactNode;
   children: ReactNode;
 }) {
   return (
     <>
       <span className={styles.icon} data-liquid-shape aria-hidden="true">
-        {icon && (
+        {icon && glyph && <span className={styles.customGlyph}>{glyph}</span>}
+        {icon && !glyph && (
           <svg
             className={`${styles.glyph}${arrow === "down" ? ` ${styles.down}` : ""}`}
             viewBox="0 0 16 16"
@@ -205,9 +266,9 @@ function LiquidShapes({
             <path d="M3 8h10M9 4l4 4-4 4" />
           </svg>
         )}
-        <span className={styles.bridge} data-liquid-shape />
+        <span className={styles.bridge} data-liquid-shape data-liquid-bridge />
       </span>
-      <span className={styles.label} data-liquid-shape>
+      <span className={styles.label} data-liquid-shape data-liquid-label>
         {children}
       </span>
     </>

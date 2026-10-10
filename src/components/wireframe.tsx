@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { WHATSAPP_URL } from "@/lib/whatsapp";
 import { PartyHeadingLight } from "./party-mode/party-heading-light";
 import partyStyles from "./party-mode/party-mode.module.css";
 
@@ -64,45 +63,5 @@ export function MediaPlaceholder({
     <div className={`media-placeholder ${className}`}>
       <span>{label}</span>
     </div>
-  );
-}
-
-function ChatIcon() {
-  return (
-    <span className="floating-whatsapp-icon" aria-hidden="true" />
-  );
-}
-
-export function FloatingWhatsApp({
-  labels,
-}: {
-  labels: { label: string; unconfiguredLabel: string };
-}) {
-  const className = "floating-whatsapp";
-
-  if (!WHATSAPP_URL) {
-    return (
-      <button
-        type="button"
-        className={className}
-        disabled
-        aria-label={labels.unconfiguredLabel}
-        title={labels.unconfiguredLabel}
-        data-whatsapp-state="unconfigured"
-      >
-        <ChatIcon />
-      </button>
-    );
-  }
-
-  return (
-    <a
-      href={WHATSAPP_URL}
-      className={className}
-      aria-label={labels.label}
-      data-whatsapp-state="configured"
-    >
-      <ChatIcon />
-    </a>
   );
 }

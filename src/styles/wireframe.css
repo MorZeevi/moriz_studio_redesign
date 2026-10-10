@@ -74,22 +74,28 @@
   cursor: not-allowed;
 }
 
-/* Contact CTA: palette black with light ink; secondary color on interaction. */
-.header-actions .header-contact-link {
+/* Contact CTA and the floating AI / WhatsApp pills: palette black with light
+   ink; secondary color on interaction. The doubled class outranks the pill's
+   own module rules, as the header's two-class selector does. */
+.header-actions .header-contact-link,
+.floating-action.floating-action {
   --lb-fill: var(--color-dark);
   --lb-pressed-fill: var(--color-dark);
   --lb-ink: var(--color-text-inverse);
   white-space: nowrap;
 }
 
-.header-actions .header-contact-link:focus-visible {
+.header-actions .header-contact-link:focus-visible,
+.floating-action.floating-action:focus-visible,
+.floating-action.floating-action[aria-expanded="true"] {
   --lb-fill: var(--color-secondary);
   --lb-pressed-fill: var(--color-action-secondary-hover);
   --lb-ink: var(--color-dark);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .header-actions .header-contact-link:hover {
+  .header-actions .header-contact-link:hover,
+  .floating-action.floating-action:hover {
     --lb-fill: var(--color-secondary);
     --lb-pressed-fill: var(--color-action-secondary-hover);
     --lb-ink: var(--color-dark);
@@ -696,59 +702,6 @@ body[data-secondary-ink="light"] main {
 
 .faq-item:not([open]) .faq-minus {
   display: none;
-}
-
-/* Lower inline-end is a provisional review position, not an owner-selected side. */
-.floating-whatsapp {
-  --whatsapp-background: #25d366;
-  position: fixed;
-  inset-inline-end: max(var(--space-4), var(--safe-area-inline-end));
-  inset-block-end: max(var(--space-4), env(safe-area-inset-bottom));
-  z-index: 20;
-  display: grid;
-  width: var(--control-height-lg);
-  height: var(--control-height-lg);
-  place-items: center;
-  padding: var(--space-4);
-  border: 0;
-  border-radius: var(--radius-pill);
-  background: var(--whatsapp-background);
-  color: var(--color-dark);
-  transition: background-color var(--duration-fast) var(--ease-standard);
-}
-
-.floating-whatsapp-icon {
-  inline-size: var(--icon-size);
-  block-size: var(--icon-size);
-  background: currentColor;
-  -webkit-mask: url("/images/whatsapp-mark.png") center / contain no-repeat;
-  mask: url("/images/whatsapp-mark.png") center / contain no-repeat;
-}
-
-.floating-whatsapp:disabled {
-  cursor: not-allowed;
-}
-
-.floating-whatsapp:hover:not(:disabled),
-.floating-whatsapp:active:not(:disabled) {
-  background: color-mix(
-    in srgb,
-    var(--whatsapp-background) 85%,
-    var(--color-dark)
-  );
-}
-
-@media (min-width: 64rem) {
-  .floating-whatsapp {
-    width: calc(var(--space-16) + var(--space-2));
-    height: calc(var(--space-16) + var(--space-2));
-    padding: calc(var(--space-4) + var(--space-1));
-  }
-
-  .floating-whatsapp-icon {
-    inline-size: var(--space-8);
-    block-size: var(--space-8);
-  }
 }
 
 /* Site-wide grain on the canvas, behind all content; opaque surfaces cover it. */

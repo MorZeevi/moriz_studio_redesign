@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { AboutMe } from "@/components/about-me";
-import { FaqAsk } from "@/components/faq-ask";
+import { FloatingActions } from "@/components/floating-actions";
 import { GettingStarted } from "@/components/getting-started";
 import { HeroDescription } from "@/components/hero-description";
 import { HeroHeading } from "@/components/hero-heading";
@@ -21,12 +21,11 @@ import FallingText from "@/components/react-bits/FallingText";
 import { StudioLogo } from "@/components/studio-logo";
 import { Testimonials } from "@/components/testimonials";
 import { LiquidLink } from "@/components/ui/liquid-link";
-import { FloatingWhatsApp, Section, TextLines } from "@/components/wireframe";
+import { Section, TextLines } from "@/components/wireframe";
 import { isEnabledLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { projectCard } from "@/lib/cms/project-card";
 import { getPublicProjects } from "@/lib/cms/queries";
-import { WHATSAPP_URL } from "@/lib/whatsapp";
 
 export default async function Home({
   params,
@@ -221,9 +220,6 @@ export default async function Home({
                 </details>
               ))}
             </div>
-            <div className="max-w-4xl">
-              <FaqAsk content={content.faq.ask} whatsappUrl={WHATSAPP_URL} />
-            </div>
           </Section>
         </SecondaryScrollSurface>
 
@@ -235,7 +231,10 @@ export default async function Home({
 
       <SiteFooter content={content} locale={locale} />
 
-      <FloatingWhatsApp labels={content.whatsapp} />
+      <FloatingActions
+        content={content.floatingActions}
+        ask={content.askAi}
+      />
     </PartyModeProvider>
   );
 }

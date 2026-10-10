@@ -4,7 +4,7 @@ import { StudioLogo } from "@/components/studio-logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { ProjectContent } from "@/components/project-content";
 import { ProjectArrow, ProjectMedia } from "@/components/projects-section";
-import { FloatingWhatsApp } from "@/components/wireframe";
+import { FloatingActions } from "@/components/floating-actions";
 import type { EnabledLocale } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
 import type { Project } from "@/types/project";
@@ -95,7 +95,12 @@ export function ProjectDetail({
           </footer>
         )}
       </div>
-      {!preview && <FloatingWhatsApp labels={content.whatsapp} />}
+      {!preview && (
+        <FloatingActions
+          content={content.floatingActions}
+          ask={content.askAi}
+        />
+      )}
     </div>
   );
 }

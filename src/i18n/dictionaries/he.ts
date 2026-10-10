@@ -326,18 +326,19 @@ export const he = {
     heading: "שאלות ותשובות",
     questions: ["שאלה 1 — להשלמה", "שאלה 2 — להשלמה", "שאלה 3 — להשלמה"],
     answerPlaceholder: "תשובה — להשלמה",
-    // Answers come only from the ai_knowledge table in Supabase.
-    ask: {
-      heading: "לא מצאת תשובה?",
-      label: "השאלה שלך",
-      placeholder: "אפשר לשאול אותי משהו...",
-      submit: "שאלו AI",
-      loading: "רגע, בודקת…",
-      fallback:
-        "המידע הזה עדיין לא נמצא אצלי 🙂\nאפשר לדבר איתי ישירות בוואטסאפ.",
-      whatsapp: "דברו איתי בוואטסאפ",
-      error: "משהו השתבש ולא הצלחתי לענות כרגע. אפשר לנסות שוב בעוד רגע.",
-    },
+  },
+  // Answers come only from the ai_knowledge table in Supabase.
+  askAi: {
+    heading: "לא מצאת תשובה?",
+    label: "השאלה שלך",
+    placeholder: "אפשר לשאול אותי משהו...",
+    submit: "שאלו AI",
+    loading: "רגע, בודקת…",
+    fallback:
+      "המידע הזה עדיין לא נמצא אצלי 🙂\nאפשר לדבר איתי ישירות בוואטסאפ.",
+    whatsapp: "דברו איתי בוואטסאפ",
+    error: "משהו השתבש ולא הצלחתי לענות כרגע. אפשר לנסות שוב בעוד רגע.",
+    close: "סגירה",
   },
   contact: {
     heading: "יצירת קשר",
@@ -381,8 +382,10 @@ export const he = {
     copyright: "moriz.studio",
     wordmark: [{ text: "moriz", bold: true }],
   },
-  whatsapp: {
-    label: "פנייה בוואטסאפ",
-    unconfiguredLabel: "וואטסאפ — מספר יצירת הקשר טרם הוזן",
+  floatingActions: {
+    label: "פעולות מהירות",
+    whatsapp: "שנדבר בוואטסאפ?",
+    ai: "AI",
+    aiLabel: "שאלו את ה-AI",
   },
 };

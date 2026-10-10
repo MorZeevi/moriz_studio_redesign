@@ -1,13 +1,12 @@
 "use client";
 
-import { type FormEvent, useId, useState } from "react";
+import { type FormEvent, type Ref, useId, useState } from "react";
 import { Button } from "@/components/ui/button";
 import type { AiAnswer } from "@/lib/ai/kimi";
 import { MAX_QUESTION_LENGTH } from "@/lib/ai/question";
-import styles from "./faq-ask.module.css";
+import styles from "./ask-ai-form.module.css";
 
 type Labels = {
-  heading: string;
   label: string;
   placeholder: string;
   submit: string;
@@ -24,12 +23,14 @@ type Status =
   | { kind: "error" };
 
 // One question, one answer: each submit replaces the previous result.
-export function FaqAsk({
+export function AskAiForm({
   content,
   whatsappUrl,
+  inputRef,
 }: {
   content: Labels;
   whatsappUrl: string | null;
+  inputRef?: Ref<HTMLInputElement>;
 }) {
   const [question, setQuestion] = useState("");
   const [status, setStatus] = useState<Status>({ kind: "idle" });
@@ -56,12 +57,12 @@ export function FaqAsk({
 
   return (
     <div className={styles.root}>
-      <h3 className={styles.heading}>{content.heading}</h3>
       <form className={styles.form} onSubmit={submit} aria-busy={loading}>
         <label htmlFor={inputId} className="sr-only">
           {content.label}
         </label>
         <input
+          ref={inputRef}
           id={inputId}
           className={styles.input}
           type="text"

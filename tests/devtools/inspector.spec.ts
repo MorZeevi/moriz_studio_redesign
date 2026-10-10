@@ -251,11 +251,20 @@ test("nested nodes and icons can be selected; source fallback is explicit", asyn
   if (!box) throw new Error("Missing WhatsApp control");
   await page.mouse.click(box.x + box.width / 2, box.y + 8);
   await expect(page.locator("[data-inspector-details]")).toContainText(
-    "FloatingWhatsApp",
+    "LiquidLink",
   );
-  await page.locator(".floating-whatsapp-icon").click({ force: true });
+  // The floating pills' glyphs ignore pointer events, so use the header icon;
+  // the panel moves off the header's right side first.
+  await page.getByRole("button", { name: "Move panel left" }).click();
+  await page
+    .locator(".header-brand-controls [data-theme-controls] svg:visible")
+    .first()
+    .click({ force: true });
   await expect(page.locator("[data-inspector-details]")).toContainText(
-    "ChatIcon",
+    "ThemeToggle",
+  );
+  await expect(page.locator("[data-inspector-details]")).toContainText(
+    "> svg:nth-of-type(1) > path",
   );
   await page.evaluate(() => {
     const node = document.createElement("span");

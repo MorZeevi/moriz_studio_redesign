@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import styles from "@/components/projects.module.css";
 import { ProjectArrow, ProjectsSection } from "@/components/projects-section";
-import { FloatingWhatsApp } from "@/components/wireframe";
+import { FloatingActions } from "@/components/floating-actions";
 import { isEnabledLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getPublicProjects } from "@/lib/cms/queries";
@@ -110,7 +110,7 @@ export default async function ProjectsPage({
           <p className="site-container">אין פרויקטים להצגה בקטגוריה זו.</p>
         )}
       </main>
-      <FloatingWhatsApp labels={content.whatsapp} />
+      <FloatingActions content={content.floatingActions} ask={content.askAi} />
     </div>
   );
 }
