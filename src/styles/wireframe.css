@@ -75,9 +75,26 @@
   cursor: not-allowed;
 }
 
-/* Secondary variant: yellow fill, dark ink from the palette. */
+/* Contact CTA: palette black with light ink; secondary color on interaction. */
 .header-actions .header-contact-link {
+  --lb-fill: var(--color-dark);
+  --lb-pressed-fill: var(--color-dark);
+  --lb-ink: var(--color-text-inverse);
   white-space: nowrap;
+}
+
+.header-actions .header-contact-link:focus-visible {
+  --lb-fill: var(--color-secondary);
+  --lb-pressed-fill: var(--color-action-secondary-hover);
+  --lb-ink: var(--color-dark);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .header-actions .header-contact-link:hover {
+    --lb-fill: var(--color-secondary);
+    --lb-pressed-fill: var(--color-action-secondary-hover);
+    --lb-ink: var(--color-dark);
+  }
 }
 
 .navigation-panel > .language-link {
@@ -125,6 +142,7 @@
 
 .hero-heading-rotating {
   display: flex;
+  color: var(--color-action-primary);
 }
 
 /* Clips each word's slide to the ink, not the line box: with line-height 1
@@ -316,8 +334,8 @@ html:has(.navigation-dialog[open]) {
   }
 
   /* Columns follow the header: the menu's measured width in the middle,
-     the same gap, so copy and video end where the menu begins. Copy and video
-     on top; heading and logos at the bottom of the first viewport. */
+     the same gap. The heading leads; copy with its CTA and the video share
+     the lower row, followed by the full-width logos. */
   .hero {
     grid-template-columns:
       minmax(0, 1fr) var(--site-nav-inline-size, 34rem)
@@ -338,26 +356,21 @@ html:has(.navigation-dialog[open]) {
     margin-block: var(--space-16) var(--space-10);
   }
 
-  /* Beside the description in the left column: its bottom meets the
-     description's last line and its left edge the video's. */
+  /* Keep the projects CTA directly below the description. */
   .hero-actions {
-    grid-column: 3;
-    grid-row: 3;
-    align-self: end;
-    justify-self: end;
     max-inline-size: none;
-    margin-block: 0 var(--space-10);
   }
 
   .hero-video {
     grid-column: 3;
-    grid-row: 1;
-    align-self: start;
+    grid-row: 3;
+    align-self: end;
     justify-self: stretch;
     inline-size: auto;
+    margin-block-end: var(--space-10);
   }
 
-  /* Top row beside the video, from the wordmark to the menu's far edge. */
+  /* Top row, from the wordmark to the menu's far edge. */
   .hero-heading-block {
     grid-column: 1 / span 2;
     grid-row: 1;

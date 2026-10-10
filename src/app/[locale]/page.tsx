@@ -120,16 +120,16 @@ export default async function Home({
                 className="hero-description"
                 content={content.hero.description}
               />
-            </div>
-            <div className="hero-actions">
-              <LiquidLink
-                className="hero-projects-link"
-                arrow="down"
-                href="#projects"
-                data-party-react="cta"
-              >
-                {content.hero.projectsLink}
-              </LiquidLink>
+              <div className="hero-actions">
+                <LiquidLink
+                  className="hero-projects-link"
+                  arrow="down"
+                  href="#projects"
+                  data-party-react="cta"
+                >
+                  {content.hero.projectsLink}
+                </LiquidLink>
+              </div>
             </div>
             <HeroVideo labels={content.hero.video} />
             <LogoCarousel labels={content.logoCarousel} />
