@@ -37,11 +37,17 @@
   white-space: nowrap;
 }
 
-/* The AI pill is the site's red CTA. Same specificity, later in the file. */
+/* The AI pill takes the secondary colour, as LiquidLink's secondary variant
+   does. Same specificity, later in the file. */
 .ai.ai {
-  --lb-fill: var(--color-action-primary);
-  --lb-pressed-fill: var(--color-action-primary-hover);
-  --lb-ink: var(--color-text-inverse);
+  --lb-fill: var(--color-secondary);
+  --lb-pressed-fill: var(--color-action-secondary-hover);
+  --lb-ink: var(--color-dark);
+}
+
+/* "moriz.ai" reads a step larger than the body-size WhatsApp label. */
+.ai [data-liquid-label] {
+  font-size: var(--text-body-lg);
 }
 
 .panel {
@@ -97,7 +103,8 @@
    looks cropped. Hover grows the label out through the goo. Names stay in
    aria-label, so collapsing never hides them. */
 .action [data-liquid-label] {
-  max-inline-size: 1.5em;
+  /* rem, so the larger AI label keeps the same stub as WhatsApp. */
+  max-inline-size: 1.5rem;
   padding-inline: 0;
   overflow: hidden;
   color: transparent;
