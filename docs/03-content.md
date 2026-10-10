@@ -72,6 +72,8 @@ These replace the supporting-copy placeholders. No development technology, integ
 
 The owner subsequently selected **סקיצה שהופכת לממשק חי** from [the visual research board](research/homepage-services-visual-concepts-2026-10-10.html) and authorized the third card's local demonstration. Its copy lives in `development.demo` in [the Hebrew dictionary](../src/i18n/dictionaries/he.ts): title **המשימות שלי**, note **ממשק לדוגמה**, stages **סקיצה / ממשק חי**, actions **להפוך למוצר / חזרה לסקיצה**, sketch explanation **השלב הבא: להפוך את הסקיצה למוצר**, tasks **אפיון המסך / בניית הממשק**, and completion suffix **הושלמו**. The example reuses the research board's task list; it introduces no client project, outcome or factual claim. Owner visual acceptance remains pending.
 
+Superseded on 2026-10-10: the third card now shows an infinity sign with a slow sliding bead (secondary colour) instead of the task list. Its only copy is `development.infinity` — the SVG title **סמל אינסוף** and the bead's slider label **הזזת הנקודה על סמל האינסוף**.
+
 ### How it works — source information
 
 The owner supplied the following sequence on 2026-10-06 to explain how a prospective client starts working with her after initial contact. These are internal content-planning facts, not website copy.

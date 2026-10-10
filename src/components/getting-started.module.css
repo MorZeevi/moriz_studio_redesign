@@ -7,8 +7,12 @@
   --gs-muted: var(--color-text-secondary);
   --gs-node: 0.75rem;
   --gs-tile: 2.75rem;
-  /* Time for the rail to travel one step; drops to 0s with reduced motion. */
+  /* Time for the content to settle one step; drops to 0s with reduced motion. */
   --gs-stagger: calc(var(--duration-slow) * 0.6);
+  /* Scroll progress along the rail (set by the component; full without JS)
+     and the number of drawn segments it spreads over. */
+  --gs-progress: 1;
+  --gs-segments: 2;
   display: grid;
   margin: 0;
   padding: 0;
@@ -48,9 +52,9 @@
   border-radius: 50%;
   background: var(--gs-accent);
   transition:
-    background-color var(--duration-normal) var(--ease-standard) var(--delay),
-    border-color var(--duration-normal) var(--ease-standard) var(--delay),
-    scale var(--duration-normal) var(--ease-enter) var(--delay);
+    background-color var(--duration-normal) var(--ease-standard),
+    border-color var(--duration-normal) var(--ease-standard),
+    scale var(--duration-normal) var(--ease-enter);
 }
 
 .segment {
@@ -66,13 +70,14 @@
   display: none;
 }
 
+/* Each segment fills its share of the scroll progress; scrub smooths it. */
 .segmentFill {
+  --fill: clamp(0, var(--gs-progress) * var(--gs-segments) - var(--i), 1);
   position: absolute;
   inset: 0;
   background: var(--gs-accent);
   transform-origin: top;
-  transition: scale calc(var(--gs-stagger) * 2) var(--ease-standard)
-    calc(var(--delay) + var(--duration-fast));
+  scale: 1 var(--fill);
 }
 
 /* Content */
@@ -139,14 +144,10 @@
   translate: 0 0.75rem;
 }
 
-.root[data-enhanced] .step:not([data-visible]) .node {
+.root[data-enhanced] .step:not([data-reached]) .node {
   border-color: var(--gs-rule);
   background: var(--color-background);
   scale: 0.6;
-}
-
-.root[data-enhanced] .step:not([data-visible]) .segmentFill {
-  scale: 1 0;
 }
 
 /* Icon motion plays once, after the step has settled. */
@@ -247,6 +248,7 @@
 /* Desktop: hairline columns, rail across the top. */
 @media (min-width: 64rem) {
   .root {
+    --gs-segments: 3;
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
@@ -289,18 +291,13 @@
 
   .segmentFill {
     transform-origin: left;
-    transition-duration: var(--gs-stagger);
-    transition-timing-function: linear;
-    transition-delay: var(--delay);
+    scale: var(--fill) 1;
   }
 
   .root:dir(rtl) .segmentFill {
     transform-origin: right;
   }
 
-  .root[data-enhanced] .step:not([data-visible]) .segmentFill {
-    scale: 0 1;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

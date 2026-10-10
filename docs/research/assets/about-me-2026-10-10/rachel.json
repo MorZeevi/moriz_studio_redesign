@@ -1,0 +1,50 @@
+{
+  "id": "rachel",
+  "name": "Rachel How",
+  "url": "https://www.rachelhow.com/about",
+  "finalUrl": "https://www.rachelhow.com/about",
+  "title": "About | Rachel How",
+  "text": "Home\nResources\nTools\nCursors\nAbout\nWork\nField Notes\n6:03:03 PM MYT\nHi! I'm Rachel How.\nMaking videos on Youtube\n\nI talk about product design, building apps and websites. 270K subs.\n\nVideo Lead at Mobbin\n\nGrew their YouTube from 200 to 10,000+ in 2 months.\n\nHosting demo nights\n\nAround the globe, primarily in Southeast Asia.\n\nSelected Talks & Features\n\nDesk setup featured on Workspaces, Aug 2026\n\nDesigning Memorable Software – AI Malaysia Takeover 2026, Aug 2026\n\nFigma Billboard, Ten Square Singapore, Nov 2025\n\nPanel Discussion, Friends of Figma x ADPList x LottieFiles x Xendit, Feb 2024\n\nWinner, MYStartup x Petronas Hackathon, July 2023\n\nWomen Who Code Kuala Lumpur - Product Design for Product Managers, Mar 2021\n\nFriends of Figma Kuala Lumpur, Dec 2020\n\nMonash University Malaysia, Sep 2020\n\nTop 10 Team at CYHI Hackathon by Hong Leong Bank, Apr 2019\n\nMy story\n\nI was born in Kuala Lumpur in 1995. I studied hard, got the grades, and didn’t get the scholarship, which was my first lesson that doing everything right doesn’t guarantee the outcome.\n\nI started a law degree in 2015 and quit three months in. The next three years were a blur of jobs I was not good at: customer service rep, body lotion salesperson, real estate agent, a stint at an ad agency, and digital marketing manager.\n\nDropping out made me feel like a failure. No degree, and a quiet need to prove to everyone around me that I wasn’t one. So on top of the jobs, I tried Forex. I was young, dumb and naive, and I got scammed out of about $5,000. That was money that could have paid for the degree I didn’t have. Second lesson: greed gets me nowhere.\n\nI find myself in a job I did not enjoy. I had to pivot.. again.\n\nThat's when I chose to become a designer.\n\nIn April 2019, I joined a 24-hour hackathon. I didn’t know a single person there, so I signed up alone and got grouped with two strangers. We placed top 10, and I walked out with my first UI/UX design job offer. By July, I was a product designer at Fave, a local startup. Everything clicked for me. I enjoyed the work so much.\n\nThen the pandemic hit. By May 2021 I was filming YouTube videos and learning Final Cut Pro for the first time. Three months later the channel was at 10,000 subscribers. I quit my job in May 2022 at 80,000.\n\nNow I’m Video Lead at Mobbin, where our YouTube channel went from 200 to 10,000+ subscribers in two months.\n\nA trip to San Francisco lit something up in me, and now I host demo nights with my good friend Joe at sidequest.camp, with one goal: to bring the community together, especially in Southeast Asia.\n\nTo be continued :)\n\nFind me online\n\nYou can find me on YouTube, Twitter, Instagram, and LinkedIn.\n\nThanks for dropping by!\nI hope you find something useful here.",
+  "images": [
+    {
+      "src": "https://www.rachelhow.com/images/about/613a13d875bf677060afcf72_DSC01145-p-800.webp",
+      "alt": "Rachel How",
+      "x": 487.5,
+      "y": 28,
+      "w": 650,
+      "h": 420
+    },
+    {
+      "src": "https://www.rachelhow.com/images/about/speaking.jpg",
+      "alt": "Rachel How speaking on stage",
+      "x": 487.5,
+      "y": 855,
+      "w": 650,
+      "h": 432.90625
+    },
+    {
+      "src": "https://www.rachelhow.com/images/about/san-francisco.jpg",
+      "alt": "Rachel How at the Golden Gate Bridge",
+      "x": 487.5,
+      "y": 1756.90625,
+      "w": 319,
+      "h": 425.328125
+    },
+    {
+      "src": "https://www.rachelhow.com/images/about/studio.jpg",
+      "alt": "Rachel How's filming studio",
+      "x": 818.5,
+      "y": 1756.90625,
+      "w": 319,
+      "h": 425.328125
+    },
+    {
+      "src": "https://www.rachelhow.com/images/about/64d4f59d7f784e715fe3209f_DSC01457-p-1600.jpg",
+      "alt": "",
+      "x": 487.5,
+      "y": 2889.234375,
+      "w": 650,
+      "h": 420
+    }
+  ]
+}

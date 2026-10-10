@@ -21,7 +21,7 @@ const luminance = (channels: number[]) =>
  * viewport, with the same entry/exit curve as Projects. The fill is a fixed
  * layer under the site grain, so the grain stays on top and the canvas
  * variables Projects owns are left alone. The reveal and ink live on <body>
- * so the neighbouring surfaces blend with the canvas instead of leaving edges.
+ * so the whole main column takes the ink while the fill is up.
  */
 export function SecondaryScrollSurface({ children }: { children: ReactNode }) {
   const surfaceRef = useRef<HTMLDivElement>(null);

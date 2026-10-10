@@ -1,0 +1,67 @@
+{
+  "id": "josh",
+  "name": "Josh W. Comeau",
+  "url": "https://www.joshwcomeau.com/about-josh/",
+  "scrollY": 0,
+  "finalUrl": "https://www.joshwcomeau.com/about-josh/",
+  "title": "Josh W. Comeau",
+  "text": "Skip to content\nJosh\nW\nComeau\nCategories\nCourses\nGoodies\nAbout\nSearch\nDisable sounds\nRSS Feed\nHi there! I'm Josh.\n\nI started building on the web in 2007 and never stopped.\n\nI’ve worked in senior engineering positions at organizations like Gatsby (acq. Netlify), DigitalOcean, and Khan Academy. I’ve also taught web development fundamentals at Concordia University.\n\nThese days, I'm a solo indie hacker focused on empowering up-and-coming software developers.\n\nJosh\nW\nComeau\nCategories\nCourses\nGoodies\nAbout\nSearch\nDisable sounds\nActivate dark mode\nRSS Feed\n\nI’m from Montréal, Canada, roughly 8,847km away from your current location, according to your IP address.\n\nThanks to Jane\n(opens in new tab)\n for this whimsical idea!\n\nRainbow flag. Triggering this button cycles through various pride flags. This is a purely cosmetic effect.\n\nI'm a cis gay man, and my pronouns are he/him.\n\nWant your own Pride flag? I have a tutorial all about it!\n\nkəʊm əʊ\nPhonetic spelling of my last name, Comeau. Triggering this button plays a recording of the pronunciation.\n\nMy last name, Comeau, is pronounced “cohm-oh”.\n\nClick to hear a robot say it.\n\nI'm \n6’2”\n188cm\n. Triggering this button toggles between imperial and metric units.\n tall.\nFor some reason, this surprises a lot of people. 😅\n\nQ\nPlay a kick sound. You can also press the Q key.\nW\nPlay a hihat sound. You can also press the W key.\nE\nPlay a snare sound. You can also press the E key.\nR\nPlay a cowbell sound. You can also press the R key.\n\nI'm the author of several popular open-source packages, including use-sound\n(opens in new tab)\n, a tool for playing sound effects, and react-flip-move\n(opens in new tab)\n, an animation library.\n\nMy packages are downloaded ~600,000 times per month according to NPM.\n\nI spent ~6 months unable to use a keyboard or mouse, and learned to code by voice.\n\nToggle Power\nIllustration of a small machine. Triggering this button powers on the machine. This is a purely cosmetic effect.\n\nI enjoy building cool / weird stuff with code. A few years ago, I built a generative art machine\n(opens in new tab)\n that lets users create funky line art by dragging sliders.\n\nI also created an explorable explanation about sound\n(opens in new tab)\n.\n\nIllustration of a cat. Triggering this button pets the cat. This is a purely cosmetic effect.\n\nIn a cruel twist of fate, I’m a cat person who is allergic to cats.\n\nI make up for this by owning lots of shirts with cats on them.\n\nIllustration of a cat. Triggering this button pets the cat. This is a purely cosmetic effect.\n\nI’ve spoken at a number of conferences! Here are some of my favourite talks:\n\nThe Secret Mechanisms of CSS\nThe Case for Whimsy\nExplorable Explanations with React\n\nA couple of years ago, I left my job as a Senior Staff Software Engineer to focus full-time on developer education.\n\nMy courses are a bit different from other online courses. You won’t sit back and watch me code. I'll challenge you with lots of exercises and interactivity, and you’ll build an intuition that will help you for the rest of your developer career. 🌈\n\n31,996 developers have registered for my courses:\n\nThe Joy of React\nCSS for JavaScript Developers\nWhimsical Animations\nJosh\nW\nComeau\nLet the waves of time and space surround me\nAre you a human? If so, please ignore this checkbox\n\nWant to know when I publish new content?\nEnter your email to join my free newsletter:\n\nEmail\nSubmit\nBROWSE BY CATEGORY\nCSS\nReact\nAnimation\nJavaScript\nCareer\nSVG\nNext.js\nGeneral\nINTERACTIVE COURSES\nCSS for JS Developers\n(opens in new tab)\nThe Joy of React\n(opens in new tab)\nWhimsical Animations\n(opens in new tab)\nGENERAL\nAbout Josh\nAbout This Blog\nContact\nSearch\nDisable sounds\nActivate dark mode\nRSS Feed\nJosh's BlueSky profile\nJosh's Github profile\nJosh's LinkedIn profile\n\n© 2018-present Joshua Comeau. All Rights Reserved.\n\nTerms of Use\n(opens in new tab)\nPrivacy Policy\n(opens in new tab)\nCode of Conduct\n(opens in new tab)",
+  "images": [
+    {
+      "src": "https://www.joshwcomeau.com/images/josh-presenting-cutout.webp",
+      "alt": "A cutout of Josh giving a talk, gesticulating with his hands",
+      "x": 880.1500244140625,
+      "y": 80,
+      "w": 391,
+      "h": 733
+    },
+    {
+      "src": "https://www.joshwcomeau.com/images/no-keyboard-cropped.jpg",
+      "alt": "A desk with a computer monitor, but no keyboard or mouse. Instead, a microphone sits in front of the monitor",
+      "x": 593,
+      "y": 1194,
+      "w": 374.5,
+      "h": 231.796875
+    },
+    {
+      "src": "https://www.joshwcomeau.com/images/josh-grabby-hands.jpg",
+      "alt": "Josh presenting at CSS Day 2024",
+      "x": 457.5,
+      "y": 1529.796875,
+      "w": 374.5,
+      "h": 238.171875
+    },
+    {
+      "src": "https://www.joshwcomeau.com/images/newsletter/joy-of-react-mascot.png",
+      "alt": "",
+      "x": 1116.5,
+      "y": 1443.796875,
+      "w": 260,
+      "h": 227.59375
+    },
+    {
+      "src": "https://www.joshwcomeau.com/images/css-for-js-mascot-light.png",
+      "alt": "",
+      "x": 1138.5,
+      "y": 1449.796875,
+      "w": 200,
+      "h": 178
+    },
+    {
+      "src": "https://www.joshwcomeau.com/images/josh/josh-happy-dark.webp",
+      "alt": "",
+      "x": 179.5,
+      "y": 1887.796875,
+      "w": 137.5,
+      "h": 232
+    },
+    {
+      "src": "https://www.joshwcomeau.com/images/josh/josh-happy-light.webp",
+      "alt": "",
+      "x": 179.5,
+      "y": 1887.796875,
+      "w": 137.5,
+      "h": 232
+    }
+  ]
+}

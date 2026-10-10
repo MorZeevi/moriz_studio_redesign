@@ -4,6 +4,7 @@ Use this document for ideas and tasks that should not interrupt the current stag
 
 ## UX
 
+- [ ] About section: add clickable personal items, with each click revealing what the item symbolizes for Moriz. Item selection and personal meanings to be supplied by the owner. Requested on 2026-10-09 for the task list only; implementation deferred until explicitly requested.
 - [ ] TODO: Decision required
 
 ## UI

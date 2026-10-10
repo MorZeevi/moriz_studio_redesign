@@ -22,33 +22,42 @@ for (const colorScheme of ["light", "dark"] as const) {
       colorScheme === "dark" ? "rgb(38, 38, 38)" : "rgb(251, 251, 255)",
     );
     await expect(page.locator(".site-header .react-bits-noise")).toHaveCount(0);
+    // One site-wide grain; sections add none, so no band reads darker.
+    await expect(page.locator(".page-grain .react-bits-noise")).toHaveCount(1);
     await expect(
-      page.locator(".hero-background .react-bits-noise"),
-    ).toHaveCount(1);
+      page.locator(
+        ":is(#hero, #advantages, #testimonials, #contact) .react-bits-noise",
+      ),
+    ).toHaveCount(0);
     await expect(page.locator(".header-contact-link img")).toBeVisible();
     await context.close();
   });
 }
 
-test("hero grain covers the initial header and scrolls away without a sticky overlay", async ({
+test("site grain sits behind the header and hero without a sticky overlay", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/he");
   const header = page.locator(".site-header");
-  const grain = page.locator("#hero > .react-bits-noise");
+  const grain = page.locator(".page-grain > .react-bits-noise");
   for (const width of [390, 1440]) {
     await page.setViewportSize({ width, height: 1000 });
     await page.evaluate(() => window.scrollTo(0, 0));
     await expect(header).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
     await expect(header.locator("canvas")).toHaveCount(0);
-    await expect
-      .poll(async () => Math.abs((await grain.boundingBox())?.y ?? Infinity))
-      .toBeLessThan(1);
-    await page.evaluate(() => window.scrollTo(0, 240));
-    await expect
-      .poll(async () => (await grain.boundingBox())?.y ?? 0)
-      .toBeLessThan(-239);
+    await expect(page.locator("#hero")).toHaveCSS(
+      "background-color",
+      "rgba(0, 0, 0, 0)",
+    );
+    await expect(page.locator("#hero .react-bits-noise")).toHaveCount(0);
+    // The grain is fixed, so it covers the viewport at any scroll position.
+    for (const scroll of [0, 240]) {
+      await page.evaluate((top) => window.scrollTo(0, top), scroll);
+      await expect
+        .poll(async () => Math.abs((await grain.boundingBox())?.y ?? Infinity))
+        .toBeLessThan(1);
+    }
     if (width === 1440) {
       expect((await header.boundingBox())?.y).toBe(0);
     }

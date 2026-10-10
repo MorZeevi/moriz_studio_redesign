@@ -1,10 +1,11 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { DevelopmentDemo } from "@/components/development-demo";
+import { AboutMe } from "@/components/about-me";
 import { GettingStarted } from "@/components/getting-started";
 import { HeroDescription } from "@/components/hero-description";
 import { HeroHeading } from "@/components/hero-heading";
 import { HeroVideo } from "@/components/hero-video";
+import { InfinityLoop } from "@/components/infinity-loop";
 import { LanguageLink } from "@/components/language-link";
 import { LogoCarousel } from "@/components/logo-carousel";
 import { Navigation } from "@/components/navigation";
@@ -15,16 +16,10 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { ProjectsSection } from "@/components/projects-section";
 import { SecondaryScrollSurface } from "@/components/secondary-scroll-surface";
 import FallingText from "@/components/react-bits/FallingText";
-import Noise from "@/components/react-bits/Noise";
 import { StudioLogo } from "@/components/studio-logo";
 import { Testimonials } from "@/components/testimonials";
 import { LiquidLink } from "@/components/ui/liquid-link";
-import {
-  FloatingWhatsApp,
-  MediaPlaceholder,
-  Section,
-  TextLines,
-} from "@/components/wireframe";
+import { FloatingWhatsApp, Section, TextLines } from "@/components/wireframe";
 import { isEnabledLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { projectCard } from "@/lib/cms/project-card";
@@ -98,13 +93,6 @@ export default async function Home({
           aria-labelledby="hero-heading"
           className="hero-background"
         >
-          <Noise
-            patternSize={340}
-            patternScaleX={1}
-            patternScaleY={0.3}
-            patternRefreshInterval={2}
-            patternAlpha={22}
-          />
           <div className="hero-shell hero">
             <div className="hero-heading-block">
               <HeroHeading content={content.hero.heading} />
@@ -143,41 +131,35 @@ export default async function Home({
           showHeading={false}
           className="advantages-section"
         >
-          <Noise
-            patternSize={340}
-            patternScaleX={1}
-            patternScaleY={0.3}
-            patternRefreshInterval={2}
-            patternAlpha={22}
-          />
-          <div className="advantages-grid grid gap-9 lg:grid-cols-3 lg:gap-12">
+          <div className="advantages-grid grid gap-4 lg:grid-cols-3 lg:gap-6">
             {content.advantages.themes.map((theme, index) => (
-              <div
-                key={theme}
-                className={`min-w-0 advantages-card${index === 1 ? " advantages-card--interactive" : ""}`}
-              >
-                <h3 className="max-w-[18ch] text-xl leading-relaxed font-medium lg:text-2xl">
-                  {theme}
-                </h3>
-                <p className="mt-5 text-sm text-muted">
-                  {index === 0
-                    ? content.advantages.research.description
-                    : index === 1
-                      ? content.advantages.experience.description
-                      : content.advantages.development.description}
-                </p>
-                {index === 0 ? (
-                  <FallingText
-                    items={content.advantages.research.terms}
-                    label={content.advantages.research.termsLabel}
-                    partyReactive
-                  />
-                ) : index === 1 ? (
-                  <PartyModeToggle />
-                ) : (
-                  <DevelopmentDemo labels={content.advantages.development.demo} />
-                )}
-              </div>
+              <article key={theme} className="advantages-card min-w-0">
+                <div className="advantages-stage">
+                  {index === 0 ? (
+                    <FallingText
+                      items={content.advantages.research.terms}
+                      label={content.advantages.research.termsLabel}
+                      partyReactive
+                    />
+                  ) : index === 1 ? (
+                    <PartyModeToggle />
+                  ) : (
+                    <InfinityLoop
+                      labels={content.advantages.development.infinity}
+                    />
+                  )}
+                </div>
+                <div className="advantages-body">
+                  <h3>{theme}</h3>
+                  <p>
+                    {index === 0
+                      ? content.advantages.research.description
+                      : index === 1
+                        ? content.advantages.experience.description
+                        : content.advantages.development.description}
+                  </p>
+                </div>
+              </article>
             ))}
           </div>
         </Section>
@@ -190,36 +172,15 @@ export default async function Home({
         />
 
         <Section id="about" title={content.about.heading}>
-          <div className="grid items-center gap-8 md:grid-cols-[1.2fr_1fr] md:gap-24">
-            <div className="max-w-lg">
-              <p className="text-xl leading-relaxed">
-                {content.about.information}
-              </p>
-              <TextLines className="mt-6" />
-              <p className="mt-7 text-sm text-muted">
-                {content.about.linkPlaceholder}
-              </p>
-            </div>
-            <MediaPlaceholder
-              label={content.about.visualLabel}
-              className="aspect-[4/3]"
-            />
-          </div>
+          <AboutMe content={content.about} />
         </Section>
 
         <Section
           id="testimonials"
           title={content.testimonials.heading}
           showHeading={false}
-          className="testimonials-section bg-surface"
+          className="testimonials-section"
         >
-          <Noise
-            patternSize={340}
-            patternScaleX={1}
-            patternScaleY={0.3}
-            patternRefreshInterval={2}
-            patternAlpha={22}
-          />
           <Testimonials content={content.testimonials} />
         </Section>
 
@@ -234,7 +195,10 @@ export default async function Home({
           <Section id="faq" title={content.faq.heading}>
             <div className="max-w-4xl border-t border-line">
               {content.faq.questions.map((question) => (
-                <details key={question} className="faq-item border-b border-line">
+                <details
+                  key={question}
+                  className="faq-item border-b border-line"
+                >
                   <summary>
                     <span className="text-lg">{question}</span>
                     <span
@@ -257,11 +221,7 @@ export default async function Home({
           </Section>
         </SecondaryScrollSurface>
 
-        <Section
-          id="contact"
-          title={content.contact.heading}
-          className="bg-surface"
-        >
+        <Section id="contact" title={content.contact.heading}>
           <p className="text-lg text-muted">{content.contact.information}</p>
           <TextLines className="mt-6 max-w-lg" />
         </Section>

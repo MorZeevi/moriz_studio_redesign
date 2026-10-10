@@ -101,17 +101,11 @@
   margin-block-start: auto;
 }
 
+/* Transparent: the header, hero and every section share the one canvas and
+   the site-wide .page-grain, so no band reads as a different tone. */
 .hero-background {
   position: relative;
   isolation: isolate;
-  background: var(--color-background);
-}
-
-/* One document-scrolling grain layer covers the initial header and hero.
-   The sticky header stays transparent instead of adding noise over content. */
-.hero-background > .react-bits-noise {
-  inset-block-start: calc(0px - var(--site-header-height, 6rem));
-  block-size: calc(100% + var(--site-header-height, 6rem));
 }
 
 .hero {
@@ -472,11 +466,25 @@ html:has(.navigation-dialog[open]) {
   border-block-start: var(--border-width-default) solid var(--color-border);
 }
 
+/* Three cards with one anatomy: a fixed-height stage for the interactive
+   visual, then heading and description, all start-aligned. Equal
+   stages keep the visuals and the text on shared lines across the row. */
 .advantages-section {
   position: relative;
   isolation: isolate;
-  border-radius: var(--radius-liquid);
-  background: var(--color-background);
+  border-block-start: 0;
+}
+
+/* White top rule, as wide as the page container's content (not full bleed). */
+.advantages-section::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  inline-size: calc(min(100%, var(--container-site)) - 2 * var(--page-gutter));
+  block-size: var(--border-width-default);
+  margin-inline: auto;
+  background: var(--site-card, #fff);
 }
 
 .advantages-grid {
@@ -485,30 +493,78 @@ html:has(.navigation-dialog[open]) {
 }
 
 .advantages-card {
-  padding: var(--space-6);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  border: var(--border-width-default) solid
+    color-mix(in srgb, var(--color-text-primary) 10%, transparent);
   border-radius: var(--radius-liquid);
+  background: var(--site-card, #fff);
   color: var(--color-text-primary);
+  overflow: hidden;
 }
 
-.advantages-card h3 {
+.advantages-stage {
+  display: grid;
+  place-items: center;
+  block-size: 13rem;
+  min-inline-size: 0;
+  padding: var(--space-6);
+  border-block-end: var(--border-width-default) solid
+    color-mix(in srgb, var(--color-text-primary) 10%, transparent);
+}
+
+/* The pills fall across the whole stage, edge to edge. */
+.advantages-stage > .falling-text-container {
+  align-self: stretch;
+  justify-self: stretch;
+  min-block-size: 0;
+  margin: calc(0px - var(--space-6));
+}
+
+.advantages-stage > :is([data-party-state], [data-infinity-loop]) {
+  margin: 0;
+}
+
+/* The toggle slot is a size container, so it needs a definite width. */
+.advantages-stage > [data-party-state] {
+  justify-self: stretch;
+}
+
+.advantages-body {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: var(--space-3);
+  padding: var(--space-6);
+}
+
+.advantages-body h3 {
+  margin: 0;
+  font-size: clamp(1.25rem, 1.8vw, 1.625rem);
+  font-weight: 700;
+  line-height: 1.2;
   overflow-wrap: anywhere;
 }
 
-.advantages-card--interactive {
-  text-align: center;
-}
-
-.advantages-card--interactive h3 {
-  margin-inline: auto;
+.advantages-body p {
+  max-inline-size: 38ch;
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--text-body);
+  line-height: 1.6;
 }
 
 @media (min-width: 64rem) {
-  .advantages-card {
+  .advantages-stage {
+    block-size: 15rem;
+  }
+
+  .advantages-body {
     padding: var(--space-8);
   }
 }
 
-/* Grain surface without the shared section rules above and below. */
+/* No shared section rules above and below. */
 .testimonials-section {
   position: relative;
   isolation: isolate;
@@ -561,28 +617,6 @@ body[data-secondary-ink="light"] main {
     transparent
   );
   --color-focus: var(--color-light);
-}
-
-/* The opaque neighbours (testimonials, contact) thin out at the same rate,
-   so the shared canvas and its grain show through and no edge remains. They
-   clear by a third of the reveal, before the yellow builds up. Their own
-   grain fades with them to avoid a doubled texture. */
-body[data-secondary-ink]
-  main
-  > :is(:has(+ .secondary-surface), .secondary-surface + *) {
-  --secondary-neighbour: clamp(0%, (1 - var(--secondary-reveal) * 3) * 100%, 100%);
-  background-color: color-mix(
-    in srgb,
-    var(--site-surface) var(--secondary-neighbour),
-    transparent
-  );
-}
-
-body[data-secondary-ink]
-  main
-  > :is(:has(+ .secondary-surface), .secondary-surface + *)
-  .react-bits-noise {
-  opacity: var(--secondary-neighbour);
 }
 
 /* No rules between the block and its neighbours, as with Projects. */

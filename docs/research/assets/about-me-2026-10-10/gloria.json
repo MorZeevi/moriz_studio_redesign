@@ -1,0 +1,35 @@
+{
+  "id": "gloria",
+  "name": "Gloria Lo",
+  "url": "https://www.glorialo.design/about",
+  "scrollY": 0,
+  "finalUrl": "https://www.glorialo.design/about",
+  "title": "About Gloria Lo | Designer Portfolio",
+  "text": "GLORIA LO\nHOME\nWORK\nPLAY\nABOUT\nA little bit about myself.\nMy name is Gloria Lo and I'm passionate about improving the lives of others through design. I'm constantly learning new things everyday and love meeting people who are motivated and unafraid of sharing their ideas with the world.\n\nI'm a self taught designer and have learnt a lot of the processes, concepts and theories of UX/UI and product design through attending workshops, reading blogs and applying these to projects in my spare time and at work. I am very much a big-picture thinker and enjoy working on products end to end, from ideation all the way to development.\nMy values\n😍 Passion is everything.\nIf you don't enjoy what you're doing - move. You are not a tree. Channel your energy into something you believe in. I'm fortunate to be inspired and surrounded by motivated people who enjoy what they do. We only have so much time on this earth to live - so why waste it?\n🤓 Always be learning.\nHumans are constant works in progress that need to receive feedback in order to grow. I am always looking at ways to challenge and improve myself, which is why in my spare time I like to participate in hackathons, read blogs, dabble in new projects and attend meetups.\n🎨 Embrace your creativity.\nEveryone needs a creative outlet of some sort - else, we'd go insane! When I'm not designing, I'm singing with the band, painting artworks as a form of meditation and helping startups realise their potential with design.\n🙏 Stay humble.\nIt doesn't matter whether you're the president, manager, homeless or average kid on the street. Treat others with respect as you would yourself because ultimately we're all human sharing the same wants and needs and facing our own battles everyday. Stay true to yourself and stay true to others.\nTestimonials\nI've known Gloria now for 8 months and have been genuinely impressed. Gloria has joined Sealadder to help build a startup, and in that time, she has taken the lead on a number of areas of the business and has been a great sounding board.\n‍\nNever afraid to speak her mind, Gloria has been able to provide a unique perspective and a clarity of thought that I've found invaluable. But more importantly, she has demonstrated on multiple occasions a level of initiative that isn't common amongst her peers, organising and taking the lead in meetings with founders and CEOs of potential partner companies.\n‍\nGloria's passion to solve the problems of employment and recognition of achievements is fundamentally aligned with Sealadder's mission: \"​to promote and provide value to self-education​\". Sealadder is a self-education accreditation platform that helps people advance their career, by providing goals driven guidance, tracking all learning and providing credibility when applying for a job, or promotion.\n‍\nJoining any startup is never a step that is taken lightly, especially when it requires weekends and working out of hours to bootstrap things together, and demonstrates genuine leadership. The most essential element of leadership is having a vision for how to make a difference, to make a change for the better or decide where to go. Gloria should be commended for her passion and drive to try and make an improvement in the world, in an area that so desperately needs it.\n‍\n\n— Adam Pond, Founder of Sealadder\n(former Head of Engineering at Medical Director)\n\nMore about me\nLet's connect\nGet in touch for opportunities or just to say hi! 👋",
+  "images": [
+    {
+      "src": "https://uploads-ssl.webflow.com/5c80ff16b78f1322a4a9d105/60616ce4b7296dbe091bebea_Gloria%20Lo%20profile-p-1600.jpeg",
+      "alt": "Gloria Lo profile",
+      "x": 300,
+      "y": 544,
+      "w": 839.984375,
+      "h": 560.171875
+    },
+    {
+      "src": "https://uploads-ssl.webflow.com/5c80ff16b78f1322a4a9d105/5d341b5bd1cb7f55a53447c3_m%401x-p-1600.png",
+      "alt": "Gloria Lo music",
+      "x": 100,
+      "y": 3068.171875,
+      "w": 600,
+      "h": 240
+    },
+    {
+      "src": "https://uploads-ssl.webflow.com/5c80ff16b78f1322a4a9d105/5d34165447f4bb228f987d56_art%401x-p-1600.png",
+      "alt": "Gloria Lo art",
+      "x": 740,
+      "y": 3068.171875,
+      "w": 600,
+      "h": 240
+    }
+  ]
+}

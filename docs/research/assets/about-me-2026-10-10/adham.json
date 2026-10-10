@@ -1,0 +1,66 @@
+{
+  "id": "adham",
+  "name": "Adham Dannaway",
+  "url": "https://www.adhamdannaway.com/about",
+  "finalUrl": "https://www.adhamdannaway.com/about",
+  "title": "About Adham Dannaway - Product designer & author of Practical UI",
+  "text": "Adham Dannaway\nabout\nlearn\nportfolio\nblog\ncontact\ntwitter\nlinkedin\nfacebook\ninstagram\nabout.\n\nI'm a product designer based in sunny Sydney, Australia.\n\nSince 2005, I've enjoyed turning complex problems into simple, beautiful and intuitive designs. When I'm not pushing pixels, you'll find me cooking, gardening or working out in the park.\n\nPart designer\nUI design\nUX design\nDesign Systems\nInteraction design\n\"Making it pop\"\nPart coder\nFront-end development\nHTML / CSS\nJavaScript (kinda)\nSwearing at my computer\nEating pizza\nRandom facts\nI'm slightly addicted to social media\nGardening is my zen time\nI want to live on Pandora\nI'm a bit of a clean freak\nI love to cook (and eat)\nI'm into interior design\nI enjoy creating things\nYoda is my mentor\nI drink a lot of tea\nMy skills\nJedi\nNinja\nGeek\nNewbie\n95%\nTea drinking\n90%\nDesign Systems\n95%\nFigma\n75%\nGardening\n40%\nCalisthenics\nFeatured here & there\n\nI've been lucky enough to have my work featured in books, magazines and websites around the world. I've also spoken at various design events and enjoy sharing my love of design on social media.\n\nView featured work\n\nMy book\n\nOver nearly 2 decades working as a product designer, I’ve found that you really only need a small handful of UI design guidelines to solve most interface design problems. Learn these quick, practical and powerful guidelines.\n\nRead the book\n\nMy design system\n\nI've studied hundreds of design systems over the years, even before they were called design systems. I wanted to share what I’ve learned by creating a lean and powerful Figma design system that's intuitive, accessible, and beautiful.\n\nView the design system\n\nMy story\n\nLearn a little bit more about me, how I got into design, and how I built my career as a product designer. I’ve included key things I've learned, book recommendations, and even some sneak peeks of the first websites I created.\n\nRead my story\n\n© 2026 Adham Dannaway\nabout learn portfolio blog contact\nBack to top",
+  "images": [
+    {
+      "src": "https://www.adhamdannaway.com/wp-content/themes/dannaway/images/about-adham-dannaway.jpg",
+      "alt": "adham dannaway ui designer",
+      "x": 650,
+      "y": 156,
+      "w": 590,
+      "h": 440
+    },
+    {
+      "src": "https://www.adhamdannaway.com/wp-content/themes/dannaway/images/pie-chart.png",
+      "alt": "part UI designer, part Front End Developer",
+      "x": 524.53125,
+      "y": 897.4375,
+      "w": 400,
+      "h": 350
+    },
+    {
+      "src": "https://www.adhamdannaway.com/wp-content/themes/dannaway/images/yoda.jpg",
+      "alt": "Yoda rocks",
+      "x": 200,
+      "y": 1441.4375,
+      "w": 590,
+      "h": 470
+    },
+    {
+      "src": "https://www.adhamdannaway.com/wp-content/themes/dannaway/images/featured.jpg",
+      "alt": "featured in books, magazines and websites",
+      "x": 650,
+      "y": 2615.625,
+      "w": 590,
+      "h": 315
+    },
+    {
+      "src": "https://www.adhamdannaway.com/wp-content/themes/dannaway/images/ui-design-book.webp",
+      "alt": "UI design book",
+      "x": 200,
+      "y": 3124.625,
+      "w": 590,
+      "h": 420
+    },
+    {
+      "src": "https://www.adhamdannaway.com/wp-content/themes/dannaway/images/figma-design-system.webp",
+      "alt": "Figma design system",
+      "x": 650,
+      "y": 3642.625,
+      "w": 590,
+      "h": 454
+    },
+    {
+      "src": "https://www.adhamdannaway.com/wp-content/themes/dannaway/images/adham-dannaway-workspace.jpg",
+      "alt": "Adham Dannaway's workspace",
+      "x": 200,
+      "y": 4194.625,
+      "w": 590,
+      "h": 350
+    }
+  ]
+}

@@ -13,7 +13,7 @@
   max-inline-size: 100%;
   text-align: center;
   font-family: var(--font-body);
-  font-size: var(--text-body);
+  font-size: var(--text-body-lg);
   font-weight: var(--font-weight-body);
   overflow-wrap: anywhere;
 }

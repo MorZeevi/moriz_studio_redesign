@@ -1,0 +1,120 @@
+/* Bio first in reading order (start side in RTL), portrait on the end side.
+   Mobile stacks the portrait above the text. */
+.root {
+  /* Section scroll progress, set by the component; at rest without JS. */
+  --about-progress: 1;
+  /* Marker: full yellow under dark ink (dark theme below). */
+  --about-marker: var(--color-secondary);
+  /* Unfocused paragraphs: lighter, still above 4.5:1 in both themes. */
+  --about-dim: color-mix(in srgb, var(--color-text-primary) 60%, transparent);
+  display: grid;
+  gap: var(--space-10);
+  align-items: start;
+}
+
+/* Light ink in the dark theme reads over a translucent wash instead. */
+:global(:root[data-theme="dark"]) .root {
+  --about-marker: color-mix(in srgb, var(--color-secondary) 38%, transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(:root:not([data-theme="light"])) .root {
+    --about-marker: color-mix(
+      in srgb,
+      var(--color-secondary) 38%,
+      transparent
+    );
+  }
+}
+
+.text {
+  display: grid;
+  gap: 1.1em;
+  min-inline-size: 0;
+  max-inline-size: 42rem;
+  font-size: clamp(1.25rem, 1.05rem + 0.75vw, 1.625rem);
+  line-height: 1.6;
+}
+
+.paragraph {
+  margin: 0;
+  transition: color var(--duration-slow) var(--ease-standard);
+}
+
+/* Highlighter stroke. It draws from the start edge (right in RTL) and runs
+   on across line breaks as one continuous band. Without JS it is drawn. */
+.ink {
+  --ink: 1;
+  font-weight: var(--font-weight-heading);
+  background-image: linear-gradient(
+    transparent 40%,
+    var(--about-marker) 40%,
+    var(--about-marker) 92%,
+    transparent 92%
+  );
+  background-repeat: no-repeat;
+  background-position: 100% 0;
+  background-size: calc(var(--ink) * 100%) 100%;
+  transition: background-size var(--duration-fast) linear;
+}
+
+.ink:dir(ltr) {
+  background-position: 0 0;
+}
+
+.note {
+  margin: var(--space-4) 0 0;
+  color: var(--color-text-secondary);
+  font-size: var(--text-body-sm);
+  line-height: 1.5;
+}
+
+.portrait {
+  order: -1;
+  margin: 0;
+  justify-self: center;
+  inline-size: min(14rem, 70vw);
+}
+
+.frame {
+  position: relative;
+  isolation: isolate;
+}
+
+/* The yellow shape from the contact avatar, settling into place as the
+   section scrolls in. The person stays still. */
+.blob {
+  position: absolute;
+  z-index: -1;
+  inset: 16% 0 0;
+  border-radius: 34% 34% 26% 26% / 30% 30% 20% 20%;
+  background: var(--color-secondary);
+  transform-origin: 50% 100%;
+  scale: calc(0.9 + 0.1 * min(1, var(--about-progress) * 2));
+  rotate: calc(-4deg + 4deg * min(1, var(--about-progress) * 2));
+}
+
+.photo {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+
+@media (min-width: 64rem) {
+  .root {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    gap: clamp(var(--space-12), 6vw, var(--space-24));
+  }
+
+  .portrait {
+    order: 0;
+    position: sticky;
+    inset-block-start: calc(var(--site-header-height, 6rem) + var(--space-8));
+    inline-size: min(100%, 22.5rem);
+  }
+
+  /* Reading focus: only while the component tracks the scroll. */
+  .root[data-reading] .paragraph:not([data-active]) {
+    color: var(--about-dim);
+  }
+}

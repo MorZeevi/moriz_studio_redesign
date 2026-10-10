@@ -1,0 +1,35 @@
+{
+  "id": "sean",
+  "name": "Seán Halpin",
+  "url": "https://www.seanhalpin.xyz/about",
+  "scrollY": 0,
+  "finalUrl": "https://www.seanhalpin.xyz/about",
+  "title": "Seán Halpin • About",
+  "text": "Work\n/\nAbout\nPlay\nNotes\nContact\nI'm Seán.\nI'm a Product Designer working remotely from 12°C Dublin, Ireland.\n\nOver the past 16 years, I've worked in various areas of digital design, including front-end development, email, marketing, and app UI/UX. I'm proud to have worn many hats.\n\nThese days, I focus on leading design at GiveDirectly, a nonprofit that lets donors send money directly to the world's poorest households.\n\nCubic\nDesign / Dev\n7-10\nDotfusion\nDesign / Dev\n10-14\nFreelance\nDesign Consultant\n12~\nHelp Scout\nSenior Product Designer\n15-23\nGiveDirectly\nSenior Product Designer\n22~\nLet's collaborate if you're committed to sustainability, education, equality, or carbon neutrality.\n\nI believe we should leave this Earth as good as or better than we found it for future generations; my goal is to contribute to those ideals in whatever way I can. If you feel the same, I'd love to talk.\n\n01\nMake it\n\nI sketch wireframes and make prototypes. Talking through tactile designs existing in the browser is worth its weight. Design tools only carry you so far; the rest should be realized with a link my team can rally around.\n\n02\nCollaborate\n\nGood design is not created in a vacuum but rather in a shared space. It must be facilitated and iterated upon as a team. I aim to include stakeholders in my design process and create a collaborative environment that welcomes and encourages feedback.\n\n03\nAccessible FTW\n\nI aim to make everything I design accessible to all for one main reason - it's the right thing to do. Accessible products benefit the many, not the few.\n\n04\nKeep experimenting\n\nEverything I create is subject to change and experimentation. Not everything will work, but it's worth trying - and learning from what doesn't.\n\nBefore I stepped into the world of product design, I was a web developer. One of my earliest jobs involved writing HTML emails, in a time before email linters. Lots of wishing, hoping, and finger crossing that your email arrived in a recipient's inbox in one piece.\n\nCoding emails forced me to understand how HTML and CSS play together, a skill set I've carried and kept fresh in the years since. My side project work is just an excuse to satisfy my curiosity about new technologies and understand how the web is moving forward.\n\nOutside work, I enjoy good coffee near my home by the sea, listening to and playing music, exploring the world with my partner, and playing with my Labrottie pup, Louie.\n\n© 2026 Seán Halpin\n•\nColophon\nElsewhere\nFigma\nGithub\nPosts\nCV\nLinkedIn\nContact\nMessage",
+  "images": [
+    {
+      "src": "https://www.seanhalpin.xyz/about/faces.jpg",
+      "alt": "Photo of Seán",
+      "x": 172.796875,
+      "y": 393.890625,
+      "w": 345.59375,
+      "h": 384
+    },
+    {
+      "src": "https://www.seanhalpin.xyz/about/photos/large-09.png",
+      "alt": "Lahinch, Ireland",
+      "x": 103.15625,
+      "y": 3404.1875,
+      "w": 844,
+      "h": 542
+    },
+    {
+      "src": "https://www.seanhalpin.xyz/about/photos/small-06.png",
+      "alt": "Paris, France",
+      "x": 963.15625,
+      "y": 3404.1875,
+      "w": 373.6875,
+      "h": 542
+    }
+  ]
+}

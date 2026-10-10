@@ -1,3 +1,4 @@
+import type { AboutSegment } from "@/content/about";
 import type { GettingStartedStep } from "@/content/getting-started";
 import type { Project } from "@/content/projects";
 import type { Testimonial } from "@/content/testimonials";
@@ -96,16 +97,9 @@ export const he = {
     development: {
       description:
         "אני הופכת את האפיון והעיצוב למוצר דיגיטלי עובד, עם פתרונות שמותאמים לצרכים שלכם. עד לפרטים הקטנים.",
-      demo: {
-        title: "המשימות שלי",
-        note: "ממשק לדוגמה",
-        wireframe: "סקיצה",
-        live: "ממשק חי",
-        activate: "להפוך למוצר",
-        reset: "חזרה לסקיצה",
-        before: "השלב הבא: להפוך את הסקיצה למוצר",
-        completed: "הושלמו",
-        tasks: ["אפיון המסך", "בניית הממשק"],
+      infinity: {
+        symbol: "סמל אינסוף",
+        dot: "הזזת הנקודה על סמל האינסוף",
       },
     },
     party: {
@@ -193,9 +187,47 @@ export const he = {
   },
   about: {
     heading: "קצת עליי",
-    information: "מידע עליי — להשלמה",
+    // Verbatim from the owner (2026-10-10); `strong` marks her bold phrases.
+    paragraphs: [
+      [
+        {
+          text: "אני עוזרת ליזמים, מנהלי מוצר ובעלי עסקים שמתמודדים עם קושי להעביר את הערך שלהם במרחב הדיגיטלי. הם השקיעו משאבים רבים בפיתוח המוצר או השירות שלהם, אבל ",
+        },
+        {
+          text: "חווית המשתמש הנוכחית עושה להם עוול וההשקעה יורדת לטמיון.",
+          strong: true,
+        },
+      ],
+      [
+        { text: "עם " },
+        {
+          text: "תואר אקדמי בטכנולוגיות למידה מ-H.I.T וניסיון של שנים בפיתוח",
+          strong: true,
+        },
+        { text: ", יצרתי תהליך לבניית מעטפת דיגיטלית " },
+        {
+          text: "מבוססת פרקטיקות מחקריות ומתודולוגיות מעולם שימור הקשב.",
+          strong: true,
+        },
+        {
+          text: " הכלים שאני יוצרת שונים בסוגם: אתרי תדמית, אפליקציות Web, מערכות מותאמות אישית וכלים אינטראקטיביים (כמו מחשבונים ואינפוגרפיקות). כולם כוללים חלוקת תוכן חכמה, משחקיות, אנימציות ומסע לקוח הדרגתי וברור.",
+        },
+      ],
+      [
+        {
+          text: "בסוף התהליך, הלקוחות שלי מצוידים בכלים דיגיטליים שעוזרים לקהל שלהם לעשות יותר עם פחות מאמץ, ומשיגים את המטרות העסקיות שלהם.",
+          strong: true,
+        },
+      ],
+    ] satisfies AboutSegment[][],
+    // Swap for the higher-resolution portrait when it arrives.
+    portrait: {
+      src: "/images/mor-avatar-cutout.webp",
+      width: 600,
+      height: 600,
+      alt: "מור",
+    },
     linkPlaceholder: "קישור לעמוד אודות — להחלטה",
-    visualLabel: "תמונה / ויזואל — להחלטה",
   },
   testimonials: {
     heading: "המלצות מלקוחות",

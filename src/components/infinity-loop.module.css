@@ -1,0 +1,67 @@
+/* A bold ink infinity sign with a secondary-colour bead. A dark ring keeps
+   the bead readable on the dark line (light theme) and the light line (dark
+   theme). The ink follows the theme and the secondary-surface fade. */
+.root {
+  color: var(--color-text-primary);
+}
+
+.svg {
+  display: block;
+  inline-size: 14rem;
+  max-inline-size: 100%;
+  block-size: auto;
+  overflow: visible;
+}
+
+.track {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Only the bead captures touch (see the touchstart handler); a swipe over
+   the sign still scrolls. */
+.dot {
+  cursor: grab;
+  outline: none;
+  touch-action: none;
+}
+
+.hit {
+  fill: transparent;
+}
+
+.bead {
+  fill: var(--color-secondary);
+  stroke: var(--color-dark);
+  stroke-width: 1.5;
+  transition: scale var(--duration-fast) var(--ease-standard);
+}
+
+.svg[data-dragging] .dot {
+  cursor: grabbing;
+}
+
+.svg[data-dragging] .bead,
+.dot:focus-visible .bead {
+  scale: 1.25;
+}
+
+.dot:focus-visible .bead {
+  stroke: var(--color-focus);
+  stroke-width: 2.5;
+}
+
+@media (hover: hover) {
+  .dot:hover .bead {
+    scale: 1.25;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bead {
+    transition: none;
+  }
+}
