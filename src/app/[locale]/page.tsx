@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { AboutMe } from "@/components/about-me";
+import { FaqAsk } from "@/components/faq-ask";
 import { GettingStarted } from "@/components/getting-started";
 import { HeroDescription } from "@/components/hero-description";
 import { HeroHeading } from "@/components/hero-heading";
@@ -25,6 +26,7 @@ import { isEnabledLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { projectCard } from "@/lib/cms/project-card";
 import { getPublicProjects } from "@/lib/cms/queries";
+import { WHATSAPP_URL } from "@/lib/whatsapp";
 
 export default async function Home({
   params,
@@ -218,6 +220,9 @@ export default async function Home({
                   </div>
                 </details>
               ))}
+            </div>
+            <div className="max-w-4xl">
+              <FaqAsk content={content.faq.ask} whatsappUrl={WHATSAPP_URL} />
             </div>
           </Section>
         </SecondaryScrollSurface>

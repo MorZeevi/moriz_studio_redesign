@@ -23,17 +23,28 @@ export async function serverSupabase() {
   });
 }
 
+const statelessOptions = {
+  auth: {
+    persistSession: false,
+    autoRefreshToken: false,
+    detectSessionInUrl: false,
+  },
+  global: {
+    fetch: (input: RequestInfo | URL, init?: RequestInit) =>
+      fetch(input, { ...init, cache: "no-store" }),
+  },
+};
+
 // Public reads never inherit an owner's cookies, even when browsing while logged in.
 export function publicSupabase() {
   const { url, key } = supabaseConfig();
-  return createClient<Database>(url, key, {
-    auth: {
-      persistSession: false,
-      autoRefreshToken: false,
-      detectSessionInUrl: false,
-    },
-    global: {
-      fetch: (input, init) => fetch(input, { ...init, cache: "no-store" }),
-    },
-  });
+  return createClient<Database>(url, key, statelessOptions);
+}
+
+// Bypasses RLS. Only for server code reading tables browsers cannot see.
+export function secretSupabase() {
+  const { url } = supabaseConfig();
+  const key = process.env.SUPABASE_SECRET_KEY;
+  if (!key) throw new Error("SUPABASE_SECRET_KEY is not configured.");
+  return createClient<Database>(url, key, statelessOptions);
 }

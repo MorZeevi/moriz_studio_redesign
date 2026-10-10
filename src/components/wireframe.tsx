@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { WHATSAPP_URL } from "@/lib/whatsapp";
 import { PartyHeadingLight } from "./party-mode/party-heading-light";
 import partyStyles from "./party-mode/party-mode.module.css";
 
@@ -77,12 +78,9 @@ export function FloatingWhatsApp({
 }: {
   labels: { label: string; unconfiguredLabel: string };
 }) {
-  const number =
-    process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || "972522937174";
-  const hasDestination = /^[1-9]\d{7,14}$/.test(number);
   const className = "floating-whatsapp";
 
-  if (!hasDestination) {
+  if (!WHATSAPP_URL) {
     return (
       <button
         type="button"
@@ -99,7 +97,7 @@ export function FloatingWhatsApp({
 
   return (
     <a
-      href={`https://wa.me/${number}`}
+      href={WHATSAPP_URL}
       className={className}
       aria-label={labels.label}
       data-whatsapp-state="configured"
