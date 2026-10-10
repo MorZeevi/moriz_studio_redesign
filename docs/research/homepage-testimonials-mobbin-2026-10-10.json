@@ -1,0 +1,434 @@
+{
+  "date": "2026-10-10",
+  "scope": "Research for the homepage testimonials section (#testimonials). The recommended direction is implemented as a local trial in src/components/testimonials.tsx and testimonials.module.css, with content in src/i18n/dictionaries/he.ts (testimonials.items); this record documents the research behind it.",
+  "assumption": "Owner request: Mobbin research, then the design judged best. No visible section heading (owner decision 2026-10-08). Quote wording verbatim; no invented names (placeholders marked “— להשלמה”).",
+  "method": "Three Mobbin section searches (page 1 each; further pages available) returned 34 results naming 31 distinct sites. Clay appears three times and Leonardo AI twice; section IDs were not retained for non-selected results, so whether these are duplicate sections is unknown. Seven selected images were downloaded at 1920 pixels wide; the Büro reference was carried over from the earlier structure research and converted from its local asset. Only the eight selected images were inspected for this record; rejections were assessed from previews during the search session.",
+  "capture_limits": "Download date is not capture or redesign date. Live source sites were not checked for this record. Static screenshots do not establish carousel, wrap-around, disabled-state or autoplay behavior, responsiveness, accessibility or conversion performance. Source screenshots are LTR; Moriz adaptations mirror them for RTL.",
+  "owner_update_2026_10_10": "Elementor role is “Product Marketing Director באלמנטור” ; the recommender is גבריאלה לסטר (Gabriella Laster) and it is now first. The previously unnamed website client is שי גורן, בעלת עסק לסדנאות.",
+  "testimonials_in_display_order": [
+    {
+      "order": 1,
+      "attribution": "גבריאלה לסטר, Product Marketing Director באלמנטור",
+      "length": "One paragraph",
+      "headline": null,
+      "image": "Round Elementor mark"
+    },
+    {
+      "order": 2,
+      "attribution": "טל לב, מטפלת סינית מוסמכת",
+      "length": "Five paragraphs",
+      "headline": "Verbatim excerpt from her final paragraph",
+      "image": "Portrait"
+    },
+    {
+      "order": 3,
+      "attribution": "אלבי בן שימול, ביטוחים ופיננסים",
+      "length": "Short",
+      "headline": "העבודה עם מור הייתה ברמה אחרת!",
+      "image": "Logo"
+    },
+    {
+      "order": 4,
+      "attribution": "שי גורן, בעלת עסק לסדנאות",
+      "length": "One paragraph",
+      "headline": null,
+      "image": "Portrait"
+    }
+  ],
+  "content_needed": [
+    "Elementor recommender’s name",
+    "Optional verbatim headlines for Elementor (candidate: “מור הביאה שילוב של מקצועיות, יצירתיות ויוזמה”) and Shay Goren (candidate: “בזכותה האתר יצא מדויק, מושך ועם טאץ' אישי”)",
+    "Publication permission for names, photos and logos",
+    "The fifth testimonial, its image and its position in the order"
+  ],
+  "directions": [
+    {
+      "name": "Spotlight + client index",
+      "status": "Recommended, implemented as a local trial",
+      "references": [
+        "Büro",
+        "V7",
+        "HoneyBook",
+        "Biograph",
+        "Attio"
+      ]
+    },
+    {
+      "name": "Büro stack",
+      "status": "Alternative",
+      "references": [
+        "Büro",
+        "Campsite"
+      ]
+    },
+    {
+      "name": "Equal card grid",
+      "status": "Rejected for now",
+      "references": [
+        "Campsite",
+        "Cursor"
+      ]
+    }
+  ],
+  "rejected_patterns": [
+    {
+      "pattern": "Carousels of equal cards",
+      "sites": [
+        "ElevenLabs",
+        "Clay",
+        "Chronicle",
+        "Resend"
+      ],
+      "reason": "Truncate or equalize long quotes."
+    },
+    {
+      "pattern": "Walls of love",
+      "sites": [
+        "Notion",
+        "Tailscale",
+        "Framer",
+        "Clay"
+      ],
+      "reason": "Need many short quotes; Moriz has four or five long ones."
+    },
+    {
+      "pattern": "Floating or rotated cards",
+      "sites": [
+        "FOLLOW.ART",
+        "Analogue Agency"
+      ],
+      "reason": "Playful, but hurt readability of long Hebrew text."
+    },
+    {
+      "pattern": "Centered single card with big avatar",
+      "sites": [
+        "Fresha",
+        "Copy.ai",
+        "15Five",
+        "MasterClass"
+      ],
+      "reason": "Generic SaaS look."
+    },
+    {
+      "pattern": "Not promoted, reasons not individually recorded",
+      "sites": [
+        "Jeton",
+        "Leonardo AI",
+        "Current",
+        "OpenPhone",
+        "Programa",
+        "GitHub",
+        "Ditto",
+        "Shade",
+        "Metalab",
+        "Steep",
+        "Better Stack"
+      ],
+      "reason": null
+    }
+  ],
+  "downloads": {
+    "attempted": 7,
+    "failed": 0,
+    "converted_from_existing_asset": [
+      "buro-testimonial"
+    ],
+    "format": "webp",
+    "max_width": 1920
+  },
+  "searches": [
+    {
+      "query": "Testimonials section with large featured quote, client photo and name, navigation between a few testimonials",
+      "tool": "mcp mobbin search_sections",
+      "output_destination": "code",
+      "page": 1,
+      "has_next_page": true,
+      "result_count": 12,
+      "sections": [
+        {
+          "site_name": "FOLLOW.ART"
+        },
+        {
+          "site_name": "ElevenLabs"
+        },
+        {
+          "site_name": "Jeton"
+        },
+        {
+          "id": "c88fcff1-cbaa-4aa3-afe4-aa757bf75fd5",
+          "image_url": "https://mobbin.com/api/mcp/short/lQ0lOusk",
+          "mobbin_url": "https://mobbin.com/sites/sections/c88fcff1-cbaa-4aa3-afe4-aa757bf75fd5",
+          "site_name": "V7"
+        },
+        {
+          "id": "07542141-06cc-4b9d-ab1e-d7e248ca4c4b",
+          "image_url": "https://mobbin.com/api/mcp/short/mOjGixYf",
+          "mobbin_url": "https://mobbin.com/sites/sections/07542141-06cc-4b9d-ab1e-d7e248ca4c4b",
+          "site_name": "HoneyBook"
+        },
+        {
+          "site_name": "Clay"
+        },
+        {
+          "site_name": "Leonardo AI"
+        },
+        {
+          "site_name": "15Five"
+        },
+        {
+          "id": "b170960d-5e07-4389-a3b7-df39dbcc298b",
+          "image_url": "https://mobbin.com/api/mcp/short/0JCSiyd1",
+          "mobbin_url": "https://mobbin.com/sites/sections/b170960d-5e07-4389-a3b7-df39dbcc298b",
+          "site_name": "The Performance Lab"
+        },
+        {
+          "site_name": "MasterClass"
+        },
+        {
+          "site_name": "Current"
+        },
+        {
+          "site_name": "OpenPhone"
+        }
+      ]
+    },
+    {
+      "query": "Testimonial cards grid with long quotes, avatar, name and role, for an agency or studio website",
+      "tool": "mcp mobbin search_sections",
+      "output_destination": "code",
+      "page": 1,
+      "has_next_page": true,
+      "result_count": 12,
+      "sections": [
+        {
+          "site_name": "Programa"
+        },
+        {
+          "site_name": "Clay"
+        },
+        {
+          "site_name": "Notion"
+        },
+        {
+          "site_name": "Analogue Agency"
+        },
+        {
+          "site_name": "Tailscale"
+        },
+        {
+          "id": "146dd81b-925f-479d-b55c-2677c86f2fdd",
+          "image_url": "https://mobbin.com/api/mcp/short/HWhvQDlt",
+          "mobbin_url": "https://mobbin.com/sites/sections/146dd81b-925f-479d-b55c-2677c86f2fdd",
+          "site_name": "Cursor"
+        },
+        {
+          "site_name": "Resend"
+        },
+        {
+          "site_name": "Clay"
+        },
+        {
+          "site_name": "GitHub"
+        },
+        {
+          "id": "0f7e44da-1c97-49af-a22e-72226338d032",
+          "image_url": "https://mobbin.com/api/mcp/short/eojO9b4K",
+          "mobbin_url": "https://mobbin.com/sites/sections/0f7e44da-1c97-49af-a22e-72226338d032",
+          "site_name": "Campsite"
+        },
+        {
+          "site_name": "Framer"
+        },
+        {
+          "site_name": "Chronicle"
+        }
+      ]
+    },
+    {
+      "query": "Design studio portfolio site client testimonial with big editorial pull quote headline and longer full review text below, client name and business",
+      "tool": "mcp mobbin search_sections",
+      "output_destination": "code",
+      "page": 1,
+      "has_next_page": true,
+      "result_count": 10,
+      "sections": [
+        {
+          "site_name": "Ditto"
+        },
+        {
+          "site_name": "Fresha"
+        },
+        {
+          "site_name": "Copy.ai"
+        },
+        {
+          "id": "2ce67fb5-10f1-49fa-8ba6-e94d7bf516aa",
+          "image_url": "https://mobbin.com/api/mcp/short/yW1U7CdZ",
+          "mobbin_url": "https://mobbin.com/sites/sections/2ce67fb5-10f1-49fa-8ba6-e94d7bf516aa",
+          "site_name": "Attio"
+        },
+        {
+          "id": "a1250520-2c12-46b5-8d5c-faef84b04395",
+          "image_url": "https://mobbin.com/api/mcp/short/P5Cz1Qit",
+          "mobbin_url": "https://mobbin.com/sites/sections/a1250520-2c12-46b5-8d5c-faef84b04395",
+          "site_name": "Biograph"
+        },
+        {
+          "site_name": "Shade"
+        },
+        {
+          "site_name": "Metalab"
+        },
+        {
+          "site_name": "Steep"
+        },
+        {
+          "site_name": "Leonardo AI"
+        },
+        {
+          "site_name": "Better Stack"
+        }
+      ]
+    }
+  ],
+  "selected": [
+    {
+      "id": "3e179ff8-d623-4415-9848-be2e5ecdb66c",
+      "image_url": null,
+      "mobbin_url": "https://mobbin.com/sites/sections/3e179ff8-d623-4415-9848-be2e5ecdb66c",
+      "site_name": "Büro",
+      "slug": "buro-testimonial",
+      "group": "Attribution and identity",
+      "pattern": "Large quote with a separate attribution column",
+      "fit": "Strong layout reference",
+      "observed": "A fine rule runs across the top. A small name, organization and role sit in a narrow column on the left; a large two-paragraph quote fills the right half. Only one quote is visible, with no controls in the crop.",
+      "application": "Use this for the attribution column and the idea of one substantial spotlight quote. In RTL the identity column moves to the right and becomes the client index.",
+      "tradeoff": "Without other quotes or controls, a section of four or five testimonials would turn into the long Büro stack. The capture shows a long quote at full size; Tal’s five paragraphs at that scale would dominate the page.",
+      "context": "Carried over from the earlier structure research. That record found testimonials on Büro’s current homepage and contact page, but with quotes that differ from this capture. Original capture page unconfirmed.",
+      "live_url": "https://www.burocratik.com/",
+      "number": 1,
+      "local_image": "assets/homepage-testimonials-2026-10-10/buro-testimonial.webp",
+      "source_note": "Not returned by this session’s searches. Taken from docs/research/mobbin-homepage-structure-2025-2026.md section 4; the WebP was converted from the existing local asset assets/mobbin-homepage-structure-2025-2026/buro-testimonial.jpg rather than re-downloaded.",
+      "prior_local_image": "assets/mobbin-homepage-structure-2025-2026/buro-testimonial.jpg"
+    },
+    {
+      "id": "c88fcff1-cbaa-4aa3-afe4-aa757bf75fd5",
+      "image_url": "https://mobbin.com/api/mcp/short/lQ0lOusk",
+      "mobbin_url": "https://mobbin.com/sites/sections/c88fcff1-cbaa-4aa3-afe4-aa757bf75fd5",
+      "site_name": "V7",
+      "slug": "v7-photo-quote-next",
+      "group": "Spotlight and navigation",
+      "pattern": "Photo, serif quote, small Next pill and progress dashes",
+      "fit": "Navigation reference",
+      "observed": "A framed square portrait sits on the left. A large three-line serif quote fills the right with a small dark “Next” pill beside its last line. The name and role follow below, and three short dashes at the far right mark progress, the first darker. Product workflow rows appear above and a feature heading below.",
+      "application": "One quote at a time with an understated next control and position indicator. Moriz’s trial uses a numbered counter and two arrows instead of dashes, so position is readable as text.",
+      "tradeoff": "The large portrait suits faces, but two of Moriz’s images are logos or brand marks. A “Next”-only control does not let a visitor jump to a specific client; the index solves that.",
+      "context": "Product-page context with product UI around the section. Original capture page unconfirmed; live site not checked.",
+      "live_url": null,
+      "number": 2,
+      "local_image": "assets/homepage-testimonials-2026-10-10/v7-photo-quote-next.webp"
+    },
+    {
+      "id": "2ce67fb5-10f1-49fa-8ba6-e94d7bf516aa",
+      "image_url": "https://mobbin.com/api/mcp/short/yW1U7CdZ",
+      "mobbin_url": "https://mobbin.com/sites/sections/2ce67fb5-10f1-49fa-8ba6-e94d7bf516aa",
+      "site_name": "Attio",
+      "slug": "attio-logo-column-quote",
+      "group": "Attribution and identity",
+      "pattern": "Company logo column with “Read the full story” beside the quote",
+      "fit": "Identity column reference",
+      "observed": "The left column holds a client company logo at the top and a “Read the full story” link at the bottom. The right column holds a four-line quote above a square avatar with name and role. Product UI appears above and a large feature heading below.",
+      "application": "An identity column beside the quote supports mixing logos and portraits, which matters for Elbi’s logo and the Elementor mark. Its separate read-more action informs Moriz’s in-place להמשך קריאה toggle.",
+      "tradeoff": "The capture shows a link to a fuller story. The trial expands the text in place instead of linking away.",
+      "context": "Product-page context. Original capture page unconfirmed; live site not checked.",
+      "live_url": null,
+      "number": 3,
+      "local_image": "assets/homepage-testimonials-2026-10-10/attio-logo-column-quote.webp"
+    },
+    {
+      "id": "07542141-06cc-4b9d-ab1e-d7e248ca4c4b",
+      "image_url": "https://mobbin.com/api/mcp/short/mOjGixYf",
+      "mobbin_url": "https://mobbin.com/sites/sections/07542141-06cc-4b9d-ab1e-d7e248ca4c4b",
+      "site_name": "HoneyBook",
+      "slug": "honeybook-counter-arrows",
+      "group": "Spotlight and navigation",
+      "pattern": "Name eyebrow, bold quote, round arrows with a “1 of 3” counter",
+      "fit": "Control reference",
+      "observed": "A section heading (“See what our members are saying”) and subheading sit above two columns. The left column has a name and role line, a bold three-line quote, a “Read India’s spotlight” link, and round previous and next buttons beside a “1 of 3” counter. A large rounded photo fills the right column. The previous button looks paler than the next button.",
+      "application": "The counter beside two round arrows is the direct model for the trial’s controls, and the link under the quote supports a read-more affordance.",
+      "tradeoff": "The visible heading is not borrowed (owner decision: no heading). The static capture does not prove whether the pale previous button is disabled or whether the sequence wraps; the trial wraps around. A large lifestyle photo would need images Moriz does not have.",
+      "context": "Marketing-page context with site navigation visible. Original capture page unconfirmed; live site not checked.",
+      "live_url": null,
+      "number": 4,
+      "local_image": "assets/homepage-testimonials-2026-10-10/honeybook-counter-arrows.webp"
+    },
+    {
+      "id": "a1250520-2c12-46b5-8d5c-faef84b04395",
+      "image_url": "https://mobbin.com/api/mcp/short/P5Cz1Qit",
+      "mobbin_url": "https://mobbin.com/sites/sections/a1250520-2c12-46b5-8d5c-faef84b04395",
+      "site_name": "Biograph",
+      "slug": "biograph-centered-pull-quote",
+      "group": "Spotlight and navigation",
+      "pattern": "Centered large serif pull quote with small attribution",
+      "fit": "Typography reference",
+      "observed": "A small spaced “TESTIMONIALS” eyebrow sits above a large centered three-line serif quote. A small square avatar, a name with a verified badge and a credential line follow, then four pagination indicators with the second elongated and dark.",
+      "application": "The pull-quote scale shows how a short headline can carry the section. That is the role of the Danidin headline above the Leon body text, when a headline is supplied.",
+      "tradeoff": "This works because the quote is one sentence; Moriz’s long testimonials need body text below the headline. The eyebrow heading is not borrowed. Centered text is harder to read across several Hebrew paragraphs.",
+      "context": "Marketing-page context with site navigation and a statistics row below. Original capture page unconfirmed; live site not checked.",
+      "live_url": null,
+      "number": 5,
+      "local_image": "assets/homepage-testimonials-2026-10-10/biograph-centered-pull-quote.webp"
+    },
+    {
+      "id": "b170960d-5e07-4389-a3b7-df39dbcc298b",
+      "image_url": "https://mobbin.com/api/mcp/short/0JCSiyd1",
+      "mobbin_url": "https://mobbin.com/sites/sections/b170960d-5e07-4389-a3b7-df39dbcc298b",
+      "site_name": "The Performance Lab",
+      "slug": "performance-lab-huge-name",
+      "group": "Attribution and identity",
+      "pattern": "Dark section, large client name beside the quote",
+      "fit": "Exploration",
+      "observed": "On a dark background, a small monospaced “WHAT OUR CLIENTS SAY” label sits top left above a large client name with a small mark. A five-line quote and a monospaced credential line sit on the right. No navigation control is visible. The very large “FEATURED FROM” text and two image cards below belong to the next section.",
+      "application": "An exploration for a bolder treatment, with the client name as typography on one side and the quote on the other. It could suit Moriz’s Danidin display font in a later variant.",
+      "tradeoff": "While the Elementor recommender’s name is pending (“— להשלמה”), a name-led layout would expose the missing attribution; logos and brand marks also fit a name-led layout less well. The label is not borrowed. A dark section would need its own contrast check against the surrounding bg-surface sections.",
+      "context": "Section context only. Original capture page unconfirmed; live site not checked.",
+      "live_url": null,
+      "number": 6,
+      "local_image": "assets/homepage-testimonials-2026-10-10/performance-lab-huge-name.webp"
+    },
+    {
+      "id": "0f7e44da-1c97-49af-a22e-72226338d032",
+      "image_url": "https://mobbin.com/api/mcp/short/eojO9b4K",
+      "mobbin_url": "https://mobbin.com/sites/sections/0f7e44da-1c97-49af-a22e-72226338d032",
+      "site_name": "Campsite",
+      "slug": "campsite-ruled-quote-grid",
+      "group": "Grids",
+      "pattern": "2×2 ruled grid of serif quotes",
+      "fit": "Alternative composition",
+      "observed": "Four quotes form a two-by-two grid separated by thin rules. Each has a rounded company icon, a three- to four-line serif quote and a round avatar with name and role. The quotes are of similar length, so the cells look balanced. No section heading is visible in the crop.",
+      "application": "The cleanest version of the grid direction, with rules instead of card backgrounds, consistent with Moriz’s ruled Projects section.",
+      "tradeoff": "The grid only looks balanced because the quotes are three to four lines each. Tal’s five paragraphs beside Elbi’s two sentences would break the rhythm or require truncation.",
+      "context": "Section context only. Original capture page unconfirmed; live site not checked.",
+      "live_url": null,
+      "number": 7,
+      "local_image": "assets/homepage-testimonials-2026-10-10/campsite-ruled-quote-grid.webp"
+    },
+    {
+      "id": "146dd81b-925f-479d-b55c-2677c86f2fdd",
+      "image_url": "https://mobbin.com/api/mcp/short/HWhvQDlt",
+      "mobbin_url": "https://mobbin.com/sites/sections/146dd81b-925f-479d-b55c-2677c86f2fdd",
+      "site_name": "Cursor",
+      "slug": "cursor-equal-card-grid",
+      "group": "Grids",
+      "pattern": "3×2 grid of equal light cards",
+      "fit": "Counter-example",
+      "observed": "A centered heading sits above six equal light cards in two rows. Each card holds a quote of four to six lines with a small square avatar, name and role pinned to the bottom. Shorter quotes leave blank space above the footer.",
+      "application": "A counter-example. Even with a narrow spread of quote lengths, equal cards leave visible gaps; Moriz’s spread from about 30 to about 150 words is much wider.",
+      "tradeoff": "Equal heights keep the grid tidy but waste space or force truncation. The visible heading is not borrowed.",
+      "context": "Section context only. Original capture page unconfirmed; live site not checked.",
+      "live_url": null,
+      "number": 8,
+      "local_image": "assets/homepage-testimonials-2026-10-10/cursor-equal-card-grid.webp"
+    }
+  ]
+}
