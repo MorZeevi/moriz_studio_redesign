@@ -1,0 +1,29 @@
+.status {
+  width: calc(100% - 1.5rem);
+  max-width: var(--diagnostic-content-width);
+  margin-block: 4rem;
+  margin-inline: auto;
+  padding-block: 1.5rem;
+  padding-inline: 1rem;
+  text-align: center;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: var(--public-text-size);
+}
+
+.error {
+  width: calc(100% - 1.5rem);
+  max-width: var(--diagnostic-content-width);
+  margin-block: 4rem;
+  margin-inline: auto;
+  padding-block: 1.25rem;
+  padding-inline: 1rem;
+  text-align: start;
+  color: var(--error);
+  background: color-mix(in srgb, var(--error) 8%, var(--surface));
+  border-inline-start: 3px solid var(--error);
+  border-radius: 6px;
+  font-size: var(--public-text-size);
+}

@@ -1,0 +1,102 @@
+.landing {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  width: calc(100% - 1.5rem);
+  max-width: var(--diagnostic-content-width);
+  margin-block: clamp(1rem, 4vh, 2rem);
+  margin-inline: auto;
+  padding-block: clamp(2rem, 8vw, 3.5rem);
+  padding-inline: clamp(1.25rem, 6vw, 3rem);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: var(--public-text-size);
+  text-align: start;
+}
+
+.copy {
+  flex: 1 1 26rem;
+  min-width: 0;
+}
+
+.portrait {
+  display: flex;
+  flex: 0 1 16rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.profileImage {
+  width: min(100%, 16rem);
+  height: auto;
+}
+
+.landing h1 {
+  font-size: clamp(2.25rem, 7vw, 3.5rem);
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+.landing p {
+  max-width: 32rem;
+  margin-block-start: 1rem;
+  color: var(--muted);
+  font-size: var(--public-text-size);
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+.landing .reassurance {
+  color: var(--foreground);
+  font-weight: 900;
+}
+
+.startButton {
+  min-height: 2.75rem;
+  margin-block-start: 1.75rem;
+  padding-block: 0.75rem;
+  padding-inline: 2rem;
+  background: var(--secondary);
+  color: var(--foreground);
+  border: 1px solid var(--secondary);
+  border-radius: 6px;
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.startButton:hover {
+  background: color-mix(in srgb, var(--secondary) 86%, black);
+}
+
+.startButton:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+}
+
+@media (max-width: 44rem) {
+  .landing {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .copy {
+    flex-basis: auto;
+  }
+
+  .portrait {
+    order: -1;
+    flex-basis: auto;
+  }
+
+  .profileImage {
+    width: min(58vw, 14rem);
+  }
+
+  .landing p {
+    margin-inline: auto;
+  }
+}

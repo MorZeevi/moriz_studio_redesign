@@ -1,0 +1,77 @@
+/*
+ * Moriz Diagnostic global styles. Loaded only by src/app/digital-audit/layout.tsx
+ * and scoped to the html[data-diagnostic-app] attribute that layout sets, so they
+ * cannot repaint the rest of the Moriz website. Selectors are wrapped in :where()
+ * to keep the zero/element-level specificity the standalone app had, which the CSS
+ * Modules rely on.
+ * CSS url() is not auto-prefixed: the font literals mirror BASE_PATH
+ * (src/diagnostic/basePath.ts); the files live in public/digital-audit/fonts/.
+ */
+@font-face {
+  font-family: "Manhattan";
+  src: url("/digital-audit/fonts/Manhattan.woff2") format("woff2");
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Futurism";
+  src: url("/digital-audit/fonts/Futurism.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Futurism";
+  src: url("/digital-audit/fonts/Futurism-Black.woff2") format("woff2");
+  font-weight: 900;
+  font-style: bold;
+  font-display: swap;
+}
+
+html[data-diagnostic-app] {
+  --background: #f7f6f3;
+  --foreground: #3c3744;
+  --primary: #824c71;
+  --secondary: #d6f379;
+  --third: #d6f379;
+  --surface: #ffffff;
+  --muted: #625b6b;
+  --border: #cfc9d2;
+  --error: #9f2430;
+  --public-text-size: 1.125rem;
+  --diagnostic-content-width: 50rem;
+}
+
+:where([data-diagnostic-app], [data-diagnostic-app] *) {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:where(html[data-diagnostic-app], html[data-diagnostic-app] body) {
+  min-height: 100%;
+}
+
+:where(html[data-diagnostic-app] body) {
+  direction: rtl;
+  min-width: 20rem;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Futurism", Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:where(html[data-diagnostic-app] :is(h1, h2, h3)) {
+  font-family: "Manhattan", "Futurism", Arial, Helvetica, sans-serif;
+  font-weight: 400;
+}
+
+:where(html[data-diagnostic-app] :is(button, input, textarea, select)) {
+  font: inherit;
+  color: inherit;
+}

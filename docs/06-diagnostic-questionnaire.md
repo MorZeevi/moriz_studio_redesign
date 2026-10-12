@@ -1,5 +1,7 @@
 # Existing Diagnostic Questionnaire
 
+> Update: the existing diagnostic now runs in this repo at `/digital-audit`, transplanted unchanged. See [digital-audit.md](digital-audit.md). The sections below are still the planning template for its later visual redesign.
+
 ## Supplied context
 
 The Diagnostic Questionnaire already exists in the current website. Its purpose is to:

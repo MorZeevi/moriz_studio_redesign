@@ -1,0 +1,134 @@
+.personalized {
+  margin-block-start: 1.75rem;
+  padding-block-start: 1.25rem;
+  border-block-start: 1px solid var(--border);
+  font-size: var(--public-text-size);
+}
+
+.summary {
+  color: var(--muted);
+  margin-block-end: 1rem;
+}
+
+/* --- prominent branded AI loading (P9c Item 2) --- */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 8rem;
+  padding-block: 1rem;
+  text-align: center;
+}
+
+.loadingTitle {
+  color: var(--primary);
+  font-size: clamp(1.25rem, 5vw, 1.6rem);
+}
+
+.loadingDots {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.loadingDots span {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--primary);
+  animation: dotPulse 1.2s ease-in-out infinite;
+}
+
+.loadingDots span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.loadingDots span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* Grid-stack the three lines in one cell so height is reserved by the tallest
+   and only the currently-faded-in line is visible — no React state needed. */
+.statusLines {
+  display: grid;
+  min-height: 1.5rem;
+}
+
+.statusLine {
+  grid-area: 1 / 1;
+  color: var(--muted);
+  font-size: var(--public-text-size);
+  opacity: 0;
+  animation: statusCycle 9s linear infinite;
+}
+
+.statusLine:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.statusLine:nth-child(2) {
+  animation-delay: 3s;
+}
+
+.statusLine:nth-child(3) {
+  animation-delay: 6s;
+}
+
+.fadeIn {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dotPulse {
+  0%,
+  60%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-0.15rem);
+  }
+}
+
+@keyframes statusCycle {
+  0% {
+    opacity: 0;
+  }
+  4%,
+  29% {
+    opacity: 1;
+  }
+  33%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Reduced motion: no cycling/pulsing — a calm static branded state. */
+@media (prefers-reduced-motion: reduce) {
+  .fadeIn,
+  .loadingDots span,
+  .statusLine {
+    animation: none;
+  }
+  .loadingDots span {
+    opacity: 0.6;
+    transform: none;
+  }
+  .statusLine {
+    opacity: 0;
+  }
+  .statusLine:nth-child(1) {
+    opacity: 1;
+  }
+}
