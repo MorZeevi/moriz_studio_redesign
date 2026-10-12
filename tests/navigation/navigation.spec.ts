@@ -1,7 +1,19 @@
 import { expect, type Page, test } from "@playwright/test";
 
-const labels = ["פרויקטים", "קצת עלי", "איך מתחילים", "שאלות תשובות"];
-const destinations = ["#projects", "#about", "#getting-started", "#faq"];
+const labels = [
+  "פרויקטים",
+  "קצת עלי",
+  "איך מתחילים",
+  "שאלות תשובות",
+  "אבחון דיגיטלי",
+];
+const destinations = [
+  "#projects",
+  "#about",
+  "#getting-started",
+  "#faq",
+  "/digital-audit",
+];
 const navSelector = ".desktop-navigation";
 
 function link(page: Page, href: string) {
@@ -236,6 +248,7 @@ test("mobile keeps its original menu and closes it when entering desktop", async
   await expect(page.locator(".navigation-links a")).toHaveText([
     "פרויקטים",
     "קצת עליי",
+    "אבחון דיגיטלי",
     "יצירת קשר",
   ]);
   await page.keyboard.press("Escape");

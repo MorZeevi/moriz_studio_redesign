@@ -1,0 +1,116 @@
+.result {
+  width: calc(100% - 1.5rem);
+  max-width: var(--diagnostic-content-width);
+  margin-block: clamp(0.75rem, 3vw, 1.5rem);
+  margin-inline: auto;
+  padding-block: clamp(1.5rem, 6vw, 2.5rem);
+  padding-inline: clamp(1.25rem, 5vw, 2rem);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: var(--public-text-size);
+}
+
+.result section {
+  margin-block-start: 1.75rem;
+}
+
+.result h1,
+.result h2 {
+  margin-block-end: 0.5rem;
+}
+
+.result h1 {
+  padding-block: 0.75rem;
+  padding-inline: 1rem;
+  color: var(--on-secondary);
+  background: var(--secondary);
+  border-radius: var(--radius-md);
+  text-wrap: balance;
+}
+
+.tierBadge {
+  display: inline-block;
+  padding-block: 0.25rem;
+  padding-inline: 0.75rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--primary) 12%, var(--surface));
+  color: var(--primary-ink);
+  font-size: var(--public-text-size);
+  font-weight: 900;
+  margin-block-end: 0.75rem;
+}
+
+.description {
+  color: var(--muted);
+  margin-block-end: 1.5rem;
+}
+
+.nextStep {
+  border-block-start: 1px solid var(--border);
+  padding-block-start: 1rem;
+}
+
+.secondary {
+  color: var(--muted);
+  font-size: var(--public-text-size);
+  margin-block-start: 1rem;
+}
+
+.ctaArea {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 5rem;
+  margin-block-start: 1.5rem;
+  padding-block-start: 1.25rem;
+  border-block-start: 1px solid var(--border);
+}
+
+.cta {
+  width: min(100%, 24rem);
+  min-height: 4rem;
+  padding-block: 1rem;
+  padding-inline: clamp(1.5rem, 6vw, 2.5rem);
+  background: var(--secondary);
+  color: var(--on-secondary);
+  border: var(--border-width-strong) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  font-weight: 900;
+  cursor: pointer;
+  transition: background-color 160ms ease-out, border-color 160ms ease-out, transform 160ms ease-out;
+}
+
+.personalizedCtaArea {
+  min-height: 0;
+  margin-block-start: 1rem;
+  padding-block: 0 0.5rem;
+  border-block-start: 0;
+}
+
+.cta:hover {
+  background: color-mix(in srgb, var(--secondary) 88%, white);
+  border-color: var(--foreground);
+  transform: translateY(-2px);
+}
+
+.cta:focus-visible {
+  outline: 3px solid var(--foreground);
+  outline-offset: 3px;
+}
+
+.cta:active {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta {
+    transition: none;
+  }
+
+  .cta:hover,
+  .cta:active {
+    transform: none;
+  }
+}

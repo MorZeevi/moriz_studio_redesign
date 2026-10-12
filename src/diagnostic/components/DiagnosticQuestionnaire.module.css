@@ -1,0 +1,104 @@
+.questionnaire {
+  width: calc(100% - 1.5rem);
+  max-width: var(--diagnostic-content-width);
+  margin-block: clamp(0.75rem, 3vw, 1.5rem);
+  margin-inline: auto;
+  padding-block: clamp(1.25rem, 5vw, 2rem);
+  padding-inline: clamp(1rem, 5vw, 2rem);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: var(--public-text-size);
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-block-start: 1.5rem;
+}
+
+.actions button {
+  flex: 1;
+  min-height: 2.75rem;
+  padding-block: 0.75rem;
+  padding-inline: 1rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-size: var(--public-text-size);
+  font-weight: var(--font-weight-label);
+  cursor: pointer;
+}
+
+.actions button:first-child {
+  background: transparent;
+  color: var(--foreground);
+  border-color: var(--border);
+}
+
+.actions button:last-child {
+  background: var(--secondary);
+  color: var(--on-secondary);
+  border-color: var(--color-border-strong);
+}
+
+.actions button:first-child:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--foreground) 5%, transparent);
+  border-color: color-mix(in srgb, var(--foreground) 45%, var(--border));
+}
+
+.actions button:last-child:hover:not(:disabled) {
+  background: var(--color-action-secondary-hover);
+}
+
+.actions button:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.actions button:disabled {
+  background: color-mix(in srgb, var(--foreground) 12%, var(--background));
+  color: color-mix(in srgb, var(--foreground) 58%, var(--background));
+  border-color: color-mix(in srgb, var(--foreground) 18%, var(--background));
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.actions button:first-child:disabled {
+  background: transparent;
+  color: color-mix(in srgb, var(--foreground) 58%, var(--background));
+  border-color: var(--border);
+}
+
+.status {
+  text-align: center;
+  width: calc(100% - 1.5rem);
+  max-width: var(--diagnostic-content-width);
+  margin-block: 4rem;
+  margin-inline: auto;
+  padding-block: 1.5rem;
+  padding-inline: 1rem;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: var(--public-text-size);
+}
+
+.error {
+  width: calc(100% - 1.5rem);
+  max-width: var(--diagnostic-content-width);
+  margin-block-start: 0.75rem;
+  margin-inline: auto;
+  padding-block: 0.75rem;
+  padding-inline: 1rem;
+  color: var(--error);
+  background: color-mix(in srgb, var(--error) 8%, var(--surface));
+  border-inline-start: 3px solid var(--error);
+  border-radius: var(--radius-md);
+  font-size: var(--public-text-size);
+  text-align: start;
+}
+
+.questionnaire .error {
+  width: 100%;
+}

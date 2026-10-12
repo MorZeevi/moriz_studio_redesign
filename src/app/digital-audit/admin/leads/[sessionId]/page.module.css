@@ -1,0 +1,588 @@
+.page {
+  min-height: 100vh;
+  padding-block: clamp(1rem, 4vw, 3rem);
+  padding-inline: clamp(0.75rem, 4vw, 2rem);
+  overflow-x: hidden;
+}
+
+.shell {
+  width: 100%;
+  max-width: 64rem;
+  min-width: 0;
+  margin-inline: auto;
+}
+
+.shellHeader {
+  padding-block: clamp(1.25rem, 4vw, 2rem);
+  padding-inline: clamp(1rem, 4vw, 2rem);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.headerBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.brand {
+  color: var(--primary-ink);
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.contextLabel {
+  padding-block: 0.25rem;
+  padding-inline: 0.75rem;
+  color: var(--on-secondary);
+  background: var(--secondary);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+.backLink {
+  color: var(--primary-ink);
+  font-size: 0.9rem;
+  font-weight: 900;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.backLink:hover {
+  color: var(--primary-ink-hover);
+}
+
+.backLink:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.shellHeader h1 {
+  margin-block-start: 0.75rem;
+  font-size: clamp(2rem, 6vw, 3.25rem);
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+}
+
+.testBanner {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  width: 100%;
+  margin-block-start: 1rem;
+  padding-block: 1rem;
+  padding-inline: 1rem;
+  color: var(--warning-ink);
+  background: color-mix(in srgb, #b8860b 10%, var(--surface));
+  border: 1px solid color-mix(in srgb, #b8860b 38%, var(--surface));
+  border-inline-start: 4px solid #b8860b;
+  border-radius: var(--radius-md);
+}
+
+.testBanner p {
+  margin-block-start: 0.2rem;
+  margin-block-end: 0;
+  color: var(--muted);
+}
+
+.testBadge,
+.testClassificationBadge,
+.realClassificationBadge {
+  display: inline-block;
+  padding-block: 0.25rem;
+  padding-inline: 0.7rem;
+  border-radius: 999px;
+  font-family: "Futurism", Arial, Helvetica, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.testBadge,
+.testClassificationBadge {
+  color: var(--warning-ink);
+  background: color-mix(in srgb, #b8860b 16%, var(--surface));
+  border: 1px solid color-mix(in srgb, #b8860b 45%, var(--surface));
+}
+
+.realClassificationBadge {
+  color: var(--primary-ink);
+  background: color-mix(in srgb, var(--primary) 10%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--primary) 36%, var(--surface));
+}
+
+.section {
+  margin-block-start: 1rem;
+  padding-block: clamp(1.25rem, 4vw, 2rem);
+  padding-inline: clamp(1rem, 4vw, 2rem);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.section h2 {
+  margin-block-end: 1rem;
+  font-size: clamp(1.35rem, 4vw, 1.75rem);
+  line-height: 1.2;
+}
+
+.list {
+  margin: 0;
+}
+
+.row {
+  display: flex;
+  gap: clamp(0.75rem, 3vw, 1.5rem);
+  padding-block: 0.875rem;
+  border-block-end: 1px solid var(--border);
+}
+
+.row:last-child {
+  border-block-end: 0;
+  padding-block-end: 0;
+}
+
+.row dt {
+  flex: 0 0 14rem;
+  color: var(--muted);
+  font-weight: 900;
+}
+
+.row dd {
+  min-width: 0;
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.signals {
+  margin: 0;
+  padding-inline-start: 1.25rem;
+}
+
+.signals li + li {
+  margin-block-start: 0.35rem;
+}
+
+.flag,
+.error {
+  width: 100%;
+  margin-block-start: 1rem;
+  padding-block: 1rem;
+  padding-inline: 1rem;
+  text-align: start;
+  color: var(--error);
+  background: color-mix(in srgb, var(--error) 8%, var(--surface));
+  border-inline-start: 3px solid var(--error);
+  border-radius: var(--radius-md);
+}
+
+.flag {
+  font-weight: 900;
+}
+
+.status,
+.success {
+  width: 100%;
+  margin-block-start: 1rem;
+  padding-block: 1rem;
+  padding-inline: 1rem;
+  text-align: center;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.success {
+  color: var(--primary-ink);
+  background: color-mix(in srgb, var(--primary) 8%, var(--surface));
+  border-inline-start: 3px solid var(--primary);
+  font-weight: 900;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.fieldLabel {
+  display: block;
+  margin-block-start: 1.25rem;
+  margin-block-end: 0.35rem;
+  font-weight: 900;
+}
+
+.blockHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.textareaWrap {
+  position: relative;
+}
+
+.textarea {
+  display: block;
+  width: 100%;
+  min-height: 8rem;
+  padding-block: 0.75rem;
+  padding-inline: 0.875rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font: inherit;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  resize: vertical;
+}
+
+.loadingOverlay {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding-block: 1rem;
+  padding-inline: 1rem;
+  text-align: center;
+  background: var(--surface);
+  border-radius: var(--radius-md);
+}
+
+.loadingTitle {
+  margin: 0;
+  color: var(--primary-ink);
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+
+.loadingDots {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.loadingDots span {
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--primary);
+  border-radius: 50%;
+  animation: dotPulse 1.2s ease-in-out infinite;
+}
+
+.loadingDots span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.loadingDots span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.fadeIn {
+  animation: fadeIn 0.3s ease-in;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.textarea:focus-visible {
+  border-color: var(--color-focus);
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.copyButton,
+.actionButton,
+.primaryButton,
+.approveButton {
+  min-height: 2.75rem;
+  padding-block: 0.65rem;
+  padding-inline: 1rem;
+  border-radius: var(--radius-md);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.copyButton {
+  min-height: 2.25rem;
+  padding-block: 0.4rem;
+  color: var(--primary-ink);
+  background: var(--surface);
+  border: 1px solid var(--primary);
+  font-size: 0.85rem;
+}
+
+.actionButton {
+  color: var(--on-secondary);
+  background: var(--secondary);
+  border: 1px solid color-mix(in srgb, var(--foreground) 28%, transparent);
+}
+
+.primaryButton {
+  color: var(--on-primary);
+  background: var(--primary-fill);
+  border: 1px solid var(--primary-fill);
+}
+
+.approveButton {
+  color: var(--primary-ink);
+  background: var(--surface);
+  border: 1px solid var(--primary);
+}
+
+.copyButton:hover:not(:disabled),
+.approveButton:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--primary) 8%, var(--surface));
+}
+
+.actionButton:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--secondary) 84%, white);
+}
+
+.primaryButton:hover:not(:disabled) {
+  background: var(--color-action-primary-hover);
+}
+
+.copyButton:focus-visible,
+.actionButton:focus-visible,
+.primaryButton:focus-visible,
+.approveButton:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.copyButton:disabled,
+.actionButton:disabled,
+.primaryButton:disabled,
+.approveButton:disabled {
+  color: color-mix(in srgb, var(--foreground) 58%, var(--background));
+  background: color-mix(in srgb, var(--foreground) 12%, var(--background));
+  border-color: color-mix(in srgb, var(--foreground) 18%, var(--background));
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.buttons {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-block-start: 1.25rem;
+}
+
+.statusControl {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.classificationControl {
+  margin-block-start: 1rem;
+}
+
+.classificationSuccess {
+  margin-block-start: 0.75rem;
+  margin-block-end: 0;
+  color: var(--primary-ink);
+  font-weight: 900;
+}
+
+.classificationRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.destructiveButton,
+.restoreButton {
+  min-height: 2.75rem;
+  padding-block: 0.65rem;
+  padding-inline: 1rem;
+  border-radius: var(--radius-md);
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.destructiveButton {
+  color: white;
+  background: var(--error-fill);
+  border: 1px solid var(--error-fill);
+}
+
+.restoreButton {
+  color: var(--primary-ink);
+  background: var(--surface);
+  border: 1px solid var(--primary);
+}
+
+.destructiveButton:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--error-fill) 86%, black);
+}
+
+.restoreButton:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--primary) 8%, var(--surface));
+}
+
+.destructiveButton:focus-visible,
+.restoreButton:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.destructiveButton:disabled,
+.restoreButton:disabled {
+  color: color-mix(in srgb, var(--foreground) 58%, var(--background));
+  background: color-mix(in srgb, var(--foreground) 12%, var(--background));
+  border-color: color-mix(in srgb, var(--foreground) 18%, var(--background));
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.statusSelect {
+  min-height: 2.75rem;
+  padding-block: 0.5rem;
+  padding-inline: 0.75rem;
+  color: var(--foreground);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font: inherit;
+}
+
+.statusSelect:focus-visible {
+  border-color: var(--color-focus);
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.statusSelect:disabled {
+  color: color-mix(in srgb, var(--foreground) 58%, var(--background));
+  background: color-mix(in srgb, var(--foreground) 12%, var(--background));
+  cursor: not-allowed;
+}
+
+.badgeDraft,
+.badgeApproved,
+.badgeEmpty,
+.inlineBadge {
+  display: inline-block;
+  padding-block: 0.2rem;
+  padding-inline: 0.65rem;
+  border-radius: 999px;
+  font-family: "Futurism", Arial, Helvetica, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 900;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.badgeApproved {
+  color: var(--on-primary);
+  background: var(--primary-fill);
+  border: 1px solid var(--primary-fill);
+}
+
+.badgeDraft {
+  color: var(--on-secondary);
+  background: var(--secondary);
+  border: 1px solid color-mix(in srgb, var(--foreground) 28%, transparent);
+}
+
+.badgeEmpty {
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px dashed var(--border);
+}
+
+.inlineBadge {
+  color: var(--muted);
+  background: color-mix(in srgb, var(--foreground) 6%, var(--surface));
+  border: 1px solid var(--border);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dotPulse {
+  0%,
+  60%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+
+  30% {
+    opacity: 1;
+    transform: translateY(-0.15rem);
+  }
+}
+
+@media (max-width: 40rem) {
+  .shellHeader h1 {
+    font-size: clamp(1.8rem, 11vw, 2.5rem);
+  }
+
+  .row {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .row dt {
+    flex-basis: auto;
+  }
+
+  .blockHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .buttons > button {
+    flex: 1 1 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fadeIn,
+  .loadingDots span {
+    animation: none;
+  }
+
+  .loadingDots span {
+    opacity: 0.6;
+    transform: none;
+  }
+}

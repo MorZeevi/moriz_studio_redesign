@@ -4,3 +4,8 @@
 @import "../styles/wireframe.css";
 @import "../styles/pixel-reveal.css";
 @import "../styles/theme.css";
+
+/* Moriz Diagnostic (/digital-audit) styles itself; keep Tailwind from scanning it and emitting utilities into the site. */
+@source not "../diagnostic";
+@source not "../diagnostic-core";
+@source not "./digital-audit";

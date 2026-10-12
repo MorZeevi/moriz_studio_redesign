@@ -164,8 +164,11 @@ CMS migrations:
 - `20261012120100_cms_services_backfill.sql`: copies legacy service tags into
   service terms and links them. Idempotent.
 
-This Supabase project is shared with another app whose migration
-`20261008190000` is not in this repository, so `supabase db push` refuses to run.
+This Supabase project is shared with other apps whose migrations are not all in
+this repository (for example the Eyal Diagnostic's), so `supabase db push` can
+refuse to run. `20261008190000_diagnostic_session_source.sql` is the Moriz
+Diagnostic's `diagnostic_sessions.source` column, already applied remotely and
+kept here byte-identical to the Moriz Diagnostic repo as a file only.
 Apply a new migration with `npx supabase db query --linked -f <file>` and then
 `npx supabase migration repair --status applied <version>`. Never mark
 `20261008190000` as reverted.

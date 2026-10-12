@@ -1,0 +1,103 @@
+.step {
+  margin-block-end: 1.5rem;
+  min-width: 0;
+}
+
+.stageTitle {
+  font-size: var(--public-text-size);
+  font-weight: 900;
+  color: var(--primary-ink);
+  margin-block-end: 0.25rem;
+  overflow-wrap: break-word;
+}
+
+.stageSubtitle {
+  font-size: var(--public-text-size);
+  color: var(--muted);
+  margin-block-end: 0.75rem;
+  overflow-wrap: break-word;
+}
+
+.prompt {
+  font-size: clamp(1.85rem, 7vw, 2.5rem);
+  line-height: 1.1;
+  margin-block-end: 0.625rem;
+  overflow-wrap: break-word;
+}
+
+.help {
+  font-size: var(--public-text-size);
+  color: var(--muted);
+  margin-block-end: 1rem;
+  overflow-wrap: break-word;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  min-width: 0;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  min-height: 2.75rem;
+  padding-block: 0.75rem;
+  padding-inline: 0.875rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: var(--public-text-size);
+  cursor: pointer;
+  line-height: 1.35;
+  overflow-wrap: break-word;
+}
+
+.option:hover {
+  background: color-mix(in srgb, var(--primary) 5%, var(--surface));
+  border-color: color-mix(in srgb, var(--primary) 55%, var(--border));
+}
+
+.option:has(input:checked) {
+  background: color-mix(in srgb, var(--primary) 12%, var(--surface));
+  border-color: var(--primary);
+  border-inline-start-width: 3px;
+}
+
+.option:focus-within {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.option input {
+  flex: 0 0 auto;
+  width: 1.125rem;
+  height: 1.125rem;
+  accent-color: var(--primary);
+}
+
+.textarea {
+  width: 100%;
+  min-height: 7.5rem;
+  padding-block: 0.75rem;
+  padding-inline: 0.875rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: var(--public-text-size);
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.textarea::placeholder {
+  color: color-mix(in srgb, var(--muted) 82%, transparent);
+}
+
+.textarea:focus-visible {
+  border-color: var(--color-focus);
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: 2px;
+}

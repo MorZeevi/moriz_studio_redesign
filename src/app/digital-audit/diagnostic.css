@@ -1,0 +1,106 @@
+/*
+ * Moriz Diagnostic global styles. Loaded only by src/app/digital-audit/layout.tsx
+ * and scoped to the html[data-diagnostic-app] attribute that layout sets, so they
+ * cannot repaint the rest of the Moriz website. Selectors are wrapped in :where()
+ * to keep the zero/element-level specificity the standalone app had, which the CSS
+ * Modules rely on.
+ * CSS url() is not auto-prefixed: the font literals mirror BASE_PATH
+ * (src/diagnostic/basePath.ts); the files live in public/digital-audit/fonts/.
+ */
+@font-face {
+  font-family: "Manhattan";
+  src: url("/digital-audit/fonts/Manhattan.woff2") format("woff2");
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Futurism";
+  src: url("/digital-audit/fonts/Futurism.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Futurism";
+  src: url("/digital-audit/fonts/Futurism-Black.woff2") format("woff2");
+  font-weight: 900;
+  font-style: bold;
+  font-display: swap;
+}
+
+/*
+ * Palette, type and radii come from the website's tokens (globals.css, theme.css), so
+ * the funnel and its admin follow the site's light/dark theme. Component CSS keeps
+ * using these short names.
+ */
+html[data-diagnostic-app] {
+  --background: var(--color-background);
+  --foreground: var(--color-text-primary);
+  --primary: var(--site-heading-accent);
+  --primary-fill: var(--color-action-primary);
+  --primary-ink: color-mix(in srgb, var(--primary) 85%, var(--color-dark));
+  --primary-ink-hover: color-mix(in srgb, var(--primary) 70%, var(--color-dark));
+  --on-primary: var(--color-text-inverse);
+  --secondary: var(--color-secondary);
+  --on-secondary: var(--color-dark);
+  --third: var(--color-secondary);
+  --surface: var(--site-card);
+  --muted: var(--color-text-secondary);
+  --border: var(--color-border);
+  --error: #9f2430;
+  --error-fill: #9f2430;
+  --warning-ink: #6f4f0b;
+  --public-text-size: 1.125rem;
+  --diagnostic-content-width: 50rem;
+}
+
+html[data-diagnostic-app][data-theme="dark"] {
+  --primary: #ff7a82;
+  --primary-ink: #ffa3a9;
+  --primary-ink-hover: #ffc4c8;
+  --error: #ff8a93;
+  --warning-ink: #e3bd62;
+}
+
+:where([data-diagnostic-app], [data-diagnostic-app] *) {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:where(html[data-diagnostic-app], html[data-diagnostic-app] body) {
+  min-height: 100%;
+}
+
+:where(html[data-diagnostic-app] body) {
+  direction: rtl;
+  min-width: 20rem;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:where(html[data-diagnostic-app] :is(h1, h2, h3, h4, h5, h6)) {
+  /* The site's CSS reset flattens these; the funnel was designed with browser defaults. */
+  font-size: revert;
+}
+
+:where(html[data-diagnostic-app] :is(ul, ol)) {
+  list-style: revert;
+}
+
+:where(html[data-diagnostic-app] :is(h1, h2, h3)) {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display);
+}
+
+:where(html[data-diagnostic-app] :is(button, input, textarea, select)) {
+  font: inherit;
+  color: inherit;
+}
