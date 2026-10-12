@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { type CSSProperties, Fragment } from "react";
 import type { Project } from "@/content/projects";
-import type { EnabledLocale } from "@/i18n/config";
+import type { Locale } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
 import { PartyHeadingLight } from "./party-mode/party-heading-light";
 import { LiquidLink } from "./ui/liquid-link";
@@ -12,8 +12,9 @@ import { ProjectScrollSurface } from "./project-scroll-surface";
 import styles from "./projects.module.css";
 import { CategoryTags } from "./category-tags";
 import Noise from "./react-bits/Noise";
+import { CoverVideo } from "./cover-video";
 
-type ProjectLabels = SiteContent["projects"];
+type ProjectLabels = Omit<SiteContent["projects"], "items">;
 
 export function ProjectArrow({ back = false }: { back?: boolean }) {
   return (
@@ -43,7 +44,14 @@ export function ProjectMedia({
 }) {
   return (
     <div className={styles.media}>
-      {project.image ? (
+      {project.video ? (
+        <CoverVideo
+          src={project.video.src}
+          poster={project.video.poster}
+          label={project.image?.alt ?? project.title}
+          className={styles.image}
+        />
+      ) : project.image ? (
         <Image
           src={project.image.src}
           alt={project.image.alt}
@@ -62,6 +70,20 @@ export function ProjectMedia({
         </div>
       )}
     </div>
+  );
+}
+
+export function ProjectHighlight({
+  highlight,
+}: {
+  highlight: Project["highlight"];
+}) {
+  if (!highlight?.value) return null;
+  return (
+    <p className={styles.cardHighlight}>
+      <bdi className={styles.cardHighlightValue}>{highlight.value}</bdi>
+      <span>{highlight.label}</span>
+    </p>
   );
 }
 
@@ -110,7 +132,7 @@ export function ProjectsSection({
   partyReaction = false,
   projects,
 }: {
-  locale: EnabledLocale;
+  locale: Locale;
   content: ProjectLabels;
   collection?: boolean;
   partyReaction?: boolean;
@@ -199,6 +221,7 @@ export function ProjectsSection({
                     <p className={styles.contribution}>
                       {project.contribution ?? content.contributionPlaceholder}
                     </p>
+                    <ProjectHighlight highlight={project.highlight} />
                     <CategoryTags categories={project.categories ?? []} />
                   </div>
                   {project.slug ? (
@@ -238,12 +261,16 @@ export function ProjectsSection({
               </h3>
               <ProjectMedia project={project} label={content.visualLabel} />
               <div className={styles.information}>
+                {project.type && (
+                  <p className={styles.projectType}>{project.type}</p>
+                )}
                 <p className={styles.description}>
                   {project.description ?? content.descriptionPlaceholder}
                 </p>
                 <p className={styles.contribution}>
                   {project.contribution ?? content.contributionPlaceholder}
                 </p>
+                <ProjectHighlight highlight={project.highlight} />
                 <CategoryTags categories={project.categories ?? []} />
                 <div className={styles.rowDetails}>
                   <ProjectAccordion

@@ -1,34 +1,55 @@
 "use client";
 import { useId, useRef, useState } from "react";
-import { browserSupabase } from "@/lib/supabase/browser";
-import { MAX_UPLOAD_BYTES, MEDIA_TYPES } from "@/lib/cms/validation";
-import { removeUnusedUpload } from "@/app/admin/actions";
 import { Button } from "@/components/ui/button";
+import { isVideoSrc } from "@/lib/cms/validation";
+import type { ProjectMediaItem } from "@/types/project";
+import {
+  acceptedTypes,
+  checkFile,
+  type UploadKind,
+  uploadFile,
+} from "./upload";
 import styles from "./admin.module.css";
 
-const extensions: Record<string, string> = {
-  "image/jpeg": "jpg",
-  "image/png": "png",
-  "image/webp": "webp",
-  "image/avif": "avif",
-  "image/gif": "gif",
-  "video/mp4": "mp4",
-  "video/webm": "webm",
-};
+export function MediaPreview({ src, label }: { src: string; label: string }) {
+  return isVideoSrc(src) ? (
+    <video
+      src={src}
+      controls
+      muted
+      playsInline
+      preload="metadata"
+      aria-label={label}
+    />
+  ) : (
+    // biome-ignore lint/performance/noImgElement: Authenticated previews must bypass image optimization and shared caching.
+    <img src={src} alt={label} />
+  );
+}
+/**
+ * One media slot: upload a file or pick one already in the project gallery.
+ * Uploads are added to the gallery (onUploaded); removing only unlinks the
+ * slot. Files are deleted from the gallery tab only.
+ */
 export function MediaUpload({
   projectId,
   value,
   onChange,
+  onUploaded,
   kind = "image",
   label,
   onBusy,
+  choices = [],
 }: {
   projectId: string;
   value: string | null;
   onChange: (value: string | null) => void;
-  kind?: "image" | "video";
+  onUploaded?: (item: ProjectMediaItem) => void;
+  kind?: UploadKind;
   label: string;
   onBusy: (busy: boolean) => void;
+  /** Gallery files that may fill this slot. */
+  choices?: ProjectMediaItem[];
 }) {
   const id = useId();
   const input = useRef<HTMLInputElement>(null);
@@ -36,43 +57,24 @@ export function MediaUpload({
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
   const [drag, setDrag] = useState(false);
+  const options = choices.filter((item) =>
+    kind === "any" || kind === "logo" ? true : item.kind === kind,
+  );
   async function upload(file: File) {
     if (working.current) return;
-    if (
-      !(MEDIA_TYPES as readonly string[]).includes(file.type) ||
-      !file.type.startsWith(`${kind}/`)
-    ) {
-      setError(
-        kind === "image"
-          ? "יש לבחור JPEG, PNG, WebP, AVIF או GIF."
-          : "יש לבחור סרטון MP4 או WebM.",
-      );
-      return;
-    }
-    if (file.size > MAX_UPLOAD_BYTES || file.size === 0) {
-      setError("יש לבחור קובץ עד 50 MiB שאינו ריק.");
+    const problem = checkFile(file, kind);
+    if (problem) {
+      setError(problem);
       return;
     }
     working.current = true;
     setPending(true);
     onBusy(true);
     setError("");
-    const path = `${projectId}/${crypto.randomUUID()}.${extensions[file.type]}`;
     try {
-      const client = browserSupabase();
-      const { error: uploadError } = await client.storage
-        .from("project-media")
-        .upload(path, file, {
-          contentType: file.type,
-          upsert: false,
-          cacheControl: "0",
-        });
-      if (uploadError) throw uploadError;
-      if (value) {
-        const cleanup = await removeUnusedUpload(value);
-        if (!cleanup.ok) setError("הקובץ הועלה. הקובץ הקודם נשאר באחסון.");
-      }
-      onChange(`/media/${path}`);
+      const item = await uploadFile(projectId, file);
+      onUploaded?.(item);
+      onChange(item.src);
     } catch {
       setError(
         "ההעלאה נכשלה. בדקו את החיבור או התחברו שוב ונסו שנית. הקובץ הקודם נשמר.",
@@ -107,43 +109,54 @@ export function MediaUpload({
       }}
     >
       <label htmlFor={id}>{label}</label>
-      {value &&
-        (kind === "video" ? (
-          <video
-            src={value}
-            controls
-            muted
-            playsInline
-            preload="metadata"
-            aria-label={label}
-          />
-        ) : (
-          // biome-ignore lint/performance/noImgElement: Authenticated previews must bypass image optimization and shared caching.
-          <img src={value} alt={label} />
-        ))}
+      {value && <MediaPreview src={value} label={label} />}
       <input
         id={id}
         ref={input}
         type="file"
         disabled={pending}
-        accept={MEDIA_TYPES.filter((type) => type.startsWith(`${kind}/`)).join(
-          ",",
-        )}
+        accept={acceptedTypes(kind).join(",")}
         onChange={(e) => {
           const file = e.target.files?.[0];
           if (file) void upload(file);
         }}
       />
       <p className={styles.hint}>אפשר לגרור קובץ לכאן. עד 50 MiB.</p>
+      {!!options.length && (
+        <details className={styles.picker}>
+          <summary>בחירה מהגלריה</summary>
+          <div className={styles.pickerGrid}>
+            {options.map((item) => (
+              <button
+                key={item.src}
+                type="button"
+                className={styles.pickerItem}
+                aria-pressed={item.src === value}
+                aria-label={`בחירת ${item.alt || item.src.split("/").pop()}`}
+                onClick={() => onChange(item.src)}
+              >
+                {item.kind === "video" ? (
+                  item.poster ? (
+                    // biome-ignore lint/performance/noImgElement: Authenticated previews must bypass image optimization.
+                    <img src={item.poster} alt="" />
+                  ) : (
+                    <span>וידאו</span>
+                  )
+                ) : (
+                  // biome-ignore lint/performance/noImgElement: Authenticated previews must bypass image optimization.
+                  <img src={item.src} alt="" loading="lazy" />
+                )}
+              </button>
+            ))}
+          </div>
+        </details>
+      )}
       {value && (
         <Button
           size="sm"
           variant="ghost"
           disabled={pending}
-          onClick={() => {
-            onChange(null);
-            void removeUnusedUpload(value);
-          }}
+          onClick={() => onChange(null)}
         >
           הסרת קובץ
         </Button>

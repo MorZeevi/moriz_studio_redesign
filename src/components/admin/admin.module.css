@@ -235,3 +235,196 @@
 .editorFields:disabled {
   pointer-events: none;
 }
+/* CMS v2 ---------------------------------------------------------------- */
+.toolbar .error,
+.toolbar .status {
+  flex-basis: 100%;
+  margin: 0;
+}
+.toolbar .status:empty {
+  display: none;
+}
+.localized {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  border-block-end: 1px solid var(--color-border);
+  margin-block-end: var(--space-4);
+}
+.tabs [role="tab"] {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-block-size: 2.75rem;
+  padding: var(--space-2) var(--space-4);
+  border: 0;
+  border-block-end: 3px solid transparent;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.tabs [role="tab"][aria-selected="true"] {
+  font-weight: 900;
+  border-block-end-color: currentColor;
+}
+.tabs [role="tab"]:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+}
+.badge,
+.badgeOk {
+  display: inline-flex;
+  align-items: center;
+  margin-inline-start: var(--space-2);
+  padding: 0 var(--space-2);
+  border-radius: 999px;
+  font-size: var(--text-body-sm);
+  line-height: 1.6;
+  font-weight: 700;
+}
+.badge {
+  background: var(--color-action-primary);
+  color: var(--color-light);
+}
+.badgeOk {
+  border: 1px solid var(--color-border-strong);
+}
+.readiness {
+  margin-block-end: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+}
+.readiness summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+.readiness ul {
+  margin: var(--space-3) 0 0;
+  padding-inline-start: var(--space-5, 1.25rem);
+}
+.readiness li[data-severity="error"] {
+  font-weight: 700;
+}
+.readiness button {
+  background: none;
+  border: 0;
+  padding: var(--space-1) 0;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.subnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-block: var(--space-3);
+}
+.subnav a[aria-current="page"] {
+  font-weight: 900;
+}
+.picker {
+  margin-block: var(--space-3);
+}
+.picker summary {
+  cursor: pointer;
+}
+.pickerGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(5.5rem, 1fr));
+  gap: var(--space-2);
+  margin-block-start: var(--space-3);
+}
+.pickerItem {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 2px solid var(--color-border);
+  background: var(--color-surface);
+  cursor: pointer;
+  overflow: hidden;
+}
+.pickerItem[aria-pressed="true"] {
+  border-color: var(--color-dark);
+  outline: 2px solid var(--color-action-primary);
+}
+.galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
+  gap: var(--space-4);
+  margin-block-start: var(--space-4);
+}
+.galleryItem {
+  border: 1px solid var(--color-border);
+  padding: var(--space-3);
+  margin: 0;
+  min-inline-size: 0;
+  block-size: 100%;
+}
+.galleryPreview {
+  display: grid;
+  place-items: center;
+  /* Checkerboard keeps transparent logos and PNGs readable. */
+  background:
+    repeating-conic-gradient(
+      var(--color-surface) 0% 25%,
+      var(--color-background) 0% 50%
+    )
+    50% / 16px 16px;
+}
+.galleryPreview img,
+.galleryPreview video {
+  display: block;
+  max-inline-size: 100%;
+  max-block-size: 14rem;
+  object-fit: contain;
+}
+.subsections {
+  border-inline-start: 2px solid var(--color-border);
+  padding-inline-start: var(--space-4);
+  margin-block: var(--space-4);
+}
+.subsections h3 {
+  margin: 0 0 var(--space-2);
+  font-size: 1rem;
+}
+.subsections fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0 0 var(--space-4);
+}
+.block[data-hidden] {
+  opacity: 0.6;
+  border-style: dashed;
+}
+.upload .pickerItem img {
+  inline-size: 100%;
+  block-size: 100%;
+  max-block-size: none;
+  margin: 0;
+  object-fit: cover;
+}
+@media (max-width: 640px) {
+  .localized {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+.sortable {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+fieldset.subnav {
+  border: 0;
+  padding: 0;
+  min-inline-size: 0;
+}

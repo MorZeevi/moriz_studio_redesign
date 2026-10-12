@@ -8,16 +8,17 @@ import { getAdminProject } from "@/lib/cms/queries";
 import {
   MEDIA_PATH,
   mediaReferences,
+  projectReadiness,
   slugify,
   UUID,
   validateProject,
 } from "@/lib/cms/validation";
 import { serverSupabase } from "@/lib/supabase/server";
 import type { Json } from "@/types/database.types";
-import type { Category, ProjectInput } from "@/types/project";
+import type { Project, ProjectInput, Term, TermKind } from "@/types/project";
 
 type Result<T = undefined> =
-  | { ok: true; data: T; warning?: string }
+  | { ok: true; data: T; warnings?: string[] }
   | { ok: false; error: string };
 function failure(error: unknown): Result<never> {
   if (error && typeof error === "object" && "code" in error) {
@@ -45,12 +46,13 @@ function refreshPortfolio() {
   revalidatePath("/admin/projects");
   revalidatePath("/admin/categories");
 }
+/** Every column that can point at a stored file. */
+const MEDIA_COLUMNS =
+  "cover_image_url,homepage_image_url,projects_image_url,og_image_url,content,media";
 async function cleanupMedia(candidates: string[]) {
   if (!candidates.length) return;
   const client = await requireAdmin();
-  const { data, error } = await client
-    .from("projects")
-    .select("cover_image_url,homepage_image_url,projects_image_url,content");
+  const { data, error } = await client.from("projects").select(MEDIA_COLUMNS);
   if (error) throw error;
   const used = new Set((data ?? []).flatMap(mediaReferences));
   const paths = candidates
@@ -63,6 +65,24 @@ async function cleanupMedia(candidates: string[]) {
     if (storageError) throw storageError;
   }
 }
+/** The editable shape of a stored project, with its term links as ids. */
+function toInput(project: Project): ProjectInput {
+  const {
+    categories,
+    services,
+    type,
+    created_at: _created,
+    updated_at: _updated,
+    ...input
+  } = project;
+  return {
+    ...input,
+    category_ids: categories.map((t) => t.id),
+    service_ids: services.map((t) => t.id),
+    type_id: type?.id ?? null,
+  };
+}
+const CLEAR_ERRORS = "כדי לפרסם יש להשלים: ";
 export async function saveProject(
   input: ProjectInput,
 ): Promise<Result<{ id: string }>> {
@@ -72,23 +92,62 @@ export async function saveProject(
       ...input,
       slug:
         typeof input.slug === "string" ? input.slug.trim() || null : input.slug,
+      title: input.title.trim(),
     };
     validateProject(input);
     const existing = await getAdminProject(input.id);
-    const { id, category_ids, ...fields } = input;
-    const normalized = {
-      ...fields,
-      title: fields.title.trim(),
-      services: [...new Set(fields.services.map((s) => s.trim()))],
-    };
+    const warnings: string[] = [];
+    if (input.published) {
+      // Only the first publish is gated; live projects are never blocked.
+      const { errors } = projectReadiness(input);
+      if (errors.length && !existing?.published)
+        return {
+          ok: false,
+          error: CLEAR_ERRORS + errors.map((e) => e.message).join(" "),
+        };
+      warnings.push(...errors.map((e) => e.message));
+    }
+    const {
+      id,
+      category_ids,
+      service_ids,
+      type_id,
+      legacy_services: _legacy,
+      ...fields
+    } = input;
+    const termIds = [
+      ...category_ids,
+      ...service_ids,
+      ...(type_id ? [type_id] : []),
+    ];
+    const { data: terms, error: termsError } = termIds.length
+      ? await client.from("categories").select("id,kind,name").in("id", termIds)
+      : { data: [], error: null };
+    if (termsError) throw termsError;
+    const kindOf = new Map((terms ?? []).map((t) => [t.id, t.kind]));
+    if (
+      category_ids.some((t) => kindOf.get(t) !== "category") ||
+      service_ids.some((t) => kindOf.get(t) !== "service") ||
+      (type_id && kindOf.get(type_id) !== "type")
+    )
+      return {
+        ok: false,
+        error: "קטגוריה, שירות או סוג שנבחרו כבר אינם קיימים. רעננו ונסו שוב.",
+      };
+    const nameOf = new Map((terms ?? []).map((t) => [t.id, t.name]));
     const { error } = await client.rpc("cms_save_project", {
       project_id: id,
-      project_data: JSON.parse(JSON.stringify(normalized)) as Json,
-      category_ids,
+      project_data: JSON.parse(
+        JSON.stringify({
+          ...fields,
+          // Mirror of the managed services for anything still reading text.
+          services: service_ids.map((t) => nameOf.get(t) ?? ""),
+        }),
+      ) as Json,
+      category_ids: termIds,
     });
     if (error) throw error;
     refreshPortfolio();
-    let warning: string | undefined;
     try {
       await cleanupMedia(
         existing
@@ -98,10 +157,11 @@ export async function saveProject(
           : [],
       );
     } catch {
-      warning =
-        "הפרויקט נשמר. חלק מהקבצים הישנים נשארו באחסון וניתן לנקות אותם בהמשך.";
+      warnings.push(
+        "הפרויקט נשמר. חלק מהקבצים הישנים נשארו באחסון וניתן לנקות אותם בהמשך.",
+      );
     }
-    return { ok: true, data: { id }, warning };
+    return { ok: true, data: { id }, warnings };
   } catch (error) {
     return failure(error);
   }
@@ -113,17 +173,7 @@ export async function setPublished(
   await requireAdmin();
   const project = await getAdminProject(id);
   if (!project) return { ok: false, error: "הפרויקט לא נמצא." };
-  const {
-    categories,
-    created_at: _created,
-    updated_at: _updated,
-    ...input
-  } = project;
-  return saveProject({
-    ...input,
-    published,
-    category_ids: categories.map((c) => c.id),
-  });
+  return saveProject({ ...toInput(project), published });
 }
 export async function deleteProject(id: string): Promise<Result> {
   const client = await requireAdmin();
@@ -138,7 +188,7 @@ export async function deleteProject(id: string): Promise<Result> {
     return {
       ok: true,
       data: undefined,
-      warning: "הפרויקט נמחק. חלק מהקבצים נשארו באחסון.",
+      warnings: ["הפרויקט נמחק. חלק מהקבצים נשארו באחסון."],
     };
   }
   return { ok: true, data: undefined };
@@ -149,12 +199,7 @@ export async function duplicateProject(
   await requireAdmin();
   const existing = await getAdminProject(id);
   if (!existing) return { ok: false, error: "הפרויקט לא נמצא." };
-  const {
-    categories,
-    created_at: _created,
-    updated_at: _updated,
-    ...input
-  } = existing;
+  const input = toInput(existing);
   const newId = randomUUID();
   return saveProject({
     ...input,
@@ -162,60 +207,99 @@ export async function duplicateProject(
     title: `${input.title} — העתק`,
     slug: input.slug ? `${input.slug}-copy-${newId.slice(0, 8)}` : null,
     published: false,
-    category_ids: categories.map((c) => c.id),
   });
 }
-export async function createCategory(
-  rawName: string,
-): Promise<Result<Category>> {
+export async function reorderProjects(
+  surface: "homepage" | "projects",
+  ids: string[],
+): Promise<Result> {
   const client = await requireAdmin();
-  const name = rawName.trim().replace(/\s+/g, " ");
-  if (!name || name.length > 100)
-    return { ok: false, error: "יש להזין שם קטגוריה באורך עד 100 תווים." };
-  let slug = slugify(name) || `category-${randomUUID().slice(0, 8)}`;
+  if (ids.some((id) => !UUID.test(id)) || new Set(ids).size !== ids.length)
+    return { ok: false, error: "סדר הפרויקטים אינו תקין." };
+  const { error } = await client.rpc("cms_reorder_projects", { surface, ids });
+  if (error) return failure(error);
+  refreshPortfolio();
+  return { ok: true, data: undefined };
+}
+const TERM_KINDS: TermKind[] = ["category", "service", "type"];
+const TERM_LABEL: Record<TermKind, string> = {
+  category: "קטגוריה",
+  service: "שירות",
+  type: "סוג פרויקט",
+};
+function cleanName(raw: string) {
+  return raw.trim().replace(/\s+/g, " ");
+}
+export async function createTerm(
+  kind: TermKind,
+  rawName: string,
+  rawNameEn = "",
+): Promise<Result<Term>> {
+  const client = await requireAdmin();
+  const name = cleanName(rawName);
+  const name_en = cleanName(rawNameEn) || null;
+  if (!TERM_KINDS.includes(kind))
+    return { ok: false, error: "סוג הרשימה אינו תקין." };
+  if (!name || name.length > 100 || (name_en?.length ?? 0) > 100)
+    return {
+      ok: false,
+      error: `יש להזין שם ${TERM_LABEL[kind]} באורך עד 100 תווים.`,
+    };
+  let slug =
+    slugify(name_en ?? "") ||
+    slugify(name) ||
+    `${kind}-${randomUUID().slice(0, 8)}`;
   const { data: collision } = await client
     .from("categories")
     .select("id")
+    .eq("kind", kind)
     .eq("slug", slug)
     .maybeSingle();
   if (collision) slug = `${slug}-${randomUUID().slice(0, 8)}`;
   const { data, error } = await client
     .from("categories")
-    .insert({ name, slug })
+    .insert({ name, name_en, slug, kind })
     .select()
     .single();
   if (error) return failure(error);
   refreshPortfolio();
-  return { ok: true, data };
+  return { ok: true, data: data as Term };
 }
-export async function renameCategory(
+export async function updateTerm(
   id: string,
   rawName: string,
+  rawNameEn = "",
 ): Promise<Result> {
   const client = await requireAdmin();
-  const name = rawName.trim().replace(/\s+/g, " ");
-  if (!UUID.test(id) || !name || name.length > 100)
-    return { ok: false, error: "יש להזין שם קטגוריה תקין." };
+  const name = cleanName(rawName);
+  const name_en = cleanName(rawNameEn) || null;
+  if (
+    !UUID.test(id) ||
+    !name ||
+    name.length > 100 ||
+    (name_en?.length ?? 0) > 100
+  )
+    return { ok: false, error: "יש להזין שם תקין." };
   const { error } = await client
     .from("categories")
-    .update({ name })
+    .update({ name, name_en })
     .eq("id", id);
   if (error) return failure(error);
   refreshPortfolio();
   return { ok: true, data: undefined };
 }
-export async function deleteCategory(id: string): Promise<Result> {
+export async function deleteTerm(id: string): Promise<Result> {
   const client = await requireAdmin();
-  if (!UUID.test(id)) return { ok: false, error: "קטגוריה אינה תקינה." };
+  if (!UUID.test(id)) return { ok: false, error: "הפריט אינו תקין." };
   const { error } = await client.from("categories").delete().eq("id", id);
   if (error) return failure(error);
   refreshPortfolio();
   return { ok: true, data: undefined };
 }
-export async function reorderCategories(ids: string[]): Promise<Result> {
+export async function reorderTerms(ids: string[]): Promise<Result> {
   const client = await requireAdmin();
   if (ids.some((id) => !UUID.test(id)) || new Set(ids).size !== ids.length)
-    return { ok: false, error: "סדר הקטגוריות אינו תקין." };
+    return { ok: false, error: "הסדר אינו תקין." };
   const results = await Promise.all(
     ids.map((id, sort_order) =>
       client.from("categories").update({ sort_order }).eq("id", id),

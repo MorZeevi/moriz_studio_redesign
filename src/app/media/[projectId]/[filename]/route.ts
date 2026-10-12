@@ -41,6 +41,9 @@ export async function GET(request: Request, { params }: Params) {
   const outgoing = new Headers({
     "Cache-Control": "private, no-store",
     "X-Content-Type-Options": "nosniff",
+    // Logos may be SVG: opened directly, a file must never run script.
+    "Content-Security-Policy":
+      "default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline'; sandbox",
   });
   for (const header of [
     "content-type",
@@ -51,6 +54,8 @@ export async function GET(request: Request, { params }: Params) {
     const value = upstream.headers.get(header);
     if (value) outgoing.set(header, value);
   }
+  if (filename.toLowerCase().endsWith(".svg"))
+    outgoing.set("content-type", "image/svg+xml");
   return new Response(upstream.body, {
     status: upstream.status,
     headers: outgoing,

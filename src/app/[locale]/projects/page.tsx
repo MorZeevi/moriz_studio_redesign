@@ -6,6 +6,8 @@ import { ProjectArrow, ProjectsSection } from "@/components/projects-section";
 import { FloatingActions } from "@/components/floating-actions";
 import { isEnabledLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
+import { projectCopy } from "@/i18n/project-copy";
+import { termName } from "@/lib/cms/localize";
 import { getPublicProjects } from "@/lib/cms/queries";
 import { projectCard } from "@/lib/cms/project-card";
 import { CategoryTags } from "@/components/category-tags";
@@ -33,6 +35,7 @@ export default async function ProjectsPage({
   const { locale } = await params;
   if (!isEnabledLocale(locale)) notFound();
   const content = await getDictionary(locale);
+  const copy = projectCopy[locale];
   const projects = await getPublicProjects("projects");
   const { category: selectedCategory } = await searchParams;
   const categories = [
@@ -73,7 +76,7 @@ export default async function ProjectsPage({
         {!!categories.length && (
           <nav
             className="site-container"
-            aria-label="סינון פרויקטים לפי קטגוריה"
+            aria-label={copy.filterLabel}
             style={{
               display: "flex",
               flexWrap: "wrap",
@@ -85,7 +88,7 @@ export default async function ProjectsPage({
               href={`/${locale}/projects`}
               aria-current={!selectedCategory ? "page" : undefined}
             >
-              הכל
+              {copy.all}
             </Link>
             {categories.map((category) => (
               <Link
@@ -95,20 +98,25 @@ export default async function ProjectsPage({
                   selectedCategory === category.slug ? "page" : undefined
                 }
               >
-                <CategoryTags categories={[category]} />
+                <CategoryTags
+                  label={copy.categories}
+                  categories={[
+                    { id: category.id, name: termName(category, locale) },
+                  ]}
+                />
               </Link>
             ))}
           </nav>
         )}
         <ProjectsSection
-          projects={filtered.map((project) => projectCard(project, "projects"))}
+          projects={filtered.map((project) =>
+            projectCard(project, "projects", locale),
+          )}
           locale={locale}
           content={content.projects}
           collection
         />
-        {!filtered.length && (
-          <p className="site-container">אין פרויקטים להצגה בקטגוריה זו.</p>
-        )}
+        {!filtered.length && <p className="site-container">{copy.empty}</p>}
       </main>
       <FloatingActions content={content.floatingActions} ask={content.askAi} />
     </div>
