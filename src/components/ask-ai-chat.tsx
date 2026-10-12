@@ -412,9 +412,9 @@ export function AskAiChat({
                 <div
                   className={`${styles.bubble} ${styles.answerBubble} ${styles.thinking}`}
                 >
-                  <span />
-                  <span />
-                  <span />
+                  <span className={styles.dot} />
+                  <span className={styles.dot} />
+                  <span className={styles.dot} />
                 </div>
               </li>
             )}
