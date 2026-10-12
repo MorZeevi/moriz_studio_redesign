@@ -11,7 +11,7 @@
   padding-inline: clamp(1.25rem, 6vw, 3rem);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   font-size: var(--public-text-size);
   text-align: start;
 }
@@ -31,6 +31,8 @@
 .profileImage {
   width: min(100%, 16rem);
   height: auto;
+  background: var(--secondary);
+  border-radius: 50%;
 }
 
 .landing h1 {
@@ -59,20 +61,20 @@
   padding-block: 0.75rem;
   padding-inline: 2rem;
   background: var(--secondary);
-  color: var(--foreground);
-  border: 1px solid var(--secondary);
-  border-radius: 6px;
+  color: var(--on-secondary);
+  border: var(--border-width-strong) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
   font-size: clamp(1.35rem, 3vw, 1.75rem);
   font-weight: 900;
   cursor: pointer;
 }
 
 .startButton:hover {
-  background: color-mix(in srgb, var(--secondary) 86%, black);
+  background: var(--color-action-secondary-hover);
 }
 
 .startButton:focus-visible {
-  outline: 3px solid var(--primary);
+  outline: var(--focus-ring-width) solid var(--color-focus);
   outline-offset: 3px;
 }
 

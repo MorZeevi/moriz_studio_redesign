@@ -7,7 +7,7 @@
   padding-inline: clamp(1.25rem, 5vw, 2rem);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   font-size: var(--public-text-size);
 }
 
@@ -23,9 +23,9 @@
 .result h1 {
   padding-block: 0.75rem;
   padding-inline: 1rem;
-  color: var(--foreground);
+  color: var(--on-secondary);
   background: var(--secondary);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   text-wrap: balance;
 }
 
@@ -35,7 +35,7 @@
   padding-inline: 0.75rem;
   border-radius: 999px;
   background: color-mix(in srgb, var(--primary) 12%, var(--surface));
-  color: var(--primary);
+  color: var(--primary-ink);
   font-size: var(--public-text-size);
   font-weight: 900;
   margin-block-end: 0.75rem;
@@ -73,9 +73,9 @@
   padding-block: 1rem;
   padding-inline: clamp(1.5rem, 6vw, 2.5rem);
   background: var(--secondary);
-  color: var(--foreground);
-  border: 1px solid var(--secondary);
-  border-radius: 6px;
+  color: var(--on-secondary);
+  border: var(--border-width-strong) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
   font-size: clamp(1.35rem, 3vw, 1.75rem);
   font-weight: 900;
   cursor: pointer;

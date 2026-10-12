@@ -1,4 +1,8 @@
 import type { Metadata } from "next";
+import { ThemeProvider } from "@/components/theme-provider";
+import { themeBootstrap } from "@/lib/theme";
+import { danidin, leon } from "@/styles/fonts";
+import "../globals.css";
 import "./diagnostic.css";
 
 export const metadata: Metadata = {
@@ -45,8 +49,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="he" dir="rtl" data-diagnostic-app="">
-      <body suppressHydrationWarning>{children}</body>
+    <html
+      lang="he"
+      dir="rtl"
+      data-diagnostic-app=""
+      data-public-site=""
+      className={`${danidin.variable} ${leon.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: First-party pre-paint theme initialization; no user input.
+          dangerouslySetInnerHTML={{ __html: themeBootstrap }}
+        />
+      </head>
+      <body suppressHydrationWarning>
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }

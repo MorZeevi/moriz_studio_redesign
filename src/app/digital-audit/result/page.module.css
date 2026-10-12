@@ -9,7 +9,7 @@
   color: var(--muted);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   font-size: var(--public-text-size);
 }
 
@@ -24,6 +24,6 @@
   color: var(--error);
   background: color-mix(in srgb, var(--error) 8%, var(--surface));
   border-inline-start: 3px solid var(--error);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   font-size: var(--public-text-size);
 }

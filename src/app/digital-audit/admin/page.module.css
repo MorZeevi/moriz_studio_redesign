@@ -17,7 +17,7 @@
   padding-inline: clamp(1rem, 4vw, 2rem);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
 }
 
 .headerBar {
@@ -29,7 +29,7 @@
 }
 
 .brand {
-  color: var(--primary);
+  color: var(--primary-ink);
   font-size: 0.8rem;
   font-weight: 900;
   letter-spacing: 0.12em;
@@ -38,7 +38,7 @@
 .contextLabel {
   padding-block: 0.25rem;
   padding-inline: 0.75rem;
-  color: var(--foreground);
+  color: var(--on-secondary);
   background: var(--secondary);
   border-radius: 999px;
   font-size: 0.8rem;
@@ -46,7 +46,7 @@
 }
 
 .backLink {
-  color: var(--primary);
+  color: var(--primary-ink);
   font-size: 0.9rem;
   font-weight: 900;
   text-decoration-thickness: 1px;
@@ -54,11 +54,11 @@
 }
 
 .backLink:hover {
-  color: color-mix(in srgb, var(--primary) 82%, black);
+  color: var(--primary-ink-hover);
 }
 
 .backLink:focus-visible {
-  outline: 3px solid var(--primary);
+  outline: var(--focus-ring-width) solid var(--color-focus);
   outline-offset: 3px;
 }
 
@@ -76,7 +76,7 @@
   padding: 0.35rem;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
 }
 
 .viewTab {
@@ -84,30 +84,30 @@
   padding-block: 0.7rem;
   padding-inline: 1rem;
   color: var(--muted);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   font-weight: 900;
   text-align: center;
   text-decoration: none;
 }
 
 .viewTab:hover {
-  color: var(--primary);
+  color: var(--primary-ink);
   background: color-mix(in srgb, var(--primary) 6%, var(--surface));
 }
 
 .viewTab:focus-visible {
-  outline: 3px solid var(--primary);
+  outline: var(--focus-ring-width) solid var(--color-focus);
   outline-offset: 2px;
 }
 
 .viewTabActive {
-  color: var(--background);
-  background: var(--primary);
+  color: var(--on-primary);
+  background: var(--primary-fill);
 }
 
 .viewTabActive:hover {
-  color: var(--background);
-  background: color-mix(in srgb, var(--primary) 88%, black);
+  color: var(--on-primary);
+  background: var(--color-action-primary-hover);
 }
 
 .testToolbar {
@@ -118,11 +118,11 @@
   margin-block-start: 1rem;
   padding-block: 1rem;
   padding-inline: clamp(1rem, 4vw, 1.5rem);
-  color: #6f4f0b;
+  color: var(--warning-ink);
   background: color-mix(in srgb, #b8860b 10%, var(--surface));
   border: 1px solid color-mix(in srgb, #b8860b 38%, var(--surface));
   border-inline-start: 4px solid #b8860b;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
 }
 
 .testToolbar p {
@@ -143,21 +143,21 @@
   min-height: 2.75rem;
   padding-block: 0.65rem;
   padding-inline: 1rem;
-  color: var(--background);
-  background: var(--primary);
-  border: 1px solid var(--primary);
-  border-radius: 6px;
+  color: var(--on-primary);
+  background: var(--primary-fill);
+  border: 1px solid var(--primary-fill);
+  border-radius: var(--radius-md);
   font: inherit;
   font-weight: 900;
   cursor: pointer;
 }
 
 .startTestButton:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--primary) 88%, black);
+  background: var(--color-action-primary-hover);
 }
 
 .startTestButton:focus-visible {
-  outline: 3px solid var(--primary);
+  outline: var(--focus-ring-width) solid var(--color-focus);
   outline-offset: 3px;
 }
 
@@ -187,7 +187,7 @@
   color: var(--muted);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
 }
 
 .tableScroll {
@@ -200,7 +200,7 @@
 }
 
 .tableScroll:focus-visible {
-  outline: 3px solid var(--primary);
+  outline: var(--focus-ring-width) solid var(--color-focus);
   outline-offset: 3px;
 }
 
@@ -251,18 +251,18 @@
 }
 
 .leadLink {
-  color: var(--primary);
+  color: var(--primary-ink);
   font-weight: 900;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
 }
 
 .leadLink:hover {
-  color: color-mix(in srgb, var(--primary) 82%, black);
+  color: var(--primary-ink-hover);
 }
 
 .leadLink:focus-visible {
-  outline: 3px solid var(--primary);
+  outline: var(--focus-ring-width) solid var(--color-focus);
   outline-offset: 3px;
 }
 
@@ -291,20 +291,20 @@
 }
 
 .tierBadge {
-  color: var(--primary);
+  color: var(--primary-ink);
   background: color-mix(in srgb, var(--primary) 12%, var(--surface));
   border: 1px solid color-mix(in srgb, var(--primary) 36%, var(--surface));
 }
 
 /* Per-status tone: new/in_review read as more actionable, closed fades out. */
 .badgeNew {
-  color: var(--primary);
+  color: var(--primary-ink);
   background: color-mix(in srgb, var(--primary) 14%, var(--surface));
   border: 1px solid color-mix(in srgb, var(--primary) 40%, var(--surface));
 }
 
 .badgeInReview {
-  color: var(--foreground);
+  color: var(--on-secondary);
   background: var(--secondary);
   border: 1px solid color-mix(in srgb, var(--foreground) 24%, transparent);
 }
@@ -324,13 +324,13 @@
 
 /* Grade intensity: A strong solid, B medium tint, C muted outline. */
 .tierBadgeA {
-  color: var(--background);
-  background: var(--primary);
-  border: 1px solid var(--primary);
+  color: var(--on-primary);
+  background: var(--primary-fill);
+  border: 1px solid var(--primary-fill);
 }
 
 .tierBadgeB {
-  color: var(--primary);
+  color: var(--primary-ink);
   background: color-mix(in srgb, var(--primary) 16%, var(--surface));
   border: 1px solid color-mix(in srgb, var(--primary) 40%, var(--surface));
 }
@@ -353,7 +353,7 @@
 }
 
 .urgencyAging {
-  color: #8a6412;
+  color: var(--warning-ink);
   background: color-mix(in srgb, #b8860b 14%, var(--surface));
   border: 1px solid color-mix(in srgb, #b8860b 32%, var(--surface));
 }
@@ -373,16 +373,16 @@
 }
 
 .sortHeaderLink:hover {
-  color: var(--primary);
+  color: var(--primary-ink);
 }
 
 .sortHeaderLink:focus-visible {
-  outline: 3px solid var(--primary);
+  outline: var(--focus-ring-width) solid var(--color-focus);
   outline-offset: 3px;
 }
 
 .sortHeaderLinkActive {
-  color: var(--primary);
+  color: var(--primary-ink);
 }
 
 .sortIndicator {

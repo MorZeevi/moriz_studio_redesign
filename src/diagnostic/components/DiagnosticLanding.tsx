@@ -21,7 +21,7 @@ export default function DiagnosticLanding({ onStart }: DiagnosticLandingProps) {
 
       <div className={styles.portrait}>
         <Image
-          src="/digital-audit/mor-profile.png"
+          src="/images/mor-avatar-cutout.webp"
           alt="מור זאבי, מייסדת Moriz Studio"
           width={540}
           height={540}

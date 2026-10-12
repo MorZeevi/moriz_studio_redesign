@@ -22,7 +22,7 @@
 }
 
 .loadingTitle {
-  color: var(--primary);
+  color: var(--primary-ink);
   font-size: clamp(1.25rem, 5vw, 1.6rem);
 }
 

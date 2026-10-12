@@ -7,7 +7,7 @@
   padding-inline: clamp(1rem, 5vw, 2rem);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   font-size: var(--public-text-size);
 }
 
@@ -23,8 +23,9 @@
   padding-block: 0.75rem;
   padding-inline: 1rem;
   border: 1px solid transparent;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   font-size: var(--public-text-size);
+  font-weight: var(--font-weight-label);
   cursor: pointer;
 }
 
@@ -36,8 +37,8 @@
 
 .actions button:last-child {
   background: var(--secondary);
-  color: var(--foreground);
-  border-color: var(--secondary);
+  color: var(--on-secondary);
+  border-color: var(--color-border-strong);
 }
 
 .actions button:first-child:hover:not(:disabled) {
@@ -46,11 +47,11 @@
 }
 
 .actions button:last-child:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--secondary) 86%, black);
+  background: var(--color-action-secondary-hover);
 }
 
 .actions button:focus-visible {
-  outline: 3px solid var(--primary);
+  outline: var(--focus-ring-width) solid var(--color-focus);
   outline-offset: 3px;
 }
 
@@ -79,7 +80,7 @@
   color: var(--muted);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   font-size: var(--public-text-size);
 }
 
@@ -93,7 +94,7 @@
   color: var(--error);
   background: color-mix(in srgb, var(--error) 8%, var(--surface));
   border-inline-start: 3px solid var(--error);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   font-size: var(--public-text-size);
   text-align: start;
 }

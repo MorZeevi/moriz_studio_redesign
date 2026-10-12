@@ -10,7 +10,7 @@
   padding: clamp(1.25rem, 4vw, 2rem);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   font-size: var(--public-text-size);
 }
 
@@ -35,7 +35,7 @@
   padding-inline: 0.75rem;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
 }
 
 .field textarea {
@@ -46,8 +46,8 @@
 
 .field input:focus-visible,
 .field textarea:focus-visible {
-  border-color: var(--primary);
-  outline: 3px solid var(--primary);
+  border-color: var(--color-focus);
+  outline: var(--focus-ring-width) solid var(--color-focus);
   outline-offset: 2px;
 }
 
@@ -68,7 +68,7 @@
 }
 
 .checkbox a {
-  color: var(--primary);
+  color: var(--primary-ink);
   font-weight: 700;
   text-decoration: underline;
   text-decoration-thickness: 1px;
@@ -80,7 +80,7 @@
 }
 
 .checkbox a:focus-visible {
-  outline: 3px solid var(--primary);
+  outline: var(--focus-ring-width) solid var(--color-focus);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -106,16 +106,16 @@
   padding-block: 0.875rem;
   padding-inline: clamp(1.5rem, 6vw, 2.5rem);
   background: var(--secondary);
-  color: var(--foreground);
-  border: 1px solid var(--secondary);
-  border-radius: 6px;
+  color: var(--on-secondary);
+  border: var(--border-width-strong) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
   font-size: clamp(1.2rem, 2.5vw, 1.4rem);
   font-weight: 900;
   cursor: pointer;
 }
 
 .submit:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--secondary) 86%, black);
+  background: var(--color-action-secondary-hover);
   border-color: var(--foreground);
 }
 

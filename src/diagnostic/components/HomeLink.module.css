@@ -1,24 +1,18 @@
 .navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
   width: calc(100% - 1.5rem);
   max-width: var(--diagnostic-content-width);
-  margin-block-start: clamp(1rem, 4vw, 1.5rem);
+  margin-block-start: clamp(0.75rem, 3vw, 1.5rem);
   margin-inline: auto;
 }
 
-.link {
-  display: inline-flex;
+.actions {
+  display: flex;
   align-items: center;
-  justify-content: center;
   gap: 0.5rem;
-  min-height: 2.75rem;
-  padding-block: 0.625rem;
-  padding-inline: 1rem;
-  color: var(--surface);
-  background: var(--primary);
-  border: 1px solid var(--primary);
-  border-radius: 6px;
-  font-size: var(--public-text-size);
-  text-decoration: none;
 }
 
 .link svg {
@@ -29,14 +23,4 @@
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
-}
-
-.link:hover {
-  color: var(--surface);
-  background: color-mix(in srgb, var(--primary) 88%, black);
-}
-
-.link:focus-visible {
-  outline: 3px solid var(--primary);
-  outline-offset: 3px;
 }
