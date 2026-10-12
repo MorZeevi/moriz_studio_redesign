@@ -1,13 +1,13 @@
 import { supabaseConfig } from "@/lib/supabase/config";
 import { serverSupabase } from "@/lib/supabase/server";
-import { UUID } from "@/lib/cms/validation";
+import { MEDIA_FILE, UUID } from "@/lib/cms/validation";
 
 type Params = { params: Promise<{ projectId: string; filename: string }> };
 export async function GET(request: Request, { params }: Params) {
   const { projectId, filename } = await params;
   if (
     !UUID.test(projectId) ||
-    !/^([0-9a-f-]{36})\.(jpg|png|webp|avif|gif|mp4|webm)$/i.test(filename) ||
+    !MEDIA_FILE.test(filename) ||
     !UUID.test(filename.slice(0, 36))
   )
     return new Response(null, { status: 404 });

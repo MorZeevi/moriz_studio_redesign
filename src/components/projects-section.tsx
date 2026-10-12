@@ -172,6 +172,7 @@ export function ProjectsSection({
                 <header
                   className={styles.stackHead}
                   data-stack-head=""
+                  data-project-card={project.id}
                   style={{ "--stack-index": index } as CSSProperties}
                 >
                   <Noise
@@ -189,7 +190,10 @@ export function ProjectsSection({
                   </h3>
                   <p className={styles.stackDescription}>{description}</p>
                 </header>
-                <div className={styles.stackBody}>
+                <div
+                  className={styles.stackBody}
+                  data-project-card={project.id}
+                >
                   <div className={styles.stackInfo}>
                     <p className={styles.stackBodyDescription}>{description}</p>
                     <p className={styles.contribution}>
@@ -223,6 +227,7 @@ export function ProjectsSection({
             <article
               key={project.id ?? project.slug}
               className={styles.row}
+              data-project-card={project.id}
               aria-labelledby={`project-${project.slug ?? project.id}`}
             >
               <h3

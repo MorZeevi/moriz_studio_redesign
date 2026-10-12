@@ -3,7 +3,7 @@ import { connection } from "next/server";
 import { publicSupabase } from "@/lib/supabase/server";
 import type { Category, Project, ProjectRow } from "@/types/project";
 import { requireAdmin } from "./auth";
-import { UUID, validateContent } from "./validation";
+import { parseContent, UUID } from "./validation";
 
 type JoinedProject = ProjectRow & {
   project_categories: { categories: Category | null }[];
@@ -11,10 +11,9 @@ type JoinedProject = ProjectRow & {
 const selection = "*, project_categories(categories(*))";
 function project(row: JoinedProject): Project {
   const { project_categories, content, ...fields } = row;
-  validateContent(content);
   return {
     ...fields,
-    content,
+    content: parseContent(content),
     categories: project_categories
       .flatMap((link) => (link.categories ? [link.categories] : []))
       .sort(

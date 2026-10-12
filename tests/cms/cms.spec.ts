@@ -5,6 +5,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import type { Database } from "../../src/types/database.types";
 import { fixture } from "./setup";
 import {
+  parseContent,
   validateContent,
   validateProject,
   slugify,
@@ -23,6 +24,15 @@ test("validation rejects malformed blocks and preserves Hebrew slugs", () => {
     validateContent([{ type: "text", text: "draft" }]),
   ).not.toThrow();
   expect(() => validateProject({} as never)).toThrow();
+  // Reads stay lenient so one unknown block never breaks a public page.
+  expect(
+    parseContent([
+      { type: "text", text: "kept" },
+      { type: "from_the_future", text: "dropped" },
+      "not a block",
+    ]),
+  ).toEqual([{ type: "text", text: "kept" }]);
+  expect(parseContent(null)).toEqual([]);
 });
 
 test("RLS, category cascades, atomic saving and media privacy", async ({
@@ -625,10 +635,9 @@ test("projects without URLs save, publish and duplicate without public detail li
   for (const path of ["/he", "/he/projects"]) {
     await publicPage.goto(path);
     for (const projectId of [id, secondId]) {
-      const card = publicPage.locator(
-        `article[aria-labelledby="project-${projectId}"]`,
-      );
-      await expect(card).toBeVisible();
+      // The homepage renders each project as sibling strip + body elements.
+      const card = publicPage.locator(`[data-project-card="${projectId}"]`);
+      await expect(card.first()).toBeVisible();
       await expect(card.getByRole("link")).toHaveCount(0);
     }
   }

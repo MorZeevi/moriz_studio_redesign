@@ -6,6 +6,7 @@ import { headers } from "next/headers";
 import { requireAdmin } from "@/lib/cms/auth";
 import { getAdminProject } from "@/lib/cms/queries";
 import {
+  MEDIA_PATH,
   mediaReferences,
   slugify,
   UUID,
@@ -227,12 +228,7 @@ export async function reorderCategories(ids: string[]): Promise<Result> {
 }
 export async function removeUnusedUpload(url: string): Promise<Result> {
   await requireAdmin();
-  if (
-    !/^\/media\/[0-9a-f-]{36}\/[0-9a-f-]{36}\.(jpg|png|webp|avif|gif|mp4|webm)$/i.test(
-      url,
-    )
-  )
-    return { ok: false, error: "קובץ אינו תקין." };
+  if (!MEDIA_PATH.test(url)) return { ok: false, error: "קובץ אינו תקין." };
   try {
     await cleanupMedia([url]);
     return { ok: true, data: undefined };

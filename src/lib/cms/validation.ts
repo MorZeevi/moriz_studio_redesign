@@ -32,14 +32,12 @@ function record(value: unknown): value is Record<string, unknown> {
 function optionalString(value: unknown) {
   return value === undefined || typeof value === "string";
 }
+export const MEDIA_FILE =
+  /^([0-9a-f-]{36})\.(jpg|png|webp|avif|gif|mp4|webm)$/i;
+export const MEDIA_PATH =
+  /^\/media\/[0-9a-f-]{36}\/[0-9a-f-]{36}\.(jpg|png|webp|avif|gif|mp4|webm)$/i;
 export function safeMediaUrl(value: unknown): value is string {
-  return (
-    typeof value === "string" &&
-    (/^\/media\/[0-9a-f-]{36}\/[0-9a-f-]{36}\.(jpg|png|webp|avif|gif|mp4|webm)$/i.test(
-      value,
-    ) ||
-      value === "")
-  );
+  return typeof value === "string" && (MEDIA_PATH.test(value) || value === "");
 }
 function image(value: unknown, published: boolean): value is ProjectImage {
   return (
@@ -50,53 +48,64 @@ function image(value: unknown, published: boolean): value is ProjectImage {
     optionalString(value.caption)
   );
 }
+function validBlock(
+  block: unknown,
+  published: boolean,
+): block is ProjectContentBlock {
+  if (!record(block)) return false;
+  const boolean = (key: string) =>
+    block[key] === undefined || typeof block[key] === "boolean";
+  let valid = false;
+  switch (block.type) {
+    case "text":
+      valid =
+        typeof block.text === "string" &&
+        optionalString(block.title) &&
+        boolean("collapsible") &&
+        (!published || block.text.trim().length > 0);
+      break;
+    case "image":
+      valid = image(block, published);
+      break;
+    case "video":
+      valid =
+        safeMediaUrl(block.src) &&
+        (!published || block.src !== "") &&
+        (block.poster === undefined || safeMediaUrl(block.poster)) &&
+        ["autoplay", "loop", "muted", "controls"].every(boolean);
+      break;
+    case "two_images":
+      valid =
+        Array.isArray(block.images) &&
+        block.images.length === 2 &&
+        block.images.every((v) => image(v, published));
+      break;
+    case "gallery":
+      valid =
+        Array.isArray(block.images) &&
+        (!published || block.images.length > 0) &&
+        block.images.every((v) => image(v, published));
+      break;
+  }
+  return valid;
+}
 export function validateContent(
   value: unknown,
   published = false,
 ): asserts value is ProjectContentBlock[] {
   if (!Array.isArray(value) || value.length > 100)
     throw new Error("תוכן הפרויקט אינו תקין. ניתן להוסיף עד 100 בלוקים.");
-  for (const block of value) {
-    if (!record(block)) throw new Error("בלוק תוכן אינו תקין.");
-    const boolean = (key: string) =>
-      block[key] === undefined || typeof block[key] === "boolean";
-    let valid = false;
-    switch (block.type) {
-      case "text":
-        valid =
-          typeof block.text === "string" &&
-          optionalString(block.title) &&
-          boolean("collapsible") &&
-          (!published || block.text.trim().length > 0);
-        break;
-      case "image":
-        valid = image(block, published);
-        break;
-      case "video":
-        valid =
-          safeMediaUrl(block.src) &&
-          (!published || block.src !== "") &&
-          (block.poster === undefined || safeMediaUrl(block.poster)) &&
-          ["autoplay", "loop", "muted", "controls"].every(boolean);
-        break;
-      case "two_images":
-        valid =
-          Array.isArray(block.images) &&
-          block.images.length === 2 &&
-          block.images.every((v) => image(v, published));
-        break;
-      case "gallery":
-        valid =
-          Array.isArray(block.images) &&
-          (!published || block.images.length > 0) &&
-          block.images.every((v) => image(v, published));
-        break;
-    }
-    if (!valid)
+  for (const block of value)
+    if (!validBlock(block, published))
       throw new Error(
         "יש בלוק לא תקין או חסר. לפני פרסום יש למלא טקסט ולהעלות את המדיה בכל בלוק.",
       );
-  }
+}
+/** Lenient reader: a block written by newer code never breaks a page. */
+export function parseContent(value: unknown): ProjectContentBlock[] {
+  return Array.isArray(value)
+    ? value.filter((block) => validBlock(block, false))
+    : [];
 }
 export function validateProject(value: ProjectInput) {
   if (!UUID.test(value.id) || !value.title.trim())
