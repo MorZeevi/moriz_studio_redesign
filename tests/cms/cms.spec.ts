@@ -475,7 +475,7 @@ test("private routes and a complete editor publishing flow", async ({
     .getByLabel("יצירת סוג פרויקט חדש", { exact: true })
     .fill(`${f.prefix} Web App`);
   await page.getByRole("button", { name: "יצירת סוג", exact: true }).click();
-  await expect(page.getByLabel("סוג פרויקט", { exact: true })).not.toHaveValue(
+  await expect(page.getByLabel(/^סוג פרויקט/)).not.toHaveValue(
     "",
   );
   await tab("עמוד הבית");
@@ -559,7 +559,7 @@ test("private routes and a complete editor publishing flow", async ({
   await page.getByLabel("תווית", { exact: true }).fill("Community members");
   await tab("עמוד הבית");
   await page
-    .getByLabel("היילייט בכרטיס בעמוד הבית", { exact: true })
+    .getByLabel(/^היילייט בכרטיס בעמוד הבית/)
     .selectOption({ label: "6K+ · Community members" });
   await page.getByRole("button", { name: "שמירת טיוטה", exact: true }).click();
   await expect(page.getByRole("status")).toContainText("הטיוטה נשמרה");
@@ -568,14 +568,14 @@ test("private routes and a complete editor publishing flow", async ({
     page.getByRole("heading", { name: "The challenge", exact: true }),
   ).toBeVisible();
   await expect(page.locator("video").first()).toHaveJSProperty("muted", true);
-  await page.getByLabel("שפה", { exact: true }).selectOption("en");
+  await page.getByLabel(/^שפה/).selectOption("en");
   await expect(
     page.getByRole("heading", { name: "CMS browser test EN", exact: true }),
   ).toBeVisible();
   await expect(
     page.getByRole("heading", { name: "The challenge EN", exact: true }),
   ).toBeVisible();
-  await page.getByLabel("מה מציגים", { exact: true }).selectOption("home");
+  await page.getByLabel(/^מה מציגים/).selectOption("home");
   await expect(page.getByText("6K+", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "חזרה לעריכה", exact: true }).click();
   // The first publish is gated on a complete case study.

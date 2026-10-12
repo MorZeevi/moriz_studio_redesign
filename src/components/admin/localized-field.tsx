@@ -32,8 +32,11 @@ export function LocalizedField({
   const Input = multiline ? "textarea" : "input";
   return (
     <div className={styles.localized}>
-      <label className={styles.field} htmlFor={`${id}-he`}>
-        <span>{label}</span>
+      {/* Hints sit outside the label so they never become part of its name. */}
+      <div className={styles.field}>
+        <label htmlFor={`${id}-he`}>
+          <span>{label}</span>
+        </label>
         <Input
           id={`${id}-he`}
           dir="rtl"
@@ -41,12 +44,15 @@ export function LocalizedField({
           value={value ?? ""}
           maxLength={maxLength}
           required={required}
+          aria-describedby={hint ? `${id}-hint` : undefined}
           onChange={(e) => onChange(e.target.value)}
         />
-        {hint && <small>{hint}</small>}
-      </label>
-      <label className={styles.field} htmlFor={`${id}-en`}>
-        <span>{label} (English)</span>
+        {hint && <small id={`${id}-hint`}>{hint}</small>}
+      </div>
+      <div className={styles.field}>
+        <label htmlFor={`${id}-en`}>
+          <span>{label} (English)</span>
+        </label>
         <Input
           id={`${id}-en`}
           dir="ltr"
@@ -55,7 +61,7 @@ export function LocalizedField({
           maxLength={maxLength}
           onChange={(e) => onChangeEn(e.target.value)}
         />
-      </label>
+      </div>
     </div>
   );
 }
