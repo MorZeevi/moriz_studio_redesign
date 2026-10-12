@@ -188,7 +188,7 @@ function useLiquidMotion(
 }
 
 /** Goo filter shared by every liquid shape; each instance needs its own id. */
-function LiquidFilter({
+export function LiquidFilter({
   id,
   blurRef,
   blur = 3.5,

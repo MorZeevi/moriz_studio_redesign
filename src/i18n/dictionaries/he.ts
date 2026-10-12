@@ -324,7 +324,19 @@ export const he = {
   },
   faq: {
     heading: "שאלות ותשובות",
-    questions: ["שאלה 1 — להשלמה", "שאלה 2 — להשלמה", "שאלה 3 — להשלמה"],
+    aiLabel: "לשאול את ",
+    aiName: "moriz.ai",
+    whatsappLabel: "שנדבר בוואטסאפ?",
+    questions: [
+      "שאלה 1 — להשלמה",
+      "שאלה 2 — להשלמה",
+      "שאלה 3 — להשלמה",
+      "שאלה 4 — להשלמה",
+      "שאלה 5 — להשלמה",
+      "שאלה 6 — להשלמה",
+      "שאלה 7 — להשלמה",
+      "שאלה 8 — להשלמה",
+    ],
     answerPlaceholder: "תשובה — להשלמה",
   },
   // Answers come only from the ai_knowledge table in Supabase.
