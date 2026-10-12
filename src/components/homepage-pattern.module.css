@@ -11,7 +11,7 @@
 }
 
 .layer {
-  --wordmark-height: 160rem;
+  --wordmark-height: 80rem;
   --pattern-rate: 0.03;
   position: absolute;
   inset: 0;
@@ -19,7 +19,7 @@
   opacity: 0.04;
   mask-image: url("/images/moriz-wordmark-pattern.svg");
   mask-mode: alpha;
-  mask-size: auto max(100%, var(--wordmark-height));
+  mask-size: auto var(--wordmark-height);
   mask-position: left top;
   mask-repeat: no-repeat;
   transform: translate3d(0, var(--pattern-shift, 0px), 0);
@@ -39,7 +39,7 @@ body:has([data-project-theme="dark"]) .layer {
 
 @media (min-width: 64rem) {
   .layer {
-    --wordmark-height: 240rem;
+    --wordmark-height: 120rem;
     --pattern-rate: 0.06;
   }
 }

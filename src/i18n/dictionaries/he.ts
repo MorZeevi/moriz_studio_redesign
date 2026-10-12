@@ -329,15 +329,29 @@ export const he = {
   },
   // Answers come only from the ai_knowledge table in Supabase.
   askAi: {
-    heading: "לא מצאת תשובה?",
+    title: "moriz.ai",
+    greeting: "היי, אני moriz.ai",
+    intro: "אני מעדיפה שתדברו איתי, אבל ה-AI שלי ממש התעקש להשתתף",
     label: "השאלה שלך",
-    placeholder: "אפשר לשאול אותי משהו...",
-    submit: "שאלו AI",
+    // Typed out letter by letter in the empty field.
+    typingHint: "אפשר לשאול כל שאלה…",
+    suggestionsLabel: "שאלות מוצעות",
+    // Each one maps to a live knowledge row: prices, process, services, fit.
+    suggestions: [
+      "כמה עולה אתר?",
+      "איך נראה תהליך העבודה?",
+      "אילו שירותים את מציעה?",
+      "למי זה מתאים?",
+    ],
+    thread: "השיחה עם moriz.ai",
+    send: "שליחה",
     loading: "רגע, בודקת…",
     fallback:
       "המידע הזה עדיין לא נמצא אצלי 🙂\nאפשר לדבר איתי ישירות בוואטסאפ.",
     whatsapp: "דברו איתי בוואטסאפ",
     error: "משהו השתבש ולא הצלחתי לענות כרגע. אפשר לנסות שוב בעוד רגע.",
+    retry: "לנסות שוב",
+    reset: "שיחה חדשה",
     close: "סגירה",
   },
   contact: {
@@ -385,7 +399,8 @@ export const he = {
   floatingActions: {
     label: "פעולות מהירות",
     whatsapp: "שנדבר בוואטסאפ?",
-    ai: "moriz.ai",
-    aiLabel: "moriz.ai — שאלו את ה-AI",
+    ai: "Ask moriz.ai",
+    // Starts with the visible label so voice control can match it.
+    aiLabel: "Ask moriz.ai – שאלו אותי כל שאלה",
   },
 };

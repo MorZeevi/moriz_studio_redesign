@@ -1,4 +1,5 @@
 import "server-only";
+import type { ChatTurn } from "@/lib/ai/question";
 
 export type AiAnswer = { answer: string; hasAnswer: boolean };
 
@@ -15,7 +16,7 @@ function kimiConfig() {
 }
 
 // Moonshot speaks the OpenAI chat-completions format; JSON mode keeps hasAnswer structured.
-export async function askKimi(system: string, question: string) {
+export async function askKimi(system: string, conversation: ChatTurn[]) {
   const { apiKey, baseUrl, model } = kimiConfig();
   const response = await fetch(`${baseUrl}/chat/completions`, {
     method: "POST",
@@ -28,10 +29,7 @@ export async function askKimi(system: string, question: string) {
       // Reasoning roughly doubles latency and adds nothing to a lookup answer.
       thinking: { type: "disabled" },
       response_format: { type: "json_object" },
-      messages: [
-        { role: "system", content: system },
-        { role: "user", content: question },
-      ],
+      messages: [{ role: "system", content: system }, ...conversation],
     }),
     signal: AbortSignal.timeout(30_000),
     cache: "no-store",
