@@ -184,7 +184,9 @@ export function ProjectEditor({
     });
   }
   const saveRef = useRef(save);
-  saveRef.current = save;
+  saveRef.current = () => {
+    if (!pending && uploads === 0) save();
+  };
   useEffect(() => {
     const shortcut = (e: globalThis.KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "s") {
