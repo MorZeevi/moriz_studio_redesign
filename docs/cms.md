@@ -79,6 +79,33 @@ may stay incomplete and never render publicly. Every upload lands in the project
 gallery and can be picked again from any slot, so files are uploaded once. Gallery
 files not placed in a block are shown at the end of the case study.
 
+### Case study presentation
+
+Project pages place the information panel at the logical start of the page
+(right in Hebrew, left in English). It stays visible on desktop; below 1024px
+it appears above the gallery. The full description and nonempty text blocks
+become exclusive native accordions, with the first open. Text block order and
+copy are retained; the list-page collapsible setting does not affect this panel.
+Below 1024px, public case-study pages use 44px icon-only floating actions in the
+logical-end gutter. Accordion summaries and answers reserve an additional 24px
+plus the device safe area at that edge, keeping copy and expand/collapse controls clear.
+
+Each media block has **פריסת מדיה בעמוד הפרויקט** and **רווח לפני המדיה** controls.
+Images and videos support full width, centered two-thirds width, or half width
+at either logical edge. Two-image and gallery blocks support equal pairs or
+staggered 60/40 pairs; successive gallery pairs alternate. An odd final image
+fills the row. Below 640px images fill the width and pairs stack.
+Spacing before a block is 32/80/128px on desktop and 24/40/64px below 1024px.
+The first media block starts without a preceding gap.
+
+These optional `layout` and `spacing` properties live in the existing content
+JSON, with no database migration. Older blocks retain full-width or equal-pair
+layouts and regular spacing. Preview includes unsaved layout choices, and
+reordering preserves them. The cover leads the gallery; a matching first content
+image is displayed once, preserving its caption. Images open a keyboard-accessible
+viewer and retain their original private `/media/` URLs; without JavaScript their
+links open the source images directly. Videos remain inline.
+
 ## Deployment environment
 
 Use Node.js 22 or newer (required by the installed Supabase SDK).
@@ -201,3 +228,10 @@ creates a temporary non-owner account and data under a unique `cms-qa-*` namespa
 checks real RLS and storage behavior, runs the editor/publishing flow, and cleans up
 only that run's fixtures. Privileged credentials are obtained in memory for test
 setup; the application continues to use normal user sessions and RLS.
+
+The case-study update passed the targeted content-validation and complete
+publishing-flow tests (two tests), including layout/spacing save and reload after
+reordering, responsive media sizes, mobile action clearance, viewer keyboard bounds,
+Escape and focus restoration, native accordions and source links without JavaScript,
+and image errors that occur before hydration. Lint, TypeScript and production build
+also pass.

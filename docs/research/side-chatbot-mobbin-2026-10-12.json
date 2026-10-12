@@ -1,0 +1,291 @@
+{
+  "research_date": "2026-10-12",
+  "task_intent": "Redesign a website's side AI chatbot panel with avatar, suggested questions, and animated input.",
+  "output_destination": "code",
+  "searches": [
+    {
+      "key": "web_side_panel",
+      "data": {
+        "platform": "web",
+        "query": "AI chat assistant side panel docked to the right of a web app, with avatar header, suggested question chips and message input at bottom",
+        "results": 12
+      }
+    },
+    {
+      "key": "web_floating_widget",
+      "data": {
+        "platform": "web",
+        "query": "floating chatbot widget opened from bottom corner launcher, empty state greeting with person avatar and suggested prompts",
+        "results": 12
+      }
+    },
+    {
+      "key": "web_drawer_avatars",
+      "data": {
+        "platform": "web",
+        "query": "AI copilot chat drawer sliding in from the right edge over the page, conversation with assistant avatar next to replies and user avatar next to user bubbles",
+        "results": 12
+      }
+    },
+    {
+      "key": "web_avatar_launcher",
+      "data": {
+        "platform": "web",
+        "query": "chat launcher button with person profile photo and label \"Ask\" floating in the bottom corner of a website",
+        "results": 10
+      }
+    },
+    {
+      "key": "ios_sheet_chips",
+      "data": {
+        "platform": "ios",
+        "query": "AI assistant chat bottom sheet with suggested question chips above the keyboard input and assistant avatar",
+        "results": 8
+      }
+    }
+  ],
+  "references": [
+    {
+      "id": "bd3369e2-8dce-4335-bd24-144c0d85b356",
+      "image_url": "https://mobbin.com/api/mcp/short/M19pt4xw",
+      "mobbin_url": "https://mobbin.com/screens/bd3369e2-8dce-4335-bd24-144c0d85b356",
+      "app_name": "HoneyBook",
+      "platform": "web",
+      "asset": "drawer-honeybook.webp",
+      "group": "drawer",
+      "title": "HoneyBook",
+      "context": "AI assistant docked over the dashboard.",
+      "observed": "A rounded, nearly full-height panel floats over the right edge with a small gap. It has a header with history, expand and close icons, a long answer, feedback icons and the composer pinned at the bottom. The page behind stays visible.",
+      "adapt": "The core drawer shape: inset from the viewport, rounded, non-modal, with the composer pinned to the bottom.",
+      "caution": "It is dense for a marketing site. Keep the header to identity and close.",
+      "local_image": "assets/side-chatbot-2026-10-12/drawer-honeybook.webp"
+    },
+    {
+      "id": "51c2bd60-f22d-4879-8c28-c5800ac1f4b6",
+      "image_url": "https://mobbin.com/api/mcp/short/ASVwaP9R",
+      "mobbin_url": "https://mobbin.com/screens/51c2bd60-f22d-4879-8c28-c5800ac1f4b6",
+      "app_name": "Linear",
+      "platform": "web",
+      "asset": "drawer-linear.webp",
+      "group": "drawer",
+      "title": "Linear",
+      "context": "Compact \"Ask Linear\" panel.",
+      "observed": "A floating card in the lower-right with minimise, expand and close controls, and a reply field at the bottom.",
+      "adapt": "Confirms that a corner-anchored panel can coexist with the page.",
+      "caution": "The card is shorter than Mor wants. The drawer should use the full height.",
+      "local_image": "assets/side-chatbot-2026-10-12/drawer-linear.webp"
+    },
+    {
+      "id": "2421e56a-c26b-4e1a-85fa-5645153c6b86",
+      "image_url": "https://mobbin.com/api/mcp/short/CuHo6oL8",
+      "mobbin_url": "https://mobbin.com/screens/2421e56a-c26b-4e1a-85fa-5645153c6b86",
+      "app_name": "HubSpot",
+      "platform": "web",
+      "asset": "drawer-hubspot.webp",
+      "group": "drawer",
+      "title": "HubSpot",
+      "context": "Agent preview drawer.",
+      "observed": "A full-height right drawer with a coloured header band. Every message shows an avatar and a name, with sources listed under the answer.",
+      "adapt": "Full-height docking and a strong header.",
+      "caution": "Avatars on both sides add noise. Keep avatars on answers only, as decided.",
+      "local_image": "assets/side-chatbot-2026-10-12/drawer-hubspot.webp"
+    },
+    {
+      "id": "da27ab97-e2c3-4543-999b-dd09496e552b",
+      "image_url": "https://mobbin.com/api/mcp/short/9sK4KHAA",
+      "mobbin_url": "https://mobbin.com/screens/da27ab97-e2c3-4543-999b-dd09496e552b",
+      "app_name": "Zendesk",
+      "platform": "web",
+      "asset": "drawer-zendesk.webp",
+      "group": "drawer",
+      "title": "Zendesk",
+      "context": "Web messaging widget.",
+      "observed": "A classic widget above a square launcher. Each bot bubble has an avatar, with a timestamp at the top and a focused input ring.",
+      "adapt": "A small avatar beside each answer bubble.",
+      "caution": "This is a generic support look. Moriz needs its own identity: photo, type and gradient.",
+      "local_image": "assets/side-chatbot-2026-10-12/drawer-zendesk.webp"
+    },
+    {
+      "id": "99e9fbbc-9af0-4b2c-967e-01b9df3fb4ea",
+      "image_url": "https://mobbin.com/api/mcp/short/k2MfQUfr",
+      "mobbin_url": "https://mobbin.com/screens/99e9fbbc-9af0-4b2c-967e-01b9df3fb4ea",
+      "app_name": "Delphi",
+      "platform": "web",
+      "asset": "persona-delphi.webp",
+      "group": "persona",
+      "title": "Delphi",
+      "context": "Personal AI clone conversation.",
+      "observed": "A real person's photo and name sit at the top. Visitor messages are in a bold orange bubble, and answers are in soft grey bubbles written in the first person.",
+      "adapt": "The closest analogue to moriz.ai: Mor's face in the header and a strongly coloured visitor bubble (brand yellow).",
+      "caution": "It only works if answers really sound like Mor. That needs the first-person prompt tweak.",
+      "local_image": "assets/side-chatbot-2026-10-12/persona-delphi.webp"
+    },
+    {
+      "id": "304bebf4-8055-4ada-883b-24e938686783",
+      "image_url": "https://mobbin.com/api/mcp/short/KXJK5CbY",
+      "mobbin_url": "https://mobbin.com/screens/304bebf4-8055-4ada-883b-24e938686783",
+      "app_name": "Aboard",
+      "platform": "web",
+      "asset": "persona-aboard.webp",
+      "group": "persona",
+      "title": "Aboard",
+      "context": "Onboarding chat panel.",
+      "observed": "A popover chat where a portrait photo sits beside a person's bubble and a lettered avatar marks the other side.",
+      "adapt": "A small round portrait reads well beside a bubble at about 28–32px.",
+      "caution": "Use a well-cropped head, not the full cutout.",
+      "local_image": "assets/side-chatbot-2026-10-12/persona-aboard.webp"
+    },
+    {
+      "id": "27ace4ea-bb61-4141-b7aa-ae5551b66dfd",
+      "image_url": "https://mobbin.com/api/mcp/short/vdXwM0ai",
+      "mobbin_url": "https://mobbin.com/screens/27ace4ea-bb61-4141-b7aa-ae5551b66dfd",
+      "app_name": "Resend",
+      "platform": "web",
+      "asset": "persona-resend.webp",
+      "group": "persona",
+      "title": "Resend Help",
+      "context": "AI help with example questions.",
+      "observed": "The assistant's mark sits beside a two-line introduction (\"I'm an AI assistant trained on…\"), followed by \"Example questions\" chips and the input below.",
+      "adapt": "The empty-state recipe: avatar, intro, chips.",
+      "caution": "Keep the intro honest about the scope: answers come from Mor's own information.",
+      "local_image": "assets/side-chatbot-2026-10-12/persona-resend.webp"
+    },
+    {
+      "id": "df37df16-1c1f-4af0-97b4-9fc8c1209b2e",
+      "image_url": "https://mobbin.com/api/mcp/short/K8PZK9m1",
+      "mobbin_url": "https://mobbin.com/screens/df37df16-1c1f-4af0-97b4-9fc8c1209b2e",
+      "app_name": "Resend",
+      "platform": "web",
+      "asset": "persona-resend-thinking.webp",
+      "group": "persona",
+      "title": "Resend Help: thinking",
+      "context": "The same assistant while it works.",
+      "observed": "The visitor's question is echoed, then an \"Analyzing\" row appears with the assistant mark.",
+      "adapt": "Echo the question at once and show a thinking bubble with Mor's avatar.",
+      "caution": "Announce the state to screen readers once, not on a loop.",
+      "local_image": "assets/side-chatbot-2026-10-12/persona-resend-thinking.webp"
+    },
+    {
+      "id": "8fb43b1f-cfa7-46c6-86a6-eaa192bc659f",
+      "image_url": "https://mobbin.com/api/mcp/short/cdFY5Eb0",
+      "mobbin_url": "https://mobbin.com/screens/8fb43b1f-cfa7-46c6-86a6-eaa192bc659f",
+      "app_name": "Bond",
+      "platform": "ios",
+      "asset": "persona-bond-ios.webp",
+      "group": "persona",
+      "title": "Bond",
+      "context": "\"Asking Alex\" sheet (iOS).",
+      "observed": "The sheet header names the person with their photo. Suggested questions sit right above the input, and the input itself holds the person's avatar.",
+      "adapt": "The mobile layout: suggestions above the composer, and identity in the header.",
+      "caution": "A horizontally scrolling chip row hides options. Keep it to four short questions.",
+      "local_image": "assets/side-chatbot-2026-10-12/persona-bond-ios.webp"
+    },
+    {
+      "id": "60faab58-185e-49fb-b554-8fcde9e15e67",
+      "image_url": "https://mobbin.com/api/mcp/short/NvzF8c13",
+      "mobbin_url": "https://mobbin.com/screens/60faab58-185e-49fb-b554-8fcde9e15e67",
+      "app_name": "Origin",
+      "platform": "web",
+      "asset": "prompts-origin.webp",
+      "group": "prompts",
+      "title": "Origin",
+      "context": "AI advisor modal empty state.",
+      "observed": "A sparkle, a two-line headline and four tinted question chips are centred in a large empty canvas.",
+      "adapt": "The centred empty state with tinted chips.",
+      "caution": "The empty canvas is large. In a 26rem drawer, keep the greeting near the composer.",
+      "local_image": "assets/side-chatbot-2026-10-12/prompts-origin.webp"
+    },
+    {
+      "id": "db357932-0e83-43e7-89ff-5f47a06ef246",
+      "image_url": "https://mobbin.com/api/mcp/short/YdxxVrm5",
+      "mobbin_url": "https://mobbin.com/screens/db357932-0e83-43e7-89ff-5f47a06ef246",
+      "app_name": "Deel",
+      "platform": "web",
+      "asset": "prompts-deel.webp",
+      "group": "prompts",
+      "title": "Deel",
+      "context": "AI help home.",
+      "observed": "A greeting, a scope sentence and a rounded input, with three suggested questions listed below the input.",
+      "adapt": "A one-line scope sentence under the greeting.",
+      "caution": "This is a full-page layout. Only the empty-state recipe applies.",
+      "local_image": "assets/side-chatbot-2026-10-12/prompts-deel.webp"
+    },
+    {
+      "id": "4cccb2f8-ef9c-4c1a-a4c2-f9f2d9acd25e",
+      "image_url": "https://mobbin.com/api/mcp/short/Zd9i0ymv",
+      "mobbin_url": "https://mobbin.com/screens/4cccb2f8-ef9c-4c1a-a4c2-f9f2d9acd25e",
+      "app_name": "Otter AI",
+      "platform": "ios",
+      "asset": "prompts-otter-ios.webp",
+      "group": "prompts",
+      "title": "Otter AI",
+      "context": "Chat sheet with question cards (iOS).",
+      "observed": "Full-width suggestion cards, each with a sparkle icon, are centred above a rounded input.",
+      "adapt": "Full-width, wrapped question cards suit longer Hebrew questions better than pills.",
+      "caution": "The cards take space. They collapse once the conversation starts.",
+      "local_image": "assets/side-chatbot-2026-10-12/prompts-otter-ios.webp"
+    },
+    {
+      "id": "2bc7b827-089b-4245-aea7-bca28d079e44",
+      "image_url": "https://mobbin.com/api/mcp/short/sVMhCtVF",
+      "mobbin_url": "https://mobbin.com/screens/2bc7b827-089b-4245-aea7-bca28d079e44",
+      "app_name": "Base44",
+      "platform": "web",
+      "asset": "prompts-base44.webp",
+      "group": "prompts",
+      "title": "Base44",
+      "context": "Agent chat with suggestions row.",
+      "observed": "Mid-conversation, a \"Suggestions\" row stays under the composer, and the assistant name and avatar head each answer.",
+      "adapt": "Keep the questions not yet asked available after the first answer.",
+      "caution": "Keep the row quiet so it doesn't compete with the thread.",
+      "local_image": "assets/side-chatbot-2026-10-12/prompts-base44.webp"
+    },
+    {
+      "id": "6e4ec3e6-b5c6-452e-9258-82bd3b2b079d",
+      "image_url": "https://mobbin.com/api/mcp/short/VHcP2I6S",
+      "mobbin_url": "https://mobbin.com/screens/6e4ec3e6-b5c6-452e-9258-82bd3b2b079d",
+      "app_name": "Jobber",
+      "platform": "ios",
+      "asset": "glow-jobber-ios.webp",
+      "group": "glow",
+      "title": "Jobber",
+      "context": "AI assistant with glowing input (iOS).",
+      "observed": "A dark surface with an intro and topic chips. The input has a multi-colour gradient border glow.",
+      "adapt": "A slow conic-gradient ring in red and yellow on the composer, brighter on focus.",
+      "caution": "Keep the ring thin. The text field still needs a clear, accessible focus indicator.",
+      "local_image": "assets/side-chatbot-2026-10-12/glow-jobber-ios.webp"
+    },
+    {
+      "id": "81550181-2282-4421-97d6-0d93e2d86349",
+      "image_url": "https://mobbin.com/api/mcp/short/hgJRs9H7",
+      "mobbin_url": "https://mobbin.com/screens/81550181-2282-4421-97d6-0d93e2d86349",
+      "app_name": "Cleo AI",
+      "platform": "ios",
+      "asset": "glow-cleo-ios.webp",
+      "group": "glow",
+      "title": "Cleo",
+      "context": "Chat with warm gradient background (iOS).",
+      "observed": "A soft peach-to-white gradient wash fills the chat. Quick-reply chips sit above the input, and visitor bubbles are white.",
+      "adapt": "Low-opacity brand blobs that drift slowly behind the header and empty state.",
+      "caution": "Fade the wash out behind the message list so contrast stays high, especially in dark mode.",
+      "local_image": "assets/side-chatbot-2026-10-12/glow-cleo-ios.webp"
+    }
+  ],
+  "method": {
+    "tool": "Mobbin MCP search_screens (deep mode)",
+    "placements_reviewed": 54,
+    "references_kept": 15,
+    "download": "curl -L from each image_url; verified with `file` as WebP",
+    "groups": {
+      "drawer": "Panel shape and docking",
+      "persona": "Person as assistant identity, avatars, thinking state",
+      "prompts": "Greeting and suggested questions",
+      "glow": "Gradient and ambient colour"
+    }
+  },
+  "exclusions": [
+    "Full-page AI apps with sidebars (Claude, ChatGPT, Notion, WRITER, Devin, Langdock, Sana, Plane, Apollo) — layout not applicable to a site drawer; used only to confirm empty-state suggestion patterns",
+    "Telegram, Dialpad, Etsy, Expensify, Framer, Gemini, AirOps — messaging or tool panels, not website assistants",
+    "GoDaddy, Gorgias, Zendesk admin — marketing or settings views of widgets rather than the widget in use"
+  ]
+}

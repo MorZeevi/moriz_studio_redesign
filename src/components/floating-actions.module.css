@@ -11,16 +11,12 @@
   pointer-events: none;
 }
 
-.stack,
-.panel {
-  pointer-events: auto;
-}
-
 .stack {
   display: flex;
   flex-direction: column;
   align-items: end;
   gap: var(--space-3);
+  pointer-events: auto;
 }
 
 /* WhatsApp green (the former floating button's colour) with dark ink for
@@ -48,45 +44,6 @@
 /* "moriz.ai" reads a step larger than the body-size WhatsApp label. */
 .ai [data-liquid-label] {
   font-size: var(--text-body-lg);
-}
-
-.panel {
-  display: grid;
-  gap: var(--space-4);
-  inline-size: min(22rem, calc(100vw - 2 * var(--space-4)));
-  padding: var(--space-4);
-  border: var(--border-width-default) solid var(--color-border-strong);
-  border-radius: var(--radius-md);
-  background: var(--color-background);
-  color: var(--color-text-primary);
-}
-
-.panel[hidden] {
-  display: none;
-}
-
-.panelHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
-}
-
-.heading {
-  font-size: var(--text-body-lg);
-  font-weight: var(--font-weight-label);
-}
-
-.close {
-  display: grid;
-  inline-size: var(--control-height-sm);
-  block-size: var(--control-height-sm);
-  place-items: center;
-  border: 0;
-  border-radius: var(--radius-sm);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
 }
 
 /* Both blobs as wide as the portrait one, so the collapsed icons line up. */
@@ -128,8 +85,127 @@
   }
 }
 
+/* ---------- Chat drawer ---------- */
+
+.drawer {
+  --drawer-gap: var(--space-3);
+  --drawer-shift: 1;
+  position: fixed;
+  inset-block: var(--drawer-gap);
+  inset-inline-end: max(var(--drawer-gap), var(--safe-area-inline-end, 0px));
+  inset-inline-start: auto;
+  z-index: 60;
+  inline-size: min(28rem, calc(100vw - 2 * var(--drawer-gap)));
+  block-size: auto;
+  max-inline-size: none;
+  max-block-size: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: var(--border-width-default) solid var(--color-border);
+  border-radius: calc(var(--radius-md) * 3);
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  box-shadow:
+    0 1.5rem 4rem -1rem rgb(0 0 0 / 0.28),
+    0 0.25rem 1rem -0.25rem rgb(0 0 0 / 0.12);
+  transform-origin: bottom right;
+  opacity: 0;
+  translate: calc(var(--drawer-shift) * 1.5rem) 0.75rem;
+  scale: 0.96;
+  transition:
+    opacity 0.32s var(--ease-standard),
+    translate 0.55s var(--ease-enter),
+    scale 0.55s var(--ease-enter),
+    display 0.55s allow-discrete,
+    overlay 0.55s allow-discrete;
+}
+
+/* The drawer docks on the inline-end edge: left in Hebrew. */
+[dir="rtl"] .drawer {
+  --drawer-shift: -1;
+  transform-origin: bottom left;
+}
+
+.drawer[open] {
+  display: block;
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
+}
+
+@starting-style {
+  .drawer[open] {
+    opacity: 0;
+    translate: calc(var(--drawer-shift) * 1.5rem) 0.75rem;
+    scale: 0.96;
+  }
+}
+
+.drawer::backdrop {
+  background: rgb(0 0 0 / 0);
+  backdrop-filter: blur(0);
+  transition:
+    background 0.35s var(--ease-standard),
+    backdrop-filter 0.35s var(--ease-standard),
+    display 0.35s allow-discrete,
+    overlay 0.35s allow-discrete;
+}
+
+.drawer[open]::backdrop {
+  background: rgb(0 0 0 / 0.3);
+  backdrop-filter: blur(4px);
+}
+
+@starting-style {
+  .drawer[open]::backdrop {
+    background: rgb(0 0 0 / 0);
+    backdrop-filter: blur(0);
+  }
+}
+
+/* Phones: a full-screen sheet that rises from the bottom. */
+@media (max-width: 39.999rem) {
+  .drawer {
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100dvh;
+    border: 0;
+    border-radius: 0;
+    translate: 0 2rem;
+    scale: 1;
+  }
+
+  @starting-style {
+    .drawer[open] {
+      translate: 0 2rem;
+      scale: 1;
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .action [data-liquid-label] {
+  .action [data-liquid-label],
+  .drawer,
+  .drawer::backdrop {
     transition: none;
+  }
+}
+
+/* Case studies keep a compact action rail inside the mobile page gutter. */
+@media (max-width: 63.999rem) {
+  .compactMobile {
+    inset-inline-end: max(0.375rem, var(--safe-area-inline-end));
+  }
+  .compactMobile .action.action {
+    --lb-height: 2.75rem;
+    --lb-icon-size: 2.75rem;
+  }
+  .compactMobile .action [data-liquid-icon] {
+    flex-basis: 2.75rem;
+  }
+  .compactMobile .action [data-liquid-label],
+  .compactMobile .action [data-liquid-bridge] {
+    display: none;
   }
 }

@@ -467,10 +467,15 @@
 }
 
 @media (min-width: 64rem) {
-  /* The site header is sticky from 64rem; stack below it. */
+  /* Reserve space only while the sticky site header is visible. */
   .scrollSurface {
     --stack-top: var(--site-header-height, 6rem);
     --stack-step: 3rem;
+  }
+
+  /* biome-ignore lint/correctness/noUnknownPseudoClass: CSS Modules global scope */
+  :global(body:has(.site-header[data-header-hidden])) .scrollSurface {
+    --stack-top: 0px;
   }
 }
 
@@ -534,8 +539,8 @@
 .stackDescription {
   display: none;
   margin: 0;
-  color: var(--project-secondary);
-  font-size: var(--text-body-sm);
+  color: var(--project-foreground);
+  font-size: var(--text-body-lg);
   line-height: 1.45;
 }
 
@@ -591,7 +596,7 @@
   }
 }
 
-/* CMS v2: card highlight, archive project type, case study sections. */
+/* CMS v2: card highlight, archive project type, next project and contact. */
 .cardHighlight {
   display: flex;
   align-items: baseline;
@@ -611,147 +616,6 @@
   margin: 0 0 var(--space-2);
   font-size: var(--text-body-sm);
   color: var(--project-secondary);
-}
-.projectLogo {
-  display: block;
-  max-inline-size: 10rem;
-  max-block-size: 4rem;
-  inline-size: auto;
-  block-size: auto;
-  object-fit: contain;
-  margin-block-end: var(--space-6);
-}
-.websiteLink {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin-block-start: var(--space-4);
-  text-underline-offset: 0.3em;
-}
-.infoSection,
-.highlightsSection,
-.gallerySection,
-.mainVideoSection {
-  padding-block: var(--space-12);
-  border-block-end: var(--border-width-default) solid var(--project-rule);
-}
-.infoList {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
-  gap: var(--space-6) var(--space-8);
-  margin: var(--space-6) 0 0;
-}
-.infoList dt {
-  font-size: var(--text-body-sm);
-  color: var(--project-secondary);
-  margin-block-end: var(--space-1);
-}
-.infoList dd {
-  margin: 0;
-  overflow-wrap: anywhere;
-}
-.infoWide {
-  grid-column: 1 / -1;
-  max-inline-size: var(--container-prose);
-}
-.infoWide dd p {
-  margin: var(--space-2) 0 0;
-  color: var(--project-secondary);
-}
-.highlights {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
-  gap: var(--space-8);
-  margin: var(--space-6) 0 0;
-}
-.highlights > div {
-  display: grid;
-  gap: var(--space-2);
-  align-content: start;
-}
-.highlights dt {
-  order: 2;
-  font-weight: 700;
-}
-.highlights dd {
-  margin: 0;
-}
-.highlightValue {
-  order: 1;
-  font-size: var(--text-h2);
-  line-height: 1;
-  font-weight: 900;
-}
-.highlightDescription {
-  order: 3;
-  color: var(--project-secondary);
-  font-size: var(--text-body-sm);
-}
-.eyebrow {
-  margin: 0 0 var(--space-2);
-  font-size: var(--text-body-sm);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--project-secondary);
-}
-.subsections {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
-  gap: var(--space-6);
-  margin-block-start: var(--space-6);
-}
-.subsections h3 {
-  font-family: var(--font-body);
-  font-size: var(--text-body-lg);
-  margin: 0 0 var(--space-2);
-}
-.subsections div p {
-  margin: 0;
-  white-space: pre-wrap;
-}
-.imageTriple {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-4);
-  align-items: start;
-}
-/* Six-column mixed gallery; each item's layout picks its span. */
-.mediaGrid {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: var(--space-4);
-  align-items: start;
-}
-.mediaGrid > * {
-  grid-column: span 3;
-}
-.mediaGrid > [data-layout="full"],
-.mediaGrid > [data-layout="wide"] {
-  grid-column: 1 / -1;
-}
-.mediaGrid > [data-layout="third"] {
-  grid-column: span 2;
-}
-.mediaText {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: var(--space-8);
-  align-items: center;
-}
-.mediaText[data-side="end"] > .contentFigure {
-  order: 2;
-}
-.mediaText[data-feature] {
-  padding: var(--space-8);
-  border: var(--border-width-default) solid var(--project-rule);
-}
-.mediaText h2 {
-  font-family: var(--font-body);
-  font-size: var(--text-h4);
-  margin: 0 0 var(--space-3);
-}
-.mediaText div p {
-  white-space: pre-wrap;
 }
 .nextProject {
   display: flex;
@@ -788,16 +652,4 @@
   margin: 0;
   font-size: var(--text-h2);
   line-height: 1.1;
-}
-@media (max-width: 640px) {
-  .imageTriple,
-  .mediaText {
-    grid-template-columns: 1fr;
-  }
-  .mediaText[data-side="end"] > .contentFigure {
-    order: 0;
-  }
-  .mediaGrid > * {
-    grid-column: 1 / -1;
-  }
 }

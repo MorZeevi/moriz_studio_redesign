@@ -1,0 +1,612 @@
+{
+  "research_date": "2026-10-11",
+  "task_intent": "Research project presentation patterns for a design studio homepage and individual case study pages.",
+  "output_destination": "doc",
+  "searches": [
+    {
+      "key": "mobbin_initial_0",
+      "data": {
+        "query": "Design agency homepage selected work section with large project images and client names",
+        "page": 1,
+        "has_next_page": true,
+        "sections": [
+          {
+            "id": "0b70740a-eb7a-415b-b48d-09d66ce3ec38",
+            "image_url": "https://mobbin.com/api/mcp/short/7wsohzgJ",
+            "mobbin_url": "https://mobbin.com/sites/sections/0b70740a-eb7a-415b-b48d-09d66ce3ec38",
+            "site_name": "OFF+BRAND"
+          },
+          {
+            "id": "4ed7c118-a866-41fa-824c-32a24323c927",
+            "image_url": "https://mobbin.com/api/mcp/short/4iaVbljG",
+            "mobbin_url": "https://mobbin.com/sites/sections/4ed7c118-a866-41fa-824c-32a24323c927",
+            "site_name": "Fiasco"
+          },
+          {
+            "id": "48890788-7d16-4887-baaa-5b22583ef055",
+            "image_url": "https://mobbin.com/api/mcp/short/Pp5YME4o",
+            "mobbin_url": "https://mobbin.com/sites/sections/48890788-7d16-4887-baaa-5b22583ef055",
+            "site_name": "Cloudstudio"
+          },
+          {
+            "id": "606e7e35-d462-4a42-939e-df4d3a19af0a",
+            "image_url": "https://mobbin.com/api/mcp/short/HoENfkxx",
+            "mobbin_url": "https://mobbin.com/sites/sections/606e7e35-d462-4a42-939e-df4d3a19af0a",
+            "site_name": "Fiasco"
+          },
+          {
+            "id": "de775a01-d612-4b85-9278-13f3a91312f9",
+            "image_url": "https://mobbin.com/api/mcp/short/q4J7qwqA",
+            "mobbin_url": "https://mobbin.com/sites/sections/de775a01-d612-4b85-9278-13f3a91312f9",
+            "site_name": "Trawelt"
+          }
+        ]
+      }
+    },
+    {
+      "key": "mobbin_initial_1",
+      "data": {
+        "query": "Design studio project case study page with project overview, creative work images and project details",
+        "page": 1,
+        "has_next_page": true,
+        "sections": [
+          {
+            "id": "2971fcd4-d3c4-457f-aadd-3841b9b1d33d",
+            "image_url": "https://mobbin.com/api/mcp/short/YjEtooaF",
+            "mobbin_url": "https://mobbin.com/sites/sections/2971fcd4-d3c4-457f-aadd-3841b9b1d33d",
+            "site_name": "FLORA"
+          },
+          {
+            "id": "05811dd7-a07a-41ae-9fa7-192b8eede1b1",
+            "image_url": "https://mobbin.com/api/mcp/short/mDr2i7md",
+            "mobbin_url": "https://mobbin.com/sites/sections/05811dd7-a07a-41ae-9fa7-192b8eede1b1",
+            "site_name": "Instrument"
+          },
+          {
+            "id": "ceab4ab4-d046-4356-bde4-32acd9781fa8",
+            "image_url": "https://mobbin.com/api/mcp/short/1c4YXy1z",
+            "mobbin_url": "https://mobbin.com/sites/sections/ceab4ab4-d046-4356-bde4-32acd9781fa8",
+            "site_name": "Vucko"
+          },
+          {
+            "id": "a8d4a939-78d8-4065-b319-a42d2a7d6129",
+            "image_url": "https://mobbin.com/api/mcp/short/0FwK7kOP",
+            "mobbin_url": "https://mobbin.com/sites/sections/a8d4a939-78d8-4065-b319-a42d2a7d6129",
+            "site_name": "Pentagram"
+          },
+          {
+            "id": "88014607-d7fa-4793-a09b-de483fe6c931",
+            "image_url": "https://mobbin.com/api/mcp/short/V9J6CWEM",
+            "mobbin_url": "https://mobbin.com/sites/sections/88014607-d7fa-4793-a09b-de483fe6c931",
+            "site_name": "Raw Materials"
+          }
+        ]
+      }
+    },
+    {
+      "key": "mobbin_cases_0",
+      "data": {
+        "query": "Agency portfolio individual project case study page with client name, project description, services and large project imagery",
+        "screens": [
+          {
+            "id": "611ce38b-3cc2-4397-9760-4c65bb2d7a5d",
+            "image_url": "https://mobbin.com/api/mcp/short/69iYKiLO",
+            "mobbin_url": "https://mobbin.com/screens/611ce38b-3cc2-4397-9760-4c65bb2d7a5d",
+            "app_name": "Upwork",
+            "platform": "web"
+          },
+          {
+            "id": "b8232b02-8e1d-4b29-bc13-99314b03059c",
+            "image_url": "https://mobbin.com/api/mcp/short/rl76k4Kv",
+            "mobbin_url": "https://mobbin.com/screens/b8232b02-8e1d-4b29-bc13-99314b03059c",
+            "app_name": "HoneyBook",
+            "platform": "web"
+          },
+          {
+            "id": "4dc8f902-8566-480c-8898-c8761854930d",
+            "image_url": "https://mobbin.com/api/mcp/short/j4DCNWYv",
+            "mobbin_url": "https://mobbin.com/screens/4dc8f902-8566-480c-8898-c8761854930d",
+            "app_name": "ClickUp",
+            "platform": "web"
+          },
+          {
+            "id": "3b639559-defe-4bab-9374-6a83fbed38dd",
+            "image_url": "https://mobbin.com/api/mcp/short/pAAPSOqA",
+            "mobbin_url": "https://mobbin.com/screens/3b639559-defe-4bab-9374-6a83fbed38dd",
+            "app_name": "Contra",
+            "platform": "web"
+          }
+        ]
+      }
+    },
+    {
+      "key": "mobbin_cases_1",
+      "data": {
+        "query": "Design agency case study page showing project challenge, solution, results and product interface screenshots",
+        "screens": [
+          {
+            "id": "d9550298-d9ea-4821-94d8-8e31f15f94e1",
+            "image_url": "https://mobbin.com/api/mcp/short/4rFzrv8z",
+            "mobbin_url": "https://mobbin.com/screens/d9550298-d9ea-4821-94d8-8e31f15f94e1",
+            "app_name": "Lovable",
+            "platform": "web"
+          },
+          {
+            "id": "c9d67aaf-eab0-4041-adef-4c0dbb29c8e6",
+            "image_url": "https://mobbin.com/api/mcp/short/K6br1IKF",
+            "mobbin_url": "https://mobbin.com/screens/c9d67aaf-eab0-4041-adef-4c0dbb29c8e6",
+            "app_name": "Bolt.new",
+            "platform": "web"
+          },
+          {
+            "id": "d7617abd-b698-4e58-9508-c5f91a104328",
+            "image_url": "https://mobbin.com/api/mcp/short/QY52kWqc",
+            "mobbin_url": "https://mobbin.com/screens/d7617abd-b698-4e58-9508-c5f91a104328",
+            "app_name": "Fiverr",
+            "platform": "web"
+          },
+          {
+            "id": "611ce38b-3cc2-4397-9760-4c65bb2d7a5d",
+            "image_url": "https://mobbin.com/api/mcp/short/LquEoKAF",
+            "mobbin_url": "https://mobbin.com/screens/611ce38b-3cc2-4397-9760-4c65bb2d7a5d",
+            "app_name": "Upwork",
+            "platform": "web"
+          }
+        ]
+      }
+    },
+    {
+      "key": "mobbin_detail_0",
+      "data": {
+        "query": "Individual customer case study hero with company name, project title and services delivered",
+        "page": 1,
+        "has_next_page": true,
+        "sections": [
+          {
+            "id": "c92b5a09-5004-4086-a8ef-590943ba8d48",
+            "image_url": "https://mobbin.com/api/mcp/short/R3e1nw8l",
+            "mobbin_url": "https://mobbin.com/sites/sections/c92b5a09-5004-4086-a8ef-590943ba8d48",
+            "site_name": "Glide"
+          },
+          {
+            "id": "c41cf0fb-0022-4d16-ab06-f44fac9ee0d0",
+            "image_url": "https://mobbin.com/api/mcp/short/TRI6nQeC",
+            "mobbin_url": "https://mobbin.com/sites/sections/c41cf0fb-0022-4d16-ab06-f44fac9ee0d0",
+            "site_name": "TheyDo"
+          },
+          {
+            "id": "120eb26c-65a0-4a2b-a3eb-1d4d8ecc9b95",
+            "image_url": "https://mobbin.com/api/mcp/short/0ZPwmwQ9",
+            "mobbin_url": "https://mobbin.com/sites/sections/120eb26c-65a0-4a2b-a3eb-1d4d8ecc9b95",
+            "site_name": "TheyDo"
+          },
+          {
+            "id": "f5c519a7-ab8e-4f46-8522-c31d578e2a5b",
+            "image_url": "https://mobbin.com/api/mcp/short/bOt16MhN",
+            "mobbin_url": "https://mobbin.com/sites/sections/f5c519a7-ab8e-4f46-8522-c31d578e2a5b",
+            "site_name": "Front"
+          }
+        ]
+      }
+    },
+    {
+      "key": "mobbin_detail_1",
+      "data": {
+        "query": "Case study project detail section with the challenge, design approach and results",
+        "page": 1,
+        "has_next_page": true,
+        "sections": [
+          {
+            "id": "a83266aa-57d8-4877-9a0a-c830a6488d9b",
+            "image_url": "https://mobbin.com/api/mcp/short/m4r7ueCK",
+            "mobbin_url": "https://mobbin.com/sites/sections/a83266aa-57d8-4877-9a0a-c830a6488d9b",
+            "site_name": "ClickUp"
+          },
+          {
+            "id": "c8b92330-0ff0-4c52-9d02-d7396c5b5b06",
+            "image_url": "https://mobbin.com/api/mcp/short/cf4OccIR",
+            "mobbin_url": "https://mobbin.com/sites/sections/c8b92330-0ff0-4c52-9d02-d7396c5b5b06",
+            "site_name": "Dropbox Paper"
+          },
+          {
+            "id": "e9b28b7a-1ac7-47fe-95ab-d4be76ff58df",
+            "image_url": "https://mobbin.com/api/mcp/short/U6YGSQTi",
+            "mobbin_url": "https://mobbin.com/sites/sections/e9b28b7a-1ac7-47fe-95ab-d4be76ff58df",
+            "site_name": "Mural"
+          },
+          {
+            "id": "0e52c0f5-c6f6-40a3-be31-06a104e486a1",
+            "image_url": "https://mobbin.com/api/mcp/short/0ZZJ8E7h",
+            "mobbin_url": "https://mobbin.com/sites/sections/0e52c0f5-c6f6-40a3-be31-06a104e486a1",
+            "site_name": "Koto"
+          }
+        ]
+      }
+    },
+    {
+      "key": "mobbin_detail_2",
+      "data": {
+        "query": "Huncwot selected projects with numbered stacked panels and project descriptions",
+        "page": 1,
+        "has_next_page": true,
+        "sections": [
+          {
+            "id": "4ed7c118-a866-41fa-824c-32a24323c927",
+            "image_url": "https://mobbin.com/api/mcp/short/DMckiEu1",
+            "mobbin_url": "https://mobbin.com/sites/sections/4ed7c118-a866-41fa-824c-32a24323c927",
+            "site_name": "Fiasco"
+          },
+          {
+            "id": "22c68f7a-e638-47bd-abb3-afc9c58e95c8",
+            "image_url": "https://mobbin.com/api/mcp/short/E9hiBtsh",
+            "mobbin_url": "https://mobbin.com/sites/sections/22c68f7a-e638-47bd-abb3-afc9c58e95c8",
+            "site_name": "Aino Agency"
+          },
+          {
+            "id": "de775a01-d612-4b85-9278-13f3a91312f9",
+            "image_url": "https://mobbin.com/api/mcp/short/xsoAgpf0",
+            "mobbin_url": "https://mobbin.com/sites/sections/de775a01-d612-4b85-9278-13f3a91312f9",
+            "site_name": "Trawelt"
+          },
+          {
+            "id": "851e3996-4679-4653-aae6-3b345cab2aba",
+            "image_url": "https://mobbin.com/api/mcp/short/CW6r5vua",
+            "mobbin_url": "https://mobbin.com/sites/sections/851e3996-4679-4653-aae6-3b345cab2aba",
+            "site_name": "OFF+BRAND"
+          }
+        ]
+      }
+    },
+    {
+      "key": "mobbin_detail_3",
+      "data": {
+        "query": "Koto project case study with client introduction and branding images",
+        "page": 1,
+        "has_next_page": true,
+        "sections": [
+          {
+            "id": "236ebdda-2aa3-483b-ab5f-4cf9bc702095",
+            "image_url": "https://mobbin.com/api/mcp/short/cKBH7shD",
+            "mobbin_url": "https://mobbin.com/sites/sections/236ebdda-2aa3-483b-ab5f-4cf9bc702095",
+            "site_name": "Koto"
+          },
+          {
+            "id": "062eb6b8-b141-4fe5-8c11-9edc778e2468",
+            "image_url": "https://mobbin.com/api/mcp/short/tdTm9GNe",
+            "mobbin_url": "https://mobbin.com/sites/sections/062eb6b8-b141-4fe5-8c11-9edc778e2468",
+            "site_name": "Koto"
+          },
+          {
+            "id": "2d796987-2aad-48a2-b619-8757026054d6",
+            "image_url": "https://mobbin.com/api/mcp/short/C46owB9h",
+            "mobbin_url": "https://mobbin.com/sites/sections/2d796987-2aad-48a2-b619-8757026054d6",
+            "site_name": "Koto"
+          },
+          {
+            "id": "27c0d2f2-3567-4e77-8907-2608201a690c",
+            "image_url": "https://mobbin.com/api/mcp/short/A0c7Kij3",
+            "mobbin_url": "https://mobbin.com/sites/sections/27c0d2f2-3567-4e77-8907-2608201a690c",
+            "site_name": "Koto"
+          }
+        ]
+      }
+    },
+    {
+      "key": "mobbin_more_0",
+      "data": {
+        "query": "Koto Lyft project case study Strategy Identity Application Outcome",
+        "page": 1,
+        "has_next_page": true,
+        "sections": [
+          {
+            "id": "0e52c0f5-c6f6-40a3-be31-06a104e486a1",
+            "image_url": "https://mobbin.com/api/mcp/short/D22pab4t",
+            "mobbin_url": "https://mobbin.com/sites/sections/0e52c0f5-c6f6-40a3-be31-06a104e486a1",
+            "site_name": "Koto"
+          },
+          {
+            "id": "019cfa66-d01d-4a4b-ae77-d99f65391966",
+            "image_url": "https://mobbin.com/api/mcp/short/1AYov5LO",
+            "mobbin_url": "https://mobbin.com/sites/sections/019cfa66-d01d-4a4b-ae77-d99f65391966",
+            "site_name": "Stripe"
+          },
+          {
+            "id": "362971b8-a13e-4f3a-8fd7-eeb8638c8742",
+            "image_url": "https://mobbin.com/api/mcp/short/HOgIA0bW",
+            "mobbin_url": "https://mobbin.com/sites/sections/362971b8-a13e-4f3a-8fd7-eeb8638c8742",
+            "site_name": "Stripe"
+          },
+          {
+            "id": "236ebdda-2aa3-483b-ab5f-4cf9bc702095",
+            "image_url": "https://mobbin.com/api/mcp/short/Qlm2TZ9A",
+            "mobbin_url": "https://mobbin.com/sites/sections/236ebdda-2aa3-483b-ab5f-4cf9bc702095",
+            "site_name": "Koto"
+          }
+        ]
+      }
+    },
+    {
+      "key": "mobbin_more_1",
+      "data": {
+        "query": "Case study hero with client name, results metrics and story introduction",
+        "page": 1,
+        "has_next_page": true,
+        "sections": [
+          {
+            "id": "e955aa46-8fd3-43cc-a3b1-35aed0fe3218",
+            "image_url": "https://mobbin.com/api/mcp/short/yqDRzc1Z",
+            "mobbin_url": "https://mobbin.com/sites/sections/e955aa46-8fd3-43cc-a3b1-35aed0fe3218",
+            "site_name": "Titan"
+          },
+          {
+            "id": "fc528bd2-c56b-404d-85b0-992dd81de0a2",
+            "image_url": "https://mobbin.com/api/mcp/short/QpEzyvuW",
+            "mobbin_url": "https://mobbin.com/sites/sections/fc528bd2-c56b-404d-85b0-992dd81de0a2",
+            "site_name": "Rows"
+          },
+          {
+            "id": "b1b065c7-3914-4360-b72f-46adebd19e1b",
+            "image_url": "https://mobbin.com/api/mcp/short/RW1rtwaV",
+            "mobbin_url": "https://mobbin.com/sites/sections/b1b065c7-3914-4360-b72f-46adebd19e1b",
+            "site_name": "Airtable"
+          },
+          {
+            "id": "8c361668-0512-4caf-93eb-ba229eddcec3",
+            "image_url": "https://mobbin.com/api/mcp/short/rC9f9f2Q",
+            "mobbin_url": "https://mobbin.com/sites/sections/8c361668-0512-4caf-93eb-ba229eddcec3",
+            "site_name": "Vanta"
+          }
+        ]
+      }
+    },
+    {
+      "key": "mobbin_more_2",
+      "data": {
+        "query": "Project case study with design process images, interface closeups and explanatory text",
+        "page": 1,
+        "has_next_page": true,
+        "sections": [
+          {
+            "id": "2971fcd4-d3c4-457f-aadd-3841b9b1d33d",
+            "image_url": "https://mobbin.com/api/mcp/short/kqlXYKjU",
+            "mobbin_url": "https://mobbin.com/sites/sections/2971fcd4-d3c4-457f-aadd-3841b9b1d33d",
+            "site_name": "FLORA"
+          },
+          {
+            "id": "55bcab05-c72f-47dd-bf9f-46c14652f155",
+            "image_url": "https://mobbin.com/api/mcp/short/PQKqk55I",
+            "mobbin_url": "https://mobbin.com/sites/sections/55bcab05-c72f-47dd-bf9f-46c14652f155",
+            "site_name": "FLORA"
+          },
+          {
+            "id": "c27f50ff-dd09-41f9-afc8-598c3ccae77a",
+            "image_url": "https://mobbin.com/api/mcp/short/9TXmOkV2",
+            "mobbin_url": "https://mobbin.com/sites/sections/c27f50ff-dd09-41f9-afc8-598c3ccae77a",
+            "site_name": "Analogue Agency"
+          },
+          {
+            "id": "2d100fc2-36d8-4f1f-94e5-f1a21ea17c98",
+            "image_url": "https://mobbin.com/api/mcp/short/m4qnNovh",
+            "mobbin_url": "https://mobbin.com/sites/sections/2d100fc2-36d8-4f1f-94e5-f1a21ea17c98",
+            "site_name": "Shade"
+          }
+        ]
+      }
+    }
+  ],
+  "references": [
+    {
+      "id": "4ed7c118-a866-41fa-824c-32a24323c927",
+      "image_url": "https://mobbin.com/api/mcp/short/4iaVbljG",
+      "mobbin_url": "https://mobbin.com/sites/sections/4ed7c118-a866-41fa-824c-32a24323c927",
+      "site_name": "Fiasco",
+      "asset": "home-fiasco",
+      "group": "homepage",
+      "title": "Fiasco",
+      "context": "Selected work section",
+      "observed": "Unequal image sizes form a staggered two-column composition. Names, brief explanations and discipline labels stay beside each visual.",
+      "adapt": "Keep a one-sentence product explanation with every cover. Visual variety can come from image scale while the text structure stays consistent.",
+      "caution": "Offsets can lengthen the section and complicate reading order. Replacing the current stacked panels is a separate design choice.",
+      "local_image": "assets/projects-presentation-2026-10-11/home-fiasco.webp"
+    },
+    {
+      "id": "48890788-7d16-4887-baaa-5b22583ef055",
+      "image_url": "https://mobbin.com/api/mcp/short/Pp5YME4o",
+      "mobbin_url": "https://mobbin.com/sites/sections/48890788-7d16-4887-baaa-5b22583ef055",
+      "site_name": "Cloudstudio",
+      "asset": "home-cloudstudio",
+      "group": "homepage",
+      "title": "Cloudstudio",
+      "context": "Selected work section",
+      "observed": "A large Selected work heading precedes adjacent interface tiles with names and small metadata over the lower edge.",
+      "adapt": "Use actual interface imagery so visitors can identify the kind of product before opening the project.",
+      "caution": "The dark treatment obscures UI details. Keep essential names and descriptions outside busy images.",
+      "local_image": "assets/projects-presentation-2026-10-11/home-cloudstudio.webp"
+    },
+    {
+      "id": "0b70740a-eb7a-415b-b48d-09d66ce3ec38",
+      "image_url": "https://mobbin.com/api/mcp/short/7wsohzgJ",
+      "mobbin_url": "https://mobbin.com/sites/sections/0b70740a-eb7a-415b-b48d-09d66ce3ec38",
+      "site_name": "OFF+BRAND",
+      "asset": "home-offbrand",
+      "group": "homepage",
+      "title": "OFF+BRAND",
+      "context": "Client project cards",
+      "observed": "Named cards contain a project preview and a visible action. One says View website and another says View case study.",
+      "adapt": "Distinguish opening the studio's case study from visiting the client's live product. Use precise action labels.",
+      "caution": "The horizontal row leaves later cards partly outside the viewport. Keep all three Moriz projects discoverable through vertical scrolling.",
+      "local_image": "assets/projects-presentation-2026-10-11/home-offbrand.webp"
+    },
+    {
+      "id": "05811dd7-a07a-41ae-9fa7-192b8eede1b1",
+      "image_url": "https://mobbin.com/api/mcp/short/mDr2i7md",
+      "mobbin_url": "https://mobbin.com/sites/sections/05811dd7-a07a-41ae-9fa7-192b8eede1b1",
+      "site_name": "Instrument",
+      "asset": "home-instrument",
+      "group": "homepage",
+      "title": "Instrument",
+      "context": "Work collection section",
+      "observed": "A large statement sits over an asymmetric project pairing. The smaller project includes a client name, explanation and discipline label; Stack and Grid controls are visible.",
+      "adapt": "Give a project a prominent visual and preserve a useful caption. Deliberate scale can communicate priority once a lead project is chosen.",
+      "caution": "This is a collection reference, not proof of homepage behavior. Filters and layout switches would add little to three projects.",
+      "local_image": "assets/projects-presentation-2026-10-11/home-instrument.webp"
+    },
+    {
+      "id": "88014607-d7fa-4793-a09b-de483fe6c931",
+      "image_url": "https://mobbin.com/api/mcp/short/V9J6CWEM",
+      "mobbin_url": "https://mobbin.com/sites/sections/88014607-d7fa-4793-a09b-de483fe6c931",
+      "site_name": "Raw Materials",
+      "asset": "home-raw-materials",
+      "group": "homepage",
+      "title": "Raw Materials",
+      "context": "Work index section",
+      "observed": "Dark horizontal rows pair client or project names with discipline labels and marks. One row includes a narrow band of imagery.",
+      "adapt": "An index can explain scope with very little imagery. It is a credible fallback while real visual assets are being prepared.",
+      "caution": "Most work is not pictured in the capture. Hover, expansion and transitions cannot be inferred from the still.",
+      "local_image": "assets/projects-presentation-2026-10-11/home-raw-materials.webp"
+    },
+    {
+      "id": "c27f50ff-dd09-41f9-afc8-598c3ccae77a",
+      "image_url": "https://mobbin.com/api/mcp/short/9TXmOkV2",
+      "mobbin_url": "https://mobbin.com/sites/sections/c27f50ff-dd09-41f9-afc8-598c3ccae77a",
+      "site_name": "Analogue Agency",
+      "asset": "home-analogue",
+      "group": "homepage",
+      "title": "Analogue Agency",
+      "context": "Featured case teaser",
+      "observed": "A Success cases heading and case action sit above a large device visual. One project dominates the section.",
+      "adapt": "A single readable screen can be a stronger cover than a collage of many tiny screens.",
+      "caution": "A featured stage requires a deliberate lead project and strong assets. The still does not establish carousel behavior.",
+      "local_image": "assets/projects-presentation-2026-10-11/home-analogue.webp"
+    },
+    {
+      "id": "0e52c0f5-c6f6-40a3-be31-06a104e486a1",
+      "image_url": "https://mobbin.com/api/mcp/short/0ZZJ8E7h",
+      "mobbin_url": "https://mobbin.com/sites/sections/0e52c0f5-c6f6-40a3-be31-06a104e486a1",
+      "site_name": "Koto",
+      "asset": "case-koto-lyft",
+      "group": "case-study",
+      "title": "Koto and Lyft",
+      "context": "Direct studio case study",
+      "observed": "A narrow left column names the project, shows a short positioning line and a Challenge paragraph, then lists Strategy, Identity, Application and Outcome. Large branded imagery fills the right column.",
+      "adapt": "Combine an immediately visible explanation with generous project imagery. Use named narrative sections to explain the studio's decisions.",
+      "caution": "The capture shows one part of a branding case study. Sticky navigation and section interactions are unverified; it does not establish a complete UX process.",
+      "local_image": "assets/projects-presentation-2026-10-11/case-koto-lyft.webp"
+    },
+    {
+      "id": "a83266aa-57d8-4877-9a0a-c830a6488d9b",
+      "image_url": "https://mobbin.com/api/mcp/short/m4r7ueCK",
+      "mobbin_url": "https://mobbin.com/sites/sections/a83266aa-57d8-4877-9a0a-c830a6488d9b",
+      "site_name": "ClickUp",
+      "asset": "case-clickup",
+      "group": "case-study",
+      "title": "ClickUp and STANLEY Security",
+      "context": "Adjacent customer story",
+      "observed": "Three numbered text groups label Challenge, Solution and Outcome. The solution is presented as a short list beside a large client graphic.",
+      "adapt": "Use a compact narrative summary so readers can understand the problem, intervention and change before reading the full story.",
+      "caution": "A SaaS customer story explains product adoption. Moriz still needs to identify its own design and development contribution.",
+      "local_image": "assets/projects-presentation-2026-10-11/case-clickup.webp"
+    },
+    {
+      "id": "c8b92330-0ff0-4c52-9d02-d7396c5b5b06",
+      "image_url": "https://mobbin.com/api/mcp/short/cf4OccIR",
+      "mobbin_url": "https://mobbin.com/sites/sections/c8b92330-0ff0-4c52-9d02-d7396c5b5b06",
+      "site_name": "Dropbox Paper",
+      "asset": "case-dropbox-paper",
+      "group": "case-study",
+      "title": "Dropbox Paper and Designit",
+      "context": "Adjacent customer story",
+      "observed": "A row of three labelled results precedes a challenge heading and a narrow editorial text column.",
+      "adapt": "Give evidence labels and context, then make the story comfortable to read. Reuse a narrow text measure between wider media sections.",
+      "caution": "The source's statistics describe its customer. Moriz has no supplied equivalent figures; omit a results strip until evidence exists.",
+      "local_image": "assets/projects-presentation-2026-10-11/case-dropbox-paper.webp"
+    },
+    {
+      "id": "e9b28b7a-1ac7-47fe-95ab-d4be76ff58df",
+      "image_url": "https://mobbin.com/api/mcp/short/U6YGSQTi",
+      "mobbin_url": "https://mobbin.com/sites/sections/e9b28b7a-1ac7-47fe-95ab-d4be76ff58df",
+      "site_name": "Mural",
+      "asset": "case-mural",
+      "group": "case-study",
+      "title": "Mural and Officeworks",
+      "context": "Adjacent customer story",
+      "observed": "A single editorial column separates Situation and Challenge with clear headings, short paragraphs and attributed quotations.",
+      "adapt": "Separate business context from the specific user or operational problem. Make quoted evidence attributable.",
+      "caution": "Long narrative passages need supporting product visuals in a studio case study. This capture does not show a complete page.",
+      "local_image": "assets/projects-presentation-2026-10-11/case-mural.webp"
+    },
+    {
+      "id": "8c361668-0512-4caf-93eb-ba229eddcec3",
+      "image_url": "https://mobbin.com/api/mcp/short/rC9f9f2Q",
+      "mobbin_url": "https://mobbin.com/sites/sections/8c361668-0512-4caf-93eb-ba229eddcec3",
+      "site_name": "Vanta",
+      "asset": "case-vanta",
+      "group": "case-study",
+      "title": "Vanta and SmartRecruiters",
+      "context": "Adjacent customer story hero",
+      "observed": "A large outcome statement sits beside a team photograph. A facts grid identifies the company, location, industry and solution.",
+      "adapt": "Orient readers immediately with the client, product purpose and actual scope. An outcome headline is useful when documented.",
+      "caution": "Employee counts and customer tenure are SaaS sales facts. For Moriz, use role, services and year only when relevant and supplied.",
+      "local_image": "assets/projects-presentation-2026-10-11/case-vanta.webp"
+    },
+    {
+      "id": "019cfa66-d01d-4a4b-ae77-d99f65391966",
+      "image_url": "https://mobbin.com/api/mcp/short/1AYov5LO",
+      "mobbin_url": "https://mobbin.com/sites/sections/019cfa66-d01d-4a4b-ae77-d99f65391966",
+      "site_name": "Stripe",
+      "asset": "case-stripe",
+      "group": "case-study",
+      "title": "Stripe and Lyft",
+      "context": "Adjacent embedded case module",
+      "observed": "Challenge and Solution text sit beside a phone interface and a usage-context photograph; product links and customer tabs follow.",
+      "adapt": "Pair a specific problem with the interface that answers it. A short caption should explain which design decision the screenshot demonstrates.",
+      "caution": "This is a customer case module, not an individual studio case page. Do not copy the customer tabs into a three-project case study.",
+      "local_image": "assets/projects-presentation-2026-10-11/case-stripe.webp"
+    },
+    {
+      "id": "362971b8-a13e-4f3a-8fd7-eeb8638c8742",
+      "image_url": "https://mobbin.com/api/mcp/short/HOgIA0bW",
+      "mobbin_url": "https://mobbin.com/sites/sections/362971b8-a13e-4f3a-8fd7-eeb8638c8742",
+      "site_name": "Stripe",
+      "asset": "case-stripe-impact",
+      "group": "case-study",
+      "title": "Stripe and Lyft",
+      "context": "Adjacent embedded case module",
+      "observed": "A customer-specific title leads into Solution and Impact text alongside a video poster and product links.",
+      "adapt": "Place outcome evidence close to the solution it evaluates. Provide a readable still and explanation when a video is optional.",
+      "caution": "The visible percentage and time window belong to Stripe's customer story. They are not evidence about Moriz or the effectiveness of this layout.",
+      "local_image": "assets/projects-presentation-2026-10-11/case-stripe-impact.webp"
+    },
+    {
+      "id": "236ebdda-2aa3-483b-ab5f-4cf9bc702095",
+      "image_url": "https://mobbin.com/api/mcp/short/cKBH7shD",
+      "mobbin_url": "https://mobbin.com/sites/sections/236ebdda-2aa3-483b-ab5f-4cf9bc702095",
+      "site_name": "Koto",
+      "asset": "case-koto-quote",
+      "group": "case-study",
+      "title": "Koto client testimony",
+      "context": "Studio testimonial beside case teaser",
+      "observed": "A project teaser sits beside a prominent quote, with the speaker's name and creative-production role below. Small previous and next controls are visible.",
+      "adapt": "Keep an approved client quote connected to the project it describes. Include the person's name and role.",
+      "caution": "This is a testimonial module beside a case link, not the case study body. Do not assume carousel timing or reproduce the source quote.",
+      "local_image": "assets/projects-presentation-2026-10-11/case-koto-quote.webp"
+    }
+  ],
+  "method": {
+    "searches": 11,
+    "result_placements": 46,
+    "unique_references": 40,
+    "retained": 14,
+    "all_returned_previews_examined": true,
+    "source": "Mobbin",
+    "capture_dates": "unknown",
+    "new_mobile_testing": false
+  },
+  "exclusions": [
+    "Blank or uninformative captures",
+    "Private project management screens",
+    "Portfolio editing screens",
+    "Generated demo portfolios",
+    "General brand and contact sections unrelated to project presentation"
+  ]
+}

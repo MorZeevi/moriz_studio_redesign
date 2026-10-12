@@ -5,7 +5,10 @@ import { projectCopy } from "@/i18n/project-copy";
 import { galleryImages } from "@/lib/cms/validation";
 import type {
   BlockType,
+  MediaSpacing,
+  MultiMediaLayout,
   ProjectContentBlock,
+  SingleMediaLayout,
   ProjectImage,
   ProjectMediaItem,
   TextSubsection,
@@ -257,6 +260,63 @@ function Subsections({
     </div>
   );
 }
+/** Where a media block sits in the case-study gallery column. */
+function Presentation({
+  block,
+  onChange,
+}: {
+  block: ProjectContentBlock;
+  onChange: (block: ProjectContentBlock) => void;
+}) {
+  if (block.type === "text" || block.type === "highlights") return null;
+  const single = block.type === "image" || block.type === "video";
+  const hasLayout = block.type !== "media_text";
+  return (
+    <div className={styles.grid}>
+      {hasLayout && (
+        <label className={styles.field}>
+          <span>פריסת מדיה בעמוד הפרויקט</span>
+          <select
+            value={block.layout ?? (single ? "full" : "equal")}
+            onChange={(e) =>
+              onChange({
+                ...block,
+                layout: e.target.value as SingleMediaLayout & MultiMediaLayout,
+              })
+            }
+          >
+            {single ? (
+              <>
+                <option value="full">רוחב מלא</option>
+                <option value="center">מרכז — שני שלישים</option>
+                <option value="start">תחילת שורה — חצי רוחב</option>
+                <option value="end">סוף שורה — חצי רוחב</option>
+              </>
+            ) : (
+              <>
+                <option value="equal">זוגות שווים</option>
+                <option value="staggered">זוגות מדורגים — 60/40</option>
+              </>
+            )}
+          </select>
+        </label>
+      )}
+      <label className={styles.field}>
+        <span>רווח לפני המדיה</span>
+        <select
+          value={block.spacing ?? "regular"}
+          onChange={(e) =>
+            onChange({ ...block, spacing: e.target.value as MediaSpacing })
+          }
+        >
+          <option value="regular">רגיל</option>
+          <option value="generous">מרווח</option>
+          <option value="extra">מרווח במיוחד</option>
+        </select>
+      </label>
+    </div>
+  );
+}
 export function ContentEditor({
   blocks,
   update,
@@ -364,7 +424,7 @@ export function ContentEditor({
                       set(block.id, { ...block, collapsible: e.target.checked })
                     }
                   />
-                  הצגה כשאלה נפתחת
+                  הצגה כשאלה נפתחת ברשימת הפרויקטים
                 </label>
                 <Subsections
                   items={block.subsections ?? []}
@@ -561,6 +621,10 @@ export function ContentEditor({
                 </label>
               </>
             )}
+            <Presentation
+              block={block}
+              onChange={(next) => set(block.id, next)}
+            />
             {block.type === "highlights" && (
               <>
                 <LocalizedField

@@ -143,6 +143,21 @@ export const he = {
     projectLink: "לפרויקט המלא",
     viewProject: "לצפיה בפרויקט",
     backLink: "חזרה לפרויקטים",
+    caseStudy: {
+      additionalInfo: "מידע נוסף",
+      gallery: "תמונות הפרויקט",
+      client: "לקוח",
+      year: "שנה",
+      services: "שירותים",
+      openImage: "הגדלת תמונה",
+      viewer: "צפייה בתמונות הפרויקט",
+      close: "סגירת תמונה",
+      previous: "התמונה הקודמת",
+      next: "התמונה הבאה",
+      imageError: "לא ניתן לטעון את התמונה.",
+      openOriginal: "פתיחת התמונה המקורית",
+      video: "סרטון הפרויקט",
+    },
     items: [
       {
         slug: "practice-ai",
@@ -240,8 +255,7 @@ export const he = {
     items: [
       {
         id: "elementor",
-        headline:
-          "לכל אחד שמחפש שילוב של יכולת טכנית וחשיבה יצירתית.",
+        headline: "לכל אחד שמחפש שילוב של יכולת טכנית וחשיבה יצירתית.",
         body: [
           "עבדתי עם מור על פיתוח חוויות אינטראקטיביות ומורכבות באלמנטור, באמצעות אנג'י, פלאגין ה-AI שלנו. מור הביאה שילוב של מקצועיות, יצירתיות ויוזמה: היא הבינה במהירות את הצרכים, הציעה פתרונות משלה ולא חיכתה להנחיות מפורטות. העבודה שהפיקה הייתה ברמה גבוהה ותרמה ישירות לאיכות התוצר הסופי. מומלצת בחום לכל אחד שמחפש שילוב של יכולת טכנית וחשיבה יצירתית.",
         ],
@@ -306,8 +320,7 @@ export const he = {
       {
         icon: "phone",
         title: "שיחת טלפון קצרה",
-        detail:
-          "כמה שאלות פשוטות, כדי לראות אם יש התאמה ראשונית לצרכים שלכם.",
+        detail: "כמה שאלות פשוטות, כדי לראות אם יש התאמה ראשונית לצרכים שלכם.",
       },
       {
         icon: "video",
@@ -329,15 +342,29 @@ export const he = {
   },
   // Answers come only from the ai_knowledge table in Supabase.
   askAi: {
-    heading: "לא מצאת תשובה?",
+    title: "moriz.ai",
+    greeting: "היי, אני moriz.ai",
+    intro: "אני מעדיפה שתדברו איתי, אבל ה-AI שלי ממש התעקש להשתתף",
     label: "השאלה שלך",
-    placeholder: "אפשר לשאול אותי משהו...",
-    submit: "שאלו AI",
+    // Typed out letter by letter in the empty field.
+    typingHint: "אפשר לשאול כל שאלה…",
+    suggestionsLabel: "שאלות מוצעות",
+    // Each one maps to a live knowledge row: prices, process, services, fit.
+    suggestions: [
+      "כמה עולה אתר?",
+      "איך נראה תהליך העבודה?",
+      "אילו שירותים את מציעה?",
+      "למי זה מתאים?",
+    ],
+    thread: "השיחה עם moriz.ai",
+    send: "שליחה",
     loading: "רגע, בודקת…",
     fallback:
       "המידע הזה עדיין לא נמצא אצלי 🙂\nאפשר לדבר איתי ישירות בוואטסאפ.",
     whatsapp: "דברו איתי בוואטסאפ",
     error: "משהו השתבש ולא הצלחתי לענות כרגע. אפשר לנסות שוב בעוד רגע.",
+    retry: "לנסות שוב",
+    reset: "שיחה חדשה",
     close: "סגירה",
   },
   contact: {
@@ -385,7 +412,8 @@ export const he = {
   floatingActions: {
     label: "פעולות מהירות",
     whatsapp: "שנדבר בוואטסאפ?",
-    ai: "moriz.ai",
-    aiLabel: "moriz.ai — שאלו את ה-AI",
+    ai: "Ask moriz.ai",
+    // Starts with the visible label so voice control can match it.
+    aiLabel: "Ask moriz.ai – שאלו אותי כל שאלה",
   },
 };

@@ -5,6 +5,10 @@ import { readFileSync, writeFileSync } from "node:fs";
 import type { Database } from "../../src/types/database.types";
 import { fixture } from "./setup";
 import {
+  projectGallery,
+  projectInformation,
+} from "../../src/lib/project-presentation";
+import {
   parseContent,
   parseMedia,
   projectReadiness,
@@ -106,6 +110,92 @@ test("publishing rules, gallery and highlight validation", () => {
       true,
     ),
   ).not.toThrow();
+});
+
+test("media presentation is optional, type-specific and preserves gallery order", () => {
+  for (const layout of ["full", "center", "start", "end"]) {
+    for (const spacing of ["regular", "generous", "extra"]) {
+      expect(() =>
+        validateContent([{ type: "image", src: "", layout, spacing }]),
+      ).not.toThrow();
+      expect(() =>
+        validateContent([{ type: "video", src: "", layout, spacing }]),
+      ).not.toThrow();
+    }
+  }
+  for (const layout of ["equal", "staggered"])
+    expect(() =>
+      validateContent([{ type: "gallery", images: [], layout }]),
+    ).not.toThrow();
+  for (const properties of [
+    { layout: "staggered" },
+    { layout: ["full"] },
+    { spacing: "300px" },
+    { spacing: ["regular"] },
+  ]) {
+    expect(() =>
+      validateContent([{ type: "image", src: "", ...properties }]),
+    ).toThrow();
+  }
+  expect(() =>
+    validateContent([{ type: "gallery", images: [], layout: "center" }]),
+  ).toThrow();
+  expect(() => validateContent([{ type: "image", src: "" }])).not.toThrow();
+  const project = {
+    title: "Gallery",
+    title_en: null,
+    cover_image_url: "/cover",
+    description: "Original description",
+    description_en: null,
+    target_audience: null,
+    target_audience_en: null,
+    audience_description: null,
+    audience_description_en: null,
+    media: [],
+    highlights: [],
+    content: [
+      { type: "text" as const, title: " ", text: "Untitled information" },
+      {
+        type: "gallery" as const,
+        layout: "staggered" as const,
+        images: [
+          { src: "/cover", caption: "Cover caption" },
+          { src: "/second" },
+          { src: "/third" },
+        ],
+      },
+      { type: "video" as const, src: "/video" },
+      {
+        type: "image" as const,
+        src: "/last",
+        layout: "end" as const,
+        spacing: "extra" as const,
+      },
+      { type: "text" as const, title: "Empty", text: " " },
+    ],
+  };
+  const saved = JSON.stringify(project);
+  const gallery = projectGallery(project);
+  expect(gallery.images.map((image) => image.src)).toEqual([
+    "/cover",
+    "/second",
+    "/third",
+    "/last",
+  ]);
+  expect(gallery.images[0].caption).toBe("Cover caption");
+  expect(
+    gallery.entries.map((entry) => ("layout" in entry ? entry.layout : null)),
+  ).toEqual(["full", "staggered", "full", "end"]);
+  expect(
+    projectInformation(project, "About", "More").map((item) => [
+      item.title,
+      item.text,
+    ]),
+  ).toEqual([
+    ["About", "Original description"],
+    ["More", "Untitled information"],
+  ]);
+  expect(JSON.stringify(project)).toBe(saved);
 });
 
 test("RLS, category cascades, atomic saving and media privacy", async ({
@@ -475,9 +565,7 @@ test("private routes and a complete editor publishing flow", async ({
     .getByLabel("יצירת סוג פרויקט חדש", { exact: true })
     .fill(`${f.prefix} Web App`);
   await page.getByRole("button", { name: "יצירת סוג", exact: true }).click();
-  await expect(page.getByLabel(/^סוג פרויקט/)).not.toHaveValue(
-    "",
-  );
+  await expect(page.getByLabel(/^סוג פרויקט/)).not.toHaveValue("");
   await tab("עמוד הבית");
   const cover = page.locator('fieldset[aria-label="תמונת קאבר"]');
   const coverInput = cover.locator("input[type=file]");
@@ -512,6 +600,8 @@ test("private routes and a complete editor publishing flow", async ({
     .getByLabel("טקסט חלופי לתמונה", { exact: true })
     .fill("Project screen");
   await block.getByLabel("כיתוב תמונה", { exact: true }).fill("Screen caption");
+  await block.getByLabel(/^פריסת מדיה בעמוד הפרויקט/).selectOption("end");
+  await block.getByLabel(/^רווח לפני המדיה/).selectOption("extra");
   await add("video");
   block = page.getByRole("region", { name: "סרטון 3", exact: true });
   await block
@@ -526,12 +616,15 @@ test("private routes and a complete editor publishing flow", async ({
   await block.getByLabel("לולאה", { exact: true }).check();
   await add("two_images");
   block = page.getByRole("region", { name: "שתי תמונות 4", exact: true });
+  await block.getByLabel("פריסת מדיה בעמוד הפרויקט").selectOption("staggered");
+  await block.getByLabel("רווח לפני המדיה").selectOption("generous");
   for (const input of await block.locator("input[type=file]").all()) {
     await input.setInputFiles("public/party-mode/disco-ball.webp");
     await expect(uploading).not.toBeVisible();
   }
   await add("gallery");
   block = page.getByRole("region", { name: "גלריה 5", exact: true });
+  await block.getByLabel("פריסת מדיה בעמוד הפרויקט").selectOption("staggered");
   await block.getByRole("button", { name: "הוספת תמונה לגלריה" }).click();
   await block
     .locator("input[type=file]")
@@ -563,6 +656,23 @@ test("private routes and a complete editor publishing flow", async ({
     .selectOption({ label: "6K+ · Community members" });
   await page.getByRole("button", { name: "שמירת טיוטה", exact: true }).click();
   await expect(page.getByRole("status")).toContainText("הטיוטה נשמרה");
+  await page.reload();
+  await tab("Case Study");
+  await expect(
+    page
+      .getByRole("region", { name: "תמונה 2", exact: true })
+      .getByLabel("פריסת מדיה בעמוד הפרויקט"),
+  ).toHaveValue("end");
+  await expect(
+    page
+      .getByRole("region", { name: "תמונה 2", exact: true })
+      .getByLabel("רווח לפני המדיה"),
+  ).toHaveValue("extra");
+  await expect(
+    page
+      .getByRole("region", { name: "גלריה 4", exact: true })
+      .getByLabel("פריסת מדיה בעמוד הפרויקט"),
+  ).toHaveValue("staggered");
   await page.getByRole("button", { name: "תצוגה מקדימה", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "The challenge", exact: true }),
@@ -625,12 +735,188 @@ test("private routes and a complete editor publishing flow", async ({
   await expect(
     publicPage.getByText("Full project description", { exact: true }),
   ).toBeVisible();
+  // Target audience is its own panel accordion (closed by default).
   await expect(
     publicPage.getByText("Business owners and professionals"),
-  ).toBeVisible();
+  ).toBeAttached();
   await expect(publicPage.getByText("Hidden draft section")).toHaveCount(0);
   await expect(publicPage.locator("video").first()).toBeVisible();
   await expect(publicPage.getByAltText("Project screen")).toBeVisible();
+  const gallery = publicPage.getByRole("region", {
+    name: "תמונות הפרויקט",
+    exact: true,
+  });
+  // Five placed images, then the six bulk uploads no block places.
+  await expect(gallery.locator("img")).toHaveCount(11);
+  await expect(gallery.locator('[data-layout="end"]')).toHaveCSS(
+    "width",
+    /px$/,
+  );
+  const imageLink = gallery.getByRole("link", {
+    name: "הגדלת תמונה 2 — Project screen",
+    exact: true,
+  });
+  await imageLink.click();
+  const viewer = publicPage.getByRole("dialog", {
+    name: "צפייה בתמונות הפרויקט",
+    exact: true,
+  });
+  await expect(viewer).toBeVisible();
+  await expect(viewer).toContainText("2 / 11");
+  await expect(viewer).toContainText("Screen caption");
+  await viewer
+    .getByRole("button", { name: "התמונה הקודמת", exact: true })
+    .click();
+  await expect(viewer).toContainText("1 / 11");
+  await expect(
+    viewer.getByRole("button", { name: "התמונה הקודמת", exact: true }),
+  ).toBeDisabled();
+  await publicPage.keyboard.press("ArrowRight");
+  await expect(viewer).toContainText("1 / 11");
+  await publicPage.keyboard.press("ArrowLeft");
+  await publicPage.keyboard.press("ArrowLeft");
+  await expect(viewer).toContainText("3 / 11");
+  await publicPage.keyboard.press("Escape");
+  await expect(viewer).not.toBeVisible();
+  await expect(imageLink).toBeFocused();
+  const about = publicPage.locator("aside details").first();
+  await expect(about).toHaveAttribute("open", "");
+  await publicPage.getByText("The challenge", { exact: true }).click();
+  await expect(about).not.toHaveAttribute("open", "");
+  await expect(
+    publicPage.getByText("A useful case study.", { exact: true }),
+  ).toBeVisible();
+  const offset = gallery.locator('[data-layout="end"]');
+  const galleryWidth = await gallery.evaluate(
+    (element) => element.getBoundingClientRect().width,
+  );
+  expect(
+    await offset.evaluate((element) => element.getBoundingClientRect().width),
+  ).toBeCloseTo(galleryWidth / 2, 0);
+  await expect(offset).toHaveCSS("margin-top", "128px");
+  const staggered = gallery.locator('[data-layout="staggered"]').last();
+  const pairWidths = await staggered
+    .locator("figure")
+    .evaluateAll((elements) =>
+      elements.map((element) => element.getBoundingClientRect().width),
+    );
+  expect(pairWidths[0] / pairWidths[1]).toBeCloseTo(1.5, 1);
+  await publicPage.evaluate(() => window.scrollTo(0, 500));
+  expect(
+    await publicPage
+      .locator("aside")
+      .evaluate((element) => Math.round(element.getBoundingClientRect().top)),
+  ).toBe(32);
+  await publicPage.setViewportSize({ width: 390, height: 844 });
+  await expect(publicPage.locator("aside")).toHaveCSS("position", "static");
+  const mobileActions = publicPage.getByRole("navigation", {
+    name: "פעולות מהירות",
+    exact: true,
+  });
+  expect(
+    await mobileActions
+      .getByRole("button")
+      .evaluate((element) => element.getBoundingClientRect().width),
+  ).toBeCloseTo(44, 0);
+  const actionEdge = await mobileActions.evaluate(
+    (element) => element.getBoundingClientRect().right,
+  );
+  const answerEdge = await publicPage
+    .getByText("A useful case study.", { exact: true })
+    .evaluate((element) => {
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      return range.getBoundingClientRect().left;
+    });
+  expect(answerEdge).toBeGreaterThan(actionEdge);
+  expect(
+    await offset.evaluate((element) => element.getBoundingClientRect().width),
+  ).toBeCloseTo(
+    await gallery.evaluate((element) => element.getBoundingClientRect().width),
+    0,
+  );
+  await expect(offset).toHaveCSS("margin-top", "64px");
+  expect(
+    await staggered
+      .locator("figure")
+      .evaluateAll(
+        (elements) =>
+          elements[1].getBoundingClientRect().top >
+          elements[0].getBoundingClientRect().bottom,
+      ),
+  ).toBe(true);
+  expect(
+    await publicPage.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  await publicPage.setViewportSize({ width: 1440, height: 1000 });
+  await publicPage.evaluate(() => {
+    document.documentElement.dataset.theme = "light";
+    window.scrollTo(0, 0);
+  });
+  await gallery.locator("img").evaluateAll((elements) =>
+    elements.forEach((element) => {
+      if (element instanceof HTMLImageElement) element.loading = "eager";
+    }),
+  );
+  await expect
+    .poll(() =>
+      gallery
+        .locator("img")
+        .evaluateAll((elements) =>
+          elements.every(
+            (element) =>
+              element instanceof HTMLImageElement &&
+              element.complete &&
+              element.naturalWidth > 0,
+          ),
+        ),
+    )
+    .toBe(true);
+  await publicPage
+    .getByRole("button", { name: "Hide developer tools", exact: true })
+    .click();
+  await publicPage.screenshot({
+    path: ".cache/project-gallery-layouts-desktop.png",
+    fullPage: true,
+  });
+  await publicPage.setViewportSize({ width: 390, height: 844 });
+  await publicPage.screenshot({
+    path: ".cache/project-gallery-layouts-mobile.png",
+    fullPage: true,
+  });
+  await publicPage.setViewportSize({ width: 1440, height: 1000 });
+  const coverUrl = await gallery.locator("a").first().getAttribute("href");
+  if (!coverUrl) throw new Error("Missing cover link");
+  await publicPage.route(`**${coverUrl}`, (route) => route.abort());
+  await publicPage.reload();
+  await expect(
+    gallery.getByText("לא ניתן לטעון את התמונה.", { exact: true }),
+  ).toBeVisible();
+  await gallery.locator("a").first().click();
+  await expect(
+    viewer.getByText("לא ניתן לטעון את התמונה.", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    viewer.getByRole("link", { name: "פתיחת התמונה המקורית", exact: true }),
+  ).toHaveAttribute("href", coverUrl);
+  await publicPage.keyboard.press("Escape");
+  await publicPage.unroute(`**${coverUrl}`);
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  const noJsPage = await noJs.newPage();
+  await noJsPage.goto(`/he/projects/${slug}`);
+  await noJsPage.getByText("The challenge", { exact: true }).click();
+  await expect(
+    noJsPage.getByText("A useful case study.", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    noJsPage.getByRole("link", {
+      name: "הגדלת תמונה 2 — Project screen",
+      exact: true,
+    }),
+  ).toHaveAttribute("href", /\/media\//);
+  await noJs.close();
   await publicPage.goto("/he/projects");
   await expect(
     publicPage.getByRole("heading", { name: "CMS browser test", exact: true }),

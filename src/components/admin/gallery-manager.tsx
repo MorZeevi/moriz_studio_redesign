@@ -18,12 +18,14 @@ import {
 } from "./upload";
 import styles from "./admin.module.css";
 
+// Used when no block places the file: explicit layouts stand alone, the rest
+// pair up at the end of the case study.
 const LAYOUTS: [MediaLayout | "", string][] = [
-  ["", "אוטומטית לפי צורת התמונה"],
+  ["", "אוטומטית — בזוגות"],
   ["full", "רוחב מלא"],
-  ["wide", "רחבה"],
-  ["half", "חצי רוחב"],
-  ["third", "שליש רוחב"],
+  ["center", "מרכז — שני שלישים"],
+  ["start", "תחילת שורה — חצי רוחב"],
+  ["end", "סוף שורה — חצי רוחב"],
 ];
 function fileName(src: string) {
   return src.split("/").pop() ?? src;

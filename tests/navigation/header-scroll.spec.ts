@@ -174,3 +174,196 @@ test("mobile leaves the header alone", async ({ browser, baseURL }) => {
   ).toBe("none");
   await context.close();
 });
+
+const projectStack = (page: Page) =>
+  page.evaluate(() => {
+    const header = document.querySelector(".site-header");
+    const intro = document.querySelector("[data-stack-intro]");
+    if (!header || !intro) throw new Error("Missing project stack or header");
+    const introBox = intro.getBoundingClientRect();
+    return {
+      headerHidden: header.hasAttribute("data-header-hidden"),
+      headerBottom: header.getBoundingClientRect().bottom,
+      introTop: introBox.top,
+      introBottom: introBox.bottom,
+      heads: Array.from(
+        document.querySelectorAll("[data-stack-head]"),
+        (head) => {
+          const { top, bottom } = head.getBoundingClientRect();
+          return { top, bottom };
+        },
+      ),
+      topCoveredByIntro:
+        document
+          .elementFromPoint(innerWidth / 2, 1)
+          ?.closest("[data-stack-intro]") === intro,
+    };
+  });
+
+for (const reducedMotion of ["no-preference", "reduce"] as const) {
+  test(`Projects follows navbar visibility and keeps wrapped strips aligned with ${reducedMotion} motion`, async ({
+    page,
+  }, testInfo) => {
+    await page.emulateMedia({ reducedMotion });
+    await page.goto("/he");
+    await page.evaluate(() => document.fonts.ready);
+    const intro = page.locator("[data-stack-intro]");
+    await intro.evaluate((element) =>
+      scrollTo(0, scrollY + element.getBoundingClientRect().top + 500),
+    );
+    await expect(page.locator(".site-header")).toHaveAttribute(
+      "data-header-hidden",
+      "",
+    );
+    await expect
+      .poll(async () => (await projectStack(page)).introTop)
+      .toBeCloseTo(0, 0);
+    await expect
+      .poll(async () => {
+        const stack = await projectStack(page);
+        return stack.heads[0].top - stack.introBottom;
+      })
+      .toBeCloseTo(0, 0);
+    expect((await projectStack(page)).topCoveredByIntro).toBe(true);
+
+    if (process.env.LIQUID_REVIEW_CAPTURE) {
+      await expect
+        .poll(() =>
+          page
+            .locator("#projects")
+            .evaluate((section) =>
+              Number(
+                (section as HTMLElement).style.getPropertyValue(
+                  "--project-reveal",
+                ),
+              ),
+            ),
+        )
+        .toBe(1);
+      await page.screenshot({
+        path: testInfo.outputPath("projects-hidden-navbar.png"),
+      });
+    }
+
+    await scrollUp(page);
+    await expect(page.locator(".site-header")).not.toHaveAttribute(
+      "data-header-hidden",
+    );
+    await expect
+      .poll(async () => {
+        const stack = await projectStack(page);
+        return stack.introTop - stack.headerBottom;
+      })
+      .toBeCloseTo(0, 0);
+
+    await scrollDown(page);
+    await expect(page.locator(".site-header")).toHaveAttribute(
+      "data-header-hidden",
+      "",
+    );
+    await page
+      .locator(".desktop-navigation a")
+      .first()
+      .evaluate((element) =>
+        (element as HTMLElement).focus({ preventScroll: true }),
+      );
+    await expect(page.locator(".site-header")).not.toHaveAttribute(
+      "data-header-hidden",
+    );
+    await expect
+      .poll(async () => {
+        const stack = await projectStack(page);
+        return stack.introTop - stack.headerBottom;
+      })
+      .toBeCloseTo(0, 0);
+
+    // A longer CMS description changes strip height after initial measurement.
+    await page
+      .locator("[data-stack-head] p")
+      .first()
+      .evaluate((description) => {
+        description.textContent = `${description.textContent} `.repeat(8);
+      });
+    await page
+      .locator("[data-stack-head]")
+      .nth(1)
+      .evaluate(async (element) => {
+        // Use the non-sticky body to target the start of this project;
+        // the strip may already be pinned when the description grows.
+        await new Promise<void>((resolve) =>
+          requestAnimationFrame(() => resolve()),
+        );
+        const body = element.nextElementSibling;
+        if (!body) throw new Error("Missing project body");
+        scrollTo(
+          0,
+          scrollY +
+            body.getBoundingClientRect().top -
+            element.getBoundingClientRect().height -
+            Number.parseFloat(getComputedStyle(element).top) +
+            100,
+        );
+      });
+    await expect(page.locator(".site-header")).toHaveAttribute(
+      "data-header-hidden",
+      "",
+    );
+    await expect
+      .poll(async () => {
+        const stack = await projectStack(page);
+        return stack.heads[1].top - stack.heads[0].bottom;
+      })
+      .toBeCloseTo(0, 0);
+    expect((await projectStack(page)).topCoveredByIntro).toBe(true);
+
+    if (process.env.LIQUID_REVIEW_CAPTURE)
+      await page.screenshot({
+        path: testInfo.outputPath("projects-pinned.png"),
+      });
+  });
+}
+
+test("Projects remains aligned across desktop, tablet and mobile breakpoints", async ({
+  page,
+}, testInfo) => {
+  await page.goto("/he");
+  await page.evaluate(() => document.fonts.ready);
+  for (const width of [1440, 980, 390, 1024]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await page
+      .locator("#projects")
+      .evaluate((element) =>
+        scrollTo(0, scrollY + element.getBoundingClientRect().top + 500),
+      );
+    if (width < 1024)
+      await expect(page.locator(".site-header")).not.toHaveAttribute(
+        "data-header-hidden",
+      );
+    await expect
+      .poll(async () => {
+        const stack = await projectStack(page);
+        const clearance =
+          width >= 1024 && !stack.headerHidden ? stack.headerBottom : 0;
+        return stack.introTop - clearance;
+      })
+      .toBeCloseTo(0, 0);
+    await expect
+      .poll(async () => {
+        const stack = await projectStack(page);
+        return stack.heads[0].top - stack.introBottom;
+      })
+      .toBeCloseTo(0, 0);
+    const stack = await projectStack(page);
+    if (width < 1024 || stack.headerHidden)
+      expect(stack.topCoveredByIntro).toBe(true);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    if (process.env.LIQUID_REVIEW_CAPTURE)
+      await page.screenshot({
+        path: testInfo.outputPath(`projects-${width}.png`),
+      });
+  }
+});

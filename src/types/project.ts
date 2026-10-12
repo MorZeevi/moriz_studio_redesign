@@ -12,6 +12,16 @@ export type ProjectImage = {
 };
 /** Every block can be hidden without deleting it. */
 type BlockBase = { id?: string; hidden?: boolean };
+// Case-study placement: where media sits in the gallery column, and how much
+// space precedes it. Older blocks default to full width / equal pairs.
+export type MediaSpacing = "regular" | "generous" | "extra";
+export type SingleMediaLayout = "full" | "center" | "start" | "end";
+export type MultiMediaLayout = "equal" | "staggered";
+type SinglePresentation = {
+  layout?: SingleMediaLayout;
+  spacing?: MediaSpacing;
+};
+type MultiPresentation = { layout?: MultiMediaLayout; spacing?: MediaSpacing };
 export type TextSubsection = {
   title?: string;
   title_en?: string;
@@ -29,7 +39,10 @@ export type TextBlock = BlockBase & {
   collapsible?: boolean;
   subsections?: TextSubsection[];
 };
-export type ImageBlock = BlockBase & { type: "image" } & ProjectImage;
+export type ImageBlock = BlockBase & {
+  type: "image";
+} & ProjectImage &
+  SinglePresentation;
 export type VideoBlock = BlockBase & {
   type: "video";
   src: string;
@@ -38,19 +51,19 @@ export type VideoBlock = BlockBase & {
   loop?: boolean;
   muted?: boolean;
   controls?: boolean;
-};
+} & SinglePresentation;
 export type TwoImagesBlock = BlockBase & {
   type: "two_images";
   images: [ProjectImage, ProjectImage];
-};
+} & MultiPresentation;
 export type ThreeImagesBlock = BlockBase & {
   type: "three_images";
   images: [ProjectImage, ProjectImage, ProjectImage];
-};
+} & MultiPresentation;
 export type GalleryBlock = BlockBase & {
   type: "gallery";
   images: ProjectImage[];
-};
+} & MultiPresentation;
 /** Image or video beside text. `feature` styles it as a product feature. */
 export type MediaTextBlock = BlockBase &
   ProjectImage & {
@@ -63,6 +76,7 @@ export type MediaTextBlock = BlockBase &
     text_en?: string;
     side?: "start" | "end";
     feature?: boolean;
+    spacing?: MediaSpacing;
   };
 /** Renders the project's highlights at this position. */
 export type HighlightsBlock = BlockBase & {
@@ -81,7 +95,8 @@ export type ProjectContentBlock =
   | HighlightsBlock;
 export type BlockType = ProjectContentBlock["type"];
 
-export type MediaLayout = "full" | "wide" | "half" | "third";
+/** Placement of a gallery file that no block places explicitly. */
+export type MediaLayout = SingleMediaLayout;
 /** One uploaded gallery file. `src` doubles as its id everywhere. */
 export type ProjectMediaItem = {
   src: string;

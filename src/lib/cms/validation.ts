@@ -80,12 +80,45 @@ function images(value: unknown, published: boolean, length?: number) {
 function strings(block: Record<string, unknown>, keys: string[]) {
   return keys.every((key) => optionalString(block[key]));
 }
+const SINGLE_LAYOUTS = ["full", "center", "start", "end"];
+const MULTI_LAYOUTS = ["equal", "staggered"];
+const SPACINGS = ["regular", "generous", "extra"];
+function oneOf(value: unknown, options: string[]) {
+  return (
+    value === undefined ||
+    (typeof value === "string" && options.includes(value))
+  );
+}
+/** Optional case-study placement of media blocks (layout + spacing). */
+function validPresentation(block: Record<string, unknown>) {
+  switch (block.type) {
+    case "image":
+    case "video":
+      return (
+        oneOf(block.layout, SINGLE_LAYOUTS) && oneOf(block.spacing, SPACINGS)
+      );
+    case "two_images":
+    case "three_images":
+    case "gallery":
+      return (
+        oneOf(block.layout, MULTI_LAYOUTS) && oneOf(block.spacing, SPACINGS)
+      );
+    case "media_text":
+      return oneOf(block.spacing, SPACINGS);
+    default:
+      return true;
+  }
+}
 function validBlock(
   block: unknown,
   published: boolean,
 ): block is ProjectContentBlock {
   if (!record(block)) return false;
-  if (!optionalString(block.id, 100) || !optionalBoolean(block.hidden))
+  if (
+    !optionalString(block.id, 100) ||
+    !optionalBoolean(block.hidden) ||
+    !validPresentation(block)
+  )
     return false;
   // Hidden blocks may stay incomplete; they never render publicly.
   const complete = published && !block.hidden;
@@ -201,8 +234,7 @@ function validMediaItem(value: unknown): value is ProjectMediaItem {
           (value[key] as number) < 100000),
     ) &&
     MEDIA_TEXT.every((key) => optionalString(value[key], 2000)) &&
-    (value.layout === undefined ||
-      ["full", "wide", "half", "third"].includes(value.layout as string)) &&
+    oneOf(value.layout, SINGLE_LAYOUTS) &&
     optionalBoolean(value.autoplay) &&
     optionalBoolean(value.loop)
   );

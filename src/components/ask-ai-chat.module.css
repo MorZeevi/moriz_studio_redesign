@@ -1,0 +1,591 @@
+/* The moriz.ai drawer: header, scrolling thread, pinned composer. Semantic
+   tokens only, so it follows the light and dark site themes. */
+
+@property --chat-angle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+
+.root {
+  --chat-red: var(--color-primary);
+  --chat-yellow: var(--color-secondary);
+  --chat-soft: var(--color-surface);
+  --chat-ease: cubic-bezier(0.34, 1.4, 0.64, 1);
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  block-size: 100%;
+  font-size: var(--text-body);
+  animation: chat-spin 9s linear infinite;
+}
+
+/* ---------- Header ---------- */
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  /* Secondary yellow with palette-black ink, on both themes. */
+  background: var(--color-secondary);
+  color: var(--color-dark);
+}
+
+.identity {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.title {
+  font-size: var(--text-body-lg);
+  font-weight: var(--font-weight-label);
+  line-height: 1.1;
+}
+
+.iconButton {
+  display: grid;
+  flex: none;
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  place-items: center;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-standard);
+}
+
+.iconButton:hover {
+  background: var(--color-action-secondary-hover);
+}
+
+.iconButton svg {
+  inline-size: 1.15rem;
+  block-size: 1.15rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Avatars ---------- */
+
+.avatar {
+  position: relative;
+  display: block;
+  flex: none;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--chat-yellow);
+}
+
+/* The photo is already cropped square around the face. */
+.avatar img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+/* A thin brand ring that slowly turns around Mor's photo. */
+.ring,
+.welcomeRing {
+  position: relative;
+  display: grid;
+  flex: none;
+  padding: 2px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from var(--chat-angle),
+    var(--chat-red),
+    var(--chat-yellow),
+    var(--chat-red)
+  );
+}
+
+.ring .avatar,
+.welcomeRing .avatar {
+  outline: 2px solid var(--color-background);
+  outline-offset: -1px;
+}
+
+@keyframes chat-spin {
+  to {
+    --chat-angle: 360deg;
+  }
+}
+
+/* ---------- Thread ---------- */
+
+.body {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-4);
+  scrollbar-width: thin;
+}
+
+.body:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+}
+
+.welcome {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: var(--space-3);
+  min-block-size: 100%;
+  padding-block: var(--space-6);
+  text-align: center;
+}
+
+.welcomeRing {
+  padding: 3px;
+  margin-block-end: var(--space-2);
+  animation: pop 0.7s var(--chat-ease) 0.12s both;
+}
+
+/* Soft pulse behind the big avatar. */
+.welcomeRing::before {
+  content: "";
+  position: absolute;
+  inset: -0.6rem;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--chat-red) 35%, transparent),
+    transparent 70%
+  );
+  animation: breathe 3.6s ease-in-out infinite alternate;
+}
+
+@keyframes breathe {
+  from {
+    opacity: 0.4;
+    scale: 0.92;
+  }
+  to {
+    opacity: 1;
+    scale: 1.08;
+  }
+}
+
+.greeting {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: var(--font-weight-display);
+  line-height: 1.1;
+  animation: rise 0.6s var(--ease-enter) 0.22s both;
+}
+
+.intro {
+  max-inline-size: 30ch;
+  color: var(--color-text-secondary);
+  font-size: var(--text-body-sm);
+  line-height: var(--text-body-sm--line-height);
+  animation: rise 0.6s var(--ease-enter) 0.3s both;
+}
+
+/* Right-aligned in Hebrew (inline-start). */
+.suggestionCards {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-2);
+  inline-size: 100%;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.suggestionCards li {
+  animation: rise 0.55s var(--ease-enter) both;
+  animation-delay: calc(0.42s + var(--i) * 70ms);
+}
+
+/* The site's liquid pill shape: a white blob holding the sparkle, melted into
+   the label. Doubled class outranks the pill's own module rules. */
+.suggestionCard.suggestionCard {
+  --lb-fill: var(--site-card, #fff);
+  --lb-pressed-fill: var(--color-surface);
+  --lb-ink: var(--color-text-primary);
+  /* The goo can't carry a border, so a soft shadow outlines the white shape. */
+  filter: var(--lb-filter) drop-shadow(0 0 0.5px rgb(0 0 0 / 0.35))
+    drop-shadow(0 0.35rem 0.75rem rgb(0 0 0 / 0.08));
+  cursor: pointer;
+}
+
+.suggestionCard [data-liquid-icon] > span {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  color: var(--chat-red);
+}
+
+/* Short threads sit by the composer, like any chat. */
+.messages {
+  display: grid;
+  align-content: end;
+  gap: var(--space-3);
+  min-block-size: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.userRow,
+.answerRow {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+}
+
+/* Visitor on the inline-start side (right in Hebrew). */
+.userRow {
+  justify-content: flex-start;
+}
+
+/* Answers on the far side, with Mor's photo on the outer edge. */
+.answerRow {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+
+.messages > li:last-child {
+  animation: pop 0.45s var(--chat-ease) both;
+}
+
+.userRow:last-child {
+  transform-origin: bottom right;
+}
+
+.answerRow:last-child {
+  transform-origin: bottom left;
+}
+
+.bubble {
+  max-inline-size: 82%;
+  padding: 0.65rem 0.95rem;
+  border-radius: 1.15rem;
+  line-height: var(--text-body--line-height);
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.userBubble {
+  border-end-start-radius: 0.35rem;
+  background: var(--chat-yellow);
+  color: var(--color-dark);
+}
+
+.answerBubble {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-3);
+  border: var(--border-width-default) solid var(--color-border);
+  border-end-end-radius: 0.35rem;
+  /* White on the light theme; the raised surface on dark. */
+  background: var(--site-card, #fff);
+}
+
+.answerAvatar {
+  margin-block-end: 0.1rem;
+}
+
+/* Inline, not inline-block: inline-blocks are bidi-neutral and would reverse
+   English runs inside a Hebrew answer while it reveals. */
+.word {
+  animation: word-in 0.5s var(--ease-enter) both;
+}
+
+@keyframes word-in {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+  }
+}
+
+.thinking {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-block-size: 2.6rem;
+}
+
+.dot {
+  inline-size: 0.45rem;
+  block-size: 0.45rem;
+  border-radius: 50%;
+  background: var(--color-text-secondary);
+  animation: bounce 1.1s ease-in-out infinite;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes bounce {
+  0%,
+  60%,
+  100% {
+    translate: 0 0;
+    opacity: 0.45;
+  }
+  30% {
+    translate: 0 -0.3rem;
+    opacity: 1;
+  }
+}
+
+.whatsapp {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--control-height-sm);
+  padding-inline: 1.1rem;
+  border-radius: var(--radius-pill);
+  background: #25d366;
+  color: var(--color-dark);
+  font-weight: var(--font-weight-label);
+  text-decoration: none;
+}
+
+.retry {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: var(--font-weight-label);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+/* ---------- Composer ---------- */
+
+.footer {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4)
+    max(var(--space-4), env(safe-area-inset-bottom));
+}
+
+.suggestionChips {
+  display: flex;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0 0 0.15rem;
+  overflow-x: auto;
+  list-style: none;
+  scrollbar-width: none;
+  mask-image: linear-gradient(
+    to left,
+    transparent,
+    #000 1rem,
+    #000 calc(100% - 1rem),
+    transparent
+  );
+  animation: rise 0.45s var(--ease-enter) both;
+}
+
+.suggestionChip {
+  padding: 0.4rem 0.9rem;
+  border: var(--border-width-default) solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-background);
+  color: inherit;
+  font: inherit;
+  font-size: var(--text-body-sm);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.suggestionChip:hover {
+  border-color: var(--color-text-primary);
+}
+
+.composer {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+  padding: 0.4rem;
+  border-radius: 1.6rem;
+  background: var(--color-background);
+}
+
+/* One even gradient ring, turning slowly; it brightens while typing. */
+.composer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1.5px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--chat-angle),
+    var(--chat-red),
+    var(--chat-yellow),
+    var(--chat-red)
+  );
+  opacity: 0.6;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: opacity var(--duration-normal) var(--ease-standard);
+}
+
+.composer:focus-within::before {
+  opacity: 1;
+}
+
+.field {
+  position: relative;
+  display: grid;
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.input {
+  grid-area: 1 / 1;
+  box-sizing: border-box;
+  min-block-size: 2.5rem;
+  max-block-size: 8.5rem;
+  padding: 0.55rem 0.75rem;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: 1.45;
+  resize: none;
+}
+
+/* The composer ring is the focus indicator; the site-wide focus halo would
+   paint over it. */
+.input:is(:focus, :focus-visible) {
+  box-shadow: none;
+}
+
+/* While the typed hint shows, its own caret stands in for the native one. */
+.input[data-empty] {
+  caret-color: transparent;
+}
+
+.hint {
+  grid-area: 1 / 1;
+  align-self: start;
+  padding: 0.55rem 0.75rem;
+  overflow: hidden;
+  color: var(--color-text-secondary);
+  line-height: 1.45;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+.hint::after {
+  content: "";
+  display: inline-block;
+  inline-size: 2px;
+  block-size: 1.1em;
+  margin-inline-start: 2px;
+  vertical-align: -0.15em;
+  background: var(--chat-red);
+  animation: blink 1s steps(1) infinite;
+}
+
+.hint[data-typing]::after {
+  animation: none;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.send {
+  display: grid;
+  flex: none;
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-secondary);
+  color: var(--color-dark);
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) var(--ease-standard),
+    scale var(--duration-normal) var(--chat-ease);
+}
+
+.send:not(:disabled):hover {
+  background: var(--color-action-secondary-hover);
+  scale: 1.08;
+}
+
+/* Stays yellow while empty, just quieter; the arrow keeps full black. */
+.send:disabled {
+  background: color-mix(in srgb, var(--color-secondary) 55%, transparent);
+  cursor: default;
+}
+
+.send svg {
+  inline-size: 1.15rem;
+  block-size: 1.15rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Shared ---------- */
+
+.root
+:is(
+  .iconButton,
+  .suggestionCard,
+  .suggestionChip,
+  .whatsapp,
+  .retry,
+  .send
+):focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    translate: 0 0.6rem;
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    scale: 0.6;
+  }
+}
+
+/* Tripled class outranks every animated rule above. */
+@media (prefers-reduced-motion: reduce) {
+  .root.root.root,
+  .root.root.root *,
+  .root.root.root *::before,
+  .root.root.root *::after {
+    animation: none;
+    transition: none;
+  }
+}

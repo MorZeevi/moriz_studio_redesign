@@ -2,11 +2,27 @@
 
 import Image from "next/image";
 import { useEffect, useId, useRef, useState } from "react";
-import { AskAiForm } from "@/components/ask-ai-form";
+import { AskAiChat } from "@/components/ask-ai-chat";
 import { LiquidButton, LiquidLink } from "@/components/ui/liquid-link";
 import type { SiteContent } from "@/i18n/dictionaries";
 import { WHATSAPP_URL } from "@/lib/whatsapp";
 import styles from "./floating-actions.module.css";
+
+// Phones get a full-screen modal sheet; wider screens a drawer beside the page.
+const SHEET_QUERY = "(max-width: 39.999rem)";
+
+function showChat(
+  dialog: HTMLDialogElement,
+  composer: HTMLTextAreaElement | null,
+) {
+  if (window.matchMedia(SHEET_QUERY).matches) {
+    dialog.showModal();
+    return;
+  }
+  // Non-modal, so the page stays readable and scrollable beside the chat.
+  dialog.show();
+  composer?.focus({ preventScroll: true });
+}
 
 function SparkleIcon() {
   return (
@@ -17,100 +33,130 @@ function SparkleIcon() {
   );
 }
 
-// Corner stack on every public page: AI (opens a one-question panel) above WhatsApp.
+function Portrait() {
+  return (
+    <Image
+      src="/images/mor-avatar-cutout.webp"
+      alt=""
+      width={600}
+      height={600}
+      sizes="72px"
+    />
+  );
+}
+
+// Corner stack on every public page: moriz.ai (opens the chat drawer) above WhatsApp.
 export function FloatingActions({
   content,
   ask,
+  compactOnMobile = false,
 }: {
   content: SiteContent["floatingActions"];
   ask: SiteContent["askAi"];
+  compactOnMobile?: boolean;
 }) {
   const [open, setOpen] = useState(false);
-  const panelId = useId();
-  const headingId = useId();
+  const [openCount, setOpenCount] = useState(0);
+  const dialogId = useId();
+  const titleId = useId();
+  const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const composerRef = useRef<HTMLTextAreaElement>(null);
 
+  function openChat() {
+    const dialog = dialogRef.current;
+    if (!dialog || dialog.open) return;
+    showChat(dialog, composerRef.current);
+    setOpen(true);
+    setOpenCount((count) => count + 1);
+  }
+
+  function closeChat() {
+    dialogRef.current?.close();
+  }
+
+  // Crossing the breakpoint while open reopens in the other mode.
+  useEffect(() => {
+    const sheet = window.matchMedia(SHEET_QUERY);
+    function switchMode() {
+      const dialog = dialogRef.current;
+      if (!dialog?.open) return;
+      dialog.close();
+      showChat(dialog, composerRef.current);
+    }
+    sheet.addEventListener("change", switchMode);
+    return () => sheet.removeEventListener("change", switchMode);
+  }, []);
+
+  // A non-modal dialog has no built-in Escape, so the page handles it.
   useEffect(() => {
     if (!open) return;
-    inputRef.current?.focus();
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key !== "Escape") return;
-      setOpen(false);
-      triggerRef.current?.focus();
+      if (event.key !== "Escape" || event.defaultPrevented) return;
+      event.preventDefault();
+      dialogRef.current?.close();
     }
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
-  function close() {
+  function onDialogClose() {
+    // A breakpoint switch closes and reopens; it fires close after the reopen.
+    if (dialogRef.current?.open) return;
     setOpen(false);
-    triggerRef.current?.focus();
+    triggerRef.current?.focus({ preventScroll: true });
   }
 
   return (
-    <div className={styles.root}>
-      {/* Stays mounted while closed so the last answer is there on reopen. */}
-      <div
-        id={panelId}
-        role="dialog"
-        aria-labelledby={headingId}
-        className={styles.panel}
-        hidden={!open}
+    <>
+      {/* Stays mounted while closed so the conversation is there on reopen. */}
+      <dialog
+        ref={dialogRef}
+        id={dialogId}
+        className={styles.drawer}
+        aria-labelledby={titleId}
+        onClose={onDialogClose}
       >
-        <div className={styles.panelHeader}>
-          <h2 id={headingId} className={styles.heading}>
-            {ask.heading}
-          </h2>
-          <button
-            type="button"
-            className={styles.close}
-            onClick={close}
-            aria-label={ask.close}
-          >
-            <span aria-hidden="true">✕</span>
-          </button>
-        </div>
-        <AskAiForm
+        <AskAiChat
           content={ask}
           whatsappUrl={WHATSAPP_URL}
-          inputRef={inputRef}
+          titleId={titleId}
+          openCount={openCount}
+          composerRef={composerRef}
+          onClose={closeChat}
         />
-      </div>
+      </dialog>
 
-      <nav aria-label={content.label} className={styles.stack}>
-        <LiquidButton
-          ref={triggerRef}
-          className={`${styles.action} ${styles.ai} floating-action`}
-          glyph={<SparkleIcon />}
-          aria-label={content.aiLabel}
-          aria-expanded={open}
-          aria-controls={panelId}
-          onClick={() => setOpen((value) => !value)}
-        >
-          {content.ai}
-        </LiquidButton>
-        {WHATSAPP_URL && (
-          <LiquidLink
-            className={`${styles.action} floating-action floating-whatsapp`}
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={content.whatsapp}
-            icon={
-              <Image
-                src="/images/mor-avatar-cutout.webp"
-                alt=""
-                width={600}
-                height={600}
-                sizes="72px"
-              />
-            }
+      <div
+        className={`${styles.root}${compactOnMobile ? ` ${styles.compactMobile}` : ""}`}
+      >
+        <nav aria-label={content.label} className={styles.stack}>
+          <LiquidButton
+            ref={triggerRef}
+            className={`${styles.action} ${styles.ai} floating-action`}
+            glyph={<SparkleIcon />}
+            aria-label={content.aiLabel}
+            aria-haspopup="dialog"
+            aria-expanded={open}
+            aria-controls={dialogId}
+            onClick={() => (open ? closeChat() : openChat())}
           >
-            {content.whatsapp}
-          </LiquidLink>
-        )}
-      </nav>
-    </div>
+            {content.ai}
+          </LiquidButton>
+          {WHATSAPP_URL && (
+            <LiquidLink
+              className={`${styles.action} floating-action floating-whatsapp`}
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={content.whatsapp}
+              icon={<Portrait />}
+            >
+              {content.whatsapp}
+            </LiquidLink>
+          )}
+        </nav>
+      </div>
+    </>
   );
 }
