@@ -11,6 +11,11 @@ export type Project = {
   description: string | null;
   contribution: string | null;
   image: { src: string; alt: string } | null;
+  /** A video cover plays muted and looping while visible. */
+  video?: { src: string; poster?: string } | null;
+  /** One project fact picked for this card (not necessarily a result). */
+  highlight?: { value: string; label: string } | null;
+  type?: string | null;
   details: ProjectDetail[];
-  categories?: import("@/types/project").Category[];
+  categories?: { id: string; name: string }[];
 };

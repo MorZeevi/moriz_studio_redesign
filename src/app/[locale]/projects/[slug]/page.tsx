@@ -3,7 +3,9 @@ import { notFound } from "next/navigation";
 import { ProjectDetail } from "@/components/project-detail";
 import { isEnabledLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { getPublicProject } from "@/lib/cms/queries";
+import { localized } from "@/lib/cms/localize";
+import { getNextProject, getPublicProject } from "@/lib/cms/queries";
+import { isVideoSrc } from "@/lib/cms/validation";
 import type { ProjectContentBlock } from "@/types/project";
 
 type PageParams = { params: Promise<{ locale: string; slug: string }> };
@@ -20,10 +22,30 @@ async function load(params: PageParams["params"]) {
 export async function generateMetadata({
   params,
 }: PageParams): Promise<Metadata> {
-  const { content, project } = await load(params);
+  const { locale, content, project } = await load(params);
+  const title =
+    localized(project, "seo_title", locale) ||
+    `${localized(project, "title", locale)} | ${content.studioName}`;
+  const description =
+    localized(project, "seo_description", locale) ||
+    localized(project, "short_description", locale) ||
+    localized(project, "description", locale) ||
+    undefined;
+  // Social image: the chosen one, else the hero when it is an image.
+  const image =
+    project.og_image_url ??
+    (project.cover_image_url && !isVideoSrc(project.cover_image_url)
+      ? project.cover_image_url
+      : null);
   return {
-    title: `${project.title} | ${content.studioName}`,
-    description: project.short_description ?? project.description ?? undefined,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      ...(image ? { images: [{ url: image }] } : {}),
+    },
   };
 }
 export default async function ProjectPage({
@@ -57,5 +79,6 @@ export default async function ProjectPage({
     ];
     data.project = { ...data.project, content };
   }
-  return <ProjectDetail {...data} />;
+  const nextProject = await getNextProject(data.project);
+  return <ProjectDetail {...data} nextProject={nextProject} />;
 }

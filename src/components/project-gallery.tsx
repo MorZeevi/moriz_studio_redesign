@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { SiteContent } from "@/i18n/dictionaries";
+import type { ProjectCopy } from "@/i18n/project-copy";
 import type { GalleryEntry, GalleryImage } from "@/lib/project-presentation";
+import { CoverVideo } from "./cover-video";
 import styles from "./project-detail.module.css";
 
-type Labels = SiteContent["projects"]["caseStudy"];
+type Labels = ProjectCopy["caseStudy"];
 
 function MediaImage({
   image,
@@ -31,7 +32,9 @@ function MediaImage({
     <img
       ref={element}
       src={image.src}
-      alt={image.alt ?? ""}
+      alt={image.alt}
+      width={image.width}
+      height={image.height}
       loading={eager ? "eager" : "lazy"}
       decoding="async"
       onError={() => setFailed(true)}
@@ -221,13 +224,67 @@ export function ProjectGallery({
           <div
             key={entry.id}
             className={styles.mediaBlock}
-            data-layout={entry.layout}
+            data-layout={"layout" in entry ? entry.layout : undefined}
             data-spacing={entry.spacing}
             data-cover={
               entry.type === "images" && entry.cover ? "true" : undefined
             }
           >
-            {entry.type === "video" ? (
+            {entry.type === "highlights" ? (
+              <div className={styles.highlightsBand} data-gallery-reveal>
+                <div>
+                  {entry.title && <h2>{entry.title}</h2>}
+                  <dl className={styles.highlights}>
+                    {entry.highlights.map((h) => (
+                      <div key={h.id}>
+                        <dt>{h.label}</dt>
+                        <dd className={styles.highlightValue}>
+                          <bdi>{h.value}</bdi>
+                        </dd>
+                        {h.description && <dd>{h.description}</dd>}
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              </div>
+            ) : entry.type === "media_text" ? (
+              <div
+                className={styles.mediaText}
+                data-side={entry.side}
+                data-feature={entry.feature ? "true" : undefined}
+              >
+                {entry.image && figure(entry.image)}
+                {entry.video && (
+                  <div data-gallery-reveal>
+                    <video
+                      src={entry.video.src}
+                      poster={entry.video.poster}
+                      controls
+                      muted
+                      playsInline
+                      preload="metadata"
+                      aria-label={entry.video.label}
+                    />
+                  </div>
+                )}
+                <div className={styles.mediaTextCopy}>
+                  {entry.eyebrow && (
+                    <p className={styles.eyebrow}>{entry.eyebrow}</p>
+                  )}
+                  {entry.title && <h2>{entry.title}</h2>}
+                  {entry.text && <p>{entry.text}</p>}
+                </div>
+              </div>
+            ) : entry.type === "video" && entry.ambient ? (
+              <div data-gallery-reveal>
+                <CoverVideo
+                  src={entry.block.src}
+                  poster={entry.block.poster}
+                  label={entry.label}
+                  loop={entry.block.loop ?? true}
+                />
+              </div>
+            ) : entry.type === "video" ? (
               <div data-gallery-reveal>
                 <video
                   src={entry.block.src}
@@ -238,7 +295,7 @@ export function ProjectGallery({
                   controls={entry.block.controls ?? true}
                   playsInline
                   preload="metadata"
-                  aria-label={labels.video}
+                  aria-label={entry.label || labels.video}
                 />
               </div>
             ) : entry.layout === "equal" || entry.layout === "staggered" ? (

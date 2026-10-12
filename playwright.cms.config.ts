@@ -1,4 +1,7 @@
 import { defineConfig } from "@playwright/test";
+// Another checkout's dev server may already hold :3000; CMS_TEST_PORT=4398
+// runs the suite against this checkout's code instead.
+const port = process.env.CMS_TEST_PORT ?? "3000";
 export default defineConfig({
   testDir: "./tests/cms",
   testMatch: "*.spec.ts",
@@ -7,14 +10,14 @@ export default defineConfig({
   timeout: 180000,
   expect: { timeout: 15000 },
   use: {
-    baseURL: "http://127.0.0.1:3000",
+    baseURL: `http://127.0.0.1:${port}`,
     channel: "chrome",
     viewport: { width: 1440, height: 1000 },
     trace: "off",
   },
   webServer: {
-    command: "npm run dev -- --port 3000",
-    url: "http://127.0.0.1:3000/admin/login",
+    command: `npm run dev -- --port ${port}`,
+    url: `http://127.0.0.1:${port}/admin/login`,
     reuseExistingServer: !process.env.CI,
     timeout: 60000,
   },

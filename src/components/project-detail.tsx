@@ -4,11 +4,17 @@ import { ProjectArrow } from "@/components/projects-section";
 import { ProjectGallery } from "@/components/project-gallery";
 import { FloatingActions } from "@/components/floating-actions";
 import { ThemeToggle } from "@/components/theme-toggle";
-import type { EnabledLocale } from "@/i18n/config";
+import { type Locale, localeConfig } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
+import { projectCopy } from "@/i18n/project-copy";
+import { localized, termName } from "@/lib/cms/localize";
+import { serviceNames } from "@/lib/cms/project-card";
+import {
+  projectGallery,
+  projectHighlights,
+  projectInformation,
+} from "@/lib/project-presentation";
 import type { Project } from "@/types/project";
-import { localeConfig } from "@/i18n/config";
-import { projectGallery, projectInformation } from "@/lib/project-presentation";
 import styles from "./projects.module.css";
 import detail from "./project-detail.module.css";
 
@@ -16,79 +22,143 @@ export function ProjectDetail({
   project,
   locale,
   content,
+  nextProject = null,
   preview = false,
 }: {
   project: Project;
-  locale: EnabledLocale;
+  locale: Locale;
+  /** Site chrome (theme toggle, floating actions) uses the site dictionary. */
   content: SiteContent;
+  nextProject?: Pick<Project, "slug" | "title" | "title_en"> | null;
   preview?: boolean;
 }) {
+  const copy = projectCopy[locale];
+  const labels = copy.caseStudy;
   const Main = preview ? "section" : "main";
   const back = `/${locale}#projects`;
-  const labels = content.projects.caseStudy;
+  const t = (key: Parameters<typeof localized<Project>>[1]) =>
+    localized(project, key, locale);
+  const title = t("title");
   const information = projectInformation(
     project,
-    content.projects.detailsHeading,
+    copy.detailsHeading,
     labels.additionalInfo,
+    locale,
+    copy.audience,
   );
-  const gallery = projectGallery(project);
-  const intro = project.headline || project.short_description;
+  const gallery = projectGallery(project, locale, labels.video);
+  const headline = t("headline");
+  const short = t("short_description");
+  const intro = headline || short;
+  const services = serviceNames(project, locale);
+  const logo = project.media.find((m) => m.role === "logo");
+  // Highlights sit in the panel unless a highlights block places them.
+  const highlights = project.content.some(
+    (b) => b.type === "highlights" && !b.hidden,
+  )
+    ? []
+    : projectHighlights(project, locale);
+  const metadata: [string, string | number | null][] = [
+    [labels.client, t("client") || null],
+    [labels.year, project.year],
+    [copy.type, project.type ? termName(project.type, locale) : null],
+    [copy.role, t("role") || null],
+  ];
   return (
     <div
       className={detail.page}
       dir={localeConfig[locale].direction}
+      lang={locale}
       data-project-detail
     >
       <div className="site-container">
         <Main id="project-content" tabIndex={-1} className={detail.composition}>
-          <aside
-            className={detail.panel}
-            aria-label={content.projects.detailsHeading}
-          >
+          <aside className={detail.panel} aria-label={copy.detailsHeading}>
             {!preview && (
               <div className={detail.panelNavigation}>
                 <Link href={back} className={styles.backLink}>
                   <ProjectArrow back />
-                  {content.projects.backLink}
+                  {copy.backLink}
                 </Link>
                 <ThemeToggle labels={content.theme} />
               </div>
             )}
+            {logo && (
+              // biome-ignore lint/performance/noImgElement: private CMS media bypasses the optimizer; logos keep their own ratio.
+              <img
+                src={logo.src}
+                alt={localized(logo, "alt", locale) || title}
+                width={logo.width}
+                height={logo.height}
+                className={detail.logo}
+              />
+            )}
             <h1 className={detail.title}>
-              <bdi>{project.title}</bdi>
+              <bdi>{title}</bdi>
             </h1>
             {intro && <p className={detail.intro}>{intro}</p>}
-            {project.headline &&
-              project.short_description &&
-              project.headline !== project.short_description && (
-                <p className={detail.intro}>{project.short_description}</p>
-              )}
-            {(project.client || project.year) && (
+            {headline && short && headline !== short && (
+              <p className={detail.intro}>{short}</p>
+            )}
+            {(metadata.some(([, value]) => value) || project.website_url) && (
               <dl className={detail.metadata}>
-                {project.client && (
+                {metadata
+                  .filter(([, value]) => value)
+                  .map(([label, value]) => (
+                    <div key={label}>
+                      <dt>{label}</dt>
+                      <dd>
+                        <bdi>{value}</bdi>
+                      </dd>
+                    </div>
+                  ))}
+                {project.website_url && (
                   <div>
-                    <dt>{labels.client}</dt>
+                    <dt>{copy.website}</dt>
                     <dd>
-                      <bdi>{project.client}</bdi>
-                    </dd>
-                  </div>
-                )}
-                {project.year && (
-                  <div>
-                    <dt>{labels.year}</dt>
-                    <dd>
-                      <bdi>{project.year}</bdi>
+                      <a
+                        href={project.website_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        dir="ltr"
+                      >
+                        {project.website_url
+                          .replace(/^https?:\/\//, "")
+                          .replace(/\/$/, "")}
+                      </a>
                     </dd>
                   </div>
                 )}
               </dl>
             )}
-            <CategoryTags categories={project.categories} />
-            {!!project.services.length && (
+            <CategoryTags
+              label={copy.categories}
+              categories={project.categories.map((c) => ({
+                id: c.id,
+                name: termName(c, locale),
+              }))}
+            />
+            {!!services.length && (
               <p className={detail.services}>
                 <span className="sr-only">{labels.services}: </span>
-                {project.services.join(" · ")}
+                {services.join(" · ")}
               </p>
+            )}
+            {!!highlights.length && (
+              <dl
+                className={detail.panelHighlights}
+                aria-label={copy.highlights}
+              >
+                {highlights.map((h) => (
+                  <div key={h.id}>
+                    <dt>{h.label}</dt>
+                    <dd className={detail.highlightValue}>
+                      <bdi>{h.value}</bdi>
+                    </dd>
+                    {h.description && <dd>{h.description}</dd>}
+                  </div>
+                ))}
+              </dl>
             )}
             {information.map((section, index) => (
               <details
@@ -115,16 +185,46 @@ export function ProjectDetail({
                     </svg>
                   </span>
                 </summary>
-                <p className={detail.answer}>{section.text}</p>
+                {section.text && (
+                  <p className={detail.answer}>{section.text}</p>
+                )}
+                {section.subsections.map((sub, i) => (
+                  // biome-ignore lint/suspicious/noArrayIndexKey: Subsections render in their saved order.
+                  <div key={i} className={detail.subsection}>
+                    {sub.title && <h3>{sub.title}</h3>}
+                    {sub.text && <p className={detail.answer}>{sub.text}</p>}
+                  </div>
+                ))}
               </details>
             ))}
           </aside>
           <ProjectGallery key={project.id} {...gallery} labels={labels} />
           {!preview && (
             <footer className={detail.footer}>
+              {nextProject?.slug && (
+                <nav
+                  className={styles.nextProject}
+                  aria-label={copy.nextProject}
+                >
+                  <p className={styles.nextLabel}>{copy.nextProject}</p>
+                  <Link href={`/${locale}/projects/${nextProject.slug}`}>
+                    <bdi>{localized(nextProject, "title", locale)}</bdi>
+                    <ProjectArrow />
+                  </Link>
+                </nav>
+              )}
+              <section className={styles.contactCta}>
+                <h2>{copy.contactHeading}</h2>
+                <Link
+                  href={`/${locale}#contact`}
+                  className="button button--primary button--lg"
+                >
+                  {copy.contactLink}
+                </Link>
+              </section>
               <Link href={back} className={styles.backLink}>
                 <ProjectArrow back />
-                {content.projects.backLink}
+                {copy.backLink}
               </Link>
             </footer>
           )}

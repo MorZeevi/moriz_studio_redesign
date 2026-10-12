@@ -135,11 +135,17 @@ function useLiquidMotion(
     let until = 0;
 
     function update() {
-      if (!link || !blur) return;
+      // A click navigates away: the link may already be detached, and its
+      // computed style is then empty (NaN), which SVG rejects.
+      if (!link || !blur || !link.isConnected) {
+        frame = 0;
+        return;
+      }
       const cs = getComputedStyle(link);
       const gap = parseFloat(cs.getPropertyValue("--lb-gap"));
       const open = parseFloat(cs.fontSize) * 1.35;
-      const progress = Math.min(1, Math.max(0, (gap - 2) / (open - 2)));
+      const progress =
+        Math.min(1, Math.max(0, (gap - 2) / (open - 2))) || 0;
       blur.setAttribute("stdDeviation", (3.5 + 3.5 * progress).toFixed(2));
       frame = performance.now() < until ? requestAnimationFrame(update) : 0;
     }
