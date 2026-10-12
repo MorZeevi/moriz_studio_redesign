@@ -2,6 +2,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { AboutMe } from "@/components/about-me";
 import { AdvantagesMotion } from "@/components/advantages-motion";
+import { Faq } from "@/components/faq";
 import { FloatingActions } from "@/components/floating-actions";
 import { GettingStarted } from "@/components/getting-started";
 import { HeroDescription } from "@/components/hero-description";
@@ -199,32 +200,8 @@ export default async function Home({
             />
           </Section>
 
-          <Section id="faq" title={content.faq.heading}>
-            <div className="max-w-4xl border-t border-line">
-              {content.faq.questions.map((question) => (
-                <details
-                  key={question}
-                  className="faq-item border-b border-line"
-                >
-                  <summary>
-                    <span className="text-lg">{question}</span>
-                    <span
-                      aria-hidden="true"
-                      className="shrink-0 text-2xl font-light"
-                    >
-                      <span className="faq-plus">+</span>
-                      <span className="faq-minus">−</span>
-                    </span>
-                  </summary>
-                  <div className="max-w-2xl pb-7">
-                    <p className="text-sm text-muted">
-                      {content.faq.answerPlaceholder}
-                    </p>
-                    <TextLines className="mt-4" />
-                  </div>
-                </details>
-              ))}
-            </div>
+          <Section id="faq" title={content.faq.heading} showHeading={false}>
+            <Faq content={content.faq} />
           </Section>
         </SecondaryScrollSurface>
 

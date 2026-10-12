@@ -723,29 +723,6 @@ body[data-secondary-ink="light"] main {
   font-size: var(--text-body-sm);
 }
 
-.faq-item summary {
-  display: flex;
-  min-height: calc(var(--control-height-lg) + var(--space-4));
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-6);
-  padding-block: var(--space-4);
-  cursor: pointer;
-  list-style: none;
-}
-
-.faq-item summary::-webkit-details-marker {
-  display: none;
-}
-
-.faq-item[open] .faq-plus {
-  display: none;
-}
-
-.faq-item:not([open]) .faq-minus {
-  display: none;
-}
-
 /* Site-wide grain on the canvas, behind all content; opaque surfaces cover it. */
 .page-grain {
   position: fixed;

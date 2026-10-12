@@ -1,0 +1,386 @@
+.layout {
+  display: grid;
+  /* Column positions stay physical; each region retains the document's text direction. */
+  direction: ltr;
+  grid-template-areas: "heading" "questions" "actions";
+  gap: var(--space-10);
+  min-inline-size: 0;
+}
+
+.layout:dir(rtl) > * {
+  direction: rtl;
+}
+
+.heading {
+  grid-area: heading;
+  margin: 0;
+  font-size: clamp(3rem, 5.8vw, 6rem);
+  font-weight: var(--font-weight-display);
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  text-align: right;
+}
+
+.questions {
+  grid-area: questions;
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+  min-inline-size: 0;
+}
+
+.item {
+  --faq-control: 3.5rem;
+  --faq-gap: 0.625rem;
+  --faq-radius: 1rem;
+  --faq-inset: calc(var(--faq-control) + var(--faq-gap));
+  --faq-fill: #fff;
+  position: relative;
+  isolation: isolate;
+  min-inline-size: 0;
+  color: var(--color-dark);
+}
+
+.item .summary {
+  display: flex;
+  align-items: center;
+  min-block-size: var(--faq-control);
+  padding: var(--space-3) var(--space-6);
+  padding-left: calc(var(--faq-inset) + var(--space-6));
+  cursor: pointer;
+  list-style: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.summary::marker,
+.summary::-webkit-details-marker {
+  display: none;
+  content: "";
+}
+
+/* The unfiltered text sits above one joined background. Its wide half grows
+   with the native details element, while the left tile stays beside the title. */
+.shape {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  filter: var(--faq-filter);
+}
+
+.bodyShape,
+.controlShape,
+.bridge {
+  position: absolute;
+  background: var(--faq-fill);
+  transition: background var(--duration-fast) var(--ease-standard);
+}
+
+.bodyShape {
+  inset: 0 0 0 var(--faq-inset);
+  border-radius: var(--faq-radius);
+}
+
+.controlShape {
+  top: 0;
+  left: 0;
+  inline-size: var(--faq-control);
+  block-size: var(--faq-control);
+  border-radius: var(--faq-radius);
+}
+
+.bridge {
+  top: calc(var(--faq-control) * 0.34);
+  left: calc(var(--faq-control) - 0.5rem);
+  inline-size: calc(var(--faq-gap) + 1rem);
+  block-size: calc(var(--faq-control) * 0.32);
+}
+
+.question {
+  font-size: clamp(1rem, 0.94rem + 0.3vw, 1.25rem);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.item[open] .question {
+  color: var(--color-primary);
+}
+
+.control {
+  position: absolute;
+  inset-block-start: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  inline-size: var(--faq-control);
+  block-size: var(--faq-control);
+}
+
+.plus {
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  transition: rotate var(--duration-normal) var(--ease-enter);
+}
+
+.item[open] .plus {
+  rotate: 45deg;
+}
+
+.answer {
+  padding: 0 var(--space-6) var(--space-8);
+  padding-left: calc(var(--faq-inset) + var(--space-6));
+  font-size: var(--text-body);
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.answer p {
+  margin: 0;
+  max-inline-size: 65ch;
+}
+
+.summary:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.summary:focus-visible .control {
+  outline: 2px solid currentColor;
+  outline-offset: -7px;
+  border-radius: var(--faq-radius);
+}
+
+.summary:focus-visible .question {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .item:not([open]):has(.summary:hover) {
+    --faq-fill: var(--color-light);
+  }
+}
+
+/* Native disclosures are the fallback. Supporting browsers animate intrinsic
+   height, including wrapped and longer answers, with no JS measurement. */
+@supports (interpolate-size: allow-keywords) {
+  .layout[data-enhanced] .item {
+    interpolate-size: allow-keywords;
+  }
+
+  .layout[data-enhanced] .item::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition:
+      block-size 0.35s var(--ease-enter),
+      content-visibility 0.35s allow-discrete;
+  }
+
+  .layout[data-enhanced] .item[open]::details-content {
+    block-size: auto;
+  }
+}
+
+.actions {
+  grid-area: actions;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: var(--space-4);
+  min-inline-size: 0;
+}
+
+.action.action {
+  --lb-height: 3rem;
+  --lb-ink: var(--color-dark);
+  --radius-liquid: 0.9rem;
+  max-inline-size: 100%;
+  font-size: clamp(1rem, 0.95rem + 0.15vw, 1.0625rem);
+}
+
+.ai.ai {
+  position: relative;
+  display: inline-flex;
+  align-items: stretch;
+  min-block-size: var(--lb-height);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-dark);
+  font-family: var(--font-body);
+  line-height: 1.4;
+  cursor: pointer;
+  isolation: isolate;
+}
+
+.aiSurface {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.aiSurface path {
+  fill: #fff;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.aiSurface stop {
+  animation: border-flow 6s linear infinite;
+}
+
+.aiSurface stop:nth-child(2) {
+  animation-delay: -2s;
+}
+
+.aiSurface stop:nth-child(3) {
+  animation-delay: -4s;
+}
+
+.ai:focus-visible {
+  outline: 2px solid var(--color-dark);
+  outline-offset: 4px;
+  border-radius: var(--radius-liquid);
+}
+
+.ai [data-liquid-icon] {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.ai [data-liquid-icon] svg {
+  inline-size: 1.15em;
+  block-size: 1.15em;
+}
+
+.ai [data-liquid-label] {
+  display: inline-flex;
+  align-items: center;
+  min-inline-size: 0;
+  padding-block: 0.6em;
+  overflow-wrap: anywhere;
+}
+
+@keyframes border-flow {
+  0%,
+  100% {
+    stop-color: var(--color-primary);
+  }
+  33.333% {
+    stop-color: var(--color-secondary);
+  }
+  66.667% {
+    stop-color: #25d366;
+  }
+}
+
+.whatsapp.whatsapp {
+  --lb-fill: #25d366;
+  --lb-pressed-fill: color-mix(in srgb, #25d366 85%, var(--color-dark));
+}
+
+.action [data-liquid-icon] {
+  flex-basis: calc(var(--lb-height) * 1.4);
+}
+
+.action [data-liquid-label] {
+  justify-content: center;
+  padding-inline: 1em;
+}
+
+.ai:is(:hover, :focus-visible) [data-liquid-label] {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.action:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+@media (max-width: 23rem) {
+  .item {
+    --faq-control: 3rem;
+    --faq-gap: 0.5rem;
+    --faq-radius: 1rem;
+  }
+
+  .item .summary {
+    padding: var(--space-3) var(--space-4);
+    padding-left: calc(var(--faq-inset) + var(--space-4));
+  }
+
+  .answer {
+    padding-right: var(--space-4);
+    padding-left: calc(var(--faq-inset) + var(--space-4));
+  }
+
+  .action.action {
+    --lb-height: 3rem;
+    --radius-liquid: 0.9rem;
+  }
+
+  .action [data-liquid-label] {
+    padding-inline: 0.75em;
+  }
+}
+
+@media (min-width: 64rem) {
+  .layout {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    grid-template-areas: "questions heading" "questions actions";
+    column-gap: clamp(var(--space-12), 7vw, var(--space-24));
+    row-gap: var(--space-12);
+    align-items: start;
+    min-block-size: 26rem;
+  }
+
+  .heading {
+    justify-self: end;
+    inline-size: 100%;
+    max-inline-size: 5.5em;
+  }
+
+  .actions {
+    align-self: end;
+  }
+
+  .questions {
+    gap: var(--space-4);
+  }
+
+  .item {
+    --faq-control: 4rem;
+    --faq-radius: 1.125rem;
+  }
+
+  .item .summary {
+    padding-right: var(--space-8);
+    padding-left: calc(var(--faq-inset) + var(--space-8));
+  }
+
+  .answer {
+    padding-right: var(--space-8);
+    padding-left: calc(var(--faq-inset) + var(--space-8));
+    font-size: var(--text-body-lg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aiSurface stop {
+    animation: none;
+  }
+
+  .layout[data-enhanced] .item::details-content,
+  .plus,
+  .bodyShape,
+  .controlShape,
+  .bridge {
+    transition: none;
+  }
+}

@@ -1,10 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { AskAiChat } from "@/components/ask-ai-chat";
 import { LiquidButton, LiquidLink } from "@/components/ui/liquid-link";
+import { SparkleIcon } from "@/components/ui/sparkle-icon";
 import type { SiteContent } from "@/i18n/dictionaries";
+import {
+  AI_CHAT_DIALOG_ID,
+  AI_CHAT_OPEN_EVENT,
+  type AiChatOpenEvent,
+} from "@/lib/chat-launcher";
 import { WHATSAPP_URL } from "@/lib/whatsapp";
 import styles from "./floating-actions.module.css";
 
@@ -22,15 +28,6 @@ function showChat(
   // Non-modal, so the page stays readable and scrollable beside the chat.
   dialog.show();
   composer?.focus({ preventScroll: true });
-}
-
-function SparkleIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M9.5 3.5c.6 4.4 2.6 6.4 7 7-4.4.6-6.4 2.6-7 7-.6-4.4-2.6-6.4-7-7 4.4-.6 6.4-2.6 7-7Z" />
-      <path d="M18 1.5c.3 2 1.2 2.9 3.2 3.2-2 .3-2.9 1.2-3.2 3.2-.3-2-1.2-2.9-3.2-3.2 2-.3 2.9-1.2 3.2-3.2Z" />
-    </svg>
-  );
 }
 
 function Portrait() {
@@ -57,19 +54,33 @@ export function FloatingActions({
 }) {
   const [open, setOpen] = useState(false);
   const [openCount, setOpenCount] = useState(0);
-  const dialogId = useId();
   const titleId = useId();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const openerRef = useRef<HTMLElement | null>(null);
   const composerRef = useRef<HTMLTextAreaElement>(null);
 
-  function openChat() {
+  const openChat = useCallback((trigger: HTMLElement) => {
     const dialog = dialogRef.current;
-    if (!dialog || dialog.open) return;
+    if (!dialog) return;
+    openerRef.current = trigger;
+    if (dialog.open) {
+      composerRef.current?.focus({ preventScroll: true });
+      return;
+    }
     showChat(dialog, composerRef.current);
     setOpen(true);
     setOpenCount((count) => count + 1);
-  }
+  }, []);
+
+  useEffect(() => {
+    const onOpen = (event: Event) => {
+      const trigger = (event as AiChatOpenEvent).detail?.trigger;
+      if (trigger instanceof HTMLElement) openChat(trigger);
+    };
+    window.addEventListener(AI_CHAT_OPEN_EVENT, onOpen);
+    return () => window.removeEventListener(AI_CHAT_OPEN_EVENT, onOpen);
+  }, [openChat]);
 
   function closeChat() {
     dialogRef.current?.close();
@@ -104,7 +115,10 @@ export function FloatingActions({
     // A breakpoint switch closes and reopens; it fires close after the reopen.
     if (dialogRef.current?.open) return;
     setOpen(false);
-    triggerRef.current?.focus({ preventScroll: true });
+    const opener = openerRef.current;
+    (opener?.isConnected ? opener : triggerRef.current)?.focus({
+      preventScroll: true,
+    });
   }
 
   return (
@@ -112,7 +126,7 @@ export function FloatingActions({
       {/* Stays mounted while closed so the conversation is there on reopen. */}
       <dialog
         ref={dialogRef}
-        id={dialogId}
+        id={AI_CHAT_DIALOG_ID}
         className={styles.drawer}
         aria-labelledby={titleId}
         onClose={onDialogClose}
@@ -138,8 +152,10 @@ export function FloatingActions({
             aria-label={content.aiLabel}
             aria-haspopup="dialog"
             aria-expanded={open}
-            aria-controls={dialogId}
-            onClick={() => (open ? closeChat() : openChat())}
+            aria-controls={AI_CHAT_DIALOG_ID}
+            onClick={(event) =>
+              open ? closeChat() : openChat(event.currentTarget)
+            }
           >
             {content.ai}
           </LiquidButton>

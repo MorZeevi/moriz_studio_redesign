@@ -43,7 +43,7 @@ Saved Mobbin screenshots establish visible desktop composition only. The owner s
 | 4 | [Brief owner introduction](#4-brief-owner-introduction) | Not started |
 | 5 | [Client testimonials](#5-client-testimonials) | In progress — spotlight with client index |
 | 6 | [How to start working together](#6-how-to-start-working-together) | In progress — three steps on a rail |
-| 7 | [FAQ](#7-faq) | Not started |
+| 7 | [FAQ](#7-faq) | In progress — liquid disclosures and contact actions |
 | 8 | [Contact](#8-contact) | Not started |
 | 9 | [Footer](#9-footer) | Not started |
 
@@ -342,23 +342,27 @@ Section inclusion and position 6, after testimonials and before FAQ, and the thr
 
 ## 7. FAQ
 
-Status: **Not started**.
+Status: **In progress** — implemented locally; owner visual acceptance and final copy pending.
 
 ### Purpose and information
 
-Purpose to confirm: answer common pre-project questions. The owner deferred questions and answers; see [the FAQ source note](03-content.md#faq--source-information). Do not invent questions or answers to fill the prototype slots.
+Answer common pre-project questions, then offer moriz.ai or WhatsApp for a follow-up. The owner requested eight placeholder questions and answers for the latest refinement; final content remains deferred. See [the FAQ source note](03-content.md#faq--source-information). Do not invent publishable answers or service claims.
 
-### Proposals
+### Reference and direction
 
-Reference review pending: [Büro enquiry-context FAQ](research/mobbin-homepage-structure-2025-2026.md#5-büro--faq-in-the-enquiry-context). Hebrew options/refinement: TODO: Draft 2–3 presentation/intro options and refine supplied answers when available. Layout comparison: TODO: Compare desktop/mobile question-and-answer order and expanded text versus disclosure controls. The prototype's three slots do not select a final count.
+The owner supplied four references and confirmed the local liquid-button extension recorded in [the FAQ surface brief](faq-surface-brief.md). The earlier [Büro enquiry-context FAQ](research/mobbin-homepage-structure-2025-2026.md#5-büro--faq-in-the-enquiry-context) remains research history; the owner references govern this implementation. No new visual world or global design-system change is introduced.
 
 ### Agreed choices
 
-Section inclusion and position 7 confirmed; source questions remain deferred. Copy, count and layout: TODO: Decision required.
+Owner-approved implementation, 2026-10-12: keep section position 7. The latest refinement uses eight questions and compact rows (64px desktop, 56px mobile, with smaller controls at 320px and height growth for wrapped text). Desktop columns are explicitly fixed left/right, with RTL content inside. On desktop the heading and stacked actions sit on the physical right, with the questions on the left. Below 1024px the order is heading → questions → actions. Each white question body connects to a physical-left plus tile; one native disclosure may be open at a time, all start closed, and the answer expands the white body, only the active question text turns full brand red (#fb2c36), while the plus turns into a cross. Reduced motion removes the transitions.
+
+The white sparkle button with an animated gradient border is **לשאול את moriz.ai**; it opens the existing chat dialog, retains the conversation across launchers and returns focus to the actual opener when closed. The green **שנדבר בוואטסאפ?** link reuses the existing WhatsApp destination and unchanged owner-supplied cutout portrait. This explicit FAQ authorization supersedes the earlier floating-only WhatsApp rule locally. Existing yellow scroll background, grain, fonts and gutters remain; About Me is outside this change.
+
+Local finish review returned **ship**, with no material fixes. Lint, TypeScript, production build, diff-whitespace and inspector FAQ checks passed; 17 FAQ/chat/navigation checks passed in the main run, and the remaining shared-chat check passed after its locator correction. Detector output was `[]`. Desktop/tablet/mobile and open/closed light/dark evidence is stored in `.impeccable/review/faq/`; see [the review scope and provenance](faq-surface-brief.md#local-review-and-remaining-acceptance). This is technical completion for local review, not owner visual acceptance or publication.
 
 ### Remaining questions
 
-Which actual questions and answers should be published? How should they be grouped and displayed? Record the content dependency if still deferred during review.
+Owner visual acceptance remains pending. Which actual questions and answers should be published? The eight slots and **תשובה — להשלמה** remain placeholders. The owner authorized merging this FAQ work into main; publication is not included.
 
 ## 8. Contact
 
