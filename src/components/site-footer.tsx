@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FooterContactForm } from "@/components/footer-contact-form";
 import { FooterWordmark } from "@/components/footer-wordmark";
 import { StudioLogo } from "@/components/studio-logo";
 import type { EnabledLocale } from "@/i18n/config";
@@ -40,6 +41,22 @@ export function SiteFooter({
   const footer = content.footer;
   return (
     <footer data-wireframe-section="footer" className={styles.footer}>
+      <section
+        id="contact"
+        aria-labelledby="contact-heading"
+        data-wireframe-section="contact"
+        className={`page-shell ${styles.contact}`}
+      >
+        <div className={styles.invitation}>
+          <h2 id="contact-heading" className={styles.contactHeading}>
+            {content.contact.heading}
+          </h2>
+          <p className={styles.contactDescription}>
+            {content.contact.description}
+          </p>
+        </div>
+        <FooterContactForm content={content.contact} />
+      </section>
       <div className={`page-shell ${styles.top}`}>
         <div className={styles.brand}>
           <StudioLogo name={content.studioName} locale={locale} />

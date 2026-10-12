@@ -18,6 +18,32 @@
   gap: var(--space-12);
 }
 
+.contact {
+  display: grid;
+  gap: var(--space-12);
+  padding-block-end: var(--space-20);
+}
+
+.invitation {
+  min-inline-size: 0;
+}
+
+.contactHeading {
+  margin-block-end: var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-h3);
+  font-weight: var(--font-weight-body);
+  line-height: 1.2;
+  letter-spacing: var(--text-h3--letter-spacing);
+}
+
+.contactDescription {
+  max-inline-size: 30ch;
+  color: var(--site-muted);
+  font-size: var(--text-body);
+  line-height: 1.6;
+}
+
 .brand {
   display: grid;
   align-content: start;
@@ -27,7 +53,7 @@
 
 .columns {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 8rem), 1fr));
   gap: var(--space-10) var(--space-6);
 }
 
@@ -35,6 +61,8 @@
   display: grid;
   align-content: start;
   gap: var(--space-4);
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
 }
 
 .heading {
@@ -228,6 +256,11 @@ a.tag:hover {
 }
 
 @media (min-width: 64rem) {
+  .contact {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    padding-block-end: var(--space-24);
+  }
+
   .top {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
   }

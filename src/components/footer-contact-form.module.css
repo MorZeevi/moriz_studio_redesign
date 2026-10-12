@@ -1,0 +1,133 @@
+.form {
+  inline-size: 100%;
+  max-inline-size: 40rem;
+  min-inline-size: 0;
+  justify-self: end;
+  color: var(--site-foreground);
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-8) var(--space-6);
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.field {
+  display: grid;
+  align-content: start;
+  min-inline-size: 0;
+}
+
+.label {
+  font-size: var(--text-body-sm);
+  font-weight: var(--font-weight-body);
+  color: var(--site-muted);
+}
+
+.control {
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
+  min-block-size: var(--control-height-md);
+  border: 0;
+  border-block-end: var(--border-width-default) solid
+    color-mix(in srgb, var(--site-foreground) 60%, var(--site-background));
+  border-radius: 0;
+  padding: var(--space-2) 0;
+  background: transparent;
+  color: var(--site-foreground);
+  font-family: var(--font-body);
+  font-size: max(1rem, var(--text-body));
+  font-weight: var(--font-weight-body);
+  line-height: 1.6;
+  caret-color: var(--site-foreground);
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+
+textarea.control {
+  resize: vertical;
+}
+
+.control:hover,
+.control:focus {
+  border-block-end-color: var(--site-foreground);
+}
+
+.control:focus-visible {
+  outline: var(--focus-ring-width) solid var(--site-focus);
+  outline-offset: var(--space-1);
+}
+
+.control[aria-invalid="true"] {
+  border-block-end-width: var(--border-width-strong);
+}
+
+.error {
+  margin-block-start: var(--space-2);
+  color: var(--site-foreground);
+  font-size: var(--text-body-sm);
+  line-height: 1.55;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4) var(--space-6);
+}
+
+.submit {
+  --color-text-primary: var(--site-foreground);
+  --color-border-strong: var(--site-foreground);
+  --color-focus: var(--site-focus);
+  flex-shrink: 0;
+  max-inline-size: 100%;
+  min-inline-size: 0;
+  white-space: normal;
+  font-weight: var(--font-weight-body);
+}
+
+.submit:hover:not(:disabled) {
+  background: var(--site-foreground);
+  color: var(--site-background);
+}
+
+.note,
+.status {
+  color: var(--site-muted);
+  font-size: var(--text-body-sm);
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.note {
+  max-inline-size: 29ch;
+}
+
+.status {
+  margin-block-start: var(--space-4);
+}
+
+.status:empty {
+  margin: 0;
+}
+
+@media (max-width: 23.99rem) {
+  .submit {
+    padding-inline: var(--space-3);
+  }
+}
+
+@media (min-width: 64rem) {
+  .fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .full {
+    grid-column: 1 / -1;
+  }
+}

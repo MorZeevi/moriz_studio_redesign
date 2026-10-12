@@ -1,0 +1,99 @@
+{
+  "date": "2026-10-12",
+  "task_intent": "Design a gentle, classic, minimal footer contact form for a design studio website.",
+  "output_destination": "code",
+  "queries": [
+    {
+      "query": "Contact section at the bottom of a design studio website with a short enquiry form, visible field labels, name, email, phone and message beside contact details",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "a88761d5-7a05-4341-af7e-a0e428183a20",
+          "image_url": "https://mobbin.com/api/mcp/short/geaYTiqM",
+          "mobbin_url": "https://mobbin.com/sites/sections/a88761d5-7a05-4341-af7e-a0e428183a20",
+          "site_name": "Jeton"
+        },
+        {
+          "id": "82ce6566-c33e-4b16-8750-670aa04be011",
+          "image_url": "https://mobbin.com/api/mcp/short/HXaVCI7w",
+          "mobbin_url": "https://mobbin.com/sites/sections/82ce6566-c33e-4b16-8750-670aa04be011",
+          "site_name": "Rains"
+        },
+        {
+          "id": "ae1f5fe6-9420-45e4-b097-64ae2aa8c06e",
+          "image_url": "https://mobbin.com/api/mcp/short/16DgTPoi",
+          "mobbin_url": "https://mobbin.com/sites/sections/ae1f5fe6-9420-45e4-b097-64ae2aa8c06e",
+          "site_name": "Savor"
+        },
+        {
+          "id": "95a27e82-73ff-4704-b843-682d1281753b",
+          "image_url": "https://mobbin.com/api/mcp/short/e9fdkpS0",
+          "mobbin_url": "https://mobbin.com/sites/sections/95a27e82-73ff-4704-b843-682d1281753b",
+          "site_name": "Fiasco"
+        },
+        {
+          "id": "0791334e-985a-4902-b866-3be56684576c",
+          "image_url": "https://mobbin.com/api/mcp/short/jZOyQ1RO",
+          "mobbin_url": "https://mobbin.com/sites/sections/0791334e-985a-4902-b866-3be56684576c",
+          "site_name": "Lightship"
+        }
+      ]
+    },
+    {
+      "query": "Footer contact form with underlined name and email fields, a message field, a small submit button and generous white space",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "da7d69f4-2eed-4c34-8994-1c9da5211d0f",
+          "image_url": "https://mobbin.com/api/mcp/short/vivLV7jE",
+          "mobbin_url": "https://mobbin.com/sites/sections/da7d69f4-2eed-4c34-8994-1c9da5211d0f",
+          "site_name": "Framer"
+        },
+        {
+          "id": "ae1f5fe6-9420-45e4-b097-64ae2aa8c06e",
+          "image_url": "https://mobbin.com/api/mcp/short/aJDvRQ9U",
+          "mobbin_url": "https://mobbin.com/sites/sections/ae1f5fe6-9420-45e4-b097-64ae2aa8c06e",
+          "site_name": "Savor"
+        },
+        {
+          "id": "59b6274b-06a1-46f0-825f-3bc2b0db9d19",
+          "image_url": "https://mobbin.com/api/mcp/short/POnoKsRk",
+          "mobbin_url": "https://mobbin.com/sites/sections/59b6274b-06a1-46f0-825f-3bc2b0db9d19",
+          "site_name": "Assembly Coffee"
+        }
+      ]
+    }
+  ],
+  "selected": [
+    {
+      "site_name": "Savor",
+      "id": "ae1f5fe6-9420-45e4-b097-64ae2aa8c06e",
+      "image_url": "https://mobbin.com/api/mcp/short/16DgTPoi",
+      "file": "savor.webp",
+      "observation": "An open two-column composition with restrained copy, generous space, thin rules beneath the fields and a small send action. Borrow the quiet rhythm and field treatment; retain Moriz typography and omit the category dropdown.",
+      "mobbin_url": "https://mobbin.com/sites/sections/ae1f5fe6-9420-45e4-b097-64ae2aa8c06e",
+      "local_image": "assets/footer-contact-2026-10-12/savor.webp"
+    },
+    {
+      "site_name": "Rains",
+      "id": "82ce6566-c33e-4b16-8750-670aa04be011",
+      "image_url": "https://mobbin.com/api/mcp/short/HXaVCI7w",
+      "file": "rains.webp",
+      "observation": "A sparse contact page with underlined text fields, a distinct message area and an outlined send button. Borrow the restrained controls; use persistent labels instead of placeholder-only instructions.",
+      "mobbin_url": "https://mobbin.com/sites/sections/82ce6566-c33e-4b16-8750-670aa04be011",
+      "local_image": "assets/footer-contact-2026-10-12/rains.webp"
+    },
+    {
+      "site_name": "Assembly Coffee",
+      "id": "59b6274b-06a1-46f0-825f-3bc2b0db9d19",
+      "image_url": "https://mobbin.com/api/mcp/short/POnoKsRk",
+      "file": "assembly-coffee.webp",
+      "observation": "An invitation and explanatory paragraph sit beside a compact enquiry form. Borrow the readable separation between invitation and task; keep one full-name field and use rules rather than filled input boxes.",
+      "mobbin_url": "https://mobbin.com/sites/sections/59b6274b-06a1-46f0-825f-3bc2b0db9d19",
+      "local_image": "assets/footer-contact-2026-10-12/assembly-coffee.webp"
+    }
+  ],
+  "provenance": "Mobbin reference images downloaded from each result's full-resolution image_url; no generated rasters."
+}

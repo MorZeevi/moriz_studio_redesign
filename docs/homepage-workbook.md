@@ -44,8 +44,8 @@ Saved Mobbin screenshots establish visible desktop composition only. The owner s
 | 5 | [Client testimonials](#5-client-testimonials) | In progress — spotlight with client index |
 | 6 | [How to start working together](#6-how-to-start-working-together) | In progress — three steps on a rail |
 | 7 | [FAQ](#7-faq) | In progress — liquid disclosures and contact actions |
-| 8 | [Contact](#8-contact) | Not started |
-| 9 | [Footer](#9-footer) | Not started |
+| 8 | [Contact](#8-contact) | In progress — form preview inside the footer |
+| 9 | [Footer](#9-footer) | In progress — contact form integrated |
 
 ## 1. Hero
 
@@ -366,43 +366,43 @@ Owner visual acceptance remains pending. Which actual questions and answers shou
 
 ## 8. Contact
 
-Status: **Not started**.
+Status: **In progress — footer form preview implemented**.
 
 ### Purpose and information
 
-Purpose to confirm: provide a clear closing invitation and relevant contact context. The section follows FAQ. WhatsApp is the primary enquiry channel and remains floating only; the section's contents are undefined in [page planning](02-page-structure.md#primary-cta).
+The owner’s 2026-10-12 request merges the closing contact invitation into the top of the footer, immediately after FAQ. Its single `#contact` target remains the destination of the header contact action. Existing floating contact controls remain available.
 
 ### Proposals
 
-Reference review pending: [basement.studio contact ending](research/mobbin-homepage-structure-2025-2026.md#3-basementstudio--a-concentrated-contact-ending). Its contact actions do not select a form, another channel or an inline WhatsApp button for Moriz. Hebrew options/refinement: TODO: Draft 2–3 together. Layout comparison: TODO: Compare desktop/mobile closing-message order and its relationship to the floating control.
+The owner approved the [Mobbin-led minimal form plan](research/footer-contact-mobbin-2026-10-12.md). Savor supplies the quiet spacing and field rules; Rains informs the restrained outlined action. The invitation is right of the form on desktop and above it below 1024px.
 
 ### Agreed choices
 
-Section inclusion and position 8 confirmed; floating-only WhatsApp applies here too. Final copy, information and layout: TODO: Decision required.
+Heading **בואו נדבר**, invitation **ספרו לי בקצרה על הפרויקט שלכם.**, fields **שם מלא / טלפון (לא חובה) / אימייל / הודעה קצרה**, action **שליחת הודעה**. Name, email and message are required; phone is optional. Persistent labels, Hebrew inline errors and keyboard focus are implemented. The preview notice is always visible and a valid attempt states that nothing was sent. No delivery, storage or public API is added. The standalone contact placeholder is removed.
 
 ### Remaining questions
 
-What should the invitation and contact information say? Are any other actions needed? What destination, label and final side should the floating WhatsApp control use?
+Owner visual acceptance and a later real submission destination remain pending. The owner explicitly selected design and validation first; do not activate delivery as part of this pass.
 
 ## 9. Footer
 
-Status: **Not started**.
+Status: **In progress — contact form integrated**.
 
 ### Purpose and information
 
-Purpose to confirm: close the page with the selected identity, navigation and required information. Contents and link destinations remain open in [page planning](02-page-structure.md#section-planning-inventory) and [sitemap planning](01-sitemap.md#final-navigation-structure).
+Close the page with the new contact preview, existing studio identity, navigation and animated image-filled wordmark. Social-profile and legal-page destinations are still placeholders.
 
 ### Proposals
 
-Reference review pending: the ending in [basement.studio's contact capture](research/mobbin-homepage-structure-2025-2026.md#3-basementstudio--a-concentrated-contact-ending); a dedicated footer reference is not established. Hebrew options/refinement: TODO: Draft 2–3 wording/grouping options for selected content. Layout comparison: TODO: Compare desktop RTL groups and mobile group/link order.
+The [footer contact research board](research/footer-contact-mobbin-2026-10-12.html) records the selected composition. The form extends the existing footer system rather than changing the site’s shared tokens.
 
 ### Agreed choices
 
-Section inclusion and position 9 confirmed. Contents, copy, links and layout: TODO: Decision required.
+The owner approved adding the four-field contact form above the existing footer navigation, while preserving the rounded top, wordmark motion, links, legal row and floating-control clearance. The contact invitation and footer now form one closing surface.
 
 ### Remaining questions
 
-Which identity details and links belong here? What information is required? Retain floating-only WhatsApp; do not infer social links, legal pages or new destinations.
+Visual acceptance, actual social-profile URLs and legal pages remain pending; no destinations are invented.
 
 ## Review completion and handoff
 

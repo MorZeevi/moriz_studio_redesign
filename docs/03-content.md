@@ -108,6 +108,12 @@ Supplied verbatim by the owner on 2026-10-10. Bold phrases (shown in bold) were 
 
 **בסוף התהליך, הלקוחות שלי מצוידים בכלים דיגיטליים שעוזרים לקהל שלהם לעשות יותר עם פחות מאמץ, ומשיגים את המטרות העסקיות שלהם.**
 
+### Footer contact — agreed implementation copy
+
+On 2026-10-12 the owner approved implementing the gentle, classic, minimal footer form after [Mobbin research](research/footer-contact-mobbin-2026-10-12.md). Copy lives in `contact` in [the Hebrew dictionary](../src/i18n/dictionaries/he.ts): heading **בואו נדבר**, invitation **ספרו לי בקצרה על הפרויקט שלכם.**, labels **שם מלא**, **טלפון (לא חובה)**, **אימייל**, **הודעה קצרה**, and action **שליחת הודעה**. Name, email and message are required; phone is optional.
+
+Preview notice: **תצוגה מקדימה בלבד — ההודעה לא תישלח.** Valid-attempt status: **הפרטים תקינים. זו תצוגה מקדימה וההודעה לא נשלחה.** Inline errors: **נא למלא את השם שלכם.**, **נא למלא כתובת אימייל תקינה.**, **נא לכתוב כמה מילים על הפרויקט שלכם.** This is design and validation only; delivery/storage remain outside this pass. Local implementation is complete; owner visual acceptance remains pending. See [behavior and validation](footer-contact.md).
+
 ### Headlines
 
 Hero H1 — agreed, supplied by the owner on 2026-10-06; preserved verbatim:

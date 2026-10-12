@@ -25,7 +25,7 @@ import FallingText from "@/components/react-bits/FallingText";
 import { StudioLogo } from "@/components/studio-logo";
 import { Testimonials } from "@/components/testimonials";
 import { LiquidLink } from "@/components/ui/liquid-link";
-import { Section, TextLines } from "@/components/wireframe";
+import { Section } from "@/components/wireframe";
 import { isEnabledLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { projectCard } from "@/lib/cms/project-card";
@@ -204,11 +204,6 @@ export default async function Home({
             <Faq content={content.faq} />
           </Section>
         </SecondaryScrollSurface>
-
-        <Section id="contact" title={content.contact.heading}>
-          <p className="text-lg text-muted">{content.contact.information}</p>
-          <TextLines className="mt-6 max-w-lg" />
-        </Section>
       </main>
 
       <SiteFooter content={content} locale={locale} />
