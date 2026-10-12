@@ -130,12 +130,15 @@ export function ProjectsSection({
   content,
   collection = false,
   partyReaction = false,
+  plain = false,
   projects,
 }: {
   locale: Locale;
   content: ProjectLabels;
   collection?: boolean;
   partyReaction?: boolean;
+  /** CMS previews: no homepage scroll surface (it needs the site theme). */
+  plain?: boolean;
   projects: Project[];
 }) {
   const Heading = collection ? "h1" : "h2";
@@ -295,7 +298,7 @@ export function ProjectsSection({
       </div>
     </div>
   );
-  return collection ? (
+  return collection || plain ? (
     <section
       id="projects"
       aria-labelledby="projects-heading"

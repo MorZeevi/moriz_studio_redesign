@@ -356,6 +356,7 @@ export function ProjectEditor({
               <ProjectsSection
                 locale={preview.locale}
                 content={projectCopy[preview.locale]}
+                plain
                 collection={preview.view === "archive"}
                 projects={[
                   projectCard(

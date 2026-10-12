@@ -64,6 +64,7 @@ export default async function Preview({
           <ProjectsSection
             locale={locale}
             content={projectCopy[locale]}
+            plain
             collection={view === "archive"}
             projects={[
               projectCard(
