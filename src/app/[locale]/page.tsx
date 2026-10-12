@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { AboutMe } from "@/components/about-me";
+import { AdvantagesMotion } from "@/components/advantages-motion";
 import { FloatingActions } from "@/components/floating-actions";
 import { GettingStarted } from "@/components/getting-started";
 import { HeroDescription } from "@/components/hero-description";
@@ -136,7 +137,7 @@ export default async function Home({
             showHeading={false}
             className="advantages-section"
           >
-            <div className="advantages-grid grid gap-4 lg:grid-cols-3 lg:gap-6">
+            <AdvantagesMotion>
               {content.advantages.themes.map((theme, index) => (
                 <article key={theme} className="advantages-card min-w-0">
                   <div className="advantages-stage">
@@ -166,7 +167,7 @@ export default async function Home({
                   </div>
                 </article>
               ))}
-            </div>
+            </AdvantagesMotion>
           </Section>
         </HomepagePattern>
 

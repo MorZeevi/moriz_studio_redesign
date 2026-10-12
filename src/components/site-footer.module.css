@@ -25,12 +25,6 @@
   gap: var(--space-3);
 }
 
-.information {
-  max-inline-size: 22rem;
-  color: var(--site-muted);
-  font-size: var(--text-body-sm);
-}
-
 .columns {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -139,10 +133,11 @@ a.social:hover {
 
 .letter {
   display: inline-block;
-  /* The tight line box is shorter than the glyphs; padding (cancelled by the
-     margin) grows the box the image fill paints in, so nothing is cut off. */
-  margin-block: -0.15em;
-  padding-block: 0.15em;
+  /* Tight tracking makes ink extend past a letter's advance width (notably o).
+     Grow the paint box in both axes without changing the word's spacing. */
+  --letter-bleed: 0.08em;
+  margin: -0.15em calc(0em - var(--letter-bleed));
+  padding: 0.15em var(--letter-bleed);
   will-change: transform;
 }
 
@@ -155,7 +150,7 @@ a.social:hover {
 
 .dotted::after {
   --dot-size: 0.2em;
-  --dot-left: calc(0.1165em - var(--dot-size) / 2);
+  --dot-left: calc(var(--letter-bleed) + 0.1165em - var(--dot-size) / 2);
   --dot-top: calc(0.15em + 0.803em - 0.412em - 0.04em - var(--dot-size));
   content: "";
   position: absolute;
@@ -167,7 +162,7 @@ a.social:hover {
   background: currentColor;
 }
 
-/* Test: an image showing through the glyphs. Every letter clips the same
+/* An image showing through the glyphs. Every letter clips the same
    block-wide image, shifted by its own offset (set in footer-wordmark.tsx). */
 .filled .letter {
   background-image: var(--fill-image);

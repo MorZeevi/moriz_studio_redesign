@@ -39,30 +39,55 @@ export function FooterWordmark({
   useEffect(() => {
     const element = root.current;
     if (!element || !fillSrc) return;
-    // The image covers the whole block, centred; its height comes from the
-    // file's own ratio once it loads.
+    let active = true;
     const image = new Image();
-    image.src = fillSrc;
     const align = () => {
-      const width = element.clientWidth;
-      const height = image.naturalWidth
-        ? (width * image.naturalHeight) / image.naturalWidth
-        : element.clientHeight;
-      const top = (element.clientHeight - height) / 2;
+      if (!active || !image.naturalWidth || !image.naturalHeight) return;
+      const letters = [
+        ...element.querySelectorAll<HTMLElement>("[data-letter]"),
+      ];
+      // Include the padded paint bounds, not the animated bounding rectangles.
+      const left = Math.min(0, ...letters.map((letter) => letter.offsetLeft));
+      const top = Math.min(0, ...letters.map((letter) => letter.offsetTop));
+      const right = Math.max(
+        element.clientWidth,
+        ...letters.map((letter) => letter.offsetLeft + letter.offsetWidth),
+      );
+      const bottom = Math.max(
+        element.clientHeight,
+        ...letters.map((letter) => letter.offsetTop + letter.offsetHeight),
+      );
+      const scale = Math.max(
+        (right - left) / image.naturalWidth,
+        (bottom - top) / image.naturalHeight,
+      );
+      const width = image.naturalWidth * scale;
+      const height = image.naturalHeight * scale;
+      const imageLeft = left + (right - left - width) / 2;
+      const imageTop = top + (bottom - top - height) / 2;
       element.style.setProperty("--fill-w", `${width}px`);
       element.style.setProperty("--fill-h", `${height}px`);
-      for (const letter of element.querySelectorAll<HTMLElement>(
-        "[data-letter]",
-      )) {
-        letter.style.setProperty("--fill-x", `${-letter.offsetLeft}px`);
-        letter.style.setProperty("--fill-y", `${top - letter.offsetTop}px`);
+      for (const letter of letters) {
+        letter.style.setProperty(
+          "--fill-x",
+          `${imageLeft - letter.offsetLeft}px`,
+        );
+        letter.style.setProperty(
+          "--fill-y",
+          `${imageTop - letter.offsetTop}px`,
+        );
       }
     };
-    align();
     image.addEventListener("load", align);
+    image.src = fillSrc;
+    align();
     const size = new ResizeObserver(align);
     size.observe(element);
+    for (const letter of element.querySelectorAll("[data-letter]"))
+      size.observe(letter);
+    document.fonts.ready.then(align);
     return () => {
+      active = false;
       image.removeEventListener("load", align);
       size.disconnect();
     };

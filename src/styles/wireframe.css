@@ -533,6 +533,14 @@ html:has(.navigation-dialog[open]) {
 }
 
 .advantages-card {
+  /* Cards keep their selected theme while the canvas fades into Projects. */
+  --color-background: var(--site-card, #fff);
+  --color-text-primary: var(--site-foreground, var(--color-dark));
+  --color-text-secondary: var(--site-muted);
+  --color-surface: var(--site-surface);
+  --color-border: var(--site-border);
+  --color-border-strong: var(--site-foreground);
+  --color-focus: var(--site-focus);
   display: grid;
   grid-template-rows: auto 1fr;
   border: var(--border-width-default) solid
