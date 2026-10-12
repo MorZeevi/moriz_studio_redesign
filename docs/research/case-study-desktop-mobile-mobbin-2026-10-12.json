@@ -1,0 +1,1319 @@
+{
+  "research_date": "2026-10-12",
+  "status": "complete",
+  "references": [
+    {
+      "id": "0e52c0f5-c6f6-40a3-be31-06a104e486a1",
+      "image_url": "https://mobbin.com/api/mcp/short/mslDlg54",
+      "mobbin_url": "https://mobbin.com/sites/sections/0e52c0f5-c6f6-40a3-be31-06a104e486a1",
+      "site_name": "Koto",
+      "number": 1,
+      "project": "Lyft",
+      "live_url": "https://koto.studio/work/lyft/",
+      "type": "Studio case study",
+      "desktop_observation": "Compact challenge beside oversized brand imagery.",
+      "adaptation": "Keep project context visible while the visuals carry the story.",
+      "mobile_capture": {
+        "status": 200,
+        "final_url": "https://koto.com/projects/lyft",
+        "title": "Lyft | Koto",
+        "viewport": "390 × 1100",
+        "captured_at": "2026-10-12T05:30:41.610Z",
+        "headings": [
+          "Channels",
+          "Explore",
+          "Channels",
+          "Lyft",
+          "Lyft",
+          "Challenge",
+          "Strategy",
+          "Identity",
+          "Application",
+          "Outcome",
+          "Thanks",
+          "Your Lyft is Arriving",
+          "Strategy",
+          "Identity",
+          "Application",
+          "Outcome",
+          "Next up",
+          "Latest news",
+          "OFF Brand: Why you still need a website in the age of AI",
+          "\"Some UK brands are tired,\" Koto's James Greenfield on branding today",
+          "OFF Brand: Branding longevity, the next health frontier",
+          "Latest news",
+          "OFF Brand: Why you still need a website in the age of AI",
+          "\"Some UK brands are tired,\" Koto's James Greenfield on branding today",
+          "OFF Brand: Branding longevity, the next health frontier",
+          "Latest news",
+          "OFF Brand: Why you still need a website in the age of AI",
+          "\"Some UK brands are tired,\" Koto's James Greenfield on branding today",
+          "OFF Brand: Branding longevity, the next health frontier",
+          "Latest news",
+          "OFF Brand: Why you still need a website in the age of AI",
+          "\"Some UK brands are tired,\" Koto's James Greenfield on branding today",
+          "OFF Brand: Branding longevity, the next health frontier",
+          "Latest news",
+          "OFF Brand: Why you still need a website in the age of AI",
+          "\"Some UK brands are tired,\" Koto's James Greenfield on branding today",
+          "OFF Brand: Branding longevity, the next health frontier",
+          "Latest news",
+          "OFF Brand: Why you still need a website in the age of AI",
+          "\"Some UK brands are tired,\" Koto's James Greenfield on branding today",
+          "OFF Brand: Branding longevity, the next health frontier"
+        ],
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
+        }
+      },
+      "mobile_file": "assets/case-study-desktop-mobile-2026-10-12/01-mobile.png",
+      "capture_number": 1,
+      "desktop_file": "assets/case-study-desktop-mobile-2026-10-12/01-desktop.webp",
+      "section": "Opening and challenge",
+      "shortlist": true,
+      "mobile_observation": "The project image leads, followed by the project name, challenge and strategy in a single column. A compact chapter control stays near the bottom of this capture.",
+      "caution": "Keep chapter navigation compact so it does not cover the work.",
+      "desktop_dimensions": {
+        "width": 1920,
+        "height": 1320
+      },
+      "mobile_dimensions": {
+        "width": 390,
+        "height": 1100
+      }
+    },
+    {
+      "id": "d8c6801c-2eaa-48ed-b55b-5c74d0042347",
+      "image_url": "https://mobbin.com/api/mcp/short/cNGgLoFq",
+      "mobbin_url": "https://mobbin.com/sites/sections/d8c6801c-2eaa-48ed-b55b-5c74d0042347",
+      "site_name": "Nite Riot",
+      "number": 2,
+      "project": "Culligan",
+      "live_url": "https://www.nite-riot.com/case/culligan-water",
+      "type": "Production project",
+      "desktop_observation": "Split composition pairs product photography with named credits and services.",
+      "adaptation": "Add explicit role and deliverables to each project.",
+      "mobile_capture": {
+        "status": 200,
+        "final_url": "https://www.nite-riot.com/case/culligan-water",
+        "title": "Nite Riot",
+        "viewport": "390 × 1100",
+        "captured_at": "2026-10-12T05:30:42.397Z",
+        "headings": [
+          "Culligan",
+          "Credits",
+          "Location:",
+          "services:",
+          "NYLONFRANCE"
+        ],
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
+        }
+      },
+      "mobile_file": "assets/case-study-desktop-mobile-2026-10-12/02-mobile.png",
+      "capture_number": 2,
+      "desktop_file": "assets/case-study-desktop-mobile-2026-10-12/02-desktop.webp",
+      "section": "Opening and credits",
+      "shortlist": true,
+      "mobile_observation": "Photography stacks above the title and a tightly set credits table, then further project photography.",
+      "caution": "Use more generous type and spacing for Hebrew credits than this small production table.",
+      "desktop_dimensions": {
+        "width": 1920,
+        "height": 1325
+      },
+      "mobile_dimensions": {
+        "width": 390,
+        "height": 1100
+      }
+    },
+    {
+      "id": "371be725-62ad-4f10-a791-752261ab03d8",
+      "image_url": "https://mobbin.com/api/mcp/short/oM4AeDLZ",
+      "mobbin_url": "https://mobbin.com/sites/sections/371be725-62ad-4f10-a791-752261ab03d8",
+      "site_name": "Siena Film Foundation",
+      "number": 3,
+      "project": "Taboo",
+      "live_url": "https://www.siena.film/films/taboo",
+      "type": "Film project",
+      "desktop_observation": "Full-width still leads into a large project title and return link.",
+      "adaptation": "Open with one strong finished-work image.",
+      "mobile_capture": {
+        "status": 200,
+        "final_url": "https://www.siena.film/films/taboo",
+        "title": "Siena Film Foundation | Taboo",
+        "viewport": "390 × 1100",
+        "captured_at": "2026-10-12T05:30:41.878Z",
+        "headings": [
+          "Taboo",
+          "WATCHTrailer",
+          "GALLERY",
+          "REVIEWS",
+          "Rotterdam Film Festival Rotterdam",
+          "Thessaloniki Documentary Festival",
+          "Jerusalem Film Festival",
+          "Rotterdam Film Festival Rotterdam",
+          "Thessaloniki Documentary Festival",
+          "Jerusalem Film Festival",
+          "Rotterdam Film Festival Rotterdam",
+          "Thessaloniki Documentary Festival",
+          "Jerusalem Film Festival",
+          "Rotterdam Film Festival Rotterdam",
+          "Thessaloniki Documentary Festival",
+          "Jerusalem Film Festival",
+          "Rotterdam Film Festival Rotterdam",
+          "Thessaloniki Documentary Festival",
+          "Jerusalem Film Festival",
+          "Rotterdam Film Festival Rotterdam",
+          "Thessaloniki Documentary Festival",
+          "Jerusalem Film Festival",
+          "Rotterdam Film Festival Rotterdam",
+          "Thessaloniki Documentary Festival",
+          "Jerusalem Film Festival",
+          "Rotterdam Film Festival Rotterdam",
+          "Thessaloniki Documentary Festival",
+          "Jerusalem Film Festival",
+          "Investors & Broadcast",
+          "Hot - Channel 8, The New Fund for Cinema and Television, Gesher Multicultural Film Fund, The Israel Film Council, Mifal Hapais, Siena Film Foundation, The Film Collaborative, Slutzky Communication Channels, Sima Films",
+          "Stay up to date",
+          "sitemap",
+          "Home",
+          "Work",
+          "About",
+          "Contact",
+          "contact us"
+        ],
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
+        }
+      },
+      "mobile_file": "assets/case-study-desktop-mobile-2026-10-12/03-mobile.png",
+      "capture_number": 3,
+      "desktop_file": "assets/case-study-desktop-mobile-2026-10-12/03-desktop.webp",
+      "section": "Opening",
+      "shortlist": false,
+      "mobile_observation": "The cover image fills the narrow screen; the back link remains visible and the title follows below.",
+      "caution": "A very tall hero delays the project explanation. Balance image impact with a short introduction.",
+      "desktop_dimensions": {
+        "width": 1920,
+        "height": 1162
+      },
+      "mobile_dimensions": {
+        "width": 390,
+        "height": 1100
+      }
+    },
+    {
+      "id": "93f952db-3d57-42d4-a50b-302a4b4fab50",
+      "image_url": "https://mobbin.com/api/mcp/short/51bCcfYY",
+      "mobbin_url": "https://mobbin.com/sites/sections/93f952db-3d57-42d4-a50b-302a4b4fab50",
+      "site_name": "Dovetail",
+      "number": 4,
+      "project": "Atlassian",
+      "live_url": "https://dovetail.com/customers/atlassian/",
+      "type": "Customer story",
+      "desktop_observation": "Headline sits above an image with a compact company-facts sidebar.",
+      "adaptation": "Separate project facts from the narrative.",
+      "mobile_capture": {
+        "status": 200,
+        "final_url": "https://dovetail.com/customers/atlassian/",
+        "title": "Atlassian champions the customer at a global scale with Dovetail",
+        "viewport": "390 × 1100",
+        "captured_at": "2026-10-12T05:30:41.337Z",
+        "headings": [
+          "The best [] never guess",
+          "Run on evidence,not guesses"
+        ],
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
+        }
+      },
+      "mobile_file": "assets/case-study-desktop-mobile-2026-10-12/04-mobile.png",
+      "capture_number": 4,
+      "desktop_file": "assets/case-study-desktop-mobile-2026-10-12/04-desktop.webp",
+      "section": "Opening",
+      "shortlist": false,
+      "mobile_observation": "The headline, introduction, video and statistics form a vertical sequence on a blue background.",
+      "caution": "The live page has changed substantially since Mobbin’s white desktop capture. Compare information order, not matching artwork.",
+      "desktop_dimensions": {
+        "width": 1920,
+        "height": 1320
+      },
+      "mobile_dimensions": {
+        "width": 390,
+        "height": 1100
+      }
+    },
+    {
+      "id": "17d20552-2b39-4321-9e15-8c0625596ec8",
+      "image_url": "https://mobbin.com/api/mcp/short/4oUW6PlO",
+      "mobbin_url": "https://mobbin.com/sites/sections/17d20552-2b39-4321-9e15-8c0625596ec8",
+      "site_name": "Attio",
+      "number": 5,
+      "project": "Modal",
+      "live_url": "https://attio.com/customers/modal",
+      "type": "Customer story",
+      "desktop_observation": "Company facts, challenge/solution summary and contents rail surround the story.",
+      "adaptation": "Offer a short overview before the detailed explanation.",
+      "mobile_capture": {
+        "status": 200,
+        "final_url": "https://attio.com/customers/modal",
+        "title": "Modal's Story | Attio",
+        "viewport": "390 × 1100",
+        "captured_at": "2026-10-12T05:36:11.463Z",
+        "headings": [
+          "How Modal uses Attio to accelerate product-led growth",
+          "How Modal uses Attio to accelerate product-led growth",
+          "About",
+          "Industry",
+          "Company size",
+          "Headquarters",
+          "Founded",
+          "Key features",
+          "Challenge",
+          "Solution",
+          "Results",
+          "Modal's story",
+          "PLG hindered by HubSpot",
+          "The Attio moment",
+          "How Modal uses Attio",
+          "A single source of truth for customer and product data",
+          "Automate, iterate, and accelerate",
+          "The center of their GTM stack",
+          "Scaling up alongside Attio",
+          "The CRM behindthousands of companies.",
+          "Platform",
+          "Company",
+          "Import from",
+          "Attio for",
+          "Apps",
+          "Resources"
+        ],
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
+        },
+        "scroll_y": 1590
+      },
+      "mobile_file": "assets/case-study-desktop-mobile-2026-10-12/05-mobile.png",
+      "capture_number": 5,
+      "desktop_file": "assets/case-study-desktop-mobile-2026-10-12/05-desktop.webp",
+      "section": "Challenge / solution / results",
+      "shortlist": true,
+      "mobile_observation": "Challenge, solution and results appear one after another, followed by the full story.",
+      "caution": "The section summary works without desktop sidebars. Keep an equally useful short overview in Hebrew.",
+      "desktop_dimensions": {
+        "width": 1920,
+        "height": 1320
+      },
+      "mobile_dimensions": {
+        "width": 390,
+        "height": 1100
+      }
+    },
+    {
+      "id": "67b22a41-e947-448d-b010-c8a0e18f35d7",
+      "image_url": "https://mobbin.com/api/mcp/short/rmzy0rdt",
+      "mobbin_url": "https://mobbin.com/sites/sections/67b22a41-e947-448d-b010-c8a0e18f35d7",
+      "site_name": "Linear",
+      "number": 6,
+      "project": "Descript",
+      "live_url": "https://linear.app/customers/descript",
+      "type": "Customer story",
+      "desktop_observation": "A leading testimonial sits beside a compact customer profile.",
+      "adaptation": "Place an attributed client quote near the beginning.",
+      "mobile_capture": {
+        "status": 200,
+        "final_url": "https://linear.app/customers/descript",
+        "title": "Why Descript builds with Linear",
+        "viewport": "390 × 1100",
+        "captured_at": "2026-10-12T05:30:48.713Z",
+        "headings": [
+          "Why Descript builds with Linear",
+          "Product",
+          "Features",
+          "Company",
+          "Resources",
+          "Connect",
+          "Legal"
+        ],
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
+        }
+      },
+      "mobile_file": "assets/case-study-desktop-mobile-2026-10-12/06-mobile.png",
+      "capture_number": 6,
+      "desktop_file": "assets/case-study-desktop-mobile-2026-10-12/06-desktop.webp",
+      "section": "Opening and testimonial",
+      "shortlist": false,
+      "mobile_observation": "A compact customer profile follows the headline; the introduction and founder testimonial continue below.",
+      "caution": "The live page gives context before the quote. Do not let a long testimonial replace the project explanation.",
+      "desktop_dimensions": {
+        "width": 1920,
+        "height": 1320
+      },
+      "mobile_dimensions": {
+        "width": 390,
+        "height": 1100
+      }
+    },
+    {
+      "id": "84f94fa1-216c-40e9-aa21-d4b6e8039f5b",
+      "image_url": "https://mobbin.com/api/mcp/short/OOJpO0A2",
+      "mobbin_url": "https://mobbin.com/sites/sections/84f94fa1-216c-40e9-aa21-d4b6e8039f5b",
+      "site_name": "Tailscale",
+      "number": 7,
+      "project": "Sanity",
+      "live_url": "https://tailscale.com/customers/sanity",
+      "type": "Customer story",
+      "desktop_observation": "Breadcrumb, problem-led title and customer facts establish context.",
+      "adaptation": "Explain the starting problem in plain language.",
+      "mobile_capture": {
+        "status": 200,
+        "final_url": "https://tailscale.com/customers/sanity",
+        "title": "How Sanity solved their VPN problem with Tailscale",
+        "viewport": "390 × 1100",
+        "captured_at": "2026-10-12T05:30:56.441Z",
+        "headings": [
+          "Your Privacy Choices",
+          "How Sanity solved their VPN problem with Tailscale",
+          "For Sanity, it boils down to secure connectivity",
+          "Saving time, reducing complexity, and offloading maintenance",
+          "More stories",
+          "How Firetiger built secure agent-to-database connectivity with Tailscale",
+          "Abilene Christian University graduates to smarter remote access with Tailscale",
+          "Vanta upgrades to modern, frictionless networking with Tailscale",
+          "Try Tailscale for  free",
+          "Company",
+          "Help & Support",
+          "Legal",
+          "Social"
+        ],
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
+        }
+      },
+      "mobile_file": "assets/case-study-desktop-mobile-2026-10-12/11-mobile.png",
+      "capture_number": 11,
+      "desktop_file": "assets/case-study-desktop-mobile-2026-10-12/11-desktop.webp",
+      "section": "Opening and project facts",
+      "shortlist": false,
+      "mobile_observation": "The title, customer logo image and company facts stack before the narrative.",
+      "caution": "Client and project facts should remain concise; avoid a large enterprise-style sidebar for a small studio project.",
+      "desktop_dimensions": {
+        "width": 1920,
+        "height": 1320
+      },
+      "mobile_dimensions": {
+        "width": 390,
+        "height": 1100
+      }
+    },
+    {
+      "id": "3a3e479b-766c-474f-923a-b3436085dc2c",
+      "image_url": "https://mobbin.com/api/mcp/short/YCYnevlH",
+      "mobbin_url": "https://mobbin.com/sites/sections/3a3e479b-766c-474f-923a-b3436085dc2c",
+      "site_name": "Vercel",
+      "number": 8,
+      "project": "Runway",
+      "live_url": "https://vercel.com/customers/runway-enables-next-generation-content-creation-with-ai-and-vercel",
+      "type": "Customer story",
+      "desktop_observation": "Back link, dated headline and product image precede the article.",
+      "adaptation": "Make the path back to projects easy to find.",
+      "mobile_capture": {
+        "status": 200,
+        "final_url": "https://vercel.com/customers/runway-enables-next-generation-content-creation-with-ai-and-vercel",
+        "title": "Runway enables next-generation content creation with AI and Vercel | Customers | Vercel",
+        "viewport": "390 × 1100",
+        "captured_at": "2026-10-12T05:30:58.783Z",
+        "headings": [
+          "Runway enables next-generation content creation with AI and Vercel",
+          "Powered by",
+          "Ready to deploy?",
+          "Agent Stack",
+          "Core Platform",
+          "Security",
+          "Tools",
+          "Frameworks",
+          "SDKs",
+          "Build",
+          "Learn",
+          "Explore",
+          "Company",
+          "Legal & Trust",
+          "Social"
+        ],
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
+        }
+      },
+      "mobile_file": "assets/case-study-desktop-mobile-2026-10-12/12-mobile.png",
+      "capture_number": 12,
+      "desktop_file": "assets/case-study-desktop-mobile-2026-10-12/12-desktop.webp",
+      "section": "Opening",
+      "shortlist": false,
+      "mobile_observation": "The headline and byline precede a short summary, contact card and opening paragraph.",
+      "caution": "The live page inserts a sizable contact card before the story. Put Moriz’s main enquiry action after the reader sees the work.",
+      "desktop_dimensions": {
+        "width": 1920,
+        "height": 1320
+      },
+      "mobile_dimensions": {
+        "width": 390,
+        "height": 1100
+      }
+    },
+    {
+      "id": "619aa16c-4593-4b98-9ec4-67f1c6276a0e",
+      "image_url": "https://mobbin.com/api/mcp/short/CbAgy56c",
+      "mobbin_url": "https://mobbin.com/sites/sections/619aa16c-4593-4b98-9ec4-67f1c6276a0e",
+      "site_name": "Tines",
+      "number": 9,
+      "project": "Intercom",
+      "live_url": "https://www.tines.com/case-studies/intercom/",
+      "type": "Customer story",
+      "desktop_observation": "A colored highlights panel is paired with client logos and a short quote.",
+      "adaptation": "Summarize scope and evidence before the long story.",
+      "mobile_capture": {
+        "status": 200,
+        "final_url": "https://www.tines.com/case-studies/intercom/",
+        "title": "Intercom’s IT team boosts efficiency by overhauling their workflows with Tines | Tines",
+        "viewport": "390 × 1100",
+        "captured_at": "2026-10-12T05:31:03.804Z",
+        "headings": [
+          "Intercom’s IT team boosts efficiency by overhauling their workflows with Tines",
+          "About Intercom",
+          "Executive summary",
+          "The challenge",
+          "Why Tines?",
+          "The impact",
+          "Freedom to build",
+          "Tenant-wide change control",
+          "Shifting from Slackbots to Tines pages",
+          "Top workflows",
+          "Employee lifecycle automation",
+          "Hardware issue reporting",
+          "Security alert notifications",
+          "Access request management ",
+          "What’s next?",
+          "More case studies"
+        ],
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
+        }
+      },
+      "mobile_file": "assets/case-study-desktop-mobile-2026-10-12/13-mobile.png",
+      "capture_number": 13,
+      "desktop_file": "assets/case-study-desktop-mobile-2026-10-12/13-desktop.webp",
+      "section": "Highlights",
+      "shortlist": true,
+      "mobile_observation": "Highlights, the client/product logo pair and a quote stack as three distinct blocks before the company introduction.",
+      "caution": "A summary is useful, but too many panels can postpone the actual design screens.",
+      "desktop_dimensions": {
+        "width": 1920,
+        "height": 1320
+      },
+      "mobile_dimensions": {
+        "width": 390,
+        "height": 1100
+      }
+    },
+    {
+      "id": "fc0086d9-d740-4ab8-8f35-bfb1c3050fc1",
+      "image_url": "https://mobbin.com/api/mcp/short/JdO3KvtX",
+      "mobbin_url": "https://mobbin.com/sites/sections/fc0086d9-d740-4ab8-8f35-bfb1c3050fc1",
+      "site_name": "Shopify",
+      "number": 10,
+      "project": "Abode Living",
+      "live_url": "https://www.shopify.com/case-studies/abode-living",
+      "type": "Customer story",
+      "desktop_observation": "Client name and a short outcome headline lead into project photography.",
+      "adaptation": "Keep the headline concrete and the introduction short.",
+      "mobile_capture": {
+        "status": 200,
+        "final_url": "https://www.shopify.com/case-studies/abode-living",
+        "title": "Abode Living boosts average order value by 25% with Shopify - Shopify",
+        "viewport": "390 × 1100",
+        "captured_at": "2026-10-12T05:31:04.854Z",
+        "headings": [
+          "Abode Living boosts average order value by 25% with Shopify",
+          "Challenge",
+          "Solution",
+          "Results",
+          "Industry",
+          "Previous platform",
+          "With Shopify, Abode Living saw results fast.",
+          "Join the ranks of brands changing home & garden every day.",
+          "Shopify",
+          "Ecosystem",
+          "Resources",
+          "Support",
+          "Choose a region & language"
+        ],
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
+        }
+      },
+      "mobile_file": "assets/case-study-desktop-mobile-2026-10-12/15-mobile.png",
+      "capture_number": 15,
+      "desktop_file": "assets/case-study-desktop-mobile-2026-10-12/15-desktop.webp",
+      "section": "Opening",
+      "shortlist": false,
+      "mobile_observation": "Client name, concise outcome headline and video image stack above industry and previous-platform details.",
+      "caution": "Keep media responsive and give video a clear poster; do not require playback to understand the project.",
+      "desktop_dimensions": {
+        "width": 1920,
+        "height": 1320
+      },
+      "mobile_dimensions": {
+        "width": 390,
+        "height": 1100
+      }
+    },
+    {
+      "id": "80170643-39f3-4aea-b233-37ed983ccdc2",
+      "image_url": "https://mobbin.com/api/mcp/short/PU3MYUi0",
+      "mobbin_url": "https://mobbin.com/sites/sections/80170643-39f3-4aea-b233-37ed983ccdc2",
+      "site_name": "Shopify",
+      "number": 11,
+      "project": "Staples",
+      "live_url": "https://www.shopify.com/case-studies/staples",
+      "type": "Customer story",
+      "desktop_observation": "Headline is followed by previous platform, industry and use-case facts.",
+      "adaptation": "State constraints and what changed.",
+      "mobile_capture": {
+        "status": 200,
+        "final_url": "https://www.shopify.com/case-studies/staples",
+        "title": "Staples replatformed in half the time, for half the cost, on its way to record sales - Shopify",
+        "viewport": "390 × 1100",
+        "captured_at": "2026-10-12T05:31:06.243Z",
+        "headings": [
+          "Staples replatformed in half the time, for half the cost, on its way to record sales",
+          "Challenge",
+          "Solutions",
+          "Results",
+          "Industry",
+          "Previous platform",
+          "Shopify",
+          "Ecosystem",
+          "Resources",
+          "Support",
+          "Choose a region & language"
+        ],
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
+        }
+      },
+      "mobile_file": "assets/case-study-desktop-mobile-2026-10-12/16-mobile.png",
+      "capture_number": 16,
+      "desktop_file": "assets/case-study-desktop-mobile-2026-10-12/16-desktop.webp",
+      "section": "Opening and project facts",
+      "shortlist": false,
+      "mobile_observation": "The client logo and headline lead into photography, then project context and the story.",
+      "caution": "The current mobile facts follow the image; the older desktop capture puts the facts before it.",
+      "desktop_dimensions": {
+        "width": 1920,
+        "height": 1320
+      },
+      "mobile_dimensions": {
+        "width": 390,
+        "height": 1100
+      }
+    },
+    {
+      "id": "e9b28b7a-1ac7-47fe-95ab-d4be76ff58df",
+      "image_url": "https://mobbin.com/api/mcp/short/6COfBEDZ",
+      "mobbin_url": "https://mobbin.com/sites/sections/e9b28b7a-1ac7-47fe-95ab-d4be76ff58df",
+      "site_name": "Mural",
+      "number": 12,
+      "project": "Officeworks",
+      "live_url": "https://www.mural.co/case-studies/officeworks",
+      "type": "Customer story",
+      "desktop_observation": "Situation and challenge use small labels above readable editorial text.",
+      "adaptation": "Keep narrative text in a comfortable reading column.",
+      "mobile_capture": {
+        "status": 200,
+        "final_url": "https://www.mural.co/case-studies/officeworks",
+        "title": "How Officeworks is using Mural for efficient and engaging collaboration across Its support offices | Mural",
+        "viewport": "390 × 1100",
+        "captured_at": "2026-10-12T05:36:11.603Z",
+        "headings": [
+          "How Officeworks is using Mural for efficient and engaging collaboration across Its support offices",
+          "Start collaborating with Mural today",
+          "A national leader with team members across Australia",
+          "Making the transition to hybrid work environments in 2020",
+          "A versatile, integrated platform that adapts to changing needs",
+          "Building advocacy through hands-on training and 'show and tells'",
+          "Mural helps 95% of the Fortune 100 build better connection, collaborate better, and innovate faster",
+          "Related case studies",
+          "Boosting SAP's sales efficiency with Mural",
+          "Revolutionizing IBM sales strategies through actionable feedback",
+          "SAP SE brings design thinking to hybrid work with MS Teams and Mural",
+          "Scaling Agile education at Accenture",
+          "Tele­communi­cations enterprise",
+          "Facilitating a virtual executive offsite",
+          "Aligning & enabling a global workforce",
+          "Redesigning digital collaboration",
+          "Education design across borders",
+          "Creating a virtual team headquarters to support strategic transformation",
+          "Service design at scale",
+          "Design Your life: giving agency to the neurodiverse",
+          "Collaborating with cross-functional peers asynchronously",
+          "Smarter, better, faster creative",
+          "Transforming customer experience",
+          "How Booz Allen executes remote PI planning workshops with clients",
+          "California College of the Arts thriving in adversity",
+          "Scaling visual collaboration",
+          "Ready to see what everyone’s talking about?"
+        ],
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
+        },
+        "scroll_y": 513
+      },
+      "mobile_file": "assets/case-study-desktop-mobile-2026-10-12/17-mobile.png",
+      "capture_number": 17,
+      "desktop_file": "assets/case-study-desktop-mobile-2026-10-12/17-desktop.webp",
+      "section": "Situation / challenge",
+      "shortlist": false,
+      "mobile_observation": "Situation and challenge read as one continuous column with headings and inline quotations.",
+      "caution": "For Moriz, interleave decision-focused screenshots so the page is not an uninterrupted essay.",
+      "desktop_dimensions": {
+        "width": 1920,
+        "height": 1320
+      },
+      "mobile_dimensions": {
+        "width": 390,
+        "height": 1100
+      }
+    },
+    {
+      "id": "ebb5c2de-dd6d-4787-855b-243f79580c85",
+      "image_url": "https://mobbin.com/api/mcp/short/IUUDHK58",
+      "mobbin_url": "https://mobbin.com/sites/sections/ebb5c2de-dd6d-4787-855b-243f79580c85",
+      "site_name": "Maze",
+      "number": 13,
+      "project": "Bpifrance",
+      "live_url": "https://maze.co/customers/bpifrance-research-efficiency/",
+      "type": "Customer story",
+      "desktop_observation": "A solution heading leads into a large attributed testimonial.",
+      "adaptation": "Pair a design decision with supporting evidence.",
+      "mobile_capture": {
+        "status": 200,
+        "final_url": "https://maze.co/customers/bpifrance-research-efficiency/",
+        "title": "How Bpifrance used Maze to increase research efficiency & launch 3x faster",
+        "viewport": "390 × 1100",
+        "captured_at": "2026-10-12T05:36:12.455Z",
+        "headings": [
+          "How Bpifrance used Maze to increase research efficiency and launch 3x faster",
+          "Challenge: Addressing customer needs efficiently and with vision",
+          "Background: Bpifrance’s design approach",
+          "Solution: Continuous Product Discovery with Maze, time-to-insight 2x faster",
+          "Improve research efficiency like Bpifrance",
+          "Results: Taking a new financial product to market 3x faster",
+          "Related stories",
+          "Elevating customer experiences at Itaú Unibanco",
+          "How Vanquis Bank brought user insights and scaled research",
+          "How Maze enabled large-scale testing at Freetrade",
+          "Better product decisions start with Maze"
+        ],
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
+        },
+        "scroll_y": 0
+      },
+      "mobile_file": "assets/case-study-desktop-mobile-2026-10-12/18-mobile.png",
+      "capture_number": 18,
+      "desktop_file": "assets/case-study-desktop-mobile-2026-10-12/18-desktop.webp",
+      "section": "Solution / current opening",
+      "shortlist": false,
+      "mobile_observation": "The client identity and outcome headline sit in a blue block above a compact company-facts card.",
+      "caution": "The desktop reference is an interior solution/testimonial section. The mobile pair shows the current opening of the same case.",
+      "desktop_dimensions": {
+        "width": 1920,
+        "height": 1320
+      },
+      "mobile_dimensions": {
+        "width": 390,
+        "height": 1100
+      }
+    },
+    {
+      "id": "e373c9fd-09be-4762-9ef1-ea1ba5f7e0d9",
+      "image_url": "https://mobbin.com/api/mcp/short/0TJWtTAt",
+      "mobbin_url": "https://mobbin.com/sites/sections/e373c9fd-09be-4762-9ef1-ea1ba5f7e0d9",
+      "site_name": "Sprout Social",
+      "number": 14,
+      "project": "Chicago Bulls",
+      "live_url": "https://sproutsocial.com/insights/case-studies/chicago-bulls/",
+      "type": "Customer story",
+      "desktop_observation": "Editorial headline and customer logo lead into a narrow article column.",
+      "adaptation": "Let the project headline and client identity do the opening work.",
+      "mobile_capture": {
+        "status": 200,
+        "final_url": "https://sproutsocial.com/insights/case-studies/chicago-bulls/",
+        "title": "How Sprout Social helps the Chicago Bulls take its social media game to the next level",
+        "viewport": "390 × 1100",
+        "captured_at": "2026-10-12T05:31:12.530Z",
+        "headings": [
+          "\n                                How Sprout Social helps the Chicago Bulls take its social media game to the next level\n                            ",
+          "Crafting high-scoring content",
+          "Ensuring effective offense",
+          "Enjoying the assist",
+          "Try Sprout Social free with a 30-day trial"
+        ],
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
+        }
+      },
+      "mobile_file": "assets/case-study-desktop-mobile-2026-10-12/19-mobile.png",
+      "capture_number": 19,
+      "desktop_file": "assets/case-study-desktop-mobile-2026-10-12/19-desktop.webp",
+      "section": "Opening",
+      "shortlist": false,
+      "mobile_observation": "Headline, share action and customer logo stack above an open editorial reading column.",
+      "caution": "Avoid making social sharing more prominent than project navigation or the studio enquiry action.",
+      "desktop_dimensions": {
+        "width": 1920,
+        "height": 1320
+      },
+      "mobile_dimensions": {
+        "width": 390,
+        "height": 1100
+      }
+    },
+    {
+      "id": "af6c1ef6-a1e7-4b6a-ba26-de56c0486227",
+      "image_url": "https://mobbin.com/api/mcp/short/dqWTqzwD",
+      "mobbin_url": "https://mobbin.com/sites/sections/af6c1ef6-a1e7-4b6a-ba26-de56c0486227",
+      "site_name": "Fibery",
+      "number": 15,
+      "project": "Masraff",
+      "live_url": "https://fibery.com/customer-stories/masraff",
+      "type": "Customer story overview",
+      "desktop_observation": "Client name, company context and replaced tools sit above a problem-led headline.",
+      "adaptation": "Make constraints visible; avoid overcrowding the mobile opening.",
+      "section": "Opening and project facts",
+      "desktop_file": "assets/case-study-desktop-mobile-2026-10-12/26-desktop.webp",
+      "mobile_capture": {
+        "status": 200,
+        "final_url": "https://fibery.com/customer-stories/masraff",
+        "title": "Masraff customer story — Fibery",
+        "viewport": "390 × 1100",
+        "captured_at": "2026-10-12T05:36:19.642Z",
+        "headings": [
+          "How B2B SaaS manages roadmap and feedback in Fibery",
+          "What do you use Fibery for?",
+          "Why did you switch to Fibery and what tools did it replace?",
+          "Now spill the tea: how does your Product Management process look like?",
+          "How do you set and track OKRs?",
+          "How do you prioritize features?",
+          "How do you plan and track features?",
+          "How do you manage customer feedback?",
+          "Praise time: What is your favorite Fibery feature and why?",
+          "Criticism time: What you don't like/lack in Fibery?",
+          "Dig into workspaces & workflows of some awesome companies:",
+          "How Vandrouka uses Fibery for game development",
+          "How Vandrouka uses Fibery for game development",
+          "How HR startup turns user research into product insights",
+          "How HR startup turns user research into product insights",
+          "How product studio uses Fibery to build an MVP of their NFT project",
+          "How product studio uses Fibery to build an MVP of their NFT project",
+          "How e-com startup tests assumptions and spots product opportunities",
+          "How e-com startup tests assumptions and spots product opportunities",
+          "Try FiberyAre you an early-stage startup? Enjoy 6 months of Fibery for free.Start your free trialGet a demo",
+          "All this content is for you, not for SEO (doesn't work anyway)"
+        ],
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
+        },
+        "scroll_y": 0
+      },
+      "mobile_file": "assets/case-study-desktop-mobile-2026-10-12/26-mobile.png",
+      "capture_number": 26,
+      "shortlist": false,
+      "mobile_observation": "Company tags wrap beneath the headline, followed by the author and tools used in the story.",
+      "caution": "The long replaced-tools tag crowds the opening. Moriz needs only client, year, role and a few services.",
+      "desktop_dimensions": {
+        "width": 1920,
+        "height": 1320
+      },
+      "mobile_dimensions": {
+        "width": 390,
+        "height": 1100
+      }
+    },
+    {
+      "id": "2df021cc-6734-4975-9eb8-e9f874fff0b9",
+      "image_url": "https://mobbin.com/api/mcp/short/fA7TU0No",
+      "mobbin_url": "https://mobbin.com/sites/sections/2df021cc-6734-4975-9eb8-e9f874fff0b9",
+      "site_name": "AI in Design Report 2026",
+      "number": 16,
+      "project": "Sierra",
+      "live_url": "https://stateofaidesign.com/cases/sierra",
+      "type": "Design team case study",
+      "desktop_observation": "A divided opening pairs a patterned rail with a headline and large interview still.",
+      "adaptation": "Use a strong opening image and give supporting process details a distinct reading area.",
+      "desktop_file": "assets/case-study-desktop-mobile-2026-10-12/27-desktop.webp",
+      "mobile_capture": {
+        "status": 200,
+        "final_url": "https://stateofaidesign.com/cases/sierra",
+        "title": "Sierra - AI in Design Report 2026",
+        "viewport": "390 × 1100",
+        "captured_at": "2026-10-12T05:45:30.550Z",
+        "headings": [
+          "Report Chapters",
+          "Case Studies",
+          "About",
+          "Tools",
+          "Craft",
+          "Teams",
+          "Report Chapters",
+          "Case Studies",
+          "About",
+          "Tools",
+          "Craft",
+          "Teams",
+          "How Sierra designs with AI",
+          "What we learned",
+          "Iconography by hand",
+          "Sierra Design",
+          "Get new case studies & report markdown",
+          "Download the markdown version of the report, ready to drop into any tool. Get notified as new case studies go live.",
+          "Methodology"
+        ],
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
+        },
+        "scroll_y": 0
+      },
+      "mobile_file": "assets/case-study-desktop-mobile-2026-10-12/27-mobile.png",
+      "capture_number": 27,
+      "section": "Opening and interview",
+      "shortlist": true,
+      "mobile_observation": "The patterned rail narrows beside the headline, with the interview film below.",
+      "caution": "The large blank space and tall video delay the summary. Use a more compact introduction for Moriz.",
+      "desktop_dimensions": {
+        "width": 1920,
+        "height": 1325
+      },
+      "mobile_dimensions": {
+        "width": 390,
+        "height": 1100
+      }
+    },
+    {
+      "id": "0bbf7303-648e-4eeb-9cfe-8a95580d31e6",
+      "image_url": "https://mobbin.com/api/mcp/short/gGtdeeWA",
+      "mobbin_url": "https://mobbin.com/sites/sections/0bbf7303-648e-4eeb-9cfe-8a95580d31e6",
+      "site_name": "Lightdash",
+      "number": 17,
+      "project": "fal",
+      "live_url": "https://www.lightdash.com/customer-story/fal",
+      "type": "Customer story",
+      "desktop_observation": "An outcome headline leads into an attributed interview, wide image, statistics and a contextual sidebar.",
+      "adaptation": "Summarize verified outcomes before the longer project narrative.",
+      "desktop_file": "assets/case-study-desktop-mobile-2026-10-12/28-desktop.webp",
+      "mobile_capture": {
+        "status": 200,
+        "final_url": "https://www.lightdash.com/customer-story/fal",
+        "title": "How fal uses Agentic BI to run data for 80 people with a team of one | Lightdash",
+        "viewport": "390 × 1100",
+        "captured_at": "2026-10-12T05:45:30.412Z",
+        "headings": [
+          "How fal uses Agentic BI to run data for 80 people with a team of one",
+          "The problem: One person, 80 stakeholders",
+          "The solution: Agentic BI",
+          "What \"agentic\" actually means for a team of one",
+          "Want to see what Agentic BI looks like for your team? ",
+          "Related stories"
+        ],
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
+        },
+        "scroll_y": 0
+      },
+      "mobile_file": "assets/case-study-desktop-mobile-2026-10-12/28-mobile.png",
+      "capture_number": 28,
+      "section": "Opening and outcomes",
+      "shortlist": true,
+      "mobile_observation": "Headline, interview participant, abstract image and three results stack before the story.",
+      "caution": "The metrics take substantial vertical space. Show only verified results relevant to the project.",
+      "desktop_dimensions": {
+        "width": 1920,
+        "height": 1713
+      },
+      "mobile_dimensions": {
+        "width": 390,
+        "height": 1100
+      }
+    },
+    {
+      "id": "2e5c4c7d-4e70-4e5e-bbf7-987c58c9cd9e",
+      "image_url": "https://mobbin.com/api/mcp/short/NT9j5wuR",
+      "mobbin_url": "https://mobbin.com/sites/sections/2e5c4c7d-4e70-4e5e-bbf7-987c58c9cd9e",
+      "site_name": "Figma",
+      "number": 18,
+      "project": "Philips",
+      "live_url": "https://www.figma.com/customers/digital-transformation-at-philips/",
+      "type": "Customer story",
+      "desktop_observation": "A centered headline sits above an interview video and a separate promotional sidebar.",
+      "adaptation": "Pair a clear project title with a poster image and optional video.",
+      "desktop_file": "assets/case-study-desktop-mobile-2026-10-12/29-desktop.webp",
+      "mobile_capture": {
+        "status": 200,
+        "final_url": "https://www.figma.com/customers/digital-transformation-at-philips/",
+        "title": "Digital Transformation, Design and Development at Philips | Figma",
+        "viewport": "390 × 1100",
+        "captured_at": "2026-10-12T05:45:30.421Z",
+        "headings": [
+          "What you can do in figma",
+          "Explore all products",
+          "Additional product resources",
+          "Use cases",
+          "Roles",
+          "Organizations",
+          "Get started",
+          "Learn",
+          "Digital transformation, design and development at Philips",
+          "Anticipation, experimentation and AI: Design trend report",
+          "See how Figma can help you scale design",
+          "Connect with our team",
+          "Try Figma for free",
+          "Figma Socials",
+          "Product",
+          "Plans",
+          "Use cases",
+          "Resources",
+          "Company"
+        ],
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
+        },
+        "scroll_y": 0
+      },
+      "mobile_file": "assets/case-study-desktop-mobile-2026-10-12/29-mobile.png",
+      "capture_number": 29,
+      "section": "Opening and video",
+      "shortlist": false,
+      "mobile_observation": "The title remains centered; a report promotion and event banner occupy the lower capture.",
+      "caution": "The archived desktop video is not visible in this live mobile capture. Avoid letting promotional content interrupt the project story.",
+      "desktop_dimensions": {
+        "width": 1920,
+        "height": 1320
+      },
+      "mobile_dimensions": {
+        "width": 390,
+        "height": 1100
+      }
+    },
+    {
+      "id": "d028e08d-a438-4612-b2cd-d16fc95f9ef9",
+      "image_url": "https://mobbin.com/api/mcp/short/IQpMuywF",
+      "mobbin_url": "https://mobbin.com/sites/sections/d028e08d-a438-4612-b2cd-d16fc95f9ef9",
+      "site_name": "HubSpot",
+      "number": 19,
+      "project": "Tractable",
+      "live_url": "https://www.hubspot.com/case-studies/tractable",
+      "type": "Customer story",
+      "desktop_observation": "The client logo, outcome headline and short introduction sit beside a large framed photograph.",
+      "adaptation": "Keep client identity, project description and visual evidence together.",
+      "desktop_file": "assets/case-study-desktop-mobile-2026-10-12/30-desktop.webp",
+      "mobile_capture": {
+        "status": 200,
+        "final_url": "https://www.hubspot.com/case-studies/tractable",
+        "title": "Tractable",
+        "viewport": "390 × 1100",
+        "captured_at": "2026-10-12T05:45:32.005Z",
+        "headings": [
+          "The HubSpot Customer Platform",
+          "Marketing Hub",
+          "Sales Hub",
+          "Service Hub",
+          "Content Hub",
+          "Data Hub",
+          "Revenue Hub",
+          "Smart CRM",
+          "Agent Hub",
+          "Small Business Bundle",
+          "AEO (Beta)",
+          "HubSpot Marketplace",
+          "Marketing",
+          "\n        \n          Generate leads\n        \n      ",
+          "\n        \n          Automate marketing\n        \n      ",
+          "Sales",
+          "\n        \n          Build pipeline\n        \n      ",
+          "\n        \n          Close deals\n        \n      ",
+          "Customer Service",
+          "\n        \n          Scale support\n        \n      ",
+          "\n        \n          Drive retention\n        \n      ",
+          "Content",
+          "\n        \n          Create content\n        \n      ",
+          "\n        \n          Manage content\n        \n      ",
+          "Startups & Small Businesses",
+          "\n        \n          Find and reach customers\n        \n      ",
+          "\n        \n          Grow sales and get paid\n        \n      ",
+          "\n        \n          Organize customer data\n        \n      ",
+          "Artificial Intelligence",
+          "\n        \n          Resolve customer queries 24/7\n        \n      ",
+          "\n        \n          Automate sales prospecting\n        \n      ",
+          "\n        \n          Research customers faster\n        \n      ",
+          "By Team Size",
+          "For Small Businesses & Startups",
+          "For Enterprises",
+          "Why HubSpot?",
+          "Why Choose HubSpot?",
+          "Case Studies",
+          "Spotlight: Product Updates",
+          "Featured Links",
+          "Community & Events",
+          "Partners",
+          "Education",
+          "Tools",
+          "Services",
+          "The HubSpot Customer Platform",
+          "Free HubSpot CRM",
+          "Overview of all products",
+          "Marketing Hub",
+          "Sales Hub",
+          "Service Hub",
+          "Content Hub",
+          "Data Hub",
+          "Revenue Hub",
+          "Smart CRM",
+          "Agent Hub",
+          "Small Business Bundle",
+          "AEO (Beta)",
+          "HubSpot Marketplace",
+          "Marketing",
+          "Sales",
+          "Customer Service",
+          "Content",
+          "Startups & Small Businesses",
+          "Artificial Intelligence",
+          "By Team Size",
+          "For Small Businesses & Startups",
+          "For Enterprises",
+          "Why HubSpot?",
+          "Why Choose HubSpot?",
+          "Case Studies",
+          "Spotlight: Product Updates",
+          "Featured Links",
+          "Community & Events",
+          "Partners",
+          "Education",
+          "Tools",
+          "Services",
+          "Tractable Quadruples Marketing Qualified Leads With the HubSpot CRM Platform",
+          "\n      \n        \n          \n        \n        Story Overview \n      \n    ",
+          "\n      \n        \n          \n        \n        About Company \n      \n    ",
+          "Massive Growth in Leads",
+          "Passing unqualified leads to sales",
+          "Lack of automation",
+          "Need for lead tracking and scoring",
+          "Startup budget",
+          "The HubSpot CRM Platform",
+          "Lead scoring and nurturing with workflows",
+          "Custom dashboards and reporting",
+          "Vidyard integration for sales engagement",
+          "Additional marketing integrations",
+          "HubSpot support",
+          "4x MQLs with the HubSpot CRM Platform",
+          "Start Growing With HubSpot Today",
+          "\n        \n        YuLife reinvents insurance, rapidly scaling from startup to global Insurtech with HubSpot",
+          "\n        \n        A Tailored Customer Journey is the Ticket to Growth for Exodus Adventure Travel",
+          "\n        \n        Sunsail & The Moorings Deliver Once-in-a-Lifetime   Experiences 365 Days a Year with Service Hub",
+          "\n        \n        How Functionly supercharged growth, and increased their site performance by 400% with HubSpot",
+          "\n        \n        Connectd boosts ROAS by 98% and saves time - thanks to LinkedIn ads integration",
+          "\n        \n        Prowly's Journey with HubSpot Marketing and Sales Hub",
+          "\n        \n        Scaling Insightfully with Sales Hub: The Knowledge Academy’s Journey to 192% Sales Growth",
+          "\n        \n        npower Business Solutions saves £50,000 per year with HubSpot",
+          "\n        \n        Allica Bank scales from start-up to £1bn+ in lending with HubSpot CRM",
+          "\n        \n        How Riverside Insights Empowers Educators to Act in Time for Students — While Slashing Tech Costs by $600K with HubSpot",
+          "\n        \n        YuLife reinvents insurance, rapidly scaling from startup to global Insurtech with HubSpot",
+          "\n        \n        A Tailored Customer Journey is the Ticket to Growth for Exodus Adventure Travel",
+          "\n        \n        Sunsail & The Moorings Deliver Once-in-a-Lifetime   Experiences 365 Days a Year with Service Hub",
+          "\n        \n        How Functionly supercharged growth, and increased their site performance by 400% with HubSpot",
+          "\n        \n        Connectd boosts ROAS by 98% and saves time - thanks to LinkedIn ads integration",
+          "\n        \n        Prowly's Journey with HubSpot Marketing and Sales Hub",
+          "\n        \n        Scaling Insightfully with Sales Hub: The Knowledge Academy’s Journey to 192% Sales Growth",
+          "\n        \n        npower Business Solutions saves £50,000 per year with HubSpot",
+          "\n        \n        Allica Bank scales from start-up to £1bn+ in lending with HubSpot CRM",
+          "\n        \n        How Riverside Insights Empowers Educators to Act in Time for Students — While Slashing Tech Costs by $600K with HubSpot",
+          "\n        \n        YuLife reinvents insurance, rapidly scaling from startup to global Insurtech with HubSpot",
+          "\n        \n        A Tailored Customer Journey is the Ticket to Growth for Exodus Adventure Travel",
+          "\n        \n        Sunsail & The Moorings Deliver Once-in-a-Lifetime   Experiences 365 Days a Year with Service Hub",
+          "\n        \n        How Functionly supercharged growth, and increased their site performance by 400% with HubSpot",
+          "\n        \n        Connectd boosts ROAS by 98% and saves time - thanks to LinkedIn ads integration",
+          "\n        \n        Prowly's Journey with HubSpot Marketing and Sales Hub",
+          "\n        \n        Scaling Insightfully with Sales Hub: The Knowledge Academy’s Journey to 192% Sales Growth",
+          "\n        \n        npower Business Solutions saves £50,000 per year with HubSpot",
+          "\n        \n        Allica Bank scales from start-up to £1bn+ in lending with HubSpot CRM",
+          "\n        \n        How Riverside Insights Empowers Educators to Act in Time for Students — While Slashing Tech Costs by $600K with HubSpot",
+          "\n    \n      Popular Features\n      \n        \n      \n    \n  ",
+          "\n    \n      Free Tools\n      \n        \n      \n    \n  ",
+          "\n    \n      Company\n      \n        \n      \n    \n  ",
+          "\n    \n      Customers\n      \n        \n      \n    \n  ",
+          "\n    \n      Partners\n      \n        \n      \n    \n  "
+        ],
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
+        },
+        "scroll_y": 0
+      },
+      "mobile_file": "assets/case-study-desktop-mobile-2026-10-12/30-mobile.png",
+      "capture_number": 30,
+      "section": "Opening and outcomes",
+      "shortlist": false,
+      "mobile_observation": "The client logo, centered headline, tags, photograph and three statistics stack vertically.",
+      "caution": "A chat prompt overlaps the lower content. Check that enquiry tools do not obscure Moriz’s project narrative.",
+      "desktop_dimensions": {
+        "width": 1920,
+        "height": 1320
+      },
+      "mobile_dimensions": {
+        "width": 390,
+        "height": 1100
+      }
+    },
+    {
+      "id": "2a716120-45a3-4a5b-91cc-3f250375bd26",
+      "image_url": "https://mobbin.com/api/mcp/short/dgfr5JeK",
+      "mobbin_url": "https://mobbin.com/sites/sections/2a716120-45a3-4a5b-91cc-3f250375bd26",
+      "site_name": "incident.io",
+      "number": 20,
+      "project": "Skyscanner",
+      "live_url": "https://incident.io/customers/skyscanner",
+      "type": "Customer story",
+      "desktop_observation": "A dark opening uses a highlighted phrase, short synopsis and four key-benefit columns before a testimonial.",
+      "adaptation": "State the specific improvement in the project introduction and summarize a few concrete benefits.",
+      "desktop_file": "assets/case-study-desktop-mobile-2026-10-12/31-desktop.webp",
+      "mobile_capture": {
+        "status": 200,
+        "final_url": "https://incident.io/customers/skyscanner",
+        "title": "How incident.io helped Skyscanner regain confidence in its incident response processes | incident.io",
+        "viewport": "390 × 1100",
+        "captured_at": "2026-10-12T05:46:34.163Z",
+        "headings": [
+          "How incident.io helped Skyscanner regain confidence in its incident response processes",
+          "The challenge",
+          "The solution",
+          "An incident response workflow that was intuitive for incidents of all types",
+          "A platform that encouraged use, regardless of technical background",
+          "A customer-focused engineering team that’s responsive and consistently delivers value",
+          "You may also be interested in",
+          "How Torq replaced PagerDuty & Rootly with one standardized incident workflow ",
+          "How incident.io helped Giant Swarm take the stress out of managing incidents",
+          "How Future has democratised incidents with incident.io",
+          "The places you staymade more reliable with incident.io",
+          "We’d love to talk to you about"
+        ],
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
+        },
+        "scroll_y": 0
+      },
+      "mobile_file": "assets/case-study-desktop-mobile-2026-10-12/31-mobile.png",
+      "capture_number": 31,
+      "section": "Opening and benefits",
+      "shortlist": false,
+      "mobile_observation": "The customer name, outcome headline and introduction form a single reading column.",
+      "caution": "The live design differs from the archived dark hero; preserve a short, specific summary rather than copying its styling.",
+      "desktop_dimensions": {
+        "width": 1920,
+        "height": 1320
+      },
+      "mobile_dimensions": {
+        "width": 390,
+        "height": 1100
+      }
+    }
+  ],
+  "excluded_live_pages": [
+    {
+      "site": "Webflow",
+      "project": "Shift",
+      "url": "https://webflow.com/customers/shift",
+      "status": 404,
+      "final_url": "https://webflow.com/customers/shift",
+      "reason": "404"
+    },
+    {
+      "site": "Intercom",
+      "project": "Amplitude",
+      "url": "https://www.intercom.com/customers/amplitude",
+      "status": 404,
+      "final_url": "https://www.intercom.com/customers/amplitude",
+      "reason": "404"
+    },
+    {
+      "site": "Zendesk",
+      "project": "Stanley Black & Decker",
+      "url": "https://www.zendesk.com/customer/stanley-black-decker/",
+      "status": 200,
+      "final_url": "https://www.zendesk.com/customer/",
+      "reason": "Redirected to collection"
+    },
+    {
+      "site": "ClickUp",
+      "project": "STANLEY Security",
+      "url": "https://clickup.com/customers/stanley-security",
+      "status": 200,
+      "final_url": "https://clickup.com/customers",
+      "reason": "Redirected to collection"
+    },
+    {
+      "site": "Vanta",
+      "project": "SmartRecruiters",
+      "url": "https://www.vanta.com/customers/smartrecruiters",
+      "status": 404,
+      "final_url": "https://www.vanta.com/customers/smartrecruiters",
+      "reason": "404"
+    },
+    {
+      "site": "Stripe",
+      "project": "Adore Me",
+      "url": "https://stripe.com/customers/adore-me",
+      "status": 200,
+      "final_url": "https://stripe.com/customers/all",
+      "reason": "Redirected to collection"
+    },
+    {
+      "site_name": "Canva",
+      "project": "HubSpot",
+      "url": "https://www.canva.com/case-studies/hubspot-enterprise/",
+      "status": 403,
+      "reason": "Automated viewing blocked"
+    }
+  ],
+  "counts": {
+    "desktop_examples": 20,
+    "mobile_examples": 20,
+    "case_studies": 20,
+    "publishers": 19
+  },
+  "methodology": {
+    "desktop": "Full-resolution website sections downloaded from Mobbin image_url; linked to canonical mobbin_url. Original capture dates are not supplied.",
+    "mobile": "Original case study websites rendered in local Chrome at 390 × 1100 CSS pixels, mobile input enabled, device scale 1; captured 12 October 2026. Interior examples were scrolled to the relevant section. These are supplemental live captures, not screenshots from Mobbin’s iOS library.",
+    "unit": "20 distinct case studies, each represented by a desktop section and paired responsive mobile view. One Maze pairing compares an archived solution section with the current opening.",
+    "limits": "Visual precedent research, not customer interviews or usability testing. Current live websites may differ from Mobbin’s archived desktop captures. Screenshots do not establish motion, accessibility, performance or conversion effectiveness."
+  }
+}

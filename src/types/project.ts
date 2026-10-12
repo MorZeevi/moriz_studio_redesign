@@ -1,13 +1,21 @@
 import type { Database } from "./database.types";
 
 export type ProjectImage = { src: string; alt?: string; caption?: string };
+export type MediaSpacing = "regular" | "generous" | "extra";
+export type SingleMediaLayout = "full" | "center" | "start" | "end";
+export type MultiMediaLayout = "equal" | "staggered";
+type SinglePresentation = {
+  layout?: SingleMediaLayout;
+  spacing?: MediaSpacing;
+};
+type MultiPresentation = { layout?: MultiMediaLayout; spacing?: MediaSpacing };
 export type TextBlock = {
   type: "text";
   title?: string;
   text: string;
   collapsible?: boolean;
 };
-export type ImageBlock = { type: "image" } & ProjectImage;
+export type ImageBlock = { type: "image" } & ProjectImage & SinglePresentation;
 export type VideoBlock = {
   type: "video";
   src: string;
@@ -16,12 +24,15 @@ export type VideoBlock = {
   loop?: boolean;
   muted?: boolean;
   controls?: boolean;
-};
+} & SinglePresentation;
 export type TwoImagesBlock = {
   type: "two_images";
   images: [ProjectImage, ProjectImage];
-};
-export type GalleryBlock = { type: "gallery"; images: ProjectImage[] };
+} & MultiPresentation;
+export type GalleryBlock = {
+  type: "gallery";
+  images: ProjectImage[];
+} & MultiPresentation;
 export type ProjectContentBlock =
   | TextBlock
   | ImageBlock

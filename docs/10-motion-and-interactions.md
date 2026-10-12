@@ -92,6 +92,25 @@ CSS transitions and keyframes on transform/opacity/stroke only; one Intersection
 
 Implemented locally at the owner's request (2026-10-10); visual acceptance pending.
 
+### Case-study gallery queued reveal
+
+Selected by the owner on 2026-10-12 from
+`/Users/morzeevi/Desktop/osmo-queued-scroll-reveal-1440x900.mp4`.
+Following the owner's request for a clearer image reveal, each gallery figure or
+video reveals once when its top reaches 80% of viewport height. A mask opens from
+top to bottom with a 24px upward arrival over 900ms (1.5 times the shared slow
+duration), using the shared entrance ease.
+Newly entering media start 100ms apart, with waiting capped at 300ms during fast
+scrolling. The desktop information panel remains still, and the gallery keeps its
+authored layout on desktop and ordinary stacked layout on mobile.
+
+The implementation uses one IntersectionObserver and native Web Animations,
+disconnecting/cancelling on unmount. Keyboard focus reveals its image immediately;
+reduced motion, including a preference change while open, settles every image.
+Without JavaScript all media renders visible. Local desktop light/dark and mobile
+motion captures were inspected; theme, viewer/focus, scrolling and reduced-motion
+navigation checks pass. Components: `project-gallery.tsx`, `project-detail.module.css`.
+
 ## Reusable interaction template — unselected
 
 The following is a blank template, not an interaction entry. Copy it when an interaction is intentionally selected.

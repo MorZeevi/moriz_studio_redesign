@@ -1,7 +1,13 @@
 "use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import type { ProjectContentBlock, ProjectImage } from "@/types/project";
+import type {
+  ProjectContentBlock,
+  ProjectImage,
+  MediaSpacing,
+  SingleMediaLayout,
+  MultiMediaLayout,
+} from "@/types/project";
 import { MediaUpload } from "./media-upload";
 import styles from "./admin.module.css";
 
@@ -225,7 +231,7 @@ export function ContentEditor({
                     update(index, { ...block, collapsible: e.target.checked })
                   }
                 />
-                הצגה כשאלה נפתחת
+                הצגה כשאלה נפתחת ברשימת הפרויקטים
               </label>
             </>
           )}
@@ -233,7 +239,7 @@ export function ContentEditor({
             <EditableImage
               {...props}
               image={block}
-              onChange={(image) => update(index, { type: "image", ...image })}
+              onChange={(image) => update(index, { ...block, ...image })}
             />
           )}
           {block.type === "video" && (
@@ -355,6 +361,65 @@ export function ContentEditor({
                 </Button>
               )}
             </>
+          )}
+          {block.type !== "text" && (
+            <div className={styles.grid}>
+              <label className={styles.field}>
+                <span>פריסת מדיה בעמוד הפרויקט</span>
+                <select
+                  value={
+                    block.layout ??
+                    (block.type === "image" || block.type === "video"
+                      ? "full"
+                      : "equal")
+                  }
+                  onChange={(e) =>
+                    update(
+                      index,
+                      block.type === "image" || block.type === "video"
+                        ? {
+                            ...block,
+                            layout: e.target.value as SingleMediaLayout,
+                          }
+                        : {
+                            ...block,
+                            layout: e.target.value as MultiMediaLayout,
+                          },
+                    )
+                  }
+                >
+                  {block.type === "image" || block.type === "video" ? (
+                    <>
+                      <option value="full">רוחב מלא</option>
+                      <option value="center">מרכז — שני שלישים</option>
+                      <option value="start">תחילת שורה — חצי רוחב</option>
+                      <option value="end">סוף שורה — חצי רוחב</option>
+                    </>
+                  ) : (
+                    <>
+                      <option value="equal">זוג שווה</option>
+                      <option value="staggered">זוג מדורג — 60/40</option>
+                    </>
+                  )}
+                </select>
+              </label>
+              <label className={styles.field}>
+                <span>רווח לפני המדיה</span>
+                <select
+                  value={block.spacing ?? "regular"}
+                  onChange={(e) =>
+                    update(index, {
+                      ...block,
+                      spacing: e.target.value as MediaSpacing,
+                    })
+                  }
+                >
+                  <option value="regular">רגיל</option>
+                  <option value="generous">מרווח</option>
+                  <option value="extra">מרווח במיוחד</option>
+                </select>
+              </label>
+            </div>
           )}
         </section>
       ))}

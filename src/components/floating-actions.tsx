@@ -49,9 +49,11 @@ function Portrait() {
 export function FloatingActions({
   content,
   ask,
+  compactOnMobile = false,
 }: {
   content: SiteContent["floatingActions"];
   ask: SiteContent["askAi"];
+  compactOnMobile?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [openCount, setOpenCount] = useState(0);
@@ -125,7 +127,9 @@ export function FloatingActions({
         />
       </dialog>
 
-      <div className={styles.root}>
+      <div
+        className={`${styles.root}${compactOnMobile ? ` ${styles.compactMobile}` : ""}`}
+      >
         <nav aria-label={content.label} className={styles.stack}>
           <LiquidButton
             ref={triggerRef}

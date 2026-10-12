@@ -467,10 +467,15 @@
 }
 
 @media (min-width: 64rem) {
-  /* The site header is sticky from 64rem; stack below it. */
+  /* Reserve space only while the sticky site header is visible. */
   .scrollSurface {
     --stack-top: var(--site-header-height, 6rem);
     --stack-step: 3rem;
+  }
+
+  /* biome-ignore lint/correctness/noUnknownPseudoClass: CSS Modules global scope */
+  :global(body:has(.site-header[data-header-hidden])) .scrollSurface {
+    --stack-top: 0px;
   }
 }
 
@@ -534,8 +539,8 @@
 .stackDescription {
   display: none;
   margin: 0;
-  color: var(--project-secondary);
-  font-size: var(--text-body-sm);
+  color: var(--project-foreground);
+  font-size: var(--text-body-lg);
   line-height: 1.45;
 }
 

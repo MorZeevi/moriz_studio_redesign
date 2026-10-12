@@ -92,6 +92,20 @@ export function validateContent(
           block.images.every((v) => image(v, published));
         break;
     }
+    if (block.type !== "text") {
+      const layouts =
+        block.type === "image" || block.type === "video"
+          ? ["full", "center", "start", "end"]
+          : ["equal", "staggered"];
+      valid =
+        valid &&
+        (block.layout === undefined ||
+          (typeof block.layout === "string" &&
+            layouts.includes(block.layout))) &&
+        (block.spacing === undefined ||
+          (typeof block.spacing === "string" &&
+            ["regular", "generous", "extra"].includes(block.spacing)));
+    }
     if (!valid)
       throw new Error(
         "יש בלוק לא תקין או חסר. לפני פרסום יש למלא טקסט ולהעלות את המדיה בכל בלוק.",
