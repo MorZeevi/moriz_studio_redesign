@@ -2,8 +2,8 @@
    hairline columns with a horizontal rail on desktop. Logical properties only,
    so the rail starts on the right in RTL. */
 .root {
-  --gs-accent: var(--site-heading-accent, var(--color-action-primary));
-  --gs-rule: var(--color-border);
+  --gs-accent: var(--color-action-primary);
+  --gs-rule: var(--color-light);
   --gs-muted: var(--color-text-secondary);
   --gs-node: 0.75rem;
   --gs-tile: 2.75rem;
@@ -106,7 +106,7 @@
 }
 
 .number {
-  color: var(--gs-muted);
+  color: var(--color-light);
   font-family: var(--font-display);
   font-size: clamp(2.25rem, 3.2vw, 3rem);
   font-weight: var(--font-weight-display);

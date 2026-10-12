@@ -5,7 +5,6 @@ import type { EnabledLocale } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
 import styles from "./site-footer.module.css";
 
-// Test fill for the big wordmark; remove the prop to return to solid ink.
 const wordmarkFill = "/images/footer/wordmark-fill.webp";
 
 type Social = SiteContent["footer"]["socials"][number];
@@ -44,7 +43,6 @@ export function SiteFooter({
       <div className={`page-shell ${styles.top}`}>
         <div className={styles.brand}>
           <StudioLogo name={content.studioName} locale={locale} />
-          <p className={styles.information}>{footer.information}</p>
         </div>
 
         <nav aria-label={footer.label} className={styles.columns}>
