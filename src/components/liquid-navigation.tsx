@@ -25,6 +25,8 @@ export function LiquidNavigation({
     );
     const menu = header.querySelector<HTMLElement>(".desktop-navigation");
     const sections = links.flatMap(({ href }) => {
+      // Links to other pages have no section to track.
+      if (!href.startsWith("#")) return [];
       const element = document.getElementById(href.slice(1));
       return element ? [{ href, element }] : [];
     });

@@ -1,0 +1,8 @@
+.progress {
+  font-size: var(--public-text-size);
+  color: var(--muted);
+  margin-block-end: 1rem;
+  padding-block-end: 0.625rem;
+  border-block-end: 1px solid var(--border);
+  text-align: start;
+}

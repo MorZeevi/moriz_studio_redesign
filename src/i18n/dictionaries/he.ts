@@ -34,11 +34,13 @@ export const he = {
       { label: "קצת עלי", href: "#about" },
       { label: "איך מתחילים", href: "#getting-started" },
       { label: "שאלות תשובות", href: "#faq" },
+      { label: "אבחון דיגיטלי", href: "/digital-audit" },
     ],
     contactLink: { label: "בואו נדבר", href: "#contact" },
     links: [
       { label: "פרויקטים", href: "#projects" },
       { label: "קצת עליי", href: "#about" },
+      { label: "אבחון דיגיטלי", href: "/digital-audit" },
       { label: "יצירת קשר", href: "#contact" },
     ],
     languages: {
