@@ -50,6 +50,7 @@ export type Database = {
           name_en: string | null;
           slug: string;
           sort_order: number;
+          source: string;
           updated_at: string;
         };
         Insert: {
@@ -60,6 +61,7 @@ export type Database = {
           name_en?: string | null;
           slug: string;
           sort_order?: number;
+          source?: string;
           updated_at?: string;
         };
         Update: {
@@ -70,6 +72,7 @@ export type Database = {
           name_en?: string | null;
           slug?: string;
           sort_order?: number;
+          source?: string;
           updated_at?: string;
         };
         Relationships: [];
@@ -288,29 +291,32 @@ export type Database = {
         Row: {
           category_id: string;
           project_id: string;
+          source: string;
         };
         Insert: {
           category_id: string;
           project_id: string;
+          source?: string;
         };
         Update: {
           category_id?: string;
           project_id?: string;
+          source?: string;
         };
         Relationships: [
           {
-            foreignKeyName: "project_categories_category_id_fkey";
-            columns: ["category_id"];
+            foreignKeyName: "project_categories_category_source_fkey";
+            columns: ["category_id", "source"];
             isOneToOne: false;
             referencedRelation: "categories";
-            referencedColumns: ["id"];
+            referencedColumns: ["id", "source"];
           },
           {
-            foreignKeyName: "project_categories_project_id_fkey";
-            columns: ["project_id"];
+            foreignKeyName: "project_categories_project_source_fkey";
+            columns: ["project_id", "source"];
             isOneToOne: false;
             referencedRelation: "projects";
-            referencedColumns: ["id"];
+            referencedColumns: ["id", "source"];
           },
         ];
       };
@@ -351,6 +357,7 @@ export type Database = {
           show_on_homepage: boolean;
           show_on_projects: boolean;
           slug: string | null;
+          source: string;
           target_audience: string | null;
           target_audience_en: string | null;
           title: string;
@@ -395,6 +402,7 @@ export type Database = {
           show_on_homepage?: boolean;
           show_on_projects?: boolean;
           slug?: string | null;
+          source?: string;
           target_audience?: string | null;
           target_audience_en?: string | null;
           title: string;
@@ -439,6 +447,7 @@ export type Database = {
           show_on_homepage?: boolean;
           show_on_projects?: boolean;
           slug?: string | null;
+          source?: string;
           target_audience?: string | null;
           target_audience_en?: string | null;
           title?: string;

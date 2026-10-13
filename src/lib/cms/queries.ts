@@ -9,6 +9,7 @@ import type {
   TermKind,
 } from "@/types/project";
 import { requireAdmin } from "./auth";
+import { CMS_SOURCE } from "./source";
 import { parseContent, parseHighlights, parseMedia, UUID } from "./validation";
 
 type JoinedProject = ProjectRow & {
@@ -44,6 +45,7 @@ export async function getPublicProjects(
   const { data, error } = await client
     .from("projects")
     .select(selection)
+    .eq("source", CMS_SOURCE)
     .eq("published", true)
     .eq(surface === "homepage" ? "show_on_homepage" : "show_on_projects", true)
     .order(surface === "homepage" ? "homepage_order" : "projects_order", {
@@ -63,6 +65,7 @@ export async function getPublicProject(slug: string) {
   const { data, error } = await publicSupabase()
     .from("projects")
     .select(selection)
+    .eq("source", CMS_SOURCE)
     .eq("slug", slug)
     .eq("published", true)
     .returns<JoinedProject[]>()
@@ -82,6 +85,7 @@ export async function getAdminProjects() {
   const { data, error } = await client
     .from("projects")
     .select(selection)
+    .eq("source", CMS_SOURCE)
     .order("updated_at", { ascending: false })
     .returns<JoinedProject[]>();
   if (error) throw new Error("לא ניתן לטעון את הפרויקטים.");
@@ -93,6 +97,7 @@ export async function getAdminProject(id: string) {
   const { data, error } = await client
     .from("projects")
     .select(selection)
+    .eq("source", CMS_SOURCE)
     .eq("id", id)
     .returns<JoinedProject[]>()
     .maybeSingle();
@@ -104,7 +109,8 @@ export async function getAdminTerms(kind?: TermKind): Promise<AdminTerm[]> {
   const client = await requireAdmin();
   let query = client
     .from("categories")
-    .select("*, project_categories(project_id)");
+    .select("*, project_categories(project_id)")
+    .eq("source", CMS_SOURCE);
   if (kind) query = query.eq("kind", kind);
   const { data, error } = await query.order("sort_order").order("name");
   if (error) throw new Error("לא ניתן לטעון את הקטגוריות.");

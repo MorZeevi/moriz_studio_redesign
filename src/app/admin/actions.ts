@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { requireAdmin } from "@/lib/cms/auth";
+import { CMS_MEDIA_BUCKET, CMS_SOURCE } from "@/lib/cms/source";
 import { getAdminProject } from "@/lib/cms/queries";
 import {
   MEDIA_PATH,
@@ -52,7 +53,10 @@ const MEDIA_COLUMNS =
 async function cleanupMedia(candidates: string[]) {
   if (!candidates.length) return;
   const client = await requireAdmin();
-  const { data, error } = await client.from("projects").select(MEDIA_COLUMNS);
+  const { data, error } = await client
+    .from("projects")
+    .select(MEDIA_COLUMNS)
+    .eq("source", CMS_SOURCE);
   if (error) throw error;
   const used = new Set((data ?? []).flatMap(mediaReferences));
   const paths = candidates
@@ -60,7 +64,7 @@ async function cleanupMedia(candidates: string[]) {
     .map((url) => url.slice("/media/".length));
   if (paths.length) {
     const { error: storageError } = await client.storage
-      .from("project-media")
+      .from(CMS_MEDIA_BUCKET)
       .remove(paths);
     if (storageError) throw storageError;
   }
@@ -73,6 +77,7 @@ function toInput(project: Project): ProjectInput {
     type,
     created_at: _created,
     updated_at: _updated,
+    source: _source,
     ...input
   } = project;
   return {
@@ -113,15 +118,21 @@ export async function saveProject(
       service_ids,
       type_id,
       legacy_services: _legacy,
+      // The owner comes from the database, never from the request.
+      source: _source,
       ...fields
-    } = input;
+    } = input as ProjectInput & { source?: unknown };
     const termIds = [
       ...category_ids,
       ...service_ids,
       ...(type_id ? [type_id] : []),
     ];
     const { data: terms, error: termsError } = termIds.length
-      ? await client.from("categories").select("id,kind,name").in("id", termIds)
+      ? await client
+          .from("categories")
+          .select("id,kind,name")
+          .eq("source", CMS_SOURCE)
+          .in("id", termIds)
       : { data: [], error: null };
     if (termsError) throw termsError;
     const kindOf = new Map((terms ?? []).map((t) => [t.id, t.kind]));
@@ -179,7 +190,11 @@ export async function deleteProject(id: string): Promise<Result> {
   const client = await requireAdmin();
   const existing = await getAdminProject(id);
   if (!existing) return { ok: false, error: "הפרויקט לא נמצא." };
-  const { error } = await client.from("projects").delete().eq("id", id);
+  const { error } = await client
+    .from("projects")
+    .delete()
+    .eq("source", CMS_SOURCE)
+    .eq("id", id);
   if (error) return failure(error);
   refreshPortfolio();
   try {
@@ -252,6 +267,7 @@ export async function createTerm(
   const { data: collision } = await client
     .from("categories")
     .select("id")
+    .eq("source", CMS_SOURCE)
     .eq("kind", kind)
     .eq("slug", slug)
     .maybeSingle();
@@ -283,6 +299,7 @@ export async function updateTerm(
   const { error } = await client
     .from("categories")
     .update({ name, name_en })
+    .eq("source", CMS_SOURCE)
     .eq("id", id);
   if (error) return failure(error);
   refreshPortfolio();
@@ -291,7 +308,11 @@ export async function updateTerm(
 export async function deleteTerm(id: string): Promise<Result> {
   const client = await requireAdmin();
   if (!UUID.test(id)) return { ok: false, error: "הפריט אינו תקין." };
-  const { error } = await client.from("categories").delete().eq("id", id);
+  const { error } = await client
+    .from("categories")
+    .delete()
+    .eq("source", CMS_SOURCE)
+    .eq("id", id);
   if (error) return failure(error);
   refreshPortfolio();
   return { ok: true, data: undefined };
@@ -302,7 +323,11 @@ export async function reorderTerms(ids: string[]): Promise<Result> {
     return { ok: false, error: "הסדר אינו תקין." };
   const results = await Promise.all(
     ids.map((id, sort_order) =>
-      client.from("categories").update({ sort_order }).eq("id", id),
+      client
+        .from("categories")
+        .update({ sort_order })
+        .eq("source", CMS_SOURCE)
+        .eq("id", id),
     ),
   );
   if (results.some((r) => r.error))

@@ -7,7 +7,8 @@ Content changes appear on the next public request; no deployment is needed.
 ## Use
 
 Open `/admin`, enter `morzavi1@gmail.com`, and open the magic link in the same browser.
-Only Auth user `300a2870-9861-4a41-9272-1d783b2636df` can use the CMS.
+Only Auth user `300a2870-9861-4a41-9272-1d783b2636df` can use this site's CMS
+(it is mapped to `source = 'moriz'`, see [Ownership](#ownership-of-projects)).
 Public signup is disabled. There is no registration or password screen.
 
 Choose **New project**. The editor has five tabs:
@@ -106,6 +107,44 @@ image is displayed once, preserving its caption. Images open a keyboard-accessib
 viewer and retain their original private `/media/` URLs; without JavaScript their
 links open the source images directly. Videos remain inline.
 
+## Ownership of projects
+
+Projects, terms (`categories`) and their links belong to one product, stored in a
+`source` column: `'moriz'` (this site, including all existing content) or `'eyal'`
+(reserved for a future Eyal Projects site that shares this Supabase project).
+
+- **The owner is decided in the database, never by the client.** `private.cms_admins`
+  maps an Auth user to one source (no policies, no grants, so browsers cannot read
+  or change it). `private.cms_source()` returns the caller's source, or null for
+  visitors and non-admin accounts. Row defaults, RLS policies and the RPCs all use it.
+- Reads: an admin sees only their own source; visitors see published rows of any
+  source (this site additionally filters `source = 'moriz'`, `src/lib/cms/source.ts`).
+  Writes need `source = cms_source()`, so an explicit `source` for another product is
+  rejected. A `source` inside an RPC payload is ignored, and `source` can never be updated.
+- Taxonomy slugs and names are unique per source and kind. **Project slugs stay
+  globally unique** (known Phase 1 limitation: a duplicate-slug error reveals that the
+  slug exists in the other product).
+- `project_categories` carries `source`, and composite foreign keys
+  `(project_id, source)` and `(category_id, source)` make cross-source links impossible
+  for every role, including the service role.
+- Media: one private bucket per source, `project-media` (moriz) and
+  `project-media-eyal`. Storage policies map the bucket to its source, and a file
+  becomes public only while a published project of the same source references it.
+  `/media/<projectId>/<file>` URLs are unchanged.
+- This site's server never trusts request data for ownership; `CMS_SOURCE` and
+  `CMS_MEDIA_BUCKET` are constants.
+
+Adding an Eyal admin later is one SQL statement through the CLI or SQL editor (the
+`private` schema is not exposed through the API):
+
+```sql
+insert into private.cms_admins (user_id, source) values ('<eyal auth uuid>', 'eyal');
+```
+
+The Eyal site must scope its queries to `source = 'eyal'` and use bucket
+`project-media-eyal`. Any change to this layer is a cross-product change; check it
+against both sites.
+
 ## Deployment environment
 
 Use Node.js 22 or newer (required by the installed Supabase SDK).
@@ -163,6 +202,10 @@ CMS migrations:
   without a title update existing projects.
 - `20261012120100_cms_services_backfill.sql`: copies legacy service tags into
   service terms and links them. Idempotent.
+- `20261013120000_cms_project_source.sql`: the ownership boundary above
+  (`private.cms_admins`, `private.cms_source()`, `source` columns, composite link keys,
+  per-source taxonomy uniqueness, source-scoped RLS and RPCs, per-source media buckets).
+  Replaces `private.is_admin()`.
 
 This Supabase project is shared with other apps whose migrations are not all in
 this repository (for example the Eyal Diagnostic's), so `supabase db push` can
@@ -185,11 +228,13 @@ never breaks a page); writes are validated strictly. The save function only
 updates keys present in the payload.
 `project_categories` has a composite primary key and cascading foreign keys.
 RLS allows public reads of published projects and only their related categories.
-All CMS writes require the fixed owner Auth UUID, including direct API requests.
+All CMS writes require a mapped admin and are limited to that admin's source,
+including direct API requests.
 Database types were generated into `src/types/database.types.ts` from the remote
 public schema.
 
-Images and videos live in the private `project-media` bucket under
+Images and videos live in the private `project-media` bucket (this site; Eyal's
+files go to `project-media-eyal`) under
 `<project UUID>/<random UUID>.<extension>`. Stable UUID folders survive slug changes.
 JPEG, PNG, WebP, AVIF, GIF, MP4, and WebM are supported, up to 50 MiB per file.
 SVG is accepted only for the project logo, and every `/media` response carries a
@@ -226,7 +271,10 @@ npm run build
 npm run test:cms
 ```
 
-The CMS browser suite requires the Supabase CLI login and local environment. It
+The CMS browser suite requires the Supabase CLI login and local environment
+(including `SUPABASE_ADMIN_EMAIL` and `SUPABASE_ADMIN_USER_ID`). `tests/cms/ownership.spec.ts`
+also provisions a temporary `eyal` admin (granted through the CLI, removed with its
+Auth user) to prove isolation of rows, links, spoofing attempts and media. It
 creates a temporary non-owner account and data under a unique `cms-qa-*` namespace,
 checks real RLS and storage behavior, runs the editor/publishing flow, and cleans up
 only that run's fixtures. Privileged credentials are obtained in memory for test

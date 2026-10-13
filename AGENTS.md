@@ -50,3 +50,7 @@ Both apps use one Supabase project (`eqyjdwloiffotezhedxh`) and its `diagnostic_
 - If `db push` refuses because of foreign versions, apply the diagnostic migration through another explicitly approved path, then record only that diagnostic version as applied (`supabase migration repair --status applied <diagnostic_version>`).
 - A shared diagnostic migration lands byte-identical (same filename and content) in both repos' `supabase/migrations/`.
 <!-- shared-backend-contract:end -->
+
+## Projects shared backend contract
+
+The Projects CMS tables (`projects`, `categories`, `project_categories`) and the media buckets are shared with a future Eyal Projects site on the same Supabase project. Every row has `source = 'moriz' | 'eyal'`, decided by the database from the signed-in user (`private.cms_admins`, `private.cms_source()`), never from a request. This site is `moriz`: it scopes queries with `CMS_SOURCE` and uses bucket `project-media` (`src/lib/cms/source.ts`). Any change to the schema, RLS, RPCs or buckets here is a cross-product change; see [docs/cms.md](docs/cms.md#ownership-of-projects). Do not set `source` from client input.

@@ -1,5 +1,6 @@
 import { supabaseConfig } from "@/lib/supabase/config";
 import { serverSupabase } from "@/lib/supabase/server";
+import { CMS_MEDIA_BUCKET } from "@/lib/cms/source";
 import { MEDIA_FILE, UUID } from "@/lib/cms/validation";
 
 type Params = { params: Promise<{ projectId: string; filename: string }> };
@@ -30,7 +31,7 @@ export async function GET(request: Request, { params }: Params) {
   const range = request.headers.get("range");
   if (range && /^bytes=\d*-\d*$/.test(range)) headers.Range = range;
   const upstream = await fetch(
-    `${url}/storage/v1/object/project-media/${projectId}/${filename}`,
+    `${url}/storage/v1/object/${CMS_MEDIA_BUCKET}/${projectId}/${filename}`,
     { headers, cache: "no-store", signal: request.signal },
   );
   if (!upstream.ok)

@@ -146,5 +146,5 @@ export type Project = Omit<
 };
 export type ProjectInput = Omit<
   Project,
-  "categories" | "services" | "type" | "created_at" | "updated_at"
+  "categories" | "services" | "type" | "created_at" | "updated_at" | "source"
 > & { category_ids: string[]; service_ids: string[]; type_id: string | null };

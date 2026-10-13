@@ -28,6 +28,7 @@ import {
   type ReadinessTab,
   slugify,
 } from "@/lib/cms/validation";
+import { CMS_SOURCE } from "@/lib/cms/source";
 import type {
   Project,
   ProjectContentBlock,
@@ -212,6 +213,7 @@ export function ProjectEditor({
   };
   const previewProject: Project = {
     ...project,
+    source: CMS_SOURCE,
     created_at: "",
     updated_at: "",
     categories: terms.filter((t) => project.category_ids.includes(t.id)),

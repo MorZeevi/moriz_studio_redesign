@@ -5,6 +5,7 @@ import {
   MAX_UPLOAD_BYTES,
   MEDIA_TYPES,
 } from "@/lib/cms/validation";
+import { CMS_MEDIA_BUCKET } from "@/lib/cms/source";
 import type { ProjectMediaItem } from "@/types/project";
 
 export type UploadKind = "image" | "video" | "any" | "logo";
@@ -78,7 +79,7 @@ export async function uploadFile(
   const [size] = await Promise.all([
     measure(file),
     browserSupabase()
-      .storage.from("project-media")
+      .storage.from(CMS_MEDIA_BUCKET)
       .upload(path, file, {
         contentType: file.type,
         upsert: false,
