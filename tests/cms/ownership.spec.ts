@@ -133,13 +133,11 @@ test("projects, terms and links are isolated by source", async ({
   for (const client of [anon, outsider])
     expect(
       (
-        await client
-          .from("categories")
-          .insert({
-            name: "Denied",
-            slug: `${f.prefix}-denied`,
-            source: "moriz",
-          })
+        await client.from("categories").insert({
+          name: "Denied",
+          slug: `${f.prefix}-denied`,
+          source: "moriz",
+        })
       ).error,
     ).not.toBeNull();
 
@@ -167,12 +165,10 @@ test("projects, terms and links are isolated by source", async ({
   ).toBeNull();
   expect(
     (
-      await mor
-        .from("categories")
-        .insert({
-          name: `${f.prefix} shared name`,
-          slug: `${f.prefix}-shared-2`,
-        })
+      await mor.from("categories").insert({
+        name: `${f.prefix} shared name`,
+        slug: `${f.prefix}-shared-2`,
+      })
     ).error,
   ).not.toBeNull();
   expect(
@@ -308,9 +304,40 @@ test("projects, terms and links are isolated by source", async ({
         .insert({ project_id: eyalId, category_id: morCategory })
     ).error,
   ).not.toBeNull();
+  // The other source's project with an own-source term is rejected as well.
+  expect(
+    (
+      await mor
+        .from("project_categories")
+        .insert({ project_id: eyalId, category_id: morCategory })
+    ).error,
+  ).not.toBeNull();
+  expect(
+    (
+      await eyal
+        .from("project_categories")
+        .insert({ project_id: morId, category_id: eyalCategory })
+    ).error,
+  ).not.toBeNull();
   expect(
     (await mor.from("project_categories").select("*").eq("project_id", morId))
       .data,
+  ).toEqual([]);
+  expect(
+    (
+      await mor
+        .from("project_categories")
+        .select("*")
+        .eq("category_id", morCategory)
+    ).data,
+  ).toEqual([]);
+  expect(
+    (
+      await eyal
+        .from("project_categories")
+        .select("*")
+        .eq("category_id", eyalCategory)
+    ).data,
   ).toEqual([]);
   // Same-source links work, and an eyal link is invisible to Mor.
   expect(
