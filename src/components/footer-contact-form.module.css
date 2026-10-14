@@ -1,4 +1,9 @@
+/* A short conversation: question labels over pill fields, then a button that
+   answers back with the visitor's name and channel. */
 .form {
+  --contact-line: color-mix(in srgb, var(--site-foreground) 35%, transparent);
+  --contact-fill: color-mix(in srgb, var(--site-foreground) 6%, transparent);
+  --contact-whatsapp: #25d366;
   inline-size: 100%;
   max-inline-size: 40rem;
   min-inline-size: 0;
@@ -9,7 +14,7 @@
 .fields {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-8) var(--space-6);
+  gap: var(--space-6);
   min-inline-size: 0;
   margin: 0;
   padding: 0;
@@ -19,13 +24,24 @@
 .field {
   display: grid;
   align-content: start;
+  gap: var(--space-2);
   min-inline-size: 0;
 }
 
 .label {
-  font-size: var(--text-body-sm);
+  font-size: var(--text-body);
   font-weight: var(--font-weight-body);
+  line-height: 1.4;
+}
+
+.required {
+  margin-inline-start: 0.2em;
+  color: var(--site-heading-accent, var(--color-action-primary));
+}
+
+.optional {
   color: var(--site-muted);
+  font-size: var(--text-body-sm);
 }
 
 .control {
@@ -33,12 +49,10 @@
   inline-size: 100%;
   min-inline-size: 0;
   min-block-size: var(--control-height-md);
-  border: 0;
-  border-block-end: var(--border-width-default) solid
-    color-mix(in srgb, var(--site-foreground) 60%, var(--site-background));
-  border-radius: 0;
-  padding: var(--space-2) 0;
-  background: transparent;
+  border: var(--border-width-default) solid var(--contact-line);
+  border-radius: 999px;
+  padding: var(--space-2) var(--space-6);
+  background: var(--contact-fill);
   color: var(--site-foreground);
   font-family: var(--font-body);
   font-size: max(1rem, var(--text-body));
@@ -48,13 +62,24 @@
   transition: border-color var(--duration-fast) var(--ease-standard);
 }
 
-textarea.control {
+/* Phone digits read left-to-right but line up with the Hebrew fields. */
+.control[dir="ltr"] {
+  text-align: right;
+}
+
+.control::placeholder {
+  color: var(--site-muted);
+}
+
+.message {
+  border-radius: var(--space-6);
+  padding-block: var(--space-4);
   resize: vertical;
 }
 
 .control:hover,
 .control:focus {
-  border-block-end-color: var(--site-foreground);
+  border-color: var(--site-foreground);
 }
 
 .control:focus-visible {
@@ -63,37 +88,112 @@ textarea.control {
 }
 
 .control[aria-invalid="true"] {
-  border-block-end-width: var(--border-width-strong);
+  border-width: var(--border-width-strong);
+  border-color: var(--site-foreground);
 }
 
+/* Errors sit under their field, so paired fields stay level. */
 .error {
-  margin-block-start: var(--space-2);
   color: var(--site-foreground);
   font-size: var(--text-body-sm);
   line-height: 1.55;
 }
 
-.actions {
-  display: flex;
-  flex-wrap: wrap;
+/* "Prefer WhatsApp": a native checkbox drawn as a square, ticked by the
+   overlaid glyph. */
+.check {
+  display: grid;
+  grid-template-columns: 1.5rem auto;
+  justify-content: start;
   align-items: center;
-  gap: var(--space-4) var(--space-6);
+  gap: var(--space-3);
+  inline-size: fit-content;
+  cursor: pointer;
 }
 
-.submit {
-  --color-text-primary: var(--site-foreground);
-  --color-border-strong: var(--site-foreground);
-  --color-focus: var(--site-focus);
-  flex-shrink: 0;
+.box {
+  grid-area: 1 / 1;
+  appearance: none;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  margin: 0;
+  border: var(--border-width-default) solid var(--contact-line);
+  border-radius: 0.4rem;
+  background: var(--contact-fill);
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard);
+}
+
+.box:checked {
+  border-color: var(--contact-whatsapp);
+  background: var(--contact-whatsapp);
+}
+
+.box:focus-visible {
+  outline: var(--focus-ring-width) solid var(--site-focus);
+  outline-offset: var(--space-1);
+}
+
+.tick {
+  grid-area: 1 / 1;
+  inline-size: 1.1rem;
+  block-size: 1.1rem;
+  justify-self: center;
+  color: var(--color-dark);
+  pointer-events: none;
+  opacity: 0;
+  scale: 0.5;
+  transition:
+    opacity var(--duration-fast) var(--ease-standard),
+    scale var(--duration-fast) var(--ease-enter);
+}
+
+.box:checked + .tick {
+  opacity: 1;
+  scale: 1;
+}
+
+.actions {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-3);
+  margin-block-start: var(--space-2);
+}
+
+/* The site's liquid CTA (primary fill), a size up, answering back with the
+   visitor's name; WhatsApp green when that channel is preferred. */
+.submit.submit {
+  --lb-height: 3.25rem;
+  --radius-liquid: 1rem;
   max-inline-size: 100%;
-  min-inline-size: 0;
-  white-space: normal;
-  font-weight: var(--font-weight-body);
+  font-size: var(--text-body-lg);
+  cursor: pointer;
 }
 
-.submit:hover:not(:disabled) {
-  background: var(--site-foreground);
-  color: var(--site-background);
+.submit.submit[data-variant^="whatsapp"] {
+  --lb-fill: var(--contact-whatsapp);
+  --lb-pressed-fill: color-mix(
+    in srgb,
+    var(--contact-whatsapp) 85%,
+    var(--color-dark)
+  );
+  --lb-ink: var(--color-dark);
+}
+
+.submit[data-sent] {
+  animation: contact-sent 0.5s var(--ease-enter);
+}
+
+/* Each new answer slides in from the start side. */
+.submitLabel {
+  min-inline-size: 0;
+  animation: contact-answer 0.35s var(--ease-enter);
+}
+
+.iconSwap {
+  animation: contact-icon 0.4s var(--ease-enter);
 }
 
 .note,
@@ -104,10 +204,6 @@ textarea.control {
   overflow-wrap: anywhere;
 }
 
-.note {
-  max-inline-size: 29ch;
-}
-
 .status {
   margin-block-start: var(--space-4);
 }
@@ -116,9 +212,24 @@ textarea.control {
   margin: 0;
 }
 
-@media (max-width: 23.99rem) {
-  .submit {
-    padding-inline: var(--space-3);
+@keyframes contact-answer {
+  from {
+    opacity: 0;
+    translate: 0.75rem 0;
+  }
+}
+
+@keyframes contact-icon {
+  from {
+    opacity: 0;
+    rotate: -90deg;
+    scale: 0.4;
+  }
+}
+
+@keyframes contact-sent {
+  50% {
+    scale: 0.96;
   }
 }
 
@@ -129,5 +240,16 @@ textarea.control {
 
   .full {
     grid-column: 1 / -1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .submit,
+  .submitLabel,
+  .iconSwap,
+  .box,
+  .tick {
+    animation: none;
+    transition: none;
   }
 }

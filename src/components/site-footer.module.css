@@ -44,6 +44,52 @@
   line-height: 1.6;
 }
 
+/* The form and, under it, the direct ways to reach Mor. */
+.reach {
+  display: grid;
+  gap: var(--space-10);
+  justify-items: end;
+  min-inline-size: 0;
+}
+
+.details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-4) var(--space-8);
+  inline-size: 100%;
+  max-inline-size: 40rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.detail {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--site-muted);
+  font-size: var(--text-body);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.detail:hover {
+  color: var(--site-foreground);
+}
+
+.detail:focus-visible {
+  outline: var(--focus-ring-width) solid var(--site-focus);
+  outline-offset: var(--space-1);
+  border-radius: var(--radius-sm, 0.25rem);
+}
+
+.detailIcon {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  flex-shrink: 0;
+}
+
 .brand {
   display: grid;
   align-content: start;

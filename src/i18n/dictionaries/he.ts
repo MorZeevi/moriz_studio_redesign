@@ -1,4 +1,4 @@
-import type { AboutSegment } from "@/content/about";
+import type { AboutCredential, AboutSegment } from "@/content/about";
 import type { GettingStartedStep } from "@/content/getting-started";
 import type { Project } from "@/content/projects";
 import type { Testimonial } from "@/content/testimonials";
@@ -237,14 +237,39 @@ export const he = {
         },
       ],
     ] satisfies AboutSegment[][],
-    // Swap for the higher-resolution portrait when it arrives.
+    credentials: [
+      {
+        value: "B.A",
+        label: "תואר בטכנולוגיות למידה | H.I.T",
+        detail: "UI/UX · עיצוב אינטראקטיבי · גיימיפיקציה של מוצרים",
+      },
+      { value: "7+", label: "שנות ניסיון בפיתוח Front-End" },
+      {
+        value: "400K+",
+        label: "משתמשים במוצרים שבניתי או לקחתי בהם חלק",
+      },
+    ] satisfies AboutCredential[],
     portrait: {
-      src: "/images/mor-avatar-cutout.webp",
-      width: 600,
-      height: 600,
+      src: "/images/mor-laptop-mono-lime.webp",
+      width: 900,
+      height: 1725,
       alt: "מור",
     },
-    linkPlaceholder: "קישור לעמוד אודות — להחלטה",
+  },
+  aboutGallery: {
+    label: "גלריה",
+    drag: "גררו את הקרוסלה",
+    // Placeholders from the mwg_008 demo, to be replaced by the owner; give
+    // each real image an alt when it lands.
+    images: [
+      { src: "/images/about-gallery/1.webp", alt: "" },
+      { src: "/images/about-gallery/2.webp", alt: "" },
+      { src: "/images/about-gallery/3.webp", alt: "" },
+      { src: "/images/about-gallery/4.webp", alt: "" },
+      { src: "/images/about-gallery/5.webp", alt: "" },
+      { src: "/images/about-gallery/6.webp", alt: "" },
+      { src: "/images/about-gallery/7.webp", alt: "" },
+    ],
   },
   testimonials: {
     heading: "המלצות מלקוחות",
@@ -310,6 +335,19 @@ export const he = {
           src: "/images/testimonials/shay-goren.webp",
           kind: "portrait",
           objectPosition: "50% 40%",
+        },
+      },
+      {
+        id: "rona-even",
+        headline: "מור עיצבה מחדש את דף הבית באתר שלי, ואני ממש מרוצה!",
+        body: [
+          "מור עיצבה מחדש את דף הבית באתר שלי, ואני ממש מרוצה! שירותית, מהירה ומדויקת, עם הקשבה למה שאני צריכה ועיצוב שמתאים לי ולעסק שלי. ממליצה בחום 💜",
+        ],
+        name: "רונה אבן",
+        role: "אמא חוזרת לג׳ינס",
+        image: {
+          src: "/images/testimonials/rona-even-logo.webp",
+          kind: "logo",
         },
       },
     ] satisfies Testimonial[],
@@ -385,17 +423,31 @@ export const he = {
     heading: "בואו נדבר",
     description: "ספרו לי בקצרה על הפרויקט שלכם.",
     fields: {
-      name: "שם מלא",
-      phone: "טלפון (לא חובה)",
-      email: "אימייל",
-      message: "הודעה קצרה",
+      name: "מה השם שלך?",
+      phone: "מה המספר שלך?",
+      whatsapp: "עדיף בוואטסאפ",
+      message: "כמה מילים",
+      optional: "(לא חובה)",
+      messagePlaceholder: "על מה תרצו לדבר? פרויקט, רעיון, או סתם שאלה",
     },
     errors: {
-      name: "נא למלא את השם שלכם.",
-      email: "נא למלא כתובת אימייל תקינה.",
-      message: "נא לכתוב כמה מילים על הפרויקט שלכם.",
+      name: "איך לקרוא לך? נא למלא שם.",
+      phone: "נא למלא מספר טלפון תקין.",
     },
-    submit: "שליחת הודעה",
+    // The button answers back: `{name}` is the visitor's first name.
+    submit: {
+      idle: "מור, בואי נדבר",
+      named: "נעים להכיר, {name}! שולחים",
+      whatsapp: "נעים להכיר, {name}! נמשיך בוואטסאפ",
+      whatsappIdle: "מור, נמשיך בוואטסאפ",
+    },
+    details: {
+      label: "דרכים נוספות ליצור קשר",
+      email: "morxavi1@gmail.com",
+      phone: "052-293-7174",
+      phoneHref: "tel:+972522937174",
+      whatsapp: "WhatsApp",
+    },
     preview: "תצוגה מקדימה בלבד — ההודעה לא תישלח.",
     previewChecked: "הפרטים תקינים. זו תצוגה מקדימה וההודעה לא נשלחה.",
   },

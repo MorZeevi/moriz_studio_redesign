@@ -3,14 +3,13 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
-import { Fragment, useEffect, useRef, useSyncExternalStore } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import type { SiteContent } from "@/i18n/dictionaries";
 import styles from "./about-me.module.css";
 
-const subscribeNothing = () => () => {};
-
-// Latin runs such as "H.I.T" or "Web" stay isolated inside the Hebrew text.
-const latinRun = /([A-Za-z](?:[A-Za-z.]*[A-Za-z])?)/;
+// Latin runs such as "H.I.T", "UI/UX" or "Front-End" stay isolated, whole,
+// inside the Hebrew text.
+const latinRun = /([A-Za-z](?:[A-Za-z./\- ]*[A-Za-z])?)/;
 
 function Isolated({ text }: { text: string }) {
   return text.split(latinRun).map((part, index) =>
@@ -24,113 +23,110 @@ function Isolated({ text }: { text: string }) {
   );
 }
 
-const clamp = (value: number) => Math.min(1, Math.max(0, value));
+// Each word is its own span so the scroll can fill it in reading order.
+function Words({ text }: { text: string }) {
+  return text.split(/(\s+)/).map((part, index) =>
+    part.trim() ? (
+      // biome-ignore lint/suspicious/noArrayIndexKey: static split of fixed copy
+      <span key={index} data-about-word>
+        <Isolated text={part} />
+      </span>
+    ) : (
+      // biome-ignore lint/suspicious/noArrayIndexKey: static split of fixed copy
+      <Fragment key={index}>{part}</Fragment>
+    ),
+  );
+}
 
 export function AboutMe({ content }: { content: SiteContent["about"] }) {
   const rootRef = useRef<HTMLDivElement>(null);
-  // Without JavaScript every phrase is highlighted and nothing is dimmed.
-  const enhanced = useSyncExternalStore(
-    subscribeNothing,
-    () => true,
-    () => false,
-  );
 
-  // Reading focus follows the scroll: the paragraph nearest the eye line is
-  // full strength, and each bold phrase is marked once as it is read.
+  // The bio fills in word by word as it scrolls up, from the background tone
+  // to full ink, and the portrait settles into place. Without JS, or with
+  // reduced motion, everything is shown at rest.
   useEffect(() => {
     const root = rootRef.current;
-    if (!enhanced || !root) return;
+    if (!root) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const paragraphs = [
-      ...root.querySelectorAll<HTMLElement>("[data-about-paragraph]"),
-    ];
-    const inks = [...root.querySelectorAll<HTMLElement>("[data-about-ink]")];
-    const drawn = inks.map(() => 0);
-
-    const update = (progress: number) => {
-      const viewport = window.innerHeight;
-      const eye = viewport * 0.45;
-      let active = 0;
-      let nearest = Number.POSITIVE_INFINITY;
-      paragraphs.forEach((paragraph, index) => {
-        const box = paragraph.getBoundingClientRect();
-        const distance = Math.abs(box.top + box.height / 2 - eye);
-        if (distance < nearest) {
-          nearest = distance;
-          active = index;
-        }
-      });
-      paragraphs.forEach((paragraph, index) => {
-        paragraph.toggleAttribute("data-active", index === active);
-      });
-      // A phrase starts at 80% of the viewport and is fully marked once its
-      // last line passes 55%; it never un-draws when scrolling back.
-      inks.forEach((ink, index) => {
-        const box = ink.getBoundingClientRect();
-        const start = viewport * 0.8;
-        const span = viewport * 0.25 + box.height;
-        drawn[index] = Math.max(drawn[index], clamp((start - box.top) / span));
-        ink.style.setProperty("--ink", drawn[index].toFixed(3));
-      });
-      root.style.setProperty("--about-progress", progress.toFixed(3));
-    };
-
     gsap.registerPlugin(ScrollTrigger);
-    root.setAttribute("data-reading", "");
-    const trigger = ScrollTrigger.create({
-      trigger: root,
-      start: "top bottom",
-      end: "bottom top",
-      onUpdate: (self) => update(self.progress),
-      onRefresh: (self) => update(self.progress),
-    });
-    update(trigger.progress);
+    const setProgress = (progress: number) =>
+      root.style.setProperty("--about-progress", progress.toFixed(3));
+    const context = gsap.context(() => {
+      const section = ScrollTrigger.create({
+        trigger: root,
+        start: "top bottom",
+        end: "bottom top",
+        onUpdate: (self) => setProgress(self.progress),
+        onRefresh: (self) => setProgress(self.progress),
+      });
+      setProgress(section.progress);
+      gsap.fromTo(
+        "[data-about-word]",
+        { opacity: 0.16 },
+        {
+          opacity: 1,
+          ease: "none",
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: "[data-about-copy]",
+            start: "top 85%",
+            end: "bottom 70%",
+            scrub: 0.4,
+          },
+        },
+      );
+    }, root);
     return () => {
-      trigger.kill();
-      root.removeAttribute("data-reading");
+      context.revert();
       root.style.removeProperty("--about-progress");
-      for (const paragraph of paragraphs)
-        paragraph.removeAttribute("data-active");
-      for (const ink of inks) ink.style.removeProperty("--ink");
     };
-  }, [enhanced]);
+  }, []);
 
   return (
     <div ref={rootRef} className={styles.root} data-about-me>
       <div className={styles.text}>
-        {content.paragraphs.map((segments) => (
-          <p
-            key={segments[0].text}
-            className={styles.paragraph}
-            data-about-paragraph
-          >
-            {segments.map((segment) =>
-              segment.strong ? (
-                <strong
-                  key={segment.text}
-                  className={styles.ink}
-                  data-about-ink
-                >
-                  <Isolated text={segment.text} />
-                </strong>
-              ) : (
-                <Isolated key={segment.text} text={segment.text} />
-              ),
-            )}
-          </p>
-        ))}
-        <p className={styles.note}>{content.linkPlaceholder}</p>
+        <div className={styles.copy} data-about-copy>
+          {content.paragraphs.map((segments) => (
+            <p key={segments[0].text} className={styles.paragraph}>
+              {segments.map((segment) =>
+                segment.strong ? (
+                  <strong key={segment.text} className={styles.strong}>
+                    <Words text={segment.text} />
+                  </strong>
+                ) : (
+                  <Words key={segment.text} text={segment.text} />
+                ),
+              )}
+            </p>
+          ))}
+        </div>
+        <dl className={styles.credentials}>
+          {content.credentials.map((credential) => (
+            <div key={credential.value} className={styles.credential}>
+              <dt className={styles.credentialValue}>
+                <bdi>{credential.value}</bdi>
+              </dt>
+              <dd className={styles.credentialLabel}>
+                <Isolated text={credential.label} />
+              </dd>
+              {credential.detail ? (
+                <dd className={styles.credentialDetail}>
+                  <Isolated text={credential.detail} />
+                </dd>
+              ) : null}
+            </div>
+          ))}
+        </dl>
       </div>
       <figure className={styles.portrait}>
         <div className={styles.frame}>
-          <span className={styles.blob} aria-hidden="true" />
           <Image
             className={styles.photo}
             src={content.portrait.src}
             alt={content.portrait.alt}
             width={content.portrait.width}
             height={content.portrait.height}
-            sizes="(min-width: 64rem) 22.5rem, 14rem"
+            sizes="(min-width: 64rem) 24rem, 16rem"
           />
         </div>
       </figure>

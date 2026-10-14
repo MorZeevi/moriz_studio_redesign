@@ -80,23 +80,7 @@ export function Faq({ content }: { content: SiteContent["faq"] }) {
             aria-hidden="true"
             focusable="false"
           >
-            <defs>
-              <linearGradient
-                id={`faq-border-${id}`}
-                x1="0"
-                y1="0"
-                x2="1"
-                y2="1"
-              >
-                <stop offset="0" stopColor="var(--color-primary)" />
-                <stop offset="0.5" stopColor="var(--color-secondary)" />
-                <stop offset="1" stopColor="#25d366" />
-              </linearGradient>
-            </defs>
-            <path
-              d="M16 1H177C188 1 188 13 200 13S212 1 223 1H264Q279 1 279 16V32Q279 47 264 47H223C212 47 212 35 200 35S188 47 177 47H16Q1 47 1 32V16Q1 1 16 1Z"
-              stroke={`url(#faq-border-${id})`}
-            />
+            <path d="M16 1H177C188 1 188 13 200 13S212 1 223 1H264Q279 1 279 16V32Q279 47 264 47H223C212 47 212 35 200 35S188 47 177 47H16Q1 47 1 32V16Q1 1 16 1Z" />
           </svg>
           <span data-liquid-icon aria-hidden="true">
             <SparkleIcon />

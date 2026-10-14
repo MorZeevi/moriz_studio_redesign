@@ -1,9 +1,11 @@
 import Link from "next/link";
+import { MailIcon, PhoneIcon, WhatsappIcon } from "@/components/contact-icons";
 import { FooterContactForm } from "@/components/footer-contact-form";
 import { FooterWordmark } from "@/components/footer-wordmark";
 import { StudioLogo } from "@/components/studio-logo";
 import type { EnabledLocale } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
+import { WHATSAPP_URL } from "@/lib/whatsapp";
 import styles from "./site-footer.module.css";
 
 const wordmarkFill = "/images/footer/wordmark-fill.webp";
@@ -39,6 +41,7 @@ export function SiteFooter({
   locale: EnabledLocale;
 }) {
   const footer = content.footer;
+  const details = content.contact.details;
   return (
     <footer data-wireframe-section="footer" className={styles.footer}>
       <section
@@ -55,7 +58,36 @@ export function SiteFooter({
             {content.contact.description}
           </p>
         </div>
-        <FooterContactForm content={content.contact} />
+        <div className={styles.reach}>
+          <FooterContactForm content={content.contact} />
+          <ul className={styles.details} aria-label={details.label}>
+            <li>
+              <a href={`mailto:${details.email}`} className={styles.detail}>
+                <MailIcon className={styles.detailIcon} />
+                <span dir="ltr">{details.email}</span>
+              </a>
+            </li>
+            <li>
+              <a href={details.phoneHref} className={styles.detail}>
+                <PhoneIcon className={styles.detailIcon} />
+                <span dir="ltr">{details.phone}</span>
+              </a>
+            </li>
+            {WHATSAPP_URL && (
+              <li>
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.detail}
+                >
+                  <WhatsappIcon className={styles.detailIcon} />
+                  <span dir="ltr">{details.whatsapp}</span>
+                </a>
+              </li>
+            )}
+          </ul>
+        </div>
       </section>
       <div className={`page-shell ${styles.top}`}>
         <div className={styles.brand}>

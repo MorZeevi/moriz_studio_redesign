@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { AboutGallery } from "@/components/about-gallery";
 import { AboutMe } from "@/components/about-me";
 import { AdvantagesMotion } from "@/components/advantages-motion";
 import { Faq } from "@/components/faq";
@@ -16,14 +17,14 @@ import { Navigation } from "@/components/navigation";
 import { PartyModeProvider } from "@/components/party-mode/party-mode-provider";
 import { PartyModeToggle } from "@/components/party-mode/party-mode-toggle";
 import { PixelReveal } from "@/components/pixel-reveal";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { ProjectsSection } from "@/components/projects-section";
-import { SecondaryScrollSurface } from "@/components/secondary-scroll-surface";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
 import FallingText from "@/components/react-bits/FallingText";
+import { SecondaryScrollSurface } from "@/components/secondary-scroll-surface";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
 import { StudioLogo } from "@/components/studio-logo";
 import { Testimonials } from "@/components/testimonials";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { LiquidLink } from "@/components/ui/liquid-link";
 import { Section } from "@/components/wireframe";
 import { isEnabledLocale } from "@/i18n/config";
@@ -183,6 +184,8 @@ export default async function Home({
           <AboutMe content={content.about} />
         </Section>
 
+        <AboutGallery content={content.aboutGallery} />
+
         <Section
           id="testimonials"
           title={content.testimonials.heading}
@@ -208,10 +211,7 @@ export default async function Home({
 
       <SiteFooter content={content} locale={locale} />
 
-      <FloatingActions
-        content={content.floatingActions}
-        ask={content.askAi}
-      />
+      <FloatingActions content={content.floatingActions} ask={content.askAi} />
     </PartyModeProvider>
   );
 }
