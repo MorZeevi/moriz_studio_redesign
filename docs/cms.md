@@ -74,7 +74,7 @@ used as the archive filters. Both are rows in `categories` (`kind` = `category` 
 `type`) linked through `project_categories`; names and slugs are unique per kind.
 
 Services were a third list (`kind = 'service'`, shown as a "·" line). They were
-merged into categories (`20261015120100`): this site reads any remaining service row
+merged into categories (`20261016120100`): this site reads any remaining service row
 as a category and no longer creates them. The shared table still allows
 `kind = 'service'` for the Eyal site. `projects.services`, the old text mirror, is
 written empty.
@@ -230,9 +230,9 @@ CMS migrations:
   (`private.cms_admins`, `private.cms_source()`, `source` columns, composite link keys,
   per-source taxonomy uniqueness, source-scoped RLS and RPCs, per-source media buckets).
   Replaces `private.is_admin()`.
-- `20261015120000_cms_panel_style.sql`: optional `projects.panel_style` JSONB for the
+- `20261016120000_cms_panel_style.sql`: optional `projects.panel_style` JSONB for the
   case study panel background, and `cms_save_project` saving it.
-- `20261015120100_cms_merge_services_into_categories.sql`: Moriz services become
+- `20261016120100_cms_merge_services_into_categories.sql`: Moriz services become
   categories (matching names or slugs merge into the existing category) and the
   `projects.services` mirror is cleared. Idempotent; Eyal rows are untouched.
 
