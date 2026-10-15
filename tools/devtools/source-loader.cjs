@@ -4,7 +4,8 @@ const ts = require("typescript");
 function instrumentSource(source, filename, root) {
   const relative = path.relative(root, filename).split(path.sep).join("/");
   if (
-    !relative.startsWith("src/") ||
+    // The design-system kit's components render much of the site's markup.
+    !/^(src|design-system\/(react|next))\//.test(relative) ||
     relative.startsWith("src/components/devtools/") ||
     !relative.endsWith(".tsx")
   ) {

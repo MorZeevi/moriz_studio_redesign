@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
           all: [
             "development",
             { not: "foreign" },
-            { path: /^src\// },
+            { path: /^(src|design-system\/(react|next))\// },
             { not: { path: /^src\/components\/devtools\// } },
           ],
         },

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { danidin, leon } from "@/styles/fonts";
-import "../globals.css";
+import "./admin.css";
 import styles from "@/components/admin/admin.module.css";
 export const metadata: Metadata = {
   title: "ניהול תיק עבודות | Moriz Studio",

@@ -1,0 +1,65 @@
+/* Optional light/dark layer. Importing this file opts the page into dark
+   mode: it follows the operating system until <html data-theme="light|dark">
+   is set (by the bootstrap script in react/theme.tsx, or by your own code).
+   To stay light-only, do not import it. */
+:root {
+  --theme-moon-display: block;
+  --theme-sun-display: none;
+  color-scheme: light;
+  accent-color: var(--color-secondary);
+  scrollbar-color: var(--color-text-secondary) var(--color-background);
+}
+
+:root[data-theme="dark"] {
+  --color-background: var(--color-dark);
+  --color-text-primary: var(--color-light);
+  --color-text-secondary: color-mix(
+    in srgb,
+    var(--color-light) 80%,
+    transparent
+  );
+  --color-surface: color-mix(in srgb, var(--color-light) 7%, var(--color-dark));
+  --color-card: var(--color-surface);
+  --color-border: color-mix(in srgb, var(--color-light) 25%, var(--color-dark));
+  --color-border-strong: var(--color-light);
+  --color-focus: var(--color-secondary);
+  --color-accent-text: var(--color-primary);
+  --theme-moon-display: none;
+  --theme-sun-display: block;
+  color-scheme: dark;
+}
+
+/* No-JavaScript and pre-bootstrap fallback. An explicit light choice wins. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-background: var(--color-dark);
+    --color-text-primary: var(--color-light);
+    --color-text-secondary: color-mix(
+      in srgb,
+      var(--color-light) 80%,
+      transparent
+    );
+    --color-surface: color-mix(
+      in srgb,
+      var(--color-light) 7%,
+      var(--color-dark)
+    );
+    --color-card: var(--color-surface);
+    --color-border: color-mix(
+      in srgb,
+      var(--color-light) 25%,
+      var(--color-dark)
+    );
+    --color-border-strong: var(--color-light);
+    --color-focus: var(--color-secondary);
+    --color-accent-text: var(--color-primary);
+    --theme-moon-display: none;
+    --theme-sun-display: block;
+    color-scheme: dark;
+  }
+}
+
+/* The toggle is meaningless until the bootstrap has resolved a theme. */
+html:not([data-theme]) [data-theme-controls] {
+  display: none;
+}

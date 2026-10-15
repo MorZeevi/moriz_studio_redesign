@@ -82,7 +82,7 @@ test("hero link has regular text, a down arrow, independent liquid motion and pr
   await moveToLink(page);
   await expect.poll(() => gap(page)).toBeGreaterThan(18);
   const appearance = await link.evaluate((element) => {
-    const shape = element.querySelector("[data-liquid-shape]") as Element;
+    const shape = element.querySelector(".liquid__icon") as Element;
     const sample = document.createElement("span");
     sample.style.backgroundColor = "var(--color-action-primary)";
     element.appendChild(sample);
@@ -101,7 +101,7 @@ test("hero link has regular text, a down arrow, independent liquid motion and pr
   const filterId = await link.evaluate(
     (element) =>
       (element as HTMLElement).style
-        .getPropertyValue("--lb-filter")
+        .getPropertyValue("--liquid-filter")
         .match(/#([^"]+)/)?.[1],
   );
   const blur = page.locator(`filter[id="${filterId}"] feGaussianBlur`);
@@ -154,7 +154,7 @@ test("keyboard focus is visible and reduced motion stays static", async ({
   ).toBe("0s");
   expect(
     await link
-      .locator("[data-liquid-shape]")
+      .locator(".liquid__icon")
       .first()
       .evaluate((element) => getComputedStyle(element).backgroundImage),
   ).toBe("none");
@@ -213,7 +213,7 @@ test("touch press has feedback and activates the native destination", async ({
   await expect(link).toHaveAttribute("data-liquid-pressed", "");
   expect(
     await link
-      .locator("[data-liquid-shape]")
+      .locator(".liquid__icon")
       .first()
       .evaluate((element) => getComputedStyle(element).backgroundColor),
   ).not.toBe("rgba(0, 0, 0, 0)");
@@ -271,7 +271,7 @@ test("secondary liquid link opens the projects collection with independent styli
   await collection.scrollIntoViewIfNeeded();
   await expect(collection).toHaveAttribute("href", "/he/projects");
   const appearance = await collection.evaluate((element) => {
-    const shape = element.querySelector("[data-liquid-shape]");
+    const shape = element.querySelector(".liquid__icon");
     const sample = document.createElement("span");
     sample.style.backgroundColor = "var(--color-secondary)";
     element.appendChild(sample);

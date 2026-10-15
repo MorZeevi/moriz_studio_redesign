@@ -21,8 +21,8 @@
 }
 
 .badge > span {
-  --lb-fill: var(--color-light);
-  --lb-ink: var(--color-dark);
+  --liquid-fill: var(--color-light);
+  --liquid-ink: var(--color-dark);
 }
 
 /* Pointer: the badge replaces the cursor and sits on the pointer. */

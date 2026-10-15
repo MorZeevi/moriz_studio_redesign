@@ -1,11 +1,15 @@
-/* Tailwind v4 CSS-first theme. All shared visual values live here. */
-@theme static {
-  --color-*: initial;
+/* Moriz design tokens. Plain CSS custom properties: the single source of
+   truth for every value in the kit. The Tailwind adapter and the components
+   read these names; never copy a value elsewhere. */
+:root {
+  /* Brand primitives */
   --color-primary: #fb2c36;
   --color-secondary: #dddc8c;
   --color-dark: #262626;
   --color-light: #fbfbff;
+  --color-white: #fff;
 
+  /* Semantic roles, derived from the primitives (no separate gray palette) */
   --color-background: var(--color-light);
   --color-background-inverse: var(--color-dark);
   --color-surface: color-mix(in srgb, var(--color-dark) 5%, var(--color-light));
@@ -14,6 +18,7 @@
     var(--color-dark) 90%,
     var(--color-light)
   );
+  --color-card: var(--color-white);
   --color-text-primary: var(--color-dark);
   --color-text-secondary: color-mix(
     in srgb,
@@ -29,6 +34,8 @@
   --color-border: color-mix(in srgb, var(--color-dark) 25%, var(--color-light));
   --color-border-strong: var(--color-dark);
   --color-accent: var(--color-primary);
+  /* Red that is safe for text at ordinary sizes in the current theme. */
+  --color-accent-text: var(--color-action-primary);
   --color-focus: var(--color-dark);
   --color-overlay: color-mix(in srgb, var(--color-dark) 40%, transparent);
   /* Pure primary cannot meet 4.5:1 with either brand text color at UI sizes. */
@@ -48,31 +55,13 @@
     var(--color-dark)
   );
 
-  --spacing: 0.25rem;
-  --spacing-1: 0.25rem;
-  --spacing-2: 0.5rem;
-  --spacing-3: 0.75rem;
-  --spacing-4: 1rem;
-  --spacing-6: 1.5rem;
-  --spacing-8: 2rem;
-  --spacing-10: 2.5rem;
-  --spacing-12: 3rem;
-  --spacing-16: 4rem;
-  --spacing-20: 5rem;
-  --spacing-24: 6rem;
-  --spacing-30: 7.5rem;
-  --spacing-40: 10rem;
-  --container-site: 100%;
-  --container-prose: 65ch;
-
-  --radius-*: initial;
-  --radius-xs: 0.125rem;
-  --radius-sm: 0.25rem;
-  --radius-liquid: 0.72rem;
-  --radius-md: 0.375rem;
-  --radius-pill: 999rem;
-  --shadow-*: initial;
-  --shadow-hard: 0.25rem 0.25rem 0 var(--color-dark);
+  /* Typography. next/font sets the first variable; plain CSS uses fonts.css. */
+  --font-display: var(--font-danidin-bold, "Danidin", Arial, sans-serif);
+  --font-body: var(--font-leon, "Leon", Arial, Helvetica, sans-serif);
+  --font-weight-display: 700;
+  --font-weight-heading: 900;
+  --font-weight-body: 400;
+  --font-weight-label: 900;
 
   --text-display: clamp(5rem, 11vw, 10rem);
   --text-display--line-height: 0.82;
@@ -98,64 +87,66 @@
   --text-label--line-height: 1.2;
   --text-caption: 0.75rem;
   --text-caption--line-height: 1.4;
-}
 
-@theme inline {
-  --font-display: var(--font-danidin-bold, Arial, sans-serif);
-  --font-body: var(--font-leon, Arial, Helvetica, sans-serif);
-  --font-sans: var(--font-body);
-  /* Compatibility aliases for existing wireframe markup; prefer semantic names. */
-  --color-canvas: var(--color-background);
-  --color-ink: var(--color-text-primary);
-  --color-muted: var(--color-text-secondary);
-  --color-line: var(--color-border);
-  --color-placeholder: var(--color-surface);
-}
+  /* Spacing: a 0.25rem rhythm. Prefer the listed steps. */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-30: 7.5rem;
+  --space-40: 10rem;
 
-:root {
-  --space-1: var(--spacing-1);
-  --space-2: var(--spacing-2);
-  --space-3: var(--spacing-3);
-  --space-4: var(--spacing-4);
-  --space-6: var(--spacing-6);
-  --space-8: var(--spacing-8);
-  --space-10: var(--spacing-10);
-  --space-12: var(--spacing-12);
-  --space-16: var(--spacing-16);
-  --space-20: var(--spacing-20);
-  --space-24: var(--spacing-24);
-  --space-30: var(--spacing-30);
-  --space-40: var(--spacing-40);
+  /* Layout */
+  --container-site: 100%;
+  --container-prose: 65ch;
+  --page-gutter: 2rem;
   --section-space-sm: clamp(4rem, 7vw, 6rem);
   --section-space-md: clamp(5rem, 9vw, 8rem);
   --section-space-lg: clamp(6rem, 12vw, 10rem);
-  --page-gutter: 2rem;
+
+  /* Shape and depth. Surfaces are flat; the hard shadow is opt-in. */
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-liquid: 0.72rem;
+  --radius-pill: 999rem;
   --border-width-default: 0.0625rem;
   --border-width-strong: 0.125rem;
-  --font-weight-display: 700;
-  --font-weight-heading: 900;
-  --font-weight-body: 400;
-  --font-weight-label: 900;
+  --shadow-hard: 0.25rem 0.25rem 0 var(--color-dark);
+
+  /* Controls */
+  --control-height-sm: 2.75rem;
+  --control-height-md: 3rem;
+  --control-height-lg: 3.5rem;
+  --opacity-disabled: 0.5;
+  --icon-size: 1.5rem;
+  --focus-ring-width: var(--border-width-strong);
+  --focus-ring-offset: var(--space-1);
+
+  /* Motion */
   --duration-fast: 0.15s;
   --duration-normal: 0.3s;
   --duration-slow: 0.6s;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-exit: cubic-bezier(0.7, 0, 0.84, 0);
-  --focus-ring-width: var(--border-width-strong);
-  --focus-ring-offset: var(--space-1);
-  --control-height-sm: 2.75rem;
-  --control-height-md: var(--space-12);
-  --control-height-lg: 3.5rem;
-  --opacity-disabled: 0.5;
-  --icon-size: var(--space-6);
-  /* Existing trial metrics are centralized, but deliberately not the new type scale. */
-  --trial-hero-size: clamp(2.75rem, 10vw, 5rem);
-  --trial-hero-size-desktop: clamp(4.5rem, 7.8vw, 7rem);
-  --trial-description-size: clamp(1rem, 1.25vw, 1.125rem);
-  --trial-wordmark-size: clamp(1.125rem, 2vw, 1.5rem);
-  --trial-menu-size: clamp(1.75rem, 4vw, 2.5rem);
-  --trial-section-heading-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  /* The liquid CTA's spring is a documented exception to the easing set. */
+  --ease-liquid: cubic-bezier(0.3, 1.45, 0.55, 1);
+}
+
+/* Registered so the liquid CTA can animate its gap. Kept here, outside any
+   cascade layer, where @property is reliably honored. */
+@property --liquid-gap {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {

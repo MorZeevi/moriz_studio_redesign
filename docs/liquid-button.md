@@ -16,8 +16,8 @@ The homepage all-projects link shares the liquid geometry with a secondary yello
 
 ## Implementation
 
-- [liquid-link.tsx](../src/components/ui/liquid-link.tsx) renders the native anchor, directional SVG and instance filter. Its effect interpolates blur during transitions and stops after a bounded 900ms window; it removes listeners, animation frames and pressed state on cleanup or motion-preference changes. Cursor tracking has been removed.
-- [liquid-link.module.css](../src/components/ui/liquid-link.module.css) owns geometry, red CTA colors, focus, press and reduced-motion states.
+- Since 2026-10-15 the component lives in the design-system kit: [react/liquid.tsx](../design-system/react/liquid.tsx) renders the native anchor, directional SVG and instance filter, and [js/liquid-motion.js](../design-system/js/liquid-motion.js) interpolates blur during transitions and stops after a bounded 900ms window; it removes listeners, animation frames and pressed state on cleanup or motion-preference changes. Cursor tracking has been removed. [liquid-link.tsx](../src/components/ui/liquid-link.tsx) is the site's thin wrapper that keeps the `navigation` prop.
+- The `.liquid` rules in [css/components.css](../design-system/css/components.css) own geometry, red CTA colors, focus, press and reduced-motion states. Per-instance overrides use `--liquid-height`, `--liquid-fill`, `--liquid-pressed-fill` and `--liquid-ink` (formerly `--lb-*`).
 - [Homepage](../src/app/[locale]/page.tsx) supplies the hero label, `#projects` destination and Party Mode hook. [wireframe.css](../src/styles/wireframe.css) supplies hero spacing and inline clearance.
 
 ## Validation and review

@@ -1,6 +1,7 @@
 @import "tailwindcss";
-@import "../styles/tokens.css";
-@import "../styles/foundations.css";
+@import "../../design-system/tailwind/index.css";
+@import "../../design-system/css/theme.css";
+@import "../styles/site.css";
 @import "../styles/wireframe.css";
 @import "../styles/pixel-reveal.css";
 @import "../styles/theme.css";
@@ -9,3 +10,5 @@
 @source not "../diagnostic";
 @source not "../diagnostic-core";
 @source not "./digital-audit";
+/* The design-system kit styles its components with its own CSS (no Tailwind utilities in its TSX), so scanning it would only pick up class names from its docs and demo. */
+@source not "../../design-system";

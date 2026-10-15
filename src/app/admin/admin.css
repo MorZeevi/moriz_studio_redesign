@@ -1,0 +1,13 @@
+/* The admin root: the same kit and site layers as globals.css, light only.
+   It skips the kit's opt-in css/theme.css and the public theme layer, so a
+   dark operating system leaves the admin unchanged. */
+@import "tailwindcss";
+@import "../../../design-system/tailwind/index.css";
+@import "../../styles/site.css";
+@import "../../styles/wireframe.css";
+@import "../../styles/pixel-reveal.css";
+
+@source not "../../diagnostic";
+@source not "../../diagnostic-core";
+@source not "../digital-audit";
+@source not "../../../design-system";

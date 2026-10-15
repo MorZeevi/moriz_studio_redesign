@@ -1,0 +1,43 @@
+/* Site layer on top of the design-system kit (design-system/tailwind/index.css).
+   The kit owns every shared value; only site-specific names live here. */
+
+/* Compatibility aliases for existing wireframe markup; prefer semantic names. */
+@theme inline {
+  --color-canvas: var(--color-background);
+  --color-ink: var(--color-text-primary);
+  --color-muted: var(--color-text-secondary);
+  --color-line: var(--color-border);
+  --color-placeholder: var(--color-surface);
+}
+
+:root {
+  /* The kit removes Tailwind's font stacks; the developer inspector still reads this one. */
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  /* Existing trial metrics are centralized, but deliberately not the kit's type scale. */
+  --trial-hero-size: clamp(2.75rem, 10vw, 5rem);
+  --trial-hero-size-desktop: clamp(4.5rem, 7.8vw, 7rem);
+  --trial-description-size: clamp(1rem, 1.25vw, 1.125rem);
+  --trial-wordmark-size: clamp(1.125rem, 2vw, 1.5rem);
+  --trial-menu-size: clamp(1.75rem, 4vw, 2.5rem);
+  --trial-section-heading-size: clamp(1.75rem, 3.5vw, 2.75rem);
+}
+
+@layer base {
+  /* The admin root does not load the kit's theme.css, which sets this for public roots. */
+  :root {
+    color-scheme: light;
+  }
+}
+
+@layer components {
+  /* Old containers share the kit's .site-container; no second width/gutter system. */
+  .page-shell,
+  .hero-shell {
+    inline-size: 100%;
+    max-inline-size: var(--container-site);
+    margin-inline: auto;
+    padding-inline: var(--page-gutter);
+  }
+}

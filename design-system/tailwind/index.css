@@ -1,0 +1,102 @@
+/* Tailwind CSS 4 entry. Import after Tailwind itself:
+     @import "tailwindcss";
+     @import "<kit>/tailwind/index.css";
+     @import "<kit>/css/theme.css";   (optional dark mode)
+   Kit rules join Tailwind's own layers, so utilities such as p-6 still win
+   over .button. Plain CSS fonts are left out: Next.js projects load them with
+   next/fonts.ts. Other Tailwind projects add @import "<kit>/css/fonts.css". */
+@import "../css/tokens.css";
+@import "../css/base.css" layer(base);
+@import "../css/components.css" layer(components);
+@import "../css/utilities.css" layer(utilities);
+
+/* Utility names for the kit tokens (bg-primary, text-h1, font-display, p-6,
+   rounded-liquid, ease-enter...). Every entry must be a var() reference:
+   "inline" writes it into each utility, so scoped overrides such as
+   .surface-inverse and the dark theme still reach it. "reference" keeps
+   Tailwind from re-declaring the variables. Default palettes are removed so
+   off-system colors fail loudly. Biome 2.5 cannot parse two @theme options;
+   keep this file out of Biome rather than dropping "reference". */
+@theme inline reference {
+  --color-*: initial;
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+  --color-dark: var(--color-dark);
+  --color-light: var(--color-light);
+  --color-white: var(--color-white);
+  --color-background: var(--color-background);
+  --color-background-inverse: var(--color-background-inverse);
+  --color-surface: var(--color-surface);
+  --color-surface-strong: var(--color-surface-strong);
+  --color-card: var(--color-card);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-inverse: var(--color-text-inverse);
+  --color-text-secondary-inverse: var(--color-text-secondary-inverse);
+  --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+  --color-accent: var(--color-accent);
+  --color-accent-text: var(--color-accent-text);
+  --color-focus: var(--color-focus);
+  --color-overlay: var(--color-overlay);
+  --color-action-primary: var(--color-action-primary);
+  --color-action-primary-hover: var(--color-action-primary-hover);
+  --color-action-secondary-hover: var(--color-action-secondary-hover);
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --font-*: initial;
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-sans: var(--font-body);
+
+  --text-*: initial;
+  --text-display: var(--text-display);
+  --text-display--line-height: var(--text-display--line-height);
+  --text-display--letter-spacing: var(--text-display--letter-spacing);
+  --text-h1: var(--text-h1);
+  --text-h1--line-height: var(--text-h1--line-height);
+  --text-h1--letter-spacing: var(--text-h1--letter-spacing);
+  --text-h2: var(--text-h2);
+  --text-h2--line-height: var(--text-h2--line-height);
+  --text-h2--letter-spacing: var(--text-h2--letter-spacing);
+  --text-h3: var(--text-h3);
+  --text-h3--line-height: var(--text-h3--line-height);
+  --text-h3--letter-spacing: var(--text-h3--letter-spacing);
+  --text-h4: var(--text-h4);
+  --text-h4--line-height: var(--text-h4--line-height);
+  --text-body-lg: var(--text-body-lg);
+  --text-body-lg--line-height: var(--text-body-lg--line-height);
+  --text-body: var(--text-body);
+  --text-body--line-height: var(--text-body--line-height);
+  --text-body-sm: var(--text-body-sm);
+  --text-body-sm--line-height: var(--text-body-sm--line-height);
+  --text-label: var(--text-label);
+  --text-label--line-height: var(--text-label--line-height);
+  --text-caption: var(--text-caption);
+  --text-caption--line-height: var(--text-caption--line-height);
+
+  --radius-*: initial;
+  --radius-xs: var(--radius-xs);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-liquid: var(--radius-liquid);
+  --radius-pill: var(--radius-pill);
+
+  --shadow-*: initial;
+  --shadow-hard: var(--shadow-hard);
+
+  --ease-*: initial;
+  --ease-standard: var(--ease-standard);
+  --ease-enter: var(--ease-enter);
+  --ease-exit: var(--ease-exit);
+
+  --container-site: var(--container-site);
+  --container-prose: var(--container-prose);
+}
+
+/* p-6, gap-4, ms-8... resolve to multiples of 0.25rem, matching --space-*.
+   A numeric base is required here because Tailwind multiplies it. */
+@theme {
+  --spacing: 0.25rem;
+}

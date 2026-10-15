@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Moriz Design System</title>
+    <script>
+      // Pre-paint theme bootstrap: the same logic as react/theme.tsx.
+      (() => {
+        let p = "system";
+        try {
+          const v = localStorage.getItem("mz:theme");
+          if (v === "light" || v === "dark") p = v;
+        } catch {}
+        const r =
+          p === "system"
+            ? matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light"
+            : p;
+        document.documentElement.dataset.theme = r;
+      })();
+    </script>
+    <!-- The demo uses the kit's real files: if it looks right here, the shipped CSS works. -->
+    <link rel="stylesheet" href="../css/index.css" />
+    <link rel="stylesheet" href="../css/theme.css" />
+    <style>
+      /* Demo page layout only. Not part of the kit. */
+      .demo-bar {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--space-3);
+        padding-block: var(--space-3);
+        border-block-end: var(--border-width-default) solid var(--color-border);
+        background: var(--color-background);
+      }
+      .demo-bar strong {
+        margin-inline-end: auto;
+      }
+      .demo-section {
+        display: grid;
+        gap: var(--space-8);
+        padding-block: var(--space-16);
+        border-block-end: var(--border-width-default) solid var(--color-border);
+      }
+      .demo-section > header {
+        display: grid;
+        gap: var(--space-2);
+      }
+      .demo-section h2,
+      .demo-hero h1 {
+        margin: 0;
+      }
+      .demo-section > header p,
+      .demo-hero p {
+        margin: 0;
+        color: var(--color-text-secondary);
+      }
+      .demo-hero {
+        display: grid;
+        gap: var(--space-6);
+        padding-block: var(--space-16);
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--space-4);
+      }
+      .demo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+        gap: var(--space-6);
+      }
+      .swatch {
+        display: grid;
+        gap: var(--space-2);
+        min-inline-size: 0;
+      }
+      .swatch > span:first-child {
+        block-size: 5rem;
+        border: var(--border-width-default) solid var(--color-border);
+        border-radius: var(--radius-sm);
+      }
+      .swatch code,
+      .demo-meta {
+        color: var(--color-text-secondary);
+        font-size: var(--text-caption);
+        line-height: var(--text-caption--line-height);
+        overflow-wrap: anywhere;
+      }
+      .type-row {
+        display: grid;
+        gap: var(--space-2);
+        padding-block: var(--space-4);
+        border-block-start: var(--border-width-default) solid var(--color-border);
+        min-inline-size: 0;
+      }
+      .type-row p {
+        margin: 0;
+      }
+      .demo-inverse {
+        padding: var(--space-8);
+        border-radius: var(--radius-sm);
+      }
+      .demo-form {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--space-6);
+        max-inline-size: 40rem;
+      }
+      @media (min-width: 64rem) {
+        .demo-form {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .demo-form .full {
+          grid-column: 1 / -1;
+        }
+      }
+      .space-bar {
+        display: grid;
+        grid-template-columns: 4rem 1fr;
+        align-items: center;
+        gap: var(--space-4);
+      }
+      .space-bar > span:last-child {
+        block-size: var(--space-3);
+        background: var(--color-accent);
+      }
+      .shape {
+        display: grid;
+        place-items: center;
+        inline-size: 6rem;
+        block-size: 4rem;
+        border: var(--border-width-strong) solid var(--color-border-strong);
+        background: var(--color-surface);
+        font-size: var(--text-caption);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="demo-bar site-container">
+      <strong class="type-label">Moriz Design System</strong>
+      <button type="button" class="button button--outline button--sm" id="dir-toggle">
+        Switch to RTL
+      </button>
+      <button
+        type="button"
+        class="theme-toggle"
+        id="theme-toggle"
+        data-theme-controls
+        aria-label="Switch to dark theme"
+        aria-pressed="false"
+      >
+        <svg class="theme-toggle__moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M20.5 14A8.5 8.5 0 0 1 10 3.5 8.5 8.5 0 1 0 20.5 14Z" />
+        </svg>
+        <svg class="theme-toggle__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" />
+        </svg>
+      </button>
+    </div>
+
+    <main class="site-container">
+      <div class="demo-hero">
+        <h1 class="type-h1">Bold display, quiet text.</h1>
+        <p class="type-body-lg prose-measure">
+          Condensed Danidin headings over readable Leon body text, charcoal and
+          off-white surfaces, red and yellow accents, compact controls and a
+          liquid CTA. Every element on this page uses the kit's shipped CSS.
+        </p>
+        <div class="demo-row">
+          <a class="liquid" href="#colors">
+            <span class="liquid__icon" aria-hidden="true">
+              <svg class="liquid__glyph liquid__glyph--down" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
+              <span class="liquid__bridge"></span>
+            </span>
+            <span class="liquid__label">Explore the system</span>
+          </a>
+        </div>
+      </div>
+
+      <section class="demo-section" id="colors" aria-labelledby="colors-title">
+        <header>
+          <h2 class="type-h2" id="colors-title">Color</h2>
+          <p>Four brand primitives. Every other role is mixed from them. Toggle the theme to see the semantic roles change.</p>
+        </header>
+        <div class="demo-grid" data-swatches="primary secondary dark light"></div>
+        <div class="demo-grid" data-swatches="background surface card text-primary text-secondary border border-strong accent-text action-primary action-primary-hover action-secondary-hover focus"></div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="type-title">
+        <header>
+          <h2 class="type-h2" id="type-title">Typography</h2>
+          <p>Danidin Condensed Bold 700 for display through H2; Leon Heavy 900 for H3, H4 and labels; Leon Regular 400 for text. Both cover Hebrew and Latin.</p>
+        </header>
+        <div>
+          <div class="type-row"><span class="demo-meta">type-display · Danidin 700</span><p class="type-display">Moriz</p></div>
+          <div class="type-row"><span class="demo-meta">type-h1 · Danidin 700</span><p class="type-h1">סטודיו מוריז</p></div>
+          <div class="type-row"><span class="demo-meta">type-h2 · Danidin 700</span><p class="type-h2">Design that works</p></div>
+          <div class="type-row"><span class="demo-meta">type-h3 · Leon 900</span><p class="type-h3">עיצוב שעובד</p></div>
+          <div class="type-row"><span class="demo-meta">type-h4 · Leon 900</span><p class="type-h4">Section heading</p></div>
+          <div class="type-row"><span class="demo-meta">type-body-lg · Leon 400</span><p class="type-body-lg prose-measure">Large body text introduces a section with a calm, readable voice.</p></div>
+          <div class="type-row"><span class="demo-meta">type-body · Leon 400</span><p class="type-body prose-measure">טקסט גוף רגיל, בגובה שורה 1.6, לקריאה נוחה בעברית ובאנגלית.</p></div>
+          <div class="type-row"><span class="demo-meta">type-body-sm · Leon 400</span><p class="type-body-sm">Small body for secondary details.</p></div>
+          <div class="type-row"><span class="demo-meta">type-label · Leon 900</span><p class="type-label">Label text</p></div>
+          <div class="type-row"><span class="demo-meta">type-caption · Leon 400</span><p class="type-caption">Caption text</p></div>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="buttons-title">
+        <header>
+          <h2 class="type-h2" id="buttons-title">Buttons</h2>
+          <p>Leon Heavy, 4px corners, 44 / 48 / 56px minimum heights. Hover underlines, press nudges down 2px.</p>
+        </header>
+        <div class="demo-row">
+          <button type="button" class="button button--primary button--md">Primary</button>
+          <button type="button" class="button button--secondary button--md">Secondary</button>
+          <button type="button" class="button button--outline button--md">Outline</button>
+          <button type="button" class="button button--ghost button--md">Ghost</button>
+          <button type="button" class="button button--primary button--md" disabled>Disabled</button>
+        </div>
+        <div class="demo-row">
+          <button type="button" class="button button--primary button--sm">Small</button>
+          <button type="button" class="button button--primary button--md">Medium</button>
+          <button type="button" class="button button--primary button--lg">Large</button>
+          <a class="button button--outline button--md" href="#colors">Anchor as button</a>
+        </div>
+        <div class="surface-inverse demo-inverse">
+          <div class="demo-row">
+            <button type="button" class="button button--primary button--md">Primary</button>
+            <button type="button" class="button button--secondary button--md">Secondary</button>
+            <button type="button" class="button button--outline button--md">Outline</button>
+            <button type="button" class="button button--ghost button--md">Ghost</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="liquid-title">
+        <header>
+          <h2 class="type-h2" id="liquid-title">Liquid CTA</h2>
+          <p>The signature call to action. Hover or focus to stretch the joined shapes; the arrow mirrors in RTL.</p>
+        </header>
+        <div class="demo-row">
+          <a class="liquid" href="#liquid-title">
+            <span class="liquid__icon" aria-hidden="true">
+              <svg class="liquid__glyph" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
+              <span class="liquid__bridge"></span>
+            </span>
+            <span class="liquid__label">View projects</span>
+          </a>
+          <a class="liquid liquid--secondary" href="#liquid-title">
+            <span class="liquid__icon" aria-hidden="true">
+              <svg class="liquid__glyph" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
+              <span class="liquid__bridge"></span>
+            </span>
+            <span class="liquid__label">All projects</span>
+          </a>
+          <button type="button" class="liquid">
+            <span class="liquid__icon" aria-hidden="true">
+              <svg class="liquid__glyph" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
+              <span class="liquid__bridge"></span>
+            </span>
+            <span class="liquid__label">Send message</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="forms-title">
+        <header>
+          <h2 class="type-h2" id="forms-title">Forms</h2>
+          <p>Regular-weight labels over pill fields. Errors use a heavier border and a message, never color alone.</p>
+        </header>
+        <form class="demo-form" novalidate onsubmit="return false">
+          <div class="field">
+            <label class="field__label" for="f-name">Name<span class="field__required" aria-hidden="true">*</span></label>
+            <input class="input" id="f-name" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label class="field__label" for="f-phone">Phone<span class="field__required" aria-hidden="true">*</span></label>
+            <input class="input" id="f-phone" type="tel" dir="ltr" aria-invalid="true" aria-describedby="f-phone-error" value="12" />
+            <span class="field__error" id="f-phone-error">Enter 9 to 15 digits.</span>
+          </div>
+          <div class="field full">
+            <label class="field__label" for="f-message">Message <span class="field__optional">(optional)</span></label>
+            <textarea class="input input--multiline" id="f-message" rows="4" placeholder="Tell us about the project"></textarea>
+          </div>
+          <label class="checkbox full">
+            <input type="checkbox" class="checkbox__box" checked />
+            <svg class="checkbox__tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10" /></svg>
+            <span>Reply on WhatsApp</span>
+          </label>
+        </form>
+      </section>
+
+      <section class="demo-section" aria-labelledby="content-title">
+        <header>
+          <h2 class="type-h2" id="content-title">Chips and disclosures</h2>
+          <p>Chips label content; they are not filters. Disclosures are native details elements.</p>
+        </header>
+        <ul class="chip-list" aria-label="Research topics">
+          <li class="chip">UX research</li>
+          <li class="chip chip--inverse">Design systems</li>
+          <li class="chip chip--surface">Accessibility</li>
+          <li class="chip chip--compact">Compact tag</li>
+        </ul>
+        <div class="disclosure-group prose-measure">
+          <details class="disclosure" open>
+            <summary class="disclosure__summary">
+              What was the challenge?
+              <svg class="disclosure__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14" /><path class="disclosure__stem" d="M12 5v14" /></svg>
+            </summary>
+            <p class="disclosure__content">The plus loses its vertical stroke when the row is open.</p>
+          </details>
+          <details class="disclosure">
+            <summary class="disclosure__summary">
+              What did we deliver?
+              <svg class="disclosure__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14" /><path class="disclosure__stem" d="M12 5v14" /></svg>
+            </summary>
+            <p class="disclosure__content">Answers use secondary text at 14px with a 1.65 line height.</p>
+          </details>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="space-title">
+        <header>
+          <h2 class="type-h2" id="space-title">Space and shape</h2>
+          <p>A 0.25rem rhythm, full-width containers with 2rem gutters, flat surfaces.</p>
+        </header>
+        <div class="prose-measure" data-spaces="1 2 3 4 6 8 10 12 16 20 24 30 40"></div>
+        <div class="demo-row">
+          <span class="shape" style="border-radius: var(--radius-xs)">xs · 2px</span>
+          <span class="shape" style="border-radius: var(--radius-sm)">sm · 4px</span>
+          <span class="shape" style="border-radius: var(--radius-md)">md · 6px</span>
+          <span class="shape" style="border-radius: var(--radius-liquid)">liquid</span>
+          <span class="shape" style="border-radius: var(--radius-pill)">pill</span>
+          <span class="shape shadow-hard">shadow-hard</span>
+        </div>
+      </section>
+    </main>
+
+    <script type="module">
+      import { enhanceLiquid } from "../js/liquid-motion.js";
+      enhanceLiquid();
+    </script>
+    <script>
+      // Swatches and spacing bars read the live tokens, so they follow the theme.
+      for (const grid of document.querySelectorAll("[data-swatches]")) {
+        for (const name of grid.dataset.swatches.split(" ")) {
+          const item = document.createElement("div");
+          item.className = "swatch";
+          item.innerHTML = `<span style="background: var(--color-${name})"></span><span class="type-label">${name}</span><code>--color-${name}</code>`;
+          grid.append(item);
+        }
+      }
+      for (const box of document.querySelectorAll("[data-spaces]")) {
+        for (const step of box.dataset.spaces.split(" ")) {
+          const row = document.createElement("div");
+          row.className = "space-bar";
+          row.innerHTML = `<code class="demo-meta">space-${step}</code><span style="inline-size: var(--space-${step})"></span>`;
+          box.append(row);
+        }
+      }
+
+      const html = document.documentElement;
+      const themeButton = document.getElementById("theme-toggle");
+      const syncTheme = () => {
+        const dark = html.dataset.theme === "dark";
+        themeButton.setAttribute("aria-pressed", String(dark));
+        themeButton.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+      };
+      themeButton.addEventListener("click", () => {
+        const next = html.dataset.theme === "dark" ? "light" : "dark";
+        html.dataset.theme = next;
+        try {
+          localStorage.setItem("mz:theme", next);
+        } catch {}
+        syncTheme();
+      });
+      syncTheme();
+
+      const dirButton = document.getElementById("dir-toggle");
+      dirButton.addEventListener("click", () => {
+        const rtl = html.dir !== "rtl";
+        html.dir = rtl ? "rtl" : "ltr";
+        html.lang = rtl ? "he" : "en";
+        dirButton.textContent = rtl ? "Switch to LTR" : "Switch to RTL";
+      });
+    </script>
+  </body>
+</html>

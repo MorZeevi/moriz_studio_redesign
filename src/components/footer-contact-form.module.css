@@ -165,7 +165,7 @@
 /* The site's liquid CTA (primary fill), a size up, answering back with the
    visitor's name; WhatsApp green when that channel is preferred. */
 .submit.submit {
-  --lb-height: 3.25rem;
+  --liquid-height: 3.25rem;
   --radius-liquid: 1rem;
   max-inline-size: 100%;
   font-size: var(--text-body-lg);
@@ -173,17 +173,13 @@
 }
 
 .submit.submit[data-variant^="whatsapp"] {
-  --lb-fill: var(--contact-whatsapp);
-  --lb-pressed-fill: color-mix(
+  --liquid-fill: var(--contact-whatsapp);
+  --liquid-pressed-fill: color-mix(
     in srgb,
     var(--contact-whatsapp) 85%,
     var(--color-dark)
   );
-  --lb-ink: var(--color-dark);
-}
-
-.submit[data-sent] {
-  animation: contact-sent 0.5s var(--ease-enter);
+  --liquid-ink: var(--color-dark);
 }
 
 /* Each new answer slides in from the start side. */
@@ -196,20 +192,11 @@
   animation: contact-icon 0.4s var(--ease-enter);
 }
 
-.note,
-.status {
+.note {
   color: var(--site-muted);
   font-size: var(--text-body-sm);
   line-height: 1.55;
   overflow-wrap: anywhere;
-}
-
-.status {
-  margin-block-start: var(--space-4);
-}
-
-.status:empty {
-  margin: 0;
 }
 
 @keyframes contact-answer {
@@ -224,12 +211,6 @@
     opacity: 0;
     rotate: -90deg;
     scale: 0.4;
-  }
-}
-
-@keyframes contact-sent {
-  50% {
-    scale: 0.96;
   }
 }
 

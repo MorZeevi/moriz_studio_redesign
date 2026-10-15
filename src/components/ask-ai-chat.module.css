@@ -210,16 +210,16 @@
 /* The site's liquid pill shape: a white blob holding the sparkle, melted into
    the label. Doubled class outranks the pill's own module rules. */
 .suggestionCard.suggestionCard {
-  --lb-fill: var(--site-card, #fff);
-  --lb-pressed-fill: var(--color-surface);
-  --lb-ink: var(--color-text-primary);
+  --liquid-fill: var(--site-card, #fff);
+  --liquid-pressed-fill: var(--color-surface);
+  --liquid-ink: var(--color-text-primary);
   /* The goo can't carry a border, so a soft shadow outlines the white shape. */
-  filter: var(--lb-filter) drop-shadow(0 0 0.5px rgb(0 0 0 / 0.35))
+  filter: var(--liquid-filter) drop-shadow(0 0 0.5px rgb(0 0 0 / 0.35))
     drop-shadow(0 0.35rem 0.75rem rgb(0 0 0 / 0.08));
   cursor: pointer;
 }
 
-.suggestionCard [data-liquid-icon] > span {
+.suggestionCard :global(.liquid__icon) > span {
   inline-size: 1.5rem;
   block-size: 1.5rem;
   color: var(--chat-red);

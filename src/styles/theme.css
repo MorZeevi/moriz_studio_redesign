@@ -1,65 +1,36 @@
-/* Public-only roles. Brand primitives and the admin root stay unchanged. */
+/* Public-only roles on top of the kit's css/theme.css, which owns the light and
+   dark values of every --color-* role. --site-* names resolve once on the root,
+   so they keep the page theme inside regions that flip --color-* locally
+   (.surface-inverse, the secondary-ink sections). The admin root does not load
+   the kit theme and has none of these. */
 :root[data-public-site] {
-  --site-background: var(--color-light);
-  --site-foreground: var(--color-dark);
-  --site-muted: color-mix(in srgb, var(--color-dark) 70%, transparent);
-  --site-surface: color-mix(in srgb, var(--color-dark) 5%, var(--color-light));
-  --site-card: #fff;
-  --site-border: color-mix(in srgb, var(--color-dark) 25%, var(--color-light));
-  --site-focus: var(--color-dark);
-  --site-heading-accent: var(--color-action-primary);
+  --site-background: var(--color-background);
+  --site-foreground: var(--color-text-primary);
+  --site-muted: var(--color-text-secondary);
+  --site-surface: var(--color-surface);
+  --site-card: var(--color-card);
+  --site-border: var(--color-border);
+  --site-focus: var(--color-focus);
+  --site-heading-accent: var(--color-accent-text);
   --site-scheme: light;
-  --theme-moon-display: block;
-  --theme-sun-display: none;
-  --color-background: var(--site-background);
-  --color-text-primary: var(--site-foreground);
-  --color-text-secondary: var(--site-muted);
-  --color-surface: var(--site-surface);
-  --color-border: var(--site-border);
-  --color-border-strong: var(--site-foreground);
-  --color-focus: var(--site-focus);
-  color-scheme: var(--site-scheme);
-  accent-color: var(--color-secondary);
-  scrollbar-color: var(--site-muted) var(--site-background);
 }
 
+/* Dark mode adds site-only accents; the kit has already flipped the roles. */
 :root[data-public-site][data-theme="dark"] {
-  --site-background: var(--color-dark);
-  --site-foreground: var(--color-light);
-  --site-muted: color-mix(in srgb, var(--color-light) 80%, transparent);
-  --site-surface: color-mix(in srgb, var(--color-light) 7%, var(--color-dark));
-  --site-card: var(--site-surface);
-  --site-border: color-mix(in srgb, var(--color-light) 25%, var(--color-dark));
-  --site-focus: var(--color-secondary);
-  --site-heading-accent: var(--color-primary);
   --site-hero-rotating: var(--color-secondary);
   --site-cta-fill: var(--color-light);
-  --site-cta-pressed: color-mix(in srgb, var(--color-light) 88%, var(--color-dark));
+  --site-cta-pressed: color-mix(
+    in srgb,
+    var(--color-light) 88%,
+    var(--color-dark)
+  );
   --site-cta-ink: var(--color-dark);
   --site-scheme: dark;
-  --theme-moon-display: none;
-  --theme-sun-display: block;
 }
 
 /* No-JavaScript and pre-bootstrap fallback. An explicit light choice wins. */
 @media (prefers-color-scheme: dark) {
   :root[data-public-site]:not([data-theme="light"]) {
-    --site-background: var(--color-dark);
-    --site-foreground: var(--color-light);
-    --site-muted: color-mix(in srgb, var(--color-light) 80%, transparent);
-    --site-surface: color-mix(
-      in srgb,
-      var(--color-light) 7%,
-      var(--color-dark)
-    );
-    --site-card: var(--site-surface);
-    --site-border: color-mix(
-      in srgb,
-      var(--color-light) 25%,
-      var(--color-dark)
-    );
-    --site-focus: var(--color-secondary);
-    --site-heading-accent: var(--color-primary);
     --site-hero-rotating: var(--color-secondary);
     --site-cta-fill: var(--color-light);
     --site-cta-pressed: color-mix(
@@ -69,8 +40,6 @@
     );
     --site-cta-ink: var(--color-dark);
     --site-scheme: dark;
-    --theme-moon-display: none;
-    --theme-sun-display: block;
   }
 }
 
@@ -88,9 +57,6 @@ html[data-public-site][data-theme="dark"] body[data-project-backdrop] {
   margin-inline-start: auto;
 }
 
-html:not([data-theme]) [data-theme-controls] {
-  display: none;
-}
 .project-header-actions {
   display: flex;
   align-items: center;
@@ -111,7 +77,7 @@ html:not([data-theme]) [data-theme-controls] {
     block-size: var(--control-height-sm);
   }
   .header-actions .header-contact-link {
-    --lb-height: var(--control-height-sm);
+    --liquid-height: var(--control-height-sm);
     font-size: var(--text-body-sm);
   }
 }

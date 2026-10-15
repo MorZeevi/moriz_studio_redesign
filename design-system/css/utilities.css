@@ -1,0 +1,147 @@
+/* Layout, type and helper classes. Type classes set typography only, never
+   margins. Choose the heading level for meaning and the class for looks. */
+
+/* Layout */
+.site-container {
+  inline-size: 100%;
+  max-inline-size: var(--container-site);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+
+.prose-measure {
+  max-inline-size: var(--container-prose);
+}
+
+.section-sm {
+  padding-block: var(--section-space-sm);
+}
+.section-md {
+  padding-block: var(--section-space-md);
+}
+.section-lg {
+  padding-block: var(--section-space-lg);
+}
+
+/* A charcoal region: every semantic role inside it flips. */
+.surface-inverse {
+  --color-background: var(--color-background-inverse);
+  --color-surface: var(--color-surface-strong);
+  --color-text-primary: var(--color-text-inverse);
+  --color-text-secondary: var(--color-text-secondary-inverse);
+  --color-border-strong: var(--color-light);
+  --color-focus: var(--color-light);
+  --button-primary-border: var(--color-light);
+  background: var(--color-background);
+  color: var(--color-text-primary);
+}
+
+/* Type roles */
+.type-display,
+.type-h1,
+.type-h2 {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display);
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+.type-display {
+  font-size: var(--text-display);
+  line-height: var(--text-display--line-height);
+  letter-spacing: var(--text-display--letter-spacing);
+}
+.type-h1 {
+  font-size: var(--text-h1);
+  line-height: var(--text-h1--line-height);
+  letter-spacing: var(--text-h1--letter-spacing);
+}
+.type-h2 {
+  font-size: var(--text-h2);
+  line-height: var(--text-h2--line-height);
+  letter-spacing: var(--text-h2--letter-spacing);
+}
+.type-h3,
+.type-h4 {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-heading);
+  text-wrap: balance;
+}
+.type-h3 {
+  font-size: var(--text-h3);
+  line-height: var(--text-h3--line-height);
+  letter-spacing: var(--text-h3--letter-spacing);
+  overflow-wrap: anywhere;
+}
+.type-h4 {
+  font-size: var(--text-h4);
+  line-height: var(--text-h4--line-height);
+}
+.type-body-lg,
+.type-body,
+.type-body-sm,
+.type-label,
+.type-caption {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body);
+}
+.type-body-lg {
+  font-size: var(--text-body-lg);
+  line-height: var(--text-body-lg--line-height);
+}
+.type-body {
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+}
+.type-body-sm {
+  font-size: var(--text-body-sm);
+  line-height: var(--text-body-sm--line-height);
+}
+.type-label {
+  font-size: var(--text-label);
+  line-height: var(--text-label--line-height);
+  font-weight: var(--font-weight-label);
+}
+.type-caption {
+  font-size: var(--text-caption);
+  line-height: var(--text-caption--line-height);
+}
+
+/* Helpers */
+.border-default {
+  border-width: var(--border-width-default);
+}
+.border-strong {
+  border-width: var(--border-width-strong);
+}
+.shadow-hard {
+  box-shadow: var(--shadow-hard);
+}
+.duration-fast {
+  transition-duration: var(--duration-fast);
+}
+.duration-normal {
+  transition-duration: var(--duration-normal);
+}
+.duration-slow {
+  transition-duration: var(--duration-slow);
+}
+
+/* Mirrors a right-pointing arrow in RTL. Not for logos, play symbols or
+   other artwork without a direction. */
+.directional-icon {
+  flex: none;
+  inline-size: var(--icon-size);
+  block-size: var(--icon-size);
+}
+.directional-icon:dir(rtl) {
+  transform: scaleX(-1);
+}
+
+.visually-hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

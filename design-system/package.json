@@ -1,0 +1,36 @@
+{
+  "name": "@moriz/design-system",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Moriz Studio design system: tokens, CSS, Tailwind 4 adapter, React components and fonts.",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    "./css": "./css/index.css",
+    "./css/*": "./css/*",
+    "./tailwind.css": "./tailwind/index.css",
+    "./react": "./react/index.ts",
+    "./next/fonts": "./next/fonts.ts",
+    "./liquid-motion": "./js/liquid-motion.js",
+    "./fonts/*": "./fonts/*",
+    "./next/liquid-link": "./next/liquid-link.tsx"
+  },
+  "peerDependencies": {
+    "next": ">=15",
+    "react": ">=19",
+    "tailwindcss": ">=4"
+  },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "tailwindcss": {
+      "optional": true
+    }
+  }
+}

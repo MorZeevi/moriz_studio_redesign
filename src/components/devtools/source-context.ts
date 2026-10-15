@@ -6,7 +6,12 @@ export function resolveSource(element: Element): SourceContext {
   const file = node.getAttribute("data-inspector-file");
   const line = Number(node.getAttribute("data-inspector-line"));
   const column = Number(node.getAttribute("data-inspector-column"));
-  if (!file?.startsWith("src/") || !Number.isInteger(line) || line < 1) {
+  if (
+    !file ||
+    !/^(src|design-system\/(react|next))\//.test(file) ||
+    !Number.isInteger(line) ||
+    line < 1
+  ) {
     return { kind: "unavailable" };
   }
   return {

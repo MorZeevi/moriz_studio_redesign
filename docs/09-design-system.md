@@ -2,13 +2,32 @@
 
 Implemented on 2026-10-06 using the installed **Tailwind 4.3.3** CSS-first architecture. No version migration, new page layouts or logo. Normal browser root size remains unchanged: `1rem = 16px` by default.
 
+## Reuse in another project
+
+See the [design-system reuse guide](design-system-reuse.md) for the current palette, typography, button families, themes, forms, responsive patterns, and file-copy checklist. The [portable visual reference](design-system-visual.html) includes embedded fonts and interactive component examples; open it directly in a browser.
+
+The [standalone kit](../design-system/README.md) packages the same system as copyable files: plain-CSS tokens, a Tailwind 4 adapter, framework-free components, React wrappers, fonts and a live demo. Since 2026-10-15 the site itself runs on the kit, so it is the single source of truth: a value changed there reaches the site.
+
 ## Source of truth
 
-- [tokens.css](../src/styles/tokens.css): primitive/semantic colors, type scale, spacing, radii, borders, layout and motion values.
-- [foundations.css](../src/styles/foundations.css): base styles, reusable Tailwind utilities and button states.
-- [fonts.ts](../src/styles/fonts.ts): one `next/font/local` loader per selected family; applied once in the locale layout. Comparison-only families remain in [font-candidates.ts](../src/styles/font-candidates.ts), with preloading disabled.
-- [Button](../src/components/ui/button.tsx): reusable native button with variant/size props and forwarded native props/ref.
-- [globals.css](../src/app/globals.css): import entry. Existing compositions live in [wireframe.css](../src/styles/wireframe.css), using shared values and explicitly retained trial type metrics. Do not copy those trial metrics into new sections.
+The kit in [`design-system/`](../design-system/README.md) owns every shared value and component. The site adds a thin layer on top and keeps its old import paths as re-exports, so call sites did not change.
+
+| Site file | Role |
+| --- | --- |
+| [globals.css](../src/app/globals.css) | Public entry (locale root and `/digital-audit`): Tailwind, the kit's [Tailwind adapter](../design-system/tailwind/index.css), the kit's opt-in [dark theme](../design-system/css/theme.css), then the site layers below. Tailwind does not scan `design-system/`: its TSX uses the kit's own classes, never Tailwind utilities. |
+| [admin/admin.css](../src/app/admin/admin.css) | Admin entry: the same layers without the kit's dark theme and the public theme layer, so the admin stays light even on a dark operating system. |
+| [site.css](../src/styles/site.css) | Site-only names: the wireframe compatibility aliases (`--color-canvas`, `--color-ink`, …), the `--trial-*` metrics, `page-shell` / `hero-shell`, `--font-mono` for the developer inspector, and `color-scheme: light` for the admin root. Do not copy the trial metrics into new sections. |
+| [theme.css](../src/styles/theme.css) | Public theme layer under `:root[data-public-site]`: the `--site-*` roles read the kit's `--color-*` roles once on the root, so components keep the page theme inside regions that flip `--color-*` locally. Dark mode adds `--site-hero-rotating` and `--site-cta-*`. |
+| [wireframe.css](../src/styles/wireframe.css) | Existing page compositions, using shared values. |
+| [fonts.ts](../src/styles/fonts.ts) | Re-exports the kit's `next/font/local` loaders for Danidin and Leon (files in `design-system/fonts/`). Comparison-only families remain in [font-candidates.ts](../src/styles/font-candidates.ts), with preloading disabled. |
+| [Button](../src/components/ui/button.tsx) | Re-exports the kit's `Button` and `buttonClassName`. |
+| [LiquidLink](../src/components/ui/liquid-link.tsx) | Thin client wrapper over the kit's `LiquidLink`; keeps the site's `navigation="native" \| "client"` prop (client uses `next/link`). Also re-exports `LiquidButton`, `LiquidBadge` and `LiquidFilter`. |
+| [theme-provider.tsx](../src/components/theme-provider.tsx), [lib/theme.ts](../src/lib/theme.ts) | The kit's `ThemeProvider`, `useTheme` and bootstrap script on the site's storage key `moriz:theme`. |
+| [theme-toggle.tsx](../src/components/theme-toggle.tsx) | Site markup (`[data-theme-controls]` wrapper, `[data-theme-toggle]` button, which tests and `wireframe.css` target) on the kit's `.theme-toggle` classes; hover follows the page theme through `--site-surface`. |
+
+Liquid CTA overrides use the kit names: `--liquid-height`, `--liquid-fill`, `--liquid-pressed-fill`, `--liquid-ink`, `--liquid-icon-size`, `--liquid-filter` and the `--ease-liquid` token. Its shapes are `.liquid__icon`, `.liquid__label` and `.liquid__bridge`, so CSS modules target them with `:global(.liquid__label)` (Biome parses CSS modules for this). Kit rules sit in Tailwind's `base`, `components` and `utilities` layers, so any unlayered site or CSS-module rule overrides them regardless of specificity. The liquid navigation keeps its own `--liquid-gap` and `--liquid-filter` on its own elements.
+
+In development the inspector also instruments `design-system/react` and `design-system/next`, so it names kit components and files.
 
 ## Colors
 
@@ -76,3 +95,5 @@ Set `lang` and `dir` on the document (already driven by the locale layout); use 
 Keep the global two-color focus-visible ring and native keyboard behavior. Body line height is 1.6. Default body contrast is 7.69:1; default buttons meet at least 4.99:1 on light and inverse surfaces. Do not put ordinary body text on pure red or treat subtle divider borders as control boundaries.
 
 Verification: production CSS and real font faces were inspected in Chrome, with both RTL/LTR at 320–1920px, 200% text enlargement, all type roles, button sizes/states, keyboard focus, disabled controls, inverse surfaces, reduced motion and existing homepage interactions. Lint, TypeScript and production build pass. Navigation/cards/service/project components remain deferred until their page work needs them.
+
+Kit migration, 2026-10-15: the duplicate site copies (`tokens.css`, `foundations.css`, the liquid CSS module, the button, theme provider and font files) were replaced by the kit. Headless Chrome compared every element's computed styles before and after, on `/he`, `/he/projects`, a project page, `/digital-audit` and `/admin/login` at 320, 390, 1024, 1440 and 1920px in light and dark (RTL). Two baseline runs matched exactly. The only difference is the kit's `cursor: pointer` on `LiquidButton`; the old CSS module left buttons with the default arrow. Liquid hover and focus states and the production build's CSS also match. `/admin/login` stays light under a dark operating system. The built admin CSS differs from the public bundle only by the dark-theme blocks and the header and theme-control rules, which no admin page renders (the CMS preview hides the theme toggle). [design-system-visual.html](design-system-visual.html) still names the pre-kit file paths. Lint, TypeScript, the build, the liquid-link and theme tests and the inspector unit test pass. The remaining navigation and inspector test failures also fail on the unchanged revision `9fe3aa8`.

@@ -1,0 +1,562 @@
+/* Components. Each reads semantic tokens, so it adapts inside .surface-inverse
+   and in the dark theme without extra rules. */
+
+/* ---------------------------------------------------------------------------
+   Button: compact rectangular actions. Use <a class="button ..."> for
+   navigation; styling alone never disables an anchor.
+   --------------------------------------------------------------------------- */
+.button {
+  display: inline-flex;
+  max-inline-size: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: var(--border-width-strong) solid transparent;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-label);
+  line-height: var(--text-label--line-height);
+  text-align: center;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+  transition-property: background-color, color, border-color, translate;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-standard);
+}
+.button--sm {
+  min-block-size: var(--control-height-sm);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-label);
+}
+.button--md {
+  min-block-size: var(--control-height-md);
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--text-body);
+}
+.button--lg {
+  min-block-size: var(--control-height-lg);
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--text-body-lg);
+}
+
+.button--primary {
+  background: var(--color-action-primary);
+  color: var(--color-text-inverse);
+  border-color: var(--button-primary-border, var(--color-action-primary));
+}
+.button--secondary {
+  background: var(--color-secondary);
+  color: var(--color-dark);
+  border-color: var(--color-border-strong);
+}
+.button--outline {
+  background: transparent;
+  color: var(--color-text-primary);
+  border-color: var(--color-border-strong);
+}
+.button--ghost {
+  background: transparent;
+  color: var(--color-text-primary);
+  text-decoration: underline;
+  text-underline-offset: var(--space-1);
+}
+
+@media (hover: hover) {
+  .button:hover:not(:disabled):not([aria-disabled="true"]) {
+    text-decoration: underline;
+    text-underline-offset: var(--space-1);
+  }
+  .button--primary:hover:not(:disabled):not([aria-disabled="true"]) {
+    background: var(--color-action-primary-hover);
+    border-color: var(
+      --button-primary-border,
+      var(--color-action-primary-hover)
+    );
+  }
+  .button--secondary:hover:not(:disabled):not([aria-disabled="true"]) {
+    background: var(--color-action-secondary-hover);
+  }
+  .button--outline:hover:not(:disabled):not([aria-disabled="true"]) {
+    background: var(--color-dark);
+    color: var(--color-text-inverse);
+  }
+  .button--ghost:hover:not(:disabled):not([aria-disabled="true"]) {
+    background: var(--color-surface);
+    text-decoration-thickness: var(--border-width-strong);
+  }
+}
+.button:active:not(:disabled):not([aria-disabled="true"]) {
+  translate: 0 var(--radius-xs);
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-strong);
+}
+.button:disabled,
+.button[aria-disabled="true"] {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button:active:not(:disabled):not([aria-disabled="true"]) {
+    translate: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Liquid link / button: the signature CTA. A rounded icon square joined to a
+   label by an SVG goo filter; hover and focus stretch the gap. Each instance
+   needs its own filter id in --liquid-filter (the React components and
+   js/liquid-motion.js handle this).
+   --------------------------------------------------------------------------- */
+/* --liquid-gap is registered in tokens.css: @property must stay unlayered. */
+.liquid__filter {
+  position: absolute;
+  pointer-events: none;
+}
+
+.liquid {
+  --liquid-gap: 2px;
+  --liquid-height: var(--control-height-md);
+  --liquid-fill: var(--color-action-primary);
+  --liquid-pressed-fill: var(--color-action-primary-hover);
+  --liquid-ink: var(--color-text-inverse);
+  display: inline-flex;
+  align-items: stretch;
+  gap: var(--liquid-gap);
+  min-block-size: var(--liquid-height);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--liquid-ink);
+  font: var(--font-weight-body) var(--text-body) / 1.4 var(--font-body);
+  text-decoration: none;
+  cursor: pointer;
+  filter: var(--liquid-filter);
+  transition: --liquid-gap 0.55s var(--ease-liquid);
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.liquid--secondary {
+  --liquid-fill: var(--color-secondary);
+  --liquid-pressed-fill: var(--color-action-secondary-hover);
+  --liquid-ink: var(--color-dark);
+}
+
+.liquid__icon,
+.liquid__label,
+.liquid__bridge {
+  background: var(--liquid-fill);
+  pointer-events: none;
+}
+
+.liquid__icon {
+  position: relative;
+  flex: 0 0 var(--liquid-height);
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-liquid);
+}
+
+.liquid__label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-inline-size: 0;
+  padding: 0.6em 1.15em;
+  border-radius: var(--radius-liquid);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.liquid__bridge {
+  position: absolute;
+  inset-inline-start: calc(100% - 8px);
+  top: 50%;
+  inline-size: calc(var(--liquid-gap) + 16px);
+  block-size: clamp(0.6em, calc(1.55em - var(--liquid-gap) * 0.28), 1.55em);
+  translate: 0 -50%;
+}
+
+.liquid__glyph,
+.liquid__custom-glyph {
+  position: relative;
+  z-index: 1;
+  inline-size: 1.15em;
+  block-size: 1.15em;
+}
+.liquid__glyph {
+  transition: translate 0.45s var(--ease-liquid);
+}
+.liquid__custom-glyph {
+  display: grid;
+}
+.liquid__custom-glyph > svg {
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+/* With a portrait, the goo filter moves to the shapes so the portrait sits
+   above it unfiltered. */
+.liquid:has(> .liquid__portrait) {
+  --liquid-icon-size: calc(var(--liquid-height) * 1.4);
+  position: relative;
+  filter: none;
+}
+.liquid__shapes {
+  display: inline-flex;
+  align-items: stretch;
+  gap: var(--liquid-gap);
+  filter: var(--liquid-filter);
+}
+.liquid__shapes .liquid__icon {
+  flex-basis: var(--liquid-icon-size);
+}
+.liquid__portrait {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: var(--liquid-icon-size);
+  /* 1px past the bottom covers the goo's slightly larger blob edge. */
+  clip-path: inset(
+    -50% 0 -1px round 0 0 var(--radius-liquid) var(--radius-liquid)
+  );
+  pointer-events: none;
+}
+.liquid__portrait img {
+  position: absolute;
+  bottom: -10%;
+  left: 50%;
+  display: block;
+  inline-size: auto;
+  block-size: 140%;
+  max-inline-size: none;
+  aspect-ratio: 1;
+  translate: -50% 0;
+}
+
+[dir="rtl"] .liquid .liquid__glyph {
+  scale: -1 1;
+}
+/* Points down in either direction: no mirror, a quarter turn. */
+.liquid .liquid__glyph.liquid__glyph--down {
+  scale: none;
+  rotate: 90deg;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .liquid:hover {
+    --liquid-gap: 1.35em;
+  }
+  .liquid:is(:hover, [data-liquid-open]) .liquid__glyph {
+    translate: 0.14em 0;
+  }
+  [dir="rtl"] .liquid:is(:hover, [data-liquid-open]) .liquid__glyph {
+    translate: -0.14em 0;
+  }
+  .liquid:hover .liquid__glyph.liquid__glyph--down {
+    translate: 0 0.14em;
+  }
+}
+
+.liquid[data-liquid-open],
+.liquid:focus-visible {
+  --liquid-gap: 1.35em;
+  outline: none;
+  box-shadow: none;
+}
+.liquid:focus-visible .liquid__label {
+  text-decoration: underline 2px;
+  text-underline-offset: 0.2em;
+}
+.liquid:is(:active, [data-liquid-pressed]) {
+  --liquid-gap: 2px;
+  transition-duration: 0.18s;
+}
+.liquid:is(:active, [data-liquid-pressed])
+  :is(.liquid__icon, .liquid__label, .liquid__bridge) {
+  background-color: var(--liquid-pressed-fill);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liquid,
+  .liquid:hover,
+  .liquid:focus-visible,
+  .liquid[data-liquid-open],
+  .liquid:is(:active, [data-liquid-pressed]) {
+    --liquid-gap: 2px;
+    transition: none;
+  }
+  .liquid .liquid__glyph,
+  .liquid:is(:hover, [data-liquid-open]) .liquid__glyph,
+  [dir="rtl"] .liquid:is(:hover, [data-liquid-open]) .liquid__glyph,
+  .liquid:hover .liquid__glyph.liquid__glyph--down {
+    transition: none;
+    translate: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Form fields: regular-weight labels over pill controls.
+   --------------------------------------------------------------------------- */
+.field {
+  --field-line: color-mix(in srgb, var(--color-text-primary) 35%, transparent);
+  --field-fill: color-mix(in srgb, var(--color-text-primary) 6%, transparent);
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  min-inline-size: 0;
+}
+
+.field__label {
+  font-size: var(--text-body);
+  font-weight: var(--font-weight-body);
+  line-height: 1.4;
+}
+.field__required {
+  margin-inline-start: 0.2em;
+  color: var(--color-accent-text);
+}
+.field__optional,
+.field__hint {
+  color: var(--color-text-secondary);
+  font-size: var(--text-body-sm);
+  line-height: var(--text-body-sm--line-height);
+}
+/* Errors sit under their field, so paired fields stay level. Pair them with
+   aria-invalid and aria-describedby; never rely on color alone. */
+.field__error {
+  color: var(--color-text-primary);
+  font-size: var(--text-body-sm);
+  line-height: var(--text-body-sm--line-height);
+}
+
+.input {
+  display: block;
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-inline-size: 0;
+  min-block-size: var(--control-height-md);
+  border: var(--border-width-default) solid
+    var(
+      --field-line,
+      color-mix(in srgb, var(--color-text-primary) 35%, transparent)
+    );
+  border-radius: var(--radius-pill);
+  padding: var(--space-2) var(--space-6);
+  background: var(
+    --field-fill,
+    color-mix(in srgb, var(--color-text-primary) 6%, transparent)
+  );
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: max(1rem, var(--text-body));
+  font-weight: var(--font-weight-body);
+  line-height: 1.6;
+  caret-color: var(--color-text-primary);
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+.input::placeholder {
+  color: var(--color-text-secondary);
+}
+.input:hover,
+.input:focus {
+  border-color: var(--color-text-primary);
+}
+.input:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: var(--space-1);
+  box-shadow: none;
+}
+.input[aria-invalid="true"] {
+  border-width: var(--border-width-strong);
+  border-color: var(--color-text-primary);
+}
+.input--multiline {
+  border-radius: var(--space-6);
+  padding-block: var(--space-4);
+  resize: vertical;
+}
+/* Phone numbers and emails read LTR but align with an RTL form. */
+[dir="rtl"] .input[dir="ltr"] {
+  text-align: right;
+}
+
+/* A native checkbox drawn as a square, ticked by an overlaid SVG:
+   <label class="checkbox"><input type="checkbox" class="checkbox__box">
+   <svg class="checkbox__tick">…</svg><span>Label</span></label> */
+.checkbox {
+  --checkbox-line: color-mix(
+    in srgb,
+    var(--color-text-primary) 35%,
+    transparent
+  );
+  --checkbox-fill: color-mix(
+    in srgb,
+    var(--color-text-primary) 6%,
+    transparent
+  );
+  --checkbox-checked: var(--color-text-primary);
+  --checkbox-tick: var(--color-background);
+  display: grid;
+  grid-template-columns: 1.5rem auto;
+  justify-content: start;
+  align-items: center;
+  gap: var(--space-3);
+  inline-size: fit-content;
+  cursor: pointer;
+}
+.checkbox__box {
+  grid-area: 1 / 1;
+  appearance: none;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  margin: 0;
+  border: var(--border-width-default) solid var(--checkbox-line);
+  border-radius: 0.4rem;
+  background: var(--checkbox-fill);
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard);
+}
+.checkbox__box:checked {
+  border-color: var(--checkbox-checked);
+  background: var(--checkbox-checked);
+}
+.checkbox__box:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: var(--space-1);
+  box-shadow: none;
+}
+.checkbox__tick {
+  grid-area: 1 / 1;
+  inline-size: 1.1rem;
+  block-size: 1.1rem;
+  justify-self: center;
+  color: var(--checkbox-tick);
+  pointer-events: none;
+  opacity: 0;
+  scale: 0.5;
+  transition:
+    opacity var(--duration-fast) var(--ease-standard),
+    scale var(--duration-fast) var(--ease-enter);
+}
+.checkbox__box:checked + .checkbox__tick {
+  opacity: 1;
+  scale: 1;
+}
+
+/* ---------------------------------------------------------------------------
+   Chips: static content labels, not filters.
+   --------------------------------------------------------------------------- */
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: var(--border-width-default) solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--color-card);
+  color: var(--color-text-primary);
+  font-size: var(--text-body);
+  font-weight: var(--font-weight-body);
+  line-height: 1.25;
+}
+.chip--inverse {
+  background: var(--color-text-primary);
+  color: var(--color-background);
+}
+.chip--surface {
+  background: var(--color-surface);
+}
+.chip--compact {
+  padding: var(--space-1) var(--space-3);
+  border-color: currentColor;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  font-size: var(--text-body-sm);
+  line-height: 1.5;
+}
+
+/* ---------------------------------------------------------------------------
+   Disclosure: native <details> rows separated by thin rules. The plus loses
+   its vertical stroke (.disclosure__stem) when open.
+   --------------------------------------------------------------------------- */
+.disclosure-group {
+  border-block-start: var(--border-width-default) solid var(--color-border);
+}
+.disclosure {
+  border-block-end: var(--border-width-default) solid var(--color-border);
+}
+.disclosure__summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  min-block-size: var(--control-height-md);
+  padding-block: var(--space-3);
+  list-style: none;
+  cursor: pointer;
+  font-size: var(--text-body-sm);
+  line-height: 1.5;
+}
+.disclosure__summary::-webkit-details-marker {
+  display: none;
+}
+.disclosure__icon {
+  flex-shrink: 0;
+  inline-size: var(--icon-size);
+  block-size: var(--icon-size);
+}
+.disclosure[open] .disclosure__stem {
+  display: none;
+}
+.disclosure__content {
+  margin: 0;
+  padding-block: var(--space-2) var(--space-6);
+  padding-inline-end: var(--space-8);
+  color: var(--color-text-secondary);
+  font-size: var(--text-body-sm);
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+/* ---------------------------------------------------------------------------
+   Theme toggle: an icon button that swaps moon/sun via css/theme.css.
+   --------------------------------------------------------------------------- */
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  flex: none;
+  inline-size: var(--control-height-sm);
+  block-size: var(--control-height-sm);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-liquid);
+  background: transparent;
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+.theme-toggle:hover {
+  background: var(--color-surface);
+}
+.theme-toggle svg {
+  inline-size: 1.375rem;
+  block-size: 1.375rem;
+}
+.theme-toggle__moon {
+  display: var(--theme-moon-display, block);
+}
+.theme-toggle__sun {
+  display: var(--theme-sun-display, none);
+}

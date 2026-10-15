@@ -23,35 +23,35 @@
    contrast. The doubled class outranks the pill's own module rules. */
 .action.action {
   --whatsapp-green: #25d366;
-  --lb-fill: var(--whatsapp-green);
-  --lb-pressed-fill: color-mix(
+  --liquid-fill: var(--whatsapp-green);
+  --liquid-pressed-fill: color-mix(
     in srgb,
     var(--whatsapp-green) 85%,
     var(--color-dark)
   );
-  --lb-ink: var(--color-dark);
+  --liquid-ink: var(--color-dark);
   white-space: nowrap;
 }
 
 /* The AI pill takes the secondary colour, as LiquidLink's secondary variant
    does. Same specificity, later in the file. */
 .ai.ai {
-  --lb-fill: var(--color-secondary);
-  --lb-pressed-fill: var(--color-action-secondary-hover);
-  --lb-ink: var(--color-dark);
+  --liquid-fill: var(--color-secondary);
+  --liquid-pressed-fill: var(--color-action-secondary-hover);
+  --liquid-ink: var(--color-dark);
 }
 
 /* "moriz.ai" reads a step larger than the body-size WhatsApp label. */
-.ai [data-liquid-label] {
+.ai :global(.liquid__label) {
   font-size: var(--text-body-lg);
 }
 
 /* Both blobs as wide as the portrait one, so the collapsed icons line up. */
-.action [data-liquid-icon] {
-  flex-basis: calc(var(--lb-height) * 1.4);
+.action :global(.liquid__icon) {
+  flex-basis: calc(var(--liquid-height) * 1.4);
 }
 
-.action [data-liquid-icon] > span {
+.action :global(.liquid__icon) > span {
   inline-size: 1.75em;
   block-size: 1.75em;
 }
@@ -59,26 +59,26 @@
 /* At rest: the blob, its neck and the start of the label, as the header pill
    looks cropped. Hover grows the label out through the goo. Names stay in
    aria-label, so collapsing never hides them. */
-.action [data-liquid-label] {
+.action :global(.liquid__label) {
   /* rem, so the larger AI label keeps the same stub as WhatsApp. */
   max-inline-size: 1.5rem;
   padding-inline: 0;
   overflow: hidden;
   color: transparent;
   transition:
-    max-inline-size 0.45s var(--lb-ease),
-    padding-inline 0.45s var(--lb-ease),
-    color 0.3s var(--lb-ease);
+    max-inline-size 0.45s var(--ease-liquid),
+    padding-inline 0.45s var(--ease-liquid),
+    color 0.3s var(--ease-liquid);
 }
 
-.action:is(:focus-visible, [aria-expanded="true"]) [data-liquid-label] {
+.action:is(:focus-visible, [aria-expanded="true"]) :global(.liquid__label) {
   max-inline-size: 14em;
   padding-inline: 1.15em;
   color: inherit;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .action:hover [data-liquid-label] {
+  .action:hover :global(.liquid__label) {
     max-inline-size: 14em;
     padding-inline: 1.15em;
     color: inherit;
@@ -185,7 +185,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .action [data-liquid-label],
+  .action :global(.liquid__label),
   .drawer,
   .drawer::backdrop {
     transition: none;
@@ -202,14 +202,14 @@
     inset-inline-end: max(0.375rem, var(--safe-area-inline-end));
   }
   .compactMobile .action.action {
-    --lb-height: 2.75rem;
-    --lb-icon-size: 2.75rem;
+    --liquid-height: 2.75rem;
+    --liquid-icon-size: 2.75rem;
   }
-  .compactMobile .action [data-liquid-icon] {
+  .compactMobile .action :global(.liquid__icon) {
     flex-basis: 2.75rem;
   }
-  .compactMobile .action [data-liquid-label],
-  .compactMobile .action [data-liquid-bridge] {
+  .compactMobile .action :global(.liquid__label),
+  .compactMobile .action :global(.liquid__bridge) {
     display: none;
   }
 }

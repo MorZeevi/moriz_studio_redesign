@@ -1,0 +1,10 @@
+/* Plain-CSS entry: link this one file. Kit rules sit in cascade layers, so any
+   unlayered CSS you write overrides them without specificity fights.
+   Add css/theme.css after it to opt into dark mode. */
+@layer mz.base, mz.components, mz.utilities;
+
+@import "./fonts.css";
+@import "./tokens.css";
+@import "./base.css" layer(mz.base);
+@import "./components.css" layer(mz.components);
+@import "./utilities.css" layer(mz.utilities);

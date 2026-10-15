@@ -13,7 +13,7 @@ export function ThemeToggle({ labels }: { labels: SiteContent["theme"] }) {
     <div className={styles.controls} data-theme-controls>
       <button
         type="button"
-        className={styles.toggle}
+        className={`theme-toggle ${styles.toggle}`}
         data-theme-toggle
         aria-label={action}
         title={action}
@@ -21,7 +21,7 @@ export function ThemeToggle({ labels }: { labels: SiteContent["theme"] }) {
         onClick={toggle}
       >
         <svg
-          className={styles.moon}
+          className="theme-toggle__moon"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -31,7 +31,7 @@ export function ThemeToggle({ labels }: { labels: SiteContent["theme"] }) {
           <path d="M20.5 14A8.5 8.5 0 0 1 10 3.5 8.5 8.5 0 1 0 20.5 14Z" />
         </svg>
         <svg
-          className={styles.sun}
+          className="theme-toggle__sun"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"

@@ -191,8 +191,8 @@
 }
 
 .action.action {
-  --lb-height: 3rem;
-  --lb-ink: var(--color-dark);
+  --liquid-height: 3rem;
+  --liquid-ink: var(--color-dark);
   --radius-liquid: 0.9rem;
   max-inline-size: 100%;
   font-size: clamp(1rem, 0.95rem + 0.15vw, 1.0625rem);
@@ -202,7 +202,7 @@
   position: relative;
   display: inline-flex;
   align-items: stretch;
-  min-block-size: var(--lb-height);
+  min-block-size: var(--liquid-height);
   padding: 0;
   border: 0;
   background: transparent;
@@ -257,15 +257,17 @@
 }
 
 .whatsapp.whatsapp {
-  --lb-fill: #25d366;
-  --lb-pressed-fill: color-mix(in srgb, #25d366 85%, var(--color-dark));
+  --liquid-fill: #25d366;
+  --liquid-pressed-fill: color-mix(in srgb, #25d366 85%, var(--color-dark));
 }
 
-.action [data-liquid-icon] {
-  flex-basis: calc(var(--lb-height) * 1.4);
+.action [data-liquid-icon],
+.action :global(.liquid__icon) {
+  flex-basis: calc(var(--liquid-height) * 1.4);
 }
 
-.action [data-liquid-label] {
+.action [data-liquid-label],
+.action :global(.liquid__label) {
   justify-content: center;
   padding-inline: 1em;
 }
@@ -298,11 +300,12 @@
   }
 
   .action.action {
-    --lb-height: 3rem;
+    --liquid-height: 3rem;
     --radius-liquid: 0.9rem;
   }
 
-  .action [data-liquid-label] {
+  .action [data-liquid-label],
+  .action :global(.liquid__label) {
     padding-inline: 0.75em;
   }
 }

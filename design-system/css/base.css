@@ -1,0 +1,75 @@
+/* Element defaults. Keep the browser's root font size so rem values follow
+   the reader's settings. */
+
+/* The container and controls size padding inward. Tailwind's preflight does
+   the same; this is the only reset the kit needs, not a full one. */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --safe-area-inline-end: env(safe-area-inset-right, 0rem);
+}
+
+:root[dir="rtl"] {
+  --safe-area-inline-end: env(safe-area-inset-left, 0rem);
+}
+
+html {
+  scroll-padding-block-start: var(--space-8);
+}
+
+body {
+  margin: 0;
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-synthesis: none;
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+  text-align: start;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+h1,
+h2 {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display);
+}
+
+h3,
+h4 {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-heading);
+}
+
+button,
+a,
+summary {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: var(--focus-ring-offset);
+  /* A light inner ring keeps focus visible on dark and accent surfaces. */
+  box-shadow: 0 0 0 var(--focus-ring-offset) var(--color-light);
+}
+
+::selection {
+  color: var(--color-dark);
+  background: var(--color-secondary);
+}

@@ -77,33 +77,33 @@
 /* Contact CTA: palette black with light ink (white with black ink in dark
    mode); secondary color on interaction. */
 .header-actions .header-contact-link {
-  --lb-fill: var(--site-cta-fill, var(--color-dark));
-  --lb-pressed-fill: var(--site-cta-pressed, var(--color-dark));
-  --lb-ink: var(--site-cta-ink, var(--color-text-inverse));
+  --liquid-fill: var(--site-cta-fill, var(--color-dark));
+  --liquid-pressed-fill: var(--site-cta-pressed, var(--color-dark));
+  --liquid-ink: var(--site-cta-ink, var(--color-text-inverse));
   white-space: nowrap;
 }
 
 /* Hero CTA keeps the module's action red; dark mode turns it white. */
 .hero-actions .hero-projects-link {
-  --lb-fill: var(--site-cta-fill, var(--color-action-primary));
-  --lb-pressed-fill: var(
+  --liquid-fill: var(--site-cta-fill, var(--color-action-primary));
+  --liquid-pressed-fill: var(
     --site-cta-pressed,
     var(--color-action-primary-hover)
   );
-  --lb-ink: var(--site-cta-ink, var(--color-text-inverse));
+  --liquid-ink: var(--site-cta-ink, var(--color-text-inverse));
 }
 
 .header-actions .header-contact-link:focus-visible {
-  --lb-fill: var(--color-secondary);
-  --lb-pressed-fill: var(--color-action-secondary-hover);
-  --lb-ink: var(--color-dark);
+  --liquid-fill: var(--color-secondary);
+  --liquid-pressed-fill: var(--color-action-secondary-hover);
+  --liquid-ink: var(--color-dark);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .header-actions .header-contact-link:hover {
-    --lb-fill: var(--color-secondary);
-    --lb-pressed-fill: var(--color-action-secondary-hover);
-    --lb-ink: var(--color-dark);
+    --liquid-fill: var(--color-secondary);
+    --liquid-pressed-fill: var(--color-action-secondary-hover);
+    --liquid-ink: var(--color-dark);
   }
 }
 

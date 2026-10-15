@@ -419,7 +419,6 @@
     --stack-step: 3rem;
   }
 
-  /* biome-ignore lint/correctness/noUnknownPseudoClass: CSS Modules global scope */
   :global(body:has(.site-header[data-header-hidden])) .scrollSurface {
     --stack-top: 0px;
   }
