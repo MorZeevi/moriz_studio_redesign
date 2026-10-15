@@ -137,7 +137,11 @@ export function GettingStarted({
             <span className={styles.segment}>
               <span className={styles.segmentFill} />
             </span>
-            <span className={styles.node} />
+            <span className={styles.node}>
+              <span className={styles.nodeIcon}>
+                <StepIcon icon={step.icon} />
+              </span>
+            </span>
           </span>
           <div className={styles.head}>
             <span className={styles.icon}>

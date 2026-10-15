@@ -62,35 +62,14 @@
   pointer-events: none;
 }
 
+/* Phones: the same endless strip with smaller cards. */
 @media (max-width: 63.999rem) {
-  .viewport {
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x proximity;
-    overscroll-behavior-inline: contain;
-  }
-
   .track {
-    gap: var(--space-3);
-    padding-inline: var(--page-gutter);
-    user-select: auto;
-    cursor: auto;
-    touch-action: auto;
+    gap: 2vw;
+    padding-inline-end: 2vw;
   }
 
   .card {
-    flex: none;
-    scroll-snap-align: center;
-  }
-
-  .card[data-copy] {
-    display: none;
-  }
-
-}
-
-@media (max-width: 48rem) {
-  .card {
-    inline-size: 42vw;
+    inline-size: 34vw;
   }
 }

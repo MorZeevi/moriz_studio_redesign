@@ -47,12 +47,12 @@ export function FloatingActions({
   content,
   ask,
   compactOnMobile = false,
-  mobileHidden = false,
+  mobileWhatsappOnly = false,
 }: {
   content: SiteContent["floatingActions"];
   ask: SiteContent["askAi"];
   compactOnMobile?: boolean;
-  mobileHidden?: boolean;
+  mobileWhatsappOnly?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [openCount, setOpenCount] = useState(0);
@@ -144,7 +144,7 @@ export function FloatingActions({
       </dialog>
 
       <div
-        className={`${styles.root}${compactOnMobile ? ` ${styles.compactMobile}` : ""}${mobileHidden ? ` ${styles.mobileHidden}` : ""}`}
+        className={`${styles.root}${compactOnMobile ? ` ${styles.compactMobile}` : ""}${mobileWhatsappOnly ? ` ${styles.mobileWhatsappOnly}` : ""}`}
       >
         <nav aria-label={content.label} className={styles.stack}>
           <LiquidButton

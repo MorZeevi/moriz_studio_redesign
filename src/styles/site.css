@@ -16,7 +16,8 @@
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
   /* Existing trial metrics are centralized, but deliberately not the kit's type scale. */
-  --trial-hero-size: clamp(2.75rem, 10vw, 5rem);
+  /* Sized so "יוצרת" + the longest rotating phrase fits one line on phones. */
+  --trial-hero-size: clamp(1.75rem, 9.5vw, 5rem);
   --trial-hero-size-desktop: clamp(4.5rem, 7.8vw, 7rem);
   --trial-description-size: clamp(1rem, 1.25vw, 1.125rem);
   --trial-wordmark-size: clamp(1.125rem, 2vw, 1.5rem);

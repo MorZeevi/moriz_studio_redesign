@@ -145,14 +145,16 @@
   text-wrap: balance;
 }
 
-/* "יוצרת" + rotating phrase / "מבוססי מחקר". On mobile the phrase takes its
-   own line so the heading keeps three fixed lines while it rotates. */
+/* "יוצרת" + rotating phrase / "מבוססי מחקר": two fixed lines on every
+   screen; phones shrink the type so the longest phrase still fits. */
 .hero-heading-line {
   display: block;
+  white-space: nowrap;
 }
 
 .hero-heading-rotating {
-  display: flex;
+  display: inline-flex;
+  vertical-align: bottom;
   /* Dark mode swaps the action red for the secondary color. */
   color: var(--site-hero-rotating, var(--color-action-primary));
 }
@@ -241,40 +243,33 @@ html:not([data-pixel-reveal]) .hero-video-stage {
   margin-block-start: var(--space-2);
 }
 
-.hero-whatsapp-link {
-  display: none;
-}
-
 @media (max-width: 63.999rem) {
+  .mobile-menu-toggle,
+  .mobile-menu-toggle:hover {
+    background: transparent;
+  }
+
+  /* Phones lead with the heading, video and CTA; the description is desktop-only. */
+  .hero-description {
+    display: none;
+  }
+
   .hero-actions {
     max-inline-size: 100%;
     inline-size: 100%;
   }
 
-  .hero-whatsapp-link {
-    display: inline-flex;
-    align-items: center;
+  .hero-actions .hero-projects-link {
+    inline-size: 100%;
+  }
+
+  .hero-actions .hero-projects-link .liquid__label {
+    flex: 1;
     justify-content: center;
-    gap: var(--space-2);
-    min-block-size: 3rem;
-    padding-inline: var(--space-4);
-    border: var(--border-width-default) solid currentColor;
-    border-radius: var(--radius-liquid);
-    color: var(--site-foreground, var(--color-dark));
-    font-size: var(--text-body);
-    font-weight: var(--font-weight-heading);
-    text-decoration: none;
   }
 
-  .hero-whatsapp-link svg {
-    inline-size: 1.25rem;
-    block-size: 1.25rem;
-    flex: none;
-  }
-
-  .hero-whatsapp-link:focus-visible {
-    outline: var(--focus-ring-width) solid var(--site-focus);
-    outline-offset: var(--space-1);
+  .hero-video {
+    inline-size: 100%;
   }
 }
 
@@ -464,15 +459,6 @@ html:has(.navigation-dialog[open]) {
     font-size: var(--trial-hero-size-desktop);
   }
 
-  .hero-heading-line {
-    white-space: nowrap;
-  }
-
-  .hero-heading-rotating {
-    display: inline-flex;
-    vertical-align: bottom;
-  }
-
   .hero .logo-carousel {
     grid-column: 1 / -1;
     grid-row: 4;
@@ -529,6 +515,13 @@ html:has(.navigation-dialog[open]) {
   );
   -webkit-mask: var(--logo-src) center / contain no-repeat;
   mask: var(--logo-src) center / contain no-repeat;
+}
+
+/* Phones show the logos at full ink. */
+@media (max-width: 63.999rem) {
+  .client-logo {
+    background: var(--color-text-primary);
+  }
 }
 
 .logo-placeholder {

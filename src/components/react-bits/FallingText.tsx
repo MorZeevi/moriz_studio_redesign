@@ -40,6 +40,9 @@ export default function FallingText({
 
     const elements = Array.from(list.querySelectorAll<HTMLLIElement>("li"));
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // Phones get a slow, soft drift instead of the desktop drop.
+    const gentle = window.matchMedia("(max-width: 63.999rem)").matches;
+    const maxAngle = gentle ? 0.15 : 0.35;
     let matter: typeof import("matter-js") | undefined;
     let engine: Engine | undefined;
     let pills: Pill[] = [];
@@ -82,7 +85,7 @@ export default function FallingText({
       for (const pill of pills) {
         const { body, element, homeX, homeY } = pill;
         // Keep labels legible and fully contained, including after text zoom.
-        const angle = Math.max(-0.35, Math.min(0.35, body.angle));
+        const angle = Math.max(-maxAngle, Math.min(maxAngle, body.angle));
         if (angle !== body.angle) {
           matter.Body.setAngle(body, angle);
           matter.Body.setAngularVelocity(body, 0);
@@ -290,7 +293,7 @@ export default function FallingText({
           enableSleeping: true,
           positionIterations: 8,
         });
-        engine.gravity.y = 1;
+        engine.gravity.y = gentle ? 0.35 : 1;
         pills = elements.map((element, index) => {
           const width = element.offsetWidth;
           const height = element.offsetHeight;
@@ -303,19 +306,19 @@ export default function FallingText({
             height,
             {
               chamfer: { radius: Math.min(height / 2 - 1, 18) },
-              restitution: 0.25,
+              restitution: gentle ? 0.05 : 0.25,
               friction: 0.45,
-              frictionAir: 0.025,
+              frictionAir: gentle ? 0.08 : 0.025,
               sleepThreshold: 45,
             },
           );
           module.default.Body.setVelocity(body, {
-            x: ((index % 3) - 1) * 1.2,
+            x: ((index % 3) - 1) * (gentle ? 0.3 : 1.2),
             y: 0,
           });
           module.default.Body.setAngularVelocity(
             body,
-            (index % 2 ? 1 : -1) * 0.012,
+            (index % 2 ? 1 : -1) * (gentle ? 0.004 : 0.012),
           );
           return { element, body, width, height, homeX, homeY };
         });

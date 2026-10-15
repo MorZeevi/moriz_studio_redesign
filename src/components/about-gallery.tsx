@@ -3,18 +3,9 @@
 import gsap from "gsap";
 import { Observer } from "gsap/Observer";
 import Image from "next/image";
-import { useEffect, useRef, useSyncExternalStore } from "react";
+import { useEffect, useRef } from "react";
 import type { SiteContent } from "@/i18n/dictionaries";
 import styles from "./about-gallery.module.css";
-
-const mobileQuery = "(max-width: 63.999rem)";
-function subscribeMobile(callback: () => void) {
-  const query = window.matchMedia(mobileQuery);
-  query.addEventListener("change", callback);
-  return () => query.removeEventListener("change", callback);
-}
-const readMobile = () => window.matchMedia(mobileQuery).matches;
-const serverMobile = () => true;
 
 function DragIcon() {
   return (
@@ -39,16 +30,17 @@ export function AboutGallery({
   content: SiteContent["aboutGallery"];
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
-  const mobile = useSyncExternalStore(subscribeMobile, readMobile, serverMobile);
   const images = content.images;
 
   useEffect(() => {
     const track = trackRef.current;
-    if (!track || mobile) return;
+    if (!track) return;
     gsap.registerPlugin(Observer);
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+    // Phones drift at half speed so the smaller cards stay readable.
+    const pace = window.matchMedia("(max-width: 63.999rem)").matches ? 20 : 10;
     const cards = [
       ...track.querySelectorAll<HTMLElement>("[data-gallery-card]"),
     ];
@@ -104,7 +96,7 @@ export function AboutGallery({
     // Only drift while on screen, and never with reduced motion.
     const tick = (_time: number, deltaTime: number) => {
       if (reduced || !visible) return;
-      total += (drift * deltaTime) / 10;
+      total += (drift * deltaTime) / pace;
       xTo(total);
     };
     let tickerAttached = false;
@@ -134,7 +126,7 @@ export function AboutGallery({
       gsap.killTweensOf(track);
       gsap.set([track, ...cards], { clearProps: "all" });
     };
-  }, [mobile]);
+  }, []);
 
   return (
     <section
@@ -164,7 +156,7 @@ export function AboutGallery({
                   alt={copy ? "" : image.alt}
                   width={664}
                   height={664}
-                  sizes="(max-width: 48rem) 42vw, 25vw"
+                  sizes="(max-width: 63.999rem) 34vw, 25vw"
                   draggable={false}
                 />
               </div>

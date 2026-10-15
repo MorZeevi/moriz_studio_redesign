@@ -5,7 +5,7 @@ import { homepageLogos } from "@/content/homepage-logos";
 import type { SiteContent } from "@/i18n/dictionaries";
 import LogoLoop, { type LogoItem } from "./react-bits/LogoLoop";
 
-const motionQuery = "(prefers-reduced-motion: reduce), (max-width: 63.999rem)";
+const motionQuery = "(prefers-reduced-motion: reduce)";
 function subscribeMotion(callback: () => void) {
   const query = window.matchMedia(motionQuery);
   query.addEventListener("change", callback);

@@ -192,9 +192,10 @@
   }
 }
 
-/* Case studies keep a compact action rail inside the mobile page gutter. */
+/* The homepage keeps only WhatsApp on phones; case studies keep a compact
+   action rail inside the mobile page gutter. */
 @media (max-width: 63.999rem) {
-  .mobileHidden {
+  .mobileWhatsappOnly .ai {
     display: none;
   }
 

@@ -214,6 +214,17 @@
   }
 }
 
+@media (max-width: 63.999rem) {
+  .submit.submit {
+    inline-size: 100%;
+  }
+
+  .submit :global(.liquid__label) {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
 @media (min-width: 64rem) {
   .fields {
     grid-template-columns: repeat(2, minmax(0, 1fr));

@@ -163,7 +163,10 @@ export function ProjectsSection({
                 <div className={styles.stackInfo}>
                   <p className={styles.stackBodyDescription}>{description}</p>
                   <ProjectHighlight highlight={project.highlight} />
-                  <CategoryTags categories={project.categories ?? []} />
+                  <CategoryTags
+                    categories={project.categories ?? []}
+                    className={styles.stackTags}
+                  />
                 </div>
                 {project.slug ? (
                   <ProjectMediaLink
@@ -184,6 +187,15 @@ export function ProjectsSection({
           );
         })}
       </div>
+      {/* Phones reach the archive link after the last project, not in the sticky intro. */}
+      <LiquidLink
+        href={`/${locale}/projects`}
+        className={styles.allProjectsLinkEnd}
+        variant="secondary"
+        navigation="client"
+      >
+        {content.allLink}
+      </LiquidLink>
     </div>
   );
   return plain ? (

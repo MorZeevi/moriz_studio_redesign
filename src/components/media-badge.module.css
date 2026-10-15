@@ -43,17 +43,10 @@
   opacity: 1;
 }
 
-/* Touch has no hover: keep the badge visible in the inline-start corner. */
-@media (hover: none) {
-  .badge,
-  :focus-visible:not([data-pointer-inside]) .badge {
-    inset-block-start: auto;
-    inset-block-end: var(--space-4);
-    left: auto;
-    inset-inline-start: var(--space-4);
-    translate: none;
-    scale: 1;
-    opacity: 1;
+/* Touch and phone widths: no badge; the media itself is the link. */
+@media (hover: none), (max-width: 63.999rem) {
+  .badge {
+    display: none;
   }
 }
 

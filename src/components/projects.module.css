@@ -235,6 +235,27 @@
   flex-shrink: 0;
 }
 
+.allProjectsLinkEnd {
+  display: none;
+}
+
+@media (max-width: 63.999rem) {
+  .allProjectsLink {
+    display: none;
+  }
+
+  .allProjectsLinkEnd {
+    display: flex;
+    inline-size: 100%;
+    margin-block-end: var(--space-16);
+  }
+
+  .allProjectsLinkEnd :global(.liquid__label) {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
 .arrow,
 .backArrow {
   flex-shrink: 0;
@@ -502,6 +523,17 @@
 /* The media link's row grid-area would add an implicit column here. */
 .stackBody .mediaLink {
   grid-area: auto;
+}
+
+/* Single column: the category tags follow the image. */
+@media (max-width: 59.999rem) {
+  .stackInfo {
+    display: contents;
+  }
+
+  .stackTags {
+    order: 1;
+  }
 }
 
 @media (min-width: 60rem) {

@@ -245,8 +245,50 @@
   }
 }
 
+/* Phones: the step icon sits in a larger white node; no numbers. */
+@media (max-width: 63.999rem) {
+  .root {
+    --gs-node: 3rem;
+    --gs-tile: 3rem;
+  }
+
+  .node {
+    display: grid;
+    place-items: center;
+    background: var(--color-light);
+  }
+
+  .nodeIcon {
+    display: grid;
+    inline-size: 60%;
+    block-size: 60%;
+    color: var(--color-dark);
+  }
+
+  .nodeIcon svg {
+    inline-size: 100%;
+    block-size: 100%;
+    overflow: visible;
+  }
+
+  .head {
+    display: none;
+  }
+
+  /* Centre the title on the node. */
+  .title {
+    display: flex;
+    align-items: center;
+    min-block-size: var(--gs-node);
+  }
+}
+
 /* Desktop: hairline columns, rail across the top. */
 @media (min-width: 64rem) {
+  .nodeIcon {
+    display: none;
+  }
+
   .root {
     --gs-segments: 3;
     grid-template-columns: repeat(3, minmax(0, 1fr));
