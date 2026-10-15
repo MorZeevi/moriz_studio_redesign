@@ -10,7 +10,13 @@ import type {
 } from "@/types/project";
 import { requireAdmin } from "./auth";
 import { CMS_SOURCE } from "./source";
-import { parseContent, parseHighlights, parseMedia, UUID } from "./validation";
+import {
+  parseContent,
+  parseHighlights,
+  parseMedia,
+  parsePanelStyle,
+  UUID,
+} from "./validation";
 
 type JoinedProject = ProjectRow & {
   project_categories: { categories: Category | null }[];
@@ -20,19 +26,32 @@ function byOrder(a: Term, b: Term) {
   return a.sort_order - b.sort_order || a.name.localeCompare(b.name);
 }
 function project(row: JoinedProject): Project {
-  const { project_categories, content, media, highlights, services, ...rest } =
-    row;
+  const {
+    project_categories,
+    content,
+    media,
+    highlights,
+    services: _services,
+    panel_style,
+    ...rest
+  } = row;
   const terms = project_categories
     .flatMap((link) => (link.categories ? [link.categories as Term] : []))
     .sort(byOrder);
+  // Services were merged into categories; a legacy service row still counts
+  // as one, once per name.
+  const categories = terms
+    .filter((t) => t.kind !== "type")
+    .filter(
+      (t, index, list) => list.findIndex((o) => o.name === t.name) === index,
+    );
   return {
     ...rest,
     content: parseContent(content),
     media: parseMedia(media),
     highlights: parseHighlights(highlights),
-    legacy_services: services,
-    categories: terms.filter((t) => t.kind === "category"),
-    services: terms.filter((t) => t.kind === "service"),
+    panel_style: parsePanelStyle(panel_style),
+    categories,
     type: terms.find((t) => t.kind === "type") ?? null,
   };
 }

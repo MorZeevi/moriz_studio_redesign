@@ -31,18 +31,19 @@ import {
 } from "@/lib/cms/validation";
 import { CMS_SOURCE } from "@/lib/cms/source";
 import type {
+  ManagedKind,
   Project,
   ProjectContentBlock,
   ProjectInput,
   ProjectMediaItem,
   Term,
-  TermKind,
 } from "@/types/project";
 import { ContentEditor } from "./content-editor";
 import { GalleryManager } from "./gallery-manager";
 import { HighlightSelect, HighlightsEditor } from "./highlights-editor";
 import { LocalizedField } from "./localized-field";
 import { MediaUpload } from "./media-upload";
+import { PanelBackgroundEditor } from "./panel-background-editor";
 import { TermPicker, termLabels } from "./term-picker";
 import styles from "./admin.module.css";
 
@@ -202,7 +203,11 @@ export function ProjectEditor({
   const readiness = projectReadiness(project);
   const issuesIn = (id: ReadinessTab) =>
     readiness.errors.filter((e) => e.tab === id).length;
-  const byKind = (kind: TermKind) => terms.filter((t) => t.kind === kind);
+  // Legacy service rows are categories until the data migration converts them.
+  const byKind = (kind: ManagedKind) =>
+    terms.filter((t) =>
+      kind === "category" ? t.kind !== "type" : t.kind === kind,
+    );
   const termProps = {
     onCreated: (term: Term) => setTerms((list) => [...list, term]),
   };
@@ -218,9 +223,6 @@ export function ProjectEditor({
     created_at: "",
     updated_at: "",
     categories: terms.filter((t) => project.category_ids.includes(t.id)),
-    services: project.service_ids.flatMap((id) =>
-      terms.filter((t) => t.id === id),
-    ),
     type: terms.find((t) => t.id === project.type_id) ?? null,
   };
   function onTabKey(e: KeyboardEvent<HTMLButtonElement>, index: number) {
@@ -477,19 +479,9 @@ export function ProjectEditor({
                 />
               </section>
               <section className={styles.section}>
-                <h2>{termLabels.service.heading}</h2>
-                <TermPicker
-                  {...termProps}
-                  kind="service"
-                  terms={byKind("service")}
-                  selected={project.service_ids}
-                  onChange={(ids) => field("service_ids", ids)}
-                />
-              </section>
-              <section className={styles.section}>
                 <h2>{termLabels.category.heading}</h2>
                 <p className={styles.hint}>
-                  קטגוריות משמשות לסינון בעמוד הפרויקטים.
+                  מוצגות כתגיות בפרויקט ומשמשות לסינון בעמוד הפרויקטים.
                 </p>
                 <TermPicker
                   {...termProps}
@@ -662,9 +654,13 @@ export function ProjectEditor({
                 />
                 <p className={styles.hint}>
                   מדיית ה־Hero היא הקאבר (לשונית עמוד הבית וארכיון). לקוח, שנה,
-                  שירותים, תפקיד וקישור לאתר נערכים בלשונית כללי.
+                  קטגוריות, תפקיד וקישור לאתר נערכים בלשונית כללי.
                 </p>
               </section>
+              <PanelBackgroundEditor
+                panelStyle={project.panel_style}
+                onChange={(panel_style) => field("panel_style", panel_style)}
+              />
               <section className={styles.section}>
                 <h2>קהל יעד</h2>
                 <p className={styles.hint}>מוצג רק בעמוד הפרויקט.</p>

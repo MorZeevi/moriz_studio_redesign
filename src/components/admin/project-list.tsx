@@ -20,7 +20,6 @@ function asInput(project: Project): ProjectInput {
   return {
     ...project,
     category_ids: project.categories.map((t) => t.id),
-    service_ids: project.services.map((t) => t.id),
     type_id: project.type?.id ?? null,
   };
 }

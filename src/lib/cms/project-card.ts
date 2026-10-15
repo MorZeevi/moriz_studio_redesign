@@ -7,12 +7,6 @@ import type { Project } from "@/types/project";
 import { localized, termName } from "./localize";
 import { isVideoSrc } from "./validation";
 
-/** Services line: managed terms, or the legacy text tags before migration. */
-export function serviceNames(project: Project, locale: Locale) {
-  return project.services.length
-    ? project.services.map((s) => termName(s, locale))
-    : project.legacy_services;
-}
 export function projectCard(
   project: Project,
   surface: "homepage" | "projects" | "cover",
@@ -41,7 +35,6 @@ export function projectCard(
     localized(project, "short_description", locale) ||
     localized(project, "description", locale) ||
     null;
-  const services = serviceNames(project, locale);
   const highlight =
     surface === "cover"
       ? undefined
@@ -53,7 +46,6 @@ export function projectCard(
     slug: project.slug,
     title,
     description,
-    contribution: services.length ? services.join(" · ") : null,
     image,
     video,
     highlight: highlight
@@ -93,7 +85,6 @@ export function projectArchiveCard(
     id: project.id,
     href: project.slug ? `/${locale}/projects/${project.slug}` : null,
     featured: project.featured,
-    services: serviceNames(project, locale),
     year: project.year,
     categorySlugs: project.categories.map((c) => c.slug),
   };

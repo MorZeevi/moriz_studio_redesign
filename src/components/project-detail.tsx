@@ -1,15 +1,17 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { CategoryTags } from "@/components/category-tags";
 import { ProjectArrow } from "@/components/projects-section";
 import { ProjectGallery } from "@/components/project-gallery";
+import Noise from "@/components/react-bits/Noise";
 import { FloatingActions } from "@/components/floating-actions";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { type Locale, localeConfig } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
 import { projectCopy } from "@/i18n/project-copy";
 import { localized, termName } from "@/lib/cms/localize";
-import { serviceNames } from "@/lib/cms/project-card";
 import {
+  panelSurface,
   projectGallery,
   projectHighlights,
   projectInformation,
@@ -50,7 +52,7 @@ export function ProjectDetail({
   const headline = t("headline");
   const short = t("short_description");
   const intro = headline || short;
-  const services = serviceNames(project, locale);
+  const surface = panelSurface(project);
   const logo = project.media.find((m) => m.role === "logo");
   // Highlights sit in the panel unless a highlights block places them.
   const highlights = project.content.some(
@@ -73,130 +75,149 @@ export function ProjectDetail({
     >
       <div className="site-container">
         <Main id="project-content" tabIndex={-1} className={detail.composition}>
-          <aside className={detail.panel} aria-label={copy.detailsHeading}>
-            {!preview && (
-              <div className={detail.panelNavigation}>
-                <Link href={back} className={styles.backLink}>
-                  <ProjectArrow back />
-                  {copy.backLink}
-                </Link>
-                <ThemeToggle labels={content.theme} />
+          <aside
+            className={detail.panel}
+            aria-label={copy.detailsHeading}
+            data-surface={surface ? "" : undefined}
+            style={
+              surface
+                ? ({
+                    "--case-background": surface.background,
+                    "--case-foreground": surface.foreground,
+                  } as CSSProperties)
+                : undefined
+            }
+          >
+            {surface && (
+              <div className={detail.panelBackdrop} aria-hidden="true">
+                <Noise
+                  patternSize={340}
+                  patternScaleX={1}
+                  patternScaleY={0.3}
+                  patternRefreshInterval={2}
+                  patternAlpha={22}
+                />
               </div>
             )}
-            {logo && (
-              // biome-ignore lint/performance/noImgElement: private CMS media bypasses the optimizer; logos keep their own ratio.
-              <img
-                src={logo.src}
-                alt={localized(logo, "alt", locale) || title}
-                width={logo.width}
-                height={logo.height}
-                className={detail.logo}
-              />
-            )}
-            <h1 className={detail.title}>
-              <bdi>{title}</bdi>
-            </h1>
-            {intro && <p className={detail.intro}>{intro}</p>}
-            {headline && short && headline !== short && (
-              <p className={detail.intro}>{short}</p>
-            )}
-            {(metadata.some(([, value]) => value) || project.website_url) && (
-              <dl className={detail.metadata}>
-                {metadata
-                  .filter(([, value]) => value)
-                  .map(([label, value]) => (
-                    <div key={label}>
-                      <dt>{label}</dt>
+            <div className={detail.panelScroll}>
+              {!preview && (
+                <div className={detail.panelNavigation}>
+                  <Link href={back} className={styles.backLink}>
+                    <ProjectArrow back />
+                    {copy.backLink}
+                  </Link>
+                  <ThemeToggle labels={content.theme} />
+                </div>
+              )}
+              {logo && (
+                // biome-ignore lint/performance/noImgElement: private CMS media bypasses the optimizer; logos keep their own ratio.
+                <img
+                  src={logo.src}
+                  alt={localized(logo, "alt", locale) || title}
+                  width={logo.width}
+                  height={logo.height}
+                  className={detail.logo}
+                />
+              )}
+              <h1 className={detail.title}>
+                <bdi>{title}</bdi>
+              </h1>
+              {intro && <p className={detail.intro}>{intro}</p>}
+              {headline && short && headline !== short && (
+                <p className={detail.intro}>{short}</p>
+              )}
+              {(metadata.some(([, value]) => value) || project.website_url) && (
+                <dl className={detail.metadata}>
+                  {metadata
+                    .filter(([, value]) => value)
+                    .map(([label, value]) => (
+                      <div key={label}>
+                        <dt>{label}</dt>
+                        <dd>
+                          <bdi>{value}</bdi>
+                        </dd>
+                      </div>
+                    ))}
+                  {project.website_url && (
+                    <div>
+                      <dt>{copy.website}</dt>
                       <dd>
-                        <bdi>{value}</bdi>
+                        <a
+                          href={project.website_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          dir="ltr"
+                        >
+                          {project.website_url
+                            .replace(/^https?:\/\//, "")
+                            .replace(/\/$/, "")}
+                        </a>
                       </dd>
                     </div>
+                  )}
+                </dl>
+              )}
+              <CategoryTags
+                label={copy.categories}
+                categories={project.categories.map((c) => ({
+                  id: c.id,
+                  name: termName(c, locale),
+                }))}
+              />
+              {!!highlights.length && (
+                <dl
+                  className={detail.panelHighlights}
+                  aria-label={copy.highlights}
+                >
+                  {highlights.map((h) => (
+                    <div key={h.id}>
+                      <dt>{h.label}</dt>
+                      <dd className={detail.highlightValue}>
+                        <bdi>{h.value}</bdi>
+                      </dd>
+                      {h.description && <dd>{h.description}</dd>}
+                    </div>
                   ))}
-                {project.website_url && (
-                  <div>
-                    <dt>{copy.website}</dt>
-                    <dd>
-                      <a
-                        href={project.website_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        dir="ltr"
+                </dl>
+              )}
+              {information.map((section, index) => (
+                <details
+                  key={`${project.id}-${section.id}`}
+                  className={detail.accordion}
+                  name={`project-${project.id}`}
+                  open={index === 0}
+                >
+                  <summary className={detail.summary}>
+                    <span className={detail.number} aria-hidden="true">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <h2>{section.title}</h2>
+                    <span className={detail.plus} aria-hidden="true">
+                      <svg
+                        aria-hidden="true"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
                       >
-                        {project.website_url
-                          .replace(/^https?:\/\//, "")
-                          .replace(/\/$/, "")}
-                      </a>
-                    </dd>
-                  </div>
-                )}
-              </dl>
-            )}
-            <CategoryTags
-              label={copy.categories}
-              categories={project.categories.map((c) => ({
-                id: c.id,
-                name: termName(c, locale),
-              }))}
-            />
-            {!!services.length && (
-              <p className={detail.services}>
-                <span className="sr-only">{labels.services}: </span>
-                {services.join(" · ")}
-              </p>
-            )}
-            {!!highlights.length && (
-              <dl
-                className={detail.panelHighlights}
-                aria-label={copy.highlights}
-              >
-                {highlights.map((h) => (
-                  <div key={h.id}>
-                    <dt>{h.label}</dt>
-                    <dd className={detail.highlightValue}>
-                      <bdi>{h.value}</bdi>
-                    </dd>
-                    {h.description && <dd>{h.description}</dd>}
-                  </div>
-                ))}
-              </dl>
-            )}
-            {information.map((section, index) => (
-              <details
-                key={`${project.id}-${section.id}`}
-                className={detail.accordion}
-                name={`project-${project.id}`}
-                open={index === 0}
-              >
-                <summary className={detail.summary}>
-                  <span className={detail.number} aria-hidden="true">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <h2>{section.title}</h2>
-                  <span className={detail.plus} aria-hidden="true">
-                    <svg
-                      aria-hidden="true"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                    >
-                      <path d="M2 8h12" />
-                      <path className={detail.vertical} d="M8 2v12" />
-                    </svg>
-                  </span>
-                </summary>
-                {section.text && (
-                  <p className={detail.answer}>{section.text}</p>
-                )}
-                {section.subsections.map((sub, i) => (
-                  // biome-ignore lint/suspicious/noArrayIndexKey: Subsections render in their saved order.
-                  <div key={i} className={detail.subsection}>
-                    {sub.title && <h3>{sub.title}</h3>}
-                    {sub.text && <p className={detail.answer}>{sub.text}</p>}
-                  </div>
-                ))}
-              </details>
-            ))}
+                        <path d="M2 8h12" />
+                        <path className={detail.vertical} d="M8 2v12" />
+                      </svg>
+                    </span>
+                  </summary>
+                  {section.text && (
+                    <p className={detail.answer}>{section.text}</p>
+                  )}
+                  {section.subsections.map((sub, i) => (
+                    // biome-ignore lint/suspicious/noArrayIndexKey: Subsections render in their saved order.
+                    <div key={i} className={detail.subsection}>
+                      {sub.title && <h3>{sub.title}</h3>}
+                      {sub.text && <p className={detail.answer}>{sub.text}</p>}
+                    </div>
+                  ))}
+                </details>
+              ))}
+            </div>
           </aside>
           <ProjectGallery key={project.id} {...gallery} labels={labels} />
           {!preview && (

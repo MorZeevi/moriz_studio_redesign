@@ -60,6 +60,12 @@ export type ThreeImagesBlock = BlockBase & {
   type: "three_images";
   images: [ProjectImage, ProjectImage, ProjectImage];
 } & MultiPresentation;
+/** One case-study row of 1–3 images, side by side at equal height on desktop. */
+export type ImageRowBlock = BlockBase & {
+  type: "image_row";
+  images: ProjectImage[];
+  spacing?: MediaSpacing;
+};
 export type GalleryBlock = BlockBase & {
   type: "gallery";
   images: ProjectImage[];
@@ -90,6 +96,7 @@ export type ProjectContentBlock =
   | VideoBlock
   | TwoImagesBlock
   | ThreeImagesBlock
+  | ImageRowBlock
   | GalleryBlock
   | MediaTextBlock
   | HighlightsBlock;
@@ -127,24 +134,32 @@ export type Highlight = {
   on_archive?: boolean;
 };
 
+/** Stored kinds. "service" rows are legacy: they were merged into categories,
+ * and the shared table still allows them for the other product. */
 export type TermKind = "category" | "service" | "type";
+/** The lists this site manages. */
+export type ManagedKind = Exclude<TermKind, "service">;
+/** The case study panel's own colours (#rrggbb). Without `text`, the text is
+ * light or dark by the background's luminance. */
+export type PanelStyle = {
+  color?: string;
+  text?: string;
+};
 export type Category = Database["public"]["Tables"]["categories"]["Row"];
 export type Term = Category & { kind: TermKind };
 export type ProjectRow = Database["public"]["Tables"]["projects"]["Row"];
 export type Project = Omit<
   ProjectRow,
-  "content" | "media" | "highlights" | "services"
+  "content" | "media" | "highlights" | "services" | "panel_style"
 > & {
   content: ProjectContentBlock[];
   media: ProjectMediaItem[];
   highlights: Highlight[];
-  /** The legacy free-text column; kept as a mirror of linked service names. */
-  legacy_services: string[];
+  panel_style: PanelStyle | null;
   categories: Term[];
-  services: Term[];
   type: Term | null;
 };
 export type ProjectInput = Omit<
   Project,
-  "categories" | "services" | "type" | "created_at" | "updated_at" | "source"
-> & { category_ids: string[]; service_ids: string[]; type_id: string | null };
+  "categories" | "type" | "created_at" | "updated_at" | "source"
+> & { category_ids: string[]; type_id: string | null };

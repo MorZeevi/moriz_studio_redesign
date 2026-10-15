@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { type CSSProperties, useEffect, useRef, useState } from "react";
 import type { ProjectCopy } from "@/i18n/project-copy";
 import type { GalleryEntry, GalleryImage } from "@/lib/project-presentation";
 import { CoverVideo } from "./cover-video";
@@ -165,9 +165,14 @@ export function ProjectGallery({
     setOpened(false);
     trigger.current?.focus({ preventScroll: true });
   }
-  function figure(image: GalleryImage, cover = false) {
+  function figure(image: GalleryImage, cover = false, style?: CSSProperties) {
     return (
-      <figure key={image.index} className={styles.figure} data-gallery-reveal>
+      <figure
+        key={image.index}
+        className={styles.figure}
+        style={style}
+        data-gallery-reveal
+      >
         <a
           href={image.src}
           aria-label={`${labels.openImage} ${image.index + 1}${image.alt ? ` — ${image.alt}` : ""}`}
@@ -226,9 +231,7 @@ export function ProjectGallery({
             className={styles.mediaBlock}
             data-layout={"layout" in entry ? entry.layout : undefined}
             data-spacing={entry.spacing}
-            data-cover={
-              entry.type === "images" && entry.cover ? "true" : undefined
-            }
+            data-cover={entry.id === "cover" ? "true" : undefined}
           >
             {entry.type === "highlights" ? (
               <div className={styles.highlightsBand} data-gallery-reveal>
@@ -297,6 +300,18 @@ export function ProjectGallery({
                   preload="metadata"
                   aria-label={entry.label || labels.video}
                 />
+              </div>
+            ) : entry.layout === "row" ? (
+              // Widths follow each image's ratio, so the row shares one height.
+              <div className={styles.row}>
+                {entry.images.map((image) =>
+                  figure(image, false, {
+                    "--ratio":
+                      image.width && image.height
+                        ? image.width / image.height
+                        : 4 / 3,
+                  } as CSSProperties),
+                )}
               </div>
             ) : entry.layout === "equal" || entry.layout === "staggered" ? (
               Array.from(

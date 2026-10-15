@@ -2,11 +2,11 @@
 import { useState, useTransition } from "react";
 import { createTerm } from "@/app/admin/actions";
 import { Button } from "@/components/ui/button";
-import type { Term, TermKind } from "@/types/project";
+import type { ManagedKind, Term } from "@/types/project";
 import styles from "./admin.module.css";
 
 export const termLabels: Record<
-  TermKind,
+  ManagedKind,
   {
     heading: string;
     singular: string;
@@ -22,13 +22,6 @@ export const termLabels: Record<
     create: "יצירת קטגוריה משותפת חדשה",
     button: "יצירת קטגוריה",
   },
-  service: {
-    heading: "שירותים",
-    singular: "שירות",
-    add: "הוספת שירות לפרויקט",
-    create: "יצירת שירות חדש",
-    button: "יצירת שירות",
-  },
   type: {
     heading: "סוג פרויקט",
     singular: "סוג פרויקט",
@@ -38,7 +31,7 @@ export const termLabels: Record<
   },
 };
 /**
- * Picks managed terms for a project. Categories and services are multi-select
+ * Picks managed terms for a project. Categories are multi-select
  * chips; the project type is a single select. New terms can be created inline
  * and are shared with every project.
  */
@@ -49,7 +42,7 @@ export function TermPicker({
   onChange,
   onCreated,
 }: {
-  kind: TermKind;
+  kind: ManagedKind;
   terms: Term[];
   selected: string[];
   onChange: (ids: string[]) => void;

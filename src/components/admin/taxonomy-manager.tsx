@@ -9,12 +9,12 @@ import {
 } from "@/app/admin/actions";
 import { Button } from "@/components/ui/button";
 import type { AdminTerm } from "@/lib/cms/queries";
-import type { TermKind } from "@/types/project";
+import type { ManagedKind } from "@/types/project";
 import { moveItem } from "./sortable-list";
 import styles from "./admin.module.css";
 
 const KINDS: Record<
-  TermKind,
+  ManagedKind,
   {
     heading: string;
     singular: string;
@@ -29,21 +29,11 @@ const KINDS: Record<
     heading: "קטגוריות",
     singular: "קטגוריה",
     intro:
-      "קטגוריות משותפות לכל הפרויקטים ומשמשות לסינון בעמוד הפרויקטים. שינוי שם שומר את השיוכים.",
+      "קטגוריות משותפות לכל הפרויקטים: מוצגות כתגיות בפרויקט ומשמשות לסינון בעמוד הפרויקטים. שינוי שם שומר את השיוכים.",
     create: "קטגוריה חדשה",
     add: "הוספת קטגוריה",
     added: "הקטגוריה נוספה.",
     deleted: "הקטגוריה נמחקה.",
-  },
-  service: {
-    heading: "שירותים",
-    singular: "שירות",
-    intro:
-      "השירותים שניתנו בפרויקט, למשל UX/UI Design או Frontend Development.",
-    create: "שירות חדש",
-    add: "הוספת שירות",
-    added: "השירות נוסף.",
-    deleted: "השירות נמחק.",
   },
   type: {
     heading: "סוגי פרויקטים",
@@ -59,7 +49,7 @@ export function TaxonomyManager({
   kind,
   initial,
 }: {
-  kind: TermKind;
+  kind: ManagedKind;
   initial: AdminTerm[];
 }) {
   const labels = KINDS[kind];
@@ -94,7 +84,7 @@ export function TaxonomyManager({
     <main>
       <h1>{labels.heading}</h1>
       <nav aria-label="רשימות" className={styles.subnav}>
-        {(Object.keys(KINDS) as TermKind[]).map((k) => (
+        {(Object.keys(KINDS) as ManagedKind[]).map((k) => (
           <Link
             key={k}
             href={`/admin/categories?kind=${k}`}

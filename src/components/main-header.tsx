@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { LanguageLink } from "@/components/language-link";
 import { Navigation } from "@/components/navigation";
+import Noise from "@/components/react-bits/Noise";
 import { SiteHeader } from "@/components/site-header";
 import { StudioLogo } from "@/components/studio-logo";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -26,6 +27,16 @@ export function MainHeader({
   return (
     <SiteHeader>
       <div className="hero-shell site-header-inner">
+        {/* Opaque only over the dark Projects section, where content scrolls behind. */}
+        <div className="site-header-backdrop" aria-hidden="true">
+          <Noise
+            patternSize={340}
+            patternScaleX={1}
+            patternScaleY={0.3}
+            patternRefreshInterval={2}
+            patternAlpha={22}
+          />
+        </div>
         <div className="header-brand">
           <StudioLogo
             name={content.studioName}

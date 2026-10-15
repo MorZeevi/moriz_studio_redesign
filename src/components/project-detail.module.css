@@ -30,8 +30,37 @@
 }
 .panel {
   min-inline-size: 0;
+}
+.panelScroll {
   scrollbar-width: thin;
   scrollbar-color: var(--case-foreground) var(--case-background);
+}
+/* Colours chosen in the CMS (set inline as --case-*), with the site grain over
+   them. Rules, tags and accordions derive from the text colour. */
+.panel[data-surface] {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  background-color: var(--case-background);
+  color: var(--case-foreground);
+  --project-rule: color-mix(
+    in srgb,
+    var(--case-foreground) 27%,
+    var(--case-background)
+  );
+  --project-secondary: color-mix(
+    in srgb,
+    var(--case-foreground) 75%,
+    var(--case-background)
+  );
+}
+.panelBackdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
 }
 .footer {
   padding-block-start: 3rem;
@@ -76,12 +105,6 @@
 .metadata dd {
   margin: 0;
   font-weight: 900;
-  overflow-wrap: anywhere;
-}
-.services {
-  margin-block: 1.5rem 2rem;
-  font-size: 0.875rem;
-  line-height: 1.6;
   overflow-wrap: anywhere;
 }
 .accordion {
@@ -182,6 +205,11 @@
   block-size: auto;
   border-radius: var(--radius-md);
 }
+/* The case study opens with a shorter, cropped cover; the viewer shows it whole. */
+.mediaBlock[data-cover] :is(img, video) {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
 .gallery [data-reveal="pending"] > :first-child {
   clip-path: inset(0 0 100% 0);
   transform: translateY(1.5rem);
@@ -214,7 +242,8 @@
 .figure a:focus-visible .enlarge {
   opacity: 1;
 }
-.pair {
+.pair,
+.row {
   display: grid;
   gap: 1.5rem;
   align-items: start;
@@ -338,6 +367,17 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.5rem;
   }
+  /* Grow by aspect ratio: every image in the row gets the same height. */
+  .row {
+    display: flex;
+  }
+  .row > .figure {
+    flex: var(--ratio) 1 0;
+  }
+  .row img {
+    aspect-ratio: var(--ratio);
+    object-fit: cover;
+  }
   .pair[data-staggered] {
     grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
   }
@@ -389,12 +429,24 @@
     grid-row: 1 / 4;
     position: sticky;
     inset-block-start: 2rem;
+    display: flex;
+    flex-direction: column;
     max-block-size: calc(100dvh - 4rem);
+    border-inline-end: 1px solid currentColor;
+  }
+  /* The content scrolls inside the panel; its surface and grain stay put. */
+  .panelScroll {
+    min-block-size: 0;
     overflow-y: auto;
     padding-inline-end: 1.5rem;
-    border-inline-end: 1px solid currentColor;
     overscroll-behavior: contain;
     scrollbar-gutter: stable;
+  }
+  .panel[data-surface] {
+    position: sticky;
+    padding-block: 1.5rem;
+    padding-inline: 1.5rem 0;
+    border-inline-end: 0;
   }
   .mediaBlock {
     margin-block-start: 2rem;

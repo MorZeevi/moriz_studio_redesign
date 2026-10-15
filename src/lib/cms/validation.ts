@@ -1,5 +1,6 @@
 import type {
   Highlight,
+  PanelStyle,
   ProjectContentBlock,
   ProjectInput,
   ProjectMediaItem,
@@ -104,6 +105,7 @@ function validPresentation(block: Record<string, unknown>) {
         oneOf(block.layout, MULTI_LAYOUTS) && oneOf(block.spacing, SPACINGS)
       );
     case "media_text":
+    case "image_row":
       return oneOf(block.spacing, SPACINGS);
     default:
       return true;
@@ -160,6 +162,12 @@ function validBlock(
       return images(block.images, complete, 2);
     case "three_images":
       return images(block.images, complete, 3);
+    case "image_row":
+      return (
+        images(block.images, complete) &&
+        (block.images as unknown[]).length >= 1 &&
+        (block.images as unknown[]).length <= 3
+      );
     case "gallery":
       return (
         images(block.images, complete) &&
@@ -265,6 +273,21 @@ export function parseHighlights(value: unknown): Highlight[] {
     ? value.filter(validHighlight).slice(0, MAX_HIGHLIGHTS)
     : [];
 }
+const HEX_COLOR = /^#[0-9a-f]{6}$/i;
+function validPanelStyle(value: unknown): value is PanelStyle {
+  return (
+    record(value) &&
+    Object.entries(value).every(
+      ([key, color]) =>
+        (key === "color" || key === "text") &&
+        typeof color === "string" &&
+        HEX_COLOR.test(color),
+    )
+  );
+}
+export function parsePanelStyle(value: unknown): PanelStyle | null {
+  return validPanelStyle(value) ? value : null;
+}
 
 const TEXT_FIELDS = [
   "client",
@@ -361,16 +384,12 @@ export function validateProject(value: ProjectInput) {
       throw new Error("כתובת האתר חייבת להתחיל ב־https:// או http://.");
   }
   if (
-    !Array.isArray(value.legacy_services) ||
-    value.legacy_services.some((v) => typeof v !== "string" || v.length > 100)
-  )
-    throw new Error("רשימת השירותים אינה תקינה.");
-  if (
     !idList(value.category_ids) ||
-    !idList(value.service_ids) ||
     (value.type_id !== null && !UUID.test(value.type_id))
   )
-    throw new Error("בחירת הקטגוריות, השירותים או סוג הפרויקט אינה תקינה.");
+    throw new Error("בחירת הקטגוריות או סוג הפרויקט אינה תקינה.");
+  if (value.panel_style !== null && !validPanelStyle(value.panel_style))
+    throw new Error("רקע הפאנל אינו תקין. בחרו צבע בפורמט ‎#RRGGBB.");
   if (
     !Array.isArray(value.media) ||
     value.media.length > 100 ||

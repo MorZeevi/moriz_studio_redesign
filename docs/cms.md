@@ -13,16 +13,17 @@ Public signup is disabled. There is no registration or password screen.
 
 Choose **New project**. The editor has five tabs:
 
-- **General** (כללי): name, client, year, website URL, my role, project type,
-  services and categories.
+- **General** (כללי): name, client, year, website URL, my role, project type
+  and categories.
 - **Homepage & Archive** (עמוד הבית וארכיון): cover media, the "featured" toggle
   (show on homepage), short card description, archive description, optional
   homepage/archive media overrides, manual order, and which highlight each card shows.
   The archive section also has **מודגש בעמוד הפרויקטים** (`projects.featured`):
   a featured project takes a large slot in the projects page's editorial layout.
   It is independent of the homepage toggle and has no effect on the other layouts.
-- **Case Study**: hero headline and intro, target audience (shown only on the case
-  study), up to three highlights, and the content blocks.
+- **Case Study**: hero headline and intro, the side panel's background and text
+  colours, target audience (shown only on the case study), up to three highlights,
+  and the content blocks.
 - **Gallery** (גלריה): project logo, main video (with poster and loop setting), and
   the image/video gallery with alt text, captions, descriptions, layout, ordering
   (drag or Up/Down), replace and delete.
@@ -62,21 +63,38 @@ slugs must remain valid and unique.
 their public order; drag or use Up/Down and the order saves immediately
 (`cms_reorder_projects`). Order numbers can also be set per project.
 
-### Categories, services and project types
+### Categories and project types
 
-`/admin/categories` manages three lists: categories (archive filters), services
-and project types. Each has a Hebrew and an English name, an order, and a usage
-count. Renaming keeps assignments and the slug; deleting asks for confirmation and
-removes assignments only. A project has any number of categories and services and
-at most one type. All three are rows in `categories` (`kind` = `category`,
-`service` or `type`) linked through `project_categories`; names and slugs are unique
-per kind. `projects.services` remains as a mirror of the linked service names.
+`/admin/categories` manages two lists: categories and project types. Each has a
+Hebrew and an English name, an order, and a usage count. Renaming keeps assignments
+and the slug; deleting asks for confirmation and removes assignments only. A project
+has any number of categories and at most one type. Categories are shown as tags on
+the homepage card and the case study, listed in the archive card's hover layer, and
+used as the archive filters. Both are rows in `categories` (`kind` = `category` or
+`type`) linked through `project_categories`; names and slugs are unique per kind.
+
+Services were a third list (`kind = 'service'`, shown as a "·" line). They were
+merged into categories (`20261015120100`): this site reads any remaining service row
+as a category and no longer creates them. The shared table still allows
+`kind = 'service'` for the Eyal site. `projects.services`, the old text mirror, is
+written empty.
+
+### Case study panel colours
+
+The case study's information panel can have its own background and text colours,
+set in the Case Study tab and stored in `projects.panel_style`
+(`{ "color": "#rrggbb", "text": "#rrggbb" }`). Without a text colour the text is
+light or dark by the background's luminance. Rules, tags and accordions in the
+panel follow the text colour. The site grain is drawn over the background, which
+stays fixed while the panel content scrolls. Without a background colour the panel
+keeps the page surface.
 
 ### Content blocks
 
-Blocks: text (with optional eyebrow and subsections), image, image + text (media
-on either side, optionally styled as a feature), video, two images, three images,
-gallery, and highlights. The **Add block** menu also offers ready sections built
+Blocks: text (with optional eyebrow and subsections), image, image row (1, 2 or 3
+images side by side at equal height on desktop, stacked on mobile), image + text
+(media on either side, optionally styled as a feature), video, two images, three
+images (shown as one row), gallery, and highlights. The **Add block** menu also offers ready sections built
 from those blocks: Challenge, Approach, Solution, Design & Development and Final
 Experience. Blocks can be reordered, hidden, duplicated and deleted; hidden blocks
 may stay incomplete and never render publicly. Every upload lands in the project
@@ -105,7 +123,7 @@ The first media block starts without a preceding gap.
 These optional `layout` and `spacing` properties live in the existing content
 JSON, with no database migration. Older blocks retain full-width or equal-pair
 layouts and regular spacing. Preview includes unsaved layout choices, and
-reordering preserves them. The cover leads the gallery; a matching first content
+reordering preserves them. The cover leads the gallery, cropped to 16:9 (the viewer shows it whole); a matching first content
 image is displayed once, preserving its caption. Images open a keyboard-accessible
 viewer and retain their original private `/media/` URLs; without JavaScript their
 links open the source images directly. Videos remain inline.
@@ -212,6 +230,11 @@ CMS migrations:
   (`private.cms_admins`, `private.cms_source()`, `source` columns, composite link keys,
   per-source taxonomy uniqueness, source-scoped RLS and RPCs, per-source media buckets).
   Replaces `private.is_admin()`.
+- `20261015120000_cms_panel_style.sql`: optional `projects.panel_style` JSONB for the
+  case study panel background, and `cms_save_project` saving it.
+- `20261015120100_cms_merge_services_into_categories.sql`: Moriz services become
+  categories (matching names or slugs merge into the existing category) and the
+  `projects.services` mirror is cleared. Idempotent; Eyal rows are untouched.
 
 This Supabase project is shared with other apps whose migrations are not all in
 this repository (for example the Eyal Diagnostic's), so `supabase db push` can

@@ -9,7 +9,6 @@ export type Project = {
   slug: string | null;
   title: string;
   description: string | null;
-  contribution: string | null;
   image: { src: string; alt: string } | null;
   /** A video cover plays muted and looping while visible. */
   video?: { src: string; poster?: string } | null;
@@ -26,7 +25,6 @@ export type ArchiveProject = Project & {
   /** Null when the project has no case study page. */
   href: string | null;
   featured: boolean;
-  services: string[];
   year: number | null;
   categorySlugs: string[];
 };

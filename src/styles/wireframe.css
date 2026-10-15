@@ -795,6 +795,37 @@ body[data-project-backdrop] .mobile-menu-toggle {
   border-color: currentColor;
 }
 
+/* The sticky header gets the Projects surface and grain while that section is
+   dark, so pinned strips do not show through it; elsewhere it stays transparent. */
+.site-header-backdrop {
+  display: none;
+}
+
+@media (min-width: 64rem) {
+  body[data-project-backdrop] .site-header-backdrop {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: var(--home-project-surface);
+    opacity: var(--home-project-reveal, 0);
+    transition: translate 0.25s ease-in-out;
+  }
+
+  body[data-project-backdrop]
+  .site-header[data-header-hidden]
+  .site-header-backdrop {
+    translate: 0 -100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body[data-project-backdrop] .site-header-backdrop {
+    transition: none;
+  }
+}
+
 /* Controls and media use the chosen theme, independently of the scroll fade. */
 body[data-project-backdrop]
 :is(

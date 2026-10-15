@@ -21,6 +21,7 @@ export function ProjectScrollSurface({ children }: { children: ReactNode }) {
       "--home-project-surface",
       "--home-project-foreground",
       "--home-project-secondary",
+      "--home-project-reveal",
     ];
     const previous = properties.map((property) =>
       body.style.getPropertyValue(property),
@@ -94,6 +95,7 @@ export function ProjectScrollSurface({ children }: { children: ReactNode }) {
       body.style.setProperty("--home-project-surface", background);
       body.style.setProperty("--home-project-foreground", foreground);
       body.style.setProperty("--home-project-secondary", secondary);
+      body.style.setProperty("--home-project-reveal", reveal.toFixed(4));
       section.style.setProperty("--project-reveal", reveal.toFixed(4));
       section.style.setProperty("--project-foreground", foreground);
       section.style.setProperty("--project-background", background);

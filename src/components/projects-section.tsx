@@ -162,9 +162,6 @@ export function ProjectsSection({
               <div className={styles.stackBody} data-project-card={project.id}>
                 <div className={styles.stackInfo}>
                   <p className={styles.stackBodyDescription}>{description}</p>
-                  <p className={styles.contribution}>
-                    {project.contribution ?? content.contributionPlaceholder}
-                  </p>
                   <ProjectHighlight highlight={project.highlight} />
                   <CategoryTags categories={project.categories ?? []} />
                 </div>

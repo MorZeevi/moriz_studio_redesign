@@ -36,7 +36,7 @@ export default async function NewProject() {
     seo_description: null,
     seo_description_en: null,
     og_image_url: null,
-    legacy_services: [],
+    panel_style: null,
     cover_image_url: null,
     homepage_image_url: null,
     projects_image_url: null,
@@ -50,7 +50,6 @@ export default async function NewProject() {
     projects_order: null,
     published: false,
     category_ids: [],
-    service_ids: [],
     type_id: null,
   };
   return (

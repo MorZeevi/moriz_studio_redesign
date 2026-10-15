@@ -38,7 +38,7 @@ export function ProjectArchiveCard({
   const number = String(index + 1).padStart(2, "0");
   const meta = [project.type, project.year].filter(Boolean).join(" · ");
   const hasReveal = Boolean(
-    project.description || project.services.length || project.highlight,
+    project.description || project.categories?.length || project.highlight,
   );
 
   const body = (
@@ -89,10 +89,10 @@ export function ProjectArchiveCard({
                 {project.highlight.label}
               </p>
             )}
-            {!!project.services.length && (
+            {!!project.categories?.length && (
               <ul className={styles.services}>
-                {project.services.map((service) => (
-                  <li key={service}>{service}</li>
+                {project.categories.map((category) => (
+                  <li key={category.id}>{category.name}</li>
                 ))}
               </ul>
             )}

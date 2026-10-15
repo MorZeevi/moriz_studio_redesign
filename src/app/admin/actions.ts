@@ -16,7 +16,7 @@ import {
 } from "@/lib/cms/validation";
 import { serverSupabase } from "@/lib/supabase/server";
 import type { Json } from "@/types/database.types";
-import type { Project, ProjectInput, Term, TermKind } from "@/types/project";
+import type { ManagedKind, Project, ProjectInput, Term } from "@/types/project";
 
 type Result<T = undefined> =
   | { ok: true; data: T; warnings?: string[] }
@@ -73,7 +73,6 @@ async function cleanupMedia(candidates: string[]) {
 function toInput(project: Project): ProjectInput {
   const {
     categories,
-    services,
     type,
     created_at: _created,
     updated_at: _updated,
@@ -83,7 +82,6 @@ function toInput(project: Project): ProjectInput {
   return {
     ...input,
     category_ids: categories.map((t) => t.id),
-    service_ids: services.map((t) => t.id),
     type_id: type?.id ?? null,
   };
 }
@@ -115,44 +113,37 @@ export async function saveProject(
     const {
       id,
       category_ids,
-      service_ids,
       type_id,
-      legacy_services: _legacy,
       // The owner comes from the database, never from the request.
       source: _source,
       ...fields
     } = input as ProjectInput & { source?: unknown };
-    const termIds = [
-      ...category_ids,
-      ...service_ids,
-      ...(type_id ? [type_id] : []),
-    ];
+    const termIds = [...category_ids, ...(type_id ? [type_id] : [])];
     const { data: terms, error: termsError } = termIds.length
       ? await client
           .from("categories")
-          .select("id,kind,name")
+          .select("id,kind")
           .eq("source", CMS_SOURCE)
           .in("id", termIds)
       : { data: [], error: null };
     if (termsError) throw termsError;
     const kindOf = new Map((terms ?? []).map((t) => [t.id, t.kind]));
+    // A legacy service row is a category until the data migration converts it.
     if (
-      category_ids.some((t) => kindOf.get(t) !== "category") ||
-      service_ids.some((t) => kindOf.get(t) !== "service") ||
+      category_ids.some((t) => !kindOf.has(t) || kindOf.get(t) === "type") ||
       (type_id && kindOf.get(type_id) !== "type")
     )
       return {
         ok: false,
-        error: "קטגוריה, שירות או סוג שנבחרו כבר אינם קיימים. רעננו ונסו שוב.",
+        error: "קטגוריה או סוג שנבחרו כבר אינם קיימים. רעננו ונסו שוב.",
       };
-    const nameOf = new Map((terms ?? []).map((t) => [t.id, t.name]));
     const { error } = await client.rpc("cms_save_project", {
       project_id: id,
       project_data: JSON.parse(
         JSON.stringify({
           ...fields,
-          // Mirror of the managed services for anything still reading text.
-          services: service_ids.map((t) => nameOf.get(t) ?? ""),
+          // The legacy services mirror; services are categories now.
+          services: [],
         }),
       ) as Json,
       category_ids: termIds,
@@ -236,17 +227,16 @@ export async function reorderProjects(
   refreshPortfolio();
   return { ok: true, data: undefined };
 }
-const TERM_KINDS: TermKind[] = ["category", "service", "type"];
-const TERM_LABEL: Record<TermKind, string> = {
+const TERM_KINDS: ManagedKind[] = ["category", "type"];
+const TERM_LABEL: Record<ManagedKind, string> = {
   category: "קטגוריה",
-  service: "שירות",
   type: "סוג פרויקט",
 };
 function cleanName(raw: string) {
   return raw.trim().replace(/\s+/g, " ");
 }
 export async function createTerm(
-  kind: TermKind,
+  kind: ManagedKind,
   rawName: string,
   rawNameEn = "",
 ): Promise<Result<Term>> {

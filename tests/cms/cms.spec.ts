@@ -56,7 +56,6 @@ test("publishing rules, gallery and highlight validation", () => {
     highlights: [],
     content: [],
     category_ids: [],
-    service_ids: [],
     type_id: null,
     title_en: null,
     short_description_en: null,

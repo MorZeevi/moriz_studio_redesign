@@ -66,7 +66,6 @@ export const projectCopy: Record<Locale, ProjectCopy> = {
     homeLink: "Back to home",
     visualLabel: "Screens / visual — coming soon",
     descriptionPlaceholder: "Project description — coming soon",
-    contributionPlaceholder: "My role in the project — coming soon",
     answerPlaceholder: "Answer — coming soon",
     detailsHeading: "About the project",
     projectLink: "Full case study",

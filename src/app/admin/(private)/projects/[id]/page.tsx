@@ -16,7 +16,6 @@ export default async function EditProject({
   if (!project) notFound();
   const {
     categories,
-    services,
     type,
     created_at: _created,
     updated_at: _updated,
@@ -27,7 +26,6 @@ export default async function EditProject({
       initial={{
         ...initial,
         category_ids: categories.map((t) => t.id),
-        service_ids: services.map((t) => t.id),
         type_id: type?.id ?? null,
       }}
       terms={terms}

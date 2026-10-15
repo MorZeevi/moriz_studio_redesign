@@ -115,7 +115,6 @@ export function demoArchive(locale: string, href: string | null) {
       title: seed.title,
       description:
         seed.description ?? "תיאור דמו קצר לבדיקת שכבת המידע בכרטיס.",
-      contribution: seed.services.join(" · "),
       image: video
         ? { src: video.poster, alt: seed.title }
         : m
@@ -130,7 +129,6 @@ export function demoArchive(locale: string, href: string | null) {
         name: demoCategories[c].name,
       })),
       featured: Boolean(seed.featured),
-      services: seed.services,
       year: 2026,
       categorySlugs: seed.categories.map((c) => demoCategories[c].slug),
     };

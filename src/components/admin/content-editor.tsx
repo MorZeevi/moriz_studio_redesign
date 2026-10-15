@@ -21,6 +21,7 @@ import styles from "./admin.module.css";
 export const blockLabels: Record<BlockType, string> = {
   text: "טקסט",
   image: "תמונה",
+  image_row: "שורת תמונות",
   video: "סרטון",
   two_images: "שתי תמונות",
   three_images: "שלוש תמונות",
@@ -63,6 +64,8 @@ function newBlock(type: BlockType): ProjectContentBlock {
       return { id, type, images: [{ src: "" }, { src: "" }] };
     case "three_images":
       return { id, type, images: [{ src: "" }, { src: "" }, { src: "" }] };
+    case "image_row":
+      return { id, type, images: [{ src: "" }, { src: "" }] };
     case "gallery":
       return { id, type, images: [] };
     case "media_text":
@@ -270,7 +273,11 @@ function Presentation({
 }) {
   if (block.type === "text" || block.type === "highlights") return null;
   const single = block.type === "image" || block.type === "video";
-  const hasLayout = block.type !== "media_text";
+  // Rows set their own layout: all images in one line.
+  const hasLayout =
+    block.type !== "media_text" &&
+    block.type !== "image_row" &&
+    block.type !== "three_images";
   return (
     <div className={styles.grid}>
       {hasLayout && (
@@ -499,8 +506,35 @@ export function ContentEditor({
                 </div>
               </>
             )}
+            {block.type === "image_row" && (
+              <label className={styles.field}>
+                <span>תמונות בשורה</span>
+                <select
+                  value={block.images.length}
+                  onChange={(e) => {
+                    const count = Number(e.target.value);
+                    set(block.id, {
+                      ...block,
+                      images: Array.from(
+                        { length: count },
+                        (_, i) => block.images[i] ?? { src: "" },
+                      ),
+                    });
+                  }}
+                >
+                  <option value={1}>תמונה אחת</option>
+                  <option value={2}>שתי תמונות</option>
+                  <option value={3}>שלוש תמונות</option>
+                </select>
+                <small>
+                  בדסקטופ התמונות מוצגות זו לצד זו באותו גובה, ובמובייל אחת מתחת
+                  לשנייה.
+                </small>
+              </label>
+            )}
             {(block.type === "two_images" ||
               block.type === "three_images" ||
+              block.type === "image_row" ||
               block.type === "gallery") && (
               <>
                 <div className={styles.grid}>

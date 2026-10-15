@@ -35,7 +35,8 @@ export type GalleryEntry =
       type: "images";
       id: string;
       images: GalleryImage[];
-      layout: SingleMediaLayout | MultiMediaLayout;
+      /** "row": every image in one line, at equal height. */
+      layout: SingleMediaLayout | MultiMediaLayout | "row";
       spacing: MediaSpacing;
       cover?: boolean;
     }
@@ -137,7 +138,8 @@ export function projectGallery(
       ? [block]
       : block.type === "gallery" ||
           block.type === "two_images" ||
-          block.type === "three_images"
+          block.type === "three_images" ||
+          block.type === "image_row"
         ? block.images
         : [],
   )[0];
@@ -263,7 +265,10 @@ export function projectGallery(
             type: "images",
             id,
             images: media,
-            layout: block.layout ?? (block.type === "image" ? "full" : "equal"),
+            layout:
+              block.type === "image_row" || block.type === "three_images"
+                ? "row"
+                : (block.layout ?? (block.type === "image" ? "full" : "equal")),
             spacing: block.spacing ?? "regular",
           });
       }
@@ -365,4 +370,32 @@ export function projectInformation(
     });
   }
   return sections;
+}
+
+/** The case study panel's chosen colours, as CSS values. Null keeps the page
+ * surface. */
+export type PanelSurface = { background: string; foreground: string };
+/** Light text on dark colours (WCAG relative luminance below 0.179). */
+function toneFor(hex: string): "light" | "dark" {
+  const luminance = [1, 3, 5].reduce((sum, start, index) => {
+    const value = Number.parseInt(hex.slice(start, start + 2), 16) / 255;
+    const linear =
+      value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+    return sum + linear * [0.2126, 0.7152, 0.0722][index];
+  }, 0);
+  return luminance < 0.179 ? "light" : "dark";
+}
+export function panelSurface(
+  project: Pick<Project, "panel_style">,
+): PanelSurface | null {
+  const background = project.panel_style?.color;
+  if (!background) return null;
+  return {
+    background,
+    foreground:
+      project.panel_style?.text ??
+      (toneFor(background) === "light"
+        ? "var(--color-light)"
+        : "var(--color-dark)"),
+  };
 }

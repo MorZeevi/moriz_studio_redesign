@@ -65,6 +65,8 @@ function mapBlocks(
             mapImage(i, map),
           ) as typeof block.images,
         };
+      case "image_row":
+        return { ...block, images: block.images.map((i) => mapImage(i, map)) };
       case "gallery":
         return {
           ...block,

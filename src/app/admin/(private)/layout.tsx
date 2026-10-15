@@ -15,7 +15,7 @@ export default async function PrivateLayout({
         <Link href="/admin/projects">Moriz Studio — ניהול</Link>
         <nav aria-label="ניהול">
           <Link href="/admin/projects">פרויקטים</Link>
-          <Link href="/admin/categories">קטגוריות ושירותים</Link>
+          <Link href="/admin/categories">קטגוריות</Link>
           <Link href="/he">לאתר</Link>
         </nav>
         <form action={logout}>

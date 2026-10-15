@@ -139,7 +139,6 @@ export const he = {
     homeLink: "חזרה לעמוד הבית",
     visualLabel: "מסכים / ויזואל — להוספה",
     descriptionPlaceholder: "תיאור הפרויקט — להשלמה",
-    contributionPlaceholder: "התפקיד שלי בפרויקט — להשלמה",
     answerPlaceholder: "תשובה — להשלמה",
     detailsHeading: "על הפרויקט",
     projectLink: "לפרויקט המלא",
@@ -182,7 +181,6 @@ export const he = {
         slug: "practice-ai",
         title: "practice ai learning system",
         description: "מערכת למידה עבור practice ai.",
-        contribution: null,
         image: null,
         details: [
           { id: "question-1", question: "שאלה 1 — להשלמה", answer: null },
@@ -195,7 +193,6 @@ export const he = {
         slug: "haaretz",
         title: "הארץ — וורדעל",
         description: "פרויקט עבור עיתון הארץ.",
-        contribution: null,
         image: null,
         details: [
           { id: "question-1", question: "שאלה 1 — להשלמה", answer: null },
@@ -208,7 +205,6 @@ export const he = {
         slug: "chabad-club",
         title: "חב״ד קלאב",
         description: null,
-        contribution: null,
         image: null,
         details: [
           { id: "question-1", question: "שאלה 1 — להשלמה", answer: null },

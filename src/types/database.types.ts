@@ -342,6 +342,7 @@ export type Database = {
           id: string;
           media: Json;
           og_image_url: string | null;
+          panel_style: Json | null;
           projects_image_url: string | null;
           projects_order: number | null;
           published: boolean;
@@ -387,6 +388,7 @@ export type Database = {
           id?: string;
           media?: Json;
           og_image_url?: string | null;
+          panel_style?: Json | null;
           projects_image_url?: string | null;
           projects_order?: number | null;
           published?: boolean;
@@ -432,6 +434,7 @@ export type Database = {
           id?: string;
           media?: Json;
           og_image_url?: string | null;
+          panel_style?: Json | null;
           projects_image_url?: string | null;
           projects_order?: number | null;
           published?: boolean;
