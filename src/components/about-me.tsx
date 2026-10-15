@@ -47,7 +47,11 @@ export function AboutMe({ content }: { content: SiteContent["about"] }) {
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      window.matchMedia("(max-width: 63.999rem)").matches
+    )
+      return;
     gsap.registerPlugin(ScrollTrigger);
     const setProgress = (progress: number) =>
       root.style.setProperty("--about-progress", progress.toFixed(3));

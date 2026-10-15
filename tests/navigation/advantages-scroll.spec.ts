@@ -83,7 +83,7 @@ for (const width of [1440, 390]) {
     });
   }
 
-  test(`advantages rise with scrolling and reverse at ${width}px`, async ({
+  test(`advantages use appropriate scroll motion at ${width}px`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 1000 });
@@ -110,18 +110,10 @@ for (const width of [1440, 390]) {
         .poll(async () => (await offsets(page)).every((y) => y > 39))
         .toBe(true);
     } else {
-      await position(page, ".advantages-card:nth-child(2)", 0.96);
-      await expect
-        .poll(async () => (await offsets(page))[1])
-        .toBeGreaterThan(23);
-      await position(page, ".advantages-card:nth-child(2)", 0.68);
-      await expect
-        .poll(async () => Math.abs((await offsets(page))[1]))
-        .toBeLessThan(0.1);
-      await position(page, ".advantages-card:nth-child(2)", 0.96);
-      await expect
-        .poll(async () => (await offsets(page))[1])
-        .toBeGreaterThan(23);
+      for (const fraction of [0.96, 0.68, 0.4, 0.96]) {
+        await position(page, ".advantages-card:nth-child(2)", fraction);
+        expect((await offsets(page)).every((y) => y === 0)).toBe(true);
+      }
     }
     await page.emulateMedia({ reducedMotion: "reduce" });
     await expect

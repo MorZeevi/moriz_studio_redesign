@@ -71,6 +71,7 @@ export function PixelReveal() {
     }
     if (
       seen ||
+      window.matchMedia("(max-width: 63.999rem)").matches ||
       motion.matches ||
       document.hidden ||
       (location.hash && location.hash !== "#top")

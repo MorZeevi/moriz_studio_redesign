@@ -37,7 +37,10 @@ export function GettingStarted({
 
   useEffect(() => {
     if (!enhanced) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      window.matchMedia("(max-width: 63.999rem)").matches
+    ) {
       setVisible(steps.map(() => true));
       return;
     }
@@ -81,7 +84,10 @@ export function GettingStarted({
           );
       });
     };
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      !desktop.matches
+    ) {
       setProgress(1);
       return;
     }

@@ -43,6 +43,44 @@
   inline-size: 55%;
   block-size: 55%;
 }
+
+.posterPlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  inline-size: 100%;
+  block-size: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--color-light);
+  cursor: pointer;
+}
+
+.posterPlay svg {
+  inline-size: 3.25rem;
+  block-size: 3.25rem;
+  padding: 0.75rem;
+  border-radius: 50%;
+  background: rgb(38 38 38 / 0.88);
+}
+
+.posterPlay:focus-visible {
+  outline: 3px solid var(--color-secondary);
+  outline-offset: -4px;
+}
+
+@media (max-width: 63.999rem) {
+  .target {
+    will-change: auto;
+  }
+
+  .control {
+    inline-size: 2.75rem;
+    block-size: 2.75rem;
+  }
+}
 .control:hover {
   background: var(--color-surface-strong);
 }

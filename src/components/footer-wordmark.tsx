@@ -2,7 +2,7 @@
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect, useRef, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import styles from "./site-footer.module.css";
 
 const motionQuery = "(prefers-reduced-motion: reduce)";
@@ -13,6 +13,14 @@ function subscribeMotion(callback: () => void) {
 }
 const readMotion = () => window.matchMedia(motionQuery).matches;
 const serverMotion = () => true;
+const mobileQuery = "(max-width: 63.999rem)";
+function subscribeMobile(callback: () => void) {
+  const query = window.matchMedia(mobileQuery);
+  query.addEventListener("change", callback);
+  return () => query.removeEventListener("change", callback);
+}
+const readMobile = () => window.matchMedia(mobileQuery).matches;
+const serverMobile = () => true;
 
 // Each letter starts tipped a different way so the words land like a loose wave.
 const startRotations = [-14, 9, -7, 12, -10, 8, -12];
@@ -28,17 +36,31 @@ export function FooterWordmark({
   fillSrc?: string;
 }) {
   const root = useRef<HTMLDivElement>(null);
+  const [nearby, setNearby] = useState(false);
   const reducedMotion = useSyncExternalStore(
     subscribeMotion,
     readMotion,
     serverMotion,
   );
+  const mobile = useSyncExternalStore(subscribeMobile, readMobile, serverMobile);
+  const visibleFill = !!fillSrc && nearby && !mobile;
+
+  useEffect(() => {
+    const element = root.current;
+    if (!element || mobile) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setNearby(entry.isIntersecting),
+      { rootMargin: "500px" },
+    );
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [mobile]);
 
   // Each letter clips its own copy of the image; offsetting it by the letter's
   // untransformed position stitches the copies into one picture.
   useEffect(() => {
     const element = root.current;
-    if (!element || !fillSrc) return;
+    if (!element || !visibleFill || !fillSrc) return;
     let active = true;
     const image = new Image();
     const align = () => {
@@ -91,11 +113,11 @@ export function FooterWordmark({
       image.removeEventListener("load", align);
       size.disconnect();
     };
-  }, [fillSrc]);
+  }, [fillSrc, visibleFill]);
 
   useEffect(() => {
     const element = root.current;
-    if (!element || reducedMotion) return;
+    if (!element || reducedMotion || mobile) return;
     gsap.registerPlugin(ScrollTrigger);
     const letters = element.querySelectorAll<HTMLElement>("[data-letter]");
     const tween = gsap.fromTo(
@@ -143,7 +165,7 @@ export function FooterWordmark({
         clearProps: "transform,transformOrigin,translate,rotate,scale",
       });
     };
-  }, [reducedMotion]);
+  }, [reducedMotion, mobile]);
 
   return (
     <div
@@ -151,10 +173,10 @@ export function FooterWordmark({
       dir="ltr"
       aria-hidden="true"
       className={
-        fillSrc ? `${styles.wordmark} ${styles.filled}` : styles.wordmark
+        visibleFill ? `${styles.wordmark} ${styles.filled}` : styles.wordmark
       }
       style={
-        fillSrc
+        visibleFill
           ? ({ "--fill-image": `url(${fillSrc})` } as React.CSSProperties)
           : undefined
       }

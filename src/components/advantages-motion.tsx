@@ -39,7 +39,7 @@ export function AdvantagesMotion({ children }: { children: ReactNode }) {
     };
     const build = () => {
       clear();
-      if (reducedMotion.matches) return;
+      if (reducedMotion.matches || !desktop.matches) return;
       if (desktop.matches) {
         // DOM order is the reading order: right to left on the Hebrew page.
         tweens.push(
@@ -60,25 +60,6 @@ export function AdvantagesMotion({ children }: { children: ReactNode }) {
             },
           ),
         );
-      } else {
-        for (const card of cards) {
-          tweens.push(
-            gsap.fromTo(
-              card,
-              { y: 24 },
-              {
-                y: 0,
-                ease: "none",
-                scrollTrigger: {
-                  trigger: card,
-                  start: "top 92%",
-                  end: "top 72%",
-                  scrub: 0.4,
-                },
-              },
-            ),
-          );
-        }
       }
       refresh();
     };

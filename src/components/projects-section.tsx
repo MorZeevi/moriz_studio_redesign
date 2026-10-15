@@ -61,7 +61,6 @@ export function ProjectMedia({
               : "(min-width: 960px) 54vw, 94vw"
           }
           className={styles.image}
-          unoptimized={project.image.src.startsWith("/media/")}
         />
       ) : (
         <div className={styles.mediaPlaceholder}>

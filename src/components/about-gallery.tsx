@@ -3,9 +3,18 @@
 import gsap from "gsap";
 import { Observer } from "gsap/Observer";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import type { SiteContent } from "@/i18n/dictionaries";
 import styles from "./about-gallery.module.css";
+
+const mobileQuery = "(max-width: 63.999rem)";
+function subscribeMobile(callback: () => void) {
+  const query = window.matchMedia(mobileQuery);
+  query.addEventListener("change", callback);
+  return () => query.removeEventListener("change", callback);
+}
+const readMobile = () => window.matchMedia(mobileQuery).matches;
+const serverMobile = () => true;
 
 function DragIcon() {
   return (
@@ -30,11 +39,12 @@ export function AboutGallery({
   content: SiteContent["aboutGallery"];
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
+  const mobile = useSyncExternalStore(subscribeMobile, readMobile, serverMobile);
   const images = content.images;
 
   useEffect(() => {
     const track = trackRef.current;
-    if (!track) return;
+    if (!track || mobile) return;
     gsap.registerPlugin(Observer);
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
@@ -97,10 +107,17 @@ export function AboutGallery({
       total += (drift * deltaTime) / 10;
       xTo(total);
     };
-    gsap.ticker.add(tick);
+    let tickerAttached = false;
 
     const intersection = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
+      if (visible && !tickerAttached) {
+        gsap.ticker.add(tick);
+        tickerAttached = true;
+      } else if (!visible && tickerAttached) {
+        gsap.ticker.remove(tick);
+        tickerAttached = false;
+      }
     });
     intersection.observe(track);
     const measure = () => {
@@ -109,7 +126,7 @@ export function AboutGallery({
     window.addEventListener("resize", measure);
 
     return () => {
-      gsap.ticker.remove(tick);
+      if (tickerAttached) gsap.ticker.remove(tick);
       observer.kill();
       scatter.kill();
       intersection.disconnect();
@@ -117,7 +134,7 @@ export function AboutGallery({
       gsap.killTweensOf(track);
       gsap.set([track, ...cards], { clearProps: "all" });
     };
-  }, []);
+  }, [mobile]);
 
   return (
     <section
@@ -139,6 +156,7 @@ export function AboutGallery({
                 key={index}
                 className={styles.card}
                 data-gallery-card
+                data-copy={copy || undefined}
                 aria-hidden={copy || undefined}
               >
                 <Image

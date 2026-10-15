@@ -30,12 +30,14 @@ export function SecondaryScrollSurface({ children }: { children: ReactNode }) {
     const surface = surfaceRef.current;
     if (!surface) return;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mobile = window.matchMedia("(max-width: 63.999rem)");
     const body = document.body;
     let frame = 0;
     let reveal = 0;
     let target = 0;
     let lastTime = 0;
     let geometryDirty = true;
+    let nearby = false;
 
     const measure = () => {
       geometryDirty = false;
@@ -65,10 +67,10 @@ export function SecondaryScrollSurface({ children }: { children: ReactNode }) {
       if (geometryDirty) measure();
       const elapsed = Math.min(64, Math.max(0, time - lastTime));
       lastTime = time;
-      reveal = reducedMotion.matches
+      reveal = reducedMotion.matches || mobile.matches
         ? target
         : reveal + (target - reveal) * (1 - Math.exp(-elapsed / 100));
-      const settling = Math.abs(target - reveal) > 0.001;
+      const settling = !mobile.matches && Math.abs(target - reveal) > 0.001;
       if (!settling) reveal = target;
       // The canvas under the layer is whatever the theme and Projects left.
       const base = channelsOf(getComputedStyle(body).backgroundColor);
@@ -91,7 +93,8 @@ export function SecondaryScrollSurface({ children }: { children: ReactNode }) {
       }
       if (settling && !document.hidden) frame = requestAnimationFrame(update);
     };
-    const schedule = () => {
+    const schedule = (force = false) => {
+      if (!force && !nearby) return;
       geometryDirty = true;
       if (!frame) {
         lastTime = performance.now();
@@ -102,12 +105,23 @@ export function SecondaryScrollSurface({ children }: { children: ReactNode }) {
     measure();
     reveal = target;
     update(performance.now());
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
-    reducedMotion.addEventListener("change", schedule);
-    document.addEventListener("visibilitychange", schedule);
+    const onScroll = () => schedule();
+    const onEnvironmentChange = () => schedule(true);
+    const intersection = new IntersectionObserver(
+      ([entry]) => {
+        nearby = entry.isIntersecting;
+        schedule(true);
+      },
+      { rootMargin: "100% 0px" },
+    );
+    intersection.observe(surface);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onEnvironmentChange);
+    reducedMotion.addEventListener("change", onEnvironmentChange);
+    mobile.addEventListener("change", onEnvironmentChange);
+    document.addEventListener("visibilitychange", onEnvironmentChange);
     // Theme switches change the canvas under the layer.
-    const themeObserver = new MutationObserver(schedule);
+    const themeObserver = new MutationObserver(onEnvironmentChange);
     themeObserver.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["data-theme"],
@@ -115,16 +129,18 @@ export function SecondaryScrollSurface({ children }: { children: ReactNode }) {
     const resizeObserver =
       typeof ResizeObserver === "undefined"
         ? null
-        : new ResizeObserver(schedule);
+        : new ResizeObserver(onEnvironmentChange);
     resizeObserver?.observe(surface);
     return () => {
       cancelAnimationFrame(frame);
+      intersection.disconnect();
       themeObserver.disconnect();
       resizeObserver?.disconnect();
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-      reducedMotion.removeEventListener("change", schedule);
-      document.removeEventListener("visibilitychange", schedule);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onEnvironmentChange);
+      reducedMotion.removeEventListener("change", onEnvironmentChange);
+      mobile.removeEventListener("change", onEnvironmentChange);
+      document.removeEventListener("visibilitychange", onEnvironmentChange);
       body.removeAttribute("data-secondary-ink");
       body.style.removeProperty("--secondary-reveal");
       body.style.removeProperty("--secondary-surface");

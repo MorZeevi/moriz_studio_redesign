@@ -15,6 +15,14 @@ function subscribeMotion(callback: () => void) {
 }
 const readMotion = () => window.matchMedia(motionQuery).matches;
 const serverMotion = () => true;
+const mobileQuery = "(max-width: 63.999rem)";
+function subscribeMobile(callback: () => void) {
+  const query = window.matchMedia(mobileQuery);
+  query.addEventListener("change", callback);
+  return () => query.removeEventListener("change", callback);
+}
+const readMobile = () => window.matchMedia(mobileQuery).matches;
+const serverMobile = () => true;
 
 export function HeroVideo({ labels }: { labels: SiteContent["hero"]["video"] }) {
   const slot = useRef<HTMLDivElement>(null);
@@ -23,12 +31,14 @@ export function HeroVideo({ labels }: { labels: SiteContent["hero"]["video"] }) 
   const [manualPause, setManualPause] = useState<boolean | null>(null);
   const [playing, setPlaying] = useState(false);
   const [ready, setReady] = useState(false);
+  const [mobileStarted, setMobileStarted] = useState(false);
   const reducedMotion = useSyncExternalStore(
     subscribeMotion,
     readMotion,
     serverMotion,
   );
   const paused = manualPause ?? reducedMotion;
+  const mobile = useSyncExternalStore(subscribeMobile, readMobile, serverMobile);
 
   useEffect(() => {
     setReady(true);
@@ -42,6 +52,7 @@ export function HeroVideo({ labels }: { labels: SiteContent["hero"]["video"] }) 
     const sync = () => {
       const shouldPlay =
         visible &&
+        (!mobile || mobileStarted) &&
         !paused &&
         !document.hidden &&
         document.documentElement.dataset.pixelReveal !== "active";
@@ -65,7 +76,7 @@ export function HeroVideo({ labels }: { labels: SiteContent["hero"]["video"] }) 
       opening.disconnect();
       document.removeEventListener("visibilitychange", sync);
     };
-  }, [paused]);
+  }, [paused, mobile, mobileStarted]);
 
   useEffect(() => {
     const start = slot.current;
@@ -73,7 +84,7 @@ export function HeroVideo({ labels }: { labels: SiteContent["hero"]["video"] }) 
     const end = document.querySelector<HTMLElement>("[data-hero-video-end]");
     // Keyed on React's motion state, not gsap.matchMedia: a matchMedia change
     // reverts and refreshes every ScrollTrigger and drops the reader to the top.
-    if (!start || !element || !end || reducedMotion) return;
+    if (!start || !element || !end || reducedMotion || mobile) return;
     gsap.registerPlugin(Flip, ScrollTrigger);
     let timeline: gsap.core.Timeline | undefined;
     let resizeTimer: ReturnType<typeof setTimeout> | undefined;
@@ -124,7 +135,7 @@ export function HeroVideo({ labels }: { labels: SiteContent["hero"]["video"] }) 
       timeline?.kill();
       gsap.set(element, { clearProps: "all" });
     };
-  }, [reducedMotion]);
+  }, [reducedMotion, mobile]);
 
   return (
     <div className="hero-video">
@@ -133,17 +144,36 @@ export function HeroVideo({ labels }: { labels: SiteContent["hero"]["video"] }) 
           <video
             ref={video}
             className={styles.video}
-            src="/videos/hero-showreel.mp4"
-            poster="/videos/hero-showreel-poster.jpg"
+            src={!mobile || mobileStarted ? "/videos/hero-showreel.mp4" : undefined}
+            poster={
+              mobile
+                ? "/videos/hero-showreel-poster-mobile.webp"
+                : "/videos/hero-showreel-poster.webp"
+            }
             aria-label={labels.label}
             muted
             loop
             playsInline
-            preload="metadata"
+            preload={mobile && !mobileStarted ? "none" : "metadata"}
             onPlay={() => setPlaying(true)}
             onPause={() => setPlaying(false)}
           />
-          {ready && (
+          {ready && mobile && !mobileStarted && (
+            <button
+              type="button"
+              className={styles.posterPlay}
+              aria-label={labels.resume}
+              onClick={() => {
+                setManualPause(false);
+                setMobileStarted(true);
+              }}
+            >
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="m8 4 12 8-12 8V4Z" fill="currentColor" />
+              </svg>
+            </button>
+          )}
+          {ready && (!mobile || mobileStarted) && (
             <button
               type="button"
               className={styles.control}

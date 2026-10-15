@@ -201,6 +201,12 @@ html:not([data-pixel-reveal]) .hero-video-stage {
   }
 }
 
+@media (max-width: 63.999rem) {
+  .hero-video-stage {
+    display: none;
+  }
+}
+
 .hero-copy {
   display: grid;
   justify-items: start;
@@ -233,6 +239,43 @@ html:not([data-pixel-reveal]) .hero-video-stage {
     min(var(--control-height-lg) + var(--space-4), 25%)
   );
   margin-block-start: var(--space-2);
+}
+
+.hero-whatsapp-link {
+  display: none;
+}
+
+@media (max-width: 63.999rem) {
+  .hero-actions {
+    max-inline-size: 100%;
+    inline-size: 100%;
+  }
+
+  .hero-whatsapp-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-block-size: 3rem;
+    padding-inline: var(--space-4);
+    border: var(--border-width-default) solid currentColor;
+    border-radius: var(--radius-liquid);
+    color: var(--site-foreground, var(--color-dark));
+    font-size: var(--text-body);
+    font-weight: var(--font-weight-heading);
+    text-decoration: none;
+  }
+
+  .hero-whatsapp-link svg {
+    inline-size: 1.25rem;
+    block-size: 1.25rem;
+    flex: none;
+  }
+
+  .hero-whatsapp-link:focus-visible {
+    outline: var(--focus-ring-width) solid var(--site-focus);
+    outline-offset: var(--space-1);
+  }
 }
 
 html:has(.navigation-dialog[open]) {

@@ -89,51 +89,23 @@ test("first homepage visit opens liquid windows and skips refresh and client ret
   expect(errors).toEqual([]);
 });
 
-test("a fresh mobile session uses nine rows of narrower liquid windows", async ({
+test("a fresh mobile session shows the homepage without the opening cover", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/he", { waitUntil: "domcontentloaded" });
-  await expect(page.locator(playing)).toBeVisible();
-  const geometry = await page.locator(playing).evaluate((element) => {
-    const first = element.querySelector(
-      ".pixel-reveal__window",
-    ) as SVGRectElement;
-    const header = document.querySelector(".site-header") as HTMLElement;
-    return {
-      width: first.width.baseVal.value,
-      height: first.height.baseVal.value,
-      radius: first.rx.baseVal.value,
-      headerPosition: getComputedStyle(header).position,
-      headerVisibility: getComputedStyle(header).visibility,
-      headerAnimation: getComputedStyle(header).animationName,
-      coverAboveHeader:
-        Number(getComputedStyle(element).zIndex) >
-        (Number.parseInt(getComputedStyle(header).zIndex, 10) || 0),
-    };
-  });
-  expect(geometry).toEqual({
-    width: 132,
-    height: 94,
-    radius: 23.5,
-    headerPosition: "relative",
-    headerVisibility: "visible",
-    headerAnimation: "none",
-    coverAboveHeader: true,
-  });
-  await page.locator(".pixel-reveal__window").evaluateAll((windows) => {
-    for (const window of windows) {
-      for (const animation of window.getAnimations()) {
-        animation.pause();
-        animation.currentTime = 550;
-      }
-    }
-  });
+  await expect(page.locator(cover)).toBeHidden();
+  await expect(page.locator("#hero-heading")).toBeVisible();
+  await expect(
+    page.locator("#hero").getByRole("link", { name: "שנדבר בוואטסאפ?" }),
+  ).toBeVisible();
   await page.screenshot({
-    path: test.info().outputPath("liquid-windows-mobile.png"),
+    path: test.info().outputPath("homepage-mobile-without-cover.png"),
   });
-  await expect(page.locator(cover)).toHaveCount(0);
   await expect(page.locator(".site-header")).toBeVisible();
+  expect(await page.locator("html").getAttribute("data-pixel-reveal")).not.toBe(
+    "active",
+  );
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(
     390,
   );

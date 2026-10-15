@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { EnabledLocale } from "@/i18n/config";
 import styles from "./studio-logo.module.css";
 
@@ -12,7 +11,7 @@ export function StudioLogo({
   className?: string;
 }) {
   return (
-    <Link
+    <a
       href={`/${locale}#top`}
       dir="ltr"
       title={name}
@@ -21,6 +20,6 @@ export function StudioLogo({
     >
       <span>moriz.</span>
       <span className={styles.suffix}>studio</span>
-    </Link>
+    </a>
   );
 }

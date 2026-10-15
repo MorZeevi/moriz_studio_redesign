@@ -33,6 +33,7 @@ export default function Noise({
     tile.width = tile.height = Math.max(1, Math.round(patternSize));
     const imageData = tileCtx.createImageData(tile.width, tile.height);
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mobile = window.matchMedia("(max-width: 63.999rem)");
     const refreshInterval = Math.max(1, Math.round(patternRefreshInterval));
     let width = 0;
     let height = 0;
@@ -64,7 +65,8 @@ export default function Noise({
     };
 
     const syncPlayback = () => {
-      const playing = visible && !document.hidden && !motion.matches;
+      const playing =
+        visible && !document.hidden && !motion.matches && !mobile.matches;
       if (playing && animationId === undefined) {
         frame = 0;
         animationId = window.requestAnimationFrame(loop);
@@ -97,6 +99,7 @@ export default function Noise({
     window.addEventListener("resize", resize);
     document.addEventListener("visibilitychange", syncPlayback);
     motion.addEventListener("change", syncPlayback);
+    mobile.addEventListener("change", syncPlayback);
     syncPlayback();
 
     return () => {
@@ -106,6 +109,7 @@ export default function Noise({
       window.removeEventListener("resize", resize);
       document.removeEventListener("visibilitychange", syncPlayback);
       motion.removeEventListener("change", syncPlayback);
+      mobile.removeEventListener("change", syncPlayback);
     };
   }, [
     patternSize,

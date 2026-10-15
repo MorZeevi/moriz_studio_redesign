@@ -5,6 +5,7 @@ import { AdvantagesMotion } from "@/components/advantages-motion";
 import { DesignQuote } from "@/components/design-quote";
 import { Faq } from "@/components/faq";
 import { FloatingActions } from "@/components/floating-actions";
+import { WhatsappIcon } from "@/components/contact-icons";
 import { GettingStarted } from "@/components/getting-started";
 import { HeroDescription } from "@/components/hero-description";
 import { HeroHeading } from "@/components/hero-heading";
@@ -27,6 +28,7 @@ import { isEnabledLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { projectCard } from "@/lib/cms/project-card";
 import { getPublicProjects } from "@/lib/cms/queries";
+import { WHATSAPP_URL } from "@/lib/whatsapp";
 
 export default async function Home({
   params,
@@ -75,6 +77,17 @@ export default async function Home({
                   >
                     {content.hero.projectsLink}
                   </LiquidLink>
+                  {WHATSAPP_URL && (
+                    <a
+                      className="hero-whatsapp-link"
+                      href={WHATSAPP_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <WhatsappIcon />
+                      {content.floatingActions.whatsapp}
+                    </a>
+                  )}
                 </div>
               </div>
               <HeroVideo labels={content.hero.video} />
@@ -175,7 +188,11 @@ export default async function Home({
 
       <SiteFooter content={content} locale={locale} />
 
-      <FloatingActions content={content.floatingActions} ask={content.askAi} />
+      <FloatingActions
+        content={content.floatingActions}
+        ask={content.askAi}
+        mobileHidden
+      />
     </PartyModeProvider>
   );
 }

@@ -20,7 +20,11 @@ export function DesignQuote({
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      window.matchMedia("(max-width: 63.999rem)").matches
+    )
+      return;
     gsap.registerPlugin(ScrollTrigger);
     const context = gsap.context(() => {
       const timeline = gsap.timeline({

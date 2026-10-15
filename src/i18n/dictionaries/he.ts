@@ -460,10 +460,10 @@ export const he = {
     },
     // The button answers back: `{name}` is the visitor's first name.
     submit: {
-      idle: "מור, בואי נדבר",
-      named: "נעים להכיר, {name}! שולחים",
-      whatsapp: "נעים להכיר, {name}! נמשיך בוואטסאפ",
-      whatsappIdle: "מור, נמשיך בוואטסאפ",
+      idle: "פתיחת הודעה באימייל",
+      named: "{name}, נמשיך באימייל",
+      whatsapp: "{name}, נמשיך בוואטסאפ",
+      whatsappIdle: "פתיחת הודעה בוואטסאפ",
     },
     details: {
       label: "דרכים נוספות ליצור קשר",
@@ -472,8 +472,8 @@ export const he = {
       phoneHref: "tel:+972522937174",
       whatsapp: "WhatsApp",
     },
-    preview: "תצוגה מקדימה בלבד — ההודעה לא תישלח.",
-    previewChecked: "הפרטים תקינים. זו תצוגה מקדימה וההודעה לא נשלחה.",
+    preview: "נפתח הודעה מוכנה בערוץ שבחרתם. השליחה תתבצע שם.",
+    noScript: "כדי להשתמש בטופס יש להפעיל JavaScript. אפשר לפנות ישירות בקישורים שמתחתיו.",
   },
   footer: {
     information: "פרטי הפוטר והקישורים — להשלמה",

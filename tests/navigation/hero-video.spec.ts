@@ -54,7 +54,6 @@ test("video plays after the homepage opening and can pause", async ({
 
 for (const viewport of [
   { width: 1440, height: 900 },
-  { width: 390, height: 844 },
 ]) {
   test(`video grows to the end slot on scroll at ${viewport.width}px`, async ({
     page,
@@ -102,6 +101,34 @@ for (const viewport of [
         ),
       )
       .toBeLessThanOrEqual(1);
+  });
+}
+
+for (const viewport of [
+  { width: 390, height: 844 },
+  { width: 320, height: 700 },
+]) {
+  test(`mobile video waits for a tap at ${viewport.width}px`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    const videoRequests: string[] = [];
+    page.on("request", (request) => {
+      if (request.url().includes("/videos/hero-showreel.mp4"))
+        videoRequests.push(request.url());
+    });
+    await page.goto("/he");
+    const video = page.locator("[data-hero-video] video");
+    await expect(video).not.toHaveAttribute("src");
+    expect(videoRequests).toHaveLength(0);
+    await expect(page.locator(".hero-video-stage")).toBeHidden();
+    await page.getByRole("button", { name: "הפעלת הסרטון" }).click();
+    await expect(video).toHaveAttribute("src", "/videos/hero-showreel.mp4");
+    await expect.poll(() => videoRequests.length).toBeGreaterThan(0);
+    await expect
+      .poll(() => video.evaluate((element: HTMLVideoElement) => element.paused))
+      .toBe(false);
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth),
+    ).toBe(viewport.width);
   });
 }
 

@@ -137,6 +137,7 @@ const useAnimationLoop = (
   isHovered: boolean,
   hoverSpeed: number | undefined,
   isVertical: boolean,
+  visible: boolean,
 ) => {
   const rafRef = useRef<number | null>(null);
   const lastTimestampRef = useRef<number | null>(null);
@@ -158,7 +159,7 @@ const useAnimationLoop = (
       track.style.transform = transformValue;
     }
 
-    if (targetVelocity === 0) {
+    if (targetVelocity === 0 || !visible) {
       velocityRef.current = 0;
       return;
     }
@@ -202,7 +203,7 @@ const useAnimationLoop = (
       }
       lastTimestampRef.current = null;
     };
-  }, [targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical]);
+  }, [targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical, visible]);
 };
 
 export const LogoLoop = React.memo<LogoLoopProps>(
@@ -233,6 +234,17 @@ export const LogoLoop = React.memo<LogoLoopProps>(
       ANIMATION_CONFIG.MIN_COPIES,
     );
     const [isHovered, setIsHovered] = useState<boolean>(false);
+    const [visible, setVisible] = useState(false);
+
+    useEffect(() => {
+      const container = containerRef.current;
+      if (!container) return;
+      const observer = new IntersectionObserver(([entry]) => {
+        setVisible(entry.isIntersecting);
+      });
+      observer.observe(container);
+      return () => observer.disconnect();
+    }, []);
 
     const effectiveHoverSpeed = useMemo(() => {
       if (hoverSpeed !== undefined) return hoverSpeed;
@@ -309,6 +321,7 @@ export const LogoLoop = React.memo<LogoLoopProps>(
       isHovered,
       effectiveHoverSpeed,
       isVertical,
+      visible,
     );
 
     const cssVariables = useMemo(

@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { CheckIcon, WhatsappIcon } from "@/components/contact-icons";
 import { LiquidButton } from "@/components/ui/liquid-link";
 import type { SiteContent } from "@/i18n/dictionaries";
+import { WHATSAPP_URL } from "@/lib/whatsapp";
 import styles from "./footer-contact-form.module.css";
 
 type Field = "name" | "phone";
@@ -36,17 +37,8 @@ export function FooterContactForm({
     () => false,
   );
   const [errors, setErrors] = useState<Errors>({});
-  const [checked, setChecked] = useState(false);
   const [firstName, setFirstName] = useState("");
-  const [whatsapp, setWhatsapp] = useState(false);
-  const [sent, setSent] = useState(0);
-
-  // The button holds its "sent" check for a moment, then answers back again.
-  useEffect(() => {
-    if (!sent) return;
-    const timer = window.setTimeout(() => setSent(0), 1600);
-    return () => window.clearTimeout(timer);
-  }, [sent]);
+  const [whatsapp, setWhatsapp] = useState(!!WHATSAPP_URL);
 
   function validate(control: HTMLInputElement) {
     const field = control.name as Field;
@@ -80,7 +72,6 @@ export function FooterContactForm({
       onBlur: (event: React.FocusEvent<HTMLInputElement>) =>
         validate(event.currentTarget),
       onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
-        setChecked(false);
         if (field === "name")
           setFirstName(firstNameOf(event.currentTarget.value));
         if (errors[field]) validate(event.currentTarget);
@@ -117,7 +108,6 @@ export function FooterContactForm({
       noValidate
       onSubmit={(event) => {
         event.preventDefault();
-        setChecked(false);
         const next: Errors = {};
         let firstInvalid: HTMLInputElement | undefined;
         for (const field of required) {
@@ -135,11 +125,25 @@ export function FooterContactForm({
           firstInvalid.focus();
           return;
         }
-        setChecked(true);
-        setSent((count) => count + 1);
+        const form = new FormData(event.currentTarget);
+        const name = String(form.get("name") ?? "").trim();
+        const phone = String(form.get("phone") ?? "").trim();
+        const message = String(form.get("message") ?? "").trim();
+        const body = [
+          `שלום מור, שמי ${name}.`,
+          `מספר הטלפון שלי: ${phone}.`,
+          message ? `רציתי לשאול: ${message}` : "",
+        ]
+          .filter(Boolean)
+          .join("\n");
+        const destination =
+          whatsapp && WHATSAPP_URL
+            ? `${WHATSAPP_URL}?text=${encodeURIComponent(body)}`
+            : `mailto:${content.details.email}?subject=${encodeURIComponent("פנייה דרך האתר")}&body=${encodeURIComponent(body)}`;
+        window.location.assign(destination);
       }}
     >
-      {/* Disabled until hydration: no browser fallback can submit visitor details. */}
+      {/* Disabled until hydration; direct contact links remain available below. */}
       <fieldset className={styles.fields} disabled={!hydrated}>
         {question(
           "name",
@@ -162,20 +166,19 @@ export function FooterContactForm({
           />,
         )}
 
-        <label className={`${styles.check} ${styles.full}`}>
-          <input
-            type="checkbox"
-            name="whatsapp"
-            className={styles.box}
-            checked={whatsapp}
-            onChange={(event) => {
-              setChecked(false);
-              setWhatsapp(event.currentTarget.checked);
-            }}
-          />
-          <CheckIcon className={styles.tick} />
-          <span>{content.fields.whatsapp}</span>
-        </label>
+        {WHATSAPP_URL && (
+          <label className={`${styles.check} ${styles.full}`}>
+            <input
+              type="checkbox"
+              name="whatsapp"
+              className={styles.box}
+              checked={whatsapp}
+              onChange={(event) => setWhatsapp(event.currentTarget.checked)}
+            />
+            <CheckIcon className={styles.tick} />
+            <span>{content.fields.whatsapp}</span>
+          </label>
+        )}
 
         <div className={`${styles.field} ${styles.full}`}>
           <label htmlFor="contact-message" className={styles.label}>
@@ -189,25 +192,16 @@ export function FooterContactForm({
             rows={3}
             dir="auto"
             placeholder={content.fields.messagePlaceholder}
-            onChange={() => setChecked(false)}
           />
         </div>
 
         <div className={`${styles.actions} ${styles.full}`}>
-          {/* The site's liquid CTA; the blob shows the arrow, the WhatsApp
-              mark when that channel is preferred, and a check once sent. */}
+          {/* The button opens a prepared message in the selected contact app. */}
           <LiquidButton
             type="submit"
             className={styles.submit}
             data-variant={variant}
-            data-sent={sent ? "" : undefined}
-            glyph={
-              sent ? (
-                <CheckIcon key="sent" className={styles.iconSwap} />
-              ) : whatsapp ? (
-                <WhatsappIcon key="whatsapp" className={styles.iconSwap} />
-              ) : undefined
-            }
+            glyph={whatsapp ? <WhatsappIcon className={styles.iconSwap} /> : undefined}
           >
             <span key={variant} className={styles.submitLabel}>
               {before}
@@ -224,9 +218,9 @@ export function FooterContactForm({
           </p>
         </div>
       </fieldset>
-      <p role="status" className={styles.status}>
-        {checked ? content.previewChecked : ""}
-      </p>
+      <noscript>
+        <p className={styles.note}>{content.noScript}</p>
+      </noscript>
     </form>
   );
 }
