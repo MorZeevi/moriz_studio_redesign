@@ -659,7 +659,7 @@ html:has(.navigation-dialog[open]) {
   border-block-start: 0;
 }
 
-/* Getting started and FAQ fade the canvas to the secondary colour while they
+/* Getting started and the quote fade the canvas to the secondary colour while they
    cross the viewport (SecondaryScrollSurface sets the reveal and ink). The
    fill sits under the site grain (-1); the opening pattern ends at Projects. */
 .secondary-backdrop {
@@ -688,7 +688,11 @@ body[data-secondary-ink] main {
 
 body[data-secondary-ink="dark"] main {
   --color-text-primary: var(--color-dark);
-  --color-text-secondary: color-mix(in srgb, var(--color-dark) 70%, transparent);
+  --color-text-secondary: color-mix(
+    in srgb,
+    var(--color-dark) 70%,
+    transparent
+  );
   --color-focus: var(--color-dark);
   --site-heading-accent: var(--color-action-primary);
 }
@@ -807,8 +811,8 @@ body[data-project-backdrop] .mobile-menu-toggle {
   }
 
   body[data-project-backdrop]
-  .site-header[data-header-hidden]
-  .site-header-backdrop {
+    .site-header[data-header-hidden]
+    .site-header-backdrop {
     translate: 0 -100%;
   }
 }

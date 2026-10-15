@@ -43,11 +43,11 @@ export function SecondaryScrollSurface({ children }: { children: ReactNode }) {
       geometryDirty = false;
       const { top, bottom } = surface.getBoundingClientRect();
       const height = window.innerHeight;
-      // Near the end of the page the bottom edge cannot travel up to 15%, so
-      // the exit also completes at the furthest point the page can scroll to.
+      // Exit across the quote's last 45vh, completing before the FAQ heading.
+      // The remaining-distance fallback still handles short pages.
       const remaining =
         document.documentElement.scrollHeight - height - window.scrollY;
-      const exitEdge = Math.max(height * 0.15, bottom - remaining);
+      const exitEdge = Math.max(height * 0.4, bottom - remaining);
       const progress = Math.max(
         0,
         Math.min(
@@ -67,9 +67,10 @@ export function SecondaryScrollSurface({ children }: { children: ReactNode }) {
       if (geometryDirty) measure();
       const elapsed = Math.min(64, Math.max(0, time - lastTime));
       lastTime = time;
-      reveal = reducedMotion.matches || mobile.matches
-        ? target
-        : reveal + (target - reveal) * (1 - Math.exp(-elapsed / 100));
+      reveal =
+        reducedMotion.matches || mobile.matches
+          ? target
+          : reveal + (target - reveal) * (1 - Math.exp(-elapsed / 100));
       const settling = !mobile.matches && Math.abs(target - reveal) > 0.001;
       if (!settling) reveal = target;
       // The canvas under the layer is whatever the theme and Projects left.

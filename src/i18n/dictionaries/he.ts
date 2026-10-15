@@ -271,17 +271,47 @@ export const he = {
   },
   aboutGallery: {
     label: "גלריה",
-    drag: "גררו את הקרוסלה",
-    // Placeholders from the mwg_008 demo, to be replaced by the owner; give
-    // each real image an alt when it lands.
     images: [
-      { src: "/images/about-gallery/1.webp", alt: "" },
-      { src: "/images/about-gallery/2.webp", alt: "" },
-      { src: "/images/about-gallery/3.webp", alt: "" },
-      { src: "/images/about-gallery/4.webp", alt: "" },
-      { src: "/images/about-gallery/5.webp", alt: "" },
-      { src: "/images/about-gallery/6.webp", alt: "" },
-      { src: "/images/about-gallery/7.webp", alt: "" },
+      {
+        src: "/images/about-gallery/1.webp",
+        alt: "מסך שאלון עם איור כלב ואפשרויות לבחירה",
+      },
+      {
+        src: "/images/about-gallery/2.webp",
+        alt: "הדמיית אפליקציה לניהול הרגלים בריאים בטלפון",
+      },
+      {
+        src: "/images/about-gallery/3.webp",
+        alt: "עמוד מוצר גרביים על רקע סגול",
+      },
+      {
+        src: "/images/about-gallery/4.webp",
+        alt: "עמוד חנויות למותג גרביים עם מפת ישראל",
+      },
+      {
+        src: "/images/about-gallery/5.webp",
+        alt: "אתר Hatchly עם הדמיית לוח משימות על רקע נוף",
+      },
+      {
+        src: "/images/about-gallery/6.webp",
+        alt: "אתר Unicar עם חד קרן ומכונית בעננים",
+      },
+      {
+        src: "/images/about-gallery/7.webp",
+        alt: "אתר DR. RAW עם טיפוגרפיה שחורה ותמונה אדומה",
+      },
+      {
+        src: "/images/about-gallery/8.webp",
+        alt: "עיצוב עמוד ויקיפדיה בעברית עם כרטיסי ערכים",
+      },
+      {
+        src: "/images/about-gallery/9.webp",
+        alt: "מחשבון חיסכון של Hatchly על רקע סגול",
+      },
+      {
+        src: "/images/about-gallery/10.webp",
+        alt: "מסך תכונות למערכת ניהול משימות עם תרשים מרכזי",
+      },
     ],
   },
   testimonials: {
@@ -448,28 +478,25 @@ export const he = {
       whatsapp: "עדיף בוואטסאפ",
       message: "כמה מילים",
       optional: "(לא חובה)",
-      messagePlaceholder: "על מה תרצו לדבר? פרויקט, רעיון, או סתם שאלה",
     },
     errors: {
       name: "איך לקרוא לך? נא למלא שם.",
       phone: "נא למלא מספר טלפון תקין.",
     },
-    // The button answers back: `{name}` is the visitor's first name.
-    submit: {
-      idle: "פתיחת הודעה באימייל",
-      named: "{name}, נמשיך באימייל",
-      whatsapp: "{name}, נמשיך בוואטסאפ",
-      whatsappIdle: "פתיחת הודעה בוואטסאפ",
-    },
+    submit: "שליחת הודעה",
+    sending: "שולחים את ההודעה...",
+    sent: "ההודעה נשלחה. אחזור אליכם בהקדם.",
+    sendError:
+      "לא הצלחתי לשלוח כרגע. נסו שוב או פנו אליי באחד הקישורים למטה.",
     details: {
       label: "דרכים נוספות ליצור קשר",
-      email: "morxavi1@gmail.com",
+      email: "morzavi1@gmail.com",
       phone: "052-293-7174",
       phoneHref: "tel:+972522937174",
       whatsapp: "WhatsApp",
     },
-    preview: "נפתח הודעה מוכנה בערוץ שבחרתם. השליחה תתבצע שם.",
-    noScript: "כדי להשתמש בטופס יש להפעיל JavaScript. אפשר לפנות ישירות בקישורים שמתחתיו.",
+    noScript:
+      "כדי להשתמש בטופס יש להפעיל JavaScript. אפשר לפנות ישירות בקישורים שמתחתיו.",
   },
   footer: {
     information: "פרטי הפוטר והקישורים — להשלמה",

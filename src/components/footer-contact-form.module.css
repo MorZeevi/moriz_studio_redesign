@@ -1,9 +1,7 @@
-/* A short conversation: question labels over pill fields, then a button that
-   answers back with the visitor's name and channel. */
+/* An open, ruled form inside the grainy red contact silhouette. */
 .form {
-  --contact-line: color-mix(in srgb, var(--site-foreground) 35%, transparent);
-  --contact-fill: color-mix(in srgb, var(--site-foreground) 6%, transparent);
-  --contact-whatsapp: #25d366;
+  --contact-line: color-mix(in srgb, var(--site-foreground) 58%, transparent);
+  position: relative;
   inline-size: 100%;
   max-inline-size: 40rem;
   min-inline-size: 0;
@@ -14,7 +12,7 @@
 .fields {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-6);
+  gap: var(--space-8);
   min-inline-size: 0;
   margin: 0;
   padding: 0;
@@ -24,7 +22,7 @@
 .field {
   display: grid;
   align-content: start;
-  gap: var(--space-2);
+  gap: var(--space-3);
   min-inline-size: 0;
 }
 
@@ -36,7 +34,7 @@
 
 .required {
   margin-inline-start: 0.2em;
-  color: var(--site-heading-accent, var(--color-action-primary));
+  color: var(--site-heading-accent);
 }
 
 .optional {
@@ -49,10 +47,11 @@
   inline-size: 100%;
   min-inline-size: 0;
   min-block-size: var(--control-height-md);
-  border: var(--border-width-default) solid var(--contact-line);
-  border-radius: 999px;
-  padding: var(--space-2) var(--space-6);
-  background: var(--contact-fill);
+  border: 0;
+  border-block-end: var(--border-width-default) solid var(--contact-line);
+  border-radius: 0;
+  padding: var(--space-2) 0;
+  background: transparent;
   color: var(--site-foreground);
   font-family: var(--font-body);
   font-size: max(1rem, var(--text-body));
@@ -72,8 +71,7 @@
 }
 
 .message {
-  border-radius: var(--space-6);
-  padding-block: var(--space-4);
+  padding-block: var(--space-2);
   resize: vertical;
 }
 
@@ -88,8 +86,8 @@
 }
 
 .control[aria-invalid="true"] {
-  border-width: var(--border-width-strong);
-  border-color: var(--site-foreground);
+  border-block-end-width: var(--border-width-strong);
+  border-block-end-color: var(--site-foreground);
 }
 
 /* Errors sit under their field, so paired fields stay level. */
@@ -117,9 +115,9 @@
   inline-size: 1.5rem;
   block-size: 1.5rem;
   margin: 0;
-  border: var(--border-width-default) solid var(--contact-line);
+  border: var(--border-width-default) solid var(--site-foreground);
   border-radius: 0.4rem;
-  background: var(--contact-fill);
+  background: transparent;
   cursor: pointer;
   transition:
     background var(--duration-fast) var(--ease-standard),
@@ -127,8 +125,8 @@
 }
 
 .box:checked {
-  border-color: var(--contact-whatsapp);
-  background: var(--contact-whatsapp);
+  border-color: var(--site-foreground);
+  background: var(--site-foreground);
 }
 
 .box:focus-visible {
@@ -141,7 +139,7 @@
   inline-size: 1.1rem;
   block-size: 1.1rem;
   justify-self: center;
-  color: var(--color-dark);
+  color: var(--color-action-primary);
   pointer-events: none;
   opacity: 0;
   scale: 0.5;
@@ -162,9 +160,11 @@
   margin-block-start: var(--space-2);
 }
 
-/* The site's liquid CTA (primary fill), a size up, answering back with the
-   visitor's name; WhatsApp green when that channel is preferred. */
+/* One stable action; the checkbox records the preferred reply channel. */
 .submit.submit {
+  --liquid-fill: var(--color-light);
+  --liquid-pressed-fill: var(--color-light);
+  --liquid-ink: var(--color-dark);
   --liquid-height: 3.25rem;
   --radius-liquid: 1rem;
   max-inline-size: 100%;
@@ -172,24 +172,20 @@
   cursor: pointer;
 }
 
-.submit.submit[data-variant^="whatsapp"] {
-  --liquid-fill: var(--contact-whatsapp);
-  --liquid-pressed-fill: color-mix(
-    in srgb,
-    var(--contact-whatsapp) 85%,
-    var(--color-dark)
-  );
-  --liquid-ink: var(--color-dark);
+.form[aria-busy="true"] .submit {
+  cursor: wait;
+  opacity: 0.75;
 }
 
-/* Each new answer slides in from the start side. */
-.submitLabel {
-  min-inline-size: 0;
-  animation: contact-answer 0.35s var(--ease-enter);
-}
-
-.iconSwap {
-  animation: contact-icon 0.4s var(--ease-enter);
+.honeypot {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .note {
@@ -199,18 +195,23 @@
   overflow-wrap: anywhere;
 }
 
-@keyframes contact-answer {
-  from {
-    opacity: 0;
-    translate: 0.75rem 0;
-  }
+.note:empty {
+  display: none;
 }
 
-@keyframes contact-icon {
-  from {
-    opacity: 0;
-    rotate: -90deg;
-    scale: 0.4;
+.noteError {
+  color: var(--site-foreground);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+@media (max-width: 24rem) {
+  .submit.submit {
+    font-size: var(--text-body);
+  }
+
+  .submit :global(.liquid__label) {
+    padding-inline: 0.75em;
   }
 }
 
@@ -237,8 +238,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .submit,
-  .submitLabel,
-  .iconSwap,
   .box,
   .tick {
     animation: none;

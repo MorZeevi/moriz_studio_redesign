@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useSyncExternalStore } from "react";
-import { CheckIcon, WhatsappIcon } from "@/components/contact-icons";
+import { useRef, useState, useSyncExternalStore } from "react";
+import { CheckIcon } from "@/components/contact-icons";
 import { LiquidButton } from "@/components/ui/liquid-link";
 import type { SiteContent } from "@/i18n/dictionaries";
 import { WHATSAPP_URL } from "@/lib/whatsapp";
@@ -9,13 +9,9 @@ import styles from "./footer-contact-form.module.css";
 
 type Field = "name" | "phone";
 type Errors = Partial<Record<Field, string>>;
-type Variant = "idle" | "named" | "whatsapp" | "whatsappIdle";
+type SubmissionState = "idle" | "sending" | "success" | "error";
 const required = ["name", "phone"] as const;
 const subscribe = () => () => {};
-
-// The first word only, kept short enough to fit on the button.
-const firstNameOf = (value: string) =>
-  value.trim().split(/\s+/)[0]?.slice(0, 18) ?? "";
 
 // Israeli or international: 9 to 15 digits once separators are removed.
 const isPhone = (value: string) =>
@@ -37,8 +33,10 @@ export function FooterContactForm({
     () => false,
   );
   const [errors, setErrors] = useState<Errors>({});
-  const [firstName, setFirstName] = useState("");
   const [whatsapp, setWhatsapp] = useState(!!WHATSAPP_URL);
+  const [submissionState, setSubmissionState] =
+    useState<SubmissionState>("idle");
+  const sendingRef = useRef(false);
 
   function validate(control: HTMLInputElement) {
     const field = control.name as Field;
@@ -48,16 +46,6 @@ export function FooterContactForm({
       [field]: error && content.errors[error],
     }));
   }
-
-  const variant: Variant = whatsapp
-    ? firstName
-      ? "whatsapp"
-      : "whatsappIdle"
-    : firstName
-      ? "named"
-      : "idle";
-  // `{name}` splits the label; labels without it have a single part.
-  const [before, after] = content.submit[variant].split("{name}");
 
   function fieldProps(field: Field) {
     const id = `contact-${field}`;
@@ -72,8 +60,6 @@ export function FooterContactForm({
       onBlur: (event: React.FocusEvent<HTMLInputElement>) =>
         validate(event.currentTarget),
       onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (field === "name")
-          setFirstName(firstNameOf(event.currentTarget.value));
         if (errors[field]) validate(event.currentTarget);
       },
     };
@@ -104,14 +90,21 @@ export function FooterContactForm({
     <form
       className={styles.form}
       aria-labelledby="contact-heading"
-      aria-describedby="contact-preview"
+      aria-describedby="contact-status"
+      aria-busy={submissionState === "sending"}
       noValidate
-      onSubmit={(event) => {
+      onChange={() => {
+        if (submissionState !== "sending") setSubmissionState("idle");
+      }}
+      onSubmit={async (event) => {
         event.preventDefault();
+        if (sendingRef.current) return;
+        const formElement = event.currentTarget;
+        setSubmissionState("idle");
         const next: Errors = {};
         let firstInvalid: HTMLInputElement | undefined;
         for (const field of required) {
-          const control = event.currentTarget.elements.namedItem(
+          const control = formElement.elements.namedItem(
             field,
           ) as HTMLInputElement;
           const error = errorFor(field, control.value);
@@ -125,26 +118,52 @@ export function FooterContactForm({
           firstInvalid.focus();
           return;
         }
-        const form = new FormData(event.currentTarget);
+        const form = new FormData(formElement);
         const name = String(form.get("name") ?? "").trim();
         const phone = String(form.get("phone") ?? "").trim();
         const message = String(form.get("message") ?? "").trim();
-        const body = [
-          `שלום מור, שמי ${name}.`,
-          `מספר הטלפון שלי: ${phone}.`,
-          message ? `רציתי לשאול: ${message}` : "",
-        ]
-          .filter(Boolean)
-          .join("\n");
-        const destination =
-          whatsapp && WHATSAPP_URL
-            ? `${WHATSAPP_URL}?text=${encodeURIComponent(body)}`
-            : `mailto:${content.details.email}?subject=${encodeURIComponent("פנייה דרך האתר")}&body=${encodeURIComponent(body)}`;
-        window.location.assign(destination);
+        sendingRef.current = true;
+        setSubmissionState("sending");
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 30000);
+        try {
+          const response = await fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name,
+              phone,
+              message,
+              preferWhatsApp: whatsapp,
+              website: String(form.get("website") ?? ""),
+            }),
+            signal: controller.signal,
+          });
+          if (!response.ok) throw new Error("contact_send_failed");
+          formElement.reset();
+          setWhatsapp(!!WHATSAPP_URL);
+          setSubmissionState("success");
+        } catch {
+          setSubmissionState("error");
+        } finally {
+          window.clearTimeout(timeout);
+          sendingRef.current = false;
+        }
       }}
     >
       {/* Disabled until hydration; direct contact links remain available below. */}
-      <fieldset className={styles.fields} disabled={!hydrated}>
+      <fieldset
+        className={styles.fields}
+        disabled={!hydrated || submissionState === "sending"}
+      >
+        <input
+          className={styles.honeypot}
+          type="text"
+          name="website"
+          tabIndex={-1}
+          aria-hidden="true"
+          autoComplete="off"
+        />
         {question(
           "name",
           <input
@@ -191,30 +210,27 @@ export function FooterContactForm({
             className={`${styles.control} ${styles.message}`}
             rows={3}
             dir="auto"
-            placeholder={content.fields.messagePlaceholder}
           />
         </div>
 
         <div className={`${styles.actions} ${styles.full}`}>
-          {/* The button opens a prepared message in the selected contact app. */}
-          <LiquidButton
-            type="submit"
-            className={styles.submit}
-            data-variant={variant}
-            glyph={whatsapp ? <WhatsappIcon className={styles.iconSwap} /> : undefined}
-          >
-            <span key={variant} className={styles.submitLabel}>
-              {before}
-              {after !== undefined && (
-                <>
-                  <bdi>{firstName}</bdi>
-                  {after}
-                </>
-              )}
-            </span>
+          {/* The server sends the message to Mor; this label stays stable. */}
+          <LiquidButton type="submit" className={styles.submit}>
+            {content.submit}
           </LiquidButton>
-          <p id="contact-preview" className={styles.note}>
-            {content.preview}
+          <p
+            id="contact-status"
+            role="status"
+            aria-live="polite"
+            className={`${styles.note}${submissionState === "error" ? ` ${styles.noteError}` : ""}`}
+          >
+            {submissionState === "sending"
+              ? content.sending
+              : submissionState === "success"
+                ? content.sent
+                : submissionState === "error"
+                  ? content.sendError
+                  : ""}
           </p>
         </div>
       </fieldset>

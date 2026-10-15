@@ -3,22 +3,18 @@
 import gsap from "gsap";
 import { Observer } from "gsap/Observer";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import type { SiteContent } from "@/i18n/dictionaries";
 import styles from "./about-gallery.module.css";
 
-function DragIcon() {
-  return (
-    <svg viewBox="0 0 23 10" fill="none" aria-hidden="true">
-      <path
-        d="M4 9l-3-3M4 9l3-3M19 9l-3-3M19 9l3-3M4 9c0-4.2 3.1-7.5 7.5-7.5S19 4.8 19 9"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
+const mobileQuery = "(max-width: 63.999rem)";
+function subscribeMobile(callback: () => void) {
+  const query = window.matchMedia(mobileQuery);
+  query.addEventListener("change", callback);
+  return () => query.removeEventListener("change", callback);
 }
+const readMobile = () => window.matchMedia(mobileQuery).matches;
+const serverMobile = () => true;
 
 /**
  * An endless strip of images that drifts on its own and can be dragged; while
@@ -30,17 +26,16 @@ export function AboutGallery({
   content: SiteContent["aboutGallery"];
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
+  const mobile = useSyncExternalStore(subscribeMobile, readMobile, serverMobile);
   const images = content.images;
 
   useEffect(() => {
     const track = trackRef.current;
-    if (!track) return;
+    if (!track || mobile) return;
     gsap.registerPlugin(Observer);
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    // Phones drift at half speed so the smaller cards stay readable.
-    const pace = window.matchMedia("(max-width: 63.999rem)").matches ? 20 : 10;
     const cards = [
       ...track.querySelectorAll<HTMLElement>("[data-gallery-card]"),
     ];
@@ -49,9 +44,9 @@ export function AboutGallery({
     let half = track.offsetWidth / 2;
     let total = 0;
     let visible = false;
-    // Drifts with the reading direction: rightward in RTL.
+    // Drift leftward in RTL and rightward in LTR.
     const section = track.closest("section") ?? track;
-    const drift = getComputedStyle(section).direction === "rtl" ? 1 : -1;
+    const drift = getComputedStyle(section).direction === "rtl" ? -1 : 1;
 
     const xTo = gsap.quickTo(track, "x", {
       duration: 0.5,
@@ -96,7 +91,7 @@ export function AboutGallery({
     // Only drift while on screen, and never with reduced motion.
     const tick = (_time: number, deltaTime: number) => {
       if (reduced || !visible) return;
-      total += (drift * deltaTime) / pace;
+      total += (drift * deltaTime) / 10;
       xTo(total);
     };
     let tickerAttached = false;
@@ -126,7 +121,7 @@ export function AboutGallery({
       gsap.killTweensOf(track);
       gsap.set([track, ...cards], { clearProps: "all" });
     };
-  }, []);
+  }, [mobile]);
 
   return (
     <section
@@ -134,10 +129,6 @@ export function AboutGallery({
       aria-label={content.label}
       data-wireframe-section="about-gallery"
     >
-      <p className={`page-shell ${styles.drag}`}>
-        <DragIcon />
-        {content.drag}
-      </p>
       <div className={styles.viewport}>
         <div ref={trackRef} className={styles.track}>
           {[...images, ...images].map((image, index) => {
@@ -154,9 +145,9 @@ export function AboutGallery({
                 <Image
                   src={image.src}
                   alt={copy ? "" : image.alt}
-                  width={664}
-                  height={664}
-                  sizes="(max-width: 63.999rem) 34vw, 25vw"
+                  width={1440}
+                  height={810}
+                  sizes="(max-width: 48rem) 72vw, (max-width: 64rem) 55vw, 32vw"
                   draggable={false}
                 />
               </div>

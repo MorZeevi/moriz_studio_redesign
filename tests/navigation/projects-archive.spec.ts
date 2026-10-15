@@ -57,7 +57,8 @@ test("the contact card stays in the grid for every filter", async ({
       "#contact",
     );
   }
-  await expect(page.locator("footer #contact")).toBeAttached();
+  await expect(page.locator("#contact")).toBeAttached();
+  await expect(page.locator("footer #contact")).toHaveCount(0);
 });
 
 test("the chosen layout persists without changing after hydration", async ({

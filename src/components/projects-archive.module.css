@@ -167,7 +167,6 @@
     transition: top var(--duration-normal) var(--ease-standard);
   }
 
-  /* biome-ignore lint/correctness/noUnknownPseudoClass: CSS Modules global scope */
   :global(body:has(.site-header[data-header-hidden])) .controls {
     top: 0;
   }

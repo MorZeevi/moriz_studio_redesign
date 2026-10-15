@@ -166,11 +166,11 @@ export default async function Home({
           >
             <DesignQuote content={content.designQuote} />
           </Section>
-
-          <Section id="faq" title={content.faq.heading} showHeading={false}>
-            <Faq content={content.faq} />
-          </Section>
         </SecondaryScrollSurface>
+
+        <Section id="faq" title={content.faq.heading} showHeading={false}>
+          <Faq content={content.faq} />
+        </Section>
       </main>
 
       <SiteFooter content={content} locale={locale} />
