@@ -375,6 +375,13 @@ export const he = {
       },
     ] satisfies GettingStartedStep[],
   },
+  // Transition between Getting started and the FAQ. The quote stays in its
+  // original English.
+  designQuote: {
+    label: "ציטוט",
+    text: "Design is the interface between technology and people.",
+    author: "Don Norman",
+  },
   faq: {
     heading: "שאלות ותשובות",
     aiLabel: "לשאול את ",
