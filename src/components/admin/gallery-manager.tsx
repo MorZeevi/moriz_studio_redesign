@@ -196,7 +196,10 @@ export function GalleryManager({
         <h2>גלריית הפרויקט</h2>
         <p className={styles.hint} data-gallery-count={images}>
           {images} תמונות בגלריה. היעד לפרסום פרויקט חדש: לפחות{" "}
-          {MIN_GALLERY_IMAGES} תמונות, לוגו וסרטון ראשי. כל הקבצים כאן זמינים
+          {MIN_GALLERY_IMAGES === 1
+            ? "תמונה אחת"
+            : `${MIN_GALLERY_IMAGES} תמונות`}
+          , לוגו וסרטון ראשי. כל הקבצים כאן זמינים
           לקאבר, לבלוקים ולתמונת השיתוף בלי העלאה נוספת.
         </p>
         <BulkUpload projectId={projectId} onBusy={busy} onUploaded={add} />

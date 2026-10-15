@@ -41,7 +41,7 @@ Cmd/Ctrl+S saves. Leaving with unsaved changes asks for confirmation.
 
 New projects start as drafts, and drafts may be incomplete. The **first** publish
 requires a name, short description and cover; a project with a slug (a case study)
-also requires a logo, a main video and at least six gallery images (the logo does
+also requires a logo, a main video and at least one gallery image (the logo does
 not count). The editor shows a checklist and per-tab badges. Projects that are
 already published are never blocked or unpublished automatically: the same checks
 come back as warnings when saving. A project without a slug is card-only and skips

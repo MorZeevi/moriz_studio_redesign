@@ -67,7 +67,7 @@ test("publishing rules, gallery and highlight validation", () => {
     projectReadiness(p)
       .errors.map((e) => e.message)
       .join(" ");
-  // A case study needs a logo, a main video and six gallery images.
+  // A case study needs a logo, a main video and one gallery image.
   expect(messages(base)).toContain("לוגו");
   expect(messages(base)).toContain("סרטון ראשי");
   const complete = {
@@ -75,16 +75,16 @@ test("publishing rules, gallery and highlight validation", () => {
     media: [
       { src: file(2, "svg"), kind: "image", role: "logo" },
       { src: file(3, "mp4"), kind: "video", role: "main_video" },
-      ...[4, 5, 6, 7, 8, 9].map((n) => ({ src: file(n), kind: "image" })),
+      { src: file(4), kind: "image" },
     ],
   } as ProjectInput;
   expect(projectReadiness(complete).errors).toEqual([]);
-  // The logo never counts towards the six images.
-  const fiveImages = {
+  // Neither the logo nor the main video counts towards the required image.
+  const noGalleryImages = {
     ...complete,
     media: complete.media.slice(0, -1),
   } as ProjectInput;
-  expect(messages(fiveImages)).toContain("נדרשות לפחות 6");
+  expect(messages(noGalleryImages)).toContain("נדרשת לפחות תמונה אחת");
   // Card-only projects (no slug) skip the case-study requirements.
   expect(projectReadiness({ ...base, slug: null }).errors).toEqual([]);
   // SVG is accepted only as the logo; kind must match the file.

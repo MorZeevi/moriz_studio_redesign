@@ -21,7 +21,7 @@ export const MEDIA_TYPES = [
 export const LOGO_TYPES = ["image/svg+xml", "image/png", "image/webp"] as const;
 export const MAX_UPLOAD_BYTES = 50 * 1024 * 1024;
 /** Publishing target for a new case study. */
-export const MIN_GALLERY_IMAGES = 6;
+export const MIN_GALLERY_IMAGES = 1;
 export const MAX_HIGHLIGHTS = 3;
 export function slugify(text: string) {
   return text
@@ -434,7 +434,7 @@ export function projectReadiness(project: ProjectInput): {
     if (count < MIN_GALLERY_IMAGES)
       errors.push({
         tab: "gallery",
-        message: `בגלריה ${count} תמונות. נדרשות לפחות ${MIN_GALLERY_IMAGES}.`,
+        message: `בגלריה ${count} תמונות. נדרשת לפחות תמונה אחת.`,
       });
   }
   if (blank(project.title_en) || blank(project.short_description_en))
