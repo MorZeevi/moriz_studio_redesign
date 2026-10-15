@@ -461,6 +461,105 @@ export type Database = {
         };
         Relationships: [];
       };
+      work_items: {
+        Row: {
+          body: string | null;
+          created_at: string;
+          data: Json;
+          done_at: string | null;
+          due_on: string | null;
+          id: string;
+          kind: string;
+          owner_user_id: string;
+          project_id: string | null;
+          status: string | null;
+          title: string;
+          updated_at: string;
+        };
+        Insert: {
+          body?: string | null;
+          created_at?: string;
+          data?: Json;
+          done_at?: string | null;
+          due_on?: string | null;
+          id?: string;
+          kind: string;
+          owner_user_id: string;
+          project_id?: string | null;
+          status?: string | null;
+          title: string;
+          updated_at?: string;
+        };
+        Update: {
+          body?: string | null;
+          created_at?: string;
+          data?: Json;
+          done_at?: string | null;
+          due_on?: string | null;
+          id?: string;
+          kind?: string;
+          owner_user_id?: string;
+          project_id?: string | null;
+          status?: string | null;
+          title?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "work_items_project_fk";
+            columns: ["project_id", "owner_user_id"];
+            isOneToOne: false;
+            referencedRelation: "work_projects";
+            referencedColumns: ["id", "owner_user_id"];
+          },
+          {
+            foreignKeyName: "work_items_project_fk";
+            columns: ["project_id", "owner_user_id"];
+            isOneToOne: false;
+            referencedRelation: "work_radar";
+            referencedColumns: ["id", "owner_user_id"];
+          },
+        ];
+      };
+      work_projects: {
+        Row: {
+          client_name: string | null;
+          context: string | null;
+          created_at: string;
+          data: Json;
+          id: string;
+          owner_user_id: string;
+          status: string;
+          target_date: string | null;
+          title: string;
+          updated_at: string;
+        };
+        Insert: {
+          client_name?: string | null;
+          context?: string | null;
+          created_at?: string;
+          data?: Json;
+          id?: string;
+          owner_user_id: string;
+          status: string;
+          target_date?: string | null;
+          title: string;
+          updated_at?: string;
+        };
+        Update: {
+          client_name?: string | null;
+          context?: string | null;
+          created_at?: string;
+          data?: Json;
+          id?: string;
+          owner_user_id?: string;
+          status?: string;
+          target_date?: string | null;
+          title?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       diagnostic_production_events: {
@@ -544,6 +643,105 @@ export type Database = {
           primary_solution?: string | null;
           question_id?: string | null;
           session_id?: string | null;
+        };
+        Relationships: [];
+      };
+      work_items_today: {
+        Row: {
+          body: string | null;
+          created_at: string | null;
+          data: Json | null;
+          done_at: string | null;
+          due_on: string | null;
+          id: string | null;
+          kind: string | null;
+          owner_user_id: string | null;
+          project_id: string | null;
+          status: string | null;
+          title: string | null;
+          updated_at: string | null;
+        };
+        Insert: {
+          body?: string | null;
+          created_at?: string | null;
+          data?: Json | null;
+          done_at?: string | null;
+          due_on?: string | null;
+          id?: string | null;
+          kind?: string | null;
+          owner_user_id?: string | null;
+          project_id?: string | null;
+          status?: string | null;
+          title?: string | null;
+          updated_at?: string | null;
+        };
+        Update: {
+          body?: string | null;
+          created_at?: string | null;
+          data?: Json | null;
+          done_at?: string | null;
+          due_on?: string | null;
+          id?: string | null;
+          kind?: string | null;
+          owner_user_id?: string | null;
+          project_id?: string | null;
+          status?: string | null;
+          title?: string | null;
+          updated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "work_items_project_fk";
+            columns: ["project_id", "owner_user_id"];
+            isOneToOne: false;
+            referencedRelation: "work_projects";
+            referencedColumns: ["id", "owner_user_id"];
+          },
+          {
+            foreignKeyName: "work_items_project_fk";
+            columns: ["project_id", "owner_user_id"];
+            isOneToOne: false;
+            referencedRelation: "work_radar";
+            referencedColumns: ["id", "owner_user_id"];
+          },
+        ];
+      };
+      work_radar: {
+        Row: {
+          client_name: string | null;
+          context: string | null;
+          created_at: string | null;
+          data: Json | null;
+          id: string | null;
+          owner_user_id: string | null;
+          status: string | null;
+          target_date: string | null;
+          title: string | null;
+          updated_at: string | null;
+        };
+        Insert: {
+          client_name?: string | null;
+          context?: string | null;
+          created_at?: string | null;
+          data?: Json | null;
+          id?: string | null;
+          owner_user_id?: string | null;
+          status?: string | null;
+          target_date?: string | null;
+          title?: string | null;
+          updated_at?: string | null;
+        };
+        Update: {
+          client_name?: string | null;
+          context?: string | null;
+          created_at?: string | null;
+          data?: Json | null;
+          id?: string | null;
+          owner_user_id?: string | null;
+          status?: string | null;
+          target_date?: string | null;
+          title?: string | null;
+          updated_at?: string | null;
         };
         Relationships: [];
       };

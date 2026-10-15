@@ -17,7 +17,7 @@ export default function AdminLayout({
       dir="rtl"
       className={`${danidin.variable} ${leon.variable}`}
     >
-      <body>
+      <body suppressHydrationWarning>
         <div className={styles.shell}>{children}</div>
       </body>
     </html>

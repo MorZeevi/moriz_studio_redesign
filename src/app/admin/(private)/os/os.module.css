@@ -1,0 +1,278 @@
+.page {
+  display: grid;
+  gap: var(--space-6);
+  padding-block-end: var(--space-8);
+}
+.top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-block-start: var(--space-6);
+}
+.top h1 {
+  margin: 0;
+  font-weight: 900;
+  font-size: 1.75rem;
+  line-height: 1.3;
+}
+.date {
+  color: var(--color-text-secondary);
+  font-size: var(--text-body-sm);
+}
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-3);
+  font-size: 1.125rem;
+  font-weight: 900;
+}
+.count {
+  display: inline-grid;
+  place-items: center;
+  min-inline-size: 1.6rem;
+  padding-inline: var(--space-2);
+  border-radius: 999px;
+  background: var(--color-dark);
+  color: var(--color-light);
+  font-size: var(--text-body-sm);
+  line-height: 1.6;
+}
+
+/* Today ------------------------------------------------------------------ */
+.today {
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--color-background);
+  padding: var(--space-4) var(--space-5, 1.25rem);
+}
+.today .sectionTitle {
+  font-size: 1.375rem;
+}
+.todayList,
+.plain {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.todayItem {
+  display: grid;
+  grid-template-columns: auto minmax(7rem, 9rem) 1fr auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding-block: var(--space-3);
+  border-block-start: 1px solid var(--color-border);
+}
+.todayItem:first-child {
+  border-block-start: 0;
+}
+.todayTitle {
+  font-weight: 700;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+.empty {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+/* Due label ---------------------------------------------------------------- */
+.due {
+  font-size: var(--text-body-sm);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+.due[data-tone="overdue"] {
+  color: var(--color-dark);
+  font-weight: 700;
+}
+.due[data-tone="overdue"]::before {
+  content: "";
+  display: inline-block;
+  inline-size: 0.5rem;
+  block-size: 0.5rem;
+  margin-inline-end: var(--space-2);
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+.due[data-tone="today"] {
+  color: var(--color-dark);
+  font-weight: 700;
+}
+
+/* Project tag ------------------------------------------------------------- */
+.projectTag {
+  font-size: var(--text-body-sm);
+  color: var(--color-text-secondary);
+  background: var(--color-surface);
+  border-radius: var(--radius-sm);
+  padding: 0 var(--space-2);
+  white-space: nowrap;
+}
+
+/* Done checkbox ----------------------------------------------------------- */
+.done {
+  display: grid;
+  place-items: center;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  padding: 0;
+  border: 2px solid var(--color-border-strong);
+  border-radius: 50%;
+  background: transparent;
+  color: transparent;
+  cursor: pointer;
+  flex: none;
+  transition:
+    background-color 120ms,
+    color 120ms;
+}
+.done svg {
+  inline-size: 0.8rem;
+  block-size: 0.8rem;
+}
+.done:hover,
+.done:focus-visible {
+  background: var(--color-dark);
+  color: var(--color-light);
+}
+.done:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Project cards ------------------------------------------------------------ */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17.5rem, 1fr));
+  gap: var(--space-4);
+  align-items: start;
+}
+.card {
+  display: grid;
+  gap: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-background);
+  padding: var(--space-4);
+  min-inline-size: 0;
+}
+.card[data-state="radar"] {
+  border-color: color-mix(in srgb, var(--color-dark) 45%, var(--color-secondary));
+  background: color-mix(in srgb, var(--color-secondary) 28%, var(--color-background));
+}
+.card[data-state="paused"] {
+  opacity: 0.7;
+}
+.cardHead h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 900;
+  line-height: 1.3;
+}
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  margin-block-start: var(--space-1);
+  font-size: var(--text-body-sm);
+  color: var(--color-text-secondary);
+}
+.next {
+  display: grid;
+  gap: var(--space-1);
+  padding-block: var(--space-3);
+  border-block: 1px solid var(--color-border);
+}
+.nextLabelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.nextLabel {
+  font-size: var(--text-body-sm);
+  color: var(--color-text-secondary);
+}
+.nextRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+.nextTitle {
+  flex: 1;
+  min-inline-size: 0;
+  font-weight: 700;
+  font-size: 1.0625rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.nextBody {
+  margin: 0;
+  font-size: var(--text-body-sm);
+  color: var(--color-text-secondary);
+}
+.noNext {
+  display: grid;
+  gap: var(--space-1);
+  padding-block: var(--space-3);
+  border-block: 1px dashed color-mix(in srgb, var(--color-dark) 45%, transparent);
+}
+.noNext strong {
+  font-weight: 900;
+}
+.noNext span {
+  font-size: var(--text-body-sm);
+  color: var(--color-text-secondary);
+}
+.more summary {
+  cursor: pointer;
+  font-size: var(--text-body-sm);
+  font-weight: 700;
+  padding-block: var(--space-1);
+}
+.more ul {
+  list-style: none;
+  margin: var(--space-2) 0 0;
+  padding: 0;
+}
+.moreItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding-block: var(--space-2);
+  border-block-start: 1px solid var(--color-border);
+}
+.moreText {
+  flex: 1;
+  min-inline-size: 0;
+  display: grid;
+  gap: 2px;
+  overflow-wrap: anywhere;
+}
+.moreText p {
+  margin: 0;
+  font-size: var(--text-body-sm);
+  color: var(--color-text-secondary);
+}
+
+/* General ------------------------------------------------------------------ */
+.general .plain li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-block: var(--space-2);
+  border-block-start: 1px solid var(--color-border);
+}
+
+@media (max-width: 720px) {
+  .todayItem {
+    grid-template-columns: auto 1fr auto;
+  }
+  .todayItem .due {
+    grid-column: 2 / -1;
+    grid-row: 2;
+  }
+}

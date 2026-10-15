@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { requireAdmin } from "@/lib/cms/auth";
 import { logout } from "@/app/admin/actions";
-import { Button } from "@/components/ui/button";
 import styles from "@/components/admin/admin.module.css";
+import { Button } from "@/components/ui/button";
+import { requireAdmin } from "@/lib/cms/auth";
 export default async function PrivateLayout({
   children,
 }: {
@@ -16,6 +16,7 @@ export default async function PrivateLayout({
         <nav aria-label="ניהול">
           <Link href="/admin/projects">פרויקטים</Link>
           <Link href="/admin/categories">קטגוריות</Link>
+          <Link href="/admin/os">Mor OS</Link>
           <Link href="/he">לאתר</Link>
         </nav>
         <form action={logout}>
