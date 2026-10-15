@@ -1,0 +1,339 @@
+{
+  "date": "2026-10-13",
+  "task_intent": "Research portfolio project gallery patterns to design a studio Projects page.",
+  "output_destination": "code",
+  "retained": {
+    "koto-grid": {
+      "site_name": "Koto",
+      "mobbin_url": "https://mobbin.com/sites/sections/d820c5ae-eeff-4b27-bf9b-4f78df222c89",
+      "asset": "assets/projects-page-2026-10-12/koto-grid.webp"
+    },
+    "koto-grid-2": {
+      "site_name": "Koto",
+      "mobbin_url": "https://mobbin.com/sites/sections/f470a92d-05c6-4055-8143-23414ed8acd6",
+      "asset": "assets/projects-page-2026-10-12/koto-grid-2.webp"
+    },
+    "koto-next-up": {
+      "site_name": "Koto",
+      "mobbin_url": "https://mobbin.com/sites/sections/10dc8f2a-0856-4dc6-ba1a-8afe85c48738",
+      "asset": "assets/projects-page-2026-10-12/koto-next-up.webp"
+    },
+    "mouthwash-filters": {
+      "site_name": "MOUTHWASH Studio",
+      "mobbin_url": "https://mobbin.com/sites/sections/5ed7b943-1b00-4ccf-bfe3-50897107642b",
+      "asset": "assets/projects-page-2026-10-12/mouthwash-filters.webp"
+    },
+    "mouthwash-index": {
+      "site_name": "MOUTHWASH Studio",
+      "mobbin_url": "https://mobbin.com/sites/sections/7ea4ce8e-8811-462e-b5d9-f27d7c3e4ec6",
+      "asset": "assets/projects-page-2026-10-12/mouthwash-index.webp"
+    },
+    "instrument-pills": {
+      "site_name": "Instrument",
+      "mobbin_url": "https://mobbin.com/sites/sections/2d0befd1-15d8-45b8-85c4-0898a4b266d8",
+      "asset": "assets/projects-page-2026-10-12/instrument-pills.webp"
+    },
+    "fiasco-editorial": {
+      "site_name": "Fiasco",
+      "mobbin_url": "https://mobbin.com/sites/sections/4ed7c118-a866-41fa-824c-32a24323c927",
+      "asset": "assets/projects-page-2026-10-12/fiasco-editorial.webp"
+    },
+    "fiasco-cta": {
+      "site_name": "Fiasco",
+      "mobbin_url": "https://mobbin.com/sites/sections/755f3c1e-059d-4997-82bd-dfb55cd761bf",
+      "asset": "assets/projects-page-2026-10-12/fiasco-cta.webp"
+    },
+    "vucko-cta": {
+      "site_name": "Vucko",
+      "mobbin_url": "https://mobbin.com/sites/sections/de7ab043-3d01-4db4-9434-6e927e55e9c1",
+      "asset": "assets/projects-page-2026-10-12/vucko-cta.webp"
+    },
+    "a24-index": {
+      "site_name": "A24",
+      "mobbin_url": "https://mobbin.com/sites/sections/b645a881-adf5-43f3-a86c-758cd54f0b72",
+      "asset": "assets/projects-page-2026-10-12/a24-index.webp"
+    },
+    "kajabi-filters": {
+      "site_name": "Kajabi",
+      "mobbin_url": "https://mobbin.com/sites/sections/abc34dbf-429d-43a0-a18f-684a40ca3a2a",
+      "asset": "assets/projects-page-2026-10-12/kajabi-filters.webp"
+    }
+  },
+  "blank_previews": [
+    "OFF+BRAND 851e3996",
+    "Phantom Studios 5efe2d57 (intro frame only)",
+    "Analogue Agency b5692da3",
+    "Studio Freight 45b0cd5e / 6ad0749e (chrome only, grid not captured)",
+    "Aino Agency 22c68f7a"
+  ],
+  "queries": [
+    {
+      "query": "agency portfolio project grid with large image cards and category filter pills above",
+      "kind": "sections",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "d820c5ae-eeff-4b27-bf9b-4f78df222c89",
+          "image_url": "https://mobbin.com/api/mcp/short/yixx2pv8",
+          "mobbin_url": "https://mobbin.com/sites/sections/d820c5ae-eeff-4b27-bf9b-4f78df222c89",
+          "site_name": "Koto"
+        },
+        {
+          "id": "851e3996-4679-4653-aae6-3b345cab2aba",
+          "image_url": "https://mobbin.com/api/mcp/short/pZaK5tbh",
+          "mobbin_url": "https://mobbin.com/sites/sections/851e3996-4679-4653-aae6-3b345cab2aba",
+          "site_name": "OFF+BRAND"
+        },
+        {
+          "id": "f470a92d-05c6-4055-8143-23414ed8acd6",
+          "image_url": "https://mobbin.com/api/mcp/short/DDrFFsmP",
+          "mobbin_url": "https://mobbin.com/sites/sections/f470a92d-05c6-4055-8143-23414ed8acd6",
+          "site_name": "Koto"
+        },
+        {
+          "id": "5efe2d57-4b21-41cb-9081-e8c3dc0d4ac3",
+          "image_url": "https://mobbin.com/api/mcp/short/2ULrLz79",
+          "mobbin_url": "https://mobbin.com/sites/sections/5efe2d57-4b21-41cb-9081-e8c3dc0d4ac3",
+          "site_name": "Phantom Studios"
+        },
+        {
+          "id": "5ed7b943-1b00-4ccf-bfe3-50897107642b",
+          "image_url": "https://mobbin.com/api/mcp/short/Vo5WK5J8",
+          "mobbin_url": "https://mobbin.com/sites/sections/5ed7b943-1b00-4ccf-bfe3-50897107642b",
+          "site_name": "MOUTHWASH Studio"
+        },
+        {
+          "id": "2d0befd1-15d8-45b8-85c4-0898a4b266d8",
+          "image_url": "https://mobbin.com/api/mcp/short/3PuFDeba",
+          "mobbin_url": "https://mobbin.com/sites/sections/2d0befd1-15d8-45b8-85c4-0898a4b266d8",
+          "site_name": "Instrument"
+        },
+        {
+          "id": "b5692da3-d5e6-4805-b0b7-9a8f31327b56",
+          "image_url": "https://mobbin.com/api/mcp/short/bCjPRscG",
+          "mobbin_url": "https://mobbin.com/sites/sections/b5692da3-d5e6-4805-b0b7-9a8f31327b56",
+          "site_name": "Analogue Agency"
+        },
+        {
+          "id": "45b0cd5e-88eb-42cd-9af2-1be563f63041",
+          "image_url": "https://mobbin.com/api/mcp/short/dV1Bn5BI",
+          "mobbin_url": "https://mobbin.com/sites/sections/45b0cd5e-88eb-42cd-9af2-1be563f63041",
+          "site_name": "Studio Freight"
+        },
+        {
+          "id": "f890a5d7-f914-4f60-8ec2-a15350081db4",
+          "image_url": "https://mobbin.com/api/mcp/short/VDLLwYRx",
+          "mobbin_url": "https://mobbin.com/sites/sections/f890a5d7-f914-4f60-8ec2-a15350081db4",
+          "site_name": "OFF+BRAND"
+        },
+        {
+          "id": "08893f77-ab16-4e86-84df-c3aea8d5824e",
+          "image_url": "https://mobbin.com/api/mcp/short/hQoXRhHZ",
+          "mobbin_url": "https://mobbin.com/sites/sections/08893f77-ab16-4e86-84df-c3aea8d5824e",
+          "site_name": "Canva"
+        }
+      ]
+    },
+    {
+      "query": "design studio work page with asymmetric editorial grid of project thumbnails of mixed sizes",
+      "kind": "screens (web)",
+      "page": 1,
+      "has_next_page": false,
+      "note": "Results were product galleries (Dribbble, ElevenLabs, Savee, Obvious, Webflow, Artlist, Curater, Behance, Portrait, Bolt.new); none retained.",
+      "sections": []
+    },
+    {
+      "query": "portfolio project card hover state revealing project title, description and service tags over dark overlay on image",
+      "kind": "sections",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "851e3996-4679-4653-aae6-3b345cab2aba",
+          "image_url": "https://mobbin.com/api/mcp/short/bdMjSLH7",
+          "mobbin_url": "https://mobbin.com/sites/sections/851e3996-4679-4653-aae6-3b345cab2aba",
+          "site_name": "OFF+BRAND"
+        },
+        {
+          "id": "0df56e85-333b-49b0-b2e3-0c500a699fcc",
+          "image_url": "https://mobbin.com/api/mcp/short/r1vPm8f6",
+          "mobbin_url": "https://mobbin.com/sites/sections/0df56e85-333b-49b0-b2e3-0c500a699fcc",
+          "site_name": "Readymag"
+        },
+        {
+          "id": "7ea4ce8e-8811-462e-b5d9-f27d7c3e4ec6",
+          "image_url": "https://mobbin.com/api/mcp/short/Yt80rTOd",
+          "mobbin_url": "https://mobbin.com/sites/sections/7ea4ce8e-8811-462e-b5d9-f27d7c3e4ec6",
+          "site_name": "MOUTHWASH Studio"
+        },
+        {
+          "id": "10dc8f2a-0856-4dc6-ba1a-8afe85c48738",
+          "image_url": "https://mobbin.com/api/mcp/short/EvVlGyIr",
+          "mobbin_url": "https://mobbin.com/sites/sections/10dc8f2a-0856-4dc6-ba1a-8afe85c48738",
+          "site_name": "Koto"
+        },
+        {
+          "id": "4ed7c118-a866-41fa-824c-32a24323c927",
+          "image_url": "https://mobbin.com/api/mcp/short/GVxp2RCA",
+          "mobbin_url": "https://mobbin.com/sites/sections/4ed7c118-a866-41fa-824c-32a24323c927",
+          "site_name": "Fiasco"
+        },
+        {
+          "id": "b645a881-adf5-43f3-a86c-758cd54f0b72",
+          "image_url": "https://mobbin.com/api/mcp/short/5Zjw0U6D",
+          "mobbin_url": "https://mobbin.com/sites/sections/b645a881-adf5-43f3-a86c-758cd54f0b72",
+          "site_name": "A24"
+        },
+        {
+          "id": "606e7e35-d462-4a42-939e-df4d3a19af0a",
+          "image_url": "https://mobbin.com/api/mcp/short/2AiC8fAf",
+          "mobbin_url": "https://mobbin.com/sites/sections/606e7e35-d462-4a42-939e-df4d3a19af0a",
+          "site_name": "Fiasco"
+        },
+        {
+          "id": "b5692da3-d5e6-4805-b0b7-9a8f31327b56",
+          "image_url": "https://mobbin.com/api/mcp/short/Vlugtjut",
+          "mobbin_url": "https://mobbin.com/sites/sections/b5692da3-d5e6-4805-b0b7-9a8f31327b56",
+          "site_name": "Analogue Agency"
+        },
+        {
+          "id": "8e070129-3de0-457a-b6a0-39ace1cc6015",
+          "image_url": "https://mobbin.com/api/mcp/short/cUpxbyOe",
+          "mobbin_url": "https://mobbin.com/sites/sections/8e070129-3de0-457a-b6a0-39ace1cc6015",
+          "site_name": "Cosmos"
+        },
+        {
+          "id": "45b0cd5e-88eb-42cd-9af2-1be563f63041",
+          "image_url": "https://mobbin.com/api/mcp/short/zWR2WJms",
+          "mobbin_url": "https://mobbin.com/sites/sections/45b0cd5e-88eb-42cd-9af2-1be563f63041",
+          "site_name": "Studio Freight"
+        }
+      ]
+    },
+    {
+      "query": "studio work index page with grid / list view toggle and project count next to filters",
+      "kind": "sections",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "22c68f7a-e638-47bd-abb3-afc9c58e95c8",
+          "image_url": "https://mobbin.com/api/mcp/short/64cRUDKm",
+          "mobbin_url": "https://mobbin.com/sites/sections/22c68f7a-e638-47bd-abb3-afc9c58e95c8",
+          "site_name": "Aino Agency"
+        },
+        {
+          "id": "7ea4ce8e-8811-462e-b5d9-f27d7c3e4ec6",
+          "image_url": "https://mobbin.com/api/mcp/short/oZJMBmo0",
+          "mobbin_url": "https://mobbin.com/sites/sections/7ea4ce8e-8811-462e-b5d9-f27d7c3e4ec6",
+          "site_name": "MOUTHWASH Studio"
+        },
+        {
+          "id": "5ed7b943-1b00-4ccf-bfe3-50897107642b",
+          "image_url": "https://mobbin.com/api/mcp/short/F8YQEAIq",
+          "mobbin_url": "https://mobbin.com/sites/sections/5ed7b943-1b00-4ccf-bfe3-50897107642b",
+          "site_name": "MOUTHWASH Studio"
+        },
+        {
+          "id": "45b0cd5e-88eb-42cd-9af2-1be563f63041",
+          "image_url": "https://mobbin.com/api/mcp/short/6lJ5FQVy",
+          "mobbin_url": "https://mobbin.com/sites/sections/45b0cd5e-88eb-42cd-9af2-1be563f63041",
+          "site_name": "Studio Freight"
+        },
+        {
+          "id": "d820c5ae-eeff-4b27-bf9b-4f78df222c89",
+          "image_url": "https://mobbin.com/api/mcp/short/SyWXL9Lu",
+          "mobbin_url": "https://mobbin.com/sites/sections/d820c5ae-eeff-4b27-bf9b-4f78df222c89",
+          "site_name": "Koto"
+        },
+        {
+          "id": "375f772c-3580-4ee6-bb73-dc8733f57b6e",
+          "image_url": "https://mobbin.com/api/mcp/short/414b0W1s",
+          "mobbin_url": "https://mobbin.com/sites/sections/375f772c-3580-4ee6-bb73-dc8733f57b6e",
+          "site_name": "Wix"
+        },
+        {
+          "id": "6ad0749e-c57e-4c73-a7d4-862f67a8ca0b",
+          "image_url": "https://mobbin.com/api/mcp/short/cvuLJ1t3",
+          "mobbin_url": "https://mobbin.com/sites/sections/6ad0749e-c57e-4c73-a7d4-862f67a8ca0b",
+          "site_name": "Studio Freight"
+        },
+        {
+          "id": "f890a5d7-f914-4f60-8ec2-a15350081db4",
+          "image_url": "https://mobbin.com/api/mcp/short/qEofvMf1",
+          "mobbin_url": "https://mobbin.com/sites/sections/f890a5d7-f914-4f60-8ec2-a15350081db4",
+          "site_name": "OFF+BRAND"
+        },
+        {
+          "id": "2d0befd1-15d8-45b8-85c4-0898a4b266d8",
+          "image_url": "https://mobbin.com/api/mcp/short/BPABMHo1",
+          "mobbin_url": "https://mobbin.com/sites/sections/2d0befd1-15d8-45b8-85c4-0898a4b266d8",
+          "site_name": "Instrument"
+        },
+        {
+          "id": "abc34dbf-429d-43a0-a18f-684a40ca3a2a",
+          "image_url": "https://mobbin.com/api/mcp/short/Pic8aWtN",
+          "mobbin_url": "https://mobbin.com/sites/sections/abc34dbf-429d-43a0-a18f-684a40ca3a2a",
+          "site_name": "Kajabi"
+        }
+      ]
+    },
+    {
+      "query": "bold colored contact call-to-action tile placed inside a grid of portfolio work cards, \"let's work together\" with button",
+      "kind": "sections",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "574c3764-86cc-445e-9337-28c022a44dc6",
+          "image_url": "https://mobbin.com/api/mcp/short/VJ7cbXLK",
+          "mobbin_url": "https://mobbin.com/sites/sections/574c3764-86cc-445e-9337-28c022a44dc6",
+          "site_name": "Analogue Agency"
+        },
+        {
+          "id": "a2f3898a-cd70-4d7d-b549-5f5dbb5a9fa6",
+          "image_url": "https://mobbin.com/api/mcp/short/EKNponPK",
+          "mobbin_url": "https://mobbin.com/sites/sections/a2f3898a-cd70-4d7d-b549-5f5dbb5a9fa6",
+          "site_name": "basement.studio"
+        },
+        {
+          "id": "755f3c1e-059d-4997-82bd-dfb55cd761bf",
+          "image_url": "https://mobbin.com/api/mcp/short/JKvahhvJ",
+          "mobbin_url": "https://mobbin.com/sites/sections/755f3c1e-059d-4997-82bd-dfb55cd761bf",
+          "site_name": "Fiasco"
+        },
+        {
+          "id": "59e8e4c6-9993-4177-839a-dfbf34464dd9",
+          "image_url": "https://mobbin.com/api/mcp/short/IMHQgMIV",
+          "mobbin_url": "https://mobbin.com/sites/sections/59e8e4c6-9993-4177-839a-dfbf34464dd9",
+          "site_name": "Mercury"
+        },
+        {
+          "id": "de7ab043-3d01-4db4-9434-6e927e55e9c1",
+          "image_url": "https://mobbin.com/api/mcp/short/abOCQoNk",
+          "mobbin_url": "https://mobbin.com/sites/sections/de7ab043-3d01-4db4-9434-6e927e55e9c1",
+          "site_name": "Vucko"
+        },
+        {
+          "id": "7602a67a-3cba-4d72-b6d4-f3298d3a5e50",
+          "image_url": "https://mobbin.com/api/mcp/short/V7du7sMO",
+          "mobbin_url": "https://mobbin.com/sites/sections/7602a67a-3cba-4d72-b6d4-f3298d3a5e50",
+          "site_name": "Sprout Social"
+        },
+        {
+          "id": "253cd4cf-f2f7-45c2-91b0-80b3f7c008db",
+          "image_url": "https://mobbin.com/api/mcp/short/plY63oCB",
+          "mobbin_url": "https://mobbin.com/sites/sections/253cd4cf-f2f7-45c2-91b0-80b3f7c008db",
+          "site_name": "Mews"
+        },
+        {
+          "id": "a61ca807-9b71-4722-90b2-4bc6a927125d",
+          "image_url": "https://mobbin.com/api/mcp/short/tMeDsz4S",
+          "mobbin_url": "https://mobbin.com/sites/sections/a61ca807-9b71-4722-90b2-4bc6a927125d",
+          "site_name": "UGLYCASH"
+        }
+      ]
+    }
+  ]
+}

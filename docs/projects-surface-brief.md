@@ -112,3 +112,14 @@ Pre-existing documentation drift remains: the foundation guide omits the already
 implemented liquid radius and public theme roles, and the historical direction above
 still describes static-dark case studies. This section supersedes that surface
 direction; shared system files are preserved.
+
+## Projects page (archive) — 13 October 2026
+
+The All Projects collection is replaced by an editorial index:
+- a typographic hero
+- sticky category filters and a standard / compact / editorial layout switch
+- whole-card links with a hover/focus information layer
+- a primary-colour contact card inside the grid
+- the site footer's contact form
+
+It follows the site's light/dark theme like the case studies. The grid compositions are configured in `src/components/projects-grid-config.ts`. Decision record: `docs/14-decisions.md` § "Projects page: editorial index…". Research: `docs/research/projects-page-mobbin-2026-10-12.md`. A development-only fixture (`/he/projects?demo=1`) fills the grid for layout checks; it never runs in production.

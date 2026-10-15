@@ -1,0 +1,111 @@
+/* Brand-red invitation inside the projects grid. Ink is dark: the headline is
+   large text (3:1 is enough) and the body copy is heavy and ≥ 1.25rem. */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-6);
+  aspect-ratio: var(--card-ratio, 4 / 3);
+  padding: clamp(var(--space-6), 5cqi, var(--space-12));
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: var(--color-dark);
+  container-type: inline-size;
+  isolation: isolate;
+}
+
+/* A secondary-colour shape grows from the end corner on hover or focus. */
+.blob {
+  position: absolute;
+  inset-block-end: -30cqi;
+  inset-inline-end: -30cqi;
+  z-index: -1;
+  inline-size: 60cqi;
+  aspect-ratio: 1;
+  border-radius: var(--radius-pill);
+  background: var(--color-secondary);
+  scale: 0.35;
+  transition: scale var(--duration-slow) var(--ease-enter);
+}
+
+.card:is(:hover, :focus-within) .blob {
+  scale: 1;
+}
+
+.heading {
+  margin: 0;
+  max-inline-size: 12ch;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display);
+  font-size: clamp(2.75rem, 12cqi, 7.5rem);
+  line-height: 0.86;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.mark {
+  display: inline-block;
+  color: var(--color-light);
+  transform-origin: 50% 85%;
+  transition:
+    rotate var(--duration-slow) var(--ease-enter),
+    scale var(--duration-slow) var(--ease-enter);
+}
+
+.card:is(:hover, :focus-within) .mark {
+  rotate: -14deg;
+  scale: 1.18;
+}
+
+.card:dir(rtl):is(:hover, :focus-within) .mark {
+  rotate: 14deg;
+}
+
+.body {
+  margin: 0;
+  max-inline-size: 30ch;
+  font-size: var(--text-body-lg);
+  line-height: 1.35;
+  font-weight: var(--font-weight-heading);
+}
+
+.link {
+  --lb-fill: var(--color-dark);
+  --lb-pressed-fill: color-mix(
+    in srgb,
+    var(--color-dark) 85%,
+    var(--color-light)
+  );
+  --lb-ink: var(--color-light);
+  align-self: flex-start;
+}
+
+.link:focus-visible {
+  outline-color: var(--color-dark);
+}
+
+/* Wide slots (editorial 21:9, or alone after a filter): read across. */
+@container (min-width: 52rem) {
+  .card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    grid-template-rows: 1fr auto;
+    align-items: end;
+    column-gap: var(--space-12);
+    aspect-ratio: auto;
+    min-block-size: min(28rem, 60vh);
+  }
+
+  .heading {
+    grid-row: 1 / span 2;
+    align-self: start;
+    max-inline-size: none;
+    font-size: clamp(3.5rem, 8cqi, 8rem);
+  }
+
+  .body {
+    align-self: end;
+  }
+}

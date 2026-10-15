@@ -1,22 +1,25 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import styles from "@/components/projects.module.css";
-import { ProjectArrow, ProjectsSection } from "@/components/projects-section";
 import { FloatingActions } from "@/components/floating-actions";
+import { MainHeader } from "@/components/main-header";
+import {
+  type ArchiveCategory,
+  ProjectsArchive,
+} from "@/components/projects-archive";
+import { projectLayoutBootstrap } from "@/components/projects-grid-config";
+import { ProjectsHero } from "@/components/projects-hero";
+import { SiteFooter } from "@/components/site-footer";
 import { isEnabledLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { projectCopy } from "@/i18n/project-copy";
+import { demoArchive, demoEnabled } from "@/lib/cms/demo-projects";
 import { termName } from "@/lib/cms/localize";
+import { projectArchiveCard } from "@/lib/cms/project-card";
 import { getPublicProjects } from "@/lib/cms/queries";
-import { projectCard } from "@/lib/cms/project-card";
-import { CategoryTags } from "@/components/category-tags";
-import { StudioLogo } from "@/components/studio-logo";
-import { ThemeToggle } from "@/components/theme-toggle";
 
 type PageParams = {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ category?: string }>;
+  searchParams: Promise<{ category?: string; demo?: string }>;
 };
 
 export async function generateMetadata({
@@ -25,7 +28,11 @@ export async function generateMetadata({
   const { locale } = await params;
   if (!isEnabledLocale(locale)) notFound();
   const content = await getDictionary(locale);
-  return { title: `${content.projects.allHeading} | ${content.studioName}` };
+  const archive = content.projects.archive;
+  return {
+    title: `${archive.heading} | ${content.studioName}`,
+    description: archive.lede,
+  };
 }
 
 export default async function ProjectsPage({
@@ -36,89 +43,81 @@ export default async function ProjectsPage({
   if (!isEnabledLocale(locale)) notFound();
   const content = await getDictionary(locale);
   const copy = projectCopy[locale];
-  const projects = await getPublicProjects("projects");
-  const { category: selectedCategory } = await searchParams;
-  const categories = [
-    ...new Map(
-      projects.flatMap((p) => p.categories).map((c) => [c.id, c]),
-    ).values(),
-  ].sort((a, b) => a.sort_order - b.sort_order || a.name.localeCompare(b.name));
-  const filtered = selectedCategory
-    ? projects.filter((p) =>
-        p.categories.some((c) => c.slug === selectedCategory),
-      )
-    : projects;
+  const { category, demo } = await searchParams;
+  const published = await getPublicProjects("projects");
+
+  // Filters come from the categories used by published projects.
+  const terms = new Map(
+    published.flatMap((p) => p.categories).map((c) => [c.id, c]),
+  );
+  let categories: ArchiveCategory[] = [...terms.values()]
+    .sort((a, b) => a.sort_order - b.sort_order || a.name.localeCompare(b.name))
+    .map((c) => ({
+      slug: c.slug,
+      name: termName(c, locale),
+      count: published.filter((p) => p.categories.some((t) => t.id === c.id))
+        .length,
+    }));
+  let projects = published.map((p) => projectArchiveCard(p, locale));
+
+  if (demoEnabled(demo)) {
+    const fixture = demoArchive(
+      locale,
+      projects.find((p) => p.href)?.href ?? null,
+    );
+    projects = [...projects, ...fixture.projects];
+    categories = [
+      ...categories,
+      ...fixture.categories.map((c) => ({
+        ...c,
+        count: projects.filter((p) => p.categorySlugs.includes(c.slug)).length,
+      })),
+    ];
+  }
+
   return (
-    <div className={styles.projectPage}>
+    <>
       <a
-        href="#projects"
+        href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:start-5 focus:top-5 focus:z-30 focus:bg-background focus:p-4"
       >
         {content.skipToContent}
       </a>
-      <div className="site-container">
-        <header className={styles.pageHeader}>
-          <StudioLogo
-            name={content.studioName}
-            locale={locale}
-            className={styles.wordmark}
-          />
-          <div className="project-header-actions">
-            <ThemeToggle labels={content.theme} />
-            <Link href={`/${locale}#projects`} className={styles.backLink}>
-              <ProjectArrow back />
-              {content.projects.homeLink}
-            </Link>
-          </div>
-        </header>
-      </div>
-      <main>
-        {!!categories.length && (
-          <nav
-            className="site-container"
-            aria-label={copy.filterLabel}
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "var(--space-3)",
-              paddingBlock: "var(--space-4)",
-            }}
-          >
-            <Link
-              href={`/${locale}/projects`}
-              aria-current={!selectedCategory ? "page" : undefined}
-            >
-              {copy.all}
-            </Link>
-            {categories.map((category) => (
-              <Link
-                key={category.id}
-                href={`/${locale}/projects?category=${encodeURIComponent(category.slug)}`}
-                aria-current={
-                  selectedCategory === category.slug ? "page" : undefined
-                }
-              >
-                <CategoryTags
-                  label={copy.categories}
-                  categories={[
-                    { id: category.id, name: termName(category, locale) },
-                  ]}
-                />
-              </Link>
-            ))}
-          </nav>
-        )}
-        <ProjectsSection
-          projects={filtered.map((project) =>
-            projectCard(project, "projects", locale),
-          )}
-          locale={locale}
-          content={content.projects}
-          collection
+      <MainHeader
+        content={content}
+        locale={locale}
+        pageAnchors={["#projects", "#contact"]}
+      />
+      <main id="main-content" tabIndex={-1}>
+        <ProjectsHero
+          eyebrow={content.projects.archive.eyebrow}
+          heading={content.projects.archive.heading}
+          lede={content.projects.archive.lede}
+          count={projects.length}
+          countLabel={content.projects.archive.countLabel}
         />
-        {!filtered.length && <p className="site-container">{copy.empty}</p>}
+        {/* Applies the saved grid layout before the grid paints. */}
+        <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: First-party pre-paint layout preference; no user input.
+          dangerouslySetInnerHTML={{ __html: projectLayoutBootstrap }}
+        />
+        <ProjectsArchive
+          projects={projects}
+          categories={categories}
+          initialCategory={category ?? null}
+          contactHref="#contact"
+          labels={{
+            ...content.projects.archive,
+            allHeading: content.projects.allHeading,
+            filterLabel: copy.filterLabel,
+            all: copy.all,
+            empty: copy.empty,
+            viewProject: content.projects.viewProject,
+          }}
+        />
       </main>
+      <SiteFooter content={content} locale={locale} homepage={false} />
       <FloatingActions content={content.floatingActions} ask={content.askAi} />
-    </div>
+    </>
   );
 }

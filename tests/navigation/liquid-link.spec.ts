@@ -294,6 +294,6 @@ test("secondary liquid link opens the projects collection with independent styli
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/\/he\/projects$/);
   await expect(
-    page.getByRole("heading", { level: 1, name: "כל הפרויקטים" }),
+    page.getByRole("heading", { level: 1, name: /עבודות נבחרות/ }),
   ).toBeVisible();
 });

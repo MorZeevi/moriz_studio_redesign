@@ -19,3 +19,14 @@ export type Project = {
   details: ProjectDetail[];
   categories?: { id: string; name: string }[];
 };
+
+/** A projects-page card: the card fields plus what the archive filters on. */
+export type ArchiveProject = Project & {
+  id: string;
+  /** Null when the project has no case study page. */
+  href: string | null;
+  featured: boolean;
+  services: string[];
+  year: number | null;
+  categorySlugs: string[];
+};

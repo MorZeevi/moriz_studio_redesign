@@ -1,0 +1,273 @@
+/*
+ * Projects archive: sticky controls and the grid. Spans and ratios come from
+ * `projects-grid-config.ts` as --e-* (editorial desktop) and --t-* (editorial
+ * tablet/mobile). The saved layout is `data-projects-layout` on <html>.
+ */
+.archive {
+  padding-block-end: var(--section-space-md);
+  --grid-column-gap: clamp(var(--space-4), 2vw, var(--space-8));
+  --grid-row-gap: clamp(var(--space-10), 5vw, var(--space-20));
+}
+
+/* ---------- Controls ---------- */
+
+.controls {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  /* Translucent so the site grain reads through; blur keeps it legible. */
+  background: color-mix(
+    in srgb,
+    var(--site-background, var(--color-background)) 82%,
+    transparent
+  );
+  backdrop-filter: blur(0.75rem);
+  border-block: var(--border-width-default) solid var(--color-border);
+}
+
+.controlsInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  padding-block: var(--space-3);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* Filter pills are the design-system outline button (<Button variant="outline"
+   size="sm">) without its border. Selected: the button's own pressed cue, a
+   strong underline, in brand red like the layout switch. */
+.pill {
+  /* No visible border; it stays transparent so the size doesn't change. */
+  border-color: transparent;
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+.pill[aria-pressed="true"] > span {
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-strong);
+  text-decoration-color: var(--color-primary);
+  text-underline-offset: 0.35em;
+}
+
+.count {
+  font-size: var(--text-caption);
+  font-weight: var(--font-weight-body);
+  font-variant-numeric: tabular-nums;
+  opacity: 0.7;
+}
+
+.layouts {
+  display: none;
+  flex: none;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.layout {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-block-size: var(--control-height-sm);
+  padding-inline: var(--space-3);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+  font-size: var(--text-body-sm);
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+/* Selected state follows <html>, which is right before hydration too. */
+.layout:hover,
+:root[data-projects-layout="standard"] .layout[data-mode="standard"],
+:root[data-projects-layout="compact"] .layout[data-mode="compact"],
+:root[data-projects-layout="editorial"] .layout[data-mode="editorial"] {
+  color: var(--color-text-primary);
+}
+
+:root[data-projects-layout="standard"] .layout[data-mode="standard"] span,
+:root[data-projects-layout="compact"] .layout[data-mode="compact"] span,
+:root[data-projects-layout="editorial"] .layout[data-mode="editorial"] span {
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-strong);
+  text-decoration-color: var(--color-primary);
+  text-underline-offset: 0.35em;
+}
+
+.layout:has(:focus-visible) {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: var(--space-1);
+}
+
+.layoutInput {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.layoutIcon {
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+}
+
+/* Small screens: one scrolling row of pills, no layout switch. */
+@media (max-width: 47.99rem) {
+  .controlsInner {
+    padding-inline: 0;
+  }
+
+  .filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-inline: var(--page-gutter);
+    scrollbar-width: none;
+    /* Fade the end edge: left in RTL, right in LTR. */
+    mask-image: linear-gradient(
+      to left,
+      black calc(100% - var(--space-10)),
+      transparent
+    );
+  }
+
+  .filters:dir(ltr) {
+    mask-image: linear-gradient(
+      to right,
+      black calc(100% - var(--space-10)),
+      transparent
+    );
+  }
+}
+
+@media (min-width: 48rem) {
+  .layouts {
+    display: flex;
+  }
+}
+
+/* Desktop: the site header is sticky too. Sit under it while it shows and
+   move up when it slides away on scroll. */
+@media (min-width: 64rem) {
+  .controls {
+    top: var(--site-header-height, var(--space-24));
+    transition: top var(--duration-normal) var(--ease-standard);
+  }
+
+  /* biome-ignore lint/correctness/noUnknownPseudoClass: CSS Modules global scope */
+  :global(body:has(.site-header[data-header-hidden])) .controls {
+    top: 0;
+  }
+}
+
+/* ---------- Grid ---------- */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--grid-column-gap);
+  row-gap: var(--grid-row-gap);
+  align-items: start;
+  margin: 0;
+  padding: clamp(var(--space-8), 5vw, var(--space-16)) 0 0;
+  list-style: none;
+}
+
+.item {
+  grid-column: span 12;
+  min-inline-size: 0;
+  container-type: inline-size;
+  --card-ratio: var(--standard-ratio);
+}
+
+:root[data-projects-layout="editorial"] .item {
+  --card-ratio: var(--t-ratio);
+}
+
+@media (min-width: 48rem) {
+  :root:not([data-projects-layout="editorial"]) .item {
+    grid-column: span 6;
+  }
+
+  :root[data-projects-layout="compact"] .item {
+    --card-ratio: var(--compact-ratio);
+    --card-title-size: clamp(1.5rem, 2vw, 2rem);
+    --card-description-lines: 2;
+  }
+
+  :root[data-projects-layout="editorial"] .item {
+    grid-column: span var(--t-span);
+  }
+}
+
+@media (min-width: 64rem) {
+  :root[data-projects-layout="editorial"] .item {
+    grid-column: span var(--e-span);
+    --card-ratio: var(--e-ratio);
+  }
+
+  :root[data-projects-layout="editorial"] .item[data-offset] {
+    margin-block-start: clamp(var(--space-12), 8vw, var(--space-30));
+  }
+
+  :root[data-projects-layout="editorial"] .item[data-large] {
+    --card-title-size: clamp(2.5rem, 4vw, 4.5rem);
+  }
+}
+
+@media (min-width: 80rem) {
+  :root[data-projects-layout="compact"] .item {
+    grid-column: span 4;
+  }
+}
+
+/* First load: a short staggered rise. Later changes animate with GSAP Flip. */
+.grid:not([data-settled]) .item {
+  animation: rise var(--duration-slow) var(--ease-enter) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    translate: 0 2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grid:not([data-settled]) .item {
+    animation: none;
+  }
+}
+
+/* ---------- Empty state ---------- */
+
+.empty {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  padding-block-start: clamp(var(--space-8), 5vw, var(--space-16));
+  font-size: var(--text-body-lg);
+}
+
+.empty p {
+  margin: 0;
+}
+
+.empty + .grid {
+  padding-block-start: var(--space-8);
+}

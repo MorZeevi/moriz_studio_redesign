@@ -18,6 +18,9 @@ Choose **New project**. The editor has five tabs:
 - **Homepage & Archive** (עמוד הבית וארכיון): cover media, the "featured" toggle
   (show on homepage), short card description, archive description, optional
   homepage/archive media overrides, manual order, and which highlight each card shows.
+  The archive section also has **מודגש בעמוד הפרויקטים** (`projects.featured`):
+  a featured project takes a large slot in the projects page's editorial layout.
+  It is independent of the homepage toggle and has no effect on the other layouts.
 - **Case Study**: hero headline and intro, target audience (shown only on the case
   study), up to three highlights, and the content blocks.
 - **Gallery** (גלריה): project logo, main video (with poster and loop setting), and
@@ -163,7 +166,10 @@ application. `.env.local` is ignored; `.env.example` has placeholders only.
 
 In Supabase **Authentication → URL Configuration → Redirect URLs**, add the exact
 production callback URL above. Local callbacks for `127.0.0.1:3000`,
-`localhost:3000`, and `127.0.0.1:4398` are already configured. Keep the existing Site
+`localhost:3000`, `127.0.0.1:3002`, `localhost:3002`, and `127.0.0.1:4398`
+are configured by the helper below. On these local origins, login automatically
+uses the same origin for its callback when `SUPABASE_AUTH_REDIRECT_URL` is unset.
+Keep the existing Site
 URL and unrelated redirects if other apps use this Supabase project.
 
 Alternatively, set `SUPABASE_AUTH_REDIRECT_URL` locally and run:

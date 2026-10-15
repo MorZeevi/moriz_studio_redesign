@@ -105,8 +105,10 @@ test("touch and no-JavaScript wordmarks remain native homepage links", async ({
   const noJS = await browser.newContext({ javaScriptEnabled: false });
   const staticPage = await noJS.newPage();
   await staticPage.goto(`${baseURL}/he/projects`);
+  // The header wordmark; the footer repeats it on the projects page.
   await staticPage
     .getByRole("link", { name: "moriz.studio", exact: true })
+    .first()
     .click();
   await expect(staticPage).toHaveURL(/\/he#top$/);
   await expect(staticPage.locator(selector)).toHaveAccessibleName(

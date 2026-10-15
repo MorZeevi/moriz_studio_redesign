@@ -145,6 +145,23 @@ export const he = {
     projectLink: "לפרויקט המלא",
     viewProject: "לצפיה בפרויקט",
     backLink: "חזרה לפרויקטים",
+    archive: {
+      eyebrow: "תיק עבודות",
+      heading: "עבודות נבחרות",
+      countLabel: "פרויקטים",
+      lede: "אתרים, מוצרים דיגיטליים ואוטומציות שעיצבתי ופיתחתי — מהסקיצה הראשונה ועד השורה האחרונה של הקוד.",
+      layoutLabel: "תצוגת הפרויקטים",
+      layouts: { standard: "רשת", compact: "צפוף", editorial: "מגזין" },
+      results: "מוצגים {count} פרויקטים",
+      resultOne: "מוצג פרויקט אחד",
+      resultNone: "אין פרויקטים להצגה",
+      showAll: "הצגת כל הפרויקטים",
+      cta: {
+        heading: "אולי הפרויקט הבא הוא שלך?",
+        body: "ספרו לי מה אתם רוצים לבנות, ונחשוב יחד איך לעשות את זה נכון.",
+        link: "בואו נדבר",
+      },
+    },
     caseStudy: {
       additionalInfo: "מידע נוסף",
       gallery: "תמונות הפרויקט",

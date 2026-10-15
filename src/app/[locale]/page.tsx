@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { AboutGallery } from "@/components/about-gallery";
 import { AboutMe } from "@/components/about-me";
@@ -12,9 +11,8 @@ import { HeroHeading } from "@/components/hero-heading";
 import { HeroVideo } from "@/components/hero-video";
 import { HomepagePattern } from "@/components/homepage-pattern";
 import { InfinityLoop } from "@/components/infinity-loop";
-import { LanguageLink } from "@/components/language-link";
 import { LogoCarousel } from "@/components/logo-carousel";
-import { Navigation } from "@/components/navigation";
+import { MainHeader } from "@/components/main-header";
 import { PartyModeProvider } from "@/components/party-mode/party-mode-provider";
 import { PartyModeToggle } from "@/components/party-mode/party-mode-toggle";
 import { PixelReveal } from "@/components/pixel-reveal";
@@ -22,10 +20,7 @@ import { ProjectsSection } from "@/components/projects-section";
 import FallingText from "@/components/react-bits/FallingText";
 import { SecondaryScrollSurface } from "@/components/secondary-scroll-surface";
 import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
-import { StudioLogo } from "@/components/studio-logo";
 import { Testimonials } from "@/components/testimonials";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { LiquidLink } from "@/components/ui/liquid-link";
 import { Section } from "@/components/wireframe";
 import { isEnabledLocale } from "@/i18n/config";
@@ -52,47 +47,7 @@ export default async function Home({
         {content.skipToContent}
       </a>
 
-      <SiteHeader>
-        <div className="hero-shell site-header-inner">
-          <div className="header-brand">
-            <StudioLogo
-              name={content.studioName}
-              locale={locale}
-              className="studio-wordmark"
-            />
-          </div>
-          <div className="header-theme-mobile">
-            <ThemeToggle labels={content.theme} />
-          </div>
-          <Navigation locale={locale} content={content.navigation} />
-          <div className="header-actions">
-            {/* Desktop: theme and language sit together beside the CTA. */}
-            <div className="header-controls">
-              <ThemeToggle labels={content.theme} />
-              <LanguageLink
-                locale={locale}
-                content={content.navigation.languages}
-              />
-            </div>
-            <LiquidLink
-              className="header-contact-link"
-              variant="secondary"
-              href={content.navigation.contactLink.href}
-              icon={
-                <Image
-                  src="/images/mor-avatar-cutout.webp"
-                  alt=""
-                  width={600}
-                  height={600}
-                  sizes="48px"
-                />
-              }
-            >
-              {content.navigation.contactLink.label}
-            </LiquidLink>
-          </div>
-        </div>
-      </SiteHeader>
+      <MainHeader content={content} locale={locale} />
 
       <main id="main-content" tabIndex={-1}>
         <HomepagePattern>

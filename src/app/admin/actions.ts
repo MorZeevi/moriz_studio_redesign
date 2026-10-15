@@ -352,7 +352,7 @@ export async function requestLoginLink(email: string): Promise<Result> {
   const client = await serverSupabase();
   const origin = (await headers()).get("origin");
   const localOrigin =
-    origin && /^http:\/\/(127\.0\.0\.1|localhost):(3000|4398)$/.test(origin)
+    origin && /^http:\/\/(127\.0\.0\.1|localhost):(3000|3002|4398)$/.test(origin)
       ? origin
       : null;
   const redirectTo =

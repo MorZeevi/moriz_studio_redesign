@@ -1,4 +1,7 @@
-import type { Project as CardProject } from "@/content/projects";
+import type {
+  ArchiveProject,
+  Project as CardProject,
+} from "@/content/projects";
 import type { Locale } from "@/i18n/config";
 import type { Project } from "@/types/project";
 import { localized, termName } from "./localize";
@@ -77,5 +80,21 @@ export function projectCard(
       id: c.id,
       name: termName(c, locale),
     })),
+  };
+}
+
+/** Projects-page card: the archive card plus filter and featured data. */
+export function projectArchiveCard(
+  project: Project,
+  locale: Locale,
+): ArchiveProject {
+  return {
+    ...projectCard(project, "projects", locale),
+    id: project.id,
+    href: project.slug ? `/${locale}/projects/${project.slug}` : null,
+    featured: project.featured,
+    services: serviceNames(project, locale),
+    year: project.year,
+    categorySlugs: project.categories.map((c) => c.slug),
   };
 }

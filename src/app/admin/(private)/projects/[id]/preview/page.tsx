@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProjectDetail } from "@/components/project-detail";
+import { ProjectArchiveCardPreview } from "@/components/project-archive-card";
 import { ProjectsSection } from "@/components/projects-section";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { projectCopy } from "@/i18n/project-copy";
-import { projectCard } from "@/lib/cms/project-card";
+import { projectArchiveCard, projectCard } from "@/lib/cms/project-card";
 import { getAdminProject } from "@/lib/cms/queries";
 
 const VIEWS = {
@@ -60,19 +61,17 @@ export default async function Preview({
             content={await getDictionary("he")}
             preview
           />
+        ) : view === "archive" ? (
+          <ProjectArchiveCardPreview
+            project={projectArchiveCard(project, locale)}
+            badgeLabel={projectCopy[locale].viewProject}
+          />
         ) : (
           <ProjectsSection
             locale={locale}
             content={projectCopy[locale]}
             plain
-            collection={view === "archive"}
-            projects={[
-              projectCard(
-                project,
-                view === "home" ? "homepage" : "projects",
-                locale,
-              ),
-            ]}
+            projects={[projectCard(project, "homepage", locale)]}
           />
         )}
       </div>

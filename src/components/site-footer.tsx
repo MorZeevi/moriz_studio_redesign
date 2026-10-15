@@ -27,18 +27,24 @@ const socialIcons: Record<Social["network"], React.ReactNode> = {
   ),
 };
 
-// Section anchors stay on the homepage; site paths gain the locale prefix.
-function localeHref(href: string, locale: EnabledLocale) {
-  if (href.startsWith("#")) return href;
+// Site paths gain the locale prefix. Section anchors point at the homepage,
+// except on the homepage itself and for #contact, which lives in this footer.
+function localeHref(href: string, locale: EnabledLocale, homepage: boolean) {
+  if (href.startsWith("#")) {
+    return homepage || href === "#contact" ? href : `/${locale}${href}`;
+  }
   return href === "/" ? `/${locale}` : `/${locale}${href}`;
 }
 
 export function SiteFooter({
   content,
   locale,
+  homepage = true,
 }: {
   content: SiteContent;
   locale: EnabledLocale;
+  /** False on other pages, so homepage section links leave the page. */
+  homepage?: boolean;
 }) {
   const footer = content.footer;
   const details = content.contact.details;
@@ -102,7 +108,7 @@ export function SiteFooter({
                 {column.links.map((link) => (
                   <li key={link.href}>
                     <Link
-                      href={localeHref(link.href, locale)}
+                      href={localeHref(link.href, locale, homepage)}
                       className={styles.link}
                     >
                       {link.label}
@@ -154,7 +160,7 @@ export function SiteFooter({
             <li key={item.label}>
               {item.href ? (
                 <Link
-                  href={localeHref(item.href, locale)}
+                  href={localeHref(item.href, locale, homepage)}
                   className={styles.tag}
                 >
                   {item.label}

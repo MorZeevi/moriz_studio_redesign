@@ -10,6 +10,7 @@ import {
 import { useRouter } from "next/navigation";
 import { removeUnusedUpload, saveProject } from "@/app/admin/actions";
 import { ProjectDetail } from "@/components/project-detail";
+import { ProjectArchiveCardPreview } from "@/components/project-archive-card";
 import { ProjectsSection } from "@/components/projects-section";
 import { Button } from "@/components/ui/button";
 import type { Locale } from "@/i18n/config";
@@ -21,7 +22,7 @@ import {
   unlinkSrc,
   withGalleryImports,
 } from "@/lib/cms/media-refs";
-import { projectCard } from "@/lib/cms/project-card";
+import { projectArchiveCard, projectCard } from "@/lib/cms/project-card";
 import {
   mediaReferences,
   projectReadiness,
@@ -354,18 +355,18 @@ export function ProjectEditor({
                 preview
                 project={previewProject}
               />
+            ) : preview.view === "archive" ? (
+              <ProjectArchiveCardPreview
+                project={projectArchiveCard(previewProject, preview.locale)}
+                badgeLabel={projectCopy[preview.locale].viewProject}
+              />
             ) : (
               <ProjectsSection
                 locale={preview.locale}
                 content={projectCopy[preview.locale]}
                 plain
-                collection={preview.view === "archive"}
                 projects={[
-                  projectCard(
-                    previewProject,
-                    preview.view === "home" ? "homepage" : "projects",
-                    preview.locale,
-                  ),
+                  projectCard(previewProject, "homepage", preview.locale),
                 ]}
               />
             )}
@@ -585,6 +586,14 @@ export function ProjectEditor({
                     }
                   />
                   הצגה בעמוד הפרויקטים
+                </label>
+                <label className={styles.check}>
+                  <input
+                    type="checkbox"
+                    checked={project.featured}
+                    onChange={(e) => field("featured", e.target.checked)}
+                  />
+                  מודגש בעמוד הפרויקטים — כרטיס גדול בתצוגת המגזין
                 </label>
                 <LocalizedField
                   label="תיאור לעמוד הפרויקטים"

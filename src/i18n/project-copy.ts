@@ -72,6 +72,23 @@ export const projectCopy: Record<Locale, ProjectCopy> = {
     projectLink: "Full case study",
     viewProject: "View project",
     backLink: "Back to projects",
+    archive: {
+      eyebrow: "Portfolio",
+      heading: "Selected work",
+      countLabel: "projects",
+      lede: "Websites, digital products and automations I designed and built — from the first sketch to the last line of code.",
+      layoutLabel: "Project layout",
+      layouts: { standard: "Grid", compact: "Compact", editorial: "Editorial" },
+      results: "Showing {count} projects",
+      resultOne: "Showing one project",
+      resultNone: "No projects to show",
+      showAll: "Show all projects",
+      cta: {
+        heading: "Could the next project be yours?",
+        body: "Tell me what you want to build, and we'll work out the right way to do it together.",
+        link: "Let's talk",
+      },
+    },
     caseStudy: {
       additionalInfo: "More information",
       gallery: "Project images",

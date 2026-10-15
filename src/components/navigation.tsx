@@ -5,13 +5,17 @@ import type { EnabledLocale } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
 import { LanguageLink } from "@/components/language-link";
 import { LiquidNavigation } from "@/components/liquid-navigation";
+import { anchorHref } from "@/lib/anchor-href";
 
 export function Navigation({
   locale,
   content,
+  pageAnchors,
 }: {
   locale: EnabledLocale;
   content: SiteContent["navigation"];
+  /** Off the homepage: the section anchors that exist on this page. */
+  pageAnchors?: string[];
 }) {
   const dialogId = useId();
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -52,7 +56,11 @@ export function Navigation({
         className="desktop-navigation"
         aria-label={content.label}
       >
-        <LiquidNavigation links={content.desktopLinks} />
+        <LiquidNavigation
+          links={content.desktopLinks}
+          locale={locale}
+          pageAnchors={pageAnchors}
+        />
       </nav>
 
       <button
@@ -138,7 +146,10 @@ export function Navigation({
             <ul className="navigation-links">
               {content.links.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} onClick={closeMenu}>
+                  <a
+                    href={anchorHref(link.href, locale, pageAnchors)}
+                    onClick={closeMenu}
+                  >
                     {link.label}
                   </a>
                 </li>

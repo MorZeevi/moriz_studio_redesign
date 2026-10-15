@@ -96,10 +96,12 @@ test("system follows live OS changes until a manual choice survives reload and r
   await expectTheme(page, "light");
   expect(await canvas(page)).toBe("rgb(251, 251, 255)");
   await expect(page.locator("#projects")).toHaveCSS("color", "rgb(38, 38, 38)");
+  // The projects page lets the themed canvas and its grain show through.
   await expect(page.locator("#projects")).toHaveCSS(
     "background-color",
-    "rgb(251, 251, 255)",
+    "rgba(0, 0, 0, 0)",
   );
+  await expect(page.locator(".page-grain canvas")).toBeAttached();
   await toggle(page).click();
   await expectTheme(page, "dark");
   await expect(page.locator("#projects")).toHaveCSS(

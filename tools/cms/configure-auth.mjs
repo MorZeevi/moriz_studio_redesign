@@ -43,6 +43,8 @@ const redirects = [
     ...current,
     "http://127.0.0.1:3000/admin/auth/callback",
     "http://localhost:3000/admin/auth/callback",
+    "http://127.0.0.1:3002/admin/auth/callback",
+    "http://localhost:3002/admin/auth/callback",
     "http://127.0.0.1:4398/admin/auth/callback",
     ...(process.env.SUPABASE_AUTH_REDIRECT_URL
       ? [process.env.SUPABASE_AUTH_REDIRECT_URL]

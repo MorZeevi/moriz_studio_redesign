@@ -2,12 +2,18 @@
 
 import { type CSSProperties, useEffect, useId, useRef, useState } from "react";
 import type { SiteContent } from "@/i18n/dictionaries";
+import { anchorHref } from "@/lib/anchor-href";
 import styles from "./liquid-navigation.module.css";
 
 export function LiquidNavigation({
   links,
+  locale,
+  pageAnchors,
 }: {
   links: SiteContent["navigation"]["desktopLinks"];
+  locale: string;
+  /** Off the homepage: the section anchors that exist on this page. */
+  pageAnchors?: string[];
 }) {
   const listRef = useRef<HTMLUListElement>(null);
   const filterId = `liquid-goo-${useId().replace(/:/g, "")}`;
@@ -209,7 +215,7 @@ export function LiquidNavigation({
           <li className={styles.item} key={href}>
             <a
               className={styles.pill}
-              href={href}
+              href={anchorHref(href, locale, pageAnchors)}
               aria-current={activeHref === href ? "location" : undefined}
               data-liquid-shape
             >
