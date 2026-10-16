@@ -158,15 +158,17 @@ export default async function Home({
               locale={locale}
             />
           </Section>
-
-          <Section
-            id="design-quote"
-            title={content.designQuote.label}
-            showHeading={false}
-          >
-            <DesignQuote content={content.designQuote} />
-          </Section>
         </SecondaryScrollSurface>
+
+        <AboutGallery content={content.aboutGallery} reverse />
+
+        <Section
+          id="design-quote"
+          title={content.designQuote.label}
+          showHeading={false}
+        >
+          <DesignQuote content={content.designQuote} />
+        </Section>
 
         <Section id="faq" title={content.faq.heading} showHeading={false}>
           <Faq content={content.faq} />

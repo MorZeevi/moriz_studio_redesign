@@ -6,7 +6,7 @@ import { pixelRevealBootstrap } from "@/lib/pixel-reveal";
 import { themeBootstrap } from "@/lib/theme";
 import { ThemeProvider } from "@/components/theme-provider";
 import Noise from "@/components/react-bits/Noise";
-import { danidin, leon } from "@/styles/fonts";
+import { caveat, danidin, leon } from "@/styles/fonts";
 import "../globals.css";
 
 type LocaleParams = { params: Promise<{ locale: string }> };
@@ -45,7 +45,7 @@ export default async function RootLayout({
       lang={locale}
       dir={localeConfig[locale].direction}
       data-public-site=""
-      className={`${danidin.variable} ${leon.variable}`}
+      className={`${danidin.variable} ${leon.variable} ${caveat.variable}`}
       suppressHydrationWarning
     >
       <head>

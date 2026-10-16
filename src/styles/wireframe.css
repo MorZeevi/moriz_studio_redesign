@@ -502,26 +502,36 @@ html:has(.navigation-dialog[open]) {
   );
 }
 
-/* Silhouettes painted in one shared gray, mixed from the theme's text and
-   background so it works in light and dark. */
+/* Silhouettes painted in the theme's text colour at 70%, so they work in light
+   and dark. */
 .client-logo {
   display: block;
   block-size: calc(var(--logoloop-logoHeight) * var(--logo-scale, 1));
   aspect-ratio: var(--logo-ratio);
-  background: color-mix(
-    in srgb,
-    var(--color-text-primary) 50%,
-    var(--color-background)
-  );
+  background: var(--color-text-primary);
+  opacity: 0.7;
   -webkit-mask: var(--logo-src) center / contain no-repeat;
   mask: var(--logo-src) center / contain no-repeat;
 }
 
-/* Phones show the logos at full ink. */
-@media (max-width: 63.999rem) {
-  .client-logo {
-    background: var(--color-text-primary);
-  }
+/* An emblem with its name beside it: Hebrew above English, set in the body
+   face in the same ink as the silhouettes. */
+.client-logo-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.client-logo-caption {
+  display: grid;
+  gap: 0.15em;
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: 0.45em;
+  font-weight: var(--font-weight-body);
+  line-height: 1.2;
+  white-space: nowrap;
+  opacity: 0.7;
 }
 
 .logo-placeholder {
@@ -709,7 +719,9 @@ body[data-secondary-ink="light"] main {
 
 /* No rules between the block and its neighbours, as with Projects. */
 .secondary-surface > .wireframe-section,
-.secondary-surface + .wireframe-section {
+.secondary-surface + .wireframe-section,
+[data-wireframe-section="about-gallery-reverse"] + .wireframe-section,
+#design-quote + .wireframe-section {
   border-block-start: 0;
 }
 

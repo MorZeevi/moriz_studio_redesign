@@ -19,15 +19,18 @@ const serverMobile = () => true;
 /**
  * An endless strip of images that drifts on its own and can be dragged; while
  * held, the cards loosen into a scattered tilt. Based on mwg_008.
+ * `reverse` mirrors it: the opposite tilt, drift and image order.
  */
 export function AboutGallery({
   content,
+  reverse = false,
 }: {
   content: SiteContent["aboutGallery"];
+  reverse?: boolean;
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const mobile = useSyncExternalStore(subscribeMobile, readMobile, serverMobile);
-  const images = content.images;
+  const images = reverse ? [...content.images].reverse() : content.images;
 
   useEffect(() => {
     const track = trackRef.current;
@@ -44,9 +47,12 @@ export function AboutGallery({
     let half = track.offsetWidth / 2;
     let total = 0;
     let visible = false;
-    // Drift leftward in RTL and rightward in LTR.
+    // Drift leftward in RTL and rightward in LTR; the reversed strip goes
+    // the other way.
     const section = track.closest("section") ?? track;
-    const drift = getComputedStyle(section).direction === "rtl" ? -1 : 1;
+    const drift =
+      (getComputedStyle(section).direction === "rtl" ? -1 : 1) *
+      (reverse ? -1 : 1);
 
     const xTo = gsap.quickTo(track, "x", {
       duration: 0.5,
@@ -121,13 +127,13 @@ export function AboutGallery({
       gsap.killTweensOf(track);
       gsap.set([track, ...cards], { clearProps: "all" });
     };
-  }, [mobile]);
+  }, [mobile, reverse]);
 
   return (
     <section
-      className={styles.root}
+      className={`${styles.root}${reverse ? ` ${styles.reverse}` : ""}`}
       aria-label={content.label}
-      data-wireframe-section="about-gallery"
+      data-wireframe-section={reverse ? "about-gallery-reverse" : "about-gallery"}
     >
       <div className={styles.viewport}>
         <div ref={trackRef} className={styles.track}>

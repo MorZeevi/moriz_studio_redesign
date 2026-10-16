@@ -73,8 +73,8 @@ export function AboutMe({ content }: { content: SiteContent["about"] }) {
           stagger: 0.1,
           scrollTrigger: {
             trigger: "[data-about-copy]",
-            start: "top 85%",
-            end: "bottom 70%",
+            start: "top 65%",
+            end: "bottom 50%",
             scrub: 0.4,
           },
         },

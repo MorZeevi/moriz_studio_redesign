@@ -1,17 +1,45 @@
-/* A quiet pause between Getting started and the FAQ: one large centred
-   quote. Colours are inherited, so the secondary surface ink applies. */
+/* A quiet pause between the second gallery and the FAQ: one large quote,
+   opened by an oversized quote mark and signed by hand at its end, all in the
+   CTA colour. The figure is as wide as the quote, so the signature lines up
+   with the quote's end edge. */
 .root {
-  margin: 0;
+  --quote-accent: var(--color-action-primary);
+  position: relative;
+  isolation: isolate;
+  inline-size: fit-content;
+  /* Just wider than the first line, so the mark and the signature hug the
+     text. ch scales with the type, so the two lines hold at every width. */
+  max-inline-size: min(100%, 14.5ch);
+  margin: 0 auto;
   padding-block: var(--section-space-sm);
+  color: var(--quote-accent);
+  font-size: var(--text-h2);
   text-align: center;
 }
 
+/* Sits up and to the left of the first line, partly behind it. */
+.mark {
+  position: absolute;
+  z-index: -1;
+  inset-block-start: calc(var(--section-space-sm) - 0.3em);
+  inset-inline-start: -0.75em;
+  color: var(--quote-accent);
+  font-family: var(--font-display);
+  font-size: 1.5em;
+  font-weight: var(--font-weight-display);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Set in the heading face: Danidin at the h2 tokens. */
 .quote {
-  max-inline-size: 18ch;
-  margin: 0 auto;
-  font-size: clamp(2rem, 5.5vw, 4.5rem);
-  font-weight: 500;
-  line-height: 1.1;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1em;
+  font-weight: var(--font-weight-display);
+  line-height: var(--text-h2--line-height);
+  letter-spacing: var(--text-h2--letter-spacing);
   text-wrap: balance;
 }
 
@@ -19,17 +47,59 @@
   margin: 0;
 }
 
-/* Inline blocks, so each word can move and blur on its own. */
+/* Each word clips its letters as they slide up into it. The clip reaches past
+   the tight line box, so ascenders and descenders show once in place. */
 .word {
+  display: inline-block;
+  clip-path: inset(-0.2em -0.1em -0.25em);
+}
+
+.char {
   display: inline-block;
 }
 
 .author {
-  margin-block-start: clamp(1.25rem, 2.5vw, var(--space-8));
-  color: var(--color-text-secondary);
-  font-size: 1rem;
+  margin-block-start: clamp(1rem, 2vw, var(--space-6));
+  text-align: end;
 }
 
-.author cite {
+.signature {
+  position: relative;
+  display: inline-block;
+  padding-inline: 0.15em;
+  color: var(--quote-accent);
+  font-family: var(--font-caveat), "Bradley Hand", cursive;
+  font-size: clamp(2.25rem, 3.5vw, 3.25rem);
   font-style: normal;
+  font-weight: 700;
+  line-height: 1;
+  rotate: -4deg;
+  transform-origin: 100% 50%;
+}
+
+/* A loose pen stroke under the name. */
+.stroke {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 100%;
+  inline-size: 100%;
+  block-size: 0.32em;
+  overflow: visible;
+}
+
+.stroke path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+/* Phones: the mark stays inside the gutter. */
+@media (max-width: 47.999rem) {
+  .mark {
+    inset-inline-start: -0.05em;
+    font-size: 1.3em;
+  }
 }

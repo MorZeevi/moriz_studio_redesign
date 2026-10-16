@@ -1,12 +1,13 @@
 .footer {
-  --footer-radius: clamp(1.5rem, 3vw, 3rem);
+  /* The contact panel's corner radius, so the two surfaces read as a set. */
+  --footer-radius: clamp(2rem, 4vw, 4rem);
   /* Risen-from-below letters must not widen or lengthen the page: a taller
      page would move the wordmark trigger's end while it scrubs. */
   overflow: clip;
   position: relative;
   border-start-start-radius: var(--footer-radius);
   border-start-end-radius: var(--footer-radius);
-  padding-block-start: clamp(6rem, 9vw, 10rem);
+  padding-block-start: clamp(3rem, 5vw, 5rem);
   background: var(--site-background);
   color: var(--site-foreground);
 }
@@ -23,7 +24,6 @@
 .contactBand {
   position: relative;
   z-index: 1;
-  min-block-size: 100svh;
   overflow: clip;
   background: var(--site-background);
   color: var(--site-foreground);
@@ -37,13 +37,13 @@
 
 .top {
   display: grid;
-  gap: var(--space-12);
+  gap: var(--space-8);
 }
 
 .contact {
   position: relative;
   z-index: 1;
-  padding-block: var(--space-20) var(--space-24);
+  padding-block: var(--space-12) var(--space-16);
 }
 
 .contactShell {
@@ -53,7 +53,7 @@
   --site-heading-accent: var(--color-light);
   position: relative;
   display: grid;
-  gap: var(--space-12);
+  gap: var(--space-8);
   min-inline-size: 0;
   padding: clamp(2rem, 5vw, 5rem) clamp(1.5rem, 5vw, 5rem);
   color: var(--site-foreground);
@@ -120,7 +120,7 @@
 /* The form and, under it, the direct ways to reach Mor. */
 .reach {
   display: grid;
-  gap: var(--space-12);
+  gap: var(--space-8);
   justify-items: end;
   min-inline-size: 0;
 }
@@ -173,7 +173,7 @@
 .columns {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 8rem), 1fr));
-  gap: var(--space-10) var(--space-6);
+  gap: var(--space-6);
 }
 
 .column {
@@ -258,7 +258,7 @@ a.social:hover {
   position: relative;
   display: flex;
   justify-content: space-between;
-  margin-block-start: var(--space-16);
+  margin-block-start: var(--space-8);
   font-family: var(--font-body);
   font-size: 39.5vw;
   line-height: 0.8;
@@ -335,8 +335,8 @@ a.social:hover {
   align-items: flex-start;
   gap: var(--space-3);
   padding-block: var(--space-6);
-  /* Clear the fixed WhatsApp button at the lower inline end. */
-  padding-block-end: calc(var(--control-height-lg) + var(--space-4) * 2);
+  /* Clear the fixed WhatsApp button, raised 5% off the bottom. */
+  padding-block-end: calc(var(--control-height-lg) + 5svh + var(--space-4));
 }
 
 .legal {
@@ -378,7 +378,7 @@ a.tag:hover {
   .contactShell {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
     column-gap: clamp(3rem, 7vw, 8rem);
-    padding-block: var(--space-24);
+    padding-block: var(--space-16);
   }
 
   .shellShape {

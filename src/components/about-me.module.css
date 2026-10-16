@@ -3,7 +3,6 @@
 .root {
   /* Section scroll progress, set by the component; at rest without JS. */
   --about-progress: 1;
-  --about-rule: color-mix(in srgb, var(--color-text-primary) 18%, transparent);
   display: grid;
   gap: var(--space-10);
   align-items: start;
@@ -31,26 +30,23 @@
   font-weight: var(--font-weight-heading);
 }
 
-/* Trust facts: value over label, as rows on mobile and three columns on
-   desktop, set apart from the bio by a hairline. */
+/* Trust facts: value over label, centred, stacked on mobile and three columns
+   on desktop. No rules around or between them. */
 .credentials {
   display: grid;
   margin: var(--space-6) 0 0;
-  border-block-start: 1px solid var(--about-rule);
 }
 
 .credential {
   display: grid;
-  grid-template-columns: 6.5rem minmax(0, 1fr);
-  column-gap: var(--space-4);
-  row-gap: var(--space-1);
-  align-items: baseline;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  row-gap: var(--space-2);
   padding-block: var(--space-4);
-  border-block-end: 1px solid var(--about-rule);
+  text-align: center;
 }
 
 .credentialValue {
-  grid-row: span 2;
   font-size: var(--text-h4);
   font-weight: var(--font-weight-heading);
   line-height: 1;
@@ -60,12 +56,17 @@
 .credentialLabel,
 .credentialDetail {
   margin: 0;
-  grid-column: 2;
 }
 
 .credentialLabel {
   font-size: var(--text-body);
   line-height: 1.4;
+}
+
+/* Latin runs such as "Front-End" never break at their hyphen. */
+.credentialLabel bdi,
+.credentialDetail bdi {
+  white-space: nowrap;
 }
 
 .credentialDetail {
@@ -120,7 +121,6 @@
   .credentials {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     margin-block-start: var(--space-10);
-    border-block-end: 1px solid var(--about-rule);
   }
 
   .credential {
@@ -129,23 +129,11 @@
     align-content: start;
     row-gap: var(--space-2);
     padding-block: var(--space-6);
-    padding-inline: 0 var(--space-6);
-    border-block-end: 0;
-  }
-
-  .credential + .credential {
-    padding-inline-start: var(--space-6);
-    border-inline-start: 1px solid var(--about-rule);
+    padding-inline: var(--space-4);
   }
 
   .credentialValue {
-    grid-row: auto;
     margin-block-end: var(--space-2);
     font-size: var(--text-h3);
-  }
-
-  .credentialLabel,
-  .credentialDetail {
-    grid-column: 1;
   }
 }

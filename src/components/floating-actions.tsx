@@ -1,7 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import {
+  type CSSProperties,
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from "react";
 import { AskAiChat } from "@/components/ask-ai-chat";
 import { LiquidButton, LiquidLink } from "@/components/ui/liquid-link";
 import { SparkleIcon } from "@/components/ui/sparkle-icon";
@@ -57,6 +64,7 @@ export function FloatingActions({
   const [open, setOpen] = useState(false);
   const [openCount, setOpenCount] = useState(0);
   const titleId = useId();
+  const outlineId = `ai-outline-${useId().replace(/:/g, "")}`;
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const openerRef = useRef<HTMLElement | null>(null);
@@ -125,6 +133,39 @@ export function FloatingActions({
 
   return (
     <>
+      {/* Rings the AI pill after the goo filter has merged its shapes, so the
+          border follows the neck as the label grows. */}
+      <svg
+        width="0"
+        height="0"
+        className="liquid__filter"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <defs>
+          <filter
+            id={outlineId}
+            x="-10%"
+            y="-50%"
+            width="120%"
+            height="200%"
+            colorInterpolationFilters="sRGB"
+          >
+            <feMorphology
+              in="SourceAlpha"
+              operator="dilate"
+              radius="2"
+              result="grown"
+            />
+            <feFlood className={styles.outlineInk} result="ink" />
+            <feComposite in="ink" in2="grown" operator="in" result="ring" />
+            <feMerge>
+              <feMergeNode in="ring" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+      </svg>
       {/* Stays mounted while closed so the conversation is there on reopen. */}
       <dialog
         ref={dialogRef}
@@ -150,6 +191,7 @@ export function FloatingActions({
           <LiquidButton
             ref={triggerRef}
             className={`${styles.action} ${styles.ai} floating-action`}
+            style={{ "--ai-outline": `url("#${outlineId}")` } as CSSProperties}
             glyph={<SparkleIcon />}
             aria-label={content.aiLabel}
             aria-haspopup="dialog"

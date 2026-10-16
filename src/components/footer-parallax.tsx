@@ -35,14 +35,28 @@ export function FooterParallax({ children }: { children: ReactNode }) {
       gsap.registerPlugin(ScrollTrigger);
       tween = gsap.fromTo(
         surface,
-        { y: () => -window.innerHeight },
+        // Never rise further than the contact band above can cover, or the
+        // footer would peek out over the section before it.
+        {
+          y: () => {
+            const cover = stage.previousElementSibling;
+            return -Math.min(
+              window.innerHeight,
+              cover instanceof HTMLElement
+                ? cover.offsetHeight
+                : window.innerHeight,
+            );
+          },
+        },
         {
           y: 0,
           ease: "none",
           scrollTrigger: {
             trigger: stage,
             start: "top bottom",
-            end: "top top",
+            // The footer can be shorter than the viewport, so its top may
+            // never reach the top; settle when the page bottoms out instead.
+            end: "bottom bottom",
             scrub: true,
             invalidateOnRefresh: true,
           },

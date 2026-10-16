@@ -1,8 +1,8 @@
-/* Lower inline-end corner (left in RTL), where the WhatsApp button used to sit. */
+/* Lower inline-end corner (left in RTL), raised 5% off the bottom. */
 .root {
   position: fixed;
   inset-inline-end: max(var(--space-4), var(--safe-area-inline-end));
-  inset-block-end: max(var(--space-4), env(safe-area-inset-bottom));
+  inset-block-end: max(5svh, env(safe-area-inset-bottom));
   z-index: 20;
   display: flex;
   flex-direction: column;
@@ -33,16 +33,30 @@
   white-space: nowrap;
 }
 
-/* The AI pill takes the secondary colour, as LiquidLink's secondary variant
-   does. Same specificity, later in the file. */
+/* The AI pill matches the FAQ's moriz.ai button: white with a CTA outline and
+   sparkle. The outline filter runs after the goo, so the ring traces the
+   merged shape. Same specificity, later in the file. */
 .ai.ai {
-  --liquid-fill: var(--color-secondary);
-  --liquid-pressed-fill: var(--color-action-secondary-hover);
+  /* The ring adds 2px a side; with it the pill matches WhatsApp's height. */
+  --liquid-height: calc(var(--control-height-md) - 4px);
+  --liquid-fill: var(--color-white);
+  --liquid-pressed-fill: var(--color-surface);
   --liquid-ink: var(--color-dark);
+  filter: var(--liquid-filter) var(--ai-outline, );
 }
 
-/* "moriz.ai" reads a step larger than the body-size WhatsApp label. */
+.outlineInk {
+  flood-color: var(--color-action-primary);
+}
+
+.ai :global(.liquid__icon) {
+  color: var(--color-action-primary);
+}
+
+/* "moriz.ai" reads a step larger than the body-size WhatsApp label. No block
+   padding, so the larger text doesn't stretch the pill past --liquid-height. */
 .ai :global(.liquid__label) {
+  padding-block: 0;
   font-size: var(--text-body-lg);
 }
 
@@ -54,6 +68,12 @@
 .action :global(.liquid__icon) > span {
   inline-size: 1.75em;
   block-size: 1.75em;
+}
+
+/* A larger sparkle, so it fills its blob as the portrait fills WhatsApp's. */
+.ai.ai :global(.liquid__icon) > span {
+  inline-size: 2.25em;
+  block-size: 2.25em;
 }
 
 /* At rest: the blob, its neck and the start of the label, as the header pill
@@ -205,6 +225,9 @@
   .compactMobile .action.action {
     --liquid-height: 2.75rem;
     --liquid-icon-size: 2.75rem;
+  }
+  .compactMobile .ai.ai {
+    --liquid-height: calc(2.75rem - 4px);
   }
   .compactMobile .action :global(.liquid__icon) {
     flex-basis: 2.75rem;

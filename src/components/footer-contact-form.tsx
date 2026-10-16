@@ -3,6 +3,7 @@
 import { useRef, useState, useSyncExternalStore } from "react";
 import { CheckIcon } from "@/components/contact-icons";
 import { LiquidButton } from "@/components/ui/liquid-link";
+import { PaperPlaneIcon } from "@/components/ui/paper-plane-icon";
 import type { SiteContent } from "@/i18n/dictionaries";
 import { WHATSAPP_URL } from "@/lib/whatsapp";
 import styles from "./footer-contact-form.module.css";
@@ -208,14 +209,18 @@ export function FooterContactForm({
             id="contact-message"
             name="message"
             className={`${styles.control} ${styles.message}`}
-            rows={3}
+            rows={2}
             dir="auto"
           />
         </div>
 
         <div className={`${styles.actions} ${styles.full}`}>
           {/* The server sends the message to Mor; this label stays stable. */}
-          <LiquidButton type="submit" className={styles.submit}>
+          <LiquidButton
+            type="submit"
+            className={styles.submit}
+            glyph={<PaperPlaneIcon />}
+          >
             {content.submit}
           </LiquidButton>
           <p

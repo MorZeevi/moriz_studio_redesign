@@ -15,6 +15,11 @@
   rotate: -5deg;
 }
 
+/* The mirrored strip tilts the other way. */
+.reverse .viewport {
+  rotate: 5deg;
+}
+
 .track {
   display: flex;
   inline-size: max-content;

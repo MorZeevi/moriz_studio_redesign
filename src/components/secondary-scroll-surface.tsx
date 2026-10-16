@@ -43,7 +43,7 @@ export function SecondaryScrollSurface({ children }: { children: ReactNode }) {
       geometryDirty = false;
       const { top, bottom } = surface.getBoundingClientRect();
       const height = window.innerHeight;
-      // Exit across the quote's last 45vh, completing before the FAQ heading.
+      // Exit across the surface's last 45vh, as Getting started leaves.
       // The remaining-distance fallback still handles short pages.
       const remaining =
         document.documentElement.scrollHeight - height - window.scrollY;

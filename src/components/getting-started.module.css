@@ -5,8 +5,9 @@
   --gs-accent: var(--color-action-primary);
   --gs-rule: var(--color-light);
   --gs-muted: var(--color-text-secondary);
-  --gs-node: 0.75rem;
-  --gs-tile: 2.75rem;
+  /* The node is a white dot holding the step icon, at every width. */
+  --gs-node: 3rem;
+  --gs-tile: 3rem;
   /* Time for the content to settle one step; drops to 0s with reduced motion. */
   --gs-stagger: calc(var(--duration-slow) * 0.6);
   /* Scroll progress along the rail (set by the component; full without JS)
@@ -48,13 +49,28 @@
   inset-inline-start: 0;
   inline-size: var(--gs-node);
   block-size: var(--gs-node);
+  display: grid;
+  place-items: center;
   border: var(--border-width-default) solid var(--gs-accent);
   border-radius: 50%;
-  background: var(--gs-accent);
+  background: var(--color-light);
   transition:
     background-color var(--duration-normal) var(--ease-standard),
     border-color var(--duration-normal) var(--ease-standard),
     scale var(--duration-normal) var(--ease-enter);
+}
+
+.nodeIcon {
+  display: grid;
+  inline-size: 60%;
+  block-size: 60%;
+  color: var(--color-dark);
+}
+
+.nodeIcon svg {
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
 }
 
 .segment {
@@ -245,32 +261,8 @@
   }
 }
 
-/* Phones: the step icon sits in a larger white node; no numbers. */
+/* Phones: no numbers. */
 @media (max-width: 63.999rem) {
-  .root {
-    --gs-node: 3rem;
-    --gs-tile: 3rem;
-  }
-
-  .node {
-    display: grid;
-    place-items: center;
-    background: var(--color-light);
-  }
-
-  .nodeIcon {
-    display: grid;
-    inline-size: 60%;
-    block-size: 60%;
-    color: var(--color-dark);
-  }
-
-  .nodeIcon svg {
-    inline-size: 100%;
-    block-size: 100%;
-    overflow: visible;
-  }
-
   .head {
     display: none;
   }
@@ -283,9 +275,10 @@
   }
 }
 
-/* Desktop: hairline columns, rail across the top. */
+/* Desktop: hairline columns, rail across the top; the icon sits in the node,
+   the number heads the column. */
 @media (min-width: 64rem) {
-  .nodeIcon {
+  .icon {
     display: none;
   }
 
@@ -296,7 +289,7 @@
 
   .step {
     --delay: calc(var(--i) * var(--gs-stagger));
-    padding-block: var(--space-12) 0;
+    padding-block: calc(var(--gs-node) + var(--space-6)) 0;
     padding-inline: var(--space-8);
     border-inline-start: var(--border-width-default) solid var(--gs-rule);
   }

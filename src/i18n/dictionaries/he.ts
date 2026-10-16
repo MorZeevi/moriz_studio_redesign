@@ -253,7 +253,7 @@ export const he = {
     credentials: [
       {
         value: "B.A",
-        label: "תואר בטכנולוגיות למידה | H.I.T",
+        label: "בטכנולוגיות למידה | H.I.T",
         detail: "UI/UX · עיצוב אינטראקטיבי · גיימיפיקציה של מוצרים",
       },
       { value: "7+", label: "שנות ניסיון בפיתוח Front-End" },
@@ -480,8 +480,8 @@ export const he = {
       optional: "(לא חובה)",
     },
     errors: {
-      name: "איך לקרוא לך? נא למלא שם.",
-      phone: "נא למלא מספר טלפון תקין.",
+      name: "אפשר גם כינוי שאוהבים",
+      phone: "רגע, משהו לא בסדר במספר.",
     },
     submit: "שליחת הודעה",
     sending: "שולחים את ההודעה...",
@@ -522,10 +522,17 @@ export const he = {
       },
     ],
     socialsHeading: "עקבו",
-    // TODO: owner to supply profile URLs. An empty href renders as a placeholder, not a link.
     socials: [
-      { network: "instagram" as const, label: "אינסטגרם", href: "" },
-      { network: "linkedin" as const, label: "לינקדאין", href: "" },
+      {
+        network: "instagram" as const,
+        label: "אינסטגרם",
+        href: "https://www.instagram.com/moriz_studio/",
+      },
+      {
+        network: "linkedin" as const,
+        label: "לינקדאין",
+        href: "https://www.linkedin.com/in/mor-zeevi",
+      },
     ],
     // TODO: owner to supply legal pages. An empty href renders as a placeholder, not a link.
     legal: [

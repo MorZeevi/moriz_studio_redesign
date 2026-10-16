@@ -27,23 +27,39 @@ export function LogoCarousel({
   const logos = useMemo<LogoItem[]>(
     () =>
       homepageLogos.length > 0
-        ? homepageLogos.map(({ src, alt, ratio, scale }) => ({
-            node: (
-              <span
-                className="client-logo"
-                role="img"
-                aria-label={alt}
-                style={
-                  {
-                    "--logo-src": `url(${src})`,
-                    "--logo-ratio": ratio,
-                    "--logo-scale": scale,
-                  } as CSSProperties
-                }
-              />
-            ),
-            title: alt,
-          }))
+        ? homepageLogos.map(({ src, alt, ratio, scale, caption }) => {
+            const style = {
+              "--logo-src": `url(${src})`,
+              "--logo-ratio": ratio,
+              "--logo-scale": scale,
+            } as CSSProperties;
+            return {
+              // An emblem with its name set beside it, read as one image.
+              node: caption ? (
+                <span
+                  className="client-logo-lockup"
+                  dir="rtl"
+                  role="img"
+                  aria-label={alt}
+                >
+                  <span className="client-logo" style={style} />
+                  <span className="client-logo-caption" aria-hidden="true">
+                    {caption.map((line) => (
+                      <span key={line}>{line}</span>
+                    ))}
+                  </span>
+                </span>
+              ) : (
+                <span
+                  className="client-logo"
+                  role="img"
+                  aria-label={alt}
+                  style={style}
+                />
+              ),
+              title: alt,
+            };
+          })
         : Array.from({ length: 6 }, () => ({
             node: (
               <span className="logo-placeholder" dir="rtl">

@@ -12,7 +12,7 @@
 .fields {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-8);
+  gap: var(--space-6);
   min-inline-size: 0;
   margin: 0;
   padding: 0;
@@ -170,6 +170,11 @@
   max-inline-size: 100%;
   font-size: var(--text-body-lg);
   cursor: pointer;
+}
+
+/* The plane flies toward the reading direction: left in Hebrew. */
+.submit:dir(rtl) :global(.liquid__custom-glyph) {
+  scale: -1 1;
 }
 
 .form[aria-busy="true"] .submit {
