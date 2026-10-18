@@ -108,17 +108,28 @@
   font-weight: 900;
   overflow-wrap: anywhere;
 }
+/* The site's primary button. On a coloured panel it takes the panel's own
+   colours through the tokens the button reads, so its states still apply. */
 .websiteLink {
-  --color-text-primary: var(--case-foreground);
-  --color-border-strong: var(--case-foreground);
   margin-block: var(--space-4) var(--space-6);
 }
-.websiteLink:hover:not(:disabled):not([aria-disabled="true"]) {
-  background: transparent;
-  color: var(--case-foreground);
+.panel[data-surface] .websiteLink {
+  --color-action-primary: var(--case-foreground);
+  --color-action-primary-hover: color-mix(
+    in srgb,
+    var(--case-foreground) 80%,
+    var(--case-background)
+  );
+  --color-text-inverse: var(--case-background);
+  --color-focus: var(--case-foreground);
 }
 .websiteLink svg {
   flex-shrink: 0;
+}
+@media (max-width: 39.99rem) {
+  .websiteLink {
+    inline-size: 100%;
+  }
 }
 .accordion {
   border-block-start: 1px solid currentColor;
@@ -254,6 +265,13 @@
 .figure a:hover .enlarge,
 .figure a:focus-visible .enlarge {
   opacity: 1;
+}
+/* Gallery-row videos keep their recorded ratio, so the box never jumps. */
+.rowVideo {
+  min-inline-size: 0;
+}
+.rowVideo video {
+  aspect-ratio: var(--ratio, auto);
 }
 .pair,
 .row {

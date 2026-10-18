@@ -84,6 +84,17 @@ export type MediaTextBlock = BlockBase &
     feature?: boolean;
     spacing?: MediaSpacing;
   };
+/** One gallery row: one file at full width, or two side by side. */
+export type GalleryRow = { id: string; items: string[] };
+/**
+ * The case-study gallery, in admin order. Items are gallery `media` srcs, so
+ * alt text, captions, posters and sizes come from the media record. Kept last
+ * in `content` and edited in the Gallery section, not as a content block.
+ */
+export type GalleryRowsBlock = BlockBase & {
+  type: "gallery_rows";
+  rows: GalleryRow[];
+};
 /** Renders the project's highlights at this position. */
 export type HighlightsBlock = BlockBase & {
   type: "highlights";
@@ -99,7 +110,8 @@ export type ProjectContentBlock =
   | ImageRowBlock
   | GalleryBlock
   | MediaTextBlock
-  | HighlightsBlock;
+  | HighlightsBlock
+  | GalleryRowsBlock;
 export type BlockType = ProjectContentBlock["type"];
 
 /** Placement of a gallery file that no block places explicitly. */

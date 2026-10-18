@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { userCountHighlight } from "@/lib/cms/card-options";
 import { MAX_HIGHLIGHTS } from "@/lib/cms/validation";
 import type { Highlight } from "@/types/project";
 import { LocalizedField } from "./localized-field";
@@ -11,12 +12,19 @@ import styles from "./admin.module.css";
  * project's scale, audience or scope; they are not presented as results.
  */
 export function HighlightsEditor({
-  highlights,
-  onChange,
+  highlights: all,
+  onChange: onChangeAll,
 }: {
   highlights: Highlight[];
   onChange: (highlights: Highlight[]) => void;
 }) {
+  // The user count is edited with the project details and shown there on the
+  // project page, but it shares the stored list (and its three slots).
+  const userCount = userCountHighlight(all);
+  const highlights = all.filter((h) => h !== userCount);
+  function onChange(next: Highlight[]) {
+    onChangeAll(userCount ? [...next, userCount] : next);
+  }
   function patch(id: string, change: Partial<Highlight>) {
     onChange(highlights.map((h) => (h.id === id ? { ...h, ...change } : h)));
   }
@@ -24,8 +32,20 @@ export function HighlightsEditor({
     <div>
       <p className={styles.hint}>
         עובדות מעניינות על הפרויקט: היקף, קהל או סקופ. אלה לא בהכרח תוצאות. הערך
-        הוא טקסט חופשי, למשל 6K+, 1,000+, 24/7 או 12.
+        הוא טקסט חופשי, למשל 6K+, 1,000+, 24/7 או 12. בעמוד הפרויקט הן מוצגות
+        בפאנל הצדדי, או במקום של בלוק ״היילייטס״ אם הוספתם אחד.
       </p>
+      {userCount && (
+        <div className={styles.locked}>
+          <strong>
+            מספר משתמשים · <bdi>{userCount.value}</bdi>
+          </strong>
+          <p className={styles.hint}>
+            נערך בלשונית פרטי הפרויקט ומוצג עם פרטי הפרויקט. תופס אחד משלושת
+            המקומות, ואפשר לבחור אותו לכרטיסים.
+          </p>
+        </div>
+      )}
       <SortableList
         items={highlights}
         type="highlight"
@@ -86,7 +106,7 @@ export function HighlightsEditor({
       />
       <Button
         variant="outline"
-        disabled={highlights.length >= MAX_HIGHLIGHTS}
+        disabled={all.length >= MAX_HIGHLIGHTS}
         onClick={() =>
           onChange([
             ...highlights,
@@ -94,7 +114,7 @@ export function HighlightsEditor({
           ])
         }
       >
-        הוספת היילייט ({highlights.length}/{MAX_HIGHLIGHTS})
+        הוספת היילייט ({all.length}/{MAX_HIGHLIGHTS})
       </Button>
     </div>
   );

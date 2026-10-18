@@ -428,3 +428,193 @@ fieldset.subnav {
   padding: 0;
   min-inline-size: 0;
 }
+/* Two-tab editor ----------------------------------------------------------- */
+.panelIntro {
+  margin-block: var(--space-2) var(--space-4);
+}
+.more {
+  margin-block: var(--space-3);
+}
+.more > summary {
+  cursor: pointer;
+  min-block-size: 2.75rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+.warning {
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+.advanced {
+  margin-block-start: var(--space-6);
+  border: 1px solid var(--color-border);
+  padding: 0 var(--space-4);
+}
+.advanced > summary {
+  cursor: pointer;
+  min-block-size: 3.5rem;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 900;
+  font-size: 1.25rem;
+}
+.advanced > .section:last-child {
+  border-block-end: 0;
+}
+.mainMedia {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  align-items: start;
+}
+.saved {
+  font-size: var(--text-body-sm);
+  font-weight: 700;
+}
+.dirtyDot {
+  display: inline-block;
+  inline-size: 0.5rem;
+  block-size: 0.5rem;
+  margin-inline-end: var(--space-1);
+  border-radius: 50%;
+  background: var(--color-action-primary);
+  vertical-align: middle;
+}
+.locked {
+  border: 1px dashed var(--color-border-strong);
+  padding: var(--space-3) var(--space-4);
+  margin-block-end: var(--space-3);
+}
+.locked p {
+  margin: var(--space-1) 0 0;
+}
+/* Gallery rows */
+.galleryRows {
+  display: grid;
+  gap: var(--space-4);
+  margin-block-start: var(--space-4);
+}
+.galleryRow {
+  border: 1px solid var(--color-border);
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  background: var(--color-background);
+}
+.galleryRow .blockHeader {
+  margin-block-end: var(--space-3);
+}
+.segmented {
+  display: inline-flex;
+  flex-wrap: wrap;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  padding: 0;
+  margin: 0;
+  min-inline-size: 0;
+  overflow: hidden;
+}
+.segmented button {
+  min-block-size: 2.5rem;
+  padding: var(--space-1) var(--space-3);
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: var(--text-body-sm);
+  cursor: pointer;
+}
+.segmented button + button {
+  border-inline-start: 1px solid var(--color-border-strong);
+}
+.segmented button[aria-pressed="true"] {
+  background: var(--color-dark);
+  color: var(--color-light);
+  font-weight: 700;
+}
+.segmented button:disabled {
+  opacity: var(--opacity-disabled, 0.4);
+  cursor: not-allowed;
+}
+.segmented button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -4px;
+}
+.rowItems {
+  display: grid;
+  gap: var(--space-4);
+  align-items: start;
+}
+.rowItem {
+  min-inline-size: 0;
+}
+.rowPreview {
+  display: grid;
+  place-items: center;
+  cursor: grab;
+  background:
+    repeating-conic-gradient(
+      var(--color-surface) 0% 25%,
+      var(--color-background) 0% 50%
+    )
+    50% / 16px 16px;
+}
+/* Previews keep each file's own ratio, contained, never cropped. */
+.rowPreview > * {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  max-block-size: var(--preview-max, 22rem);
+  aspect-ratio: var(--ratio, auto);
+  object-fit: contain;
+}
+.rowItems:not([data-pair]) {
+  --preview-max: 26rem;
+}
+.extras {
+  margin-block-start: var(--space-6);
+}
+.extras h3 {
+  margin: 0 0 var(--space-2);
+  font-size: 1.125rem;
+}
+.extrasGrid {
+  list-style: none;
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+  gap: var(--space-4);
+}
+.extrasGrid {
+  --preview-max: 9rem;
+}
+@media (min-width: 641px) {
+  .rowItems[data-pair] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  .tabs [role="tab"] {
+    flex: none;
+  }
+  .mainMedia {
+    grid-template-columns: 1fr;
+  }
+  .advanced {
+    padding-inline: var(--space-3);
+  }
+}
+/* Visually hidden file inputs (replace file) keep the sr-only size; the
+   generic input width above would otherwise widen the page. */
+.shell input:global(.sr-only) {
+  inline-size: 1px;
+  min-block-size: 0;
+  padding: 0;
+  border: 0;
+}

@@ -28,7 +28,12 @@ export const blockLabels: Record<BlockType, string> = {
   gallery: "גלריה",
   media_text: "תמונה וטקסט",
   highlights: "היילייטס",
+  gallery_rows: "גלריה בשורות",
 };
+/** Managed in the Gallery section, never added from the block menu. */
+const ADDABLE = Object.entries(blockLabels).filter(
+  ([type]) => type !== "gallery_rows",
+);
 const he = projectCopy.he.sections;
 const en = projectCopy.en.sections;
 type Preset = keyof typeof he;
@@ -72,6 +77,8 @@ function newBlock(type: BlockType): ProjectContentBlock {
       return { id, type, src: "", text: "", title: "", side: "start" };
     case "highlights":
       return { id, type };
+    case "gallery_rows":
+      return { id, type, rows: [] };
   }
 }
 /** Default case-study sections, built from the ordinary block types. */
@@ -271,7 +278,12 @@ function Presentation({
   block: ProjectContentBlock;
   onChange: (block: ProjectContentBlock) => void;
 }) {
-  if (block.type === "text" || block.type === "highlights") return null;
+  if (
+    block.type === "text" ||
+    block.type === "highlights" ||
+    block.type === "gallery_rows"
+  )
+    return null;
   const single = block.type === "image" || block.type === "video";
   // Rows set their own layout: all images in one line.
   const hasLayout =
@@ -694,7 +706,7 @@ export function ContentEditor({
               ))}
             </optgroup>
             <optgroup label="בלוקים">
-              {Object.entries(blockLabels).map(([value, label]) => (
+              {ADDABLE.map(([value, label]) => (
                 <option key={value} value={value}>
                   {label}
                 </option>

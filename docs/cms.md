@@ -11,23 +11,23 @@ Only Auth user `300a2870-9861-4a41-9272-1d783b2636df` can use this site's CMS
 (it is mapped to `source = 'moriz'`, see [Ownership](#ownership-of-projects)).
 Public signup is disabled. There is no registration or password screen.
 
-Choose **New project**. The editor has five tabs:
+Choose **New project**. The editor has two tabs; switching between them keeps
+unsaved changes:
 
-- **General** (כללי): name, client, year, website URL, my role, project type
-  and categories.
-- **Homepage & Archive** (עמוד הבית וארכיון): cover media, the "featured" toggle
-  (show on homepage), short card description, archive description, optional
-  homepage/archive media overrides, manual order, and which highlight each card shows.
-  The archive section also has **מודגש בעמוד הפרויקטים** (`projects.featured`):
-  a featured project takes a large slot in the projects page's editorial layout.
-  It is independent of the homepage toggle and has no effect on the other layouts.
-- **Case Study**: hero headline and intro, the side panel's background and text
-  colours, target audience (shown only on the case study), up to three highlights,
-  and the content blocks.
-- **Gallery** (גלריה): project logo, main video (with poster and loop setting), and
-  the image/video gallery with alt text, captions, descriptions, layout, ordering
-  (drag or Up/Down), replace and delete.
-- **Settings & SEO**: slug, SEO title/description and the social (OG) image.
+- **פרטי הפרויקט** (project details), in the order the case-study panel shows
+  them: name, short description, client, year, my role, number of users (free
+  text such as `10,000+`), project type and the project's website link (the
+  **מעבר לאתר** button). The short description (`short_description`) is the line
+  beside the project name on the homepage; the project description
+  (`description`, edited in Case Study) is shown under the name.
+  Then **מדיה ראשית**: the main image (the cover) and the main video, each with a
+  preview, replace and remove. A collapsed **הגדרות נוספות** section holds
+  categories, the homepage and archive card settings (featured toggles, archive
+  description, card highlights, hover media, media overrides, manual
+  order), the slug, and SEO with the social (OG) image.
+- **Case Study**: the case-study content (headline, description, target audience
+  and the content blocks), the **gallery** (rows, below), the **side panel** (logo
+  and the panel's background and text colours) and the **highlights**.
 
 Every user-facing text has a Hebrew field and an English field side by side
 (`<key>` and `<key>_en`). English is optional; missing English falls back to
@@ -44,7 +44,7 @@ Cmd/Ctrl+S saves. Leaving with unsaved changes asks for confirmation.
 ### Publishing rules
 
 New projects start as drafts, and drafts may be incomplete. The **first** publish
-requires a name, short description and cover; a project with a slug (a case study)
+requires a name, short description and main image; a project with a slug (a case study)
 also requires a logo, a main video and at least one gallery image (the logo does
 not count). The editor shows a checklist and per-tab badges. Projects that are
 already published are never blocked or unpublished automatically: the same checks
@@ -65,13 +65,23 @@ their public order; drag or use Up/Down and the order saves immediately
 
 ### Categories and project types
 
-`/admin/categories` manages two lists: categories and project types. Each has a
-Hebrew and an English name, an order, and a usage count. Renaming keeps assignments
-and the slug; deleting asks for confirmation and removes assignments only. A project
-has any number of categories and at most one type. Categories are shown as tags on
-the homepage card and the case study, listed in the archive card's hover layer, and
-used as the archive filters. Both are rows in `categories` (`kind` = `category` or
-`type`) linked through `project_categories`; names and slugs are unique per kind.
+`/admin/categories` manages categories and lists the project types. Categories have
+a Hebrew and an English name, an order, and a usage count; renaming keeps
+assignments and the slug; deleting asks for confirmation and removes assignments
+only. A project has any number of categories and at most one type. Categories are
+shown as tags on the homepage card and the case study, listed in the archive card's
+hover layer, and used as the archive filters. Both are rows in `categories` (`kind`
+= `category` or `type`) linked through `project_categories`; names and slugs are
+unique per kind.
+
+Project types are a **fixed list** of five, in this order: משחק, אתר תדמית,
+אפליקציית Web, כלי AI, אחר (`src/lib/cms/project-types.ts`, matched by slug).
+The admin cannot create, rename or delete types, and saving rejects any other
+type. The Moriz rows were set once with `tools/cms/fixed-project-types.sql`
+(2026-10-18, a data change run with `npx supabase db query --linked -f`, not a
+migration and with no ledger entry): it upserted the five types, moved Awescience
+from "איפיון ועיצוב" to "אחר", and deleted the unused old types. Eyal rows were
+not touched.
 
 Services were a third list (`kind = 'service'`, shown as a "·" line). They were
 merged into categories (`20261016120100`): this site reads any remaining service row
@@ -100,6 +110,33 @@ Experience. Blocks can be reordered, hidden, duplicated and deleted; hidden bloc
 may stay incomplete and never render publicly. Every upload lands in the project
 gallery and can be picked again from any slot, so files are uploaded once. Gallery
 files not placed in a block are shown at the end of the case study.
+
+### Gallery rows
+
+The case-study gallery is edited in **Case Study → גלריה** as rows: each row is
+one file at full width or two side by side, and images and videos can share a row.
+Files can be uploaded together (each becomes a new full-width row), added from the
+files already in the project, reordered by row (drag or Up/Down), moved to the
+previous or next row, swapped within a pair, dragged onto another row, replaced,
+removed from the gallery (the file stays in the project), or deleted from the
+project. Single rows keep the optional width (full, two-thirds, half at either
+edge). The order in the editor is the order on the page.
+
+The rows are a `gallery_rows` block in the existing `content` JSON
+(`{ type: "gallery_rows", rows: [{ id, items: [src, src?] }] }`), kept last and
+hidden from the block list; alt text, captions, posters and sizes stay on the
+`media` record. It needs no schema, RLS, RPC or bucket change. A row may reference
+only project files that are not the logo or the main video. A project saved before
+rows existed has no such block and keeps its old rendering (images no block
+places, paired in order). The editor builds the same rows when it opens such a
+project (`legacyGalleryRows`), without marking it changed, so the first save keeps
+the page identical.
+
+On the page a pair uses the existing equal two-column layout, each file at its own
+height and ratio (videos use their recorded size; nothing is cropped). Videos play
+muted and looping while visible unless autoplay is turned off for the file, in
+which case they show controls. Below 640px the files stack in one column in admin
+order.
 
 ### Case study presentation
 
@@ -275,7 +312,7 @@ video range requests, and disables shared caching. A visitor can read a file onl
 while a published project references it. Unsaved uploads and draft media remain
 private, even when their URL is known.
 
-Files are deleted only from the Gallery tab (after a confirmation that lists where
+Files are deleted only from the Case Study gallery (after a confirmation that lists where
 the file is used) and when saving drops a file that nothing references any more.
 Slots such as the cover or a block only unlink. Files shared by duplicated projects
 are preserved. Abandoning an unsaved editor can leave private orphan files; those
@@ -295,7 +332,7 @@ content was found to migrate.
 
 ### Card hover media and user counts
 
-In a project's **עמוד הבית וארכיון** tab, choose or upload separate hover media
+In **פרטי הפרויקט → הגדרות נוספות** (the card sections), choose or upload separate hover media
 for the homepage and the projects page. Either slot accepts an image or a video;
 an empty slot automatically uses the gallery's `main_video`, falling back to the
 card's own video cover when present. Without a video the regular cover remains.
@@ -305,10 +342,9 @@ the alternate video. Touch screens retain the cover. Reduced motion uses a video
 poster, or keeps the cover when there is no poster. Failed alternates retain the cover.
 Private previews use the same components and unsaved selections.
 
-The case-study sidebar presents `website_url` as an outlined **מעבר לאתר** button
-using the shared button styles and the panel's text colour. The destination URL
-stays in `href` and opens in a separate tab with `noopener noreferrer`; the long
-address is not printed in the metadata.
+The case-study sidebar presents `website_url` as the **מעבר לאתר** button. The
+destination URL stays in `href` and opens in a separate tab with
+`noopener noreferrer`; the long address is not printed in the metadata.
 
 These selections are optional `hover_homepage` and `hover_projects` booleans on
 existing gallery `media` items (one file per surface). They use the current JSONB
@@ -320,15 +356,22 @@ source ownership and media publication rules remain the same. The additional key
 are optional; consumers of the shared tables can continue reading the existing
 `src`/`kind` fields. The future Eyal Projects client has no implementation in this repo.
 
-The **כללי → מספר משתמשים** field accepts display values such as `10,000+` or `6K+`.
-It reuses a matching existing user highlight, or creates a `user-count` highlight
-with Hebrew and English labels. It counts towards the existing three-fact limit;
-the field explains how to free a slot when all three are occupied. Existing card
-highlight choices are preserved. When a card has no chosen highlight, the user count
-is selected automatically; selections can be changed in **עמוד הבית וארכיון**.
-Clearing the count removes that fact. No user figures are inferred or seeded.
+The **פרטי הפרויקט → מספר משתמשים** field accepts display values such as `10,000+` or `6K+`.
+It is stored as a `user-count` highlight (no new column), so card highlight choices
+keep working and it counts towards the three-highlight limit. On the case study it
+is shown with the project details (label **משתמשים**) and is left out of the panel
+highlights and the highlights block; in the Highlights section it appears as a
+locked row. When a card has no chosen highlight, the user count is selected
+automatically. Clearing the count removes that fact.
 
-Targeted coverage: `npx playwright test --config=playwright.cms.config.ts tests/cms/card-options.spec.ts`.
+The project details in the panel follow the editor's order: client, year, my role,
+users, type. Empty fields are hidden with their labels. **מעבר לאתר** follows the
+details directly, uses the site's primary button (`button--primary`) and, on a
+coloured panel, takes the panel's colours through the button's own tokens so its
+hover, active and focus states still apply. It is hidden when there is no link and
+is full width below 640px.
+
+Targeted coverage: `npx playwright test --config=playwright.cms.config.ts tests/cms/card-options.spec.ts tests/cms/gallery-rows.spec.ts`.
 
 ```sh
 npm run typecheck

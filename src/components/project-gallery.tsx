@@ -2,7 +2,11 @@
 
 import { type CSSProperties, useEffect, useRef, useState } from "react";
 import type { ProjectCopy } from "@/i18n/project-copy";
-import type { GalleryEntry, GalleryImage } from "@/lib/project-presentation";
+import type {
+  GalleryEntry,
+  GalleryImage,
+  GalleryRowItem,
+} from "@/lib/project-presentation";
 import { CoverVideo } from "./cover-video";
 import styles from "./project-detail.module.css";
 
@@ -218,6 +222,43 @@ export function ProjectGallery({
       </figure>
     );
   }
+  /** A gallery row file: images open the viewer, videos play inline at their
+   * own aspect ratio (never cropped). */
+  function rowItem(item: GalleryRowItem) {
+    if (item.kind === "image") return figure(item.image);
+    return (
+      <div
+        key={item.src}
+        className={styles.rowVideo}
+        style={
+          item.width && item.height
+            ? ({ "--ratio": `${item.width} / ${item.height}` } as CSSProperties)
+            : undefined
+        }
+        data-gallery-reveal
+      >
+        {item.ambient ? (
+          <CoverVideo
+            src={item.src}
+            poster={item.poster}
+            label={item.label || labels.video}
+            loop={item.loop}
+          />
+        ) : (
+          <video
+            src={item.src}
+            poster={item.poster}
+            loop={item.loop}
+            controls
+            muted
+            playsInline
+            preload="metadata"
+            aria-label={item.label || labels.video}
+          />
+        )}
+      </div>
+    );
+  }
   return (
     <>
       <section
@@ -301,6 +342,12 @@ export function ProjectGallery({
                   aria-label={entry.label || labels.video}
                 />
               </div>
+            ) : entry.type === "row" ? (
+              entry.layout === "pair" ? (
+                <div className={styles.pair}>{entry.items.map(rowItem)}</div>
+              ) : (
+                entry.items.map(rowItem)
+              )
             ) : entry.layout === "row" ? (
               // Widths follow each image's ratio, so the row shares one height.
               <div className={styles.row}>

@@ -1,7 +1,9 @@
 import type { Locale } from "@/i18n/config";
+import { userCountHighlight } from "@/lib/cms/card-options";
 import { localized } from "@/lib/cms/localize";
 import {
   galleryImages,
+  galleryRowsBlock,
   isVideoSrc,
   mediaReferences,
 } from "@/lib/cms/validation";
@@ -30,7 +32,29 @@ export type GalleryHighlight = {
   label: string;
   description: string;
 };
+/** One file in a gallery row: an image (in the viewer) or an inline video. */
+export type GalleryRowItem =
+  | { kind: "image"; image: GalleryImage }
+  | {
+      kind: "video";
+      src: string;
+      poster?: string;
+      label: string;
+      /** Muted and looping like the main video, unless autoplay is off. */
+      ambient: boolean;
+      loop: boolean;
+      width?: number;
+      height?: number;
+    };
 export type GalleryEntry =
+  | {
+      type: "row";
+      id: string;
+      items: GalleryRowItem[];
+      /** One file uses its own placement (default full width); two pair up. */
+      layout: SingleMediaLayout | "pair";
+      spacing: MediaSpacing;
+    }
   | {
       type: "images";
       id: string;
@@ -70,12 +94,17 @@ export type GalleryEntry =
       spacing: MediaSpacing;
     };
 
+/** The user count is shown with the project details, not as a highlight. */
+export function projectUserCount(project: Pick<Project, "highlights">) {
+  return userCountHighlight(project.highlights)?.value.trim() || null;
+}
 export function projectHighlights(
   project: Pick<Project, "highlights">,
   locale: Locale = "he",
 ): GalleryHighlight[] {
+  const userCount = userCountHighlight(project.highlights);
   return project.highlights
-    .filter((h) => h.value.trim() && h.label.trim())
+    .filter((h) => h !== userCount && h.value.trim() && h.label.trim())
     .map((h) => ({
       id: h.id,
       value: h.value,
@@ -198,6 +227,7 @@ export function projectGallery(
     const id = block.id ?? `block-${entries.length}`;
     switch (block.type) {
       case "text":
+      case "gallery_rows":
         continue;
       case "video":
         if (block.src)
@@ -274,39 +304,81 @@ export function projectGallery(
       }
     }
   }
-  // Uploaded gallery images that no block places close the case study.
-  // An explicit layout places a file alone; the rest pair up.
-  let pairs: ProjectMediaItem[] = [];
-  const flush = () => {
-    if (!pairs.length) return;
+  // The gallery closes the case study: rows in admin order, or for projects
+  // that never switched to rows, the gallery images that no block places.
+  const rowsBlock = galleryRowsBlock(project.content);
+  const rows = rowsBlock
+    ? rowsBlock.hidden
+      ? []
+      : rowsBlock.rows.map((row) => ({ id: row.id, items: row.items }))
+    : legacyGalleryRows(project).map((items) => ({
+        id: `gallery-${items[0]}`,
+        items,
+      }));
+  for (const row of rows) {
+    const files = row.items
+      .map((src) => meta.get(src))
+      .filter((item): item is ProjectMediaItem => !!item && !item.role);
+    if (!files.length) continue;
     entries.push({
-      type: "images",
-      id: `gallery-${pairs[0].src}`,
-      images: append(pairs),
-      layout: "equal",
+      type: "row",
+      id: row.id,
+      layout: files.length > 1 ? "pair" : (files[0].layout ?? "full"),
       spacing: "generous",
+      items: files.map((item): GalleryRowItem => {
+        if (item.kind === "image")
+          return { kind: "image", image: append([item])[0] };
+        return {
+          kind: "video",
+          src: item.src,
+          poster: item.poster,
+          label: localized(item, "alt", locale) || videoLabel,
+          ambient: item.autoplay !== false,
+          loop: item.loop ?? true,
+          width: item.width,
+          height: item.height,
+        };
+      }),
     });
-    pairs = [];
-  };
+  }
+  return { entries, images };
+}
+
+/**
+ * The gallery of a project that has no gallery rows yet, as rows of srcs:
+ * images that no visible block places (and that are not card-only hover
+ * previews), paired in order; a file with its own layout stands alone. The
+ * editor turns this into the initial rows, so switching changes nothing.
+ */
+export function legacyGalleryRows(
+  project: Pick<Project, "cover_image_url" | "content" | "media">,
+): string[][] {
+  const placed = new Set(
+    mediaReferences({
+      cover_image_url: project.cover_image_url,
+      homepage_image_url: null,
+      projects_image_url: null,
+      content: project.content.filter(
+        (block) => !block.hidden && block.type !== "gallery_rows",
+      ),
+    }),
+  );
+  const rows: string[][] = [];
+  let open: string[] | null = null;
   for (const item of galleryImages(project.media)) {
     if (placed.has(item.src)) continue;
     // A card preview enters the case study only when explicitly placed.
     if (item.hover_homepage || item.hover_projects) continue;
-    if (!item.layout) {
-      pairs.push(item);
-      continue;
+    if (item.layout) {
+      rows.push([item.src]);
+      open = null;
+    } else if (open && open.length < 2) open.push(item.src);
+    else {
+      open = [item.src];
+      rows.push(open);
     }
-    flush();
-    entries.push({
-      type: "images",
-      id: `gallery-${item.src}`,
-      images: append([item]),
-      layout: item.layout,
-      spacing: "generous",
-    });
   }
-  flush();
-  return { entries, images };
+  return rows;
 }
 
 export type InformationSection = {

@@ -41,12 +41,20 @@ export function projectCard(
       : video?.poster
         ? { src: video.poster, alt }
         : null;
+  // The homepage shows the short description beside the title and the
+  // project description under it; other cards show one description.
+  const summary =
+    surface === "homepage"
+      ? localized(project, "short_description", locale) || null
+      : undefined;
   const description =
     (surface === "projects" &&
       localized(project, "archive_description", locale)) ||
-    (surface === "cover" && localized(project, "description", locale)) ||
-    localized(project, "short_description", locale) ||
-    localized(project, "description", locale) ||
+    ((surface === "cover" || surface === "homepage") &&
+      localized(project, "description", locale)) ||
+    (surface !== "homepage" &&
+      (localized(project, "short_description", locale) ||
+        localized(project, "description", locale))) ||
     null;
   const highlight =
     surface === "cover"
@@ -59,6 +67,7 @@ export function projectCard(
     slug: project.slug,
     title,
     description,
+    summary,
     image,
     video,
     hoverMedia:

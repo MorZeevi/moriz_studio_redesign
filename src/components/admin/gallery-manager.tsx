@@ -1,15 +1,9 @@
 "use client";
 import { useId, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  galleryImages,
-  isSvgSrc,
-  MIN_GALLERY_IMAGES,
-} from "@/lib/cms/validation";
+import { isSvgSrc } from "@/lib/cms/validation";
 import type { MediaLayout, ProjectMediaItem } from "@/types/project";
 import { LocalizedField } from "./localized-field";
-import { MediaPreview, MediaUpload } from "./media-upload";
-import { moveItem, SortableList } from "./sortable-list";
+import { MediaUpload } from "./media-upload";
 import {
   acceptedTypes,
   checkFile,
@@ -18,331 +12,261 @@ import {
 } from "./upload";
 import styles from "./admin.module.css";
 
-// Used when no block places the file: explicit layouts stand alone, the rest
-// pair up at the end of the case study.
-const LAYOUTS: [MediaLayout | "", string][] = [
-  ["", "אוטומטית — בזוגות"],
-  ["full", "רוחב מלא"],
-  ["center", "מרכז — שני שלישים"],
-  ["start", "תחילת שורה — חצי רוחב"],
-  ["end", "סוף שורה — חצי רוחב"],
-];
-function fileName(src: string) {
-  return src.split("/").pop() ?? src;
+// Building blocks for the project's files: the logo (side panel), the main
+// video (main media), per-file details, and gallery uploads.
+
+type Update = (
+  change: (media: ProjectMediaItem[]) => ProjectMediaItem[],
+) => void;
+function patcher(update: Update) {
+  return (src: string, change: Partial<ProjectMediaItem>) =>
+    update((list) =>
+      list.map((m) => (m.src === src ? { ...m, ...change } : m)),
+    );
 }
 
-export function GalleryManager({
+export function LogoField({
   projectId,
   media,
   update,
   onBusy,
   usage,
   onRemove,
-  onReplace,
-  cover,
-  ogImage,
-  onUseAsCover,
-  onUseAsOg,
 }: {
   projectId: string;
   media: ProjectMediaItem[];
   /** Functional update, so several uploads in a row all land. */
-  update: (change: (media: ProjectMediaItem[]) => ProjectMediaItem[]) => void;
+  update: Update;
   onBusy: (busy: boolean) => void;
   /** Readable places where a file is used in the unsaved project. */
   usage: (src: string) => string[];
   /** Removes the file from the project everywhere, then from storage. */
   onRemove: (src: string) => void;
-  /** Swaps a file for a newly uploaded one everywhere it is used. */
-  onReplace: (from: string, to: ProjectMediaItem) => void;
-  cover: string | null;
-  ogImage: string | null;
-  onUseAsCover: (src: string) => void;
-  onUseAsOg: (src: string) => void;
 }) {
   const logo = media.find((m) => m.role === "logo");
-  const mainVideo = media.find((m) => m.role === "main_video");
-  const items = media.filter((m) => m.role !== "logo");
-  const images = galleryImages(media).length;
-  const busy = (value: boolean) => onBusy(value);
-  function patch(src: string, change: Partial<ProjectMediaItem>) {
-    update((list) =>
-      list.map((m) => (m.src === src ? { ...m, ...change } : m)),
-    );
-  }
-  function add(item: ProjectMediaItem) {
-    update((list) =>
-      list.some((m) => m.src === item.src) ? list : [...list, item],
-    );
-  }
-  function remove(item: ProjectMediaItem) {
-    const places = usage(item.src);
-    const message = places.length
-      ? `הקובץ בשימוש ב: ${places.join(", ")}. מחיקתו תסיר אותו מכל המקומות. למחוק?`
-      : "למחוק את הקובץ מהגלריה? השינוי יישמר רק בשמירת הפרויקט.";
-    if (window.confirm(message)) onRemove(item.src);
-  }
-  /** Gives a file a role (at most one file per role), or clears it. */
-  function setRole(src: string, role: ProjectMediaItem["role"]) {
-    update((list) =>
-      list.map((m) =>
-        m.src === src
-          ? { ...m, role }
-          : role && m.role === role
-            ? { ...m, role: undefined }
-            : m,
-      ),
-    );
-  }
+  const patch = patcher(update);
   return (
-    <div>
-      <section className={styles.section}>
-        <h2>לוגו הפרויקט</h2>
-        <p className={styles.hint}>
-          SVG, PNG או WebP. השקיפות נשמרת, וכל יחס גובה־רוחב נתמך.
-        </p>
-        <div className={styles.grid}>
-          <MediaUpload
-            projectId={projectId}
-            onBusy={busy}
-            kind="logo"
-            label="לוגו"
-            value={logo?.src ?? null}
-            onUploaded={(item) => {
-              const previous = logo;
-              update((list) => [
-                ...list.map((m) =>
-                  m.role === "logo" ? { ...m, role: undefined } : m,
-                ),
-                {
-                  ...item,
-                  role: "logo",
-                  alt: previous?.alt ?? "",
-                  alt_en: previous?.alt_en,
-                },
-              ]);
-              // An SVG can only be a logo; other formats stay in the gallery
-              // when something still uses them.
-              if (
-                previous &&
-                (isSvgSrc(previous.src) || !usage(previous.src).length)
-              )
-                onRemove(previous.src);
-            }}
-            onChange={(src) => {
-              if (!src && logo) remove(logo);
-            }}
-          />
-          {logo && (
-            <LocalizedField
-              label="טקסט חלופי ללוגו"
-              value={logo.alt}
-              valueEn={logo.alt_en}
-              onChange={(alt) => patch(logo.src, { alt })}
-              onChangeEn={(alt_en) => patch(logo.src, { alt_en })}
-            />
-          )}
-        </div>
-      </section>
-      <section className={styles.section}>
-        <h2>סרטון ראשי</h2>
-        <p className={styles.hint}>
-          אפשר לבחור סרטון מהגלריה או להעלות חדש. הסרטון יוצג בעמוד הפרויקט.
-        </p>
-        <div className={styles.grid}>
-          <MediaUpload
-            projectId={projectId}
-            onBusy={busy}
-            kind="video"
-            label="סרטון ראשי"
-            value={mainVideo?.src ?? null}
-            choices={media.filter((m) => m.kind === "video")}
-            onUploaded={add}
-            onChange={(src) => {
-              if (src) setRole(src, "main_video");
-              else if (mainVideo) setRole(mainVideo.src, undefined);
-            }}
-          />
-          {mainVideo && (
-            <div>
-              <MediaUpload
-                projectId={projectId}
-                onBusy={busy}
-                label="תמונת פוסטר לסרטון הראשי"
-                value={mainVideo.poster ?? null}
-                onChange={(poster) =>
-                  patch(mainVideo.src, { poster: poster ?? undefined })
-                }
-              />
-              <label className={styles.check}>
-                <input
-                  type="checkbox"
-                  checked={mainVideo.loop ?? true}
-                  onChange={(e) =>
-                    patch(mainVideo.src, { loop: e.target.checked })
-                  }
-                />
-                לולאה
-              </label>
-              <p className={styles.hint}>
-                הסרטון מתנגן מושתק ובלולאה רק כשהוא על המסך, ונעצר לגולשים
-                שביקשו פחות תנועה.
-              </p>
-            </div>
-          )}
-        </div>
-      </section>
-      <section className={styles.section}>
-        <h2>גלריית הפרויקט</h2>
-        <p className={styles.hint} data-gallery-count={images}>
-          {images} תמונות בגלריה. היעד לפרסום פרויקט חדש: לפחות{" "}
-          {MIN_GALLERY_IMAGES === 1
-            ? "תמונה אחת"
-            : `${MIN_GALLERY_IMAGES} תמונות`}
-          , לוגו וסרטון ראשי. כל הקבצים כאן זמינים
-          לקאבר, לבלוקים ולתמונת השיתוף בלי העלאה נוספת.
-        </p>
-        <BulkUpload projectId={projectId} onBusy={busy} onUploaded={add} />
-        <SortableList
-          className={styles.galleryGrid}
-          items={items}
-          type="media"
-          itemKey={(item) => item.src}
-          label={(_, index) => `קובץ ${index + 1}`}
-          onMove={(from, to) => {
-            const ordered = moveItem(items, from, to);
-            update((list) => [
-              ...list.filter((m) => m.role === "logo"),
-              ...ordered,
-            ]);
-          }}
-          render={(item, index, handle) => (
-            <fieldset
-              className={styles.galleryItem}
-              aria-label={`קובץ ${index + 1}`}
-            >
-              <div className={styles.galleryPreview}>
-                <MediaPreview
-                  src={item.src}
-                  label={item.alt || fileName(item.src)}
-                />
-              </div>
-              <p className={styles.hint}>
-                {item.kind === "video" ? "סרטון" : "תמונה"}
-                {item.width && item.height
-                  ? ` · ${item.width}×${item.height}`
-                  : ""}
-                {item.role === "main_video" ? " · סרטון ראשי" : ""}
-                {item.src === cover ? " · קאבר" : ""}
-                {item.src === ogImage ? " · תמונת שיתוף" : ""}
-              </p>
-              {handle}
-              <LocalizedField
-                label="טקסט חלופי"
-                value={item.alt}
-                valueEn={item.alt_en}
-                onChange={(alt) => patch(item.src, { alt })}
-                onChangeEn={(alt_en) => patch(item.src, { alt_en })}
-              />
-              <LocalizedField
-                label="כיתוב"
-                value={item.caption}
-                valueEn={item.caption_en}
-                onChange={(caption) => patch(item.src, { caption })}
-                onChangeEn={(caption_en) => patch(item.src, { caption_en })}
-              />
-              <details>
-                <summary>תיאור ופריסה</summary>
-                <LocalizedField
-                  label="תיאור"
-                  multiline
-                  value={item.description}
-                  valueEn={item.description_en}
-                  onChange={(description) => patch(item.src, { description })}
-                  onChangeEn={(description_en) =>
-                    patch(item.src, { description_en })
-                  }
-                />
-                <label className={styles.field}>
-                  <span>פריסה בגלריה</span>
-                  <select
-                    value={item.layout ?? ""}
-                    onChange={(e) =>
-                      patch(item.src, {
-                        layout: (e.target.value || undefined) as
-                          | MediaLayout
-                          | undefined,
-                      })
-                    }
-                  >
-                    {LAYOUTS.map(([value, label]) => (
-                      <option key={value} value={value}>
-                        {label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                {item.kind === "video" && (
-                  <MediaUpload
-                    projectId={projectId}
-                    onBusy={busy}
-                    label={`פוסטר לקובץ ${index + 1}`}
-                    value={item.poster ?? null}
-                    onChange={(poster) =>
-                      patch(item.src, { poster: poster ?? undefined })
-                    }
-                  />
-                )}
-              </details>
-              <div className={styles.actions}>
-                {item.src !== cover && (
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => onUseAsCover(item.src)}
-                  >
-                    שימוש כקאבר
-                  </Button>
-                )}
-                {item.kind === "image" &&
-                  /\.(jpg|png|webp)$/i.test(item.src) &&
-                  item.src !== ogImage && (
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => onUseAsOg(item.src)}
-                    >
-                      תמונת שיתוף
-                    </Button>
-                  )}
-                {item.kind === "video" && item.role !== "main_video" && (
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => setRole(item.src, "main_video")}
-                  >
-                    קביעה כסרטון ראשי
-                  </Button>
-                )}
-                <ReplaceFile
-                  projectId={projectId}
-                  item={item}
-                  onBusy={busy}
-                  onReplace={onReplace}
-                />
-                <Button size="sm" variant="ghost" onClick={() => remove(item)}>
-                  מחיקה מהגלריה
-                </Button>
-              </div>
-            </fieldset>
-          )}
+    <div className={styles.grid}>
+      <MediaUpload
+        projectId={projectId}
+        onBusy={onBusy}
+        kind="logo"
+        label="לוגו"
+        value={logo?.src ?? null}
+        onUploaded={(item) => {
+          const previous = logo;
+          update((list) => [
+            ...list.map((m) =>
+              m.role === "logo" ? { ...m, role: undefined } : m,
+            ),
+            {
+              ...item,
+              role: "logo",
+              alt: previous?.alt ?? "",
+              alt_en: previous?.alt_en,
+            },
+          ]);
+          // An SVG can only be a logo; other formats stay in the project
+          // when something still uses them.
+          if (
+            previous &&
+            (isSvgSrc(previous.src) || !usage(previous.src).length)
+          )
+            onRemove(previous.src);
+        }}
+        onChange={(src) => {
+          if (
+            !src &&
+            logo &&
+            window.confirm("להסיר את הלוגו? השינוי יישמר רק בשמירת הפרויקט.")
+          )
+            onRemove(logo.src);
+        }}
+      />
+      {logo && (
+        <LocalizedField
+          label="טקסט חלופי ללוגו"
+          value={logo.alt}
+          valueEn={logo.alt_en}
+          onChange={(alt) => patch(logo.src, { alt })}
+          onChangeEn={(alt_en) => patch(logo.src, { alt_en })}
         />
-      </section>
+      )}
     </div>
   );
 }
 
-function BulkUpload({
+export function MainVideoField({
+  projectId,
+  media,
+  update,
+  onBusy,
+  onSelect,
+}: {
+  projectId: string;
+  media: ProjectMediaItem[];
+  update: Update;
+  onBusy: (busy: boolean) => void;
+  /** Makes a project file the main video, or clears the role (null). */
+  onSelect: (src: string | null) => void;
+}) {
+  const mainVideo = media.find((m) => m.role === "main_video");
+  const patch = patcher(update);
+  return (
+    <div>
+      <MediaUpload
+        projectId={projectId}
+        onBusy={onBusy}
+        kind="video"
+        label="סרטון ראשי"
+        value={mainVideo?.src ?? null}
+        choices={media.filter((m) => m.kind === "video")}
+        onUploaded={(item) =>
+          update((list) =>
+            list.some((m) => m.src === item.src) ? list : [...list, item],
+          )
+        }
+        onChange={onSelect}
+      />
+      {mainVideo && (
+        <details className={styles.more}>
+          <summary>פוסטר ולולאה</summary>
+          <MediaUpload
+            projectId={projectId}
+            onBusy={onBusy}
+            label="תמונת פוסטר לסרטון הראשי"
+            value={mainVideo.poster ?? null}
+            onChange={(poster) =>
+              patch(mainVideo.src, { poster: poster ?? undefined })
+            }
+          />
+          <label className={styles.check}>
+            <input
+              type="checkbox"
+              checked={mainVideo.loop ?? true}
+              onChange={(e) => patch(mainVideo.src, { loop: e.target.checked })}
+            />
+            לולאה
+          </label>
+        </details>
+      )}
+    </div>
+  );
+}
+
+const LAYOUTS: [MediaLayout, string][] = [
+  ["full", "רוחב מלא"],
+  ["center", "מרכז — שני שלישים"],
+  ["start", "תחילת שורה — חצי רוחב"],
+  ["end", "סוף שורה — חצי רוחב"],
+];
+/** Texts and playback of one project file; `single` adds its row width. */
+export function MediaDetails({
+  projectId,
+  item,
+  label,
+  single,
+  onBusy,
+  update,
+}: {
+  projectId: string;
+  item: ProjectMediaItem;
+  label: string;
+  single: boolean;
+  onBusy: (busy: boolean) => void;
+  update: Update;
+}) {
+  const patch = patcher(update);
+  return (
+    <details className={styles.more}>
+      <summary>
+        טקסט חלופי, כיתוב והגדרות
+        {item.kind === "image" && !item.alt?.trim() && (
+          <span className={styles.warning}> · חסר טקסט חלופי</span>
+        )}
+      </summary>
+      <LocalizedField
+        label="טקסט חלופי"
+        value={item.alt}
+        valueEn={item.alt_en}
+        onChange={(alt) => patch(item.src, { alt })}
+        onChangeEn={(alt_en) => patch(item.src, { alt_en })}
+      />
+      <LocalizedField
+        label="כיתוב"
+        value={item.caption}
+        valueEn={item.caption_en}
+        onChange={(caption) => patch(item.src, { caption })}
+        onChangeEn={(caption_en) => patch(item.src, { caption_en })}
+      />
+      <LocalizedField
+        label="תיאור"
+        multiline
+        value={item.description}
+        valueEn={item.description_en}
+        onChange={(description) => patch(item.src, { description })}
+        onChangeEn={(description_en) => patch(item.src, { description_en })}
+      />
+      {single && (
+        <label className={styles.field}>
+          <span>רוחב בשורה</span>
+          <select
+            value={item.layout ?? "full"}
+            onChange={(e) =>
+              patch(item.src, {
+                layout:
+                  e.target.value === "full"
+                    ? undefined
+                    : (e.target.value as MediaLayout),
+              })
+            }
+          >
+            {LAYOUTS.map(([value, text]) => (
+              <option key={value} value={value}>
+                {text}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
+      {item.kind === "video" && (
+        <>
+          <label className={styles.check}>
+            <input
+              type="checkbox"
+              checked={item.autoplay !== false}
+              onChange={(e) =>
+                patch(item.src, {
+                  autoplay: e.target.checked ? undefined : false,
+                })
+              }
+            />
+            ניגון אוטומטי מושתק (כשכבוי: נגן עם כפתורים)
+          </label>
+          <label className={styles.check}>
+            <input
+              type="checkbox"
+              checked={item.loop ?? true}
+              onChange={(e) => patch(item.src, { loop: e.target.checked })}
+            />
+            לולאה
+          </label>
+          <MediaUpload
+            projectId={projectId}
+            onBusy={onBusy}
+            label={`פוסטר ל${label}`}
+            value={item.poster ?? null}
+            onChange={(poster) =>
+              patch(item.src, { poster: poster ?? undefined })
+            }
+          />
+        </>
+      )}
+    </details>
+  );
+}
+
+export function BulkUpload({
   projectId,
   onBusy,
   onUploaded,
@@ -430,7 +354,7 @@ function BulkUpload({
   );
 }
 
-function ReplaceFile({
+export function ReplaceFile({
   projectId,
   item,
   onBusy,

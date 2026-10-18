@@ -30,14 +30,25 @@ import {
   type HoverSurface,
 } from "@/lib/cms/card-options";
 import {
+  addToGallery,
+  galleryRows,
+  removeFromGallery,
+  rowsFrom,
+  withGalleryRows,
+} from "@/lib/cms/gallery-rows";
+import { projectTypeOptions } from "@/lib/cms/project-types";
+import {
+  galleryRowsBlock,
   mediaReferences,
   MAX_HIGHLIGHTS,
   projectReadiness,
   type ReadinessTab,
   slugify,
 } from "@/lib/cms/validation";
+import { legacyGalleryRows } from "@/lib/project-presentation";
 import { CMS_SOURCE } from "@/lib/cms/source";
 import type {
+  GalleryRow,
   ManagedKind,
   Project,
   ProjectContentBlock,
@@ -46,7 +57,8 @@ import type {
   Term,
 } from "@/types/project";
 import { ContentEditor } from "./content-editor";
-import { GalleryManager } from "./gallery-manager";
+import { LogoField, MainVideoField } from "./gallery-manager";
+import { GalleryRowsEditor } from "./gallery-rows-editor";
 import { HighlightSelect, HighlightsEditor } from "./highlights-editor";
 import { LocalizedField } from "./localized-field";
 import { MediaUpload } from "./media-upload";
@@ -54,21 +66,51 @@ import { PanelBackgroundEditor } from "./panel-background-editor";
 import { TermPicker, termLabels } from "./term-picker";
 import styles from "./admin.module.css";
 
-const TABS: [ReadinessTab, string][] = [
-  ["general", "כללי"],
-  ["cards", "עמוד הבית וארכיון"],
+type Tab = "details" | "case";
+const TABS: [Tab, string][] = [
+  ["details", "פרטי הפרויקט"],
   ["case", "Case Study"],
-  ["gallery", "גלריה"],
-  ["seo", "הגדרות ו־SEO"],
+];
+/** Where each readiness issue is fixed: tab, and the section to show. */
+const ISSUE_PLACES: Record<ReadinessTab, [Tab, string]> = {
+  general: ["details", "section-details"],
+  cards: ["details", "section-cards"],
+  seo: ["details", "section-seo"],
+  case: ["case", "section-case"],
+  gallery: ["case", "section-gallery"],
+};
+const CASE_SECTIONS: [string, string][] = [
+  ["section-case", "תוכן הקייס"],
+  ["section-gallery", "גלריה"],
+  ["section-panel", "פאנל צדדי"],
+  ["section-highlights", "היילייטס"],
 ];
 type PreviewView = "case" | "home" | "archive";
-/** Stable ids for legacy blocks, and every referenced file in the gallery. */
+/**
+ * Stable ids for legacy blocks, every referenced file in the project media,
+ * and gallery rows. A project without rows gets the rows its page already
+ * shows, so saving it changes nothing on the site.
+ */
 function prepare(project: ProjectInput): ProjectInput {
-  return withGalleryImports({
+  const prepared = withGalleryImports({
     ...project,
     content: project.content.map((block) =>
       block.id ? block : { ...block, id: crypto.randomUUID() },
     ),
+  });
+  if (galleryRowsBlock(prepared.content)) return prepared;
+  return {
+    ...prepared,
+    content: withGalleryRows(
+      prepared.content,
+      rowsFrom(legacyGalleryRows(prepared)),
+    ),
+  };
+}
+function timeNow() {
+  return new Date().toLocaleTimeString("he-IL", {
+    hour: "2-digit",
+    minute: "2-digit",
   });
 }
 
@@ -86,7 +128,9 @@ export function ProjectEditor({
   const [project, setProject] = useState(() => prepare(initial));
   const [terms, setTerms] = useState(initialTerms);
   const [live, setLive] = useState(initial.published);
-  const [tab, setTab] = useState<ReadinessTab>("general");
+  const [tab, setTab] = useState<Tab>("details");
+  const [savedAt, setSavedAt] = useState("");
+  const advanced = useRef<HTMLDetailsElement>(null);
   const [dirty, setDirty] = useState(false);
   const [slugTouched, setSlugTouched] = useState(!isNew);
   const [preview, setPreview] = useState<{
@@ -178,6 +222,7 @@ export function ProjectEditor({
         }));
         setLive(published);
         setDirty(false);
+        setSavedAt(timeNow());
         setSlugTouched(true);
         const saved = published
           ? "השינויים נשמרו והפרויקט מפורסם."
@@ -208,8 +253,41 @@ export function ProjectEditor({
     return () => window.removeEventListener("keydown", shortcut);
   }, []);
   const readiness = projectReadiness(project);
-  const issuesIn = (id: ReadinessTab) =>
-    readiness.errors.filter((e) => e.tab === id).length;
+  const issuesIn = (id: Tab) =>
+    readiness.errors.filter((e) => ISSUE_PLACES[e.tab][0] === id).length;
+  /** Opens the tab (and collapsed section) where an issue is fixed. */
+  function showIssue(section: ReadinessTab) {
+    const [target, anchor] = ISSUE_PLACES[section];
+    setTab(target);
+    if ((section === "cards" || section === "seo") && advanced.current)
+      advanced.current.open = true;
+    requestAnimationFrame(() =>
+      document
+        .getElementById(anchor)
+        ?.scrollIntoView({ behavior: "smooth", block: "start" }),
+    );
+  }
+  const rows = galleryRows(project.content);
+  function setRows(update: (rows: GalleryRow[]) => GalleryRow[]) {
+    change((current) => ({
+      ...current,
+      content: withGalleryRows(
+        current.content,
+        update(galleryRows(current.content)),
+      ),
+    }));
+  }
+  /** Removes a file from the whole project, then from storage. */
+  function deleteFile(src: string) {
+    change((current) => unlinkSrc(current, src));
+    release(src);
+  }
+  const typeOptions = projectTypeOptions(terms);
+  const legacyType =
+    project.type_id &&
+    !typeOptions.some((option) => option.term?.id === project.type_id)
+      ? terms.find((t) => t.id === project.type_id)
+      : undefined;
   // Legacy service rows are categories until the data migration converts them.
   const byKind = (kind: ManagedKind) =>
     terms.filter((t) =>
@@ -299,8 +377,15 @@ export function ProjectEditor({
           {project.published
             ? "פורסם — שמירת שינויים מעדכנת את האתר"
             : "טיוטה — פרטית"}
-          {dirty ? " · שינויים שלא נשמרו" : ""}
         </span>
+        {dirty ? (
+          <span className={styles.saved}>
+            <span className={styles.dirtyDot} aria-hidden="true" />
+            שינויים שלא נשמרו
+          </span>
+        ) : (
+          savedAt && <span className={styles.saved}>נשמר ✓ {savedAt}</span>
+        )}
         {error && (
           <p role="alert" className={styles.error}>
             {error}
@@ -324,14 +409,14 @@ export function ProjectEditor({
         <ul>
           {readiness.errors.map((issue) => (
             <li key={issue.message} data-severity="error">
-              <button type="button" onClick={() => setTab(issue.tab)}>
+              <button type="button" onClick={() => showIssue(issue.tab)}>
                 {issue.message}
               </button>
             </li>
           ))}
           {readiness.warnings.map((issue) => (
             <li key={issue.message}>
-              <button type="button" onClick={() => setTab(issue.tab)}>
+              <button type="button" onClick={() => showIssue(issue.tab)}>
                 {issue.message}
               </button>
             </li>
@@ -429,12 +514,15 @@ export function ProjectEditor({
           <fieldset disabled={disabled} className={styles.editorFields}>
             <div
               role="tabpanel"
-              id="panel-general"
-              aria-labelledby="tab-general"
-              hidden={tab !== "general"}
+              id="panel-details"
+              aria-labelledby="tab-details"
+              hidden={tab !== "details"}
             >
-              <section className={styles.section}>
-                <h2>פרטים בסיסיים</h2>
+              <section id="section-details" className={styles.section}>
+                <h2>פרטי הפרויקט</h2>
+                <p className={styles.hint}>
+                  מוצגים בפאנל הצדדי של עמוד הפרויקט באותו סדר. שדה ריק לא יוצג.
+                </p>
                 <LocalizedField
                   label="שם הפרויקט"
                   maxLength={250}
@@ -451,6 +539,15 @@ export function ProjectEditor({
                   onChangeEn={text("title_en")}
                 />
                 <LocalizedField
+                  label="תיאור קצר"
+                  hint="שורה אחת. מוצג בעמוד הבית בשורה של שם הפרויקט, ובכרטיס בעמוד הפרויקטים כשאין תיאור נפרד."
+                  multiline
+                  value={project.short_description}
+                  valueEn={project.short_description_en}
+                  onChange={text("short_description")}
+                  onChangeEn={text("short_description_en")}
+                />
+                <LocalizedField
                   label="לקוח"
                   value={project.client}
                   valueEn={project.client_en}
@@ -462,6 +559,7 @@ export function ProjectEditor({
                     <span>שנה</span>
                     <input
                       type="number"
+                      dir="ltr"
                       min={1900}
                       max={2100}
                       value={project.year ?? ""}
@@ -473,19 +571,6 @@ export function ProjectEditor({
                       }
                     />
                   </label>
-                  <label className={styles.field}>
-                    <span>כתובת האתר החי</span>
-                    <input
-                      type="url"
-                      dir="ltr"
-                      placeholder="https://"
-                      value={project.website_url ?? ""}
-                      onChange={(e) =>
-                        text("website_url")(e.target.value.trim())
-                      }
-                    />
-                    <small>לא חובה. כשריק, הקישור לא יוצג.</small>
-                  </label>
                 </div>
                 <LocalizedField
                   label="התפקיד שלי"
@@ -494,200 +579,320 @@ export function ProjectEditor({
                   onChange={text("role")}
                   onChangeEn={text("role_en")}
                 />
+                <div className={styles.grid}>
+                  <label className={styles.field}>
+                    <span>מספר משתמשים</span>
+                    <input
+                      aria-label="מספר משתמשים"
+                      aria-describedby="project-user-count-hint"
+                      dir="ltr"
+                      maxLength={40}
+                      placeholder="10,000+"
+                      value={userCount?.value ?? ""}
+                      disabled={!canAddUserCount}
+                      onChange={(e) =>
+                        change((current) => ({
+                          ...current,
+                          highlights: setUserCount(
+                            current.highlights,
+                            e.target.value,
+                          ),
+                        }))
+                      }
+                    />
+                    <small id="project-user-count-hint">
+                      {canAddUserCount
+                        ? "לא חובה. טקסט חופשי, למשל 10,000+ או 6K+."
+                        : "כבר יש שלוש עובדות בפרויקט. הסירו היילייט בלשונית Case Study כדי להוסיף מספר משתמשים."}
+                    </small>
+                  </label>
+                  <label className={styles.field}>
+                    <span>סוג הפרויקט</span>
+                    <select
+                      aria-label="סוג הפרויקט"
+                      value={project.type_id ?? ""}
+                      onChange={(e) =>
+                        field("type_id", e.target.value || null)
+                      }
+                    >
+                      <option value="">לא נבחר</option>
+                      {typeOptions.map((option) => (
+                        <option
+                          key={option.slug}
+                          value={option.term?.id ?? `missing:${option.slug}`}
+                          disabled={!option.term}
+                        >
+                          {option.name}
+                        </option>
+                      ))}
+                      {legacyType && (
+                        <option value={legacyType.id}>
+                          {legacyType.name} (לא ברשימה, יש לבחור סוג אחר)
+                        </option>
+                      )}
+                    </select>
+                  </label>
+                </div>
                 <label className={styles.field}>
-                  <span>מספר משתמשים</span>
+                  <span>קישור לאתר הפרויקט</span>
                   <input
-                    aria-label="מספר משתמשים"
-                    aria-describedby="project-user-count-hint"
+                    type="url"
                     dir="ltr"
-                    maxLength={40}
-                    placeholder="10,000+"
-                    value={userCount?.value ?? ""}
-                    disabled={!canAddUserCount}
-                    onChange={(e) =>
-                      change((current) => ({
-                        ...current,
-                        highlights: setUserCount(
-                          current.highlights,
-                          e.target.value,
-                        ),
-                      }))
-                    }
+                    placeholder="https://"
+                    aria-label="קישור לאתר הפרויקט"
+                    aria-describedby="project-website-hint"
+                    value={project.website_url ?? ""}
+                    onChange={(e) => text("website_url")(e.target.value.trim())}
                   />
-                  <small id="project-user-count-hint">
-                    {canAddUserCount
-                      ? "לא חובה. מוצג כעובדה בעמוד הפרויקט. בלשונית עמוד הבית וארכיון אפשר לבחור אותו גם לכרטיסים."
-                      : "כבר יש שלוש עובדות בפרויקט. הסירו אחת בלשונית Case Study כדי להוסיף מספר משתמשים."}
+                  <small id="project-website-hint">
+                    מוצג ככפתור ״מעבר לאתר״ בפאנל הצדדי. כשריק, הכפתור לא מוצג.
                   </small>
                 </label>
               </section>
-              <section className={styles.section}>
-                <h2>{termLabels.type.heading}</h2>
-                <TermPicker
-                  {...termProps}
-                  kind="type"
-                  terms={byKind("type")}
-                  selected={project.type_id ? [project.type_id] : []}
-                  onChange={(ids) => field("type_id", ids[0] ?? null)}
-                />
-              </section>
-              <section className={styles.section}>
-                <h2>{termLabels.category.heading}</h2>
-                <p className={styles.hint}>
-                  מוצגות כתגיות בפרויקט ומשמשות לסינון בעמוד הפרויקטים.
-                </p>
-                <TermPicker
-                  {...termProps}
-                  kind="category"
-                  terms={byKind("category")}
-                  selected={project.category_ids}
-                  onChange={(ids) => field("category_ids", ids)}
-                />
-              </section>
-            </div>
-            <div
-              role="tabpanel"
-              id="panel-cards"
-              aria-labelledby="tab-cards"
-              hidden={tab !== "cards"}
-            >
-              <section className={styles.section}>
+              <section id="section-media" className={styles.section}>
                 <h2>מדיה ראשית</h2>
                 <p className={styles.hint}>
-                  הקאבר משמש גם כ־Hero בעמוד הפרויקט, ככרטיס בעמוד הבית וכברירת
-                  מחדל בארכיון. אפשר תמונה או סרטון.
+                  התמונה הראשית פותחת את עמוד הפרויקט (חתוכה ל־16:9; בהגדלה היא
+                  מוצגת במלואה) ומשמשת גם לכרטיסי הפרויקט. הסרטון הראשי מוצג מיד
+                  אחריה, מושתק ובלולאה, רק כשהוא על המסך.
                 </p>
-                <MediaUpload
-                  {...mediaProps}
-                  kind="any"
-                  label="תמונת קאבר"
-                  value={project.cover_image_url}
-                  onChange={(url) => field("cover_image_url", url)}
-                />
-              </section>
-              <section className={styles.section}>
-                <h2>עמוד הבית — פרויקטים נבחרים</h2>
-                <label className={styles.check}>
-                  <input
-                    type="checkbox"
-                    checked={project.show_on_homepage}
-                    onChange={(e) =>
-                      field("show_on_homepage", e.target.checked)
-                    }
-                  />
-                  פרויקט נבחר — הצגה בעמוד הבית
-                </label>
-                <LocalizedField
-                  label="תיאור קצר לכרטיסי פרויקט"
-                  hint="משפט אחד. מוצג בעמוד הבית, ובארכיון כשאין תיאור נפרד."
-                  multiline
-                  value={project.short_description}
-                  valueEn={project.short_description_en}
-                  onChange={text("short_description")}
-                  onChangeEn={text("short_description_en")}
-                />
-                <HighlightSelect
-                  label="היילייט בכרטיס בעמוד הבית"
-                  flag="on_homepage"
-                  highlights={project.highlights}
-                  onChange={(highlights) => field("highlights", highlights)}
-                />
-                {hoverField("homepage", "מדיה במעבר עכבר — עמוד הבית")}
-                <p className={styles.hint}>
-                  תמונה או סרטון שיוצגו במעבר עכבר ובמיקוד מקלדת. במסכי מגע
-                  נשארת המדיה הראשית. כשריק, הסרטון הראשי מתנגן במעבר עכבר, אם
-                  הוגדר בגלריה. להצגה גם בעמוד הפרויקט, הוסיפו את המדיה לבלוק
-                  ב־Case Study.
-                </p>
-                <details>
-                  <summary>מדיה אחרת לעמוד הבית ומיקום ידני</summary>
+                <div className={styles.mainMedia}>
                   <MediaUpload
                     {...mediaProps}
                     kind="any"
-                    label="מדיה לעמוד הבית"
-                    value={project.homepage_image_url}
-                    onChange={(url) => field("homepage_image_url", url)}
+                    label="תמונה ראשית"
+                    value={project.cover_image_url}
+                    onChange={(url) => field("cover_image_url", url)}
                   />
-                  <label className={styles.field}>
-                    <span>סדר בעמוד הבית</span>
+                  <MainVideoField
+                    projectId={project.id}
+                    media={project.media}
+                    onBusy={busy}
+                    update={(update) =>
+                      change((current) => ({
+                        ...current,
+                        media: update(current.media),
+                      }))
+                    }
+                    onSelect={(src) =>
+                      change((current) => ({
+                        ...current,
+                        // One main video; it leaves the gallery rows.
+                        media: current.media.map((m) =>
+                          m.src === src
+                            ? { ...m, role: "main_video" }
+                            : m.role === "main_video"
+                              ? { ...m, role: undefined }
+                              : m,
+                        ),
+                        content: src
+                          ? withGalleryRows(
+                              current.content,
+                              removeFromGallery(
+                                galleryRows(current.content),
+                                src,
+                              ),
+                            )
+                          : current.content,
+                      }))
+                    }
+                  />
+                </div>
+              </section>
+              <details ref={advanced} className={styles.advanced}>
+                <summary>הגדרות נוספות: קטגוריות, כרטיסים, כתובת ו־SEO</summary>
+                <section className={styles.section}>
+                  <h2>{termLabels.category.heading}</h2>
+                  <p className={styles.hint}>
+                    מוצגות כתגיות בפרויקט ומשמשות לסינון בעמוד הפרויקטים.
+                  </p>
+                  <TermPicker
+                    {...termProps}
+                    kind="category"
+                    terms={byKind("category")}
+                    selected={project.category_ids}
+                    onChange={(ids) => field("category_ids", ids)}
+                  />
+                </section>
+                <section id="section-cards" className={styles.section}>
+                  <h2>עמוד הבית — פרויקטים נבחרים</h2>
+                  <label className={styles.check}>
                     <input
-                      type="number"
-                      step={1}
-                      value={project.homepage_order ?? ""}
+                      type="checkbox"
+                      checked={project.show_on_homepage}
                       onChange={(e) =>
-                        field(
-                          "homepage_order",
-                          e.target.value === "" ? null : Number(e.target.value),
-                        )
+                        field("show_on_homepage", e.target.checked)
                       }
+                    />
+                    פרויקט נבחר — הצגה בעמוד הבית
+                  </label>
+                  <HighlightSelect
+                    label="היילייט בכרטיס בעמוד הבית"
+                    flag="on_homepage"
+                    highlights={project.highlights}
+                    onChange={(highlights) => field("highlights", highlights)}
+                  />
+                  {hoverField("homepage", "מדיה במעבר עכבר — עמוד הבית")}
+                  <p className={styles.hint}>
+                    תמונה או סרטון שיוצגו במעבר עכבר ובמיקוד מקלדת. במסכי מגע
+                    נשארת המדיה הראשית. כשריק, הסרטון הראשי מתנגן במעבר עכבר, אם
+                    הוגדר. להצגה גם בעמוד הפרויקט, הוסיפו את הקובץ לגלריה.
+                  </p>
+                  <details>
+                    <summary>מדיה אחרת לעמוד הבית ומיקום ידני</summary>
+                    <MediaUpload
+                      {...mediaProps}
+                      kind="any"
+                      label="מדיה לעמוד הבית"
+                      value={project.homepage_image_url}
+                      onChange={(url) => field("homepage_image_url", url)}
+                    />
+                    <label className={styles.field}>
+                      <span>סדר בעמוד הבית</span>
+                      <input
+                        type="number"
+                        dir="ltr"
+                        step={1}
+                        value={project.homepage_order ?? ""}
+                        onChange={(e) =>
+                          field(
+                            "homepage_order",
+                            e.target.value === ""
+                              ? null
+                              : Number(e.target.value),
+                          )
+                        }
+                      />
+                      <small>
+                        מספר נמוך מופיע קודם. אפשר גם לגרור בעמוד רשימת
+                        הפרויקטים.
+                      </small>
+                    </label>
+                  </details>
+                </section>
+                <section className={styles.section}>
+                  <h2>עמוד הפרויקטים (ארכיון)</h2>
+                  <label className={styles.check}>
+                    <input
+                      type="checkbox"
+                      checked={project.show_on_projects}
+                      onChange={(e) =>
+                        field("show_on_projects", e.target.checked)
+                      }
+                    />
+                    הצגה בעמוד הפרויקטים
+                  </label>
+                  <label className={styles.check}>
+                    <input
+                      type="checkbox"
+                      checked={project.featured}
+                      onChange={(e) => field("featured", e.target.checked)}
+                    />
+                    מודגש בעמוד הפרויקטים — כרטיס גדול בתצוגת המגזין
+                  </label>
+                  <LocalizedField
+                    label="תיאור לעמוד הפרויקטים"
+                    hint="משפט או שניים. כשריק, מוצג התיאור הקצר מפרטי הפרויקט."
+                    multiline
+                    value={project.archive_description}
+                    valueEn={project.archive_description_en}
+                    onChange={text("archive_description")}
+                    onChangeEn={text("archive_description_en")}
+                  />
+                  <HighlightSelect
+                    label="היילייט בכרטיס בעמוד הפרויקטים"
+                    flag="on_archive"
+                    highlights={project.highlights}
+                    onChange={(highlights) => field("highlights", highlights)}
+                  />
+                  {hoverField("projects", "מדיה במעבר עכבר — עמוד הפרויקטים")}
+                  <details>
+                    <summary>מדיה אחרת לארכיון ומיקום ידני</summary>
+                    <MediaUpload
+                      {...mediaProps}
+                      kind="any"
+                      label="מדיה לעמוד הפרויקטים"
+                      value={project.projects_image_url}
+                      onChange={(url) => field("projects_image_url", url)}
+                    />
+                    <label className={styles.field}>
+                      <span>סדר בעמוד הפרויקטים</span>
+                      <input
+                        type="number"
+                        dir="ltr"
+                        step={1}
+                        value={project.projects_order ?? ""}
+                        onChange={(e) =>
+                          field(
+                            "projects_order",
+                            e.target.value === ""
+                              ? null
+                              : Number(e.target.value),
+                          )
+                        }
+                      />
+                    </label>
+                  </details>
+                </section>
+                <section id="section-seo" className={styles.section}>
+                  <h2>כתובת ופרסום</h2>
+                  <label className={styles.field}>
+                    <span>כתובת הפרויקט (Slug)</span>
+                    <input
+                      value={project.slug ?? ""}
+                      dir="ltr"
+                      onChange={(e) => {
+                        setSlugTouched(true);
+                        field("slug", e.target.value || null);
+                      }}
                     />
                     <small>
-                      מספר נמוך מופיע קודם. אפשר גם לגרור בעמוד רשימת הפרויקטים.
+                      השאירו ריק כדי להציג פרויקט בלי עמוד נפרד (כרטיס בלבד).
+                      שינוי כתובת של פרויקט שמור משנה את הקישור אליו.
                     </small>
                   </label>
-                </details>
-              </section>
-              <section className={styles.section}>
-                <h2>עמוד הפרויקטים (ארכיון)</h2>
-                <label className={styles.check}>
-                  <input
-                    type="checkbox"
-                    checked={project.show_on_projects}
-                    onChange={(e) =>
-                      field("show_on_projects", e.target.checked)
-                    }
+                  <p>
+                    סטטוס: {project.published ? "מפורסם" : "טיוטה — פרטית"}.
+                    הפרסום וביטולו נעשים מסרגל הכלים למעלה.
+                  </p>
+                </section>
+                <section className={styles.section}>
+                  <h2>SEO ושיתוף</h2>
+                  <LocalizedField
+                    label="כותרת SEO"
+                    hint="כשריק: שם הפרויקט ושם הסטודיו."
+                    maxLength={120}
+                    value={project.seo_title}
+                    valueEn={project.seo_title_en}
+                    onChange={text("seo_title")}
+                    onChangeEn={text("seo_title_en")}
                   />
-                  הצגה בעמוד הפרויקטים
-                </label>
-                <label className={styles.check}>
-                  <input
-                    type="checkbox"
-                    checked={project.featured}
-                    onChange={(e) => field("featured", e.target.checked)}
+                  <LocalizedField
+                    label="תיאור SEO"
+                    hint="כשריק: התיאור הקצר."
+                    multiline
+                    maxLength={300}
+                    value={project.seo_description}
+                    valueEn={project.seo_description_en}
+                    onChange={text("seo_description")}
+                    onChangeEn={text("seo_description_en")}
                   />
-                  מודגש בעמוד הפרויקטים — כרטיס גדול בתצוגת המגזין
-                </label>
-                <LocalizedField
-                  label="תיאור לעמוד הפרויקטים"
-                  hint="משפט או שניים. כשריק, מוצג התיאור הקצר."
-                  multiline
-                  value={project.archive_description}
-                  valueEn={project.archive_description_en}
-                  onChange={text("archive_description")}
-                  onChangeEn={text("archive_description_en")}
-                />
-                <HighlightSelect
-                  label="היילייט בכרטיס בעמוד הפרויקטים"
-                  flag="on_archive"
-                  highlights={project.highlights}
-                  onChange={(highlights) => field("highlights", highlights)}
-                />
-                {hoverField("projects", "מדיה במעבר עכבר — עמוד הפרויקטים")}
-                <details>
-                  <summary>מדיה אחרת לארכיון ומיקום ידני</summary>
                   <MediaUpload
                     {...mediaProps}
-                    kind="any"
-                    label="מדיה לעמוד הפרויקטים"
-                    value={project.projects_image_url}
-                    onChange={(url) => field("projects_image_url", url)}
+                    choices={project.media.filter(
+                      (m) =>
+                        m.kind === "image" && /\.(jpg|png|webp)$/i.test(m.src),
+                    )}
+                    label="תמונת שיתוף (OG)"
+                    value={project.og_image_url}
+                    onChange={(url) => field("og_image_url", url)}
                   />
-                  <label className={styles.field}>
-                    <span>סדר בעמוד הפרויקטים</span>
-                    <input
-                      type="number"
-                      step={1}
-                      value={project.projects_order ?? ""}
-                      onChange={(e) =>
-                        field(
-                          "projects_order",
-                          e.target.value === "" ? null : Number(e.target.value),
-                        )
-                      }
-                    />
-                  </label>
-                </details>
-              </section>
+                  <p className={styles.hint}>
+                    JPEG, PNG או WebP. כשריק, התמונה הראשית משמשת לשיתוף אם היא
+                    תמונה.
+                  </p>
+                </section>
+              </details>
             </div>
             <div
               role="tabpanel"
@@ -695,8 +900,20 @@ export function ProjectEditor({
               aria-labelledby="tab-case"
               hidden={tab !== "case"}
             >
-              <section className={styles.section}>
-                <h2>Hero</h2>
+              <nav aria-label="חלקי ה־Case Study" className={styles.subnav}>
+                {CASE_SECTIONS.map(([id, label]) => (
+                  <a key={id} href={`#${id}`}>
+                    {label}
+                  </a>
+                ))}
+              </nav>
+              <section id="section-case" className={styles.section}>
+                <h2>תוכן הקייס</h2>
+                <p className={styles.hint}>
+                  הפתיח, קהל היעד והטקסטים מוצגים בפאנל הצדדי כאקורדיונים, לפי
+                  הסדר כאן. בלוקי מדיה מוצגים בעמודת המדיה, לפני הגלריה.
+                </p>
+                <h3>פתיח</h3>
                 <LocalizedField
                   label="כותרת משנה"
                   value={project.headline}
@@ -706,25 +923,14 @@ export function ProjectEditor({
                 />
                 <LocalizedField
                   label="תיאור הפרויקט"
-                  hint="פתיח לעמוד הפרויקט: מה הפרויקט ולמי הוא נבנה."
+                  hint="מה הפרויקט ולמי הוא נבנה. מוצג בעמוד הפרויקט, ובעמוד הבית מתחת לשם הפרויקט."
                   multiline
                   value={project.description}
                   valueEn={project.description_en}
                   onChange={text("description")}
                   onChangeEn={text("description_en")}
                 />
-                <p className={styles.hint}>
-                  מדיית ה־Hero היא הקאבר (לשונית עמוד הבית וארכיון). לקוח, שנה,
-                  קטגוריות, תפקיד וקישור לאתר נערכים בלשונית כללי.
-                </p>
-              </section>
-              <PanelBackgroundEditor
-                panelStyle={project.panel_style}
-                onChange={(panel_style) => field("panel_style", panel_style)}
-              />
-              <section className={styles.section}>
-                <h2>קהל יעד</h2>
-                <p className={styles.hint}>מוצג רק בעמוד הפרויקט.</p>
+                <h3>קהל יעד</h3>
                 <LocalizedField
                   label="קהל יעד"
                   value={project.target_audience}
@@ -740,140 +946,115 @@ export function ProjectEditor({
                   onChange={text("audience_description")}
                   onChangeEn={text("audience_description_en")}
                 />
-              </section>
-              <section className={styles.section}>
-                <h2>היילייטס</h2>
-                <HighlightsEditor
-                  highlights={project.highlights}
-                  onChange={(highlights) => field("highlights", highlights)}
-                />
-              </section>
-              <section className={styles.section}>
-                <h2>תוכן הפרויקט</h2>
+                <h3>בלוקי תוכן</h3>
                 <p className={styles.hint}>
                   אפשר להוסיף סקשנים מוכנים (אתגר, גישה, פתרון, עיצוב ופיתוח,
                   תוצר סופי) או בלוקים חופשיים, ולסדר, להסתיר ולשכפל אותם.
-                  תמונות הגלריה שלא שובצו בבלוקים מוצגות בסוף העמוד.
                 </p>
                 <ContentEditor
                   projectId={project.id}
                   onBusy={busy}
                   onUploaded={addMedia}
                   media={project.media}
-                  blocks={project.content}
+                  blocks={project.content.filter(
+                    (block) => block.type !== "gallery_rows",
+                  )}
                   update={(update) =>
                     change((current) => ({
                       ...current,
-                      content: update(current.content) as ProjectContentBlock[],
+                      content: [
+                        ...(update(
+                          current.content.filter(
+                            (block) => block.type !== "gallery_rows",
+                          ),
+                        ) as ProjectContentBlock[]),
+                        ...current.content.filter(
+                          (block) => block.type === "gallery_rows",
+                        ),
+                      ],
                     }))
                   }
                 />
               </section>
-            </div>
-            <div
-              role="tabpanel"
-              id="panel-gallery"
-              aria-labelledby="tab-gallery"
-              hidden={tab !== "gallery"}
-            >
-              <GalleryManager
-                projectId={project.id}
-                media={project.media}
-                onBusy={busy}
-                update={(update) =>
-                  change((current) => ({
-                    ...current,
-                    media: update(current.media),
-                  }))
-                }
-                usage={(src) => mediaUsage(project, src)}
-                onRemove={(src) => {
-                  change((current) => unlinkSrc(current, src));
-                  release(src);
-                }}
-                onReplace={(from, to) => {
-                  change((current) => {
-                    const old = current.media.find((m) => m.src === from);
-                    const next = replaceSrc(current, from, to.src);
-                    return {
-                      ...next,
-                      media: next.media.map((m) =>
-                        m.src === to.src
-                          ? { ...old, ...to, poster: old?.poster }
-                          : m,
+              <section id="section-gallery" className={styles.section}>
+                <h2>גלריה</h2>
+                <GalleryRowsEditor
+                  projectId={project.id}
+                  media={project.media}
+                  rows={rows}
+                  setRows={setRows}
+                  onBusy={busy}
+                  update={(update) =>
+                    change((current) => ({
+                      ...current,
+                      media: update(current.media),
+                    }))
+                  }
+                  onUploaded={(item) =>
+                    change((current) => ({
+                      ...current,
+                      media: current.media.some((m) => m.src === item.src)
+                        ? current.media
+                        : [...current.media, item],
+                      content: withGalleryRows(
+                        current.content,
+                        addToGallery(galleryRows(current.content), item.src),
                       ),
-                    };
-                  });
-                  release(from);
-                }}
-                cover={project.cover_image_url}
-                ogImage={project.og_image_url}
-                onUseAsCover={(src) => field("cover_image_url", src)}
-                onUseAsOg={(src) => field("og_image_url", src)}
-              />
-            </div>
-            <div
-              role="tabpanel"
-              id="panel-seo"
-              aria-labelledby="tab-seo"
-              hidden={tab !== "seo"}
-            >
-              <section className={styles.section}>
-                <h2>כתובת ופרסום</h2>
-                <label className={styles.field}>
-                  <span>כתובת הפרויקט (Slug)</span>
-                  <input
-                    value={project.slug ?? ""}
-                    dir="ltr"
-                    onChange={(e) => {
-                      setSlugTouched(true);
-                      field("slug", e.target.value || null);
-                    }}
-                  />
-                  <small>
-                    השאירו ריק כדי להציג פרויקט בלי עמוד נפרד (כרטיס בלבד).
-                    שינוי כתובת של פרויקט שמור משנה את הקישור אליו.
-                  </small>
-                </label>
-                <p>
-                  סטטוס: {project.published ? "מפורסם" : "טיוטה — פרטית"}.
-                  הפרסום וביטולו נעשים מסרגל הכלים למעלה.
-                </p>
+                    }))
+                  }
+                  usage={(src) => mediaUsage(project, src)}
+                  onDelete={deleteFile}
+                  onReplace={(from, to) => {
+                    change((current) => {
+                      const old = current.media.find((m) => m.src === from);
+                      const next = replaceSrc(current, from, to.src);
+                      return {
+                        ...next,
+                        media: next.media.map((m) =>
+                          m.src === to.src
+                            ? { ...old, ...to, poster: old?.poster }
+                            : m,
+                        ),
+                      };
+                    });
+                    release(from);
+                  }}
+                  cover={project.cover_image_url}
+                  ogImage={project.og_image_url}
+                  onUseAsCover={(src) => field("cover_image_url", src)}
+                  onUseAsOg={(src) => field("og_image_url", src)}
+                />
               </section>
-              <section className={styles.section}>
-                <h2>SEO ושיתוף</h2>
-                <LocalizedField
-                  label="כותרת SEO"
-                  hint="כשריק: שם הפרויקט ושם הסטודיו."
-                  maxLength={120}
-                  value={project.seo_title}
-                  valueEn={project.seo_title_en}
-                  onChange={text("seo_title")}
-                  onChangeEn={text("seo_title_en")}
-                />
-                <LocalizedField
-                  label="תיאור SEO"
-                  hint="כשריק: התיאור הקצר."
-                  multiline
-                  maxLength={300}
-                  value={project.seo_description}
-                  valueEn={project.seo_description_en}
-                  onChange={text("seo_description")}
-                  onChangeEn={text("seo_description_en")}
-                />
-                <MediaUpload
-                  {...mediaProps}
-                  choices={project.media.filter(
-                    (m) =>
-                      m.kind === "image" && /\.(jpg|png|webp)$/i.test(m.src),
-                  )}
-                  label="תמונת שיתוף (OG)"
-                  value={project.og_image_url}
-                  onChange={(url) => field("og_image_url", url)}
-                />
+              <section id="section-panel" className={styles.section}>
+                <h2>פאנל צדדי</h2>
                 <p className={styles.hint}>
-                  JPEG, PNG או WebP. כשריק, הקאבר משמש לשיתוף אם הוא תמונה.
+                  הלוגו מוצג בראש הפאנל, מעל שם הפרויקט. SVG, PNG או WebP;
+                  השקיפות נשמרת.
                 </p>
+                <LogoField
+                  projectId={project.id}
+                  media={project.media}
+                  onBusy={busy}
+                  update={(update) =>
+                    change((current) => ({
+                      ...current,
+                      media: update(current.media),
+                    }))
+                  }
+                  usage={(src) => mediaUsage(project, src)}
+                  onRemove={deleteFile}
+                />
+              </section>
+              <PanelBackgroundEditor
+                panelStyle={project.panel_style}
+                onChange={(panel_style) => field("panel_style", panel_style)}
+              />
+              <section id="section-highlights" className={styles.section}>
+                <h2>היילייטס</h2>
+                <HighlightsEditor
+                  highlights={project.highlights}
+                  onChange={(highlights) => field("highlights", highlights)}
+                />
               </section>
             </div>
           </fieldset>

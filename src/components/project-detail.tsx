@@ -16,6 +16,7 @@ import {
   projectGallery,
   projectHighlights,
   projectInformation,
+  projectUserCount,
 } from "@/lib/project-presentation";
 import type { Project } from "@/types/project";
 import styles from "./projects.module.css";
@@ -61,11 +62,13 @@ export function ProjectDetail({
   )
     ? []
     : projectHighlights(project, locale);
+  // Same order as the editor's project details; empty facts are left out.
   const metadata: [string, string | number | null][] = [
     [labels.client, t("client") || null],
     [labels.year, project.year],
-    [copy.type, project.type ? termName(project.type, locale) : null],
     [copy.role, t("role") || null],
+    [copy.users, projectUserCount(project)],
+    [copy.type, project.type ? termName(project.type, locale) : null],
   ];
   return (
     <div
@@ -146,7 +149,7 @@ export function ProjectDetail({
                   href={project.website_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`${buttonClassName("outline")} ${detail.websiteLink}`}
+                  className={`${buttonClassName("primary")} ${detail.websiteLink}`}
                 >
                   {copy.visitWebsite}
                   <svg

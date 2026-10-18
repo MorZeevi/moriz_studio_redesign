@@ -520,6 +520,18 @@
   line-height: 1.4;
 }
 
+/* The project description, under the title in the card body. */
+.stackAbout {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-body);
+  line-height: 1.55;
+  white-space: pre-line;
+}
+
+.stackBodyDescription + .stackAbout {
+  margin-block-start: var(--space-3);
+}
+
 /* The media link's row grid-area would add an implicit column here. */
 .stackBody .mediaLink {
   grid-area: auto;

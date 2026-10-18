@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { requireAdmin } from "@/lib/cms/auth";
 import { CMS_MEDIA_BUCKET, CMS_SOURCE } from "@/lib/cms/source";
+import { isProjectType } from "@/lib/cms/project-types";
 import { getAdminProject } from "@/lib/cms/queries";
 import {
   MEDIA_PATH,
@@ -122,16 +123,18 @@ export async function saveProject(
     const { data: terms, error: termsError } = termIds.length
       ? await client
           .from("categories")
-          .select("id,kind")
+          .select("id,kind,slug")
           .eq("source", CMS_SOURCE)
           .in("id", termIds)
       : { data: [], error: null };
     if (termsError) throw termsError;
     const kindOf = new Map((terms ?? []).map((t) => [t.id, t.kind]));
+    const typeSlug = terms?.find((t) => t.id === type_id)?.slug;
     // A legacy service row is a category until the data migration converts it.
     if (
       category_ids.some((t) => !kindOf.has(t) || kindOf.get(t) === "type") ||
-      (type_id && kindOf.get(type_id) !== "type")
+      (type_id &&
+        (kindOf.get(type_id) !== "type" || !isProjectType(typeSlug ?? "")))
     )
       return {
         ok: false,
@@ -245,6 +248,8 @@ export async function createTerm(
   const name_en = cleanName(rawNameEn) || null;
   if (!TERM_KINDS.includes(kind))
     return { ok: false, error: "סוג הרשימה אינו תקין." };
+  if (kind === "type")
+    return { ok: false, error: "סוגי הפרויקטים הם רשימה קבועה." };
   if (!name || name.length > 100 || (name_en?.length ?? 0) > 100)
     return {
       ok: false,
@@ -290,6 +295,8 @@ export async function updateTerm(
     .from("categories")
     .update({ name, name_en })
     .eq("source", CMS_SOURCE)
+    // Project types are a fixed list.
+    .neq("kind", "type")
     .eq("id", id);
   if (error) return failure(error);
   refreshPortfolio();
@@ -302,6 +309,8 @@ export async function deleteTerm(id: string): Promise<Result> {
     .from("categories")
     .delete()
     .eq("source", CMS_SOURCE)
+    // Project types are a fixed list.
+    .neq("kind", "type")
     .eq("id", id);
   if (error) return failure(error);
   refreshPortfolio();

@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { randomUUID } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
 import type { Database } from "../../src/types/database.types";
+import { editorTab, openMoreSettings } from "./editor";
 import { fixture } from "./setup";
 import {
   projectGallery,
@@ -482,8 +483,8 @@ test("private routes and a complete editor publishing flow", async ({
   browser,
 }) => {
   const f = fixture();
-  const tab = (name: string) =>
-    page.getByRole("tab", { name: new RegExp(`^${name}`) }).click();
+  const tab = (name: "details" | "case" | "more") =>
+    name === "more" ? openMoreSettings(page) : editorTab(page, name);
   const uploading = page.getByText("מעלה מדיה…", { exact: true });
   const webp = readFileSync("public/party-mode/disco-ball.webp");
   await page.goto("/admin/projects/new");
@@ -503,14 +504,14 @@ test("private routes and a complete editor publishing flow", async ({
     .fill("CMS browser test EN");
   await page.getByLabel("לקוח", { exact: true }).fill("QA client");
   await page.getByLabel("שנה", { exact: true }).fill("2026");
-  await tab("הגדרות");
+  await tab("more");
   const slug = `${f.prefix}-browser`;
   await page.getByLabel("כתובת הפרויקט (Slug)").fill(slug);
-  await tab("עמוד הבית");
   await page
-    .getByLabel("תיאור קצר לכרטיסי פרויקט", { exact: true })
+    .locator("#panel-details")
+    .getByLabel("תיאור קצר", { exact: true })
     .fill("A test project");
-  await tab("Case Study");
+  await tab("case");
   await page
     .getByLabel("כותרת משנה", { exact: true })
     .fill("Portfolio interactions");
@@ -532,7 +533,7 @@ test("private routes and a complete editor publishing flow", async ({
   const publicPage = await anon.newPage();
   await publicPage.goto(`/he/projects/${slug}`);
   await expect(publicPage.getByText("404", { exact: true })).toBeVisible();
-  await tab("כללי");
+  await tab("more");
   await page
     .getByLabel("יצירת קטגוריה משותפת חדשה", { exact: true })
     .fill(`${f.prefix} Category`);
@@ -542,31 +543,24 @@ test("private routes and a complete editor publishing flow", async ({
   await expect(
     page.getByRole("button", { name: `הסרת קטגוריה ${f.prefix} Category` }),
   ).toBeVisible();
-  await page.getByLabel("הוספת קטגוריה לפרויקט").selectOption({ label: "AI" });
-  // Services and the project type are managed lists, created inline here.
-  for (const service of ["UX/UI Design", "Motion", "Frontend Development"]) {
-    await page
-      .getByLabel("יצירת שירות חדש", { exact: true })
-      .fill(`${f.prefix} ${service}`);
-    await page
-      .getByRole("button", { name: "יצירת שירות", exact: true })
-      .click();
-    await expect(
-      page.getByRole("button", {
-        name: `הסרת שירות ${f.prefix} ${service}`,
-      }),
-    ).toBeVisible();
-  }
-  await page
-    .getByRole("button", { name: `הסרת שירות ${f.prefix} Motion` })
-    .click();
-  await page
-    .getByLabel("יצירת סוג פרויקט חדש", { exact: true })
-    .fill(`${f.prefix} Web App`);
-  await page.getByRole("button", { name: "יצירת סוג", exact: true }).click();
-  await expect(page.getByLabel(/^סוג פרויקט/)).not.toHaveValue("");
-  await tab("עמוד הבית");
-  const cover = page.locator('fieldset[aria-label="תמונת קאבר"]');
+  // Options read "name / English name".
+  const addCategory = page.getByLabel("הוספת קטגוריה לפרויקט");
+  const ai = await addCategory
+    .locator("option", { hasText: /^AI( \/|$)/ })
+    .getAttribute("value");
+  await addCategory.selectOption(ai ?? "");
+  // Project types are a fixed list.
+  const typeSelect = page.getByLabel("סוג הפרויקט", { exact: true });
+  await expect
+    .poll(() =>
+      typeSelect.evaluate((select) =>
+        [...(select as HTMLSelectElement).options].map((o) => o.text),
+      ),
+    )
+    .toEqual(["לא נבחר", "משחק", "אתר תדמית", "אפליקציית Web", "כלי AI", "אחר"]);
+  await typeSelect.selectOption({ label: "כלי AI" });
+  await tab("details");
+  const cover = page.locator('fieldset[aria-label="תמונה ראשית"]');
   const coverInput = cover.locator("input[type=file]");
   await coverInput.setInputFiles({
     name: "invalid.svg",
@@ -579,7 +573,7 @@ test("private routes and a complete editor publishing flow", async ({
   await coverInput.setInputFiles("public/party-mode/disco-ball.webp");
   await expect(uploading).not.toBeVisible();
   await expect(cover.locator("img").first()).toBeVisible();
-  await tab("Case Study");
+  await tab("case");
   async function add(type: string) {
     await page.getByLabel("סוג בלוק", { exact: true }).selectOption(type);
     await page.getByRole("button", { name: "הוספת בלוק", exact: true }).click();
@@ -649,14 +643,14 @@ test("private routes and a complete editor publishing flow", async ({
   await page.getByRole("button", { name: "הוספת היילייט (0/3)" }).click();
   await page.getByLabel("ערך", { exact: true }).fill("6K+");
   await page.getByLabel("תווית", { exact: true }).fill("Community members");
-  await tab("עמוד הבית");
+  await tab("more");
   await page
     .getByLabel(/^היילייט בכרטיס בעמוד הבית/)
     .selectOption({ label: "6K+ · Community members" });
   await page.getByRole("button", { name: "שמירת טיוטה", exact: true }).click();
   await expect(page.getByRole("status")).toContainText("הטיוטה נשמרה");
   await page.reload();
-  await tab("Case Study");
+  await tab("case");
   await expect(
     page
       .getByRole("region", { name: "תמונה 2", exact: true })
@@ -692,7 +686,7 @@ test("private routes and a complete editor publishing flow", async ({
   await expect(
     page.getByRole("alert").filter({ hasText: "כדי לפרסם" }),
   ).toContainText("לוגו");
-  await tab("גלריה");
+  await tab("case");
   await page
     .locator('fieldset[aria-label="לוגו"] input[type=file]')
     .setInputFiles({
@@ -706,10 +700,12 @@ test("private routes and a complete editor publishing flow", async ({
   await expect(
     page.locator('fieldset[aria-label="לוגו"] img').first(),
   ).toBeVisible();
+  await tab("details");
   await page
     .locator('fieldset[aria-label="סרטון ראשי"] input[type=file]')
     .setInputFiles("public/party-mode/disco-ball-mobile.webm");
   await expect(uploading).not.toBeVisible();
+  await tab("case");
   await page
     .locator('fieldset[aria-label="העלאת קבצים לגלריה"] input[type=file]')
     .setInputFiles(
@@ -724,7 +720,7 @@ test("private routes and a complete editor publishing flow", async ({
     "data-gallery-count",
     /^[0-5]$/,
   );
-  await page.getByRole("button", { name: "הזזת קובץ 2 למעלה" }).click();
+  await page.getByRole("button", { name: "הזזת שורה 2 למעלה" }).click();
   await page.getByRole("button", { name: "פרסום", exact: true }).click();
   await expect(page.getByRole("status")).toContainText("מפורסם");
   await publicPage.goto(`/he/projects/${slug}`);
@@ -951,17 +947,17 @@ test("private routes and a complete editor publishing flow", async ({
     ),
   ).toBe(true);
   await page.setViewportSize({ width: 1440, height: 1000 });
-  await tab("עמוד הבית");
+  await tab("details");
   const oldCover = await cover.locator("img").first().getAttribute("src");
   await coverInput.setInputFiles("public/party-mode/disco-ball.webp");
   await expect(cover.locator("img").first()).not.toHaveAttribute(
     "src",
     oldCover ?? "",
   );
-  await tab("כללי");
   await page
     .getByLabel("שם הפרויקט", { exact: true })
     .fill("CMS updated title");
+  await tab("more");
   await expect(page.getByLabel("כתובת הפרויקט (Slug)")).toHaveValue(slug);
   await page
     .getByRole("button", { name: "שמירת שינויים", exact: true })
@@ -990,12 +986,10 @@ test("private routes and a complete editor publishing flow", async ({
   await expect(page.getByLabel("שם הפרויקט", { exact: true })).toHaveValue(
     "CMS updated title — העתק",
   );
-  // Duplicates keep services and type links.
-  await expect(
-    page.getByRole("button", {
-      name: `הסרת שירות ${f.prefix} UX/UI Design`,
-    }),
-  ).toBeVisible();
+  // Duplicates keep the type link.
+  await expect(page.getByLabel("סוג הפרויקט", { exact: true })).not.toHaveValue(
+    "",
+  );
   await page.goto("/admin/projects");
   await page
     .locator("article")
@@ -1137,7 +1131,7 @@ test("projects without URLs save, publish and duplicate without public detail li
   const title = `${f.prefix} No URL`;
   await page.getByLabel("שם הפרויקט", { exact: true }).fill(title);
   const slugInput = page.getByLabel("כתובת הפרויקט (Slug)");
-  await page.getByRole("tab", { name: /^הגדרות/ }).click();
+  await openMoreSettings(page);
   await expect(slugInput).not.toHaveValue("");
   await slugInput.fill("");
   await expect(slugInput).not.toHaveAttribute("required", "");
@@ -1161,12 +1155,13 @@ test("projects without URLs save, publish and duplicate without public detail li
   ).toBeVisible();
   await page.getByRole("button", { name: "חזרה לעריכה", exact: true }).click();
   // Card-only projects publish without a gallery, but need card essentials.
-  await page.getByRole("tab", { name: /^עמוד הבית/ }).click();
+  await openMoreSettings(page);
   await page
-    .getByLabel("תיאור קצר לכרטיסי פרויקט", { exact: true })
+    .locator("#panel-details")
+    .getByLabel("תיאור קצר", { exact: true })
     .fill("Card only");
   await page
-    .locator('fieldset[aria-label="תמונת קאבר"] input[type=file]')
+    .locator('fieldset[aria-label="תמונה ראשית"] input[type=file]')
     .setInputFiles("public/party-mode/disco-ball.webp");
   await expect(page.getByText("מעלה מדיה…", { exact: true })).not.toBeVisible();
   await page.getByRole("button", { name: "פרסום", exact: true }).click();
@@ -1198,7 +1193,7 @@ test("projects without URLs save, publish and duplicate without public detail li
     }
   }
   const addedSlug = `${f.prefix}-added-url`;
-  await page.getByRole("tab", { name: /^הגדרות/ }).click();
+  await openMoreSettings(page);
   await slugInput.fill(addedSlug);
   await page
     .getByRole("button", { name: "שמירת שינויים", exact: true })

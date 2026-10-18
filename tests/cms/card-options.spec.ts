@@ -20,6 +20,7 @@ import {
 } from "../../src/lib/cms/validation";
 import { projectGallery } from "../../src/lib/project-presentation";
 import type { Project, ProjectInput } from "../../src/types/project";
+import { openMoreSettings } from "./editor";
 import { fixture } from "./setup";
 
 test("card hover selections survive parsing, replacement and removal", () => {
@@ -174,7 +175,7 @@ test("card hover media and user count save, reload and respect input and motion"
   await page.context().addCookies(f.cookies);
   await page.goto(`/admin/projects/${id}`);
   await page.getByLabel("מספר משתמשים", { exact: true }).fill("10,000+");
-  await page.getByRole("tab", { name: /^עמוד הבית/ }).click();
+  await openMoreSettings(page);
   for (const [label, alt] of [
     ["מדיה במעבר עכבר — עמוד הבית", "Hover image"],
     ["מדיה במעבר עכבר — עמוד הפרויקטים", "Hover video"],
@@ -230,7 +231,7 @@ test("card hover media and user count save, reload and respect input and motion"
     ),
   ).toBe(false);
 
-  await page.getByRole("tab", { name: /^עמוד הבית/ }).click();
+  await openMoreSettings(page);
   await page.screenshot({
     path: ".cache/project-hover-admin-desktop.png",
     fullPage: true,
@@ -289,8 +290,10 @@ test("card hover media and user count save, reload and respect input and motion"
   });
   await expect(website).toHaveAttribute("target", "_blank");
   await expect(website).toHaveAttribute("rel", "noopener noreferrer");
-  await expect(website).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
-  await expect(website).toHaveCSS("border-top-color", "rgb(255, 255, 255)");
+  // The primary button in the panel's colours: text colour as the fill.
+  await expect(website).toHaveClass(/button--primary/);
+  await expect(website).toHaveCSS("background-color", "rgb(255, 255, 255)");
+  await expect(website).toHaveCSS("color", "rgb(81, 147, 70)");
   await website.scrollIntoViewIfNeeded();
   await publicPage.screenshot({
     path: ".cache/project-website-button-desktop.png",
@@ -342,7 +345,7 @@ test("card hover media and user count save, reload and respect input and motion"
   await phone.screenshot({ path: ".cache/project-hover-archive-mobile.png" });
 
   // Clear manual alternates: both cards now use the main video automatically.
-  await page.getByRole("tab", { name: /^עמוד הבית/ }).click();
+  await openMoreSettings(page);
   for (const label of [
     "מדיה במעבר עכבר — עמוד הבית",
     "מדיה במעבר עכבר — עמוד הפרויקטים",

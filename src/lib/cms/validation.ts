@@ -1,4 +1,5 @@
 import type {
+  GalleryRowsBlock,
   Highlight,
   PanelStyle,
   ProjectContentBlock,
@@ -191,8 +192,42 @@ function validBlock(
       );
     case "highlights":
       return strings(block, ["title", "title_en"]);
+    case "gallery_rows":
+      return validGalleryRows(block.rows);
   }
   return false;
+}
+export const MAX_ROW_ITEMS = 2;
+function validGalleryRows(rows: unknown) {
+  if (!Array.isArray(rows) || rows.length > 100) return false;
+  const ids = new Set<string>();
+  const items = new Set<string>();
+  for (const row of rows) {
+    if (
+      !record(row) ||
+      typeof row.id !== "string" ||
+      !row.id ||
+      row.id.length > 100 ||
+      ids.has(row.id) ||
+      !Array.isArray(row.items) ||
+      row.items.length < 1 ||
+      row.items.length > MAX_ROW_ITEMS
+    )
+      return false;
+    ids.add(row.id);
+    for (const src of row.items) {
+      if (typeof src !== "string" || !MEDIA_PATH.test(src) || items.has(src))
+        return false;
+      items.add(src);
+    }
+  }
+  return true;
+}
+/** The gallery block, when the project has switched to gallery rows. */
+export function galleryRowsBlock(content: ProjectContentBlock[]) {
+  return content.find(
+    (block): block is GalleryRowsBlock => block.type === "gallery_rows",
+  );
 }
 export function validateContent(
   value: unknown,
@@ -424,8 +459,20 @@ export function validateProject(value: ProjectInput) {
       "ההיילייטס אינם תקינים. עד שלושה פריטים, ואחד לכל היותר לכל כרטיס.",
     );
   validateContent(value.content, value.published);
+  const rows = value.content.filter((block) => block.type === "gallery_rows");
+  if (rows.length > 1)
+    throw new Error("הגלריה אינה תקינה. נמצאה יותר מגלריה אחת.");
+  const files = new Map(value.media.map((m) => [m.src, m]));
+  for (const src of rows[0]?.rows.flatMap((row) => row.items) ?? []) {
+    const item = files.get(src);
+    if (!item || item.role)
+      throw new Error(
+        "בגלריה יש קובץ שאינו בפרויקט, או לוגו / סרטון ראשי. הסירו אותו מהשורה.",
+      );
+  }
 }
 
+/** Where an issue is fixed: details (+ its collapsed "more" part) or the case study. */
 export type ReadinessTab = "general" | "cards" | "case" | "gallery" | "seo";
 export type ReadinessIssue = { tab: ReadinessTab; message: string };
 export function galleryImages(media: ProjectMediaItem[]) {
@@ -447,15 +494,15 @@ export function projectReadiness(project: ProjectInput): {
   if (blank(project.title))
     errors.push({ tab: "general", message: "חסר שם פרויקט." });
   if (blank(project.short_description))
-    errors.push({ tab: "cards", message: "חסר תיאור קצר לכרטיס הפרויקט." });
+    errors.push({ tab: "general", message: "חסר תיאור קצר." });
   if (!project.cover_image_url)
-    errors.push({ tab: "cards", message: "חסרה מדיה ראשית (קאבר)." });
+    errors.push({ tab: "general", message: "חסרה תמונה ראשית." });
   // Projects without a slug are card-only and have no case study page.
   if (project.slug) {
     if (!project.media.some((m) => m.role === "logo"))
-      errors.push({ tab: "gallery", message: "חסר לוגו לפרויקט." });
+      errors.push({ tab: "case", message: "חסר לוגו לפרויקט." });
     if (!project.media.some((m) => m.role === "main_video"))
-      errors.push({ tab: "gallery", message: "חסר סרטון ראשי." });
+      errors.push({ tab: "general", message: "חסר סרטון ראשי." });
     const count = galleryImages(project.media).length;
     if (count < MIN_GALLERY_IMAGES)
       errors.push({
@@ -502,6 +549,11 @@ export function mediaReferences(project: {
     if (Array.isArray(list))
       for (const block of list) {
         if (!record(block)) continue;
+        if (Array.isArray(block.rows))
+          for (const row of block.rows)
+            if (record(row) && Array.isArray(row.items))
+              for (const src of row.items)
+                if (typeof src === "string") values.push(src);
         if (typeof block.src === "string") values.push(block.src);
         if (typeof block.poster === "string") values.push(block.poster);
         if (Array.isArray(block.images))

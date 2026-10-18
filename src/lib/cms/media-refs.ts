@@ -19,6 +19,8 @@ function blockSources(block: ProjectContentBlock): string[] {
   if ("poster" in block && block.poster) values.push(block.poster);
   if ("images" in block)
     for (const image of block.images) if (image.src) values.push(image.src);
+  if (block.type === "gallery_rows")
+    for (const row of block.rows) values.push(...row.items);
   return values;
 }
 /** Where a file is used in the (unsaved) editor state, as readable labels. */
@@ -27,7 +29,8 @@ export function mediaUsage(project: ProjectInput, src: string): string[] {
     ([, label]) => label,
   );
   project.content.forEach((block, index) => {
-    if (blockSources(block).includes(src)) places.push(`בלוק ${index + 1}`);
+    if (blockSources(block).includes(src))
+      places.push(block.type === "gallery_rows" ? "גלריה" : `בלוק ${index + 1}`);
   });
   for (const item of project.media) {
     if (item.poster === src) places.push("פוסטר של סרטון בגלריה");
@@ -78,6 +81,14 @@ function mapBlocks(
           images: block.images
             .map((i) => mapImage(i, map))
             .filter((i) => i.src),
+        };
+      case "gallery_rows":
+        // A removed file leaves its row; an emptied row disappears.
+        return {
+          ...block,
+          rows: block.rows
+            .map((row) => ({ ...row, items: row.items.map(map).filter(Boolean) }))
+            .filter((row) => row.items.length),
         };
       default:
         return block;

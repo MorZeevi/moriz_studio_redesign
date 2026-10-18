@@ -147,6 +147,10 @@ export function ProjectsSection({
           const id = `project-${project.slug ?? project.id}`;
           const description =
             project.description ?? content.descriptionPlaceholder;
+          // CMS cards: short description beside the title, project
+          // description under it. Static items have one description.
+          const cms = project.summary !== undefined;
+          const summary = cms ? project.summary : description;
           return (
             // Strips and bodies are siblings so every strip sticks within
             // the whole list and the strips pile up while scrolling.
@@ -170,11 +174,16 @@ export function ProjectsSection({
                 <h3 id={id} className={styles.stackTitle}>
                   <bdi>{project.title}</bdi>
                 </h3>
-                <p className={styles.stackDescription}>{description}</p>
+                {summary && (
+                  <p className={styles.stackDescription}>{summary}</p>
+                )}
               </header>
               <div className={styles.stackBody} data-project-card={project.id}>
                 <div className={styles.stackInfo}>
-                  <p className={styles.stackBodyDescription}>{description}</p>
+                  {summary && !(cms && summary === description) && (
+                    <p className={styles.stackBodyDescription}>{summary}</p>
+                  )}
+                  {cms && <p className={styles.stackAbout}>{description}</p>}
                   <ProjectHighlight highlight={project.highlight} />
                   <CategoryTags
                     categories={project.categories ?? []}

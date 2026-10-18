@@ -12,6 +12,7 @@ export type ProjectCopy = DictionaryLabels & {
   type: string;
   services: string;
   role: string;
+  users: string;
   audience: string;
   website: string;
   visitWebsite: string;
@@ -39,6 +40,7 @@ export const projectCopy: Record<Locale, ProjectCopy> = {
     type: "סוג פרויקט",
     services: "שירותים",
     role: "התפקיד שלי",
+    users: "משתמשים",
     audience: "קהל יעד",
     website: "אתר",
     visitWebsite: "מעבר לאתר",
@@ -109,6 +111,7 @@ export const projectCopy: Record<Locale, ProjectCopy> = {
     type: "Project type",
     services: "Services",
     role: "My role",
+    users: "Users",
     audience: "Target audience",
     website: "Website",
     visitWebsite: "Visit the live site",

@@ -38,7 +38,8 @@ const KINDS: Record<
   type: {
     heading: "סוגי פרויקטים",
     singular: "סוג פרויקט",
-    intro: "סוג אחד לכל פרויקט, למשל אתר, Web App או פלטפורמה דיגיטלית.",
+    intro:
+      "רשימה קבועה: משחק, אתר תדמית, אפליקציית Web, כלי AI ואחר. לכל פרויקט סוג אחד, שנבחר בלשונית פרטי הפרויקט.",
     create: "סוג פרויקט חדש",
     add: "הוספת סוג",
     added: "הסוג נוסף.",
@@ -80,20 +81,43 @@ export function TaxonomyManager({
       } else setError(result.error);
     });
   }
+  const nav = (
+    <nav aria-label="רשימות" className={styles.subnav}>
+      {(Object.keys(KINDS) as ManagedKind[]).map((k) => (
+        <Link
+          key={k}
+          href={`/admin/categories?kind=${k}`}
+          aria-current={k === kind ? "page" : undefined}
+        >
+          {KINDS[k].heading}
+        </Link>
+      ))}
+    </nav>
+  );
+  // Project types are a fixed list (src/lib/cms/project-types.ts).
+  if (kind === "type")
+    return (
+      <main>
+        <h1>{labels.heading}</h1>
+        {nav}
+        <p>{labels.intro}</p>
+        <ul className={styles.list}>
+          {entries.map((entry) => (
+            <li key={entry.id} className={styles.row}>
+              <span>
+                <strong>{entry.name}</strong>
+                {entry.name_en ? ` / ${entry.name_en}` : ""}
+              </span>
+              <span>{entry.usage} פרויקטים</span>
+            </li>
+          ))}
+        </ul>
+      </main>
+    );
   return (
     <main>
       <h1>{labels.heading}</h1>
-      <nav aria-label="רשימות" className={styles.subnav}>
-        {(Object.keys(KINDS) as ManagedKind[]).map((k) => (
-          <Link
-            key={k}
-            href={`/admin/categories?kind=${k}`}
-            aria-current={k === kind ? "page" : undefined}
-          >
-            {KINDS[k].heading}
-          </Link>
-        ))}
-      </nav>
+      {nav}
       <p>{labels.intro}</p>
       {error && (
         <p role="alert" className={styles.error}>
