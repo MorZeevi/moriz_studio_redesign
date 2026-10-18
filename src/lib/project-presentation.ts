@@ -290,6 +290,8 @@ export function projectGallery(
   };
   for (const item of galleryImages(project.media)) {
     if (placed.has(item.src)) continue;
+    // A card preview enters the case study only when explicitly placed.
+    if (item.hover_homepage || item.hover_projects) continue;
     if (!item.layout) {
       pairs.push(item);
       continue;

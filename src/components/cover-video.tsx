@@ -20,12 +20,18 @@ export function CoverVideo({
   label,
   className,
   loop = true,
+  playing = true,
+  onReady,
+  onError,
 }: {
   src: string;
   poster?: string;
   label: string;
   className?: string;
   loop?: boolean;
+  playing?: boolean;
+  onReady?: () => void;
+  onError?: () => void;
 }) {
   const video = useRef<HTMLVideoElement>(null);
   const reducedMotion = useSyncExternalStore(
@@ -37,9 +43,16 @@ export function CoverVideo({
     const element = video.current;
     if (!element) return;
     let visible = false;
+    let disposed = false;
     const sync = () => {
-      const play = visible && !reducedMotion && !document.hidden;
-      if (play && element.paused) element.play().catch(() => {});
+      const play = playing && visible && !reducedMotion && !document.hidden;
+      if (play && element.paused)
+        element
+          .play()
+          .then(() => {
+            if (disposed || !visible || document.hidden) element.pause();
+          })
+          .catch(() => {});
       else if (!play && !element.paused) element.pause();
     };
     const observer = new IntersectionObserver(([entry]) => {
@@ -49,10 +62,12 @@ export function CoverVideo({
     observer.observe(element);
     document.addEventListener("visibilitychange", sync);
     return () => {
+      disposed = true;
+      element.pause();
       observer.disconnect();
       document.removeEventListener("visibilitychange", sync);
     };
-  }, [reducedMotion]);
+  }, [reducedMotion, playing]);
   return (
     <video
       ref={video}
@@ -64,6 +79,8 @@ export function CoverVideo({
       playsInline
       preload={poster ? "none" : "metadata"}
       aria-label={label}
+      onLoadedData={onReady}
+      onError={onError}
     />
   );
 }

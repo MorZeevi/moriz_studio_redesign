@@ -108,6 +108,9 @@ export type MediaLayout = SingleMediaLayout;
 export type ProjectMediaItem = {
   src: string;
   kind: "image" | "video";
+  /** Optional card previews; at most one file is selected per surface. */
+  hover_homepage?: boolean;
+  hover_projects?: boolean;
   role?: "logo" | "main_video";
   poster?: string;
   width?: number;

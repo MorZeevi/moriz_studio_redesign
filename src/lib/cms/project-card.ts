@@ -3,7 +3,7 @@ import type {
   Project as CardProject,
 } from "@/content/projects";
 import type { Locale } from "@/i18n/config";
-import type { Project } from "@/types/project";
+import type { Project, ProjectMediaItem } from "@/types/project";
 import { localized, termName } from "./localize";
 import { isVideoSrc } from "./validation";
 
@@ -19,6 +19,19 @@ export function projectCard(
         ? project.projects_image_url
         : null) ?? project.cover_image_url;
   const item = project.media.find((m) => m.src === src);
+  const mainVideo = project.media.find(
+    (m) => m.role === "main_video" && m.kind === "video",
+  );
+  const hover: ProjectMediaItem | undefined =
+    surface === "cover"
+      ? undefined
+      : (project.media.find((m) =>
+          surface === "homepage" ? m.hover_homepage : m.hover_projects,
+        ) ??
+        mainVideo ??
+        (isVideoSrc(src) && src
+          ? { src, kind: "video" as const, poster: item?.poster }
+          : undefined));
   const title = localized(project, "title", locale);
   const alt = (item && localized(item, "alt", locale)) || title;
   const video = isVideoSrc(src) && src ? { src, poster: item?.poster } : null;
@@ -48,6 +61,16 @@ export function projectCard(
     description,
     image,
     video,
+    hoverMedia:
+      hover && (hover.src !== src || hover.kind === "video")
+        ? {
+            src: hover.src,
+            kind: hover.kind,
+            poster:
+              hover.poster || (hover.kind === "video" ? image?.src : undefined),
+            alt: localized(hover, "alt", locale) || title,
+          }
+        : null,
     highlight: highlight
       ? { value: highlight.value, label: localized(highlight, "label", locale) }
       : null,

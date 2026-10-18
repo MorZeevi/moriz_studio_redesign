@@ -11,7 +11,8 @@
   );
   --case-background: var(--site-background, var(--color-light));
   --case-foreground: var(--site-foreground, var(--color-dark));
-  background: var(--case-background);
+  /* Let the shared homepage canvas and its site-wide grain show through. */
+  background: transparent;
   color: var(--case-foreground);
   min-block-size: 100vh;
   font-family: var(--font-body);
@@ -106,6 +107,18 @@
   margin: 0;
   font-weight: 900;
   overflow-wrap: anywhere;
+}
+.websiteLink {
+  --color-text-primary: var(--case-foreground);
+  --color-border-strong: var(--case-foreground);
+  margin-block: var(--space-4) var(--space-6);
+}
+.websiteLink:hover:not(:disabled):not([aria-disabled="true"]) {
+  background: transparent;
+  color: var(--case-foreground);
+}
+.websiteLink svg {
+  flex-shrink: 0;
 }
 .accordion {
   border-block-start: 1px solid currentColor;

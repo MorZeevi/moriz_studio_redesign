@@ -12,6 +12,12 @@ export type Project = {
   image: { src: string; alt: string } | null;
   /** A video cover plays muted and looping while visible. */
   video?: { src: string; poster?: string } | null;
+  hoverMedia?: {
+    src: string;
+    kind: "image" | "video";
+    poster?: string;
+    alt: string;
+  } | null;
   /** One project fact picked for this card (not necessarily a result). */
   highlight?: { value: string; label: string } | null;
   type?: string | null;

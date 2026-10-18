@@ -41,7 +41,7 @@ export const projectCopy: Record<Locale, ProjectCopy> = {
     role: "התפקיד שלי",
     audience: "קהל יעד",
     website: "אתר",
-    visitWebsite: "לאתר החי",
+    visitWebsite: "מעבר לאתר",
     highlights: "עובדות על הפרויקט",
     nextProject: "הפרויקט הבא",
     contactHeading: "רוצים לבנות משהו דומה?",

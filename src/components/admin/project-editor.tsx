@@ -24,7 +24,14 @@ import {
 } from "@/lib/cms/media-refs";
 import { projectArchiveCard, projectCard } from "@/lib/cms/project-card";
 import {
+  setHoverMedia,
+  setUserCount,
+  userCountHighlight,
+  type HoverSurface,
+} from "@/lib/cms/card-options";
+import {
   mediaReferences,
+  MAX_HIGHLIGHTS,
   projectReadiness,
   type ReadinessTab,
   slugify,
@@ -217,6 +224,26 @@ export function ProjectEditor({
     onUploaded: addMedia,
     choices: project.media.filter((m) => m.role !== "logo"),
   };
+  const userCount = userCountHighlight(project.highlights);
+  const canAddUserCount =
+    Boolean(userCount) || project.highlights.length < MAX_HIGHLIGHTS;
+  function hoverField(surface: HoverSurface, label: string) {
+    const flag = surface === "homepage" ? "hover_homepage" : "hover_projects";
+    return (
+      <MediaUpload
+        {...mediaProps}
+        kind="any"
+        label={label}
+        value={project.media.find((item) => item[flag])?.src ?? null}
+        onChange={(src) =>
+          change((current) => ({
+            ...current,
+            media: setHoverMedia(current.media, surface, src),
+          }))
+        }
+      />
+    );
+  }
   const previewProject: Project = {
     ...project,
     source: CMS_SOURCE,
@@ -467,6 +494,32 @@ export function ProjectEditor({
                   onChange={text("role")}
                   onChangeEn={text("role_en")}
                 />
+                <label className={styles.field}>
+                  <span>מספר משתמשים</span>
+                  <input
+                    aria-label="מספר משתמשים"
+                    aria-describedby="project-user-count-hint"
+                    dir="ltr"
+                    maxLength={40}
+                    placeholder="10,000+"
+                    value={userCount?.value ?? ""}
+                    disabled={!canAddUserCount}
+                    onChange={(e) =>
+                      change((current) => ({
+                        ...current,
+                        highlights: setUserCount(
+                          current.highlights,
+                          e.target.value,
+                        ),
+                      }))
+                    }
+                  />
+                  <small id="project-user-count-hint">
+                    {canAddUserCount
+                      ? "לא חובה. מוצג כעובדה בעמוד הפרויקט. בלשונית עמוד הבית וארכיון אפשר לבחור אותו גם לכרטיסים."
+                      : "כבר יש שלוש עובדות בפרויקט. הסירו אחת בלשונית Case Study כדי להוסיף מספר משתמשים."}
+                  </small>
+                </label>
               </section>
               <section className={styles.section}>
                 <h2>{termLabels.type.heading}</h2>
@@ -539,6 +592,13 @@ export function ProjectEditor({
                   highlights={project.highlights}
                   onChange={(highlights) => field("highlights", highlights)}
                 />
+                {hoverField("homepage", "מדיה במעבר עכבר — עמוד הבית")}
+                <p className={styles.hint}>
+                  תמונה או סרטון שיוצגו במעבר עכבר ובמיקוד מקלדת. במסכי מגע
+                  נשארת המדיה הראשית. כשריק, הסרטון הראשי מתנגן במעבר עכבר, אם
+                  הוגדר בגלריה. להצגה גם בעמוד הפרויקט, הוסיפו את המדיה לבלוק
+                  ב־Case Study.
+                </p>
                 <details>
                   <summary>מדיה אחרת לעמוד הבית ומיקום ידני</summary>
                   <MediaUpload
@@ -602,6 +662,7 @@ export function ProjectEditor({
                   highlights={project.highlights}
                   onChange={(highlights) => field("highlights", highlights)}
                 />
+                {hoverField("projects", "מדיה במעבר עכבר — עמוד הפרויקטים")}
                 <details>
                   <summary>מדיה אחרת לארכיון ומיקום ידני</summary>
                   <MediaUpload

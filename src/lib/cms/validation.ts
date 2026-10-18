@@ -243,6 +243,10 @@ function validMediaItem(value: unknown): value is ProjectMediaItem {
     ) &&
     MEDIA_TEXT.every((key) => optionalString(value[key], 2000)) &&
     oneOf(value.layout, SINGLE_LAYOUTS) &&
+    optionalBoolean(value.hover_homepage) &&
+    optionalBoolean(value.hover_projects) &&
+    (!(value.hover_homepage || value.hover_projects) ||
+      value.role !== "logo") &&
     optionalBoolean(value.autoplay) &&
     optionalBoolean(value.loop)
   );
@@ -404,6 +408,9 @@ export function validateProject(value: ProjectInput) {
           ? "ניתן לבחור לוגו אחד בלבד."
           : "ניתן לבחור סרטון ראשי אחד בלבד.",
       );
+  for (const flag of ["hover_homepage", "hover_projects"] as const)
+    if (value.media.filter((m) => m[flag]).length > 1)
+      throw new Error("ניתן לבחור קובץ אחד בלבד למעבר עכבר בכל עמוד.");
   if (
     !Array.isArray(value.highlights) ||
     value.highlights.length > MAX_HIGHLIGHTS ||

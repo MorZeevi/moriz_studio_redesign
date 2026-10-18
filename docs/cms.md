@@ -293,6 +293,43 @@ content was found to migrate.
 
 ## Verification
 
+### Card hover media and user counts
+
+In a project's **עמוד הבית וארכיון** tab, choose or upload separate hover media
+for the homepage and the projects page. Either slot accepts an image or a video;
+an empty slot automatically uses the gallery's `main_video`, falling back to the
+card's own video cover when present. Without a video the regular cover remains.
+Explicit slot selections override this default. The alternate loads on mouse or keyboard
+intent and appears once ready. Pointer exit or blur restores the cover and pauses
+the alternate video. Touch screens retain the cover. Reduced motion uses a video's
+poster, or keeps the cover when there is no poster. Failed alternates retain the cover.
+Private previews use the same components and unsaved selections.
+
+The case-study sidebar presents `website_url` as an outlined **מעבר לאתר** button
+using the shared button styles and the panel's text colour. The destination URL
+stays in `href` and opens in a separate tab with `noopener noreferrer`; the long
+address is not printed in the metadata.
+
+These selections are optional `hover_homepage` and `hover_projects` booleans on
+existing gallery `media` items (one file per surface). They use the current JSONB
+save path and file references, without a schema, RPC, RLS or bucket change. Selecting
+hover media does not automatically append it to the case-study gallery; place it in
+a content block to display it there too. Gallery replacement preserves the selection;
+removal clears it, and usage warnings identify both hover slots. Existing files,
+source ownership and media publication rules remain the same. The additional keys
+are optional; consumers of the shared tables can continue reading the existing
+`src`/`kind` fields. The future Eyal Projects client has no implementation in this repo.
+
+The **כללי → מספר משתמשים** field accepts display values such as `10,000+` or `6K+`.
+It reuses a matching existing user highlight, or creates a `user-count` highlight
+with Hebrew and English labels. It counts towards the existing three-fact limit;
+the field explains how to free a slot when all three are occupied. Existing card
+highlight choices are preserved. When a card has no chosen highlight, the user count
+is selected automatically; selections can be changed in **עמוד הבית וארכיון**.
+Clearing the count removes that fact. No user figures are inferred or seeded.
+
+Targeted coverage: `npx playwright test --config=playwright.cms.config.ts tests/cms/card-options.spec.ts`.
+
 ```sh
 npm run typecheck
 npm run lint

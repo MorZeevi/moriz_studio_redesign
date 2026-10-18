@@ -12,6 +12,7 @@ import styles from "./projects.module.css";
 import { CategoryTags } from "./category-tags";
 import Noise from "./react-bits/Noise";
 import { CoverVideo } from "./cover-video";
+import { ProjectHoverMedia } from "./project-hover-media";
 
 type ProjectLabels = Omit<SiteContent["projects"], "items">;
 
@@ -49,6 +50,7 @@ export function ProjectMedia({
           poster={project.video.poster}
           label={project.image?.alt ?? project.title}
           className={styles.image}
+          playing={!project.hoverMedia}
         />
       ) : project.image ? (
         <Image
@@ -66,6 +68,17 @@ export function ProjectMedia({
         <div className={styles.mediaPlaceholder}>
           <span>{label}</span>
         </div>
+      )}
+      {project.hoverMedia && (
+        <ProjectHoverMedia
+          key={project.hoverMedia.src}
+          media={project.hoverMedia}
+          sizes={
+            large
+              ? "(min-width: 1440px) 1344px, 94vw"
+              : "(min-width: 960px) 54vw, 94vw"
+          }
+        />
       )}
     </div>
   );

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { type CSSProperties, useId, useRef } from "react";
 import type { ArchiveProject } from "@/content/projects";
 import { CoverVideo } from "./cover-video";
+import { ProjectHoverMedia } from "./project-hover-media";
 import badgeStyles from "./media-badge.module.css";
 import styles from "./project-archive-card.module.css";
 import { LiquidBadge } from "./ui/liquid-link";
@@ -51,6 +52,7 @@ export function ProjectArchiveCard({
               poster={project.video.poster}
               label={project.image?.alt ?? project.title}
               className={styles.media}
+              playing={!project.hoverMedia}
             />
           ) : project.image ? (
             <Image
@@ -67,6 +69,13 @@ export function ProjectArchiveCard({
             <div className={styles.fallback} aria-hidden="true">
               <span>{project.title}</span>
             </div>
+          )}
+          {project.hoverMedia && (
+            <ProjectHoverMedia
+              key={project.hoverMedia.src}
+              media={project.hoverMedia}
+              sizes={sizes}
+            />
           )}
           {project.href && (
             <span className={badgeStyles.badge} aria-hidden="true">

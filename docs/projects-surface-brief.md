@@ -115,6 +115,11 @@ direction; shared system files are preserved.
 
 ## Projects page (archive) — 13 October 2026
 
+Case-study background refinement, 18 October 2026: the page wrapper is transparent
+over the shared homepage canvas and its existing site-wide grain. It follows the
+same light/dark background colours. CMS-selected sidebar colours and their local
+grain remain scoped to the information panel.
+
 The All Projects collection is replaced by an editorial index:
 - a typographic hero
 - sticky category filters and a standard / compact / editorial layout switch

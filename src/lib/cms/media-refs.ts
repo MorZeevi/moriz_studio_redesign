@@ -29,8 +29,13 @@ export function mediaUsage(project: ProjectInput, src: string): string[] {
   project.content.forEach((block, index) => {
     if (blockSources(block).includes(src)) places.push(`בלוק ${index + 1}`);
   });
-  for (const item of project.media)
+  for (const item of project.media) {
     if (item.poster === src) places.push("פוסטר של סרטון בגלריה");
+    if (item.src === src && item.hover_homepage)
+      places.push("מעבר עכבר בעמוד הבית");
+    if (item.src === src && item.hover_projects)
+      places.push("מעבר עכבר בעמוד הפרויקטים");
+  }
   return places;
 }
 function mapImage(image: ProjectImage, map: (src: string) => string) {

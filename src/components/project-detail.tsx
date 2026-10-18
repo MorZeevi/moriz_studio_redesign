@@ -6,6 +6,7 @@ import { ProjectGallery } from "@/components/project-gallery";
 import Noise from "@/components/react-bits/Noise";
 import { FloatingActions } from "@/components/floating-actions";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { buttonClassName } from "@/components/ui/button";
 import { type Locale, localeConfig } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
 import { projectCopy } from "@/i18n/project-copy";
@@ -126,7 +127,7 @@ export function ProjectDetail({
               {headline && short && headline !== short && (
                 <p className={detail.intro}>{short}</p>
               )}
-              {(metadata.some(([, value]) => value) || project.website_url) && (
+              {metadata.some(([, value]) => value) && (
                 <dl className={detail.metadata}>
                   {metadata
                     .filter(([, value]) => value)
@@ -138,24 +139,29 @@ export function ProjectDetail({
                         </dd>
                       </div>
                     ))}
-                  {project.website_url && (
-                    <div>
-                      <dt>{copy.website}</dt>
-                      <dd>
-                        <a
-                          href={project.website_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          dir="ltr"
-                        >
-                          {project.website_url
-                            .replace(/^https?:\/\//, "")
-                            .replace(/\/$/, "")}
-                        </a>
-                      </dd>
-                    </div>
-                  )}
                 </dl>
+              )}
+              {project.website_url && (
+                <a
+                  href={project.website_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${buttonClassName("outline")} ${detail.websiteLink}`}
+                >
+                  {copy.visitWebsite}
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.75"
+                    aria-hidden="true"
+                  >
+                    <path d="M14 4h6v6m0-6L10 14" />
+                    <path d="M10 4H4v16h16v-6" />
+                  </svg>
+                </a>
               )}
               <CategoryTags
                 label={copy.categories}

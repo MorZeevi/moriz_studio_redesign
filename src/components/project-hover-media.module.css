@@ -1,0 +1,29 @@
+.layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--ease-enter);
+}
+
+.layer[data-active] {
+  opacity: 1;
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layer {
+    transition: none;
+  }
+
+  .layer[data-video-only] {
+    display: none;
+  }
+}
