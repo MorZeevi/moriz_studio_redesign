@@ -163,19 +163,21 @@ test("keyboard focus is visible and reduced motion stays static", async ({
   await expect(page).toHaveURL(/#projects$/);
 });
 
-test("mobile sizes and enlarged text keep the hero link in its available space", async ({
+test("mobile sizes and enlarged text keep the visible hero action in its available space", async ({
   page,
 }) => {
   for (const width of [320, 390, 1024]) {
     await page.setViewportSize({ width, height: width < 500 ? 844 : 1000 });
     await page.goto("/he");
     await page.evaluate(() => document.fonts.ready);
-    const link = page.locator(selector);
-    await moveToLink(page);
-    await page.waitForTimeout(650);
     for (const enlarged of [false, true]) {
       if (enlarged)
         await page.addStyleTag({ content: "html { font-size: 200%; }" });
+      const mobile = await page.evaluate(
+        () => matchMedia("(max-width: 63.999rem)").matches,
+      );
+      const link = page.locator(mobile ? ".hero-scroll-cue" : selector);
+      await expect(link).toBeVisible();
       const bounds = await link.boundingBox();
       expect(bounds?.x).toBeGreaterThanOrEqual(0);
       expect((bounds?.x ?? 0) + (bounds?.width ?? 0)).toBeLessThanOrEqual(
@@ -185,12 +187,12 @@ test("mobile sizes and enlarged text keep the hero link in its available space",
         (element) => element.scrollWidth <= element.clientWidth + 1,
       );
       expect(fits).toBe(true);
-      if (!enlarged) await capture(page, `width-${width}`);
+      if (!enlarged && !mobile) await capture(page, `width-${width}`);
     }
   }
 });
 
-test("touch press has feedback and activates the native destination", async ({
+test("the mobile scroll cue activates its native destination", async ({
   browser,
   baseURL,
 }) => {
@@ -202,27 +204,9 @@ test("touch press has feedback and activates the native destination", async ({
   const page = await context.newPage();
   await page.goto(`${baseURL}/he`);
   await page.evaluate(() => document.fonts.ready);
-  const link = page.locator(selector);
-  const session = await context.newCDPSession(page);
-  const box = await link.boundingBox();
-  if (!box) throw new Error("Missing touch link");
-  await session.send("Input.dispatchTouchEvent", {
-    type: "touchStart",
-    touchPoints: [{ x: box.x + box.width / 2, y: box.y + box.height / 2 }],
-  });
-  await expect(link).toHaveAttribute("data-liquid-pressed", "");
-  expect(
-    await link
-      .locator(".liquid__icon")
-      .first()
-      .evaluate((element) => getComputedStyle(element).backgroundColor),
-  ).not.toBe("rgba(0, 0, 0, 0)");
-  await capture(page, "touch-pressed");
-  await session.send("Input.dispatchTouchEvent", {
-    type: "touchEnd",
-    touchPoints: [],
-  });
-  await expect(page).toHaveURL(/#projects$/);
+  const link = page.locator(".hero-scroll-cue");
+  await link.tap();
+  await expect(page).toHaveURL(/#advantages$/);
   await context.close();
 });
 

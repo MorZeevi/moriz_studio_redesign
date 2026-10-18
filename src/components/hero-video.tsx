@@ -24,7 +24,11 @@ function subscribeMobile(callback: () => void) {
 const readMobile = () => window.matchMedia(mobileQuery).matches;
 const serverMobile = () => true;
 
-export function HeroVideo({ labels }: { labels: SiteContent["hero"]["video"] }) {
+export function HeroVideo({
+  labels,
+}: {
+  labels: SiteContent["hero"]["video"];
+}) {
   const slot = useRef<HTMLDivElement>(null);
   const target = useRef<HTMLDivElement>(null);
   const video = useRef<HTMLVideoElement>(null);
@@ -38,7 +42,11 @@ export function HeroVideo({ labels }: { labels: SiteContent["hero"]["video"] }) 
     serverMotion,
   );
   const paused = manualPause ?? reducedMotion;
-  const mobile = useSyncExternalStore(subscribeMobile, readMobile, serverMobile);
+  const mobile = useSyncExternalStore(
+    subscribeMobile,
+    readMobile,
+    serverMobile,
+  );
 
   useEffect(() => {
     setReady(true);
@@ -82,6 +90,10 @@ export function HeroVideo({ labels }: { labels: SiteContent["hero"]["video"] }) 
     const start = slot.current;
     const element = target.current;
     const end = document.querySelector<HTMLElement>("[data-hero-video-end]");
+    const stage = end?.parentElement;
+    const logos = start
+      ?.closest("#hero")
+      ?.querySelector<HTMLElement>("[data-logo-carousel]");
     // Keyed on React's motion state, not gsap.matchMedia: a matchMedia change
     // reverts and refreshes every ScrollTrigger and drops the reader to the top.
     if (!start || !element || !end || reducedMotion || mobile) return;
@@ -95,6 +107,22 @@ export function HeroVideo({ labels }: { labels: SiteContent["hero"]["video"] }) 
       timeline?.kill();
       // Flip measures both slots, so start from the unscaled hero box.
       gsap.set(element, { clearProps: "all" });
+      if (logos) gsap.set(logos, { clearProps: "transform" });
+      stage?.style.removeProperty("--hero-logo-height");
+      // Preserve the strip's original hero position at scroll zero. Its own
+      // space is reserved after the end slot as it follows the growing video.
+      const logoShift =
+        logos && stage
+          ? end.getBoundingClientRect().bottom +
+            Number.parseFloat(getComputedStyle(stage).paddingBottom) -
+            logos.getBoundingClientRect().top
+          : 0;
+      if (logos && stage) {
+        stage.style.setProperty(
+          "--hero-logo-height",
+          `${logos.offsetHeight}px`,
+        );
+      }
       timeline = gsap.timeline({
         scrollTrigger: {
           trigger: start,
@@ -112,6 +140,9 @@ export function HeroVideo({ labels }: { labels: SiteContent["hero"]["video"] }) 
           scale: false,
         }) as gsap.core.Tween,
       );
+      if (logos) {
+        timeline.to(logos, { y: logoShift, duration: 1, ease: "none" }, 0);
+      }
     };
     const rebuild = () => {
       clearTimeout(resizeTimer);
@@ -134,6 +165,8 @@ export function HeroVideo({ labels }: { labels: SiteContent["hero"]["video"] }) 
       window.removeEventListener("resize", rebuild);
       timeline?.kill();
       gsap.set(element, { clearProps: "all" });
+      if (logos) gsap.set(logos, { clearProps: "transform" });
+      stage?.style.removeProperty("--hero-logo-height");
     };
   }, [reducedMotion, mobile]);
 
@@ -144,7 +177,9 @@ export function HeroVideo({ labels }: { labels: SiteContent["hero"]["video"] }) 
           <video
             ref={video}
             className={styles.video}
-            src={!mobile || mobileStarted ? "/videos/hero-showreel.mp4" : undefined}
+            src={
+              !mobile || mobileStarted ? "/videos/hero-showreel.mp4" : undefined
+            }
             poster={
               mobile
                 ? "/videos/hero-showreel-poster-mobile.webp"

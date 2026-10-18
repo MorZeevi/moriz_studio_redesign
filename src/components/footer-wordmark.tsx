@@ -13,14 +13,6 @@ function subscribeMotion(callback: () => void) {
 }
 const readMotion = () => window.matchMedia(motionQuery).matches;
 const serverMotion = () => true;
-const mobileQuery = "(max-width: 63.999rem)";
-function subscribeMobile(callback: () => void) {
-  const query = window.matchMedia(mobileQuery);
-  query.addEventListener("change", callback);
-  return () => query.removeEventListener("change", callback);
-}
-const readMobile = () => window.matchMedia(mobileQuery).matches;
-const serverMobile = () => true;
 
 // Each letter starts tipped a different way so the words land like a loose wave.
 const startRotations = [-14, 9, -7, 12, -10, 8, -12];
@@ -42,19 +34,18 @@ export function FooterWordmark({
     readMotion,
     serverMotion,
   );
-  const mobile = useSyncExternalStore(subscribeMobile, readMobile, serverMobile);
-  const visibleFill = !!fillSrc && nearby && !mobile;
+  const visibleFill = !!fillSrc && nearby;
 
   useEffect(() => {
     const element = root.current;
-    if (!element || mobile) return;
+    if (!element) return;
     const observer = new IntersectionObserver(
       ([entry]) => setNearby(entry.isIntersecting),
       { rootMargin: "500px" },
     );
     observer.observe(element);
     return () => observer.disconnect();
-  }, [mobile]);
+  }, []);
 
   // Each letter clips its own copy of the image; offsetting it by the letter's
   // untransformed position stitches the copies into one picture.
@@ -117,8 +108,9 @@ export function FooterWordmark({
 
   useEffect(() => {
     const element = root.current;
-    if (!element || reducedMotion || mobile) return;
+    if (!element || reducedMotion) return;
     gsap.registerPlugin(ScrollTrigger);
+    const stage = element.closest<HTMLElement>("[data-footer-stage]");
     const letters = element.querySelectorAll<HTMLElement>("[data-letter]");
     const tween = gsap.fromTo(
       letters,
@@ -133,8 +125,11 @@ export function FooterWordmark({
         ease: "none",
         stagger: 0.08,
         scrollTrigger: {
-          trigger: element,
-          start: "top bottom",
+          // Measure from the stationary stage: the parent surface itself
+          // moves during parallax, which otherwise shifts refreshed triggers.
+          trigger: stage ?? element,
+          start: () =>
+            stage ? `top+=${element.offsetTop} bottom` : "top bottom",
           // The footer ends the page, so the word settles on the last scroll.
           end: "max",
           scrub: 0.6,
@@ -165,11 +160,12 @@ export function FooterWordmark({
         clearProps: "transform,transformOrigin,translate,rotate,scale",
       });
     };
-  }, [reducedMotion, mobile]);
+  }, [reducedMotion]);
 
   return (
     <div
       ref={root}
+      data-footer-wordmark
       dir="ltr"
       aria-hidden="true"
       className={

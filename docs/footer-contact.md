@@ -12,6 +12,8 @@ Name and phone are required; message is optional and has no placeholder. **של�
 
 The route validates the fields again, limits payload size, uses a hidden spam-trap field, and never accepts a sender, recipient or subject from the browser. It does not store the message or log its contents. Gmail SMTP failure or missing configuration returns a failure to the form instead of showing a false success.
 
+Mobile motion revision, 18 October 2026: the owner requested the same footer reveal and image-masked wordmark on phones as on desktop. Footer parallax and the staggered letter animation now run at all widths; the existing photo fill loads when the wordmark is nearby. Reduced motion keeps the footer and letters still while preserving the photo fill. Without JavaScript the footer and solid wordmark stay readable. This supersedes the earlier small-screen static fallback above.
+
 ## Configuration and verification
 
 Enable two-step verification for `morzavi1@gmail.com`, generate a Google App Password for this site, and set it as server-only `CONTACT_GMAIL_APP_PASSWORD` in local and deployed environments. Do not add it to `NEXT_PUBLIC_*` variables or commit it. The recipient and authenticated sender are fixed in `src/lib/contact-email.ts`. The diagnostic's optional lead notifications still use their separate Resend settings.

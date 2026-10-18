@@ -45,6 +45,13 @@
   background: var(--color-surface);
 }
 
+@media (max-width: 63.999rem) {
+  .falling-text-pill:nth-child(3n + 2) {
+    background: var(--color-secondary);
+    color: var(--color-dark);
+  }
+}
+
 @media (hover: hover) and (pointer: fine) {
   .falling-text-container:not([data-falling-state="static"])
     .falling-text-pill {

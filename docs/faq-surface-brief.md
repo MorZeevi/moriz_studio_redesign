@@ -52,3 +52,13 @@ Owner refinement: right-align the heading text and anchor its box to the right e
 Owner correction: all disclosure shapes stay white. Only the open question text uses the CTA color; the answer and plus retain charcoal ink. Contact actions are reduced to 48px tall with 16–17px text and a 16px gap. The AI action keeps the connected silhouette with a white surface and a slowly flowing red/yellow/green gradient outline. Its CSS gradient-stop animation stops under reduced motion, leaving the multicolor outline visible. Shared chat behavior is unchanged.
 
 The active question uses the owner's requested full brand red (`--color-primary`, #fb2c36), rather than the darkened action-color mix.
+
+## Right-aligned actions and AI sparkle revision, 2026-10-18
+
+The owner requested the FAQ contact stack on the right and a two-line introduction after the title. Both actions now align with the heading's physical right edge. The dictionary-owned introduction reads **על התהליך ועל העבודה יחד.** / **נשארה שאלה? אני כאן בשבילכם.** The desktop split and mobile heading → questions → actions order remain.
+
+The FAQ AI silhouette has a 1px CTA-color stroke. The floating AI launcher's outline uses a 1px dilation and keeps the same overall control height. Both launchers reuse the shared sparkle with a diagonal light-red → CTA-red → deep-red gradient; it is static and has a unique SVG gradient ID per instance. This supersedes the older multicolor-outline treatment. Shared conversation, focus restoration and native question behavior are preserved.
+
+Mobile correction, 2026-10-18: below 1024px both contact actions stretch to the full available content width, matching the question column and respecting the page gutters. Desktop retains the compact right-aligned stack.
+
+Shape correction, 2026-10-18: the AI action now uses the same shared liquid primitives as the portrait WhatsApp action, replacing the independently stretched SVG. Both controls share the 48px height, 67.2px icon lobe, corner radius, bridge and responsive label width. The AI control keeps its white fill and CTA-color 1px inner outline, with a 36px gradient sparkle. The outline uses an erosion filter so it preserves the shared shape's dimensions. Chat, focus restoration and the WhatsApp destination remain unchanged.

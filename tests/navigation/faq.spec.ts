@@ -59,6 +59,8 @@ test("desktop places heading and actions right, with questions and their plus on
   page,
 }) => {
   await page.goto("/he#faq");
+  await expect(page.locator("#faq button")).toBeEnabled();
+  await page.evaluate(() => document.fonts.ready);
   const heading = await page.locator("#faq h2").boundingBox();
   const action = await page.locator("#faq button").boundingBox();
   const summary = page.locator("#faq summary").first();
@@ -68,7 +70,39 @@ test("desktop places heading and actions right, with questions and their plus on
     throw new Error("Missing FAQ geometry");
   expect(question.x + question.width).toBeLessThan(heading.x);
   expect(question.x + question.width).toBeLessThan(action.x);
+  expect(action.x + action.width).toBeCloseTo(heading.x + heading.width, 0);
   expect(plus.x).toBeLessThan(question.x + question.width / 2);
+  const description = page.locator("#faq h2 + p");
+  await expect(description.locator("span")).toHaveCount(2);
+  const descriptionBox = await description.boundingBox();
+  expect(descriptionBox?.y).toBeGreaterThan(heading.y + heading.height);
+  const outline = page.locator("filter[id^='faq-ai-outline-'] feMorphology");
+  await expect(outline).toHaveAttribute("operator", "erode");
+  await expect(outline).toHaveAttribute("radius", "1");
+  const aiIcon = await page.locator("#faq button .liquid__icon").boundingBox();
+  const whatsappIcon = await page.locator("#faq a .liquid__icon").boundingBox();
+  if (!aiIcon || !whatsappIcon) throw new Error("Missing action shapes");
+  expect(aiIcon.width).toBeCloseTo(whatsappIcon.width, 0);
+  expect(aiIcon.height).toBeCloseTo(whatsappIcon.height, 0);
+  await expect(page.locator("#faq button .liquid__custom-glyph")).toHaveCSS(
+    "width",
+    "36px",
+  );
+  const gradients = page.locator("#faq button linearGradient stop");
+  await expect(gradients).toHaveCount(3);
+  expect(
+    await gradients
+      .first()
+      .evaluate((node) => getComputedStyle(node).stopColor),
+  ).not.toBe(
+    await gradients.last().evaluate((node) => getComputedStyle(node).stopColor),
+  );
+  await expect(
+    page.locator("filter[id^='ai-outline-'] feMorphology"),
+  ).toHaveAttribute("radius", "1");
+  await page
+    .locator("#faq")
+    .screenshot({ path: "test-results/refinements/faq-desktop.png" });
 });
 
 test("narrow screens keep long questions and answers inside the viewport", async ({
@@ -77,6 +111,20 @@ test("narrow screens keep long questions and answers inside the viewport", async
   await page.setViewportSize({ width: 320, height: 740 });
   await page.emulateMedia({ reducedMotion: "reduce", colorScheme: "dark" });
   await page.goto("/he#faq");
+  await expect(page.locator("#faq button")).toBeEnabled();
+  await page.evaluate(() => document.fonts.ready);
+  await expect
+    .poll(() =>
+      page
+        .locator("#faq h2 + p")
+        .evaluate((node) =>
+          Math.round(
+            node.getBoundingClientRect().height /
+              Number.parseFloat(getComputedStyle(node).lineHeight),
+          ),
+        ),
+    )
+    .toBe(2);
   const item = page.locator("#faq details").first();
   // Exercise future real copy, without adding invented answers to the product.
   await item
@@ -118,6 +166,9 @@ test("narrow screens keep long questions and answers inside the viewport", async
     overflow: false,
     outside: false,
   });
+  await page
+    .locator("#faq")
+    .screenshot({ path: "test-results/refinements/faq-mobile.png" });
 });
 
 test("mobile FAQ launcher uses the existing modal sheet and preserves focus", async ({

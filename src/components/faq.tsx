@@ -2,7 +2,11 @@
 
 import Image from "next/image";
 import { type CSSProperties, useId, useSyncExternalStore } from "react";
-import { LiquidFilter, LiquidLink } from "@/components/ui/liquid-link";
+import {
+  LiquidButton,
+  LiquidFilter,
+  LiquidLink,
+} from "@/components/ui/liquid-link";
 import { SparkleIcon } from "@/components/ui/sparkle-icon";
 import type { SiteContent } from "@/i18n/dictionaries";
 import { AI_CHAT_DIALOG_ID, openAiChat } from "@/lib/chat-launcher";
@@ -14,6 +18,7 @@ const subscribeNothing = () => () => {};
 export function Faq({ content }: { content: SiteContent["faq"] }) {
   const id = useId().replace(/:/g, "");
   const filterId = `faq-liquid-${id}`;
+  const outlineId = `faq-ai-outline-${id}`;
   const hydrated = useSyncExternalStore(
     subscribeNothing,
     () => true,
@@ -22,9 +27,16 @@ export function Faq({ content }: { content: SiteContent["faq"] }) {
 
   return (
     <div className={styles.layout} data-enhanced={hydrated ? "" : undefined}>
-      <h2 id="faq-heading" className={styles.heading}>
-        {content.heading}
-      </h2>
+      <div className={styles.intro}>
+        <h2 id="faq-heading" className={styles.heading}>
+          {content.heading}
+        </h2>
+        <p className={styles.description}>
+          {content.description.map((line) => (
+            <span key={line}>{line}</span>
+          ))}
+        </p>
+      </div>
 
       <div className={styles.questions}>
         <LiquidFilter id={filterId} blur={5} />
@@ -65,33 +77,63 @@ export function Faq({ content }: { content: SiteContent["faq"] }) {
       </div>
 
       <div className={styles.actions}>
-        <button
+        <svg
+          width="0"
+          height="0"
+          className="liquid__filter"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <defs>
+            <filter
+              id={outlineId}
+              x="-10%"
+              y="-50%"
+              width="120%"
+              height="200%"
+              colorInterpolationFilters="sRGB"
+            >
+              <feMorphology
+                in="SourceAlpha"
+                operator="erode"
+                radius="1"
+                result="inside"
+              />
+              <feComposite
+                in="SourceAlpha"
+                in2="inside"
+                operator="out"
+                result="outline"
+              />
+              <feFlood floodColor="var(--color-action-primary)" result="ink" />
+              <feComposite
+                in="ink"
+                in2="outline"
+                operator="in"
+                result="border"
+              />
+              <feMerge>
+                <feMergeNode in="SourceGraphic" />
+                <feMergeNode in="border" />
+              </feMerge>
+            </filter>
+          </defs>
+        </svg>
+        <LiquidButton
           type="button"
           className={`${styles.action} ${styles.ai}`}
+          style={{ "--ai-outline": `url("#${outlineId}")` } as CSSProperties}
+          glyph={<SparkleIcon />}
           aria-haspopup="dialog"
           aria-controls={AI_CHAT_DIALOG_ID}
           disabled={!hydrated}
           onClick={(event) => openAiChat(event.currentTarget)}
         >
-          <svg
-            className={styles.aiSurface}
-            viewBox="0 0 280 48"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-            focusable="false"
-          >
-            <path d="M16 1H177C188 1 188 13 200 13S212 1 223 1H264Q279 1 279 16V32Q279 47 264 47H223C212 47 212 35 200 35S188 47 177 47H16Q1 47 1 32V16Q1 1 16 1Z" />
-          </svg>
-          <span data-liquid-icon aria-hidden="true">
-            <SparkleIcon />
+          <span>
+            {content.aiLabel}
+            <bdi>{content.aiName}</bdi>
           </span>
-          <span data-liquid-label>
-            <span>
-              {content.aiLabel}
-              <bdi>{content.aiName}</bdi>
-            </span>
-          </span>
-        </button>
+        </LiquidButton>
         {WHATSAPP_URL && (
           <LiquidLink
             className={`${styles.action} ${styles.whatsapp}`}

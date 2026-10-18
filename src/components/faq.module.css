@@ -11,14 +11,29 @@
   direction: rtl;
 }
 
-.heading {
+.intro {
   grid-area: heading;
+  min-inline-size: 0;
+  text-align: right;
+}
+
+.heading {
   margin: 0;
   font-size: clamp(3rem, 5.8vw, 6rem);
   font-weight: var(--font-weight-display);
   line-height: 0.95;
   letter-spacing: -0.025em;
   text-align: right;
+}
+
+.description {
+  margin: var(--space-6) 0 0;
+  font-size: var(--text-body);
+  line-height: 1.6;
+}
+
+.description span {
+  display: block;
 }
 
 .questions {
@@ -185,7 +200,7 @@
 .actions {
   grid-area: actions;
   display: grid;
-  justify-self: start;
+  justify-self: end;
   gap: var(--space-4);
   inline-size: max-content;
   max-inline-size: 100%;
@@ -202,35 +217,9 @@
 }
 
 .ai.ai {
-  position: relative;
-  display: inline-flex;
-  align-items: stretch;
-  min-block-size: var(--liquid-height);
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--color-dark);
-  font-family: var(--font-body);
-  line-height: 1.4;
-  cursor: pointer;
-  isolation: isolate;
-}
-
-.aiSurface {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  inline-size: 100%;
-  block-size: 100%;
-  overflow: visible;
-  pointer-events: none;
-}
-
-.aiSurface path {
-  fill: #fff;
-  stroke: var(--color-action-primary);
-  stroke-width: 2;
-  vector-effect: non-scaling-stroke;
+  --liquid-fill: var(--color-white);
+  --liquid-pressed-fill: var(--color-surface);
+  filter: var(--liquid-filter) var(--ai-outline);
 }
 
 .ai:focus-visible {
@@ -239,24 +228,13 @@
   border-radius: var(--radius-liquid);
 }
 
-.ai [data-liquid-icon] {
+.ai :global(.liquid__icon) {
   color: var(--color-action-primary);
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
 }
 
-.ai [data-liquid-icon] svg {
-  inline-size: 1.15em;
-  block-size: 1.15em;
-}
-
-.ai [data-liquid-label] {
-  display: inline-flex;
-  align-items: center;
-  min-inline-size: 0;
-  padding-block: 0.6em;
-  overflow-wrap: anywhere;
+.ai :global(.liquid__custom-glyph) {
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
 }
 
 .whatsapp.whatsapp {
@@ -264,21 +242,31 @@
   --liquid-pressed-fill: color-mix(in srgb, #25d366 85%, var(--color-dark));
 }
 
-.action [data-liquid-icon],
 .action :global(.liquid__icon) {
   flex-basis: calc(var(--liquid-height) * 1.4);
 }
 
-.action [data-liquid-label],
 .action :global(.liquid__label) {
   flex: 1;
   justify-content: center;
   padding-inline: 1em;
 }
 
+.action :global(.liquid__shapes) {
+  flex: 1;
+  min-inline-size: 0;
+}
+
 .action:disabled {
   opacity: 0.6;
   cursor: default;
+}
+
+@media (max-width: 63.999rem) {
+  .actions {
+    inline-size: 100%;
+    justify-self: stretch;
+  }
 }
 
 @media (max-width: 23rem) {
@@ -303,7 +291,6 @@
     --radius-liquid: 0.9rem;
   }
 
-  .action [data-liquid-label],
   .action :global(.liquid__label) {
     padding-inline: 0.75em;
   }
@@ -319,10 +306,15 @@
     min-block-size: 26rem;
   }
 
-  .heading {
+  .intro {
     justify-self: end;
     inline-size: 100%;
+  }
+
+  .heading {
     max-inline-size: 5.5em;
+    /* Physical right edge, matching this layout's fixed column positions. */
+    margin-left: auto;
   }
 
   .actions {

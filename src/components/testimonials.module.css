@@ -1,3 +1,7 @@
+.track {
+  min-inline-size: 0;
+}
+
 .root {
   position: relative;
   z-index: 1;
@@ -9,6 +13,11 @@
   grid-template-areas: "index" "stage" "controls";
   gap: var(--space-8);
   min-inline-size: 0;
+}
+
+.track[data-scroll-enabled] > .root {
+  position: sticky;
+  inset-block-start: var(--testimonial-sticky-top);
 }
 
 /* Client index: horizontal chips on small screens, a ruled list on desktop. */
@@ -361,5 +370,13 @@
 
   .controls {
     align-self: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root[data-enhanced] .panel,
+  .root[data-enhanced] .panel:not([data-active]) {
+    transition: none;
+    transform: none;
   }
 }

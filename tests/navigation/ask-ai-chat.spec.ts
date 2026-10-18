@@ -55,7 +55,7 @@ test("the sparkle launcher opens a full-height chat drawer", async ({
   expect(await drawer(page).evaluate((node) => node.matches(":modal"))).toBe(
     false,
   );
-  await expect(page.locator("textarea")).toBeFocused();
+  await expect(drawer(page).getByRole("textbox")).toBeFocused();
 
   // The hint types itself out to the full text.
   await expect(drawer(page).getByText("אפשר לשאול כל שאלה…")).toBeVisible({
@@ -195,8 +195,12 @@ test.describe("on a phone", () => {
   test.use({ viewport: { width: 390, height: 844 } });
 
   test("the chat is a full-screen modal sheet", async ({ page }) => {
-    await page.goto("/he");
-    await trigger(page).click();
+    await page.goto("/he#faq");
+    // The homepage's floating AI pill is desktop-only; phones use the FAQ launcher.
+    await page
+      .locator("#faq")
+      .getByRole("button", { name: "לשאול את moriz.ai" })
+      .click();
     await expect(drawer(page)).toBeVisible();
     // Waits out the slide-up.
     await expect

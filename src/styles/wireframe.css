@@ -182,7 +182,8 @@
 
 .hero-video-stage {
   position: relative;
-  padding-block-end: var(--space-16);
+  /* The logos start in the hero grid and travel below the expanding video. */
+  padding-block-end: calc(var(--space-16) + var(--hero-logo-height, 0px));
 }
 
 .hero-video-end {
@@ -243,33 +244,47 @@ html:not([data-pixel-reveal]) .hero-video-stage {
   margin-block-start: var(--space-2);
 }
 
+.hero-scroll-cue {
+  display: none;
+}
+
 @media (max-width: 63.999rem) {
   .mobile-menu-toggle,
   .mobile-menu-toggle:hover {
     background: transparent;
   }
 
-  /* Phones lead with the heading, video and CTA; the description is desktop-only. */
-  .hero-description {
+  /* Phones lead with the heading, video and a quiet scroll cue below it. */
+  .hero-copy {
     display: none;
-  }
-
-  .hero-actions {
-    max-inline-size: 100%;
-    inline-size: 100%;
-  }
-
-  .hero-actions .hero-projects-link {
-    inline-size: 100%;
-  }
-
-  .hero-actions .hero-projects-link .liquid__label {
-    flex: 1;
-    justify-content: center;
   }
 
   .hero-video {
     inline-size: 100%;
+  }
+
+  .hero-scroll-cue {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-self: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    color: inherit;
+    font-size: var(--text-body-sm);
+    line-height: 1.5;
+    text-decoration: none;
+  }
+
+  .hero-scroll-cue svg {
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+  }
+
+  .hero-scroll-cue:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: var(--space-1);
+    border-radius: var(--radius-sm);
   }
 }
 
@@ -466,10 +481,10 @@ html:has(.navigation-dialog[open]) {
 }
 
 .logo-carousel {
-  /* Contains the loop's fade z-indexes so the growing hero video passes over. */
+  /* Keep the loop's internal layers within the strip. */
   position: relative;
   z-index: 0;
-  padding-block: var(--space-8) var(--space-12);
+  padding-block: var(--space-10);
   border-block-start: var(--border-width-default) solid #fff;
 }
 
@@ -478,6 +493,12 @@ html:has(.navigation-dialog[open]) {
   min-inline-size: 0;
   align-items: center;
   gap: var(--space-4);
+}
+
+/* Remove inline baseline space so each mark shares the strip's vertical centre. */
+.logo-carousel .logoloop__item {
+  display: flex;
+  align-items: center;
 }
 
 /* Edges fade by masking the strip (not painting the background over it), so

@@ -37,8 +37,8 @@
    sparkle. The outline filter runs after the goo, so the ring traces the
    merged shape. Same specificity, later in the file. */
 .ai.ai {
-  /* The ring adds 2px a side; with it the pill matches WhatsApp's height. */
-  --liquid-height: calc(var(--control-height-md) - 4px);
+  /* The ring adds 1px a side; with it the pill matches WhatsApp's height. */
+  --liquid-height: calc(var(--control-height-md) - 2px);
   --liquid-fill: var(--color-white);
   --liquid-pressed-fill: var(--color-surface);
   --liquid-ink: var(--color-dark);
@@ -227,7 +227,7 @@
     --liquid-icon-size: 2.75rem;
   }
   .compactMobile .ai.ai {
-    --liquid-height: calc(2.75rem - 4px);
+    --liquid-height: calc(2.75rem - 2px);
   }
   .compactMobile .action :global(.liquid__icon) {
     flex-basis: 2.75rem;

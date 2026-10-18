@@ -14,9 +14,7 @@ export function FooterParallax({ children }: { children: ReactNode }) {
     const stage = stageRef.current;
     const surface = surfaceRef.current;
     if (!stage || !surface) return;
-    const motion = window.matchMedia(
-      "(min-width: 64rem) and (prefers-reduced-motion: no-preference)",
-    );
+    const motion = window.matchMedia("(prefers-reduced-motion: no-preference)");
     let tween: gsap.core.Tween | undefined;
     let refreshTimer: ReturnType<typeof setTimeout> | undefined;
     let active = true;
@@ -84,8 +82,8 @@ export function FooterParallax({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <div ref={stageRef} className={styles.footerStage}>
-      <div ref={surfaceRef} className={styles.footerSurface}>
+    <div ref={stageRef} className={styles.footerStage} data-footer-stage>
+      <div ref={surfaceRef} className={styles.footerSurface} data-footer-surface>
         {children}
       </div>
     </div>

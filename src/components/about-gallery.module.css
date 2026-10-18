@@ -51,20 +51,27 @@
   pointer-events: none;
 }
 
-@media (max-width: 63.999rem) {
-  .viewport {
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x proximity;
-    overscroll-behavior-inline: contain;
-  }
+.root:not([data-gallery-enhanced]) .viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  overscroll-behavior-inline: contain;
+}
 
+.root:not([data-gallery-enhanced]) .track {
+  user-select: auto;
+  cursor: auto;
+  touch-action: auto;
+}
+
+.root:not([data-gallery-enhanced]) .card[data-copy] {
+  display: none;
+}
+
+@media (max-width: 63.999rem) {
   .track {
     gap: var(--space-3);
-    padding-inline: var(--page-gutter);
-    user-select: auto;
-    cursor: auto;
-    touch-action: auto;
+    padding-inline-end: var(--space-3);
   }
 
   .card {
@@ -72,11 +79,6 @@
     inline-size: 55vw;
     scroll-snap-align: center;
   }
-
-  .card[data-copy] {
-    display: none;
-  }
-
 }
 
 @media (max-width: 48rem) {

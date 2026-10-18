@@ -7,14 +7,14 @@ import { useEffect, useRef, useSyncExternalStore } from "react";
 import type { SiteContent } from "@/i18n/dictionaries";
 import styles from "./about-gallery.module.css";
 
-const mobileQuery = "(max-width: 63.999rem)";
-function subscribeMobile(callback: () => void) {
-  const query = window.matchMedia(mobileQuery);
+const motionQuery = "(prefers-reduced-motion: reduce)";
+function subscribeMotion(callback: () => void) {
+  const query = window.matchMedia(motionQuery);
   query.addEventListener("change", callback);
   return () => query.removeEventListener("change", callback);
 }
-const readMobile = () => window.matchMedia(mobileQuery).matches;
-const serverMobile = () => true;
+const readMotion = () => window.matchMedia(motionQuery).matches;
+const serverMotion = () => true;
 
 /**
  * An endless strip of images that drifts on its own and can be dragged; while
@@ -29,16 +29,19 @@ export function AboutGallery({
   reverse?: boolean;
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
-  const mobile = useSyncExternalStore(subscribeMobile, readMobile, serverMobile);
+  const reduced = useSyncExternalStore(
+    subscribeMotion,
+    readMotion,
+    serverMotion,
+  );
   const images = reverse ? [...content.images].reverse() : content.images;
 
   useEffect(() => {
     const track = trackRef.current;
-    if (!track || mobile) return;
+    if (!track || reduced) return;
     gsap.registerPlugin(Observer);
-    const reduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+    const section = track.closest("section") ?? track;
+    section.setAttribute("data-gallery-enhanced", "");
     const cards = [
       ...track.querySelectorAll<HTMLElement>("[data-gallery-card]"),
     ];
@@ -49,7 +52,6 @@ export function AboutGallery({
     let visible = false;
     // Drift leftward in RTL and rightward in LTR; the reversed strip goes
     // the other way.
-    const section = track.closest("section") ?? track;
     const drift =
       (getComputedStyle(section).direction === "rtl" ? -1 : 1) *
       (reverse ? -1 : 1);
@@ -79,10 +81,13 @@ export function AboutGallery({
     const observer = Observer.create({
       target: track,
       type: "pointer,touch",
-      onPress: () => {
-        if (!reduced) scatter.play();
+      lockAxis: true,
+      dragMinimum: 8,
+      onDragStart: (self) => {
+        if (self.axis === "x") scatter.play();
       },
       onDrag: (self) => {
+        if (self.axis !== "x") return;
         total += self.deltaX;
         xTo(total);
       },
@@ -96,7 +101,7 @@ export function AboutGallery({
 
     // Only drift while on screen, and never with reduced motion.
     const tick = (_time: number, deltaTime: number) => {
-      if (reduced || !visible) return;
+      if (!visible || document.hidden) return;
       total += (drift * deltaTime) / 10;
       xTo(total);
     };
@@ -126,14 +131,17 @@ export function AboutGallery({
       window.removeEventListener("resize", measure);
       gsap.killTweensOf(track);
       gsap.set([track, ...cards], { clearProps: "all" });
+      section.removeAttribute("data-gallery-enhanced");
     };
-  }, [mobile, reverse]);
+  }, [reduced, reverse]);
 
   return (
     <section
       className={`${styles.root}${reverse ? ` ${styles.reverse}` : ""}`}
       aria-label={content.label}
-      data-wireframe-section={reverse ? "about-gallery-reverse" : "about-gallery"}
+      data-wireframe-section={
+        reverse ? "about-gallery-reverse" : "about-gallery"
+      }
     >
       <div className={styles.viewport}>
         <div ref={trackRef} className={styles.track}>

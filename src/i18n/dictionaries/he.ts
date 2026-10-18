@@ -74,6 +74,7 @@ export const he = {
       thirdLine: "אצור עבורכם כלי דיגיטלי מהרעיון ועד למוצר מדהים שעובד.",
     },
     projectsLink: "לצפיה בפרויקטים",
+    scrollLabel: "גללו לגלות",
     video: {
       label: "שואוריל — עבודות נבחרות",
       pause: "עצירת הסרטון",
@@ -427,6 +428,10 @@ export const he = {
   },
   faq: {
     heading: "שאלות ותשובות",
+    description: [
+      "על התהליך ועל העבודה יחד.",
+      "נשארה שאלה? אני כאן בשבילכם.",
+    ],
     aiLabel: "לשאול את ",
     aiName: "moriz.ai",
     whatsappLabel: "שנדבר בוואטסאפ?",

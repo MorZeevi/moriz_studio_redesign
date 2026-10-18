@@ -154,7 +154,7 @@ export function FloatingActions({
             <feMorphology
               in="SourceAlpha"
               operator="dilate"
-              radius="2"
+              radius="1"
               result="grown"
             />
             <feFlood className={styles.outlineInk} result="ink" />
