@@ -1,14 +1,17 @@
 "use client";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { loginWithPassword } from "@/app/admin/actions";
 import { Button } from "@/components/ui/button";
 import styles from "./admin.module.css";
 export function LoginForm() {
+  const [ready, setReady] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [pending, start] = useTransition();
   const router = useRouter();
+  // Controlled fields must wait for hydration so early input is not reset.
+  useEffect(() => setReady(true), []);
   function login() {
     setError("");
     start(async () => {
@@ -29,6 +32,7 @@ export function LoginForm() {
       <h1>כניסה לניהול</h1>
       <p>הזינו את הסיסמה כדי להיכנס לניהול האתר.</p>
       <form
+        method="post"
         onSubmit={(event) => {
           event.preventDefault();
           login();
@@ -44,7 +48,7 @@ export function LoginForm() {
             required
             maxLength={1024}
             value={password}
-            disabled={pending}
+            disabled={!ready || pending}
             aria-invalid={Boolean(error)}
             aria-describedby={error ? "login-error" : undefined}
             onChange={(e) => {
@@ -58,7 +62,7 @@ export function LoginForm() {
             {error}
           </p>
         )}
-        <Button type="submit" disabled={pending}>
+        <Button type="submit" disabled={!ready || pending}>
           {pending ? "מתחבר…" : "כניסה לניהול"}
         </Button>
       </form>
