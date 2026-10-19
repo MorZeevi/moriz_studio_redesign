@@ -40,3 +40,56 @@ export function ProjectMediaLink({
     </Link>
   );
 }
+
+/** Project media without a case study: the same badge says "coming soon". */
+export function ProjectMediaSoon({
+  label,
+  children,
+}: {
+  label: string;
+  children: ReactNode;
+}) {
+  const boxRef = useRef<HTMLDivElement>(null);
+  const { active } = useMediaBadge(boxRef);
+
+  return (
+    <div ref={boxRef} className={styles.mediaLink}>
+      {children}
+      <ComingSoonBadge label={label} open={active} />
+    </div>
+  );
+}
+
+/** Pointer-following on desktop; a fixed label on touch and phone widths. */
+export function ComingSoonBadge({
+  label,
+  open,
+}: {
+  label: string;
+  open: boolean;
+}) {
+  return (
+    <span className={`${badgeStyles.badge} ${badgeStyles.soon}`}>
+      <LiquidBadge variant="secondary" open={open} glyph={<ClockGlyph />}>
+        {label}
+      </LiquidBadge>
+    </span>
+  );
+}
+
+function ClockGlyph() {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="8" cy="8" r="5.5" />
+      <path d="M8 5v3l2 1.5" />
+    </svg>
+  );
+}

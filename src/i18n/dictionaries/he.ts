@@ -144,6 +144,7 @@ export const he = {
     detailsHeading: "על הפרויקט",
     projectLink: "לפרויקט המלא",
     viewProject: "לצפיה בפרויקט",
+    comingSoon: "בקרוב",
     backLink: "חזרה לפרויקטים",
     archive: {
       heading: "עבודות נבחרות",

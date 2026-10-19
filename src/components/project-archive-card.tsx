@@ -5,6 +5,7 @@ import Link from "next/link";
 import { type CSSProperties, useId, useRef } from "react";
 import type { ArchiveProject } from "@/content/projects";
 import { CoverVideo } from "./cover-video";
+import { ComingSoonBadge } from "./project-media-link";
 import { ProjectHoverMedia } from "./project-hover-media";
 import badgeStyles from "./media-badge.module.css";
 import styles from "./project-archive-card.module.css";
@@ -23,6 +24,7 @@ export function ProjectArchiveCard({
   sizes,
   eager,
   badgeLabel,
+  soonLabel,
 }: {
   project: ArchiveProject;
   /** Position in the current results, shown as 01, 02… */
@@ -31,6 +33,8 @@ export function ProjectArchiveCard({
   eager: boolean;
   /** The pointer badge's text, as on the homepage ("view project"). */
   badgeLabel: string;
+  /** The badge's text on cards without a case study ("coming soon"). */
+  soonLabel?: string;
 }) {
   const id = useId();
   const cardRef = useRef<HTMLElement>(null);
@@ -77,12 +81,16 @@ export function ProjectArchiveCard({
               sizes={sizes}
             />
           )}
-          {project.href && (
+          {project.href ? (
             <span className={badgeStyles.badge} aria-hidden="true">
               <LiquidBadge variant="secondary" open={badge.active}>
                 {badgeLabel}
               </LiquidBadge>
             </span>
+          ) : (
+            soonLabel && (
+              <ComingSoonBadge label={soonLabel} open={badge.active} />
+            )
           )}
         </div>
         {hasReveal && (

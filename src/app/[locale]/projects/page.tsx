@@ -112,6 +112,7 @@ export default async function ProjectsPage({
             all: copy.all,
             empty: copy.empty,
             viewProject: content.projects.viewProject,
+            comingSoon: content.projects.comingSoon,
           }}
         />
       </main>

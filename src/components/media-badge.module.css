@@ -55,3 +55,18 @@
     transition: none;
   }
 }
+
+/* "Coming soon" has no link to explain, so touch screens and phone widths
+   show it as a fixed label in the media's corner. */
+@media (hover: none), (max-width: 63.999rem) {
+  .badge.soon {
+    display: block;
+    inset-block-start: 0.75rem;
+    inset-inline-start: 0.75rem;
+    left: auto;
+    translate: none;
+    scale: 1;
+    opacity: 1;
+    mix-blend-mode: normal;
+  }
+}

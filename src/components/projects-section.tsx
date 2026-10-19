@@ -6,7 +6,7 @@ import type { SiteContent } from "@/i18n/dictionaries";
 import { PartyHeadingLight } from "./party-mode/party-heading-light";
 import { LiquidLink } from "./ui/liquid-link";
 import partyStyles from "./party-mode/party-mode.module.css";
-import { ProjectMediaLink } from "./project-media-link";
+import { ProjectMediaLink, ProjectMediaSoon } from "./project-media-link";
 import { ProjectScrollSurface } from "./project-scroll-surface";
 import styles from "./projects.module.css";
 import { CategoryTags } from "./category-tags";
@@ -212,7 +212,12 @@ export function ProjectsSection({
                     />
                   </ProjectMediaLink>
                 ) : (
-                  <ProjectMedia project={project} label={content.visualLabel} />
+                  <ProjectMediaSoon label={content.comingSoon}>
+                    <ProjectMedia
+                      project={project}
+                      label={content.visualLabel}
+                    />
+                  </ProjectMediaSoon>
                 )}
               </div>
             </Fragment>

@@ -72,6 +72,7 @@ export const projectCopy: Record<Locale, ProjectCopy> = {
     detailsHeading: "About the project",
     projectLink: "Full case study",
     viewProject: "View project",
+    comingSoon: "Coming soon",
     backLink: "Back to projects",
     archive: {
       heading: "Selected work",

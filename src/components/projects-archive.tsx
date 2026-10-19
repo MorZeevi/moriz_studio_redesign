@@ -32,7 +32,7 @@ export type ArchiveCategory = { slug: string; name: string; count: number };
 
 type Labels = Pick<
   ProjectCopy,
-  "filterLabel" | "all" | "empty" | "allHeading" | "viewProject"
+  "filterLabel" | "all" | "empty" | "allHeading" | "viewProject" | "comingSoon"
 > &
   ProjectCopy["archive"];
 
@@ -321,6 +321,7 @@ export function ProjectsArchive({
                     sizes={projectImageSizes[layout]}
                     eager={projectIndex < 2}
                     badgeLabel={labels.viewProject}
+                    soonLabel={labels.comingSoon}
                   />
                 )}
               </li>

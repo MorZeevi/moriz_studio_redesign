@@ -131,11 +131,14 @@ export function LiquidBadge({
   children,
   variant = "primary",
   open = false,
+  glyph,
 }: {
   children: ReactNode;
   variant?: Variant;
   /** Shows the stretched hover silhouette. */
   open?: boolean;
+  /** Replaces the forward arrow. */
+  glyph?: ReactNode;
 }) {
   const filterId = `liquid-badge-${useId().replace(/:/g, "")}`;
   return (
@@ -146,7 +149,7 @@ export function LiquidBadge({
         data-liquid-open={open ? "" : undefined}
         style={{ "--liquid-filter": `url("#${filterId}")` } as CSSProperties}
       >
-        <LiquidShapes icon arrow="forward">
+        <LiquidShapes icon arrow="forward" glyph={glyph}>
           {children}
         </LiquidShapes>
       </span>
