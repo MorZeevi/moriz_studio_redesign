@@ -119,18 +119,25 @@ test("closing retains staggered windows until the modal exit completes", async (
   await page.locator(".mobile-menu-toggle").click();
   const dialog = page.locator(".navigation-dialog");
   await expect(dialog).toHaveAttribute("data-state", "open");
-  await dialog.locator(".menu-close").click();
-  await page.waitForTimeout(450);
-  await expect(dialog).toHaveAttribute("data-state", "closing");
-  const opacity = await dialog
-    .locator(".pixel-reveal__window")
-    .evaluateAll((elements) =>
-      elements.map((element) => Number(getComputedStyle(element).opacity)),
-    );
-  // Some late-opening cells have retracted while early-opening cells still cover.
-  expect(Math.max(...opacity)).toBe(1);
-  expect(Math.max(...opacity) - Math.min(...opacity)).toBeGreaterThan(0.3);
-  await expect(page.locator("html")).toHaveCSS("overflow", "hidden");
+  const samples = await dialog.evaluate(async (element) => {
+    const frames: { spread: number; locked: boolean }[] = [];
+    (element.querySelector(".menu-close") as HTMLButtonElement).click();
+    const start = performance.now();
+    while (element.hasAttribute("open") && performance.now() - start < 600) {
+      const opacity = Array.from(
+        element.querySelectorAll(".pixel-reveal__window"),
+      ).map((cell) => Number(getComputedStyle(cell).opacity));
+      frames.push({
+        spread: Math.max(...opacity) - Math.min(...opacity),
+        locked:
+          getComputedStyle(document.documentElement).overflow === "hidden",
+      });
+      await new Promise(requestAnimationFrame);
+    }
+    return frames;
+  });
+  expect(samples.some((frame) => frame.spread > 0.3)).toBe(true);
+  expect(samples.every((frame) => frame.locked)).toBe(true);
   await expect(dialog).toBeHidden();
   await expect(page.locator("html")).not.toHaveCSS("overflow", "hidden");
 });

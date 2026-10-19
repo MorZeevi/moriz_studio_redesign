@@ -305,9 +305,9 @@
 
 @media (max-width: 63.999rem) {
   .effects {
-    --ball-size: 77px;
-    --cable-length: 32px;
-    --ball-left: calc(47% - 38.5px);
+    --ball-size: 140px;
+    --cable-length: 80px;
+    --ball-left: calc(47% - var(--ball-size) / 2);
   }
   .reflection:nth-child(n + 11),
   .beam:nth-child(3) {

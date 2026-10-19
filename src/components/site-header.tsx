@@ -128,7 +128,9 @@ export function SiteHeader({ children }: { children: ReactNode }) {
       gsap.set(pills, { y: away.pill });
     };
 
-    let anchor = window.scrollY;
+    // Hydration can finish after a restored scroll or an early reader gesture.
+    // Start from the page top so that initial position is reconciled as well.
+    let anchor = 0;
     let frame = 0;
     // A jump from one of the header's own links is not the reader scrolling
     // away from it, so the header stays for that one step.
@@ -172,6 +174,7 @@ export function SiteHeader({ children }: { children: ReactNode }) {
     // Keyboard focus never lands on a control that is off screen.
     header.addEventListener("focusin", show);
     header.addEventListener("click", holdForJump);
+    update();
 
     return () => {
       cancelAnimationFrame(frame);

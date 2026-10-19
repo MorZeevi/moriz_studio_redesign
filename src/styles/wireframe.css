@@ -269,8 +269,19 @@ html:not([data-pixel-reveal]) .hero-video-stage {
   }
 
   .hero-actions {
+    inline-size: 100%;
     max-inline-size: none;
     margin-block-start: 0;
+  }
+
+  .hero-actions .hero-projects-link {
+    inline-size: 100%;
+    --liquid-height: 3rem;
+  }
+
+  .hero-projects-link .liquid__label {
+    flex: 1;
+    justify-content: center;
   }
 
   .hero-video {

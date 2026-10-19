@@ -30,6 +30,10 @@ Header descriptions use the existing 20px `--text-body-lg` token and full `--pro
 
 Validation: all twelve header-scroll and project-backdrop tests pass, including navbar return by keyboard, wrapped descriptions, reduced motion, no JavaScript and 390/980/1024/1440px layouts. Desktop and mobile captures were visually reviewed; lint, TypeScript and diff checks pass. The refinement is available locally and has not been published.
 
+## Mobile stack refinement — 19 October 2026
+
+Below 1024px, each sticky row places the project name at the logical start (right in Hebrew) and its logo at the opposite end. Logos use the same larger 6rem × 3.5rem box on desktop and mobile, preserving each image's proportions. The body remains a single column through tablet widths. Sticky headings and rows have opaque, grain-covered backplates extending across the side gutters and any navbar clearance, so scrolling copy and media cannot show above or through the pinned band. The section isolates its stacking layers beneath the site header. Existing measured row offsets, canvas transition, copy and media links remain.
+
 ## Dedicated case studies — 12 October 2026
 
 Mode: Experience. This extension applies to `/he/projects/[slug]` and private CMS

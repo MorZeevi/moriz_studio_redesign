@@ -1,21 +1,8 @@
 "use client";
 
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useDesktopEntrance } from "@/lib/use-desktop-entrance";
 import styles from "./site-footer.module.css";
-
-const motionQuery = "(prefers-reduced-motion: reduce)";
-function subscribeMotion(callback: () => void) {
-  const query = window.matchMedia(motionQuery);
-  query.addEventListener("change", callback);
-  return () => query.removeEventListener("change", callback);
-}
-const readMotion = () => window.matchMedia(motionQuery).matches;
-const serverMotion = () => true;
-
-// Each letter starts tipped a different way so the words land like a loose wave.
-const startRotations = [-14, 9, -7, 12, -10, 8, -12];
 
 type Line = { text: string; bold: boolean };
 
@@ -29,18 +16,18 @@ export function FooterWordmark({
 }) {
   const root = useRef<HTMLDivElement>(null);
   const [nearby, setNearby] = useState(false);
-  const reducedMotion = useSyncExternalStore(
-    subscribeMotion,
-    readMotion,
-    serverMotion,
-  );
+  useDesktopEntrance(root);
   const visibleFill = !!fillSrc && nearby;
 
   useEffect(() => {
     const element = root.current;
     if (!element) return;
     const observer = new IntersectionObserver(
-      ([entry]) => setNearby(entry.isIntersecting),
+      ([entry], observer) => {
+        if (!entry.isIntersecting) return;
+        setNearby(true);
+        observer.disconnect();
+      },
       { rootMargin: "500px" },
     );
     observer.observe(element);
@@ -105,62 +92,6 @@ export function FooterWordmark({
       size.disconnect();
     };
   }, [fillSrc, visibleFill]);
-
-  useEffect(() => {
-    const element = root.current;
-    if (!element || reducedMotion) return;
-    gsap.registerPlugin(ScrollTrigger);
-    const stage = element.closest<HTMLElement>("[data-footer-stage]");
-    const letters = element.querySelectorAll<HTMLElement>("[data-letter]");
-    const tween = gsap.fromTo(
-      letters,
-      {
-        yPercent: 85,
-        rotation: (index) => startRotations[index % startRotations.length],
-        transformOrigin: "50% 100%",
-      },
-      {
-        yPercent: 0,
-        rotation: 0,
-        ease: "none",
-        stagger: 0.08,
-        scrollTrigger: {
-          // Measure from the stationary stage: the parent surface itself
-          // moves during parallax, which otherwise shifts refreshed triggers.
-          trigger: stage ?? element,
-          start: () =>
-            stage ? `top+=${element.offsetTop} bottom` : "top bottom",
-          // The footer ends the page, so the word settles on the last scroll.
-          end: "max",
-          scrub: 0.6,
-        },
-      },
-    );
-    // Late fonts, images and sticky stacks above change the page height,
-    // which moves both ends of this trigger. Refresh only this one.
-    let refreshTimer: ReturnType<typeof setTimeout> | undefined;
-    let active = true;
-    const refresh = () => {
-      // A late fonts.ready after cleanup would refresh a killed trigger.
-      if (!active) return;
-      clearTimeout(refreshTimer);
-      refreshTimer = setTimeout(() => tween.scrollTrigger?.refresh(), 150);
-    };
-    const pageSize = new ResizeObserver(refresh);
-    pageSize.observe(document.body);
-    document.fonts.ready.then(refresh);
-    return () => {
-      active = false;
-      clearTimeout(refreshTimer);
-      pageSize.disconnect();
-      tween.scrollTrigger?.kill();
-      tween.kill();
-      // Not "all": that would also wipe the fill offsets set above.
-      gsap.set(letters, {
-        clearProps: "transform,transformOrigin,translate,rotate,scale",
-      });
-    };
-  }, [reducedMotion]);
 
   return (
     <div
