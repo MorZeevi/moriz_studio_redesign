@@ -72,7 +72,7 @@ export function MediaUpload({
     onBusy(true);
     setError("");
     try {
-      const item = await uploadFile(projectId, file);
+      const item = await uploadFile(projectId, file, kind);
       onUploaded?.(item);
       onChange(item.src);
     } catch {
