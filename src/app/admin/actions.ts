@@ -2,7 +2,6 @@
 import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { headers } from "next/headers";
 import { requireAdmin } from "@/lib/cms/auth";
 import { CMS_MEDIA_BUCKET, CMS_SOURCE } from "@/lib/cms/source";
 import { isProjectType } from "@/lib/cms/project-types";
@@ -344,34 +343,30 @@ export async function removeUnusedUpload(url: string): Promise<Result> {
     return failure(error);
   }
 }
-export async function requestLoginLink(email: string): Promise<Result> {
-  const expected = process.env.SUPABASE_ADMIN_EMAIL;
-  if (!expected || email.trim().toLowerCase() !== expected.toLowerCase())
-    return { ok: false, error: "הכניסה מותרת רק לחשבון הבעלים." };
+export async function loginWithPassword(password: string): Promise<Result> {
+  const email = process.env.SUPABASE_ADMIN_EMAIL;
+  const userId = process.env.SUPABASE_ADMIN_USER_ID;
+  if (!email || !userId)
+    return { ok: false, error: "לא ניתן להתחבר כרגע. נסו שוב מאוחר יותר." };
+  if (typeof password !== "string" || !password || password.length > 1024)
+    return { ok: false, error: "יש להזין סיסמה תקינה." };
   const client = await serverSupabase();
-  const origin = (await headers()).get("origin");
-  const localOrigin =
-    origin && /^http:\/\/(127\.0\.0\.1|localhost):(3000|3002|4398)$/.test(origin)
-      ? origin
-      : null;
-  const redirectTo =
-    process.env.SUPABASE_AUTH_REDIRECT_URL ??
-    (localOrigin ? `${localOrigin}/admin/auth/callback` : null);
-  if (!redirectTo)
-    return {
-      ok: false,
-      error:
-        "יש להגדיר SUPABASE_AUTH_REDIRECT_URL ולרשום אותה בכתובות המותרות ב־Supabase.",
-    };
-  const { error } = await client.auth.signInWithOtp({
-    email: expected,
-    options: { shouldCreateUser: false, emailRedirectTo: redirectTo },
+  const { data, error } = await client.auth.signInWithPassword({
+    email,
+    password,
   });
   if (error)
     return {
       ok: false,
-      error: "לא ניתן לשלוח קישור כרגע. המתינו דקה ונסו שוב.",
+      error:
+        error.status === 429
+          ? "יותר מדי ניסיונות כניסה. המתינו כמה דקות ונסו שוב."
+          : "הסיסמה שגויה או שלא ניתן להתחבר כרגע. נסו שוב.",
     };
+  if (!data.user || data.user.id !== userId) {
+    await client.auth.signOut({ scope: "local" });
+    return { ok: false, error: "הכניסה מותרת רק לחשבון הבעלים." };
+  }
   return { ok: true, data: undefined };
 }
 export async function logout() {

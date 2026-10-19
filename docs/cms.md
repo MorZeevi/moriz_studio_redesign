@@ -6,10 +6,16 @@ Content changes appear on the next public request; no deployment is needed.
 
 ## Use
 
-Open `/admin`, enter `morzavi1@gmail.com`, and open the magic link in the same browser.
+Open `/admin` and enter the owner's password. No email entry or inbox access is
+needed. The server signs in the existing owner account through Supabase Auth's
+password API; Supabase stores the password hash, and the password is never stored
+in this repository or a public environment variable.
 Only Auth user `300a2870-9861-4a41-9272-1d783b2636df` can use this site's CMS
 (it is mapped to `source = 'moriz'`, see [Ownership](#ownership-of-projects)).
-Public signup is disabled. There is no registration or password screen.
+Public signup is disabled. There is no registration screen. To change the password,
+update this existing user in Supabase Authentication; keep its UUID and
+`private.cms_admins` mapping. Existing magic-link callback URLs return to the
+password screen without exchanging a code for a session.
 
 Choose **New project**. The editor has two tabs; switching between them keeps
 unsaved changes:
@@ -219,21 +225,20 @@ NEXT_PUBLIC_SUPABASE_URL=https://eqyjdwloiffotezhedxh.supabase.co
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=<publishable key from Supabase>
 SUPABASE_ADMIN_EMAIL=morzavi1@gmail.com
 SUPABASE_ADMIN_USER_ID=300a2870-9861-4a41-9272-1d783b2636df
-SUPABASE_AUTH_REDIRECT_URL=https://<your-domain>/admin/auth/callback
 ```
 
-The final three variables are server-only. No service-role key is required by the
-application. `.env.local` is ignored; `.env.example` has placeholders only.
+The two owner identity variables are server-only. The CMS login and project writes
+use normal user sessions and RLS; they do not require a service-role key.
+`.env.local` is ignored; `.env.example` has placeholders only.
 
-In Supabase **Authentication → URL Configuration → Redirect URLs**, add the exact
-production callback URL above. Local callbacks for `127.0.0.1:3000`,
-`localhost:3000`, `127.0.0.1:3002`, `localhost:3002`, and `127.0.0.1:4398`
-are configured by the helper below. On these local origins, login automatically
-uses the same origin for its callback when `SUPABASE_AUTH_REDIRECT_URL` is unset.
-Keep the existing Site
-URL and unrelated redirects if other apps use this Supabase project.
+Password login needs no email delivery, SMTP, or redirect allowlist. Preserve the
+shared project's existing Site URL, providers, and unrelated redirects. Supabase
+Auth handles password verification and authentication rate limits. The server
+uses `SUPABASE_ADMIN_EMAIL` internally and checks the resulting user ID against
+`SUPABASE_ADMIN_USER_ID` before granting access.
 
-Alternatively, set `SUPABASE_AUTH_REDIRECT_URL` locally and run:
+The legacy magic-link configuration helper remains available for historical
+operations, but is not required for password login:
 
 ```sh
 npm run cms:configure-auth
@@ -244,11 +249,9 @@ The helper first reviews the changes, preserves existing redirect URLs, and only
 changes the signup flag and redirect allowlist. Do **not** push the entire default
 `supabase/config.toml` to this shared project.
 
-Magic links use Supabase's default email provider. Email delivery to the owner's
-inbox still needs a real login check. If Supabase refuses delivery to that address
-or you need higher sending limits, configure custom SMTP in **Authentication →
-Email → SMTP Settings**. Custom email-code templates are unavailable on this free
-tier with the default provider, which is why this implementation uses magic links.
+Authentication regression checks live in `tests/cms/auth.spec.ts`. Set
+`CMS_TEST_ADMIN_PASSWORD` only in the test process to include the real owner
+login, session persistence, and logout test; the password is never committed.
 
 ## Database and files
 
