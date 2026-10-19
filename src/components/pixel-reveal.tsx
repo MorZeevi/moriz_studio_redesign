@@ -1,28 +1,23 @@
 "use client";
 
-import { type CSSProperties, useEffect, useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
+import { LiquidWindowMask } from "@/components/liquid-window-mask";
+import {
+  buildLiquidWindowGrid,
+  LIQUID_WINDOW_DURATION,
+  type LiquidWindowGrid,
+} from "@/lib/liquid-window-grid";
 import {
   PIXEL_REVEAL_DEADLINE,
   PIXEL_REVEAL_STORAGE_KEY,
 } from "@/lib/pixel-reveal";
 
-type Cell = { x: number; y: number; delay: number };
-type Grid = {
-  w: number;
-  h: number;
-  cw: number;
-  ch: number;
-  ox: number;
-  oy: number;
-  cells: Cell[];
-};
-const WINDOW_DURATION = 460;
 const HOLD_DURATION = 300;
 
 /** Adapted from the owner's supplied pixel-reveal-nextjs_new/PixelReveal.tsx. */
 export function PixelReveal() {
   const filterId = `pixel-reveal-${useId().replace(/:/g, "")}`;
-  const [grid, setGrid] = useState<Grid | null>(null);
+  const [grid, setGrid] = useState<LiquidWindowGrid | null>(null);
   const [playing, setPlaying] = useState(false);
   const [done, setDone] = useState(false);
 
@@ -94,24 +89,11 @@ export function PixelReveal() {
     // Keep the supplied windows, with a half-window overhang at every edge.
     const w = window.innerWidth;
     const h = window.innerHeight;
-    const narrow = w < 640;
-    const ch = Math.ceil(h / (narrow ? 9 : 7));
-    const cw = Math.ceil(ch * (narrow ? 1.4 : 1.8));
-    const cols = Math.ceil((w + cw) / cw);
-    const rows = Math.ceil((h + ch) / ch);
-    const cells: Cell[] = [];
-    for (let y = 0; y < rows; y++) {
-      for (let x = 0; x < cols; x++) {
-        cells.push({
-          x,
-          y,
-          delay: Math.round(Math.random() * 620),
-        });
-      }
-    }
+    const nextGrid = buildLiquidWindowGrid(w, h);
     const total =
-      Math.max(...cells.map((cell) => cell.delay)) + WINDOW_DURATION;
-    setGrid({ w, h, cw, ch, ox: -cw / 2, oy: -ch / 2, cells });
+      Math.max(...nextGrid.cells.map((cell) => cell.delay)) +
+      LIQUID_WINDOW_DURATION;
+    setGrid(nextGrid);
 
     // Capture also sees media elements' own `resize` (e.g. the hero video
     // loading metadata); only a viewport resize should end the opening.
@@ -182,54 +164,7 @@ export function PixelReveal() {
           focusable="false"
         >
           <title>Decorative liquid window reveal</title>
-          <defs>
-            <filter
-              id={filterId}
-              filterUnits="userSpaceOnUse"
-              x={-grid.cw}
-              y={-grid.ch}
-              width={grid.w + grid.cw * 2}
-              height={grid.h + grid.ch * 2}
-              colorInterpolationFilters="sRGB"
-            >
-              <feGaussianBlur stdDeviation={grid.ch * 0.1} />
-              <feColorMatrix
-                type="matrix"
-                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10"
-              />
-            </filter>
-            <mask
-              id={`${filterId}-mask`}
-              maskUnits="userSpaceOnUse"
-              x="0"
-              y="0"
-              width={grid.w}
-              height={grid.h}
-            >
-              <rect width={grid.w} height={grid.h} fill="#fff" />
-              <g
-                filter={`url(#${filterId})`}
-                className={`pixel-reveal__windows${playing ? " is-playing" : ""}`}
-                style={
-                  { "--pr-duration": `${WINDOW_DURATION}ms` } as CSSProperties
-                }
-              >
-                {grid.cells.map((cell) => (
-                  <rect
-                    key={`${cell.x}-${cell.y}`}
-                    className="pixel-reveal__window"
-                    x={grid.ox + cell.x * grid.cw}
-                    y={grid.oy + cell.y * grid.ch}
-                    width={grid.cw}
-                    height={grid.ch}
-                    rx={grid.ch * 0.25}
-                    fill="#000"
-                    style={{ animationDelay: `${cell.delay}ms` }}
-                  />
-                ))}
-              </g>
-            </mask>
-          </defs>
+          <LiquidWindowMask id={filterId} grid={grid} playing={playing} />
           <rect
             width={grid.w}
             height={grid.h}

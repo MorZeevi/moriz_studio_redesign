@@ -3,30 +3,11 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
-    "eyebrow"
     "heading"
     "lede";
   row-gap: var(--space-6);
   padding-block: clamp(var(--space-12), 9vw, var(--space-30))
     clamp(var(--space-10), 6vw, var(--space-20));
-}
-
-.eyebrow {
-  grid-area: eyebrow;
-  margin: 0;
-  font-size: var(--text-label);
-  font-weight: var(--font-weight-label);
-  letter-spacing: 0.02em;
-}
-
-.eyebrow::before {
-  content: "";
-  display: inline-block;
-  inline-size: 0.6em;
-  block-size: 0.6em;
-  margin-inline-end: var(--space-2);
-  border-radius: var(--radius-xs);
-  background: var(--color-primary);
 }
 
 .heading {
@@ -65,7 +46,6 @@
   .hero {
     grid-template-columns: minmax(0, 1fr) minmax(0, 26rem);
     grid-template-areas:
-      "eyebrow eyebrow"
       "heading heading"
       ". lede";
   }

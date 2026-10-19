@@ -202,6 +202,15 @@ test("glow tracks fine pointers and stops updating after exit", async ({
   page,
 }) => {
   await page.goto("/he");
+  await expect
+    .poll(() =>
+      page
+        .locator("html")
+        .evaluate((element) =>
+          element.style.getPropertyValue("--site-header-height"),
+        ),
+    )
+    .not.toBe("");
   const pill = link(page, "#projects");
   await pill.hover();
   await expect
@@ -230,7 +239,7 @@ test("glow tracks fine pointers and stops updating after exit", async ({
   expect(await pill.getAttribute("style")).toBe(finalGlow);
 });
 
-test("mobile keeps its original menu and closes it when entering desktop", async ({
+test("mobile matches desktop links and closes it when entering desktop", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -247,9 +256,11 @@ test("mobile keeps its original menu and closes it when entering desktop", async
   await expect(page.locator(".navigation-dialog")).toBeVisible();
   await expect(page.locator(".navigation-links a")).toHaveText([
     "פרויקטים",
-    "קצת עליי",
+    "קצת עלי",
+    "איך מתחילים",
+    "שאלות תשובות",
     "אבחון דיגיטלי",
-    "יצירת קשר",
+    "בואו נדבר",
   ]);
   await page.keyboard.press("Escape");
   await expect(page.locator(".navigation-dialog")).toBeHidden();

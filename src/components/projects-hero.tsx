@@ -2,13 +2,11 @@ import styles from "./projects-hero.module.css";
 
 /** Projects page opening: an editorial heading with the live project count. */
 export function ProjectsHero({
-  eyebrow,
   heading,
   lede,
   count,
   countLabel,
 }: {
-  eyebrow: string;
   heading: string;
   lede: string;
   count: number;
@@ -16,7 +14,6 @@ export function ProjectsHero({
 }) {
   return (
     <header className={`site-container ${styles.hero}`}>
-      <p className={styles.eyebrow}>{eyebrow}</p>
       <h1 className={styles.heading}>
         {heading}
         <sup className={styles.count}>

@@ -90,7 +90,6 @@ export default async function ProjectsPage({
       />
       <main id="main-content" tabIndex={-1}>
         <ProjectsHero
-          eyebrow={content.projects.archive.eyebrow}
           heading={content.projects.archive.heading}
           lede={content.projects.archive.lede}
           count={projects.length}

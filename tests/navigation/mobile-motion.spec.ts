@@ -76,17 +76,16 @@ test("both mobile galleries drift, can be dragged horizontally, and allow vertic
   }
 });
 
-test("mobile FAQ actions fill their column and the scroll cue follows the video", async ({
+test("mobile FAQ actions fill their column and the hero projects action works", async ({
   page,
 }) => {
   for (const width of [320, 390]) {
     await page.setViewportSize({ width, height: 844 });
     await page.goto("/he");
-    await expect(page.locator(".hero-projects-link")).toBeHidden();
-    const cue = page.getByRole("link", { name: "גללו לגלות" });
-    await expect(cue).toBeVisible();
-    await cue.tap();
-    await expect(page).toHaveURL(/#advantages$/);
+    const projects = page.locator(".hero-projects-link");
+    await expect(projects).toBeVisible();
+    await projects.tap();
+    await expect(page).toHaveURL(/#projects$/);
     await page.goto("/he#faq");
     const expected = await page.locator("#faq details").first().boundingBox();
     if (!expected) throw new Error("Missing FAQ column");

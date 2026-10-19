@@ -1,4 +1,5 @@
 .page {
+  --case-gap: var(--page-gutter);
   --project-rule: color-mix(
     in srgb,
     var(--case-foreground) 27%,
@@ -25,8 +26,8 @@
 }
 .composition {
   display: grid;
-  gap: 3rem;
-  padding-block: 2rem 4rem;
+  gap: var(--case-gap);
+  padding-block: var(--case-gap);
   align-items: start;
 }
 .panel {
@@ -73,10 +74,16 @@
   gap: var(--space-3);
   margin-block-end: 1.5rem;
 }
+.identity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
 .title {
+  min-inline-size: 0;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(3.5rem, 5vw, 5.5rem);
+  font-size: clamp(3rem, 4vw, 4.5rem);
   line-height: 0.95;
   letter-spacing: -0.025em;
   overflow-wrap: anywhere;
@@ -108,28 +115,47 @@
   font-weight: 900;
   overflow-wrap: anywhere;
 }
-/* The site's primary button. On a coloured panel it takes the panel's own
-   colours through the tokens the button reads, so its states still apply. */
-.websiteLink {
-  margin-block: var(--space-4) var(--space-6);
-}
-.panel[data-surface] .websiteLink {
-  --color-action-primary: var(--case-foreground);
-  --color-action-primary-hover: color-mix(
-    in srgb,
-    var(--case-foreground) 80%,
-    var(--case-background)
-  );
-  --color-text-inverse: var(--case-background);
-  --color-focus: var(--case-foreground);
-}
-.websiteLink svg {
+.panelFooter {
   flex-shrink: 0;
+  padding-block-start: var(--space-6);
 }
-@media (max-width: 39.99rem) {
-  .websiteLink {
-    inline-size: 100%;
-  }
+.websiteLink {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-block-size: 3.5rem;
+  inline-size: 100%;
+  background: transparent;
+  color: inherit;
+  font-size: var(--text-body);
+  line-height: 1.4;
+  text-decoration: none;
+}
+.websiteOutline {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  pointer-events: none;
+}
+.websiteArrow {
+  display: grid;
+  place-items: center;
+  flex: 0 0 20%;
+  transition: transform var(--duration-fast) var(--ease-enter);
+}
+.websiteLink:hover .websiteArrow {
+  transform: translateX(-3px);
+}
+.websiteLabel {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.page[dir="ltr"] .websiteOutline,
+:where(.page[dir="ltr"]) .websiteArrow svg {
+  scale: -1 1;
 }
 .accordion {
   border-block-start: 1px solid currentColor;
@@ -156,12 +182,6 @@
   font-weight: 900;
   margin: 0;
   overflow-wrap: anywhere;
-}
-.number {
-  font-size: 0.875rem;
-  font-variant-numeric: tabular-nums;
-  align-self: flex-start;
-  padding-block-start: 0.15rem;
 }
 .plus {
   inline-size: 1.75rem;
@@ -201,7 +221,7 @@
   min-inline-size: 0;
 }
 .mediaBlock {
-  margin-block-start: 1.5rem;
+  margin-block-start: var(--case-gap);
 }
 .mediaBlock[data-spacing="generous"] {
   margin-block-start: 2.5rem;
@@ -276,7 +296,7 @@
 .pair,
 .row {
   display: grid;
-  gap: 1.5rem;
+  gap: var(--case-gap);
   align-items: start;
 }
 .pair + .pair {
@@ -396,7 +416,7 @@
   }
   .pair {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.5rem;
+    gap: var(--case-gap);
   }
   /* Grow by aspect ratio: every image in the row gets the same height. */
   .row {
@@ -435,10 +455,11 @@
 @media (min-width: 64rem) {
   .composition {
     grid-template-columns: minmax(15rem, 1fr) minmax(0, 3fr);
-    grid-template-rows: minmax(calc(100dvh - 4rem), auto) auto 4rem;
-    column-gap: clamp(2rem, 4vw, 4rem);
+    grid-template-rows:
+      minmax(calc(100dvh - 2 * var(--case-gap)), auto) auto var(--case-gap);
+    column-gap: var(--case-gap);
     row-gap: 0;
-    padding-block: 3rem 0;
+    padding-block: var(--case-gap) 0;
   }
   .composition::after {
     content: "";
@@ -459,19 +480,23 @@
     grid-column: 1;
     grid-row: 1 / 4;
     position: sticky;
-    inset-block-start: 2rem;
+    inset-block-start: var(--case-gap);
     display: flex;
     flex-direction: column;
-    max-block-size: calc(100dvh - 4rem);
+    block-size: calc(100dvh - 2 * var(--case-gap));
     border-inline-end: 1px solid currentColor;
   }
   /* The content scrolls inside the panel; its surface and grain stay put. */
   .panelScroll {
+    flex: 1;
     min-block-size: 0;
     overflow-y: auto;
     padding-inline-end: 1.5rem;
     overscroll-behavior: contain;
     scrollbar-gutter: stable;
+  }
+  .panelFooter {
+    padding-inline-end: 1.5rem;
   }
   .panel[data-surface] {
     position: sticky;
@@ -480,7 +505,7 @@
     border-inline-end: 0;
   }
   .mediaBlock {
-    margin-block-start: 2rem;
+    margin-block-start: var(--case-gap);
   }
   .mediaBlock[data-spacing="generous"] {
     margin-block-start: 5rem;
@@ -507,7 +532,8 @@
     clip-path: none;
     transform: none;
   }
-  .enlarge {
+  .enlarge,
+  .websiteArrow {
     transition: none;
   }
 }
@@ -515,12 +541,11 @@
 /* CMS v2: logo, highlights, subsections and image + text in the case study. */
 .logo {
   display: block;
-  max-inline-size: 9rem;
-  max-block-size: 3.5rem;
-  inline-size: auto;
-  block-size: auto;
+  flex-shrink: 0;
+  inline-size: clamp(3rem, 4vw, 4rem);
+  block-size: clamp(3rem, 4vw, 4rem);
   object-fit: contain;
-  margin-block-end: var(--space-6);
+  margin: 0;
 }
 .panelHighlights,
 .highlights {

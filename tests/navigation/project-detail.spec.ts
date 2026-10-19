@@ -1,5 +1,24 @@
 import { test, expect } from "@playwright/test";
 
+test("Hebrew project URLs load directly and from the project archive", async ({
+  page,
+}) => {
+  const slug = encodeURIComponent("וורדעל");
+  const path = `/he/projects/${slug}`;
+  const response = await page.goto(path);
+  expect(response?.status()).toBe(200);
+  await expect(page).toHaveTitle(/וורדעל/);
+  await expect(page.locator("[data-project-detail] h1")).toHaveText("וורדעל");
+
+  await page.goto("/he/projects");
+  await page
+    .locator(`a[href="/he/projects/וורדעל"], a[href="${path}"]`)
+    .first()
+    .click();
+  await expect(page).toHaveURL(new RegExp(`${slug}$`));
+  await expect(page.locator("[data-project-detail] h1")).toHaveText("וורדעל");
+});
+
 test("case-study panel stays pinned while short and long galleries scroll", async ({
   page,
 }) => {
@@ -9,6 +28,7 @@ test("case-study panel stays pinned while short and long galleries scroll", asyn
   await page.evaluate(() => document.fonts.ready);
   for (const height of [1000, 500]) {
     await page.setViewportSize({ width: 1440, height });
+    await expect(panel).toHaveCSS("height", `${height - 64}px`);
     for (const direction of ["rtl", "ltr"]) {
       await page
         .locator("[data-project-detail]")
@@ -67,7 +87,7 @@ test("case-study panel stays pinned while short and long galleries scroll", asyn
     )
     .toBe(32);
   await page.setViewportSize({ width: 390, height: 844 });
-  await expect(panel).toHaveCSS("position", "static");
+  await expect(panel).not.toHaveCSS("position", "sticky");
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= innerWidth,

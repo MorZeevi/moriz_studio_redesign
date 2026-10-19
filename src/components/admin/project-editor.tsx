@@ -548,6 +548,15 @@ export function ProjectEditor({
                   onChangeEn={text("short_description_en")}
                 />
                 <LocalizedField
+                  label="תיאור הפרויקט"
+                  hint="תיאור מלא. מוצג בעמוד הבית לצד תמונת הפרויקט, מעל מספר המשתמשים והקטגוריות, וגם בעמוד הפרויקט."
+                  multiline
+                  value={project.description}
+                  valueEn={project.description_en}
+                  onChange={text("description")}
+                  onChangeEn={text("description_en")}
+                />
+                <LocalizedField
                   label="לקוח"
                   value={project.client}
                   valueEn={project.client_en}
@@ -920,15 +929,6 @@ export function ProjectEditor({
                   valueEn={project.headline_en}
                   onChange={text("headline")}
                   onChangeEn={text("headline_en")}
-                />
-                <LocalizedField
-                  label="תיאור הפרויקט"
-                  hint="מה הפרויקט ולמי הוא נבנה. מוצג בעמוד הפרויקט, ובעמוד הבית מתחת לשם הפרויקט."
-                  multiline
-                  value={project.description}
-                  valueEn={project.description_en}
-                  onChange={text("description")}
-                  onChangeEn={text("description_en")}
                 />
                 <h3>קהל יעד</h3>
                 <LocalizedField

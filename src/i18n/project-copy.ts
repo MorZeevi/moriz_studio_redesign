@@ -74,10 +74,9 @@ export const projectCopy: Record<Locale, ProjectCopy> = {
     viewProject: "View project",
     backLink: "Back to projects",
     archive: {
-      eyebrow: "Portfolio",
       heading: "Selected work",
       countLabel: "projects",
-      lede: "Websites, digital products and automations I designed and built — from the first sketch to the last line of code.",
+      lede: "Description coming soon.",
       layoutLabel: "Project layout",
       layouts: { standard: "Grid", compact: "Compact", editorial: "Editorial" },
       results: "Showing {count} projects",

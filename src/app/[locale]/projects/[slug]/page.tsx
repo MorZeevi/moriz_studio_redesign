@@ -12,9 +12,17 @@ type PageParams = { params: Promise<{ locale: string; slug: string }> };
 async function load(params: PageParams["params"]) {
   const { locale, slug } = await params;
   if (!isEnabledLocale(locale)) notFound();
+  // Metadata can receive an encoded segment while the page receives decoded
+  // params. Both must look up the same stored slug, including Hebrew URLs.
+  let projectSlug: string;
+  try {
+    projectSlug = decodeURIComponent(slug);
+  } catch {
+    notFound();
+  }
   const [content, project] = await Promise.all([
     getDictionary(locale),
-    getPublicProject(slug),
+    getPublicProject(projectSlug),
   ]);
   if (!project) notFound();
   return { locale, content, project };

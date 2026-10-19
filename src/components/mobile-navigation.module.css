@@ -1,0 +1,138 @@
+.toggle,
+.toggle:hover {
+  border: 0;
+  background: transparent;
+}
+
+.dialog:global(.navigation-dialog) {
+  --color-text-primary: var(--color-dark);
+  --color-focus: var(--color-dark);
+  position: fixed;
+  inset: 0;
+  inline-size: 100%;
+  max-inline-size: 100%;
+  block-size: 100dvh;
+  max-block-size: 100dvh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  color: var(--color-dark);
+  text-align: start;
+  color-scheme: light;
+}
+
+.dialog::backdrop {
+  background: transparent;
+}
+
+.dialog[data-state="open"] {
+  background: var(--color-secondary);
+}
+
+.dialog .toggle {
+  color: var(--color-dark);
+}
+
+.windows {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  pointer-events: none;
+}
+
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-inline: max(var(--page-gutter), env(safe-area-inset-left))
+    max(var(--page-gutter), env(safe-area-inset-right));
+  padding-block-end: max(var(--space-8), env(safe-area-inset-bottom));
+  scrollbar-color: var(--color-dark) var(--color-secondary);
+}
+
+.header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+  display: flex;
+  flex: none;
+  min-block-size: var(--space-24);
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding-block: max(var(--space-6), env(safe-area-inset-top)) var(--space-6);
+}
+
+.dialog[data-state="open"] .header {
+  background: var(--color-secondary);
+}
+
+.theme {
+  --color-text-primary: var(--color-dark);
+  display: flex;
+  margin-inline-start: auto;
+}
+
+.dialog .theme button:hover {
+  background: color-mix(in srgb, var(--color-dark) 10%, transparent);
+  color: var(--color-dark);
+}
+
+.body {
+  --color-text-primary: var(--color-dark);
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-8);
+  visibility: hidden;
+}
+
+.dialog[data-state="open"] .body {
+  visibility: visible;
+}
+
+.links {
+  display: grid;
+  gap: var(--space-4);
+  margin: var(--space-8) 0;
+  padding: 0;
+  list-style: none;
+}
+
+.links a {
+  display: block;
+  padding-block: var(--space-2);
+  overflow-wrap: anywhere;
+  color: inherit;
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: var(--font-weight-heading);
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.body > :global(.language-link) {
+  align-self: start;
+  margin-block-start: auto;
+}
+
+.dialog ::selection {
+  background: var(--color-dark);
+  color: var(--color-secondary);
+}
+
+.dialog :is(a, button):focus-visible {
+  outline: 2px solid var(--color-dark);
+  outline-offset: 4px;
+}

@@ -46,6 +46,11 @@
 }
 
 @media (max-width: 63.999rem) {
+  .falling-text-pill {
+    padding: calc(var(--space-3) / 2) var(--space-3);
+    font-size: var(--text-body-sm);
+  }
+
   .falling-text-pill:nth-child(3n + 2) {
     background: var(--color-secondary);
     color: var(--color-dark);

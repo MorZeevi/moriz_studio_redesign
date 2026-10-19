@@ -33,6 +33,19 @@
   white-space: nowrap;
 }
 
+.whatsappPortrait {
+  display: contents;
+}
+
+.whatsappIcon {
+  display: none;
+  position: absolute;
+  inset: 0;
+  inline-size: 1.875rem;
+  block-size: 1.875rem;
+  margin: auto;
+}
+
 /* The AI pill matches the FAQ's moriz.ai button: white with a CTA outline and
    sparkle. The outline filter runs after the goo, so the ring traces the
    merged shape. Same specificity, later in the file. */
@@ -215,6 +228,14 @@
 /* The homepage keeps only WhatsApp on phones; case studies keep a compact
    action rail inside the mobile page gutter. */
 @media (max-width: 63.999rem) {
+  .whatsappPortrait {
+    display: none;
+  }
+
+  .whatsappIcon {
+    display: block;
+  }
+
   .mobileWhatsappOnly .ai {
     display: none;
   }

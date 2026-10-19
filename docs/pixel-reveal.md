@@ -18,7 +18,9 @@ The overlay is decorative (`aria-hidden`) and uses `pointer-events: none`. Keybo
 
 ## Implementation and verification
 
-- [PixelReveal](../src/components/pixel-reveal.tsx) owns grid construction, playback and cleanup; [styles](../src/styles/pixel-reveal.css) contain only the supplied cover effect and its fallbacks.
+As of 2026-10-19, grid geometry and SVG mask primitives are shared with the reversible mobile navigation reveal. The menu uses an inverted mask to grow a yellow surface, while the opening still cuts windows through its cover. Its homepage-only bootstrap, desktop eligibility, session storage, font wait, hold, dismissal and fallbacks remain local to `PixelReveal`.
+
+- [PixelReveal](../src/components/pixel-reveal.tsx) uses the shared grid builder and owns loader playback and cleanup; [styles](../src/styles/pixel-reveal.css) contain only the supplied cover effect and its fallbacks.
 - [Bootstrap](../src/lib/pixel-reveal.ts) shares the storage key and deadline and generates the static head initializer. The locale layout suppresses the intentional root-attribute hydration difference; homepage rendering and font classes are retained.
 - [Browser tests](../tests/navigation/pixel-reveal.spec.ts) cover desktop/mobile, session skipping, project-first entry, reduced motion, section links, no JavaScript, blocked storage, slow fonts, interruption, the CSS fallback and pre-hydration initialization. Run with `npx playwright test --config=playwright.navigation.config.ts tests/navigation/pixel-reveal.spec.ts`.
 

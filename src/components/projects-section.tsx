@@ -168,8 +168,18 @@ export function ProjectsSection({
                   patternRefreshInterval={2}
                   patternAlpha={22}
                 />
-                <span className={styles.stackNumber} aria-hidden="true">
-                  {String(index + 1).padStart(2, "0")}
+                <span className={styles.stackLogo} aria-hidden="true">
+                  {project.logo && (
+                    // biome-ignore lint/performance/noImgElement: private CMS logos bypass the image optimizer.
+                    <img
+                      src={project.logo.src}
+                      alt=""
+                      width={96}
+                      height={56}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  )}
                 </span>
                 <h3 id={id} className={styles.stackTitle}>
                   <bdi>{project.title}</bdi>

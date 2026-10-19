@@ -78,18 +78,6 @@ export default async function Home({
                 </div>
               </div>
               <HeroVideo labels={content.hero.video} />
-              <a className="hero-scroll-cue" href="#advantages">
-                <span>{content.hero.scrollLabel}</span>
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  aria-hidden="true"
-                >
-                  <path d="M12 4v16m-6-6 6 6 6-6" />
-                </svg>
-              </a>
               <LogoCarousel labels={content.logoCarousel} />
             </div>
             <div className="hero-shell hero-video-stage">

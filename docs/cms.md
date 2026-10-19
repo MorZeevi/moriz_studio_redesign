@@ -15,19 +15,21 @@ Choose **New project**. The editor has two tabs; switching between them keeps
 unsaved changes:
 
 - **פרטי הפרויקט** (project details), in the order the case-study panel shows
-  them: name, short description, client, year, my role, number of users (free
+  them: name, short description, full description, client, year, my role, number of users (free
   text such as `10,000+`), project type and the project's website link (the
   **מעבר לאתר** button). The short description (`short_description`) is the line
   beside the project name on the homepage; the project description
-  (`description`, edited in Case Study) is shown under the name.
+  (`description`) is edited alongside it and shown beside the main image, above
+  the highlights and categories. It also appears in the case-study panel.
   Then **מדיה ראשית**: the main image (the cover) and the main video, each with a
   preview, replace and remove. A collapsed **הגדרות נוספות** section holds
   categories, the homepage and archive card settings (featured toggles, archive
   description, card highlights, hover media, media overrides, manual
   order), the slug, and SEO with the social (OG) image.
-- **Case Study**: the case-study content (headline, description, target audience
+- **Case Study**: the case-study content (headline, target audience
   and the content blocks), the **gallery** (rows, below), the **side panel** (logo
   and the panel's background and text colours) and the **highlights**.
+  The logo also replaces the project number in the homepage's sticky project header.
 
 Every user-facing text has a Hebrew field and an English field side by side
 (`<key>` and `<key>_en`). English is optional; missing English falls back to
@@ -141,10 +143,14 @@ order.
 ### Case study presentation
 
 Project pages place the information panel at the logical start of the page
-(right in Hebrew, left in English). It stays visible on desktop; below 1024px
-it appears above the gallery. The full description and nonempty text blocks
+(right in Hebrew, left in English). It fills the available viewport height on
+desktop with 32px clearance above and below, scrolling its content internally;
+the outlined, notched website button stays at the bottom when a URL is supplied.
+Below 1024px the panel appears in normal flow above the gallery, with the website
+button after its content. The full description and nonempty text blocks
 become exclusive native accordions, with the first open. Text block order and
-copy are retained; the list-page collapsible setting does not affect this panel.
+copy are retained, without section numbers; the list-page collapsible setting
+does not affect this panel.
 Below 1024px, public case-study pages use 44px icon-only floating actions in the
 logical-end gutter. Accordion summaries and answers reserve an additional 24px
 plus the device safe area at that edge, keeping copy and expand/collapse controls clear.

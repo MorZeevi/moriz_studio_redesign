@@ -97,7 +97,9 @@ test("a fresh mobile session shows the homepage without the opening cover", asyn
   await expect(page.locator(cover)).toBeHidden();
   await expect(page.locator("#hero-heading")).toBeVisible();
   await expect(
-    page.locator("#hero").getByRole("link", { name: "שנדבר בוואטסאפ?" }),
+    page
+      .getByRole("navigation", { name: "פעולות מהירות" })
+      .getByRole("link", { name: "שנדבר בוואטסאפ?" }),
   ).toBeVisible();
   await page.screenshot({
     path: test.info().outputPath("homepage-mobile-without-cover.png"),
@@ -118,6 +120,11 @@ test("reduced motion, section links and other public pages open directly", async
   await page.goto("/he");
   await expect(page.locator(cover)).toBeHidden();
   await expect(page.locator(".site-header")).toBeVisible();
+  // Finish the reduced-motion hydration path before changing that preference.
+  await expect(page.locator("html")).toHaveAttribute(
+    "data-pixel-reveal",
+    "done",
+  );
   expect(
     await page.evaluate((key) => sessionStorage.getItem(key), storageKey),
   ).toBeNull();

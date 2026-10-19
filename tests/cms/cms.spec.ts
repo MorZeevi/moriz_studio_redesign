@@ -511,13 +511,14 @@ test("private routes and a complete editor publishing flow", async ({
     .locator("#panel-details")
     .getByLabel("תיאור קצר", { exact: true })
     .fill("A test project");
+  await page
+    .locator("#panel-details")
+    .getByLabel("תיאור הפרויקט", { exact: true })
+    .fill("Full project description");
   await tab("case");
   await page
     .getByLabel("כותרת משנה", { exact: true })
     .fill("Portfolio interactions");
-  await page
-    .getByLabel("תיאור הפרויקט", { exact: true })
-    .fill("Full project description");
   await page
     .getByLabel("קהל יעד", { exact: true })
     .fill("Business owners and professionals");

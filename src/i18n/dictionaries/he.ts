@@ -71,7 +71,7 @@ export const he = {
       emphasis: "מחקר מנצח טיעונים.",
       firstLine: "מתוך התפיסה הזו אני ניגשת לכל פרויקט, מורכב ככל שיהיה.",
       secondLine: "עם תואר בטכנולוגיות למידה מ-HIT וניסיון עשיר בפיתוח,",
-      thirdLine: "אצור עבורכם כלי דיגיטלי מהרעיון ועד למוצר מדהים שעובד.",
+      thirdLine: "אצור עבורכם כלי דיגיטלי מהרעיון ועד מוצר שעובד מדהים.",
     },
     projectsLink: "לצפיה בפרויקטים",
     scrollLabel: "גללו לגלות",
@@ -146,10 +146,9 @@ export const he = {
     viewProject: "לצפיה בפרויקט",
     backLink: "חזרה לפרויקטים",
     archive: {
-      eyebrow: "תיק עבודות",
       heading: "עבודות נבחרות",
       countLabel: "פרויקטים",
-      lede: "אתרים, מוצרים דיגיטליים ואוטומציות שעיצבתי ופיתחתי — מהסקיצה הראשונה ועד השורה האחרונה של הקוד.",
+      lede: "תיאור קצר יתווסף בהמשך.",
       layoutLabel: "תצוגת הפרויקטים",
       layouts: { standard: "רשת", compact: "צפוף", editorial: "מגזין" },
       results: "מוצגים {count} פרויקטים",
@@ -273,6 +272,16 @@ export const he = {
   aboutGallery: {
     label: "גלריה",
     images: [
+      // Owner-supplied original: פרויקטים לפורטופוליו/קרוסלה/image 2.png.
+      {
+        src: "/images/about-gallery/engaging-page.png",
+        alt: "עמוד Engaging Page עם פרח בהיר וטיפוגרפיה לבנה על רקע שחור",
+      },
+      // Owner-supplied original: פרויקטים לפורטופוליו/קרוסלה/חוזרים.jpg.
+      {
+        src: "/images/about-gallery/chozrim.jpg",
+        alt: "אתר חוזרים לשגרה עם טיפוגרפיה גדולה בשחור ולבן",
+      },
       {
         src: "/images/about-gallery/1.webp",
         alt: "מסך שאלון עם איור כלב ואפשרויות לבחירה",

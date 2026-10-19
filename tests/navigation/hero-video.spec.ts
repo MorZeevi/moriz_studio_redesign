@@ -171,6 +171,8 @@ test("logos stay below the video after resizing", async ({ page }) => {
 for (const viewport of [
   { width: 390, height: 844 },
   { width: 320, height: 700 },
+  { width: 430, height: 932 },
+  { width: 768, height: 1024 },
 ]) {
   test(`mobile video waits for a tap at ${viewport.width}px`, async ({
     page,
@@ -187,14 +189,24 @@ for (const viewport of [
     expect(videoRequests).toHaveLength(0);
     await expect(page.locator(".hero-video-stage")).toBeHidden();
     await expectLogosBelowVideo(page);
-    await expect(page.locator(".hero-projects-link")).toBeHidden();
-    const cue = page.locator(".hero-scroll-cue");
-    await expect(cue).toBeVisible();
-    await expect(cue).toHaveAttribute("href", "#advantages");
-    const cueBox = await cue.boundingBox();
-    const videoBox = await page.locator(target).boundingBox();
-    if (!cueBox || !videoBox) throw new Error("Missing mobile hero geometry");
-    expect(cueBox.y).toBeGreaterThanOrEqual(videoBox.y + videoBox.height);
+    const description = page.locator(".hero-description");
+    const projects = page.locator(".hero-projects-link");
+    await expect(description).toBeVisible();
+    await expect(description).toContainText("מחקר מנצח טיעונים.");
+    await expect(projects).toBeVisible();
+    await expect(projects).toHaveAttribute("href", "#projects");
+    await expect(page.locator(".hero-scroll-cue")).toHaveCount(0);
+    await page.evaluate(() => document.fonts.ready);
+    const boxes = await Promise.all(
+      [page.locator("#hero-heading"), description, projects, page.locator(target)]
+        .map((element) => element.boundingBox()),
+    );
+    for (let index = 1; index < boxes.length; index++) {
+      const previous = boxes[index - 1];
+      const current = boxes[index];
+      if (!previous || !current) throw new Error("Missing mobile hero geometry");
+      expect(current.y).toBeGreaterThanOrEqual(previous.y + previous.height);
+    }
     await page.locator("#hero").screenshot({
       path: `test-results/hero-video/mobile-${viewport.width}.png`,
     });
@@ -248,7 +260,11 @@ test("logos follow the static video without JavaScript", async ({
       await expectLogosBelowVideo(page);
       if (width >= 1024)
         expect(await logoVideoGap(page)).toBeLessThanOrEqual(64);
-      else await expect(page.locator(".hero-scroll-cue")).toBeVisible();
+      else {
+        await expect(page.locator(".hero-description")).toBeVisible();
+        await expect(page.locator(".hero-projects-link")).toBeVisible();
+        await expect(page.locator(".hero-scroll-cue")).toHaveCount(0);
+      }
     }
   } finally {
     await context.close();

@@ -50,6 +50,8 @@ export function MainHeader({
         <Navigation
           locale={locale}
           content={content.navigation}
+          studioName={content.studioName}
+          theme={content.theme}
           pageAnchors={pageAnchors}
         />
         <div className="header-actions">

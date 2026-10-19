@@ -49,6 +49,8 @@ Saved Mobbin screenshots establish visible desktop composition only. The owner s
 
 ## 1. Hero
 
+Latest mobile layout, approved 2026-10-19: follow Langdock's single-column sequence while preserving Moriz's identity and current copy: rotating heading, full description, existing projects Liquid CTA (`#projects`), full-width 3:2 showreel and slow client-logo carousel. Replace the scroll cue with the projects CTA. Keep RTL/start alignment and shared side gutters; use 24px main gaps, 16px between description and CTA and 16px carousel padding. The bold description opening stays separate, with the rest wrapping naturally. Natural content height is preferred over squeezing everything into one screen. Mobile remains tap-to-play, and the desktop layout/expansion stay intact. This supersedes earlier mobile hero compositions below; see [the implementation guide](hero-video.md).
+
 Status: **In progress**.
 
 Latest owner request, 2026-10-09: undo the last two completed changes (avatar enlargement and move beside the H1). The supplied avatar and **נעים להכיר, אני מור** are restored together in a horizontal RTL introduction row above the original H1 **יוצרת פתרונות דיגיטליים מבוססי מחקר**. The greeting is a paragraph beside the portrait, not a replacement heading. The portrait is 48px wide on mobile and 56px from 768px; greeting text is 16px/18px. The introduction and H1 share the original heading grid position; supporting copy, video placeholder and project CTA remain in their existing positions. The interrupted advantages-background request was not applied.
@@ -167,6 +169,8 @@ Owner revision: this supersedes the previous supporting text and adds HIT as the
 Next step: review the implemented Mammoth trial locally, refine it as needed, and record final visual acceptance. Hero stays In progress; the owner subsequently authorized the first advantages card on 2026-10-07. The owner-supplied video remains an explicit future dependency.
 
 ## 2. Three communication themes / advantages
+
+Mobile pill refinement, 2026-10-19: the research labels use 14px body-small text and 6px/12px padding below 1024px; desktop sizing and physics behavior stay unchanged. On narrow mobile screens with reduced motion, the static pill stage grows to fit every label.
 
 Status: **In progress — descriptions implemented locally; both development visualization trials rejected**. On 2026-10-10 the owner approved the centered interactive card, continuous hero-style grain and the second and third descriptions. The implemented sketch-to-live demonstration and subsequent standalone modular preview were both rejected; they remain saved for reference before a fresh direction.
 

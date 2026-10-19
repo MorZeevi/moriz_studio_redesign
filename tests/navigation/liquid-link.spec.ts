@@ -173,10 +173,7 @@ test("mobile sizes and enlarged text keep the visible hero action in its availab
     for (const enlarged of [false, true]) {
       if (enlarged)
         await page.addStyleTag({ content: "html { font-size: 200%; }" });
-      const mobile = await page.evaluate(
-        () => matchMedia("(max-width: 63.999rem)").matches,
-      );
-      const link = page.locator(mobile ? ".hero-scroll-cue" : selector);
+      const link = page.locator(selector);
       await expect(link).toBeVisible();
       const bounds = await link.boundingBox();
       expect(bounds?.x).toBeGreaterThanOrEqual(0);
@@ -187,12 +184,12 @@ test("mobile sizes and enlarged text keep the visible hero action in its availab
         (element) => element.scrollWidth <= element.clientWidth + 1,
       );
       expect(fits).toBe(true);
-      if (!enlarged && !mobile) await capture(page, `width-${width}`);
+      if (!enlarged) await capture(page, `width-${width}`);
     }
   }
 });
 
-test("the mobile scroll cue activates its native destination", async ({
+test("the mobile projects action activates its native destination", async ({
   browser,
   baseURL,
 }) => {
@@ -204,9 +201,9 @@ test("the mobile scroll cue activates its native destination", async ({
   const page = await context.newPage();
   await page.goto(`${baseURL}/he`);
   await page.evaluate(() => document.fonts.ready);
-  const link = page.locator(".hero-scroll-cue");
+  const link = page.locator(selector);
   await link.tap();
-  await expect(page).toHaveURL(/#advantages$/);
+  await expect(page).toHaveURL(/#projects$/);
   await context.close();
 });
 

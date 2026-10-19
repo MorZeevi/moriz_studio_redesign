@@ -33,6 +33,7 @@ export function projectCard(
           ? { src, kind: "video" as const, poster: item?.poster }
           : undefined));
   const title = localized(project, "title", locale);
+  const logo = project.media.find((media) => media.role === "logo");
   const alt = (item && localized(item, "alt", locale)) || title;
   const video = isVideoSrc(src) && src ? { src, poster: item?.poster } : null;
   const image =
@@ -69,6 +70,9 @@ export function projectCard(
     description,
     summary,
     image,
+    logo: logo
+      ? { src: logo.src, alt: localized(logo, "alt", locale) || title }
+      : null,
     video,
     hoverMedia:
       hover && (hover.src !== src || hover.kind === "video")

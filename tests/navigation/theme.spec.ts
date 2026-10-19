@@ -259,13 +259,17 @@ test("single keyboard toggle, compact headers and dark mobile drawer remain usab
   await expect(page.getByRole("menu")).toHaveCount(0);
   await page.setViewportSize({ width: 375, height: 812 });
   await page.getByRole("button", { name: "פתיחת תפריט" }).click();
+  await expect(page.locator(".navigation-dialog")).toHaveAttribute(
+    "data-state",
+    "open",
+  );
   await expect(page.locator(".navigation-dialog")).toHaveCSS(
     "background-color",
-    "rgb(38, 38, 38)",
+    "rgb(221, 220, 140)",
   );
   await expect(page.locator(".navigation-dialog")).toHaveCSS(
     "color",
-    "rgb(251, 251, 255)",
+    "rgb(38, 38, 38)",
   );
 });
 

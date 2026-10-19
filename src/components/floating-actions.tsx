@@ -10,6 +10,7 @@ import {
   useState,
 } from "react";
 import { AskAiChat } from "@/components/ask-ai-chat";
+import { WhatsappIcon } from "@/components/contact-icons";
 import { LiquidButton, LiquidLink } from "@/components/ui/liquid-link";
 import { SparkleIcon } from "@/components/ui/sparkle-icon";
 import type { SiteContent } from "@/i18n/dictionaries";
@@ -210,7 +211,14 @@ export function FloatingActions({
               target="_blank"
               rel="noopener noreferrer"
               aria-label={content.whatsapp}
-              icon={<Portrait />}
+              icon={
+                <>
+                  <span className={styles.whatsappPortrait}>
+                    <Portrait />
+                  </span>
+                  <WhatsappIcon className={styles.whatsappIcon} />
+                </>
+              }
             >
               {content.whatsapp}
             </LiquidLink>

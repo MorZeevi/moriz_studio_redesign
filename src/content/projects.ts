@@ -12,6 +12,8 @@ export type Project = {
   /** Homepage: the one-line short description beside the title. */
   summary?: string | null;
   image: { src: string; alt: string } | null;
+  /** Company logo from the project's CMS media. */
+  logo?: { src: string; alt: string } | null;
   /** A video cover plays muted and looping while visible. */
   video?: { src: string; poster?: string } | null;
   hoverMedia?: {
