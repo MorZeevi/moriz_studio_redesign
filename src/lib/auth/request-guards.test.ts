@@ -122,3 +122,30 @@ test("checkAdminRequest honours the owner result and optional JSON requirement",
     false,
   );
 });
+
+test("compares Origin to the Host the browser addressed, not to a normalized request.url", () => {
+  // Next normalizes request.url (127.0.0.1 becomes localhost); Host stays real.
+  const normalized = "http://localhost:4398/digital-audit/api/admin/lead-status";
+  assert.equal(
+    isSameOriginRequest(
+      req({ origin: "http://127.0.0.1:4398", host: "127.0.0.1:4398" }, normalized),
+    ),
+    true,
+  );
+  const hostile: Record<string, string>[] = [
+    // A cross-site page: its Origin is its own, whatever Host says.
+    { origin: "https://evil.example", host: "127.0.0.1:4398" },
+    // Right scheme and host, wrong port.
+    { origin: "http://127.0.0.1:3000", host: "127.0.0.1:4398" },
+    // Wrong scheme for the request.
+    { origin: "https://127.0.0.1:4398", host: "127.0.0.1:4398" },
+    // Forwarded host headers never help.
+    {
+      origin: "https://evil.example",
+      host: "127.0.0.1:4398",
+      "x-forwarded-host": "evil.example",
+    },
+  ];
+  for (const headers of hostile)
+    assert.equal(isSameOriginRequest(req(headers, normalized)), false, JSON.stringify(headers));
+});

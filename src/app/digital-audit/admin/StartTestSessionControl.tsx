@@ -5,13 +5,9 @@ import { useRef, useState } from 'react';
 import { createAdminTestSession } from '@/diagnostic/testSessionClient';
 import styles from './page.module.css';
 
-interface StartTestSessionControlProps {
-  secret: string;
-}
-
 const GENERIC_ERROR = 'לא הצלחנו לפתוח בדיקת ניסיון. נסו שוב.';
 
-export default function StartTestSessionControl({ secret }: StartTestSessionControlProps) {
+export default function StartTestSessionControl() {
   const inFlight = useRef(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +19,7 @@ export default function StartTestSessionControl({ secret }: StartTestSessionCont
     setError(null);
 
     try {
-      await createAdminTestSession(secret, {
+      await createAdminTestSession({
         fetch: window.fetch.bind(window),
         confirm: window.confirm.bind(window),
         storage: window.localStorage,

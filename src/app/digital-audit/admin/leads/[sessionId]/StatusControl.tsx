@@ -6,12 +6,10 @@ import { STATUS_LABELS_HE, type LeadStatus } from '@/diagnostic/leadStatus';
 import { withBasePath } from '@/diagnostic/basePath';
 import styles from './page.module.css';
 
-// The secret prop is the value from the admin's own URL (searchParams on the
-// server page) — never process.env.ADMIN_ACCESS_SECRET, which must not reach
-// a client component. Mirrors LeadBriefPanel's prop contract (P8a/P9d).
+// Authenticated by the owner's session cookie (same-origin fetch); no
+// credential is passed through props or headers.
 interface StatusControlProps {
   sessionId: string;
-  secret: string;
   initialStatus: LeadStatus;
 }
 
@@ -21,7 +19,7 @@ const SAVED_MESSAGE = 'הסטטוס עודכן.';
 
 type MessageKind = 'success' | 'error';
 
-export default function StatusControl({ sessionId, secret, initialStatus }: StatusControlProps) {
+export default function StatusControl({ sessionId, initialStatus }: StatusControlProps) {
   const [status, setStatus] = useState<LeadStatus>(initialStatus);
   const [savedStatus, setSavedStatus] = useState<LeadStatus>(initialStatus);
   const [busy, setBusy] = useState(false);
@@ -37,7 +35,7 @@ export default function StatusControl({ sessionId, secret, initialStatus }: Stat
     try {
       const res = await fetch(withBasePath('/api/admin/lead-status'), {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-admin-secret': secret },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sessionId, status }),
       });
       if (!res.ok) {

@@ -17,7 +17,6 @@ type FetchClient = (input: RequestInfo | URL, init?: RequestInit) => Promise<Res
 export interface ClassifySessionFromAdminInput {
   sessionId: string;
   action: SessionClassificationAction;
-  secret: string;
 }
 
 export interface ClassificationClientDependencies {
@@ -31,8 +30,8 @@ export interface TestSessionClientDependencies {
   confirm: (message: string) => boolean;
   storage: SessionStorage;
   // Must perform a hard location replacement (for example,
-  // window.location.replace(url)), removing the secret-bearing admin entry
-  // from browser history while entering the public diagnostic.
+  // window.location.replace(url)), removing the admin entry from browser
+  // history while entering the public diagnostic.
   replaceLocation: (url: string) => void;
 }
 
@@ -76,10 +75,7 @@ export async function classifySessionFromAdmin(
 
   const response = await deps.fetch(withBasePath('/api/admin/session-classification'), {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-admin-secret': input.secret,
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ sessionId: input.sessionId, action: input.action }),
   });
   const body = await readJson(response);
@@ -91,7 +87,6 @@ export async function classifySessionFromAdmin(
 }
 
 export async function createAdminTestSession(
-  secret: string,
   deps: TestSessionClientDependencies
 ): Promise<AdminTestSessionRes | null> {
   if (
@@ -103,7 +98,8 @@ export async function createAdminTestSession(
 
   const response = await deps.fetch(withBasePath('/api/admin/test-session'), {
     method: 'POST',
-    headers: { 'x-admin-secret': secret },
+    headers: { 'Content-Type': 'application/json' },
+    body: '{}',
   });
   const body = await readJson(response);
   if (!response.ok) throw new Error('request_failed');

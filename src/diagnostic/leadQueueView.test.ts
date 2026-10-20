@@ -9,7 +9,6 @@ import {
 } from './leadQueueView.ts';
 
 const navigation = {
-  secret: 'secret value',
   view: 'test' as const,
   sort: 'grade' as const,
   dir: 'asc' as const,
@@ -38,11 +37,11 @@ test('queue navigation never carries a source: ownership is not a request parame
 test('queue sorting preserves the secret, validated view, source, sort, and direction', () => {
   assert.equal(
     buildAdminSortHref(navigation, 'status'),
-    '/admin?secret=secret+value&view=test&sort=status&dir=desc',
+    '/admin?view=test&sort=status&dir=desc',
   );
   assert.equal(
     buildAdminSortHref({ ...navigation, sort: 'grade', dir: 'desc' }, 'grade'),
-    '/admin?secret=secret+value&view=test&sort=grade&dir=asc',
+    '/admin?view=test&sort=grade&dir=asc',
   );
 });
 
@@ -50,17 +49,29 @@ test('detail and back navigation preserve the full validated queue context', () 
   const detailHref = buildAdminDetailHref('11111111-1111-4111-8111-111111111111', navigation);
   assert.equal(
     detailHref,
-    '/admin/leads/11111111-1111-4111-8111-111111111111?secret=secret+value&view=test&sort=grade&dir=asc',
+    '/admin/leads/11111111-1111-4111-8111-111111111111?view=test&sort=grade&dir=asc',
   );
   assert.equal(
     buildAdminQueueHref(navigation),
-    '/admin?secret=secret+value&view=test&sort=grade&dir=asc',
+    '/admin?view=test&sort=grade&dir=asc',
   );
 });
 
 test('queue links omit an absent sort while retaining the validated direction and view', () => {
   assert.equal(
-    buildAdminQueueHref({ secret: 's', view: 'real', dir: 'desc' }),
-    '/admin?secret=s&view=real&dir=desc',
+    buildAdminQueueHref({ view: 'real', dir: 'desc' }),
+    '/admin?view=real&dir=desc',
   );
+});
+
+test('queue, sort and detail hrefs carry no secret and no source', () => {
+  const smuggled = { ...navigation, secret: 'leaked', source: 'eyal' } as typeof navigation;
+  const hrefs = [
+    buildAdminQueueHref(smuggled),
+    buildAdminSortHref(smuggled, 'status'),
+    buildAdminDetailHref('11111111-1111-4111-8111-111111111111', smuggled),
+  ];
+  for (const href of hrefs) {
+    assert.doesNotMatch(href, /secret|leaked|source|eyal/i);
+  }
 });

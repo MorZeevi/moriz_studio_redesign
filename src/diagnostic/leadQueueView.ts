@@ -3,7 +3,6 @@ import type { SortDir, SortKey } from './leadSort.ts';
 export type LeadQueueView = 'real' | 'test';
 
 export interface AdminQueueNavigation {
-  secret: string;
   view: LeadQueueView;
   sort?: SortKey;
   dir: SortDir;
@@ -14,10 +13,7 @@ export function resolveLeadQueueView(value: unknown): LeadQueueView {
 }
 
 function queueParams(navigation: AdminQueueNavigation): URLSearchParams {
-  const params = new URLSearchParams({
-    secret: navigation.secret,
-    view: navigation.view,
-  });
+  const params = new URLSearchParams({ view: navigation.view });
   if (navigation.sort) params.set('sort', navigation.sort);
   params.set('dir', navigation.dir);
   return params;

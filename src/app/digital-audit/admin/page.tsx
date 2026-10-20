@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 import { getLeadsForQueue, getTestLeadsForQueue } from '@/diagnostic/db/queries';
 import { SOURCE_LABELS_HE } from '@/diagnostic/diagnosticSource';
 import { isLeadStatus, STATUS_LABELS_HE, URGENCY_LABELS_HE, type LeadStatus } from '@/diagnostic/leadStatus';
@@ -12,6 +11,7 @@ import {
   resolveLeadQueueView,
 } from '@/diagnostic/leadQueueView';
 import { withBasePath } from '@/diagnostic/basePath';
+import { requireAdminPage } from '@/lib/auth/admin';
 import StartTestSessionControl from './StartTestSessionControl';
 import styles from './page.module.css';
 
@@ -42,20 +42,19 @@ function relativeHe(iso: string, now: number): string {
   return RTF_HE.format(Math.round(diffMs / DAY_MS), 'day');
 }
 
-// ponytail: env-secret guard, replace with real auth before prod lead review.
-// Secret-in-query leaks via logs; acceptable only for local/dev (design doc §12).
+// Guarded by the owner's Supabase session (the same login as the CMS). Signed
+// out, it redirects to /admin/login and comes back here with the same view/sort.
 export default async function AdminPage({
   searchParams,
 }: {
-  searchParams: Promise<{ secret?: string; sort?: string; dir?: string; view?: string }>;
+  searchParams: Promise<{ sort?: string; dir?: string; view?: string }>;
 }) {
-  const { secret, sort, dir, view: rawView } = await searchParams;
-  const expected = process.env.ADMIN_ACCESS_SECRET;
-  if (!expected || !secret || secret !== expected) {
-    notFound();
-  }
-
+  const { sort, dir, view: rawView } = await searchParams;
   const view = resolveLeadQueueView(rawView);
+  const currentDir: 'asc' | 'desc' = isSortDir(dir) ? dir : 'desc';
+  const currentSort = isSortKey(sort) ? sort : undefined;
+  const navigation = { view, sort: currentSort, dir: currentDir };
+  await requireAdminPage(withBasePath(buildAdminQueueHref(navigation)));
 
   // ponytail: server component, one now() per request — shared by sort and
   // every row's urgency/relative-date derivation so a single render is consistent.
@@ -71,14 +70,7 @@ export default async function AdminPage({
     status: isLeadStatus(lead.status) ? lead.status : ('new' as LeadStatus),
   }));
 
-  const currentDir: 'asc' | 'desc' = isSortDir(dir) ? dir : 'desc';
-  const currentSort = isSortKey(sort) ? sort : undefined;
   const sortedLeads = sortLeadRows(leads, now, currentSort, currentDir);
-
-  // Nested functions don't inherit the guard's narrowing of `secret` above
-  // (TS widens closures back to the declared type), so rebind explicitly.
-  const safeSecret: string = secret;
-  const navigation = { secret: safeSecret, view, sort: currentSort, dir: currentDir };
 
   function sortHref(key: SortKey): string {
     return buildAdminSortHref(navigation, key);
@@ -141,7 +133,7 @@ export default async function AdminPage({
               <strong>מצב נתוני בדיקה</strong>
               <p>המסעות ברשימה הזו אינם נכללים בנתוני הייצור.</p>
             </div>
-            <StartTestSessionControl secret={safeSecret} />
+            <StartTestSessionControl />
           </section>
         )}
 

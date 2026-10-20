@@ -3,14 +3,22 @@
 
 /**
  * The browser-supplied Origin must be present, not "null", and exactly equal
- * to this request's own origin. Forwarded host headers are deliberately not
- * trusted.
+ * to this request's own origin: the scheme of request.url plus the Host the
+ * browser actually addressed. A browser always sends the real Host, so a
+ * cross-site page cannot make the two agree. Forwarded host headers
+ * (X-Forwarded-*, Forwarded) are deliberately not trusted.
+ *
+ * request.url is not used for the host part because Next normalizes it (for
+ * example 127.0.0.1 becomes localhost), which would reject every same-origin
+ * request made at the repo's own dev host.
  */
 export function isSameOriginRequest(request: Request): boolean {
   const origin = request.headers.get("origin");
   if (!origin || origin === "null") return false;
   try {
-    return origin === new URL(request.url).origin;
+    const own = new URL(request.url);
+    const host = request.headers.get("host");
+    return origin === (host ? `${own.protocol}//${host}` : own.origin);
   } catch {
     return false;
   }

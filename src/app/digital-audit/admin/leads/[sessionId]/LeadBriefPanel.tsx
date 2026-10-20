@@ -6,12 +6,10 @@ import type { LeadBrief, LeadBriefFailureReason } from '@/diagnostic/api-types';
 import { withBasePath } from '@/diagnostic/basePath';
 import styles from './page.module.css';
 
-// The secret prop is the value from the admin's own URL (searchParams on the
-// server page) — never process.env.ADMIN_ACCESS_SECRET, which must not reach
-// a client component.
+// Authenticated by the owner's session cookie (same-origin fetch); no
+// credential is passed through props or headers.
 interface LeadBriefPanelProps {
   sessionId: string;
-  secret: string;
   initialBrief: LeadBrief | null;
 }
 
@@ -37,7 +35,7 @@ type RouteResponse =
 type RouteMode = 'save' | 'generate' | 'approve';
 type MessageKind = 'success' | 'error';
 
-export default function LeadBriefPanel({ sessionId, secret, initialBrief }: LeadBriefPanelProps) {
+export default function LeadBriefPanel({ sessionId, initialBrief }: LeadBriefPanelProps) {
   const [evidence, setEvidence] = useState(initialBrief?.evidenceMd ?? '');
   const [internalBrief, setInternalBrief] = useState(initialBrief?.internalBriefMd ?? '');
   const [clientAudit, setClientAudit] = useState(initialBrief?.clientAuditMd ?? '');
@@ -58,7 +56,7 @@ export default function LeadBriefPanel({ sessionId, secret, initialBrief }: Lead
     try {
       const res = await fetch(withBasePath('/api/admin/lead-brief'), {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-admin-secret': secret },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
       const data = (await res.json()) as RouteResponse;

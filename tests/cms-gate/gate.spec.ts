@@ -217,3 +217,72 @@ test("signed-in owner is forwarded to a safe next and to projects otherwise", as
   }
   await context.close();
 });
+
+// --- Lead admin on the CMS session (M-A5 to M-A7): reads and no-write probes only ---
+
+const ORIGIN = "http://127.0.0.1:4398";
+const API = ["lead-status", "lead-brief", "session-classification"] as const;
+
+test("owner session opens the lead queue and lead pages without a second login", async ({
+  browser,
+}) => {
+  const context = await browser.newContext();
+  await context.addCookies(fixture().smoke.cookies);
+  const page = await context.newPage();
+  await page.goto("/digital-audit/admin");
+  await expect(page).toHaveURL(/\/digital-audit\/admin$/);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("לידים");
+  await page.reload();
+  await expect(page).toHaveURL(/\/digital-audit\/admin$/);
+  await page.goto("/digital-audit/admin?view=test");
+  await expect(page).toHaveURL(/view=test/);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("בדיקה");
+  // A retired ?secret= link is ignored; a session is all that matters.
+  await page.goto("/digital-audit/admin?secret=anything");
+  await expect(page).toHaveURL(/\/digital-audit\/admin/);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("לידים");
+  // An unknown lead is a 404, not a login redirect.
+  const missing = await page.goto(
+    "/digital-audit/admin/leads/99999999-9999-4999-8999-999999999999",
+  );
+  expect(missing?.status()).toBe(404);
+  // The CMS session still works afterwards.
+  await page.goto("/admin/projects");
+  await expect(page).toHaveURL(/\/admin\/projects$/);
+  await context.close();
+});
+
+test("lead admin APIs accept the owner only on a same-origin JSON request", async ({
+  browser,
+  playwright,
+}) => {
+  const owner = await browser.newContext();
+  await owner.addCookies(fixture().smoke.cookies);
+  const anonymous = await playwright.request.newContext({ baseURL: ORIGIN });
+  const json = { origin: ORIGIN, "content-type": "application/json" };
+
+  for (const name of API) {
+    const url = `/digital-audit/api/admin/${name}`;
+    // Authorized, but the empty body is rejected by validation: no write.
+    const ok = await owner.request.post(url, { headers: json, data: "{}" });
+    expect(ok.status(), `${name} owner`).toBe(400);
+    for (const [label, headers] of [
+      ["no Origin", { "content-type": "application/json" }],
+      ["cross-origin", { ...json, origin: "https://evil.example" }],
+      ["null Origin", { ...json, origin: "null" }],
+      ["text/plain", { origin: ORIGIN, "content-type": "text/plain" }],
+    ] as const) {
+      const response = await owner.request.post(url, { headers, data: "{}" });
+      expect(response.status(), `${name} ${label}`).toBe(404);
+    }
+    const signedOut = await anonymous.post(url, { headers: json, data: "{}" });
+    expect(signedOut.status(), `${name} anonymous`).toBe(404);
+    const legacy = await anonymous.post(url, {
+      headers: { ...json, "x-admin-secret": "anything" },
+      data: "{}",
+    });
+    expect(legacy.status(), `${name} retired secret header`).toBe(404);
+  }
+  await anonymous.dispose();
+  await owner.close();
+});
