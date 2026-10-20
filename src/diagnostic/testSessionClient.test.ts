@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
+import { RETIRED_SECRET_HEADER } from './adminRouteTestSupport.ts';
 import { withBasePath } from './basePath.ts';
 import { loadStoredSession, type SessionStorage } from './session-client.ts';
 import {
@@ -10,7 +11,6 @@ import {
 
 const SESSION_ID = '11111111-1111-4111-8111-111111111111';
 const SECOND_SESSION_ID = '22222222-2222-4222-8222-222222222222';
-const SECRET = 'admin-secret-value';
 const MARK_TEST_CONFIRMATION_HE =
   'לסמן את כל מסע הלקוח כנתוני בדיקה? הוא יוסר מכל ניתוחי הייצור.';
 const REPLACE_SESSION_CONFIRMATION_HE =
@@ -38,7 +38,7 @@ test('marking a session as test confirms before requesting and returns the canon
   const requests: Array<{ input: RequestInfo | URL; init?: RequestInit }> = [];
 
   const result = await classifySessionFromAdmin(
-    { sessionId: SESSION_ID, action: 'mark_test', secret: SECRET },
+    { sessionId: SESSION_ID, action: 'mark_test' },
     {
       confirm: (message) => {
         assert.equal(message, MARK_TEST_CONFIRMATION_HE);
@@ -61,8 +61,10 @@ test('marking a session as test confirms before requesting and returns the canon
     sessionId: SESSION_ID,
     action: 'mark_test',
   });
-  assert.equal(new Headers(requests[0]?.init?.headers).get('x-admin-secret'), SECRET);
-  assert.doesNotMatch(String(requests[0]?.init?.body), new RegExp(SECRET));
+  const headers = new Headers(requests[0]?.init?.headers);
+  assert.equal(headers.get(RETIRED_SECRET_HEADER), null);
+  assert.equal(headers.get('content-type'), 'application/json');
+  assert.equal(requests[0]?.init?.credentials, undefined);
 });
 
 test('cancelling mark-test confirmation makes no request', async () => {
@@ -70,7 +72,7 @@ test('cancelling mark-test confirmation makes no request', async () => {
   let refreshes = 0;
 
   const result = await classifySessionFromAdmin(
-    { sessionId: SESSION_ID, action: 'mark_test', secret: SECRET },
+    { sessionId: SESSION_ID, action: 'mark_test' },
     {
       confirm: () => false,
       fetch: async () => {
@@ -92,7 +94,7 @@ test('restoring a real session skips confirmation and trusts the canonical respo
   let confirmations = 0;
 
   const result = await classifySessionFromAdmin(
-    { sessionId: SESSION_ID, action: 'restore_real', secret: SECRET },
+    { sessionId: SESSION_ID, action: 'restore_real' },
     {
       confirm: () => {
         confirmations += 1;
@@ -110,7 +112,7 @@ test('restoring a real session skips confirmation and trusts the canonical respo
 test('classification rejects a non-canonical response', async () => {
   await assert.rejects(
     classifySessionFromAdmin(
-      { sessionId: SESSION_ID, action: 'restore_real', secret: SECRET },
+      { sessionId: SESSION_ID, action: 'restore_real' },
       {
         confirm: () => true,
         fetch: async () => jsonResponse({ ok: true, isTest: 'false' }),
@@ -121,7 +123,7 @@ test('classification rejects a non-canonical response', async () => {
   );
 });
 
-test('test-session creation stages a one-shot session before hard-replacing the secret-bearing admin entry', async () => {
+test('test-session creation stages a one-shot session before hard-replacing the admin entry', async () => {
   const storageState = fakeStorage();
   const order: string[] = [];
   const storage: SessionStorage & { dump(): string } = {
@@ -134,7 +136,7 @@ test('test-session creation stages a one-shot session before hard-replacing the 
   const requests: Array<{ input: RequestInfo | URL; init?: RequestInit }> = [];
   const replacements: string[] = [];
 
-  const result = await createAdminTestSession(SECRET, {
+  const result = await createAdminTestSession({
     storage,
     confirm: () => {
       throw new Error('no existing session should require confirmation');
@@ -168,13 +170,14 @@ test('test-session creation stages a one-shot session before hard-replacing the 
     launchImmediately: true,
   });
   assert.equal(requests[0]?.input, withBasePath('/api/admin/test-session'));
-  assert.equal(requests[0]?.init?.body, undefined);
-  assert.equal(new Headers(requests[0]?.init?.headers).get('x-admin-secret'), SECRET);
+  // Authenticated by the session cookie of a same-origin fetch: no secret
+  // header, and the body is the JSON the guard requires.
+  const headers = new Headers(requests[0]?.init?.headers);
+  assert.equal(headers.get(RETIRED_SECRET_HEADER), null);
+  assert.equal(headers.get('content-type'), 'application/json');
+  assert.equal(requests[0]?.init?.body, '{}');
   assert.deepEqual(order, ['fetch', 'persist', 'replaceLocation']);
   assert.deepEqual(replacements, [withBasePath('/')]);
-  assert.doesNotMatch(storage.dump(), new RegExp(SECRET));
-  assert.doesNotMatch(String(requests[0]?.init?.body), new RegExp(SECRET));
-  assert.doesNotMatch(JSON.stringify(replacements), new RegExp(SECRET));
 });
 
 test('a valid existing cache requires confirmation before test-session creation', async () => {
@@ -189,7 +192,7 @@ test('a valid existing cache requires confirmation before test-session creation'
   let requests = 0;
   let confirmation = '';
 
-  const result = await createAdminTestSession(SECRET, {
+  const result = await createAdminTestSession({
     storage,
     confirm: (message) => {
       confirmation = message;
@@ -217,7 +220,7 @@ test('test-session creation rejects invalid UUID or classification responses bef
     let navigations = 0;
 
     await assert.rejects(
-      createAdminTestSession(SECRET, {
+      createAdminTestSession({
         storage,
         confirm: () => true,
         fetch: async () => jsonResponse(responseBody),

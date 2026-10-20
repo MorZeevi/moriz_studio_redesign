@@ -2,6 +2,7 @@ import { getSupabaseServerClient } from './client.ts';
 import { LEAD_BRIEF_COLUMNS, mapLeadBriefRow, type LeadBriefRow } from './queries.ts';
 import type { AnswerValue, DiagnosticResult } from '../../diagnostic-core/types.ts';
 import type { ContactReq, EventReq, LeadBrief } from '../api-types.ts';
+import { OWN_SOURCE } from '../diagnosticSource.ts';
 import { isLeadStatus, type LeadStatus } from '../leadStatus.ts';
 
 type DiagnosticMutationClient = ReturnType<typeof getSupabaseServerClient>;
@@ -52,6 +53,7 @@ export function createDiagnosticSessionMutationRepository(
         .from('diagnostic_sessions')
         .update({ is_test: isTest })
         .eq('id', sessionId)
+        .eq('source', OWN_SOURCE)
         .not('completed_at', 'is', null)
         .select('id, is_test')
         .maybeSingle();
@@ -81,6 +83,30 @@ export async function updateDiagnosticSessionClassification(
   isTest: boolean,
 ): Promise<SessionClassificationUpdateResult | null> {
   return diagnosticSessionMutationRepository().updateDiagnosticSessionClassification(sessionId, isTest);
+}
+
+// Write guard for admin child rows (briefs, contacts) keyed by session id: the
+// session must be this deployment's own. The shared tables also hold Eyal's
+// sessions, which a forged or guessed id must not reach.
+export async function assertOwnedSession(
+  supabase: DiagnosticMutationClient,
+  sessionId: string,
+): Promise<void> {
+  const { data, error } = await supabase
+    .from('diagnostic_sessions')
+    .select('id')
+    .eq('id', sessionId)
+    .eq('source', OWN_SOURCE)
+    .maybeSingle();
+  if (error) throw error;
+  if (!data) throw new SessionNotOwnedError();
+}
+
+export class SessionNotOwnedError extends Error {
+  constructor() {
+    super('session not found');
+    this.name = 'SessionNotOwnedError';
+  }
 }
 
 export async function upsertDiagnosticAnswer(
@@ -163,8 +189,11 @@ export interface UpsertLeadBriefInput {
 // content always needs a fresh approve. Absent fields are left untouched on an
 // existing row (partial upsert), so saving evidence alone can't wipe a stored
 // brief. updated_at set from code — no DB trigger (kept DDL minimal).
-export async function upsertLeadBrief(input: UpsertLeadBriefInput): Promise<LeadBrief> {
-  const supabase = getSupabaseServerClient();
+export async function upsertLeadBrief(
+  input: UpsertLeadBriefInput,
+  supabase: DiagnosticMutationClient = getSupabaseServerClient(),
+): Promise<LeadBrief> {
+  await assertOwnedSession(supabase, input.sessionId);
   const row: Record<string, unknown> = {
     session_id: input.sessionId,
     status: 'draft',
@@ -187,8 +216,11 @@ export async function upsertLeadBrief(input: UpsertLeadBriefInput): Promise<Lead
 // Approve requires an existing row: null return (no row matched) lets the
 // route answer with a typed error instead of silently creating an empty
 // approved brief.
-export async function approveLeadBrief(sessionId: string): Promise<LeadBrief | null> {
-  const supabase = getSupabaseServerClient();
+export async function approveLeadBrief(
+  sessionId: string,
+  supabase: DiagnosticMutationClient = getSupabaseServerClient(),
+): Promise<LeadBrief | null> {
+  await assertOwnedSession(supabase, sessionId);
   const { data, error } = await supabase
     .from('diagnostic_lead_briefs')
     .update({ status: 'approved', updated_at: new Date().toISOString() })
@@ -208,12 +240,18 @@ export type UpdateContactStatusOutcome = { status: 'session_not_found' } | { sta
 // runtime caller too).
 export async function updateDiagnosticContactStatus(
   sessionId: string,
-  status: LeadStatus
+  status: LeadStatus,
+  supabase: DiagnosticMutationClient = getSupabaseServerClient(),
 ): Promise<UpdateContactStatusOutcome> {
   if (!isLeadStatus(status)) {
     throw new Error(`invalid lead status: ${status}`);
   }
-  const supabase = getSupabaseServerClient();
+  try {
+    await assertOwnedSession(supabase, sessionId);
+  } catch (err) {
+    if (err instanceof SessionNotOwnedError) return { status: 'session_not_found' };
+    throw err;
+  }
   const { data, error } = await supabase
     .from('diagnostic_contacts')
     .update({ status })

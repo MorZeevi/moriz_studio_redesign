@@ -14,7 +14,8 @@
     {
       "includes": [
         "src/diagnostic/**/*.test.ts",
-        "src/diagnostic-core/**/*.test.ts"
+        "src/diagnostic-core/**/*.test.ts",
+        "src/lib/auth/**/*.test.ts"
       ],
       "linter": {
         "rules": {

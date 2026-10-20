@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { isDiagnosticSource, isLeadSourceFilter, SOURCE_LABELS_HE } from './diagnosticSource.ts';
+import { isDiagnosticSource, OWN_SOURCE, SOURCE_LABELS_HE } from './diagnosticSource.ts';
 
 test('isDiagnosticSource accepts only moriz and eyal', () => {
   assert.equal(isDiagnosticSource('moriz'), true);
@@ -12,12 +12,9 @@ test('isDiagnosticSource accepts only moriz and eyal', () => {
   assert.equal(isDiagnosticSource(42), false);
 });
 
-test('isLeadSourceFilter additionally accepts all', () => {
-  assert.equal(isLeadSourceFilter('all'), true);
-  assert.equal(isLeadSourceFilter('moriz'), true);
-  assert.equal(isLeadSourceFilter('eyal'), true);
-  assert.equal(isLeadSourceFilter(''), false);
-  assert.equal(isLeadSourceFilter(null), false);
+test('this deployment owns moriz sessions, and ownership is a valid source', () => {
+  assert.equal(OWN_SOURCE, 'moriz');
+  assert.equal(isDiagnosticSource(OWN_SOURCE), true);
 });
 
 test('every DiagnosticSource has a Hebrew label', () => {

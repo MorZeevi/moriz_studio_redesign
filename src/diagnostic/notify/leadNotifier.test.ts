@@ -55,7 +55,8 @@ test('buildNewLeadEmail includes name, contact, solution, tier, and UTM fields',
   assert.match(text, /Lead tier: A/);
   assert.match(text, /UTM source: meta/);
   assert.match(text, /UTM campaign: launch/);
-  assert.match(text, /session facade00-0000-4000-a000-000000000001/);
+  assert.match(text, /\/digital-audit\/admin\/leads\/facade00-0000-4000-a000-000000000001/);
+  assert.doesNotMatch(text, /secret/i);
 });
 
 test('buildNewLeadEmail falls back to primarySolution and "unknown"/"—" when derived fields are null', () => {

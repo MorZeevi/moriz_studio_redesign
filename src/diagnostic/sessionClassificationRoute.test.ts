@@ -2,16 +2,13 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import { createSessionClassificationPostHandler } from '../app/digital-audit/api/admin/session-classification/route.ts';
+import { adminPost, authorizerFor, runRejectionCases } from './adminRouteTestSupport.ts';
 import type { SessionClassificationReq } from './api-types.ts';
 
 const SESSION_ID = '11111111-2222-4333-8444-555555555555';
 
-function request(body: string, secret = 'secret'): Request {
-  return new Request('http://localhost/api/admin/session-classification', {
-    method: 'POST',
-    headers: { 'x-admin-secret': secret },
-    body,
-  });
+function request(body: string): Request {
+  return adminPost('/digital-audit/api/admin/session-classification', body);
 }
 
 function handlerWith(
@@ -20,29 +17,13 @@ function handlerWith(
   ) => Promise<{ isTest: boolean } | null> = async () => ({ isTest: true }),
 ) {
   return createSessionClassificationPostHandler({
-    isAdminSecretValid: (header) => header === 'secret',
+    isAuthorized: authorizerFor(true),
     handleSessionClassification,
   });
 }
 
-test('classification route returns 404 for missing or invalid secret before reading the body', async () => {
-  const handler = handlerWith();
-
-  for (const header of [null, 'wrong']) {
-    let bodyRead = false;
-    const guardedRequest = {
-      headers: new Headers(header === null ? {} : { 'x-admin-secret': header }),
-      text: async () => {
-        bodyRead = true;
-        throw new Error('body must not be read');
-      },
-    } as unknown as Request;
-
-    const response = await handler(guardedRequest);
-    assert.equal(response.status, 404);
-    assert.deepEqual(await response.json(), { error: 'not_found' });
-    assert.equal(bodyRead, false);
-  }
+test('classification route rejects every unauthorized request with 404 before reading the body', async () => {
+  await runRejectionCases('/digital-audit/api/admin/session-classification', (isAuthorized) => createSessionClassificationPostHandler({ isAuthorized, handleSessionClassification: async () => ({ isTest: true }) }), assert);
 });
 
 test('classification route returns 400 for malformed JSON after a valid guard', async () => {

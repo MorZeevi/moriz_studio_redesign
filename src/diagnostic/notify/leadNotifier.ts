@@ -13,7 +13,7 @@ export function buildNewLeadEmail(lead: DiagnosticLead): { subject: string; text
     `UTM source: ${lead.utmSource ?? '—'}`,
     `UTM campaign: ${lead.utmCampaign ?? '—'}`,
     '',
-    `View in /admin (requires ADMIN_ACCESS_SECRET) — session ${lead.sessionId}`,
+    `Open the lead (sign in as the site owner): /digital-audit/admin/leads/${lead.sessionId}`,
   ];
   return { subject: `New lead: ${lead.fullName}`, text: lines.join('\n') };
 }

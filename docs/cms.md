@@ -249,6 +249,17 @@ The helper first reviews the changes, preserves existing redirect URLs, and only
 changes the signup flag and redirect allowlist. Do **not** push the entire default
 `supabase/config.toml` to this shared project.
 
+Logout (`logout()` in `src/app/admin/actions.ts`) signs out with `scope: "local"`:
+it ends only this browser's session and never revokes the owner's other devices.
+A unit test fails if any `signOut()` call in the repository is not local-scope.
+
+The login page accepts `?next=<path>`. `safeAdminNext()` (`src/lib/auth/next-path.ts`)
+only allows same-origin `/admin...` and `/digital-audit/admin...` paths (never
+`/admin/login` or `/admin/auth/...`) and falls back to `/admin/projects`. Signed-out
+visits to `/digital-audit/admin` redirect to `/admin/login?next=...`. The same owner
+session also authorizes `/digital-audit/admin` and its API routes; see
+[digital-audit.md](digital-audit.md).
+
 Authentication regression checks live in `tests/cms/auth.spec.ts`. Set
 `CMS_TEST_ADMIN_PASSWORD` only in the test process to include the real owner
 login, session persistence, and logout test; the password is never committed.
@@ -392,8 +403,15 @@ Targeted coverage: `npx playwright test --config=playwright.cms.config.ts tests/
 npm run typecheck
 npm run lint
 npm run build
+npm run test:diagnostic
+npm run test:cms-gate
 npm run test:cms
 ```
+
+`npm run test:cms-gate` is the read-only gate for auth work: it only mints temporary
+sessions for the existing owner account (no users, SQL, table or storage writes),
+reads every CMS surface, opens a project editor without editing it, and checks the
+login redirects, `next`, logout and lead admin access. `test:cms` below writes fixtures.
 
 The CMS browser suite requires the Supabase CLI login and local environment
 (including `SUPABASE_ADMIN_EMAIL` and `SUPABASE_ADMIN_USER_ID`). `tests/cms/ownership.spec.ts`

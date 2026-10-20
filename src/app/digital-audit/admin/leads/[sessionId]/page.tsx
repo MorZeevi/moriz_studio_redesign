@@ -11,14 +11,13 @@ import {
 import { isValidUuid } from '@/diagnostic/validation';
 import { isLeadStatus, type LeadStatus } from '@/diagnostic/leadStatus';
 import { isSortDir, isSortKey } from '@/diagnostic/leadSort';
-import { buildAdminQueueHref, resolveLeadQueueSource, resolveLeadQueueView } from '@/diagnostic/leadQueueView';
+import { buildAdminDetailHref, buildAdminQueueHref, resolveLeadQueueView } from '@/diagnostic/leadQueueView';
 import { withBasePath } from '@/diagnostic/basePath';
+import { requireAdminPage } from '@/lib/auth/admin';
 import LeadBriefPanel from './LeadBriefPanel';
 import StatusControl from './StatusControl';
 import TestClassificationControl from './TestClassificationControl';
 import styles from './page.module.css';
-
-const DEFAULT_SOURCE = 'moriz';
 
 // Reality side is never fabricated: a link that doesn't parse as a real URL
 // means there is no auditable footprint and the audit is claim-only. Same
@@ -35,34 +34,24 @@ function hasAuditableLink(link: string | null): boolean {
   }
 }
 
-// Same disposable env-secret guard as app/admin/page.tsx (design doc §12).
+// Guarded by the owner's Supabase session, like the queue page.
 export default async function AdminLeadDetailPage({
   params,
   searchParams,
 }: {
   params: Promise<{ sessionId: string }>;
-  searchParams: Promise<{ secret?: string; sort?: string; dir?: string; view?: string; source?: string }>;
+  searchParams: Promise<{ sort?: string; dir?: string; view?: string }>;
 }) {
-  const { secret, sort, dir, view: rawView, source: rawSource } = await searchParams;
-  const expected = process.env.ADMIN_ACCESS_SECRET;
-  if (!expected || !secret || secret !== expected) {
-    notFound();
-  }
-
+  const { sort, dir, view: rawView } = await searchParams;
+  const { sessionId } = await params;
   const view = resolveLeadQueueView(rawView);
-  const source = resolveLeadQueueSource(rawSource, DEFAULT_SOURCE);
   const currentSort = isSortKey(sort) ? sort : undefined;
   const currentDir = isSortDir(dir) ? dir : 'desc';
-  const backHref = buildAdminQueueHref({
-    secret,
-    view,
-    source,
-    sort: currentSort,
-    dir: currentDir,
-  });
+  const navigation = { view, sort: currentSort, dir: currentDir };
+  await requireAdminPage(withBasePath(buildAdminDetailHref(sessionId, navigation)));
+  const backHref = buildAdminQueueHref(navigation);
 
   // Non-uuid path segment would throw inside Supabase (uuid cast) → pre-check.
-  const { sessionId } = await params;
   if (!isValidUuid(sessionId)) {
     notFound();
   }
@@ -193,7 +182,7 @@ export default async function AdminLeadDetailPage({
             <div className={styles.row}>
               <dt>סטטוס</dt>
               <dd>
-                <StatusControl sessionId={sessionId} secret={secret} initialStatus={initialStatus} />
+                <StatusControl sessionId={sessionId} initialStatus={initialStatus} />
               </dd>
             </div>
             <div className={styles.row}>
@@ -216,14 +205,10 @@ export default async function AdminLeadDetailPage({
         <section className={styles.section}>
           <h2>סיווג נתונים</h2>
           <p className={styles.hint}>הסיווג הזה נפרד מסטטוס הטיפול בליד ומשפיע על נתוני הייצור.</p>
-          <TestClassificationControl
-            sessionId={sessionId}
-            secret={secret}
-            initialIsTest={lead.isTest}
-          />
+          <TestClassificationControl sessionId={sessionId} initialIsTest={lead.isTest} />
         </section>
 
-        <LeadBriefPanel sessionId={sessionId} secret={secret} initialBrief={brief} />
+        <LeadBriefPanel sessionId={sessionId} initialBrief={brief} />
       </div>
     </main>
   );

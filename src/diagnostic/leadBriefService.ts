@@ -5,6 +5,7 @@ import type { LeadBrief, LeadBriefFailureReason, LeadBriefReq } from './api-type
 import {
   approveLeadBrief as approveLeadBriefReal,
   upsertLeadBrief as upsertLeadBriefReal,
+  SessionNotOwnedError,
   type UpsertLeadBriefInput,
 } from './db/mutations.ts';
 import {
@@ -19,14 +20,6 @@ import { isValidUuid, type ValidationResult } from './validation.ts';
 // Thin route handler (app/api/admin/lead-brief/route.ts) delegates flow logic
 // here. Same DI shape as personalizeService: deps default to the real DB
 // functions; tests inject stubs and never touch a live Supabase.
-
-// Fail-closed admin guard shared with the route: an unset or empty
-// ADMIN_ACCESS_SECRET can never match any header, so a misconfigured deploy
-// hides the route (404) instead of opening it.
-export function isAdminSecretValid(header: string | null, env: NodeJS.ProcessEnv = process.env): boolean {
-  const expected = env.ADMIN_ACCESS_SECRET;
-  return typeof expected === 'string' && expected.length > 0 && header === expected;
-}
 
 const LEAD_BRIEF_MODES = ['save', 'approve', 'generate'] as const;
 
@@ -121,6 +114,20 @@ const defaultDeps: LeadBriefServiceDeps = {
 export async function handleLeadBrief(
   req: LeadBriefReq,
   deps: LeadBriefServiceDeps = defaultDeps
+): Promise<LeadBriefOutcome> {
+  try {
+    return await handleOwnedLeadBrief(req, deps);
+  } catch (err) {
+    // A session that is not this deployment's own reads exactly like a missing
+    // one (no write happened): the route answers 404 session_not_found.
+    if (err instanceof SessionNotOwnedError) return { status: 'session_not_found' };
+    throw err;
+  }
+}
+
+async function handleOwnedLeadBrief(
+  req: LeadBriefReq,
+  deps: LeadBriefServiceDeps,
 ): Promise<LeadBriefOutcome> {
   if (req.mode === 'approve') {
     // Approve never creates: no draft row -> typed error, the route answers 404.

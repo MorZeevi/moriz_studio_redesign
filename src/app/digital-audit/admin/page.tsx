@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 import { getLeadsForQueue, getTestLeadsForQueue } from '@/diagnostic/db/queries';
 import { SOURCE_LABELS_HE } from '@/diagnostic/diagnosticSource';
 import { isLeadStatus, STATUS_LABELS_HE, URGENCY_LABELS_HE, type LeadStatus } from '@/diagnostic/leadStatus';
@@ -9,17 +8,12 @@ import {
   buildAdminDetailHref,
   buildAdminQueueHref,
   buildAdminSortHref,
-  resolveLeadQueueSource,
   resolveLeadQueueView,
 } from '@/diagnostic/leadQueueView';
 import { withBasePath } from '@/diagnostic/basePath';
+import { requireAdminPage } from '@/lib/auth/admin';
 import StartTestSessionControl from './StartTestSessionControl';
 import styles from './page.module.css';
-
-// This deployment's own admin: defaults to its own data, same as
-// Eyal-protfolio's admin/page.tsx defaults to 'eyal'. Never make this a
-// public, client-chosen value.
-const DEFAULT_SOURCE = 'moriz';
 
 const STATUS_BADGE_CLASS: Record<LeadStatus, string> = {
   new: styles.badgeNew,
@@ -48,28 +42,26 @@ function relativeHe(iso: string, now: number): string {
   return RTF_HE.format(Math.round(diffMs / DAY_MS), 'day');
 }
 
-// ponytail: env-secret guard, replace with real auth before prod lead review.
-// Secret-in-query leaks via logs; acceptable only for local/dev (design doc §12).
+// Guarded by the owner's Supabase session (the same login as the CMS). Signed
+// out, it redirects to /admin/login and comes back here with the same view/sort.
 export default async function AdminPage({
   searchParams,
 }: {
-  searchParams: Promise<{ secret?: string; sort?: string; dir?: string; view?: string; source?: string }>;
+  searchParams: Promise<{ sort?: string; dir?: string; view?: string }>;
 }) {
-  const { secret, sort, dir, view: rawView, source: rawSource } = await searchParams;
-  const expected = process.env.ADMIN_ACCESS_SECRET;
-  if (!expected || !secret || secret !== expected) {
-    notFound();
-  }
-
+  const { sort, dir, view: rawView } = await searchParams;
   const view = resolveLeadQueueView(rawView);
-  const source = resolveLeadQueueSource(rawSource, DEFAULT_SOURCE);
+  const currentDir: 'asc' | 'desc' = isSortDir(dir) ? dir : 'desc';
+  const currentSort = isSortKey(sort) ? sort : undefined;
+  const navigation = { view, sort: currentSort, dir: currentDir };
+  await requireAdminPage(withBasePath(buildAdminQueueHref(navigation)));
 
   // ponytail: server component, one now() per request — shared by sort and
   // every row's urgency/relative-date derivation so a single render is consistent.
   // eslint-disable-next-line react-hooks/purity
   const now = Date.now();
-  const rawLeads =
-    view === 'test' ? await getTestLeadsForQueue(undefined, source) : await getLeadsForQueue(undefined, source);
+  // Both queries are pinned to this deployment's own source in the data layer.
+  const rawLeads = view === 'test' ? await getTestLeadsForQueue() : await getLeadsForQueue();
   // ponytail: DB status is constrained to the four known values (CHECK
   // constraint); this guard exists only so the type-checker can prove it —
   // the 'new' fallback is never expected to trigger in practice.
@@ -78,14 +70,7 @@ export default async function AdminPage({
     status: isLeadStatus(lead.status) ? lead.status : ('new' as LeadStatus),
   }));
 
-  const currentDir: 'asc' | 'desc' = isSortDir(dir) ? dir : 'desc';
-  const currentSort = isSortKey(sort) ? sort : undefined;
   const sortedLeads = sortLeadRows(leads, now, currentSort, currentDir);
-
-  // Nested functions don't inherit the guard's narrowing of `secret` above
-  // (TS widens closures back to the declared type), so rebind explicitly.
-  const safeSecret: string = secret;
-  const navigation = { secret: safeSecret, view, sort: currentSort, dir: currentDir, source };
 
   function sortHref(key: SortKey): string {
     return buildAdminSortHref(navigation, key);
@@ -93,10 +78,6 @@ export default async function AdminPage({
 
   function detailHref(sessionId: string): string {
     return buildAdminDetailHref(sessionId, navigation);
-  }
-
-  function sourceHref(nextSource: 'moriz' | 'eyal' | 'all'): string {
-    return withBasePath(buildAdminQueueHref({ ...navigation, source: nextSource }));
   }
 
   function sortHeaderCell(key: SortKey, label: string) {
@@ -127,34 +108,7 @@ export default async function AdminPage({
             <span className={styles.contextLabel}>ניהול לידים</span>
           </div>
           <h1>{view === 'test' ? 'נתוני בדיקה מהאבחון' : 'לידים מהאבחון הדיגיטלי'}</h1>
-          <p className={styles.status}>
-            מציג: <strong>{source === 'all' ? 'הכול' : SOURCE_LABELS_HE[source]}</strong>
-          </p>
         </header>
-
-        <nav className={styles.viewTabs} aria-label="מקור הנתונים">
-          <a
-            className={`${styles.viewTab} ${source === 'eyal' ? styles.viewTabActive : ''}`}
-            href={sourceHref('eyal')}
-            aria-current={source === 'eyal' ? 'page' : undefined}
-          >
-            אייל
-          </a>
-          <a
-            className={`${styles.viewTab} ${source === 'moriz' ? styles.viewTabActive : ''}`}
-            href={sourceHref('moriz')}
-            aria-current={source === 'moriz' ? 'page' : undefined}
-          >
-            מוריז
-          </a>
-          <a
-            className={`${styles.viewTab} ${source === 'all' ? styles.viewTabActive : ''}`}
-            href={sourceHref('all')}
-            aria-current={source === 'all' ? 'page' : undefined}
-          >
-            הכול
-          </a>
-        </nav>
 
         <nav className={styles.viewTabs} aria-label="סוג נתוני הלידים">
           <Link
@@ -179,7 +133,7 @@ export default async function AdminPage({
               <strong>מצב נתוני בדיקה</strong>
               <p>המסעות ברשימה הזו אינם נכללים בנתוני הייצור.</p>
             </div>
-            <StartTestSessionControl secret={safeSecret} />
+            <StartTestSessionControl />
           </section>
         )}
 

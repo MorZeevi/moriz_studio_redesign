@@ -9,7 +9,6 @@ import styles from './page.module.css';
 
 interface TestClassificationControlProps {
   sessionId: string;
-  secret: string;
   initialIsTest: boolean;
 }
 
@@ -17,7 +16,6 @@ const GENERIC_ERROR = 'עדכון סיווג הנתונים נכשל. נסו ש�
 
 export default function TestClassificationControl({
   sessionId,
-  secret,
   initialIsTest,
 }: TestClassificationControlProps) {
   const router = useRouter();
@@ -36,7 +34,6 @@ export default function TestClassificationControl({
       const canonicalIsTest = await classifySessionFromAdmin(
         {
           sessionId,
-          secret,
           action: isTest ? 'restore_real' : 'mark_test',
         },
         {

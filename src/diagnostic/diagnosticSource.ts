@@ -12,16 +12,12 @@ export function isDiagnosticSource(value: unknown): value is DiagnosticSource {
   return typeof value === 'string' && (DIAGNOSTIC_SOURCES as readonly string[]).includes(value);
 }
 
-// Admin queue filter: the two real sources, or 'all' to see both pooled
-// together. Distinct from DiagnosticSource because 'all' is never a value
-// stored on a row — it only ever describes a query.
-export type LeadSourceFilter = DiagnosticSource | 'all';
-
-const LEAD_SOURCE_FILTERS = ['moriz', 'eyal', 'all'] as const satisfies readonly LeadSourceFilter[];
-
-export function isLeadSourceFilter(value: unknown): value is LeadSourceFilter {
-  return typeof value === 'string' && (LEAD_SOURCE_FILTERS as readonly string[]).includes(value);
-}
+// This deployment's own ownership. Every admin read and mutation is pinned to
+// it, and it is never taken from a request (body, query string, UTM, referrer).
+// Eyal's rows share the same tables and must stay unreadable and unchangeable
+// from here. The insert path never sends it: the column's DB default ('moriz')
+// labels every row this app creates. Never copy this into the Eyal repo.
+export const OWN_SOURCE: DiagnosticSource = 'moriz';
 
 export const SOURCE_LABELS_HE: Record<DiagnosticSource, string> = {
   moriz: 'מוריז',

@@ -5,7 +5,6 @@ import * as mutations from './db/mutations.ts';
 import {
   createAdminTestSession,
   handleSessionClassification,
-  isAdminSecretValid,
   validateAdminTestSessionPayload,
   validateSessionClassificationPayload,
   type SessionClassificationServiceDeps,
@@ -14,10 +13,6 @@ import {
 const SESSION_ID = '11111111-2222-4333-8444-555555555555';
 const STARTED_AT = '2026-07-19T10:00:00.000Z';
 
-function fakeEnv(values: Record<string, string>): NodeJS.ProcessEnv {
-  return values as NodeJS.ProcessEnv;
-}
-
 function baseDeps(overrides: Partial<SessionClassificationServiceDeps> = {}): SessionClassificationServiceDeps {
   return {
     updateDiagnosticSessionClassification: async (_sessionId, isTest) => ({ isTest }),
@@ -25,14 +20,6 @@ function baseDeps(overrides: Partial<SessionClassificationServiceDeps> = {}): Se
     ...overrides,
   };
 }
-
-test('admin guard fails closed when the secret is unset, empty, missing, or wrong', () => {
-  assert.equal(isAdminSecretValid('anything', fakeEnv({})), false);
-  assert.equal(isAdminSecretValid('', fakeEnv({ ADMIN_ACCESS_SECRET: '' })), false);
-  assert.equal(isAdminSecretValid(null, fakeEnv({ ADMIN_ACCESS_SECRET: 'secret' })), false);
-  assert.equal(isAdminSecretValid('wrong', fakeEnv({ ADMIN_ACCESS_SECRET: 'secret' })), false);
-  assert.equal(isAdminSecretValid('secret', fakeEnv({ ADMIN_ACCESS_SECRET: 'secret' })), true);
-});
 
 test('classification validation rejects non-object bodies', () => {
   for (const body of [null, undefined, 'x', 42, true, []]) {
