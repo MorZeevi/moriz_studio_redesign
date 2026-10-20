@@ -7,6 +7,7 @@ import {
 } from "@/lib/cms/validation";
 import { CMS_MEDIA_BUCKET } from "@/lib/cms/source";
 import type { ProjectMediaItem } from "@/types/project";
+import { compressImage } from "./compress-image";
 
 export type UploadKind = "image" | "video" | "any" | "logo";
 const extensions: Record<string, string> = {
@@ -70,11 +71,16 @@ async function measure(
     URL.revokeObjectURL(url);
   }
 }
-/** Uploads one checked file straight to the private bucket (admin RLS). */
+/**
+ * Uploads one checked file straight to the private bucket (admin RLS).
+ * Large images are compressed first; logos upload untouched.
+ */
 export async function uploadFile(
   projectId: string,
-  file: File,
+  original: File,
+  kind: UploadKind = "any",
 ): Promise<ProjectMediaItem> {
+  const file = kind === "logo" ? original : await compressImage(original);
   const path = `${projectId}/${crypto.randomUUID()}.${extensions[file.type]}`;
   const [size] = await Promise.all([
     measure(file),

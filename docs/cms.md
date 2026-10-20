@@ -325,8 +325,14 @@ Files are deleted only from the Case Study gallery (after a confirmation that li
 the file is used) and when saving drops a file that nothing references any more.
 Slots such as the cover or a block only unlink. Files shared by duplicated projects
 are preserved. Abandoning an unsaved editor can leave private orphan files; those
-may be cleaned manually in Storage. There is no transcoding, and private media
-bypasses `next/image` optimization.
+may be cleaned manually in Storage. Private media bypasses `next/image`
+optimization, so the browser compresses images before upload
+(`src/components/admin/compress-image.ts`): a PNG, JPEG or WebP over 500 KB or
+wider than 2400px is scaled to at most 2400px wide and re-encoded as WebP at quality
+0.85 (Safari can't write WebP, so it uses JPEG for opaque images and PNG for
+transparent ones). The original, at full size, is kept when the result isn't
+smaller; logos and GIFs upload untouched. Videos are not transcoded, and files
+uploaded by scripts that write to Storage directly skip this step.
 
 ## Existing content
 
