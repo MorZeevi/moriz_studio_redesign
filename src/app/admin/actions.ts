@@ -371,6 +371,7 @@ export async function loginWithPassword(password: string): Promise<Result> {
 }
 export async function logout() {
   const client = await serverSupabase();
-  await client.auth.signOut();
+  // Local scope: signing out here must not revoke the owner's other devices.
+  await client.auth.signOut({ scope: "local" });
   redirect("/admin/login");
 }

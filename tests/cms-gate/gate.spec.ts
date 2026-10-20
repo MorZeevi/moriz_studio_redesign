@@ -75,3 +75,35 @@ test("owner session reaches every CMS surface and the project editor", async ({
   await expect(page).toHaveURL(/\/admin\/projects$/);
   await context.close();
 });
+
+// Uses the separately minted "logout" session, never the owner's real login.
+// logout() signs out with scope "local" (asserted statically in
+// src/lib/auth/logout-scope.test.ts, which must pass before this runs).
+test("logout with a minted session lands on login and revokes that session", async ({
+  browser,
+}) => {
+  const context = await browser.newContext();
+  await context.addCookies(fixture().logout.cookies);
+  const page = await context.newPage();
+  await page.goto("/admin/projects");
+  await expect(page).toHaveURL(/\/admin\/projects$/);
+  await page.getByRole("button", { name: "יציאה", exact: true }).click();
+  await expect(page).toHaveURL(/\/admin\/login$/);
+  await page.goto("/admin/projects");
+  await expect(page).toHaveURL(/\/admin\/login$/);
+  await context.close();
+});
+
+test("the owner's other (smoke) session survives the logout above", async ({
+  browser,
+}) => {
+  const context = await browser.newContext();
+  await context.addCookies(fixture().smoke.cookies);
+  const page = await context.newPage();
+  await page.goto("/admin/projects");
+  await expect(page).toHaveURL(/\/admin\/projects$/);
+  await expect(
+    page.getByRole("heading", { level: 1, name: "פרויקטים" }),
+  ).toBeVisible();
+  await context.close();
+});
