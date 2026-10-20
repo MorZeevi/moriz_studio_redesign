@@ -8,7 +8,7 @@
     "start": "next start --hostname 127.0.0.1",
     "lint": "biome lint src tools/devtools tools/cms tools/diagnostic tests playwright.inspector.config.ts playwright.party.config.ts playwright.cms.config.ts playwright.cms-gate.config.ts next.config.ts postcss.config.mjs --error-on-warnings",
     "typecheck": "tsc --noEmit",
-    "test:diagnostic": "node --experimental-strip-types --test \"src/diagnostic/**/*.test.ts\" \"src/diagnostic-core/**/*.test.ts\"",
+    "test:diagnostic": "node --experimental-strip-types --test \"src/diagnostic/**/*.test.ts\" \"src/diagnostic-core/**/*.test.ts\" \"src/lib/auth/**/*.test.ts\"",
     "test:contact": "node --experimental-strip-types --test src/lib/contact-email.test.ts",
     "diagnostic:analytics-readback": "node --env-file=.env.local tools/diagnostic/analytics-readback.ts",
     "test:party": "playwright test --config=playwright.party.config.ts",
