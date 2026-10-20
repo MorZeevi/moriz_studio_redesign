@@ -4,7 +4,9 @@ Implemented 2026-10-09 on the `scaling-element-on-scroll-gsap-flip` branch, repl
 
 ## Media
 
-The source is the owner's placeholder `magnific_create-a-show-reel…_55548.mp4` (1764×1176, 3:2, 13 MB). It is re-encoded with ffmpeg to `public/videos/hero-showreel.mp4` (H.264, CRF 26, no audio, `+faststart`, ~2.7 MB), with a JPEG poster from 0.5 s at `public/videos/hero-showreel-poster.jpg`. Replace both files to swap the showreel; keep the 3:2 ratio or update `aspect-ratio` on `.hero-video-slot` and `.hero-video-end`.
+Replaced 2026-10-20 with a showreel cut from the portfolio mockup renders, leading with the projects the owner most wants to win more of: PracticalAi (desktop scroll, two-phone video), Wordle (gameplay on tablet mockup #019, then a phone-in-hand still), ChabadClub (#034 still with a slow push-in; no further screenshots exist), then quick cuts of Shaygo, Groove and Hatchly. 18.5 s, 1500×1000 (3:2), 30 fps, H.264 two-pass at ~1.2 Mbit/s, no audio, `+faststart`, ~2.8 MB. Shots are joined by 0.4 s crossfades, and the last one fades back into the opening frame so the loop has no cut. Posters are the 0.5 s frame: `hero-showreel-poster.jpg`/`.webp` (1200×800) and `hero-showreel-poster-mobile.webp` (600×400). Replace these files to swap the showreel; keep the 3:2 ratio or update `aspect-ratio` on `.hero-video-slot` and `.hero-video-end`.
+
+The previous source was the owner's placeholder `magnific_create-a-show-reel…_55548.mp4` (1764×1176, 10 s, ~2.7 MB after re-encoding).
 
 ## Behavior
 

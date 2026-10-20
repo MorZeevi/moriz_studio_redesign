@@ -123,3 +123,43 @@ for (const width of [1024, 1440]) {
     await expect(quote).toHaveCSS("transform", "none");
   });
 }
+
+test("desktop footer rises from beneath the contact section and settles at the end", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/he");
+  await page.evaluate(() => document.fonts.ready);
+  const surface = page.locator("[data-footer-surface]");
+  const offset = () =>
+    surface.evaluate(
+      (node) => new DOMMatrix(getComputedStyle(node).transform).m42,
+    );
+  await page.locator("[data-footer-stage]").evaluate((node) => {
+    scrollTo(0, scrollY + node.getBoundingClientRect().top - innerHeight * 0.6);
+  });
+  await expect.poll(offset).toBeLessThan(-20);
+  await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight));
+  await expect.poll(offset).toBeCloseTo(0, 0);
+});
+
+test("desktop wordmark letters scrub up from tipped and settle at the end", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/he");
+  await page.evaluate(() => document.fonts.ready);
+  const letter = page.locator("[data-footer-wordmark] [data-letter]").last();
+  const lift = () =>
+    letter.evaluate(
+      (node) => new DOMMatrix(getComputedStyle(node).transform).m42,
+    );
+  await page.locator("[data-footer-wordmark]").evaluate((node) => {
+    scrollTo(0, scrollY + node.getBoundingClientRect().top - innerHeight * 0.9);
+  });
+  await expect.poll(lift).toBeGreaterThan(20);
+  await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight));
+  await expect.poll(lift).toBeCloseTo(0, 0);
+});

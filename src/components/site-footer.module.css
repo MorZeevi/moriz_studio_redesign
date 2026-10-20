@@ -1,12 +1,13 @@
 .footer {
   /* The contact panel's corner radius, so the two surfaces read as a set. */
   --footer-radius: clamp(2rem, 4vw, 4rem);
-  /* Keep the desktop wordmark's short entrance inside the footer surface. */
+  /* Risen-from-below letters must not widen or lengthen the page: a taller
+     page would move the wordmark trigger's end while it scrubs. */
   overflow: clip;
   position: relative;
   border-start-start-radius: var(--footer-radius);
   border-start-end-radius: var(--footer-radius);
-  padding-block-start: clamp(3rem, 5vw, 5rem);
+  padding-block-start: clamp(2.5rem, 4vw, 4rem);
   background: var(--site-background);
   color: var(--site-foreground);
 }
@@ -257,7 +258,9 @@ a.social:hover {
   position: relative;
   display: flex;
   justify-content: space-between;
-  margin-block-start: var(--space-8);
+  /* Lowercase "moriz" leaves the top of its line box empty; tuck the word
+     up into that space so the footer stays compact. */
+  margin-block-start: calc(var(--space-8) - 0.14em);
   font-family: var(--font-body);
   font-size: 39.5vw;
   line-height: 0.8;
@@ -284,6 +287,13 @@ a.social:hover {
   --letter-bleed: 0.08em;
   margin: -0.15em calc(0em - var(--letter-bleed));
   padding: 0.15em var(--letter-bleed);
+}
+
+/* Only desktop letters scrub into place; phones keep them still. */
+@media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+  .letter {
+    will-change: transform;
+  }
 }
 
 /* A round dot over the dotless ı, measured from Leon 900 in em: the stem's

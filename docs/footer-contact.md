@@ -18,6 +18,10 @@ Historical mobile motion revision, 18 October 2026 (superseded below): the owner
 
 The owner's shaking-footer recording supersedes the earlier scroll reveal. The footer surface is static at every width. Below 1024px, the image-filled wordmark is also static. On desktop, the complete wordmark enters once by 12px over 450ms with a smooth ease-out; there is no per-letter rotation or scroll scrubbing. The shared `useDesktopEntrance` hook starts only when content intersects the viewport and settles immediately for reduced motion or entry into the mobile breakpoint. It does not pre-hide content or reserve scroll space. The image fill is retained after its first nearby intersection to avoid reloading/repainting it while reversing scroll.
 
+## Desktop footer reveal restored, 20 October 2026
+
+The owner asked for the footer parallax back on desktop. The shaking in the 19 October recording happened on mobile, so `FooterParallax` returns at 1024px and wider only: the footer rises from beneath the contact section, never further than that section's height, and settles when the page bottoms out. Below 1024px and under reduced motion the footer surface stays static, as decided on 19 October. The owner also asked for the earlier letter animation on desktop: each wordmark letter again rises from 85% below, tipped at its own angle, and scrubs upright by the last scroll. It runs only at 1024px and wider without reduced motion; phones keep the static image-filled word. The footer is also shorter: less top padding, and the wordmark is tucked up into the empty top of its lowercase line box (about 95px less at 1440px).
+
 ## Configuration and verification
 
 Enable two-step verification for `morzavi1@gmail.com`, generate a Google App Password for this site, and set it as server-only `CONTACT_GMAIL_APP_PASSWORD` in local and deployed environments. Do not add it to `NEXT_PUBLIC_*` variables or commit it. The recipient and authenticated sender are fixed in `src/lib/contact-email.ts`. The diagnostic's optional lead notifications still use their separate Resend settings.

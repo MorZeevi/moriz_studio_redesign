@@ -514,6 +514,15 @@
   inline-size: 6rem;
   block-size: 3.5rem;
 }
+/* Until the logo is measured it fills the slot; once measured, the frame
+   takes the balanced size and crops the file's transparent padding. */
+.stackLogoFrame {
+  position: relative;
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: hidden;
+}
 .stackLogo img {
   display: block;
   min-inline-size: 0;
@@ -521,6 +530,10 @@
   inline-size: 100%;
   block-size: 100%;
   object-fit: contain;
+}
+.stackLogoFrame[data-fit] img {
+  position: absolute;
+  max-inline-size: none;
 }
 
 .stackTitle {
@@ -601,8 +614,11 @@
 }
 
 @media (min-width: 64rem) {
+  /* Centre the row so the logo lines up with the title even when the
+     description beside it wraps to a second line. */
   .stackHead {
     grid-template-columns: 6rem minmax(0, 1fr) minmax(0, 24rem);
+    align-items: center;
   }
 
   .stackDescription {
