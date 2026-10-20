@@ -87,9 +87,7 @@ export const he = {
     introduction: "אתר, אפליקציה או אולי כלי AI?",
     emphasis: "ענו על 7 שאלות",
     description: "ונמצא יחד את הכיוון שמתאים לכם.",
-    action: "בואו נמצא את הכיוון",
-    solutionsLabel: "סוגי כלים דיגיטליים",
-    solutions: ["אפליקציה", "אתר תדמית", "שאלון חכם", "כלי AI", "מערכת לעסק"],
+    action: "למצוא את הכלי עם שאלון AI חכם",
   },
   logoCarousel: {
     label: "לוגואים",

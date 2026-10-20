@@ -40,7 +40,7 @@ Saved Mobbin screenshots establish visible desktop composition only. The owner s
 | 1 | [Hero](#1-hero) | In progress |
 | 2 | [Three communication themes / advantages](#2-three-communication-themes--advantages) | In progress — research card and Party Mode |
 | 3 | [Projects](#3-projects) | In progress — section, collection and dedicated pages |
-| 3a | [Digital diagnostic banner](#digital-diagnostic-banner) | Approved 2026-10-20 — footer image pattern, signpost illustration and existing Liquid CTA |
+| 3a | [Digital diagnostic banner](#digital-diagnostic-banner) | Approved 2026-10-20 — footer image pattern, centered text and responsive Liquid CTA |
 | 4 | [Brief owner introduction](#4-brief-owner-introduction) | Not started |
 | 5 | [Client testimonials](#5-client-testimonials) | In progress — spotlight with client index |
 | 6 | [How to start working together](#6-how-to-start-working-together) | In progress — three steps on a rail |
@@ -264,11 +264,11 @@ Does the rendered section/page layout receive owner visual acceptance? Which pro
 
 ## Digital diagnostic banner
 
-Owner-approved 2026-10-20: insert after Projects, outside its scroll surface, before the owner introduction. Latest owner correction replaces the yellow ground with the exact image revealed through the footer wordmark mask (`/images/footer/wordmark-fill.webp`): a dark panel with the image at 30% opacity and light ink in both themes, shared site gutters and the design-system `--radius-md` corners (6px at the default root size). The heading uses **העסק שלך** and the phrase **ענו על 7 שאלות** is bold. The owner subsequently removed the character. Latest desktop revision: at 1024px and above, the title occupies the right column with the description and existing CTA grouped beside it on the left; hide the signpost and use 40px vertical padding for a shorter, content-height banner. Below 1024px, stack heading, explanation and CTA above the centered signpost. The signs are static, non-interactive, and use live Hebrew text; their pole uses light ink for contrast against the dark background. The pole and arrow shapes are built in code.
+Owner-approved 2026-10-20: insert after Projects, outside its scroll surface, before the owner introduction. Latest owner correction replaces the yellow ground with the exact image revealed through the footer wordmark mask (`/images/footer/wordmark-fill.webp`): a dark panel with the image at 30% opacity and light ink in both themes, shared site gutters and the design-system `--radius-md` corners (6px at the default root size). The heading uses **העסק שלך** and the phrase **ענו על 7 שאלות** is bold. The character and signpost are removed on every screen size. All banner text is centered. The existing Liquid CTA reads **למצוא את הכלי עם שאלון AI חכם**; below 1024px it spans 100% of its content column, and on desktop it fits the label and is centered. At 1024px and above, the title occupies the right column with the description and CTA grouped beside it on the left; use 40px vertical padding for a shorter, content-height banner. Below 1024px, stack the heading, explanation and CTA.
 
 Use the existing primary LiquidLink CTA with light text, a forward arrow and its existing hover/focus/reduced-motion behavior; navigate natively to the diagnostic root through `withBasePath("")`. No new animation or analytics. Copy is recorded in [the content inventory](03-content.md#digital-diagnostic-banner--approved-2026-10-20). The diagnostic itself is outside this change.
 
-Sign labels remain live dictionary text. The standalone signpost uses one intrinsic-height grid, with its pole centered behind the signs; it has no character image or reserved character column. The removed generated asset and prompt are retained only in local review artifacts. The banner keeps the original site's design-system tokens and Liquid interaction without changing the system itself.
+The removed generated asset and prompt are retained only in local review artifacts. The banner keeps the original site's design-system tokens and Liquid interaction without changing the system itself.
 
 ## 4. Brief owner introduction
 

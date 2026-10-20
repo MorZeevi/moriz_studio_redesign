@@ -36,17 +36,6 @@ export function DiagnosticBanner({
               {content.action}
             </LiquidLink>
           </div>
-
-          <div className={styles.scene} dir="ltr">
-            <div className={styles.pole} aria-hidden="true" />
-            <ul className={styles.signs} aria-label={content.solutionsLabel}>
-              {content.solutions.map((solution) => (
-                <li className={styles.sign} key={solution}>
-                  <bdi>{solution}</bdi>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
       </div>
     </section>

@@ -45,9 +45,9 @@ Which material to publish, on which pages, and how to present it: TODO: Decision
 
 ### Digital diagnostic banner — approved 2026-10-20
 
-Placed after Projects and before the owner introduction. Heading, updated by the owner: **איזה כלי דיגיטלי העסק שלך צריך?** Supporting copy: אתר, אפליקציה או אולי כלי AI? **ענו על 7 שאלות** ונמצא יחד את הכיוון שמתאים לכם. Only **ענו על 7 שאלות** is bold in the supporting copy. CTA: **בואו נמצא את הכיוון**, linking to the existing `/digital-audit` landing page. No reassurance about leaving contact details appears in this banner.
+Placed after Projects and before the owner introduction. Heading, updated by the owner: **איזה כלי דיגיטלי העסק שלך צריך?** Supporting copy: אתר, אפליקציה או אולי כלי AI? **ענו על 7 שאלות** ונמצא יחד את הכיוון שמתאים לכם. Only **ענו על 7 שאלות** is bold in the supporting copy. CTA: **למצוא את הכלי עם שאלון AI חכם**, linking to the existing `/digital-audit` landing page. No reassurance about leaving contact details appears in this banner.
 
-Five direction signs on mobile/tablet: **אפליקציה**, **אתר תדמית**, **שאלון חכם**, **כלי AI**, **מערכת לעסק**. The owner removed the character and subsequently removed the signpost on desktop, where the description/CTA group sits beside the title. See the [banner layout](homepage-workbook.md#digital-diagnostic-banner).
+The owner removed the character and signpost on every screen size. Banner text is centered. Below 1024px the CTA fills the available width; on desktop it fits its label and stays centered, with the description/CTA group beside the title. See the [banner layout](homepage-workbook.md#digital-diagnostic-banner).
 
 ### Main message
 
