@@ -3,7 +3,6 @@ import assert from 'node:assert/strict';
 
 import {
   handleLeadBrief,
-  isAdminSecretValid,
   validateLeadBriefPayload,
   MAX_BRIEF_TEXT_LENGTH,
   MAX_EVIDENCE_LENGTH,
@@ -17,10 +16,6 @@ import { FIXTURES } from '../diagnostic-core/fixtures.ts';
 import { calculateDiagnosticResult } from '../diagnostic-core/scoring.ts';
 
 const SESSION_ID = 'facade00-0000-4000-a000-000000000001';
-
-function fakeEnv(values: Record<string, string>): NodeJS.ProcessEnv {
-  return values as NodeJS.ProcessEnv;
-}
 
 function fakeLead(): DiagnosticLead {
   return {
@@ -95,30 +90,6 @@ function baseDeps(overrides: Partial<LeadBriefServiceDeps> = {}): LeadBriefServi
     ...overrides,
   };
 }
-
-// ── §F.7 route auth (service-level: route files can't load under node --test,
-// so the guard lives in isAdminSecretValid and the route calls it) ──────────
-
-test('isAdminSecretValid rejects when env secret is unset', () => {
-  assert.equal(isAdminSecretValid('anything', fakeEnv({})), false);
-});
-
-test('isAdminSecretValid rejects when env secret is empty', () => {
-  assert.equal(isAdminSecretValid('', fakeEnv({ ADMIN_ACCESS_SECRET: '' })), false);
-  assert.equal(isAdminSecretValid('x', fakeEnv({ ADMIN_ACCESS_SECRET: '' })), false);
-});
-
-test('isAdminSecretValid rejects a missing header', () => {
-  assert.equal(isAdminSecretValid(null, fakeEnv({ ADMIN_ACCESS_SECRET: 's3cret' })), false);
-});
-
-test('isAdminSecretValid rejects a wrong header', () => {
-  assert.equal(isAdminSecretValid('wrong', fakeEnv({ ADMIN_ACCESS_SECRET: 's3cret' })), false);
-});
-
-test('isAdminSecretValid accepts an exact match', () => {
-  assert.equal(isAdminSecretValid('s3cret', fakeEnv({ ADMIN_ACCESS_SECRET: 's3cret' })), true);
-});
 
 // ── payload validation (whitelist reconstruction) ───────────────────────────
 

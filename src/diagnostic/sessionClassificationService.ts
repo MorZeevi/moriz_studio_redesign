@@ -8,11 +8,9 @@ import {
   type SessionClassificationUpdateResult,
   type SessionCreationResult,
 } from './db/mutations.ts';
-import { isAdminSecretValid } from './leadBriefService.ts';
 import { isSessionClassificationAction } from './sessionClassification.ts';
 import { isValidUuid, type ValidationResult } from './validation.ts';
 
-export { isAdminSecretValid };
 
 export function validateSessionClassificationPayload(
   body: unknown,

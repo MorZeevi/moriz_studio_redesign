@@ -20,14 +20,6 @@ import { isValidUuid, type ValidationResult } from './validation.ts';
 // here. Same DI shape as personalizeService: deps default to the real DB
 // functions; tests inject stubs and never touch a live Supabase.
 
-// Fail-closed admin guard shared with the route: an unset or empty
-// ADMIN_ACCESS_SECRET can never match any header, so a misconfigured deploy
-// hides the route (404) instead of opening it.
-export function isAdminSecretValid(header: string | null, env: NodeJS.ProcessEnv = process.env): boolean {
-  const expected = env.ADMIN_ACCESS_SECRET;
-  return typeof expected === 'string' && expected.length > 0 && header === expected;
-}
-
 const LEAD_BRIEF_MODES = ['save', 'approve', 'generate'] as const;
 
 // Evidence is pasted admin notes, not a crawl dump; briefs are one-screen

@@ -1,7 +1,11 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { hasJsonContentType, isSameOriginRequest } from "./request-guards.ts";
+import {
+  checkAdminRequest,
+  hasJsonContentType,
+  isSameOriginRequest,
+} from "./request-guards.ts";
 
 function req(headers: Record<string, string>, url = "https://moriz.example/x") {
   return new Request(url, { method: "POST", headers });
@@ -82,4 +86,39 @@ test("rejects every other content type, including simple CSRF types", () => {
     assert.equal(hasJsonContentType(req({ "content-type": value })), false, value);
   }
   assert.equal(hasJsonContentType(req({})), false);
+});
+
+test("checkAdminRequest looks up the owner only after the CSRF checks pass", async () => {
+  let lookups = 0;
+  const owner = async () => {
+    lookups += 1;
+    return true;
+  };
+  const json = { origin: "https://moriz.example", "content-type": "application/json" };
+
+  assert.equal(await checkAdminRequest(req(json), { requireJson: true }, owner), true);
+  assert.equal(lookups, 1);
+
+  const hostile: Record<string, string>[] = [
+    { ...json, origin: "https://evil.example" },
+    { "content-type": "application/json" },
+    { ...json, origin: "null" },
+    { ...json, "content-type": "text/plain" },
+    { origin: "https://moriz.example" },
+  ];
+  for (const headers of hostile) {
+    lookups = 0;
+    assert.equal(await checkAdminRequest(req(headers), { requireJson: true }, owner), false);
+    assert.equal(lookups, 0);
+  }
+});
+
+test("checkAdminRequest honours the owner result and optional JSON requirement", async () => {
+  const sameOrigin = { origin: "https://moriz.example" };
+  assert.equal(await checkAdminRequest(req(sameOrigin), {}, async () => true), true);
+  assert.equal(await checkAdminRequest(req(sameOrigin), {}, async () => false), false);
+  assert.equal(
+    await checkAdminRequest(req(sameOrigin), { requireJson: true }, async () => true),
+    false,
+  );
 });

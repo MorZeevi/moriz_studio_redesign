@@ -1,29 +1,31 @@
 import { NextResponse } from 'next/server.js';
 
+import { isAdminJsonRequest } from '../../../../../diagnostic/adminRequestAuth.ts';
 import type { SessionClassificationReq, SessionClassificationRes } from '../../../../../diagnostic/api-types.ts';
 import {
   handleSessionClassification,
-  isAdminSecretValid,
   validateSessionClassificationPayload,
 } from '../../../../../diagnostic/sessionClassificationService.ts';
 
 export const runtime = 'nodejs';
 
 interface SessionClassificationPostDeps {
-  isAdminSecretValid: (header: string | null) => boolean;
+  isAuthorized: (request: Request) => Promise<boolean>;
   handleSessionClassification: (
     req: SessionClassificationReq,
   ) => Promise<{ isTest: boolean } | null>;
 }
 
 const defaultDeps: SessionClassificationPostDeps = {
-  isAdminSecretValid,
+  isAuthorized: isAdminJsonRequest,
   handleSessionClassification,
 };
 
 export function createSessionClassificationPostHandler(deps: SessionClassificationPostDeps = defaultDeps) {
   return async function sessionClassificationPost(request: Request) {
-    if (!deps.isAdminSecretValid(request.headers.get('x-admin-secret'))) {
+    // Owner session + same-origin + JSON, before the body is read. A failure
+    // answers 404 so the route's existence is never revealed.
+    if (!(await deps.isAuthorized(request))) {
       return NextResponse.json({ error: 'not_found' }, { status: 404 });
     }
 

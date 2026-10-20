@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { serverSupabase } from "@/lib/supabase/server";
 import { adminLoginPath } from "./next-path.ts";
 import { isOwnerId } from "./owner.ts";
-import { hasJsonContentType, isSameOriginRequest } from "./request-guards.ts";
+import { checkAdminRequest } from "./request-guards.ts";
 
 // Route-agnostic admin guard shared by the CMS surface and the lead admin.
 // Same rule as src/lib/cms/auth.ts requireAdmin(): getUser() (a verified
@@ -38,9 +38,11 @@ export async function requireAdminPage(next: string): Promise<User> {
  */
 export async function isAdminRequest(
   request: Request,
-  { requireJson = false }: { requireJson?: boolean } = {},
+  options: { requireJson?: boolean } = {},
 ): Promise<boolean> {
-  if (!isSameOriginRequest(request)) return false;
-  if (requireJson && !hasJsonContentType(request)) return false;
-  return (await getAdminUser()) !== null;
+  return checkAdminRequest(
+    request,
+    options,
+    async () => (await getAdminUser()) !== null,
+  );
 }

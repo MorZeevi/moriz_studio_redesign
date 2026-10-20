@@ -3,7 +3,6 @@ import {
   updateDiagnosticContactStatus as updateDiagnosticContactStatusReal,
   type UpdateContactStatusOutcome,
 } from './db/mutations.ts';
-import { isAdminSecretValid } from './leadBriefService.ts';
 import { isLeadStatus, type LeadStatus } from './leadStatus.ts';
 import { isValidUuid, type ValidationResult } from './validation.ts';
 
@@ -12,8 +11,6 @@ import { isValidUuid, type ValidationResult } from './validation.ts';
 // logic here. Same DI shape as leadBriefService: deps default to the real DB
 // functions; tests inject stubs and never touch a live Supabase.
 
-// Reused, not redefined — one admin guard for every admin route.
-export { isAdminSecretValid };
 
 // Whitelist reconstruction (house style of validation.ts): unknown keys never
 // pass through.
