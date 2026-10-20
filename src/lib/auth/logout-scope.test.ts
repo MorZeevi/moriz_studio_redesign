@@ -25,8 +25,40 @@ function files(directory: string): string[] {
   return found;
 }
 
-/** The argument text of every `signOut(` call in the source. */
-function signOutCalls(source: string): string[] {
+/**
+ * The source with `//` and block comments blanked out. String and template
+ * literals are skipped so a `//` inside "https://..." is not a comment.
+ */
+function stripComments(source: string): string {
+  let out = "";
+  let i = 0;
+  while (i < source.length) {
+    const char = source[i];
+    const next = source[i + 1];
+    if (char === "/" && next === "/") {
+      while (i < source.length && source[i] !== "\n") i += 1;
+    } else if (char === "/" && next === "*") {
+      const end = source.indexOf("*/", i + 2);
+      i = end === -1 ? source.length : end + 2;
+    } else if (char === '"' || char === "'" || char === "`") {
+      let j = i + 1;
+      while (j < source.length && source[j] !== char) {
+        if (source[j] === "\\") j += 1;
+        j += 1;
+      }
+      out += source.slice(i, j + 1);
+      i = j + 1;
+    } else {
+      out += char;
+      i += 1;
+    }
+  }
+  return out;
+}
+
+/** The argument text of every `signOut(` call in the code (comments ignored). */
+function signOutCalls(rawSource: string): string[] {
+  const source = stripComments(rawSource);
   const calls: string[] = [];
   let from = 0;
   for (;;) {
@@ -44,7 +76,57 @@ function signOutCalls(source: string): string[] {
   }
 }
 
-const isLocal = (args: string) => /scope:\s*["']local["']/.test(args);
+/** Client form: signOut({ scope: "local" }). */
+const isLocalOptions = (args: string) =>
+  /^\{\s*scope:\s*["']local["']\s*,?\s*\}$/.test(args.trim());
+/** Auth admin API form: signOut(jwt, "local"), the scope as a string literal. */
+const isLocalPositional = (args: string) =>
+  /^[^,]+,\s*["']local["']\s*,?\s*$/.test(args.trim());
+const isLocal = (args: string) =>
+  isLocalOptions(args) || isLocalPositional(args);
+
+test("scanner: comments are ignored, strings containing // are not comments", () => {
+  assert.deepEqual(signOutCalls("// await client.auth.signOut();"), []);
+  assert.deepEqual(signOutCalls("/* signOut() */ x();"), []);
+  assert.deepEqual(signOutCalls("/** a\n * global signOut()\n */"), []);
+  assert.deepEqual(signOutCalls("const a = 1; // signOut()\nconst b = 2;"), []);
+  assert.deepEqual(signOutCalls('const u = "https://x.test"; c.signOut()'), [
+    "",
+  ]);
+});
+
+test("scanner: accepts the client and admin local forms", () => {
+  for (const code of [
+    'client.auth.signOut({ scope: "local" })',
+    "client.auth.signOut({ scope: 'local' })",
+    'client.auth.signOut({\n  scope: "local",\n})',
+    'admin.auth.admin.signOut(session.access_token, "local")',
+    "admin.auth.admin.signOut(token, 'local')",
+    'admin.auth.admin.signOut(\n  session.access_token,\n  "local",\n)',
+  ]) {
+    const calls = signOutCalls(code);
+    assert.equal(calls.length, 1, code);
+    assert.ok(isLocal(calls[0]), code);
+  }
+});
+
+test("scanner: rejects bare, empty, global and other scopes", () => {
+  for (const code of [
+    "client.auth.signOut()",
+    "client.auth.signOut({})",
+    'client.auth.signOut({ scope: "global" })',
+    'client.auth.signOut({ scope: "others" })',
+    'admin.auth.admin.signOut(token, "global")',
+    'admin.auth.admin.signOut(token, "others")',
+    "admin.auth.admin.signOut(token)",
+    'client.auth.signOut({ scope: "global", note: "local" })',
+    'client.auth.signOut({ a: 1, b: "local" })',
+  ]) {
+    const calls = signOutCalls(code);
+    assert.equal(calls.length, 1, code);
+    assert.equal(isLocal(calls[0]), false, code);
+  }
+});
 
 test("logout() in the CMS actions signs out with local scope", () => {
   const source = readFileSync(
@@ -69,12 +151,8 @@ test("no source, test or script calls signOut() without local scope", () => {
       continue;
     }
     for (const file of list)
-      for (const args of signOutCalls(readFileSync(file, "utf8"))) {
-        // supabase-js admin API: signOut(jwt, "local")
-        const adminLocal = /,\s*["']local["']\s*$/.test(args.trim());
-        if (!isLocal(args) && !adminLocal)
-          offenders.push(`${file}: signOut(${args})`);
-      }
+      for (const args of signOutCalls(readFileSync(file, "utf8")))
+        if (!isLocal(args)) offenders.push(`${file}: signOut(${args})`);
   }
   assert.deepEqual(offenders, []);
 });
