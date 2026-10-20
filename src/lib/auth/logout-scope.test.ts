@@ -56,23 +56,24 @@ function stripComments(source: string): string {
   return out;
 }
 
-/** The argument text of every `signOut(` call in the code (comments ignored). */
+/** The argument text of every `signOut (` call in the code (comments ignored). */
 function signOutCalls(rawSource: string): string[] {
   const source = stripComments(rawSource);
   const calls: string[] = [];
-  let from = 0;
+  const open = /signOut\s*\(/g;
   for (;;) {
-    const at = source.indexOf("signOut(", from);
-    if (at === -1) return calls;
+    const match = open.exec(source);
+    if (!match) return calls;
+    const start = match.index + match[0].length;
     let depth = 1;
-    let end = at + "signOut(".length;
+    let end = start;
     while (end < source.length && depth > 0) {
       if (source[end] === "(") depth += 1;
       else if (source[end] === ")") depth -= 1;
       end += 1;
     }
-    calls.push(source.slice(at + "signOut(".length, end - 1));
-    from = end;
+    calls.push(source.slice(start, end - 1));
+    open.lastIndex = end;
   }
 }
 
@@ -98,6 +99,8 @@ test("scanner: comments are ignored, strings containing // are not comments", ()
 test("scanner: accepts the client and admin local forms", () => {
   for (const code of [
     'client.auth.signOut({ scope: "local" })',
+    'client.auth.signOut ({ scope: "local" })',
+    'admin.auth.admin.signOut (token, "local")',
     "client.auth.signOut({ scope: 'local' })",
     'client.auth.signOut({\n  scope: "local",\n})',
     'admin.auth.admin.signOut(session.access_token, "local")',
@@ -113,6 +116,11 @@ test("scanner: accepts the client and admin local forms", () => {
 test("scanner: rejects bare, empty, global and other scopes", () => {
   for (const code of [
     "client.auth.signOut()",
+    "client.auth.signOut ()",
+    "client.auth.signOut\n()",
+    "client.auth.signOut /*x*/ ()",
+    "client.auth.signOut/*x*/()",
+    "client.auth.signOut ({})",
     "client.auth.signOut({})",
     'client.auth.signOut({ scope: "global" })',
     'client.auth.signOut({ scope: "others" })',
