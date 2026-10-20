@@ -148,3 +148,108 @@ VERDICT: APPROVED
 - **Converged: APPROVED in round 3 of 5. Zero open P1s.**
 - At Codex's condition, the two deferred P2s (proxy header/cookie preservation; the exact redirect and CSRF contract) were added to plan §8 as implementation acceptance requirements.
 - A public-endpoint hardening item is tracked privately (plan §11), not a blocker.
+
+# Implementation diff review (Stage 1 / Moriz Phase A)
+
+Reviewer: Codex, static review of the implementation diff. Branch `feat/admin-auth-unification`.
+
+## Round 1 — Codex (diff origin/main...0add883)
+
+Findings:
+
+- **[P1] The “existing owner only” gate can create an Auth user before checking identity.**  
+  **Evidence:** `branch/tests/cms-gate/setup.ts:88` calls `generateLink({ type: "magiclink", email: ownerEmail })`; the UUID check occurs only after `verifyOtp`, at line 101.  
+  **Impact:** Supabase magic-link generation can create a user when the email does not exist. A mistyped `SUPABASE_ADMIN_EMAIL` therefore mutates the shared Auth project before the gate aborts, violating the explicitly read-only, existing-owner-only contract. Failure also occurs before teardown is registered.  
+  **Fix:** First fetch the existing owner with `admin.auth.admin.getUserById(ownerId)`, require its email to match the configured email, and only then generate and verify the link. Register cleanup as sessions are minted so partial setup failures revoke them locally.
+
+- **[P1] Required end-to-end security acceptance cases are missing.**  
+  **Evidence:** `branch/tests/cms-gate/gate.spec.ts:199` tests `next` using an already authenticated owner, rather than password login. The API cases at line 255 use empty payloads and cover only the three routes listed at line 224. The detail test at line 290 opens an arbitrary existing lead and can skip entirely.  
+  **Impact:** The suite does not establish the plan §8 requirements for password-login-to-`next`, authenticated outsider denial, foreign-source detail/status denial, logout denial on both surfaces, or a permitted mutation happy path on an `is_test` session. Mocked authorization and query-shape assertions cannot establish those integrated behaviors.  
+  **Fix:** Keep the CMS gate read-only, and add a separate acceptance suite covering these cases. Restrict mutation coverage to the same synthetic test session on a local server with notifications explicitly disabled; use existing outsider credentials or a scratch environment.
+
+- **[P2] Redirect authority comes directly from an unvalidated Host header.**  
+  **Evidence:** `branch/src/lib/auth/proxy-core.ts:77` uses `Host` to construct the absolute login URL. `branch/src/lib/auth/request-guards.ts:24` similarly uses it as the expected origin.  
+  **Impact:** A request reaching this application with `Host: evil.example` produces an external login redirect; matching hostile Origin and Host values also satisfy the origin predicate. Ordinary browser JavaScript cannot spoof Host, so this alone does **not** demonstrate browser CSRF or an owner-auth bypass. Exploitability depends on ingress host validation. `private, no-store` mitigates shared-cache poisoning, but does not validate redirect authority.  
+  **Fix:** Validate hosts against configured deployment origins, including explicit development origins. Reject unknown hosts before constructing redirects or comparing origins, and add mismatched/hostile Host tests.
+
+- **[P2] The logout scanner misses valid global-sign-out syntax.**  
+  **Evidence:** `branch/src/lib/auth/logout-scope.test.ts:65` searches only for the literal `signOut(`.  
+  **Impact:** `client.auth.signOut ()` and `client.auth.signOut /* comment */ ()` evade detection despite invoking global logout. The claimed repository-wide protection can therefore pass after an unsafe call is introduced. No such active call was found in the inspected paths.  
+  **Fix:** Use TypeScript AST call-expression inspection, distinguish client and admin signatures, and add whitespace/comment regression cases.
+
+Verified correct:
+
+- CMS `auth.ts`, retired callback, and private layout are byte-identical to main; `loginWithPassword` is unchanged.
+- Logout explicitly uses local scope.
+- Lead pages verify ownership through `getUser()` before diagnostic reads.
+- Traced admin reads and mutations enforce Moriz ownership, including inner joins and brief save/generate/approve paths.
+- `SessionNotOwnedError` becomes a typed 404 for brief operations.
+- Missing/null Origin and non-JSON media types are rejected before owner lookup.
+- Proxy matcher, GET/HEAD-only lead redirects, overwritten header forwarding, and redirect-cookie copying are present.
+- The lazy guard import avoids loading framework-only auth during injected Node route tests.
+- Legacy secret checks were replaced with authorization-negative coverage; new auth tests are included in unit discovery.
+
+Review was static only; no files changed, network accessed, builds, or tests run.
+
+VERDICT: REVISE
+
+### Claude's response
+
+- **P1 owner-first identity check: fixed in 4b35c58.** The gate setup now looks the owner up with `getUserById`, requires its email to match `SUPABASE_ADMIN_EMAIL`, and only then calls `generateLink`. Each minted session is tracked immediately and revoked (local scope) on any setup failure. The logic lives in a shared helper, `tests/support/session-kit.ts`.
+- **P1 missing e2e acceptance cases: fixed in 4401553 and b25bb70.** An opt-in live suite (`playwright.admin-acceptance.config.ts`) covers the plan §8 cases, separate from the read-only CMS gate. It requires `ADMIN_ACCEPTANCE_LIVE=1`, runs a local server with notifications and AI forced off, uses synthetic `is_test` data only, and uses existing Auth users only.
+- **P2 scanner whitespace and comments: fixed in 8a83c00.** The scanner matches `signOut\s*\(` after blanking comments, with regression cases. An AST was not needed.
+- **P2 Host-header trust: deferred, no code change.** Vercel routes by Host, `request.url` is normalized by Next (127.0.0.1 becomes localhost), and the responses are `private, no-store`. The residual risk is the Vercel Host-routing ingress assumption. Revisit it on any hosting change.
+
+## Round 2 — Codex (same thread, snapshot b25bb70, snapshot unchanged: 0 files)
+
+Both round-1 P1s are resolved in the implementation. No new P1 found.
+
+- **[P2] Foreign-session probe cannot prove that no write occurred.**  
+  **Evidence:** `branch/tests/admin-acceptance/lead-flow.spec.ts:160` deliberately submits the foreign lead’s current status, then checks that the status remains unchanged.  
+  **Impact:** The 404 assertion catches a missing ownership guard that returns success, but unchanged data cannot distinguish rejection from an update followed by a 404.  
+  **Fix:** Describe this as a denial-response check; retain injected-client unit assertions that prove the update operation is never reached. Test changes to foreign status only against a scratch database.
+
+- **[P2] Password-to-next coverage exists but remains unverified in the reported run.**  
+  **Evidence:** `branch/tests/admin-acceptance/session.spec.ts:36` skips without `CMS_TEST_ADMIN_PASSWORD`.  
+  **Impact:** The reported 9-pass run does not establish the actual password-login return path. This resolves the missing-test implementation finding, but leaves a verification gap.  
+  **Fix:** Run the opt-in case before rollout and record its result.
+
+- **[P2] Logout checks browser access, rather than replay of the revoked session.**  
+  **Evidence:** `branch/tests/admin-acceptance/session.spec.ts:15` checks access after UI logout has removed browser cookies.  
+  **Impact:** This would also pass if logout cleared cookies without revoking the minted session.  
+  **Fix:** Replay the separately minted logout session’s original cookies in a fresh context and assert denial on both surfaces.
+
+Verified correct:
+
+- `branch/tests/support/session-kit.ts:57` validates the existing owner and matching email before link generation. Outsider lookup also requires an existing, different UUID.
+- Sessions are tracked before subsequent identity/cookie work, and setup failures invoke local-scope cleanup.
+- The new infrastructure contains no user-creation calls, SQL, table/storage writes, or global sign-out.
+- Acceptance mutations use the newly created Moriz `is_test` session; no restore-to-real, brief generation, or destructive cleanup appears.
+- The local server explicitly disables notifications and AI, rejects reuse of another server, and requires live-write opt-in.
+- Scanner whitespace/comment cases are now covered.
+
+**Host deferral remains acceptable as P2**, assuming Vercel’s stated Host-routing boundary holds. I found no demonstrated browser CSRF or owner-auth bypass warranting P1. The preview owner-POST check establishes functionality; it does not itself prove hostile-Host rejection. Keep that ingress assumption explicit for any future hosting change.
+
+Static review only; no tests, builds, network access, or file writes performed.
+
+VERDICT: APPROVED
+
+### Claude's response
+
+All three P2s are non-blocking and deferred.
+
+- **Foreign-status probe.** It is a denial-response check. Write prevention is proven by the unit tests in `src/diagnostic/db/ownership.test.ts` (`SessionNotOwnedError` is thrown before any write).
+- **Password to `next` path.** The owner verified it manually on a local dev server on 2026-10-20 (real password login; `/digital-audit/admin` and `/admin/projects` reachable).
+- **Logout cookie replay.** Replaying the original logout-session cookies in a fresh context is a deferred follow-up.
+
+## Verification at b25bb70
+
+- CMS gate: 17 passed, 1 skipped (the opt-in password test).
+- Acceptance suite: 9 passed, 1 skipped.
+- Unit tests: 497/497 at 4401553 (only an acceptance spec changed since).
+- Typecheck, lint and build pass.
+
+### Resolution
+
+- **Converged: APPROVED in round 2 of the implementation review.** No open P1s.
+- Merge and production deploy await explicit owner approval.
