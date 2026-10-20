@@ -4,6 +4,7 @@ import { ADMIN_API, ORIGIN, fixture, postJson } from "./support";
 // (a) signed out, (b) owner, (f) outsider.
 
 test("(a) signed out: lead admin redirects with next, CMS to login, API POST is 404", async ({
+  page,
   playwright,
 }) => {
   const anonymous = await playwright.request.newContext({ baseURL: ORIGIN });
@@ -14,9 +15,11 @@ test("(a) signed out: lead admin redirects with next, CMS to login, API POST is 
     "/admin/login?next=%2Fdigital-audit%2Fadmin",
   );
 
-  const cms = await anonymous.get("/admin/projects", { maxRedirects: 0 });
-  expect([302, 303, 307, 308]).toContain(cms.status());
-  expect(cms.headers().location ?? "").toContain("/admin/login");
+  // The CMS redirect is redirect() in (private)/layout.tsx behind the
+  // admin loading boundary: Next streams a 200 and the redirect is applied in
+  // the browser, so it is asserted with a page (as tests/cms/auth.spec.ts does).
+  await page.goto("/admin/projects");
+  await expect(page).toHaveURL(/\/admin\/login$/);
 
   const api = await postJson(anonymous, `${ADMIN_API}/lead-status`, {});
   expect(api.status()).toBe(404);
