@@ -332,6 +332,7 @@ export const he = {
     next: "ההמלצה הבאה",
     readMore: "להמשך קריאה",
     readLess: "סגירה",
+    videoLabel: "המלצה בווידאו",
     // Quotes are verbatim from the owner; unknown attribution stays marked.
     items: [
       {
@@ -341,10 +342,48 @@ export const he = {
           "עבדתי עם מור על פיתוח חוויות אינטראקטיביות ומורכבות באלמנטור, באמצעות אנג'י, פלאגין ה-AI שלנו. מור הביאה שילוב של מקצועיות, יצירתיות ויוזמה: היא הבינה במהירות את הצרכים, הציעה פתרונות משלה ולא חיכתה להנחיות מפורטות. העבודה שהפיקה הייתה ברמה גבוהה ותרמה ישירות לאיכות התוצר הסופי. מומלצת בחום לכל אחד שמחפש שילוב של יכולת טכנית וחשיבה יצירתית.",
         ],
         name: "גבריאלה לסטר",
-        role: "Product Marketing Director באלמנטור",
+        role: "Product Marketing Director, אלמנטור",
         image: {
           src: "/images/testimonials/elementor-logo.webp",
           kind: "mark",
+        },
+      },
+      {
+        id: "asher-morgenstern",
+        headline: null,
+        body: [],
+        video: {
+          src: "/videos/testimonial-asher-morgenstern.mp4",
+          poster: "/videos/testimonial-asher-morgenstern-poster.webp",
+        },
+        name: "אשר מורגנשטיין",
+        role: "סמנכ״ל טכנולוגי, בינה מלאכותית בגובה העיניים",
+        image: {
+          src: "/images/testimonials/asher-morgenstern.webp",
+          kind: "portrait",
+        },
+      },
+      {
+        id: "elbi-ben-shimol",
+        headline: "העבודה עם מור הייתה ברמה אחרת!",
+        body: [
+          "פניתי למור לשדרוג של דף נחיתה ומעבר למקצועיות המרשימה שהיא הפגינה, היא עבדה במהירות שיא, והתוצאה פשוט וואוו! בקיצור, ממליץ מאוד!",
+        ],
+        name: "אלבי בן שימול",
+        role: "ביטוחים ופיננסים",
+        image: { src: "/images/testimonials/elbi-logo.webp", kind: "logo" },
+      },
+      {
+        id: "rona-even",
+        headline: "מור עיצבה מחדש את דף הבית באתר שלי, ואני ממש מרוצה!",
+        body: [
+          "מור עיצבה מחדש את דף הבית באתר שלי, ואני ממש מרוצה! שירותית, מהירה ומדויקת, עם הקשבה למה שאני צריכה ועיצוב שמתאים לי ולעסק שלי. ממליצה בחום 💜",
+        ],
+        name: "רונה אבן",
+        role: "אמא חוזרת לג׳ינס",
+        image: {
+          src: "/images/testimonials/rona-even-logo.webp",
+          kind: "logo",
         },
       },
       {
@@ -367,16 +406,6 @@ export const he = {
         },
       },
       {
-        id: "elbi-ben-shimol",
-        headline: "העבודה עם מור הייתה ברמה אחרת!",
-        body: [
-          "פניתי למור לשדרוג של דף נחיתה ומעבר למקצועיות המרשימה שהיא הפגינה, היא עבדה במהירות שיא, והתוצאה פשוט וואוו! בקיצור, ממליץ מאוד!",
-        ],
-        name: "אלבי בן שימול",
-        role: "ביטוחים ופיננסים",
-        image: { src: "/images/testimonials/elbi-logo.webp", kind: "logo" },
-      },
-      {
         id: "shay-goren",
         headline:
           "בזכותה האתר יצא מדויק, מושך ועם טאץ' אישי – בדיוק כמו שרציתי.",
@@ -391,19 +420,6 @@ export const he = {
           objectPosition: "50% 40%",
         },
       },
-      {
-        id: "rona-even",
-        headline: "מור עיצבה מחדש את דף הבית באתר שלי, ואני ממש מרוצה!",
-        body: [
-          "מור עיצבה מחדש את דף הבית באתר שלי, ואני ממש מרוצה! שירותית, מהירה ומדויקת, עם הקשבה למה שאני צריכה ועיצוב שמתאים לי ולעסק שלי. ממליצה בחום 💜",
-        ],
-        name: "רונה אבן",
-        role: "אמא חוזרת לג׳ינס",
-        image: {
-          src: "/images/testimonials/rona-even-logo.webp",
-          kind: "logo",
-        },
-      },
     ] satisfies Testimonial[],
   },
   gettingStarted: {
@@ -412,18 +428,18 @@ export const he = {
     // shortened step 2 title are drafts awaiting owner approval.
     steps: [
       {
-        icon: "phone",
+        image: "/images/getting-started-phone.webp",
         title: "שיחת טלפון קצרה",
         detail: "כמה שאלות פשוטות, כדי לראות אם יש התאמה ראשונית לצרכים שלכם.",
       },
       {
-        icon: "video",
+        image: "/images/getting-started-call.webp",
         title: "שיחת אפיון",
         detail:
           "שיחה בזום, ללא עלות, שבה נכיר לעומק את הפרויקט, המטרות והצרכים שלכם.",
       },
       {
-        icon: "quote",
+        image: "/images/getting-started-quote.webp",
         title: "קבלת הצעת מחיר",
         detail: "הצעה מסודרת שמבוססת על מה שאפיינו יחד, בתוקף ל־14 ימי עבודה.",
       },

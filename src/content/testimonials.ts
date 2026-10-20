@@ -4,6 +4,11 @@ export type Testimonial = {
   headline: string | null;
   /** Verbatim testimonial text, one entry per paragraph. */
   body: string[];
+  /** Recorded testimonial shown in place of the quote mark. */
+  video?: {
+    src: string;
+    poster: string;
+  };
   name: string;
   role: string;
   image: {

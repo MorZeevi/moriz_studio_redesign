@@ -5,9 +5,9 @@
   --gs-accent: var(--color-action-primary);
   --gs-rule: var(--color-light);
   --gs-muted: var(--color-text-secondary);
-  /* The node is a white dot holding the step icon, at every width. */
-  --gs-node: 3rem;
-  --gs-tile: 3rem;
+  /* The node is a white dot holding the step image, at every width. */
+  --gs-node: 6rem;
+  --gs-tile: 6rem;
   /* Time for the content to settle one step; drops to 0s with reduced motion. */
   --gs-stagger: calc(var(--duration-slow) * 0.6);
   /* Scroll progress along the rail (set by the component; full without JS)
@@ -60,17 +60,19 @@
     scale var(--duration-normal) var(--ease-enter);
 }
 
-.nodeIcon {
-  display: grid;
-  inline-size: 60%;
-  block-size: 60%;
-  color: var(--color-dark);
-}
-
-.nodeIcon svg {
+.nodeImage {
+  display: block;
   inline-size: 100%;
   block-size: 100%;
-  overflow: visible;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.nodeImage img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
 }
 
 .segment {
@@ -97,39 +99,6 @@
 }
 
 /* Content */
-.head {
-  --d: 0s;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
-  margin-block-end: var(--space-6);
-}
-
-.icon {
-  display: grid;
-  flex: none;
-  place-items: center;
-  inline-size: var(--gs-tile);
-  block-size: var(--gs-tile);
-  color: var(--color-text-primary);
-}
-
-.icon svg {
-  inline-size: 100%;
-  block-size: 100%;
-  overflow: visible;
-}
-
-.number {
-  color: var(--color-light);
-  font-family: var(--font-display);
-  font-size: clamp(2.25rem, 3.2vw, 3rem);
-  font-weight: var(--font-weight-display);
-  font-variant-numeric: tabular-nums;
-  line-height: 1;
-}
-
 .title {
   --d: calc(var(--gs-stagger) * 0.2);
   margin: 0;
@@ -147,7 +116,6 @@
 }
 
 /* Reveal. Without JavaScript nothing below applies and every step is final. */
-.head,
 .title,
 .detail {
   transition:
@@ -155,7 +123,7 @@
     translate var(--duration-slow) var(--ease-enter) calc(var(--delay) + var(--d));
 }
 
-.root[data-enhanced] .step:not([data-visible]) :is(.head, .title, .detail) {
+.root[data-enhanced] .step:not([data-visible]) :is(.title, .detail) {
   opacity: 0;
   translate: 0 0.75rem;
 }
@@ -166,107 +134,7 @@
   scale: 0.6;
 }
 
-/* Icon motion plays once, after the step has settled. */
-.glyph,
-.live,
-.ripple {
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-.ripple {
-  opacity: 0;
-}
-
-.check {
-  stroke-dasharray: 1 1;
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset var(--duration-slow) var(--ease-enter)
-    calc(var(--delay) + var(--duration-slow));
-}
-
-.root[data-enhanced] .step:not([data-visible]) .check {
-  stroke-dashoffset: 1;
-}
-
-.step[data-visible] [data-icon="phone"] {
-  transform-origin: 50% 60%;
-  animation: gs-ring calc(var(--duration-slow) * 1.6) var(--ease-standard)
-    calc(var(--delay) + var(--duration-slow)) both;
-}
-
-.step[data-visible] .ripple {
-  animation: gs-ripple calc(var(--duration-slow) * 1.6) var(--ease-exit)
-    calc(var(--delay) + var(--duration-slow) * 1.4) 2 both;
-}
-
-.step[data-visible] .live {
-  animation: gs-live calc(var(--duration-slow) * 2.4) steps(1, end)
-    calc(var(--delay) + var(--duration-slow)) both;
-}
-
-.glyph {
-  transition: rotate var(--duration-normal) var(--ease-enter),
-    scale var(--duration-normal) var(--ease-enter);
-}
-
-@media (hover: hover) {
-  .step:hover .glyph {
-    rotate: -8deg;
-    scale: 1.08;
-  }
-}
-
-@keyframes gs-ring {
-  0%,
-  70%,
-  100% {
-    rotate: 0deg;
-  }
-  10%,
-  30% {
-    rotate: -12deg;
-  }
-  20%,
-  40% {
-    rotate: 12deg;
-  }
-  50% {
-    rotate: -6deg;
-  }
-  60% {
-    rotate: 4deg;
-  }
-}
-
-@keyframes gs-ripple {
-  0% {
-    opacity: 0.9;
-    scale: 1;
-  }
-  100% {
-    opacity: 0;
-    scale: 4.5;
-  }
-}
-
-@keyframes gs-live {
-  0%,
-  50% {
-    opacity: 1;
-  }
-  25%,
-  75% {
-    opacity: 0.15;
-  }
-}
-
-/* Phones: no numbers. */
 @media (max-width: 63.999rem) {
-  .head {
-    display: none;
-  }
-
   /* Centre the title on the node. */
   .title {
     display: flex;
@@ -275,13 +143,8 @@
   }
 }
 
-/* Desktop: hairline columns, rail across the top; the icon sits in the node,
-   the number heads the column. */
+/* Desktop: hairline columns, rail across the top. */
 @media (min-width: 64rem) {
-  .icon {
-    display: none;
-  }
-
   .root {
     --gs-segments: 3;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -291,12 +154,25 @@
     --delay: calc(var(--i) * var(--gs-stagger));
     padding-block: calc(var(--gs-node) + var(--space-6)) 0;
     padding-inline: var(--space-8);
-    border-inline-start: var(--border-width-default) solid var(--gs-rule);
+  }
+
+  /* Column hairline, starting below the node so it never shows above the
+     node while the node is scaled down. */
+  .step::before {
+    content: "";
+    position: absolute;
+    inset-block: var(--gs-node) 0;
+    inset-inline-start: calc(var(--border-width-default) / -2);
+    inline-size: var(--border-width-default);
+    background: var(--gs-rule);
   }
 
   .step:first-child {
     padding-inline-start: 0;
-    border-inline-start: 0;
+  }
+
+  .step:first-child::before {
+    content: none;
   }
 
   .rail {
@@ -337,7 +213,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .step,
-  .head,
   .title,
   .detail {
     --delay: 0s;

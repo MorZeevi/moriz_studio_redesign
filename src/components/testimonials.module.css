@@ -170,6 +170,18 @@
   color: var(--testimonial-accent);
 }
 
+/* Portrait phone recording; capped so the pinned panel fits the viewport. */
+.video {
+  display: block;
+  inline-size: auto;
+  max-inline-size: 100%;
+  block-size: min(32rem, 60svh);
+  aspect-ratio: 480 / 848;
+  border-radius: var(--radius-liquid);
+  background: var(--color-surface);
+  object-fit: cover;
+}
+
 .quote {
   margin: 0;
 }
@@ -273,7 +285,7 @@
   block-size: 3rem;
   place-items: center;
   padding: 0;
-  border: var(--border-width-default) solid var(--color-text-primary);
+  border: 0;
   border-radius: var(--radius-liquid);
   background: transparent;
   color: inherit;

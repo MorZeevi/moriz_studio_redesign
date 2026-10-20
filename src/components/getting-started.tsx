@@ -2,6 +2,7 @@
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
 import {
   type CSSProperties,
   useEffect,
@@ -11,17 +12,10 @@ import {
 } from "react";
 import type { GettingStartedStep } from "@/content/getting-started";
 import styles from "./getting-started.module.css";
-import { StepIcon } from "./getting-started-icons";
 
 const subscribeNothing = () => () => {};
 
-export function GettingStarted({
-  steps,
-  locale,
-}: {
-  steps: GettingStartedStep[];
-  locale: string;
-}) {
+export function GettingStarted({ steps }: { steps: GettingStartedStep[] }) {
   const rootRef = useRef<HTMLOListElement>(null);
   const stepRefs = useRef<(HTMLLIElement | null)[]>([]);
   const [visible, setVisible] = useState<boolean[]>(() =>
@@ -33,7 +27,6 @@ export function GettingStarted({
     () => true,
     () => false,
   );
-  const numbers = new Intl.NumberFormat(locale, { minimumIntegerDigits: 2 });
 
   useEffect(() => {
     if (!enhanced) return;
@@ -138,19 +131,17 @@ export function GettingStarted({
               <span className={styles.segmentFill} />
             </span>
             <span className={styles.node}>
-              <span className={styles.nodeIcon}>
-                <StepIcon icon={step.icon} />
+              <span className={styles.nodeImage}>
+                <Image
+                  src={step.image}
+                  alt=""
+                  width={144}
+                  height={144}
+                  sizes="6rem"
+                />
               </span>
             </span>
           </span>
-          <div className={styles.head}>
-            <span className={styles.icon}>
-              <StepIcon icon={step.icon} />
-            </span>
-            <span className={styles.number} aria-hidden="true">
-              <bdi>{numbers.format(index + 1)}</bdi>
-            </span>
-          </div>
           <h3 className={styles.title}>{step.title}</h3>
           <p className={styles.detail}>{step.detail}</p>
         </li>

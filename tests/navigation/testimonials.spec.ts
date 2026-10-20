@@ -25,7 +25,7 @@ async function scrollToReview(page: Page, index: number) {
   );
 }
 
-test("scrolling holds the reviews in view and advances through all five, then releases", async ({
+test("scrolling holds the reviews in view and advances through all six, then releases", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
@@ -34,9 +34,9 @@ test("scrolling holds the reviews in view and advances through all five, then re
   await page.evaluate(() => document.fonts.ready);
   await expect(page.locator(track)).toHaveAttribute("data-scroll-enabled", "");
   const tabs = page.locator(`${root} [role='tab']`);
-  await expect(tabs).toHaveCount(5);
+  await expect(tabs).toHaveCount(6);
   let pinnedTop: number | undefined;
-  for (const index of [0, 1, 2, 3, 4, 3, 2, 1, 0]) {
+  for (const index of [0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0]) {
     await scrollToReview(page, index);
     await expect(tabs.nth(index)).toHaveAttribute("aria-selected", "true");
     const box = await page.locator(root).boundingBox();
@@ -51,11 +51,11 @@ test("scrolling holds the reviews in view and advances through all five, then re
       });
     }
   }
-  await scrollToReview(page, 4);
+  await scrollToReview(page, 5);
   await page.evaluate(() =>
     scrollBy({ top: innerHeight, behavior: "instant" }),
   );
-  await expect(tabs.nth(4)).toHaveAttribute("aria-selected", "true");
+  await expect(tabs.nth(5)).toHaveAttribute("aria-selected", "true");
   await expect
     .poll(async () => (await page.locator(root).boundingBox())?.y ?? 0)
     .toBeLessThan(pinnedTop ?? 0);
@@ -128,7 +128,7 @@ test("without JavaScript every review remains readable without reserved scroll s
     await expect(page.locator(track)).not.toHaveAttribute(
       "data-scroll-enabled",
     );
-    await expect(page.locator(`${root} [role='tabpanel']`)).toHaveCount(5);
+    await expect(page.locator(`${root} [role='tabpanel']`)).toHaveCount(6);
     for (const panel of await page.locator(`${root} [role='tabpanel']`).all()) {
       await expect(panel).toBeVisible();
     }

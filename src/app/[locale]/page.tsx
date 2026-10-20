@@ -153,10 +153,7 @@ export default async function Home({
 
         <SecondaryScrollSurface>
           <Section id="getting-started" title={content.gettingStarted.heading}>
-            <GettingStarted
-              steps={content.gettingStarted.steps}
-              locale={locale}
-            />
+            <GettingStarted steps={content.gettingStarted.steps} />
           </Section>
         </SecondaryScrollSurface>
 

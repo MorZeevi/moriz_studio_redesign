@@ -75,6 +75,7 @@ export function Testimonials({ content }: { content: TestimonialsContent }) {
   const activeRef = useRef(0);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const bodyRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const [active, setActive] = useState(0);
   const [expanded, setExpanded] = useState(false);
   const [overflowing, setOverflowing] = useState<boolean[]>([]);
@@ -177,6 +178,13 @@ export function Testimonials({ content }: { content: TestimonialsContent }) {
     return () => observer.disconnect();
   }, [enhanced]);
 
+  // A hidden panel must not keep playing.
+  useEffect(() => {
+    videoRefs.current.forEach((video, index) => {
+      if (video && index !== active) video.pause();
+    });
+  }, [active]);
+
   const select = (index: number, focus = false) => {
     const next = (index + items.length) % items.length;
     const geometry = scrollRef.current;
@@ -277,7 +285,23 @@ export function Testimonials({ content }: { content: TestimonialsContent }) {
                 data-active={isActive || undefined}
                 inert={enhanced && !isActive}
               >
-                <QuoteMark />
+                {item.video ? (
+                  // biome-ignore lint/a11y/useMediaCaption: Captions pending an owner-approved transcript.
+                  <video
+                    ref={(node) => {
+                      videoRefs.current[index] = node;
+                    }}
+                    className={styles.video}
+                    src={item.video.src}
+                    poster={item.video.poster}
+                    aria-label={`${content.videoLabel} — ${item.name}`}
+                    controls
+                    playsInline
+                    preload="none"
+                  />
+                ) : (
+                  <QuoteMark />
+                )}
                 <blockquote className={styles.quote}>
                   {item.headline && (
                     <p className={styles.headline}>{item.headline}</p>
