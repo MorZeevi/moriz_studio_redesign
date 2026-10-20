@@ -13,7 +13,8 @@
 
 .controls {
   position: sticky;
-  top: 0;
+  /* Under the pinned site header. */
+  top: var(--site-header-height, var(--space-16));
   z-index: 5;
   /* Translucent so the site grain reads through; blur keeps it legible. */
   background: color-mix(
@@ -159,8 +160,7 @@
   }
 }
 
-/* Desktop: the site header is sticky too. Sit under it while it shows and
-   move up when it slides away on scroll. */
+/* Desktop: the site header slides away on scroll; move up when it does. */
 @media (min-width: 64rem) {
   .controls {
     top: var(--site-header-height, var(--space-24));

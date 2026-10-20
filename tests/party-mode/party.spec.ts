@@ -55,6 +55,35 @@ test.beforeEach(async ({ page }) => {
   await toggle(page).scrollIntoViewIfNeeded();
 });
 
+test("first view demonstrates the tap once and the hint leaves after Party is tried", async ({
+  page,
+}) => {
+  await expect(state(page)).toHaveAttribute("data-cue", "play");
+  const iterations = await state(page).evaluate((slot) =>
+    slot
+      .getAnimations({ subtree: true })
+      .map((animation) => animation.effect?.getTiming().iterations),
+  );
+  expect(iterations.length).toBeGreaterThan(0);
+  expect(iterations.every((count) => Number.isFinite(count))).toBe(true);
+  // The note and pointer are decorative; the switch keeps its own name.
+  await expect(state(page).locator("[aria-hidden='true']").first()).toHaveText(
+    "try me!",
+  );
+  await start(page);
+  await expect(state(page)).toHaveAttribute("data-cue", "done");
+  await expect
+    .poll(() =>
+      state(page)
+        .locator("[aria-hidden='true']")
+        .first()
+        .evaluate((hint) => getComputedStyle(hint).opacity),
+    )
+    .toBe("0");
+  await stop(page);
+  await expect(state(page)).toHaveAttribute("data-cue", "done");
+});
+
 test("viewport effects rotate, preserve interaction, and restore original styles", async ({
   page,
 }) => {

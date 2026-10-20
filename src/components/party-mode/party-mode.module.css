@@ -122,6 +122,136 @@
   background: var(--color-secondary);
 }
 
+/* ---------- First-visit cue ----------
+   The wrap is as wide as the switch, so the note, the pointer and the
+   pill's peek line up with the Yes half. All motion runs a set number of
+   times and stops; the note leaves once Party has been tried. */
+.toggleWrap {
+  position: relative;
+  display: flex;
+  inline-size: min(100%, 16rem);
+}
+
+.toggleWrap > .toggle.toggle {
+  inline-size: 100%;
+}
+
+/* Beside the prompt's line, so the arrow can reach down to Yes. */
+.hint {
+  position: absolute;
+  z-index: 1;
+  inset-block-end: calc(100% + var(--space-4));
+  inset-inline-start: calc(100% - 2rem);
+  color: var(--color-primary);
+  font-family: var(--font-caveat), "Bradley Hand", cursive;
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  rotate: -6deg;
+  pointer-events: none;
+  transition: opacity 0.3s ease-out;
+}
+
+.hintArrow {
+  position: absolute;
+  inset-block-start: 70%;
+  inset-inline-end: 82%;
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  rotate: 6deg;
+}
+
+.cursor {
+  position: absolute;
+  inset-block-start: 45%;
+  inset-inline-start: 68%;
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  color: var(--site-foreground, var(--color-dark));
+  opacity: 0;
+  pointer-events: none;
+}
+
+.controlSlot[data-cue="done"] .hint {
+  opacity: 0;
+}
+
+/* Reduced motion keeps only the note. */
+@media (prefers-reduced-motion: no-preference) {
+  .controlSlot[data-cue="play"] .cursor {
+    animation: partyTap 2.4s cubic-bezier(0.33, 1, 0.68, 1) 2 both;
+  }
+
+  .controlSlot:not([data-cue="done"])
+    .toggle:not([data-enabled="true"])
+    .partyDot {
+    animation: partyDotRing 1.6s ease-out 1s 6;
+  }
+
+  /* Side-by-side options only: stacked, a sideways peek would leave the track. */
+  @container (width > 15rem) {
+    .controlSlot[data-cue="play"]
+      .toggle:not([data-enabled="true"])
+      .selection {
+      animation: partyPeek 2.4s cubic-bezier(0.33, 1, 0.68, 1) 2;
+    }
+  }
+}
+
+/* The pointer glides in, presses Yes, lifts and leaves. */
+@keyframes partyTap {
+  0% {
+    opacity: 0;
+    translate: 2.5rem 2rem;
+    scale: 1;
+  }
+  20% {
+    opacity: 1;
+  }
+  45% {
+    translate: 0 0;
+    scale: 1;
+  }
+  55% {
+    scale: 0.82;
+  }
+  65% {
+    scale: 1;
+  }
+  85% {
+    opacity: 1;
+    translate: 0 0;
+  }
+  100% {
+    opacity: 0;
+    translate: 0.5rem 0.5rem;
+  }
+}
+
+/* The pill leans toward Yes as the pointer presses, then settles back. */
+@keyframes partyPeek {
+  0%,
+  48%,
+  75%,
+  100% {
+    translate: 0 0;
+  }
+  58% {
+    translate: 18% 0;
+  }
+}
+
+@keyframes partyDotRing {
+  0% {
+    box-shadow: 0 0 0 0
+      color-mix(in srgb, var(--color-primary) 55%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 0.5rem transparent;
+  }
+}
+
 .offControl.offControl {
   position: fixed;
   inset-inline-start: max(var(--space-4), env(safe-area-inset-right));
@@ -331,5 +461,8 @@
   }
   .toggle[data-enabled="true"] {
     animation: none;
+  }
+  .hint {
+    transition: none;
   }
 }

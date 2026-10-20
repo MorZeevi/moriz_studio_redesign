@@ -1,7 +1,19 @@
 /* Existing page compositions: retained for review, not new design-system patterns. */
+/* Pinned at every width; only the desktop header slides away on scroll. */
 .site-header {
-  position: relative;
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 20;
   isolation: isolate;
+  /* Parts sliding off sideways must not widen the page. */
+  overflow-x: clip;
+}
+
+html:has(.site-header) {
+  scroll-padding-block-start: calc(
+    var(--site-header-height, 6rem) +
+    var(--space-4)
+  );
 }
 
 .site-header-inner {
@@ -248,8 +260,11 @@ html:not([data-pixel-reveal]) .hero-video-stage {
 }
 
 @media (max-width: 63.999rem) {
+  /* A compact bar, since it stays pinned over the page on phones. */
   .site-header-inner {
+    min-block-size: var(--space-16);
     gap: var(--space-2);
+    padding-block: var(--space-3);
   }
 
   .mobile-menu-toggle,
@@ -352,21 +367,6 @@ html:has(.navigation-dialog[open]) {
 }
 
 @media (min-width: 64rem) {
-  html:has(.site-header) {
-    scroll-padding-block-start: calc(
-      var(--site-header-height, 6rem) +
-      var(--space-4)
-    );
-  }
-
-  .site-header {
-    position: sticky;
-    inset-block-start: 0;
-    z-index: 20;
-    /* Parts sliding off sideways must not widen the page. */
-    overflow-x: clip;
-  }
-
   .site-header-inner {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
@@ -840,6 +840,31 @@ body[data-project-backdrop] .mobile-menu-toggle {
    dark, so pinned strips do not show through it; elsewhere it stays transparent. */
 .site-header-backdrop {
   display: none;
+}
+
+/* Phones keep the header pinned the whole way down, so once the page moves it
+   takes the page surface and grain (dark over Projects, via the backdrop fade). */
+@media (max-width: 63.999rem) {
+  .site-header-backdrop {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: var(--color-background);
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+  }
+
+  .site-header[data-header-stuck] .site-header-backdrop {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 63.999rem) and (prefers-reduced-motion: reduce) {
+  .site-header-backdrop {
+    transition: none;
+  }
 }
 
 @media (min-width: 64rem) {

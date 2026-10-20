@@ -45,7 +45,16 @@ test("site grain sits behind the header and hero without a sticky overlay", asyn
     await page.setViewportSize({ width, height: 1000 });
     await page.evaluate(() => window.scrollTo(0, 0));
     await expect(header).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
-    await expect(header.locator("canvas")).toHaveCount(0);
+    // The header's own surface (Projects on desktop, any scroll on phones)
+    // stays invisible at the top of the page.
+    await expect
+      .poll(() =>
+        header.locator(".site-header-backdrop").evaluate((backdrop) => {
+          const style = getComputedStyle(backdrop);
+          return style.display === "none" || style.opacity === "0";
+        }),
+      )
+      .toBe(true);
     await expect(page.locator("#hero")).toHaveCSS(
       "background-color",
       "rgba(0, 0, 0, 0)",

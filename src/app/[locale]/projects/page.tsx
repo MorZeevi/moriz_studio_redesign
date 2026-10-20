@@ -117,7 +117,11 @@ export default async function ProjectsPage({
         />
       </main>
       <SiteFooter content={content} locale={locale} homepage={false} />
-      <FloatingActions content={content.floatingActions} ask={content.askAi} />
+      <FloatingActions
+        content={content.floatingActions}
+        ask={content.askAi}
+        mobileWhatsappOnly
+      />
     </>
   );
 }

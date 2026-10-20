@@ -251,7 +251,7 @@ test("mobile matches desktop links and closes it when entering desktop", async (
     await page
       .locator(".site-header")
       .evaluate((element) => getComputedStyle(element).position),
-  ).toBe("relative");
+  ).toBe("sticky");
   await page.locator(".mobile-menu-toggle").click();
   await expect(page.locator(".navigation-dialog")).toBeVisible();
   await expect(page.locator(".navigation-links a")).toHaveText([

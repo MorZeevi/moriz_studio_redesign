@@ -4,7 +4,7 @@ import gsap from "gsap";
 import { type ReactNode, useEffect, useRef, useSyncExternalStore } from "react";
 
 const motionQuery = "(prefers-reduced-motion: reduce)";
-// The header is sticky only from this width; below it scrolls away anyway.
+// The header is sticky at every width; it only slides away from this width.
 const desktopQuery = "(min-width: 64rem)";
 
 function mediaStore(query: string) {
@@ -188,6 +188,28 @@ export function SiteHeader({ children }: { children: ReactNode }) {
       gsap.set(targets, { clearProps: "transform,opacity" });
     };
   }, [isDesktop, reducedMotion]);
+
+  // Phones keep the header in place; it only gains a surface once the page
+  // has moved, so the opening shows through it at rest.
+  useEffect(() => {
+    const header = root.current;
+    if (!header || isDesktop) return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      header.toggleAttribute("data-header-stuck", window.scrollY > threshold);
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    window.addEventListener("scroll", schedule, { passive: true });
+    update();
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      header.removeAttribute("data-header-stuck");
+    };
+  }, [isDesktop]);
 
   return (
     <header ref={root} className="site-header">

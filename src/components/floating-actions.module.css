@@ -73,9 +73,12 @@
   font-size: var(--text-body-lg);
 }
 
-/* Both blobs as wide as the portrait one, so the collapsed icons line up. */
+/* Both blobs as wide as the portrait one, so the collapsed icons line up.
+   Safari sizes the fixed rail without flex-basis, so the blob also needs a
+   min width or the rail collapses and pushes it past the screen edge. */
 .action :global(.liquid__icon) {
   flex-basis: calc(var(--liquid-height) * 1.4);
+  min-inline-size: calc(var(--liquid-height) * 1.4);
 }
 
 .action :global(.liquid__icon) > span {
@@ -248,6 +251,7 @@
   }
   .mobileWhatsappOnly .action :global(.liquid__icon) {
     flex-basis: 3rem;
+    min-inline-size: 3rem;
   }
   .mobileWhatsappOnly .action :global(.liquid__label),
   .mobileWhatsappOnly .action :global(.liquid__bridge) {
@@ -266,6 +270,7 @@
   }
   .compactMobile .action :global(.liquid__icon) {
     flex-basis: 2.75rem;
+    min-inline-size: 2.75rem;
   }
   .compactMobile .action :global(.liquid__label),
   .compactMobile .action :global(.liquid__bridge) {
