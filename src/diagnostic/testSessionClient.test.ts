@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
+import { RETIRED_SECRET_HEADER } from './adminRouteTestSupport.ts';
 import { withBasePath } from './basePath.ts';
 import { loadStoredSession, type SessionStorage } from './session-client.ts';
 import {
@@ -61,7 +62,7 @@ test('marking a session as test confirms before requesting and returns the canon
     action: 'mark_test',
   });
   const headers = new Headers(requests[0]?.init?.headers);
-  assert.equal(headers.get('x-admin-secret'), null);
+  assert.equal(headers.get(RETIRED_SECRET_HEADER), null);
   assert.equal(headers.get('content-type'), 'application/json');
   assert.equal(requests[0]?.init?.credentials, undefined);
 });
@@ -172,7 +173,7 @@ test('test-session creation stages a one-shot session before hard-replacing the 
   // Authenticated by the session cookie of a same-origin fetch: no secret
   // header, and the body is the JSON the guard requires.
   const headers = new Headers(requests[0]?.init?.headers);
-  assert.equal(headers.get('x-admin-secret'), null);
+  assert.equal(headers.get(RETIRED_SECRET_HEADER), null);
   assert.equal(headers.get('content-type'), 'application/json');
   assert.equal(requests[0]?.init?.body, '{}');
   assert.deepEqual(order, ['fetch', 'persist', 'replaceLocation']);

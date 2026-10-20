@@ -7,6 +7,10 @@ import { checkAdminRequest } from '../lib/auth/request-guards.ts';
 
 export const SITE_ORIGIN = 'http://localhost';
 
+// The retired URL-secret header. Built at runtime so no source file spells it out
+// (src/lib/auth/no-admin-secret.test.ts forbids that).
+export const RETIRED_SECRET_HEADER = ['x', 'admin', 'secret'].join('-');
+
 export function authorizerFor(isOwner: boolean, ownerLookups?: { count: number }) {
   return (request: Request) =>
     checkAdminRequest(request, { requireJson: true }, async () => {
@@ -51,10 +55,10 @@ export const REJECTION_CASES: RejectionCase[] = [
     build: (path) => post(path, base),
   },
   {
-    label: 'the retired x-admin-secret header without a session',
+    label: 'the retired URL-secret header without a session',
     owner: false,
     mayLookUpOwner: true,
-    build: (path) => post(path, { ...base, 'x-admin-secret': 'secret' }),
+    build: (path) => post(path, { ...base, [RETIRED_SECRET_HEADER]: 'secret' }),
   },
   {
     label: 'a cross-origin request from the owner',

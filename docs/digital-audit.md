@@ -10,8 +10,8 @@ Status: faithful transplant only (milestone 1). The visual redesign planned in [
 | --- | --- |
 | `/digital-audit` | Landing and questionnaire |
 | `/digital-audit/result` | Deterministic result, AI note, contact form |
-| `/digital-audit/admin`, `/digital-audit/admin/leads/[sessionId]` | Lead queue and detail (`?secret=`, temporary guard) |
-| `/digital-audit/api/diagnostic/*`, `/digital-audit/api/admin/*` | Server routes; the only path to Supabase |
+| `/digital-audit/admin`, `/digital-audit/admin/leads/[sessionId]` | Lead queue and detail. Owner login required: signed out, they redirect to `/admin/login?next=...` and return after sign-in |
+| `/digital-audit/api/diagnostic/*`, `/digital-audit/api/admin/*` | Server routes; the only path to Supabase. The admin routes answer 404 unless the request carries the owner session, a same-origin `Origin` and a JSON body |
 
 Files: routes in `src/app/digital-audit/`, logic in `src/diagnostic/` (UI in `components/`, AI in `ai/`, DB in `db/`) and `src/diagnostic-core/` (questions, scoring, result templates), assets in `public/digital-audit/`, ops scripts in `tools/diagnostic/`.
 
@@ -29,15 +29,15 @@ The standalone app used `basePath: '/digital-audit'`. The website cannot, so the
 
 Names only; values live in `.env.local` / Vercel and are never committed. All are server-only.
 
-- Required: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_ACCESS_SECRET`.
+- Required: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`. The lead admin has no secret of its own: it uses the CMS owner login (`SUPABASE_ADMIN_EMAIL`, `SUPABASE_ADMIN_USER_ID`, `NEXT_PUBLIC_SUPABASE_*`). `ADMIN_ACCESS_SECRET` and `?secret=` links are retired and can be deleted from Vercel after a clean week.
 - AI personalization (default off): `AI_PERSONALIZATION_ENABLED`, `AI_PROVIDER`, `AI_TIMEOUT_MS`, `AI_MAX_TOKENS`. AI lead brief (default off): `LEAD_BRIEF_AI_ENABLED`, `LEAD_BRIEF_TIMEOUT_MS`, `LEAD_BRIEF_MAX_TOKENS`.
 - Moonshot, shared with the FAQ assistant: `MOONSHOT_API_KEY`, `MOONSHOT_BASE_URL`, `MOONSHOT_MODEL`. The code default `kimi-k2-0711-preview` is stale; always set `MOONSHOT_MODEL` explicitly to a model the account can use.
 - Lead email (default off): `LEAD_NOTIFY_ENABLED`, `RESEND_API_KEY`, `LEAD_NOTIFY_TO_EMAIL`, `LEAD_NOTIFY_FROM_EMAIL`.
 
 ## Shared Supabase
 
-Sessions get `source='moriz'` from the column default; the insert path never sends `source`. `is_test` is independent of `source`. The admin queue defaults to `source=moriz`. The shared-backend contract is in [AGENTS.md](../AGENTS.md). This milestone made no schema change.
+Sessions get `source='moriz'` from the column default; the insert path never sends `source`. `is_test` is independent of `source`. Every admin read and mutation is pinned to `OWN_SOURCE = 'moriz'` (queue, test queue, lead, answers, snapshot, brief, status, classification, briefs); a session of another source reads as missing (404). The queue has no source switcher. This is admin-side isolation only. The shared-backend contract is in [AGENTS.md](../AGENTS.md). This milestone made no schema change.
 
 ## Testing
 
-`npm run test:diagnostic` runs the 439 unit tests with no network. To exercise the live flow, sign in at `/digital-audit/admin?secret=...` and use "התחלת בדיקת ניסיון" so the session is stored with `is_test=true`; do not use the public start button against production data.
+`npm run test:diagnostic` runs the unit tests with no network (it also covers `src/lib/auth`). The read-only CMS and lead-admin regression gate is `npm run test:cms-gate`. To exercise the live flow, sign in at `/admin/login`, open `/digital-audit/admin` and use "התחלת בדיקת ניסיון" so the session is stored with `is_test=true`; do not use the public start button against production data.
