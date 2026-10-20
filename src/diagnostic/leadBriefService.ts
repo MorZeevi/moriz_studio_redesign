@@ -5,6 +5,7 @@ import type { LeadBrief, LeadBriefFailureReason, LeadBriefReq } from './api-type
 import {
   approveLeadBrief as approveLeadBriefReal,
   upsertLeadBrief as upsertLeadBriefReal,
+  SessionNotOwnedError,
   type UpsertLeadBriefInput,
 } from './db/mutations.ts';
 import {
@@ -113,6 +114,20 @@ const defaultDeps: LeadBriefServiceDeps = {
 export async function handleLeadBrief(
   req: LeadBriefReq,
   deps: LeadBriefServiceDeps = defaultDeps
+): Promise<LeadBriefOutcome> {
+  try {
+    return await handleOwnedLeadBrief(req, deps);
+  } catch (err) {
+    // A session that is not this deployment's own reads exactly like a missing
+    // one (no write happened): the route answers 404 session_not_found.
+    if (err instanceof SessionNotOwnedError) return { status: 'session_not_found' };
+    throw err;
+  }
+}
+
+async function handleOwnedLeadBrief(
+  req: LeadBriefReq,
+  deps: LeadBriefServiceDeps,
 ): Promise<LeadBriefOutcome> {
   if (req.mode === 'approve') {
     // Approve never creates: no draft row -> typed error, the route answers 404.

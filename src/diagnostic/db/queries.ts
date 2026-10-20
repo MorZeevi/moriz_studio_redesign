@@ -10,7 +10,7 @@ import { RESULT_TEMPLATES } from '../../diagnostic-core/resultTemplates.ts';
 import type { EventReq, LeadBrief } from '../api-types.ts';
 import type { Attribution } from '../attribution.ts';
 import type { AnsweredSummary } from '../analytics.ts';
-import type { DiagnosticSource, LeadSourceFilter } from '../diagnosticSource.ts';
+import { OWN_SOURCE, type DiagnosticSource } from '../diagnosticSource.ts';
 
 export async function sessionExists(sessionId: string): Promise<boolean> {
   const supabase = getSupabaseServerClient();
@@ -24,12 +24,17 @@ export async function sessionExists(sessionId: string): Promise<boolean> {
   return data !== null;
 }
 
-export async function getDiagnosticAnswers(sessionId: string): Promise<DiagnosticAnswers> {
-  const supabase = getSupabaseServerClient();
+// Pinned to this deployment's own sessions (OWN_SOURCE): the shared tables also
+// hold Eyal's, and a foreign session id must read as "no answers".
+export async function getDiagnosticAnswers(
+  sessionId: string,
+  supabase: DiagnosticQueryClient = getSupabaseServerClient(),
+): Promise<DiagnosticAnswers> {
   const { data, error } = await supabase
     .from('diagnostic_answers')
-    .select('question_id, answer_value')
-    .eq('session_id', sessionId);
+    .select('question_id, answer_value, diagnostic_sessions!inner(source)')
+    .eq('session_id', sessionId)
+    .eq('diagnostic_sessions.source', OWN_SOURCE);
 
   if (error) throw error;
 
@@ -165,10 +170,9 @@ export function mapDiagnosticContactRow(row: DiagnosticContactRow): DiagnosticLe
 export const CONTACT_COLUMNS =
   'session_id, full_name, phone, email, business_name, link, review_request, status, created_at, diagnostic_sessions!inner(primary_solution, lead_tier, utm, is_test, source)';
 
-// This deployment's own default admin view. Never raise this to a public
-// request parameter — see diagnosticSource.ts and mutations.ts's guard comment.
-const DEFAULT_QUEUE_SOURCE: LeadSourceFilter = 'moriz';
-
+// Every admin read here is pinned to OWN_SOURCE (see diagnosticSource.ts): the
+// shared project also holds Eyal's leads, which this deployment must never read,
+// whatever the URL, body or lead id says. The source is never a request parameter.
 // Lead ops readback (P7b, reshaped P9f): actionable leads (new/in_review)
 // fetched in full, plus the most-recent `workedLimit` worked leads
 // (contacted/closed), both DESC by created_at. Used by the admin lead list
@@ -179,7 +183,6 @@ const DEFAULT_QUEUE_SOURCE: LeadSourceFilter = 'moriz';
 async function getRealLeadsForQueue(
   supabase: DiagnosticQueryClient,
   workedLimit = 200,
-  source: LeadSourceFilter = DEFAULT_QUEUE_SOURCE,
 ): Promise<DiagnosticLead[]> {
   // ponytail: actionable leads are bounded by the project's Supabase max-rows
   // cap (default 1000) — the accepted no-pagination ceiling. A 1000+
@@ -190,6 +193,7 @@ async function getRealLeadsForQueue(
   const actionableQuery = supabase
     .from('diagnostic_contacts')
     .select(CONTACT_COLUMNS, { count: 'exact' })
+    .eq('diagnostic_sessions.source', OWN_SOURCE)
     .eq('diagnostic_sessions.is_test', false)
     .in('status', ['new', 'in_review'])
     .order('created_at', { ascending: false });
@@ -199,17 +203,13 @@ async function getRealLeadsForQueue(
   const workedQuery = supabase
     .from('diagnostic_contacts')
     .select(CONTACT_COLUMNS)
+    .eq('diagnostic_sessions.source', OWN_SOURCE)
     .eq('diagnostic_sessions.is_test', false)
     .in('status', ['contacted', 'closed'])
     .order('created_at', { ascending: false })
     .limit(workedLimit);
 
-  // 'all' means "don't filter" — a .eq('diagnostic_sessions.source', 'all')
-  // would match zero rows forever, since no row's source is ever literally 'all'.
-  const [actionable, worked] = await Promise.all([
-    source === 'all' ? actionableQuery : actionableQuery.eq('diagnostic_sessions.source', source),
-    source === 'all' ? workedQuery : workedQuery.eq('diagnostic_sessions.source', source),
-  ]);
+  const [actionable, worked] = await Promise.all([actionableQuery, workedQuery]);
 
   if (actionable.error) throw actionable.error;
   if (worked.error) throw worked.error;
@@ -229,17 +229,14 @@ async function getRealLeadsForQueue(
 async function getTestLeadsFrom(
   supabase: DiagnosticQueryClient,
   limit = 200,
-  source: LeadSourceFilter = DEFAULT_QUEUE_SOURCE,
 ): Promise<DiagnosticLead[]> {
-  const testQuery = supabase
+  const { data, error, count } = await supabase
     .from('diagnostic_contacts')
     .select(CONTACT_COLUMNS, { count: 'exact' })
+    .eq('diagnostic_sessions.source', OWN_SOURCE)
     .eq('diagnostic_sessions.is_test', true)
     .order('created_at', { ascending: false })
     .limit(limit);
-  const { data, error, count } = await (source === 'all'
-    ? testQuery
-    : testQuery.eq('diagnostic_sessions.source', source));
 
   if (error) throw error;
 
@@ -256,8 +253,8 @@ async function getTestLeadsFrom(
 export interface DiagnosticQueryRepository {
   getRecentDiagnosticEvents(limit?: number): Promise<EventReq[]>;
   getRecentTestDiagnosticEvents(limit?: number): Promise<EventReq[]>;
-  getLeadsForQueue(workedLimit?: number, source?: LeadSourceFilter): Promise<DiagnosticLead[]>;
-  getTestLeadsForQueue(limit?: number, source?: LeadSourceFilter): Promise<DiagnosticLead[]>;
+  getLeadsForQueue(workedLimit?: number): Promise<DiagnosticLead[]>;
+  getTestLeadsForQueue(limit?: number): Promise<DiagnosticLead[]>;
 }
 
 // Injected-client seam: production uses the server client below, while tests
@@ -268,8 +265,8 @@ export function createDiagnosticQueryRepository(supabase: DiagnosticQueryClient)
       getRecentEventsFrom(supabase, 'diagnostic_production_events', limit),
     getRecentTestDiagnosticEvents: (limit) =>
       getRecentEventsFrom(supabase, 'diagnostic_test_events', limit),
-    getLeadsForQueue: (workedLimit, source) => getRealLeadsForQueue(supabase, workedLimit, source),
-    getTestLeadsForQueue: (limit, source) => getTestLeadsFrom(supabase, limit, source),
+    getLeadsForQueue: (workedLimit) => getRealLeadsForQueue(supabase, workedLimit),
+    getTestLeadsForQueue: (limit) => getTestLeadsFrom(supabase, limit),
   };
 }
 
@@ -285,22 +282,25 @@ export const getRecentDiagnosticEvents = (limit?: number): Promise<EventReq[]> =
 export const getRecentTestDiagnosticEvents = (limit?: number): Promise<EventReq[]> =>
   productionRepository().getRecentTestDiagnosticEvents(limit);
 
-export const getLeadsForQueue = (workedLimit?: number, source?: LeadSourceFilter): Promise<DiagnosticLead[]> =>
-  productionRepository().getLeadsForQueue(workedLimit, source);
+export const getLeadsForQueue = (workedLimit?: number): Promise<DiagnosticLead[]> =>
+  productionRepository().getLeadsForQueue(workedLimit);
 
-export const getTestLeadsForQueue = (limit?: number, source?: LeadSourceFilter): Promise<DiagnosticLead[]> =>
-  productionRepository().getTestLeadsForQueue(limit, source);
+export const getTestLeadsForQueue = (limit?: number): Promise<DiagnosticLead[]> =>
+  productionRepository().getTestLeadsForQueue(limit);
 
 // Single-lead readback by session (P7b): feeds the lead-notify email with the
 // same joined shape as the admin list, keyed to the session that was just
 // inserted — no ordering/limit assumption, so it can't pick up a different
 // session's lead under concurrent submits.
-export async function getDiagnosticLeadBySessionId(sessionId: string): Promise<DiagnosticLead | null> {
-  const supabase = getSupabaseServerClient();
+export async function getDiagnosticLeadBySessionId(
+  sessionId: string,
+  supabase: DiagnosticQueryClient = getSupabaseServerClient(),
+): Promise<DiagnosticLead | null> {
   const { data, error } = await supabase
     .from('diagnostic_contacts')
     .select(CONTACT_COLUMNS)
     .eq('session_id', sessionId)
+    .eq('diagnostic_sessions.source', OWN_SOURCE)
     .maybeSingle();
 
   if (error) throw error;
@@ -310,12 +310,15 @@ export async function getDiagnosticLeadBySessionId(sessionId: string): Promise<D
 // Full stored result readback (P8a): CONTACT_COLUMNS deliberately doesn't pull
 // result_snapshot (the list page doesn't need it); the admin detail view does.
 // Missing/never-completed session → null, never a throw.
-export async function getSessionResultSnapshot(sessionId: string): Promise<DiagnosticResult | null> {
-  const supabase = getSupabaseServerClient();
+export async function getSessionResultSnapshot(
+  sessionId: string,
+  supabase: DiagnosticQueryClient = getSupabaseServerClient(),
+): Promise<DiagnosticResult | null> {
   const { data, error } = await supabase
     .from('diagnostic_sessions')
     .select('result_snapshot')
     .eq('id', sessionId)
+    .eq('source', OWN_SOURCE)
     .maybeSingle();
 
   if (error) throw error;
@@ -348,12 +351,15 @@ export function mapLeadBriefRow(row: LeadBriefRow): LeadBrief {
   };
 }
 
-export async function getLeadBriefBySessionId(sessionId: string): Promise<LeadBrief | null> {
-  const supabase = getSupabaseServerClient();
+export async function getLeadBriefBySessionId(
+  sessionId: string,
+  supabase: DiagnosticQueryClient = getSupabaseServerClient(),
+): Promise<LeadBrief | null> {
   const { data, error } = await supabase
     .from('diagnostic_lead_briefs')
-    .select(LEAD_BRIEF_COLUMNS)
+    .select(`${LEAD_BRIEF_COLUMNS}, diagnostic_sessions!inner(source)`)
     .eq('session_id', sessionId)
+    .eq('diagnostic_sessions.source', OWN_SOURCE)
     .maybeSingle();
 
   if (error) throw error;

@@ -11,14 +11,12 @@ import {
 import { isValidUuid } from '@/diagnostic/validation';
 import { isLeadStatus, type LeadStatus } from '@/diagnostic/leadStatus';
 import { isSortDir, isSortKey } from '@/diagnostic/leadSort';
-import { buildAdminQueueHref, resolveLeadQueueSource, resolveLeadQueueView } from '@/diagnostic/leadQueueView';
+import { buildAdminQueueHref, resolveLeadQueueView } from '@/diagnostic/leadQueueView';
 import { withBasePath } from '@/diagnostic/basePath';
 import LeadBriefPanel from './LeadBriefPanel';
 import StatusControl from './StatusControl';
 import TestClassificationControl from './TestClassificationControl';
 import styles from './page.module.css';
-
-const DEFAULT_SOURCE = 'moriz';
 
 // Reality side is never fabricated: a link that doesn't parse as a real URL
 // means there is no auditable footprint and the audit is claim-only. Same
@@ -41,22 +39,20 @@ export default async function AdminLeadDetailPage({
   searchParams,
 }: {
   params: Promise<{ sessionId: string }>;
-  searchParams: Promise<{ secret?: string; sort?: string; dir?: string; view?: string; source?: string }>;
+  searchParams: Promise<{ secret?: string; sort?: string; dir?: string; view?: string }>;
 }) {
-  const { secret, sort, dir, view: rawView, source: rawSource } = await searchParams;
+  const { secret, sort, dir, view: rawView } = await searchParams;
   const expected = process.env.ADMIN_ACCESS_SECRET;
   if (!expected || !secret || secret !== expected) {
     notFound();
   }
 
   const view = resolveLeadQueueView(rawView);
-  const source = resolveLeadQueueSource(rawSource, DEFAULT_SOURCE);
   const currentSort = isSortKey(sort) ? sort : undefined;
   const currentDir = isSortDir(dir) ? dir : 'desc';
   const backHref = buildAdminQueueHref({
     secret,
     view,
-    source,
     sort: currentSort,
     dir: currentDir,
   });

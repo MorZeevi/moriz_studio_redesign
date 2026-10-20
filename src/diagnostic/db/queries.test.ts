@@ -93,8 +93,8 @@ function recordingClient(results: QueryResult[] = []) {
 type QueryRepository = {
   getRecentDiagnosticEvents(limit?: number): Promise<unknown[]>;
   getRecentTestDiagnosticEvents(limit?: number): Promise<unknown[]>;
-  getLeadsForQueue(workedLimit?: number, source?: string): Promise<unknown[]>;
-  getTestLeadsForQueue(limit?: number, source?: string): Promise<unknown[]>;
+  getLeadsForQueue(workedLimit?: number): Promise<unknown[]>;
+  getTestLeadsForQueue(limit?: number): Promise<unknown[]>;
 };
 
 type QueryModuleWithSeam = typeof queries & {
@@ -199,7 +199,7 @@ test('contact selection uses an inner session join containing is_test and source
   assert.match(moduleWithSeam.CONTACT_COLUMNS, /diagnostic_sessions!inner\([^)]*is_test[^)]*source/);
 });
 
-test('default queue filters both actionable and worked queries to real, moriz-sourced sessions', async () => {
+test('the queue pins both actionable and worked queries to real, moriz-owned sessions', async () => {
   const fake = recordingClient();
   const repository = repositoryWith(fake.client);
 
@@ -208,8 +208,8 @@ test('default queue filters both actionable and worked queries to real, moriz-so
   assert.equal(fake.recorded.length, 2);
   for (const query of fake.recorded) {
     assert.deepEqual(findCalls(query, 'eq'), [
-      ['diagnostic_sessions.is_test', false],
       ['diagnostic_sessions.source', 'moriz'],
+      ['diagnostic_sessions.is_test', false],
     ]);
   }
   assert.deepEqual(findCall(fake.recorded[0], 'in')?.args, ['status', ['new', 'in_review']]);
@@ -217,32 +217,25 @@ test('default queue filters both actionable and worked queries to real, moriz-so
   assert.deepEqual(findCall(fake.recorded[1], 'limit')?.args, [40]);
 });
 
-test('an explicit eyal queue request filters sessions to eyal instead', async () => {
+test('the queue ignores any extra source argument: ownership is never caller-chosen', async () => {
   const fake = recordingClient();
-  const repository = repositoryWith(fake.client);
+  const repository = repositoryWith(fake.client) as unknown as {
+    getLeadsForQueue(workedLimit?: number, source?: string): Promise<unknown[]>;
+    getTestLeadsForQueue(limit?: number, source?: string): Promise<unknown[]>;
+  };
 
   await repository.getLeadsForQueue(40, 'eyal');
-
-  for (const query of fake.recorded) {
-    assert.deepEqual(findCalls(query, 'eq'), [
-      ['diagnostic_sessions.is_test', false],
-      ['diagnostic_sessions.source', 'eyal'],
-    ]);
-  }
-});
-
-test('an "all" queue request omits the source filter entirely', async () => {
-  const fake = recordingClient();
-  const repository = repositoryWith(fake.client);
-
   await repository.getLeadsForQueue(40, 'all');
+  await repository.getTestLeadsForQueue(30, 'all');
 
+  assert.equal(fake.recorded.length, 5);
   for (const query of fake.recorded) {
-    assert.deepEqual(findCalls(query, 'eq'), [['diagnostic_sessions.is_test', false]]);
+    const sourceFilters = findCalls(query, 'eq').filter(([column]) => column === 'diagnostic_sessions.source');
+    assert.deepEqual(sourceFilters, [['diagnostic_sessions.source', 'moriz']]);
   }
 });
 
-test('test queue performs one all-status query filtered to test, moriz-sourced sessions', async () => {
+test('test queue performs one all-status query filtered to moriz-owned test sessions', async () => {
   const fake = recordingClient();
   const repository = repositoryWith(fake.client);
 
@@ -250,21 +243,12 @@ test('test queue performs one all-status query filtered to test, moriz-sourced s
 
   assert.equal(fake.recorded.length, 1);
   assert.deepEqual(findCalls(fake.recorded[0], 'eq'), [
-    ['diagnostic_sessions.is_test', true],
     ['diagnostic_sessions.source', 'moriz'],
+    ['diagnostic_sessions.is_test', true],
   ]);
   assert.equal(findCall(fake.recorded[0], 'in'), undefined);
   assert.deepEqual(findCall(fake.recorded[0], 'limit')?.args, [30]);
   assert.deepEqual(findCall(fake.recorded[0], 'select')?.args[1], { count: 'exact' });
-});
-
-test('test queue with source "all" omits the source filter', async () => {
-  const fake = recordingClient();
-  const repository = repositoryWith(fake.client);
-
-  await repository.getTestLeadsForQueue(30, 'all');
-
-  assert.deepEqual(findCalls(fake.recorded[0], 'eq'), [['diagnostic_sessions.is_test', true]]);
 });
 
 test('test queue warns when the exact count exceeds returned rows', async () => {

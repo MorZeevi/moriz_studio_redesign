@@ -8,6 +8,7 @@ import {
   MAX_EVIDENCE_LENGTH,
   type LeadBriefServiceDeps,
 } from './leadBriefService.ts';
+import { SessionNotOwnedError } from './db/mutations.ts';
 import type { LeadBrief, LeadBriefReq } from './api-types.ts';
 import type { UpsertLeadBriefInput } from './db/mutations.ts';
 import type { DiagnosticLead } from './db/queries.ts';
@@ -283,4 +284,34 @@ test('generate failure surfaces the typed reason and writes nothing', async () =
     assert.deepEqual(await handleLeadBrief(GENERATE_REQ, deps), { status: 'ai_failed', reason });
     assert.equal(deps.upsertCalls.length, 0);
   }
+});
+
+// ── ownership: a foreign session reads exactly like a missing one ───────────
+
+test('a session the data layer refuses as not owned maps to session_not_found on every mode', async () => {
+  const refused = async () => {
+    throw new SessionNotOwnedError();
+  };
+  const deps = baseDeps({ approveLeadBrief: refused, upsertLeadBrief: refused });
+
+  assert.deepEqual(await handleLeadBrief({ mode: 'approve', sessionId: SESSION_ID }, deps), {
+    status: 'session_not_found',
+  });
+  assert.deepEqual(
+    await handleLeadBrief({ mode: 'save', sessionId: SESSION_ID, evidenceMd: 'ok' }, deps),
+    { status: 'session_not_found' },
+  );
+  assert.deepEqual(
+    await handleLeadBrief({ mode: 'generate', sessionId: SESSION_ID, evidenceMd: 'enough evidence here' }, deps),
+    { status: 'session_not_found' },
+  );
+});
+
+test('other errors from the data layer still propagate', async () => {
+  const deps = baseDeps({
+    approveLeadBrief: async () => {
+      throw new Error('database down');
+    },
+  });
+  await assert.rejects(handleLeadBrief({ mode: 'approve', sessionId: SESSION_ID }, deps), /database down/);
 });
