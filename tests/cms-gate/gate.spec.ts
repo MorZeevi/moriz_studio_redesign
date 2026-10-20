@@ -286,3 +286,31 @@ test("lead admin APIs accept the owner only on a same-origin JSON request", asyn
   await anonymous.dispose();
   await owner.close();
 });
+
+test("an existing lead's detail page renders for the owner (read-only)", async ({
+  browser,
+}) => {
+  const context = await browser.newContext();
+  await context.addCookies(fixture().smoke.cookies);
+  const page = await context.newPage();
+  const leadLink = page
+    .locator('a[href^="/digital-audit/admin/leads/"]')
+    .first();
+  let found = false;
+  for (const path of ["/digital-audit/admin", "/digital-audit/admin?view=test"]) {
+    await page.goto(path);
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    if (await leadLink.count()) {
+      found = true;
+      break;
+    }
+  }
+  test.skip(!found, "no leads exist to open; verify a lead detail page manually");
+  await leadLink.click();
+  await expect(page).toHaveURL(/\/digital-audit\/admin\/leads\/[0-9a-f-]{36}/);
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  // Nothing is clicked or edited; the status, brief and classification
+  // controls just have to render (their data joins ran server-side).
+  await expect(page.getByText("הצהרה (תשובות השאלון)")).toBeVisible();
+  await context.close();
+});

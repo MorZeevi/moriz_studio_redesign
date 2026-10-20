@@ -140,13 +140,17 @@ export default async function setup() {
 
   return async () => {
     // Only the sessions minted above are revoked, never the owner's other
-    // sessions. An already-revoked session (for example after a UI logout)
-    // errors harmlessly.
-    for (const { session } of Object.values(fixture)) {
+    // sessions. signOut() reports failures through `error` instead of throwing;
+    // a session the UI already logged out (the "logout" one) may report one.
+    for (const [name, { session }] of Object.entries(fixture)) {
       try {
-        await admin.auth.admin.signOut(session.access_token, "local");
-      } catch {
-        /* already revoked */
+        const { error } = await admin.auth.admin.signOut(
+          session.access_token,
+          "local",
+        );
+        if (error) console.warn(`cms-gate: revoking "${name}" failed: ${error.message}`);
+      } catch (error) {
+        console.warn(`cms-gate: revoking "${name}" threw: ${String(error)}`);
       }
     }
     writeFileSync(gatePath, "{}");
