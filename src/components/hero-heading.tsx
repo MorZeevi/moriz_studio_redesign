@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useSyncExternalStore } from "react";
 import partyStyles from "@/components/party-mode/party-mode.module.css";
 import { PartyHeadingLight } from "@/components/party-mode/party-heading-light";
@@ -58,7 +59,10 @@ export function HeroHeading({
           />
         </span>
       </span>
-      <span className="hero-heading-line">{content.end}</span>
+      <span className="hero-heading-line">
+        {content.end}
+        <HeadingAvatar />
+      </span>
       <PartyHeadingLight
         text={
           <>
@@ -68,10 +72,30 @@ export function HeroHeading({
                 {content.rotating[index]}
               </span>
             </span>
-            <span className="hero-heading-line">{content.end}</span>
+            <span className="hero-heading-line">
+              {content.end}
+              {/* Keeps the light copy's line width matching the live heading. */}
+              <span className="hero-heading-avatar" />
+            </span>
           </>
         }
       />
     </h1>
+  );
+}
+
+// Phones only (see wireframe.css); the heading's aria-label carries the name.
+function HeadingAvatar() {
+  return (
+    <span className="hero-heading-avatar" aria-hidden="true">
+      <Image
+        src="/images/mor-avatar-cutout.webp"
+        alt=""
+        width={600}
+        height={600}
+        sizes="64px"
+        priority
+      />
+    </span>
   );
 }

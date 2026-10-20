@@ -79,7 +79,7 @@
   order: -1;
   margin: 0;
   justify-self: center;
-  inline-size: min(16rem, 70vw);
+  inline-size: min(13rem, 58vw);
 }
 
 /* The portrait (lime shape baked in) settles up into place as the section

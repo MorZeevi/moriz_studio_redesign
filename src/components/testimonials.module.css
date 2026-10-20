@@ -144,22 +144,25 @@
   margin: 0;
 }
 
-.root[data-enhanced] .panel {
-  grid-area: 1 / 1;
-  transition:
-    opacity var(--duration-normal) var(--ease-enter),
-    transform var(--duration-normal) var(--ease-enter),
-    visibility 0s linear 0s;
-}
+/* Desktop spotlight: one review at a time. Phones stack them all (below). */
+@media (min-width: 64rem) {
+  .root[data-enhanced] .panel {
+    grid-area: 1 / 1;
+    transition:
+      opacity var(--duration-normal) var(--ease-enter),
+      transform var(--duration-normal) var(--ease-enter),
+      visibility 0s linear 0s;
+  }
 
-.root[data-enhanced] .panel:not([data-active]) {
-  visibility: hidden;
-  opacity: 0;
-  transform: translateY(0.5rem);
-  transition:
-    opacity var(--duration-fast) var(--ease-exit),
-    transform var(--duration-fast) var(--ease-exit),
-    visibility 0s linear var(--duration-fast);
+  .root[data-enhanced] .panel:not([data-active]) {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(0.5rem);
+    transition:
+      opacity var(--duration-fast) var(--ease-exit),
+      transform var(--duration-fast) var(--ease-exit),
+      visibility 0s linear var(--duration-fast);
+  }
 }
 
 .mark {
@@ -257,6 +260,15 @@
   font-size: var(--text-label);
 }
 
+/* The card avatar is for stacked phones; desktop has it in the index. */
+.cardAvatar {
+  display: none;
+}
+
+.attributionText {
+  display: contents;
+}
+
 .attributionName {
   font-weight: 900;
 }
@@ -314,6 +326,68 @@
 
 .root:dir(rtl) .arrowNext {
   transform: scaleX(-1);
+}
+
+/* Phones: every review as a compact card, so visitors see how many there are
+   by scrolling, with no tabs or arrows to discover. */
+@media (max-width: 63.999rem) {
+  .root {
+    --testimonial-body-lines: 3;
+    gap: var(--space-4);
+  }
+
+  .index,
+  .controls {
+    display: none;
+  }
+
+  .stage {
+    gap: var(--space-3);
+  }
+
+  .panel {
+    padding: var(--space-4);
+    border: var(--border-width-default) solid var(--testimonial-rule);
+    border-radius: var(--radius-liquid);
+    background: color-mix(in srgb, var(--color-text-primary) 3%, transparent);
+  }
+
+  .mark {
+    inline-size: 1.75rem;
+    margin-block-end: var(--space-3);
+  }
+
+  .video {
+    block-size: min(22rem, 55svh);
+    margin-inline: auto;
+  }
+
+  .headline {
+    margin-block-end: var(--space-3);
+    font-size: 1.375rem;
+    line-height: 1.15;
+  }
+
+  .body {
+    font-size: var(--text-body);
+  }
+
+  .attribution {
+    flex-wrap: nowrap;
+    align-items: center;
+    margin-block-start: var(--space-4);
+  }
+
+  .cardAvatar {
+    display: block;
+    flex: none;
+  }
+
+  .attributionText {
+    display: flex;
+    flex-direction: column;
+    min-inline-size: 0;
+  }
 }
 
 @media (min-width: 64rem) {

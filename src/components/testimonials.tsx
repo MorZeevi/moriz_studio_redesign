@@ -17,6 +17,17 @@ type Item = TestimonialsContent["items"][number];
 
 const subscribeNothing = () => () => {};
 
+// Phones stack every review as a card instead of the tabbed spotlight.
+const stackedQuery = "(max-width: 63.999rem)";
+function subscribeStacked(callback: () => void) {
+  const query = window.matchMedia(stackedQuery);
+  query.addEventListener("change", callback);
+  return () => query.removeEventListener("change", callback);
+}
+const readStacked = () => window.matchMedia(stackedQuery).matches;
+const serverStacked = () => false;
+const noneOpen: ReadonlySet<number> = new Set();
+
 function format(index: number) {
   return String(index).padStart(2, "0");
 }
@@ -77,7 +88,7 @@ export function Testimonials({ content }: { content: TestimonialsContent }) {
   const bodyRefs = useRef<(HTMLDivElement | null)[]>([]);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const [active, setActive] = useState(0);
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(noneOpen);
   const [overflowing, setOverflowing] = useState<boolean[]>([]);
   // Without JavaScript every quote stays visible and unclamped.
   const enhanced = useSyncExternalStore(
@@ -85,6 +96,18 @@ export function Testimonials({ content }: { content: TestimonialsContent }) {
     () => true,
     () => false,
   );
+  const stacked = useSyncExternalStore(
+    subscribeStacked,
+    readStacked,
+    serverStacked,
+  );
+
+  const toggle = (index: number) =>
+    setExpanded((previous) => {
+      const next = new Set(previous);
+      if (!next.delete(index)) next.add(index);
+      return next;
+    });
 
   useEffect(() => {
     const track = trackRef.current;
@@ -114,7 +137,7 @@ export function Testimonials({ content }: { content: TestimonialsContent }) {
       if (next === activeRef.current) return;
       activeRef.current = next;
       setActive(next);
-      setExpanded(false);
+      setExpanded(noneOpen);
     };
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(update);
@@ -178,12 +201,13 @@ export function Testimonials({ content }: { content: TestimonialsContent }) {
     return () => observer.disconnect();
   }, [enhanced]);
 
-  // A hidden panel must not keep playing.
+  // A hidden panel must not keep playing. Stacked cards are all visible.
   useEffect(() => {
+    if (stacked) return;
     videoRefs.current.forEach((video, index) => {
       if (video && index !== active) video.pause();
     });
-  }, [active]);
+  }, [active, stacked]);
 
   const select = (index: number, focus = false) => {
     const next = (index + items.length) % items.length;
@@ -205,7 +229,7 @@ export function Testimonials({ content }: { content: TestimonialsContent }) {
     }
     activeRef.current = next;
     setActive(next);
-    setExpanded(false);
+    setExpanded(noneOpen);
     if (focus) tabRefs.current[next]?.focus();
   };
 
@@ -274,16 +298,16 @@ export function Testimonials({ content }: { content: TestimonialsContent }) {
         <div className={styles.stage}>
           {items.map((item, index) => {
             const isActive = index === active;
-            const isOpen = isActive && expanded;
+            const isOpen = (stacked || isActive) && expanded.has(index);
             return (
               <figure
                 key={item.id}
-                role="tabpanel"
+                role={stacked ? undefined : "tabpanel"}
                 id={`${baseId}-panel-${index}`}
-                aria-labelledby={`${baseId}-tab-${index}`}
+                aria-labelledby={stacked ? undefined : `${baseId}-tab-${index}`}
                 className={styles.panel}
                 data-active={isActive || undefined}
-                inert={enhanced && !isActive}
+                inert={enhanced && !stacked && !isActive}
               >
                 {item.video ? (
                   // biome-ignore lint/a11y/useMediaCaption: Captions pending an owner-approved transcript.
@@ -326,7 +350,7 @@ export function Testimonials({ content }: { content: TestimonialsContent }) {
                     className={styles.more}
                     aria-expanded={isOpen}
                     aria-controls={`${baseId}-body-${index}`}
-                    onClick={() => setExpanded((value) => !value)}
+                    onClick={() => toggle(index)}
                   >
                     {isOpen ? content.readLess : content.readMore}
                     <span className={styles.moreIcon} aria-hidden="true">
@@ -335,8 +359,14 @@ export function Testimonials({ content }: { content: TestimonialsContent }) {
                   </button>
                 )}
                 <figcaption className={styles.attribution}>
-                  <span className={styles.attributionName}>{item.name}</span>
-                  <span className={styles.attributionRole}>{item.role}</span>
+                  {/* Phones only; desktop shows the face in the index. */}
+                  <span className={styles.cardAvatar}>
+                    <Avatar item={item} size={40} />
+                  </span>
+                  <span className={styles.attributionText}>
+                    <span className={styles.attributionName}>{item.name}</span>
+                    <span className={styles.attributionRole}>{item.role}</span>
+                  </span>
                 </figcaption>
               </figure>
             );

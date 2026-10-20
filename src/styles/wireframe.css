@@ -163,6 +163,12 @@
   clip-path: inset(0.07em -0.1em -0.07em);
 }
 
+/* Mor's cutout after "מבוססי מחקר", phones only: a lime pill with the head
+   rising out of its top, like the header contact portrait. */
+.hero-heading-avatar {
+  display: none;
+}
+
 /* Inline-end (left in RTL) corner; narrower on mobile so it still has room to grow. */
 .hero-video {
   inline-size: 75%;
@@ -251,9 +257,50 @@ html:not([data-pixel-reveal]) .hero-video-stage {
     background: transparent;
   }
 
+  .header-brand .studio-wordmark {
+    font-size: 1.3125rem;
+  }
+
   /* One readable column: heading, copy/action, showreel, client logos. */
   .hero {
     gap: var(--space-6);
+  }
+
+  /* Three lines on phones ("יוצרת" / phrase / "מבוססי מחקר"), so the type can
+     grow past the two-line fit of the longest phrase. */
+  .hero-heading {
+    font-size: clamp(2.25rem, 12.5vw, 4rem);
+  }
+
+  .hero-heading-rotating {
+    display: flex;
+  }
+
+  .hero-heading-avatar {
+    position: relative;
+    display: inline-block;
+    inline-size: 0.9em;
+    block-size: 0.72em;
+    margin-inline-start: 0.2em;
+    vertical-align: -0.04em;
+    border-radius: var(--radius-liquid);
+    background: var(--color-secondary);
+    /* Open at the top so the head rises out; the sides and base follow the pill. */
+    clip-path: inset(
+      -60% 0 0 round 0 0 var(--radius-liquid) var(--radius-liquid)
+    );
+  }
+
+  .hero-heading-avatar img {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    display: block;
+    inline-size: auto;
+    block-size: 135%;
+    max-inline-size: none;
+    aspect-ratio: 1;
+    translate: -50% 0;
   }
 
   .hero-copy {
@@ -268,6 +315,11 @@ html:not([data-pixel-reveal]) .hero-video-stage {
 
   .hero-description-line:not(:first-child) {
     display: inline;
+  }
+
+  /* Phones keep the opening two sentences only. */
+  .hero-description-line:nth-child(n + 3) {
+    display: none;
   }
 
   .hero-actions {
