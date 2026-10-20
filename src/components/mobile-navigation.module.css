@@ -35,14 +35,6 @@
   color: var(--color-dark);
 }
 
-.windows {
-  position: absolute;
-  inset: 0;
-  inline-size: 100%;
-  block-size: 100%;
-  pointer-events: none;
-}
-
 .panel {
   position: relative;
   display: flex;
@@ -94,7 +86,6 @@
   visibility: hidden;
 }
 
-.dialog[data-state="opening"] .body,
 .dialog[data-state="open"] .body {
   visibility: visible;
 }

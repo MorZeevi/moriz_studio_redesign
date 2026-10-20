@@ -81,11 +81,36 @@ test("manual review selection stays synchronized with subsequent scrolling and k
   await expect(tabs.nth(3)).toHaveAttribute("aria-selected", "true");
 });
 
-test("mobile, reduced motion and short viewports keep manual reviews without a scroll track", async ({
+test("phones stack every review as a card that opens on its own", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/he#testimonials");
+  await expect(page.locator(root)).toHaveAttribute("data-enhanced", "true");
+  await expect(page.locator(track)).not.toHaveAttribute("data-scroll-enabled");
+  await expect(page.locator(`${root} [role='tablist']`)).toBeHidden();
+  const cards = page.locator(`${root} figure`);
+  await expect(cards).toHaveCount(6);
+  for (const card of await cards.all()) {
+    await expect(card).toBeVisible();
+    await expect(card).not.toHaveAttribute("inert");
+  }
+  const more = page.locator(`${root} button[aria-expanded]`);
+  await more.nth(1).click();
+  await expect(more.nth(1)).toHaveAttribute("aria-expanded", "true");
+  await expect(more.nth(0)).toHaveAttribute("aria-expanded", "false");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(
+    390,
+  );
+  await page
+    .locator("#testimonials")
+    .screenshot({ path: "test-results/refinements/reviews-mobile.png" });
+});
+
+test("reduced motion and short viewports keep manual reviews without a scroll track", async ({
   page,
 }) => {
   for (const viewport of [
-    { width: 390, height: 844 },
     { width: 1440, height: 900 },
     { width: 1440, height: 400 },
   ]) {
@@ -106,11 +131,6 @@ test("mobile, reduced motion and short viewports keep manual reviews without a s
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth),
     ).toBe(viewport.width);
-    if (viewport.width === 390) {
-      await page
-        .locator("#testimonials")
-        .screenshot({ path: "test-results/refinements/reviews-mobile.png" });
-    }
   }
 });
 
