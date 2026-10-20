@@ -36,5 +36,6 @@ export type ArchiveProject = Project & {
   href: string | null;
   featured: boolean;
   year: number | null;
-  categorySlugs: string[];
+  /** The project type's slug: what the archive filters on. */
+  typeSlug: string | null;
 };

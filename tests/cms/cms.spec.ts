@@ -558,7 +558,15 @@ test("private routes and a complete editor publishing flow", async ({
         [...(select as HTMLSelectElement).options].map((o) => o.text),
       ),
     )
-    .toEqual(["לא נבחר", "משחק", "אתר תדמית", "אפליקציית Web", "כלי AI", "אחר"]);
+    .toEqual([
+      "לא נבחר",
+      "משחק",
+      "אתר תדמית",
+      "אפליקציית Web",
+      "כלי AI",
+      "מחשבון",
+      "אחר",
+    ]);
   await typeSelect.selectOption({ label: "כלי AI" });
   await tab("details");
   const cover = page.locator('fieldset[aria-label="תמונה ראשית"]');

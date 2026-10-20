@@ -76,10 +76,6 @@
   outline-offset: 2px;
 }
 
-.number {
-  display: none;
-}
-
 .avatar {
   position: relative;
   display: block;
@@ -282,13 +278,8 @@
   grid-area: controls;
   display: flex;
   align-items: center;
+  justify-content: end;
   gap: var(--space-2);
-}
-
-.counter {
-  color: var(--testimonial-muted);
-  font-size: var(--text-label);
-  font-variant-numeric: tabular-nums;
 }
 
 .step {
@@ -305,10 +296,6 @@
   transition:
     background-color var(--duration-fast) var(--ease-standard),
     color var(--duration-fast) var(--ease-standard);
-}
-
-.counter + .step {
-  margin-inline-start: auto;
 }
 
 .step:hover {
@@ -345,11 +332,11 @@
     gap: var(--space-3);
   }
 
+  /* Borderless white cards, translucent so the site grain reads through. */
   .panel {
     padding: var(--space-4);
-    border: var(--border-width-default) solid var(--testimonial-rule);
     border-radius: var(--radius-liquid);
-    background: color-mix(in srgb, var(--color-text-primary) 3%, transparent);
+    background: color-mix(in srgb, var(--site-card, #fff) 72%, transparent);
   }
 
   .mark {
@@ -422,19 +409,6 @@
 
   .root[data-enhanced] .tab[aria-selected="true"] {
     border-color: var(--testimonial-rule);
-  }
-
-  .number {
-    display: block;
-    inline-size: 1.75rem;
-    color: var(--testimonial-muted);
-    font-size: var(--text-label);
-    font-variant-numeric: tabular-nums;
-  }
-
-  .root[data-enhanced] .tab[aria-selected="true"] .number {
-    color: var(--testimonial-accent);
-    font-weight: 900;
   }
 
   .avatar {

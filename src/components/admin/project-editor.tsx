@@ -713,7 +713,8 @@ export function ProjectEditor({
                 <section className={styles.section}>
                   <h2>{termLabels.category.heading}</h2>
                   <p className={styles.hint}>
-                    מוצגות כתגיות בפרויקט ומשמשות לסינון בעמוד הפרויקטים.
+                    מוצגות כתגיות בפרויקט. הסינון בעמוד הפרויקטים לפי סוג
+                    הפרויקט.
                   </p>
                   <TermPicker
                     {...termProps}

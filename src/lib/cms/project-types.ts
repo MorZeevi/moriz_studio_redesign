@@ -6,6 +6,7 @@ export const PROJECT_TYPES = [
   { slug: "אתר-תדמית", name: "אתר תדמית", name_en: "Brand website" },
   { slug: "אפליקציית-web", name: "אפליקציית Web", name_en: "Web app" },
   { slug: "כלי-ai", name: "כלי AI", name_en: "AI tool" },
+  { slug: "מחשבון", name: "מחשבון", name_en: "Calculator" },
   { slug: "אחר", name: "אחר", name_en: "Other" },
 ] as const;
 

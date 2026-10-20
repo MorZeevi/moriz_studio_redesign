@@ -28,10 +28,6 @@ const readStacked = () => window.matchMedia(stackedQuery).matches;
 const serverStacked = () => false;
 const noneOpen: ReadonlySet<number> = new Set();
 
-function format(index: number) {
-  return String(index).padStart(2, "0");
-}
-
 function Avatar({ item, size }: { item: Item; size: number }) {
   return (
     <span className={styles.avatar} data-kind={item.image.kind}>
@@ -283,9 +279,6 @@ export function Testimonials({ content }: { content: TestimonialsContent }) {
               onClick={() => select(index)}
               onKeyDown={onTabKeyDown}
             >
-              <span className={styles.number} aria-hidden="true">
-                {format(index + 1)}
-              </span>
               <Avatar item={item} size={48} />
               <span className={styles.tabText}>
                 <span className={styles.tabName}>{item.name}</span>
@@ -375,9 +368,6 @@ export function Testimonials({ content }: { content: TestimonialsContent }) {
 
         {enhanced && items.length > 1 && (
           <div className={styles.controls}>
-            <span className={styles.counter} dir="ltr" aria-hidden="true">
-              {format(active + 1)} / {format(items.length)}
-            </span>
             <button
               type="button"
               className={styles.step}

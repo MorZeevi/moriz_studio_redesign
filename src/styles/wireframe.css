@@ -842,31 +842,6 @@ body[data-project-backdrop] .mobile-menu-toggle {
   display: none;
 }
 
-/* Phones keep the header pinned the whole way down, so once the page moves it
-   takes the page surface and grain (dark over Projects, via the backdrop fade). */
-@media (max-width: 63.999rem) {
-  .site-header-backdrop {
-    display: block;
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    background: var(--color-background);
-    opacity: 0;
-    transition: opacity 0.2s ease-out;
-  }
-
-  .site-header[data-header-stuck] .site-header-backdrop {
-    opacity: 1;
-  }
-}
-
-@media (max-width: 63.999rem) and (prefers-reduced-motion: reduce) {
-  .site-header-backdrop {
-    transition: none;
-  }
-}
-
 @media (min-width: 64rem) {
   body[data-project-backdrop] .site-header-backdrop {
     display: block;

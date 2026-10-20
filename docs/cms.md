@@ -77,13 +77,15 @@ their public order; drag or use Up/Down and the order saves immediately
 a Hebrew and an English name, an order, and a usage count; renaming keeps
 assignments and the slug; deleting asks for confirmation and removes assignments
 only. A project has any number of categories and at most one type. Categories are
-shown as tags on the homepage card and the case study, listed in the archive card's
-hover layer, and used as the archive filters. Both are rows in `categories` (`kind`
+shown as tags on the homepage card and the case study, and listed in the archive
+card's hover layer. The archive filters by project type (`?type=<slug>`); a type
+gets a filter pill once a published project uses it. Both are rows in `categories` (`kind`
 = `category` or `type`) linked through `project_categories`; names and slugs are
 unique per kind.
 
-Project types are a **fixed list** of five, in this order: משחק, אתר תדמית,
-אפליקציית Web, כלי AI, אחר (`src/lib/cms/project-types.ts`, matched by slug).
+Project types are a **fixed list** of six, in this order: משחק, אתר תדמית,
+אפליקציית Web, כלי AI, מחשבון, אחר (`src/lib/cms/project-types.ts`, matched by
+slug). מחשבון was added on 2026-10-20 by re-running the same script.
 The admin cannot create, rename or delete types, and saving rejects any other
 type. The Moriz rows were set once with `tools/cms/fixed-project-types.sql`
 (2026-10-18, a data change run with `npx supabase db query --linked -f`, not a

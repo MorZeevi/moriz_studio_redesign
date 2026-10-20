@@ -80,6 +80,21 @@
   overflow-wrap: normal;
 }
 
+/* Phones get a shorter call to action. */
+.actionMobile {
+  display: none;
+}
+
+@media (max-width: 63.999rem) {
+  .actionDesktop {
+    display: none;
+  }
+
+  .actionMobile {
+    display: inline;
+  }
+}
+
 @media (min-width: 40rem) {
   .panel {
     padding: clamp(24px, 6vw, 48px);

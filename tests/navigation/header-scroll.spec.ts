@@ -166,11 +166,11 @@ test("mobile keeps the header pinned without sliding it away", async ({
   const page = await context.newPage();
   await page.goto(`${baseURL}/he`);
   const header = page.locator(".site-header");
-  await expect(header).not.toHaveAttribute("data-header-stuck");
   await scrollPastFirstScreen(page);
   await scrollDown(page);
   expect(await header.getAttribute("data-header-hidden")).toBeNull();
-  await expect(header).toHaveAttribute("data-header-stuck", "");
+  // The pinned header stays transparent on phones.
+  await expect(page.locator(".site-header-backdrop")).toBeHidden();
   expect((await header.boundingBox())?.y).toBe(0);
   expect(
     await page

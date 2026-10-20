@@ -122,6 +122,6 @@ export function projectArchiveCard(
     href: project.slug ? `/${locale}/projects/${project.slug}` : null,
     featured: project.featured,
     year: project.year,
-    categorySlugs: project.categories.map((c) => c.slug),
+    typeSlug: project.type?.slug ?? null,
   };
 }

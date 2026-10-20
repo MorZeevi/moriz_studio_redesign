@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { FloatingActions } from "@/components/floating-actions";
 import { MainHeader } from "@/components/main-header";
 import {
-  type ArchiveCategory,
+  type ArchiveType,
   ProjectsArchive,
 } from "@/components/projects-archive";
 import { projectLayoutBootstrap } from "@/components/projects-grid-config";
@@ -19,7 +19,7 @@ import { getPublicProjects } from "@/lib/cms/queries";
 
 type PageParams = {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ category?: string; demo?: string }>;
+  searchParams: Promise<{ type?: string; demo?: string }>;
 };
 
 export async function generateMetadata({
@@ -43,20 +43,19 @@ export default async function ProjectsPage({
   if (!isEnabledLocale(locale)) notFound();
   const content = await getDictionary(locale);
   const copy = projectCopy[locale];
-  const { category, demo } = await searchParams;
+  const { type, demo } = await searchParams;
   const published = await getPublicProjects("projects");
 
-  // Filters come from the categories used by published projects.
+  // Filters come from the project types used by published projects.
   const terms = new Map(
-    published.flatMap((p) => p.categories).map((c) => [c.id, c]),
+    published.flatMap((p) => (p.type ? [[p.type.id, p.type] as const] : [])),
   );
-  let categories: ArchiveCategory[] = [...terms.values()]
+  let types: ArchiveType[] = [...terms.values()]
     .sort((a, b) => a.sort_order - b.sort_order || a.name.localeCompare(b.name))
-    .map((c) => ({
-      slug: c.slug,
-      name: termName(c, locale),
-      count: published.filter((p) => p.categories.some((t) => t.id === c.id))
-        .length,
+    .map((t) => ({
+      slug: t.slug,
+      name: termName(t, locale),
+      count: published.filter((p) => p.type?.id === t.id).length,
     }));
   let projects = published.map((p) => projectArchiveCard(p, locale));
 
@@ -66,11 +65,11 @@ export default async function ProjectsPage({
       projects.find((p) => p.href)?.href ?? null,
     );
     projects = [...projects, ...fixture.projects];
-    categories = [
-      ...categories,
-      ...fixture.categories.map((c) => ({
-        ...c,
-        count: projects.filter((p) => p.categorySlugs.includes(c.slug)).length,
+    types = [
+      ...types,
+      ...fixture.types.map((t) => ({
+        ...t,
+        count: projects.filter((p) => p.typeSlug === t.slug).length,
       })),
     ];
   }
@@ -102,8 +101,8 @@ export default async function ProjectsPage({
         />
         <ProjectsArchive
           projects={projects}
-          categories={categories}
-          initialCategory={category ?? null}
+          types={types}
+          initialType={type ?? null}
           contactHref="#contact"
           labels={{
             ...content.projects.archive,

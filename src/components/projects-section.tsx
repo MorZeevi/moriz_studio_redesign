@@ -146,8 +146,8 @@ export function ProjectsSection({
       <div className={`${styles.list} ${styles.stackList}`}>
         {projects.map((project, index) => {
           const id = `project-${project.slug ?? project.id}`;
-          const description =
-            project.description ?? content.descriptionPlaceholder;
+          // An empty description shows nothing, not a placeholder.
+          const description = project.description;
           // CMS cards: short description beside the title, project
           // description under it. Static items have one description.
           const cms = project.summary !== undefined;
@@ -188,7 +188,9 @@ export function ProjectsSection({
                   {summary && !(cms && summary === description) && (
                     <p className={styles.stackBodyDescription}>{summary}</p>
                   )}
-                  {cms && <p className={styles.stackAbout}>{description}</p>}
+                  {cms && description && (
+                    <p className={styles.stackAbout}>{description}</p>
+                  )}
                   <ProjectHighlight highlight={project.highlight} />
                   <CategoryTags
                     categories={project.categories ?? []}

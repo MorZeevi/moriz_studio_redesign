@@ -41,9 +41,9 @@
   display: none;
   position: absolute;
   inset: 0;
-  inline-size: 1.875rem;
-  block-size: 1.875rem;
-  margin: auto;
+  inline-size: 100%;
+  block-size: 100%;
+  filter: drop-shadow(0 0.25rem 0.625rem rgb(0 0 0 / 0.18));
 }
 
 /* The AI pill matches the FAQ's moriz.ai button: white with a CTA outline and
@@ -237,6 +237,13 @@
 
   .whatsappIcon {
     display: block;
+  }
+
+  /* The WhatsApp app tile is the whole button, so the green blob behind it
+     goes clear. */
+  .action.action:has(.whatsappIcon) {
+    --liquid-fill: transparent;
+    --liquid-pressed-fill: transparent;
   }
 
   .mobileWhatsappOnly .ai {

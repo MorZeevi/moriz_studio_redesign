@@ -189,28 +189,6 @@ export function SiteHeader({ children }: { children: ReactNode }) {
     };
   }, [isDesktop, reducedMotion]);
 
-  // Phones keep the header in place; it only gains a surface once the page
-  // has moved, so the opening shows through it at rest.
-  useEffect(() => {
-    const header = root.current;
-    if (!header || isDesktop) return;
-    let frame = 0;
-    const update = () => {
-      frame = 0;
-      header.toggleAttribute("data-header-stuck", window.scrollY > threshold);
-    };
-    const schedule = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
-    window.addEventListener("scroll", schedule, { passive: true });
-    update();
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", schedule);
-      header.removeAttribute("data-header-stuck");
-    };
-  }, [isDesktop]);
-
   return (
     <header ref={root} className="site-header">
       {children}

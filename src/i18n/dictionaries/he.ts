@@ -7,7 +7,7 @@ import type { Testimonial } from "@/content/testimonials";
 // Final website content remains planned separately in docs/03-content.md.
 export const he = {
   metadata: {
-    title: "Moriz Studio — וויירפריים",
+    title: "Moriz Studio",
     description: "שלד עמוד בית בשחור־לבן לבחינת המבנה.",
   },
   studioName: "Moriz Studio",
@@ -88,6 +88,7 @@ export const he = {
     emphasis: "ענו על 7 שאלות",
     description: "ונמצא יחד את הכיוון שמתאים לכם.",
     action: "למצוא את הכלי עם שאלון AI חכם",
+    actionMobile: "למציאת הכלי עבורכם",
   },
   logoCarousel: {
     label: "לוגואים",
@@ -147,7 +148,6 @@ export const he = {
     allLink: "לצפייה בכל הפרויקטים",
     homeLink: "חזרה לעמוד הבית",
     visualLabel: "מסכים / ויזואל — להוספה",
-    descriptionPlaceholder: "תיאור הפרויקט — להשלמה",
     answerPlaceholder: "תשובה — להשלמה",
     detailsHeading: "על הפרויקט",
     projectLink: "לפרויקט המלא",

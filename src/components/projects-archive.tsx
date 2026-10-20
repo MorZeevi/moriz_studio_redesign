@@ -28,7 +28,8 @@ import {
   regularRatios,
 } from "./projects-grid-config";
 
-export type ArchiveCategory = { slug: string; name: string; count: number };
+/** A product-type filter: the project types used by published projects. */
+export type ArchiveType = { slug: string; name: string; count: number };
 
 type Labels = Pick<
   ProjectCopy,
@@ -77,19 +78,19 @@ const serverMotion = () => true;
 /** Filters, layout switch and the projects grid with its contact card. */
 export function ProjectsArchive({
   projects,
-  categories,
-  initialCategory,
+  types,
+  initialType,
   labels,
   contactHref,
 }: {
   projects: ArchiveProject[];
-  categories: ArchiveCategory[];
-  initialCategory: string | null;
+  types: ArchiveType[];
+  initialType: string | null;
   labels: Labels;
   contactHref: string;
 }) {
-  const [category, setCategory] = useState(
-    categories.some((c) => c.slug === initialCategory) ? initialCategory : null,
+  const [type, setType] = useState(
+    types.some((t) => t.slug === initialType) ? initialType : null,
   );
   const layout = useSyncExternalStore(
     subscribeLayout,
@@ -106,9 +107,7 @@ export function ProjectsArchive({
   const flipState = useRef<Flip.FlipState | null>(null);
   const [settled, setSettled] = useState(false);
 
-  const visible = category
-    ? projects.filter((p) => p.categorySlugs.includes(category))
-    : projects;
+  const visible = type ? projects.filter((p) => p.typeSlug === type) : projects;
   const ctaAt = contactCardIndex(visible.length);
   const items: (
     | { kind: "project"; project: ArchiveProject }
@@ -166,7 +165,7 @@ export function ProjectsArchive({
       flip.progress(1).kill();
       release();
     };
-  }, [category, layout]);
+  }, [type, layout]);
 
   function capture() {
     setSettled(true);
@@ -183,13 +182,13 @@ export function ProjectsArchive({
     flipState.current = Flip.getState(grid.querySelectorAll("[data-flip-id]"));
   }
 
-  function chooseCategory(slug: string | null) {
-    if (slug === category) return;
+  function chooseType(slug: string | null) {
+    if (slug === type) return;
     capture();
-    setCategory(slug);
+    setType(slug);
     const url = new URL(window.location.href);
-    if (slug) url.searchParams.set("category", slug);
-    else url.searchParams.delete("category");
+    if (slug) url.searchParams.set("type", slug);
+    else url.searchParams.delete("type");
     window.history.replaceState(null, "", url);
   }
 
@@ -219,22 +218,22 @@ export function ProjectsArchive({
 
       <div className={styles.controls}>
         <div className={`site-container ${styles.controlsInner}`}>
-          {categories.length > 0 && (
+          {types.length > 0 && (
             <fieldset className={styles.filters}>
               <legend className="sr-only">{labels.filterLabel}</legend>
               <FilterPill
                 label={labels.all}
                 count={projects.length}
-                pressed={!category}
-                onClick={() => chooseCategory(null)}
+                pressed={!type}
+                onClick={() => chooseType(null)}
               />
-              {categories.map((c) => (
+              {types.map((t) => (
                 <FilterPill
-                  key={c.slug}
-                  label={c.name}
-                  count={c.count}
-                  pressed={category === c.slug}
-                  onClick={() => chooseCategory(c.slug)}
+                  key={t.slug}
+                  label={t.name}
+                  count={t.count}
+                  pressed={type === t.slug}
+                  onClick={() => chooseType(t.slug)}
                 />
               ))}
             </fieldset>
@@ -267,12 +266,12 @@ export function ProjectsArchive({
       <div className="site-container">
         {visible.length === 0 && (
           <div className={styles.empty}>
-            <p>{category ? labels.empty : labels.resultNone}</p>
-            {category && (
+            <p>{type ? labels.empty : labels.resultNone}</p>
+            {type && (
               <button
                 type="button"
                 className="button button--outline button--sm"
-                onClick={() => chooseCategory(null)}
+                onClick={() => chooseType(null)}
               >
                 {labels.showAll}
               </button>

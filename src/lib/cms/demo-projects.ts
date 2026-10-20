@@ -130,8 +130,9 @@ export function demoArchive(locale: string, href: string | null) {
       })),
       featured: Boolean(seed.featured),
       year: 2026,
-      categorySlugs: seed.categories.map((c) => demoCategories[c].slug),
+      // The first demo category doubles as the card's filterable type.
+      typeSlug: demoCategories[seed.categories[0]].slug,
     };
   });
-  return { projects, categories: demoCategories };
+  return { projects, types: demoCategories };
 }

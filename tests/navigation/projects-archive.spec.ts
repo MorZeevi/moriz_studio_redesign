@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-// The dev-only fixture (?demo=1) adds cards with known categories, a featured
+// The dev-only fixture (?demo=1) adds cards with known types, a featured
 // card and a card without a case study page.
 const archive = "/he/projects?demo=1";
 const cards = "#projects li[data-kind]";
@@ -10,7 +10,7 @@ test("filters change the grid in place and keep the URL shareable", async ({
 }) => {
   await page.goto(archive);
   const filters = page.getByRole("group", {
-    name: "סינון פרויקטים לפי קטגוריה",
+    name: "סינון פרויקטים לפי סוג",
   });
   const all = filters.getByRole("button", { name: /^הכל/ });
   await expect(all).toHaveAttribute("aria-pressed", "true");
@@ -24,7 +24,7 @@ test("filters change the grid in place and keep the URL shareable", async ({
   await automations.click();
 
   await expect(automations).toHaveAttribute("aria-pressed", "true");
-  await expect(page).toHaveURL(/category=demo-automations/);
+  await expect(page).toHaveURL(/type=demo-automations/);
   expect(
     await page.evaluate(
       () => (window as unknown as { stayed?: boolean }).stayed,
@@ -36,7 +36,7 @@ test("filters change the grid in place and keep the URL shareable", async ({
   await expect(page.getByText("מוצגים 2 פרויקטים")).toBeAttached();
 
   // A deep link restores the same filter.
-  await page.goto("/he/projects?demo=1&category=demo-automations");
+  await page.goto("/he/projects?demo=1&type=demo-automations");
   await expect(automations).toHaveAttribute("aria-pressed", "true");
   await expect(filtered).toHaveCount(2);
 });
@@ -46,7 +46,7 @@ test("the contact card stays in the grid for every filter", async ({
 }) => {
   await page.goto(archive);
   const filters = page.getByRole("group", {
-    name: "סינון פרויקטים לפי קטגוריה",
+    name: "סינון פרויקטים לפי סוג",
   });
   for (const button of await filters.getByRole("button").all()) {
     await button.click();
@@ -183,7 +183,7 @@ test("the homepage header, outline pills and media badge carry over", async ({
 
   // Pills are the design-system outline button, borderless and unfilled.
   const all = page
-    .getByRole("group", { name: "סינון פרויקטים לפי קטגוריה" })
+    .getByRole("group", { name: "סינון פרויקטים לפי סוג" })
     .getByRole("button", { name: /^הכל/ });
   await page.mouse.move(0, 0);
   await expect(all).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");

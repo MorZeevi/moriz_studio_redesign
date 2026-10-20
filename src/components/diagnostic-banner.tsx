@@ -33,7 +33,10 @@ export function DiagnosticBanner({
               navigation="native"
               className={styles.action}
             >
-              {content.action}
+              <span className={styles.actionDesktop}>{content.action}</span>
+              <span className={styles.actionMobile}>
+                {content.actionMobile}
+              </span>
             </LiquidLink>
           </div>
         </div>
