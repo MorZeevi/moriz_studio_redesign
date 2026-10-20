@@ -3,6 +3,7 @@ import { AboutGallery } from "@/components/about-gallery";
 import { AboutMe } from "@/components/about-me";
 import { AdvantagesMotion } from "@/components/advantages-motion";
 import { DesignQuote } from "@/components/design-quote";
+import { DiagnosticBanner } from "@/components/diagnostic-banner";
 import { Faq } from "@/components/faq";
 import { FloatingActions } from "@/components/floating-actions";
 import { GettingStarted } from "@/components/getting-started";
@@ -135,6 +136,8 @@ export default async function Home({
           content={content.projects}
           partyReaction
         />
+
+        <DiagnosticBanner content={content.diagnosticBanner} />
 
         <Section id="about" title={content.about.heading} showHeading={false}>
           <AboutMe content={content.about} />

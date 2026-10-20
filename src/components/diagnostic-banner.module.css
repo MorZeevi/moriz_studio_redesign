@@ -1,0 +1,189 @@
+.section {
+  padding-block: var(--space-16);
+}
+
+.panel {
+  position: relative;
+  display: grid;
+  align-items: center;
+  gap: var(--space-6);
+  padding: clamp(16px, 6.15vw, 24px);
+  border-radius: var(--radius-md);
+  background: var(--color-dark);
+  color: var(--color-light);
+  isolation: isolate;
+  --color-focus: var(--color-light);
+}
+
+/* Reuse the exact image revealed through the footer wordmark's mask. Keep
+   its brightest pixels muted so the light copy stays readable throughout. */
+.panel::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: url("/images/footer/wordmark-fill.webp") center / cover no-repeat;
+  opacity: 0.3;
+  pointer-events: none;
+  content: "";
+}
+
+.copy {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-6);
+  min-inline-size: 0;
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 5.3vw, 4.75rem);
+  font-weight: var(--font-weight-display);
+  line-height: 1;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.heading > span,
+.description > span {
+  display: block;
+}
+
+.description {
+  max-inline-size: 40ch;
+  margin: 0;
+  font-size: var(--text-body-lg);
+  line-height: var(--text-body-lg--line-height);
+  text-wrap: pretty;
+}
+
+.description strong {
+  font-weight: var(--font-weight-heading);
+}
+
+.action {
+  --liquid-height: max(56px, 1.75em);
+  --liquid-fill: var(--color-action-primary);
+  --liquid-pressed-fill: var(--color-action-primary-hover);
+  --liquid-ink: var(--color-light);
+  max-inline-size: 100%;
+}
+
+.action :global(.liquid__label) {
+  justify-content: center;
+  padding-inline: 0.6em;
+  overflow-wrap: normal;
+}
+
+/* The scene uses a fixed LTR coordinate system; labels keep their own bidi. */
+.scene {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  inline-size: min(100%, 18rem);
+  min-block-size: clamp(15rem, 28vw, 22.5rem);
+  margin-block-start: var(--space-4);
+  padding-block: var(--space-3) var(--space-6);
+  padding-inline: var(--space-3);
+  justify-self: center;
+  isolation: isolate;
+}
+
+.pole {
+  position: absolute;
+  left: 50%;
+  top: 4%;
+  bottom: 0;
+  inline-size: max(4px, 1.1%);
+  border-radius: var(--radius-pill);
+  background: var(--color-light);
+}
+
+.signs {
+  display: grid;
+  gap: clamp(0.5rem, 1vw, 0.75rem);
+  align-self: start;
+  inline-size: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sign {
+  --sign-shape: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-inline-size: 0;
+  min-block-size: clamp(2rem, 3.4vw, 3rem);
+  padding: var(--space-2) 15% var(--space-2) var(--space-2);
+  background: var(--color-dark);
+  color: var(--color-dark);
+  clip-path: var(--sign-shape);
+  font-size: clamp(0.875rem, 1.35vw, 1.25rem);
+  font-weight: var(--font-weight-heading);
+  line-height: 1.2;
+  rotate: -4deg;
+}
+
+.sign::before {
+  position: absolute;
+  inset: 2px;
+  z-index: -1;
+  background: var(--color-light);
+  clip-path: var(--sign-shape);
+  content: "";
+}
+
+.sign bdi {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
+.sign:nth-child(even) {
+  --sign-shape: polygon(15% 0, 100% 0, 100% 100%, 15% 100%, 0 50%);
+  padding-inline: 15% var(--space-2);
+  rotate: 4deg;
+  translate: -6% 0;
+}
+
+.sign:nth-child(3)::before {
+  background: var(--color-secondary);
+}
+
+@media (min-width: 40rem) {
+  .panel {
+    padding: clamp(24px, 6vw, 48px);
+  }
+}
+
+@media (min-width: 64rem) {
+  .panel {
+    grid-template-columns: minmax(0, 11fr) minmax(0, 9fr);
+    gap: var(--space-12);
+    padding-block: var(--space-10);
+    padding-inline: clamp(var(--space-12), 4.5vw, var(--space-16));
+  }
+
+  .scene {
+    display: none;
+  }
+}
+
+@media (max-width: 23.4375rem) {
+  .heading {
+    font-size: 2rem;
+  }
+
+  .description {
+    font-size: var(--text-body);
+  }
+
+  .action {
+    font-size: var(--text-body-sm);
+  }
+}

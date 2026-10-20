@@ -81,6 +81,16 @@ export const he = {
       resume: "הפעלת הסרטון",
     },
   },
+  diagnosticBanner: {
+    headingStart: "איזה כלי דיגיטלי",
+    headingEnd: "העסק שלך צריך?",
+    introduction: "אתר, אפליקציה או אולי כלי AI?",
+    emphasis: "ענו על 7 שאלות",
+    description: "ונמצא יחד את הכיוון שמתאים לכם.",
+    action: "בואו נמצא את הכיוון",
+    solutionsLabel: "סוגי כלים דיגיטליים",
+    solutions: ["אפליקציה", "אתר תדמית", "שאלון חכם", "כלי AI", "מערכת לעסק"],
+  },
   logoCarousel: {
     label: "לוגואים",
     placeholder: "לוגו — להוספה",
