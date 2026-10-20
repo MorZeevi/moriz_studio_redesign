@@ -6,7 +6,7 @@
     "dev": "next dev --hostname 127.0.0.1",
     "build": "next build",
     "start": "next start --hostname 127.0.0.1",
-    "lint": "biome lint src tools/devtools tools/cms tools/diagnostic tests playwright.inspector.config.ts playwright.party.config.ts playwright.cms.config.ts playwright.cms-gate.config.ts next.config.ts postcss.config.mjs --error-on-warnings",
+    "lint": "biome lint src tools/devtools tools/cms tools/diagnostic tests playwright.inspector.config.ts playwright.party.config.ts playwright.cms.config.ts playwright.cms-gate.config.ts playwright.admin-acceptance.config.ts next.config.ts postcss.config.mjs --error-on-warnings",
     "typecheck": "tsc --noEmit",
     "test:diagnostic": "node --experimental-strip-types --test \"src/diagnostic/**/*.test.ts\" \"src/diagnostic-core/**/*.test.ts\" \"src/lib/auth/**/*.test.ts\"",
     "test:contact": "node --experimental-strip-types --test src/lib/contact-email.test.ts",
@@ -17,6 +17,7 @@
     "test:inspector:production": "INSPECTOR_PRODUCTION=1 playwright test --config=playwright.inspector.config.ts",
     "test:cms": "playwright test --config=playwright.cms.config.ts",
     "test:cms-gate": "playwright test --config=playwright.cms-gate.config.ts",
+    "test:admin-acceptance": "playwright test --config=playwright.admin-acceptance.config.ts",
     "cms:configure-auth": "node tools/cms/configure-auth.mjs"
   },
   "engines": {
