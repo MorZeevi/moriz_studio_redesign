@@ -154,6 +154,10 @@
   max-inline-size: 65ch;
 }
 
+.answer p + p {
+  margin-block-start: var(--space-3);
+}
+
 .summary:focus-visible {
   outline: none;
   box-shadow: none;

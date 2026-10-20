@@ -128,7 +128,7 @@ export function ProjectDetail({
                   />
                 )}
                 <h1 className={detail.title}>
-                  <bdi>{title}</bdi>
+                  <bdi dir={localeConfig[locale].direction}>{title}</bdi>
                 </h1>
               </div>
               {intro && <p className={detail.intro}>{intro}</p>}

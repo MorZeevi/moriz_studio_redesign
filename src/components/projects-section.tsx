@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { type CSSProperties, Fragment } from "react";
 import type { Project } from "@/content/projects";
-import type { Locale } from "@/i18n/config";
+import { type Locale, localeConfig } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
 import { PartyHeadingLight } from "./party-mode/party-heading-light";
 import { LiquidLink } from "./ui/liquid-link";
@@ -13,6 +13,7 @@ import { CategoryTags } from "./category-tags";
 import Noise from "./react-bits/Noise";
 import { CoverVideo } from "./cover-video";
 import { ProjectHoverMedia } from "./project-hover-media";
+import { ProjectLogo } from "./project-logo";
 
 type ProjectLabels = Omit<SiteContent["projects"], "items">;
 
@@ -168,21 +169,15 @@ export function ProjectsSection({
                   patternRefreshInterval={2}
                   patternAlpha={22}
                 />
-                <span className={styles.stackLogo} aria-hidden="true">
-                  {project.logo && (
-                    // biome-ignore lint/performance/noImgElement: private CMS logos bypass the image optimizer.
-                    <img
-                      src={project.logo.src}
-                      alt=""
-                      width={96}
-                      height={56}
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  )}
-                </span>
+                {project.logo ? (
+                  <ProjectLogo src={project.logo.src} />
+                ) : (
+                  <span className={styles.stackLogo} aria-hidden="true" />
+                )}
                 <h3 id={id} className={styles.stackTitle}>
-                  <bdi>{project.title}</bdi>
+                  <bdi dir={localeConfig[locale].direction}>
+                    {project.title}
+                  </bdi>
                 </h3>
                 {summary && (
                   <p className={styles.stackDescription}>{summary}</p>

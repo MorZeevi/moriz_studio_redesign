@@ -22,7 +22,7 @@ export function DesignQuote({
       <blockquote className={styles.quote}>
         <p>{content.text}</p>
       </blockquote>
-      {/* Signed by hand, at the end of the quote. */}
+      {/* Signed by hand, under the quote. */}
       <figcaption className={styles.author}>
         <cite className={styles.signature}>
           {content.author}

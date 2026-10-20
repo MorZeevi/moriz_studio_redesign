@@ -40,7 +40,7 @@ export function Faq({ content }: { content: SiteContent["faq"] }) {
 
       <div className={styles.questions}>
         <LiquidFilter id={filterId} blur={5} />
-        {content.questions.map((question) => (
+        {content.questions.map(({ question, answer }) => (
           <details
             key={question}
             name={`faq-${id}`}
@@ -70,7 +70,9 @@ export function Faq({ content }: { content: SiteContent["faq"] }) {
               </span>
             </summary>
             <div className={styles.answer}>
-              <p>{content.answerPlaceholder}</p>
+              {answer.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
             </div>
           </details>
         ))}

@@ -77,6 +77,8 @@
 /* Contact CTA: palette black with light ink (white with black ink in dark
    mode); secondary color on interaction. */
 .header-actions .header-contact-link {
+  /* Matches the 44px navigation pills so the header row shares one height. */
+  --liquid-height: var(--control-height-sm);
   --liquid-fill: var(--site-cta-fill, var(--color-dark));
   --liquid-pressed-fill: var(--site-cta-pressed, var(--color-dark));
   --liquid-ink: var(--site-cta-ink, var(--color-text-inverse));
@@ -345,7 +347,7 @@ html:has(.navigation-dialog[open]) {
     display: flex;
     flex: none;
     align-items: center;
-    block-size: var(--control-height-md);
+    block-size: var(--control-height-sm);
     color: var(--color-text-primary);
   }
 

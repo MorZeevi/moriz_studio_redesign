@@ -73,11 +73,7 @@ html[data-public-site][data-theme="dark"] body[data-project-backdrop] {
   .header-actions {
     gap: var(--space-2);
   }
-  .header-controls {
-    block-size: var(--control-height-sm);
-  }
   .header-actions .header-contact-link {
-    --liquid-height: var(--control-height-sm);
     font-size: var(--text-body-sm);
   }
 }
