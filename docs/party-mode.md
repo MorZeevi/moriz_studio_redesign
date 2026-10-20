@@ -18,7 +18,7 @@ The toggle reacts immediately. A weighted 850ms drop uses a small overshoot and 
 
 Switching off settles UI motion, fades beams/reflections, slows the video and retracts the cable/ball; the portal disappears after 660ms. Reversals retain their current position. A NORMAL control appears at the lower RTL inline-start corner when the main switch is outside the viewport. Keyboard focus returns to the inline switch if visible, otherwise to main content, before that control disappears.
 
-Desktop (64rem and wider): 128–154px ball at 40% of the viewport width, 64px cable, 24 reflections and 3 beams. Compact layouts: 77px ball at 47%, 32px cable, 10 reflections and 2 lower-opacity red/yellow beams. Both positions remain slightly left of center. The existing rotating asset is unchanged; Magnific was not needed for this refinement.
+Desktop (64rem and wider): 128–154px ball at 40% of the viewport width, 64px cable, 24 reflections and 3 beams. Compact layouts (owner refinement, 2026-10-19): 140px ball at 47%, 80px cable plus device safe-area clearance, 10 reflections and 2 lower-opacity red/yellow beams. Both positions remain slightly left of center. The existing rotating asset is unchanged; Magnific was not needed for this refinement.
 
 The page stays light, with a 3% warm atmospheric cast. Narrow, flat colored cones replace broad pale gradients: brand red, brand yellow and the owner-selected temporary cyan (`#00c9d8`). Their independent sweeps last 24, 30 and 36 seconds. A cached luminance mask reduces lighting behind copy and controls, with an 8px edge feather. Mask geometry refreshes on scroll/layout, not on animation frames. No sound, strobes, confetti or theme switch.
 

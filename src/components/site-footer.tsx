@@ -2,7 +2,6 @@ import Link from "next/link";
 import { MailIcon, PhoneIcon, WhatsappIcon } from "@/components/contact-icons";
 import { FooterContactForm } from "@/components/footer-contact-form";
 import { FooterContactShell } from "@/components/footer-contact-shell";
-import { FooterParallax } from "@/components/footer-parallax";
 import { FooterWordmark } from "@/components/footer-wordmark";
 import Noise from "@/components/react-bits/Noise";
 import { StudioLogo } from "@/components/studio-logo";
@@ -111,92 +110,94 @@ export function SiteFooter({
           </FooterContactShell>
         </div>
       </section>
-      <FooterParallax>
-        <footer data-wireframe-section="footer" className={styles.footer}>
-          <div className={`page-shell ${styles.top}`}>
-            <div className={styles.brand}>
-              <StudioLogo name={content.studioName} locale={locale} />
-            </div>
+      <div className={styles.footerStage} data-footer-stage>
+        <div className={styles.footerSurface} data-footer-surface>
+          <footer data-wireframe-section="footer" className={styles.footer}>
+            <div className={`page-shell ${styles.top}`}>
+              <div className={styles.brand}>
+                <StudioLogo name={content.studioName} locale={locale} />
+              </div>
 
-            <nav aria-label={footer.label} className={styles.columns}>
-              {footer.columns.map((column) => (
-                <div key={column.heading} className={styles.column}>
-                  <h2 className={styles.heading}>{column.heading}</h2>
-                  <ul className={styles.links}>
-                    {column.links.map((link) => (
-                      <li key={link.href}>
-                        <Link
-                          href={localeHref(link.href, locale, homepage)}
-                          className={styles.link}
-                        >
-                          {link.label}
-                        </Link>
+              <nav aria-label={footer.label} className={styles.columns}>
+                {footer.columns.map((column) => (
+                  <div key={column.heading} className={styles.column}>
+                    <h2 className={styles.heading}>{column.heading}</h2>
+                    <ul className={styles.links}>
+                      {column.links.map((link) => (
+                        <li key={link.href}>
+                          <Link
+                            href={localeHref(link.href, locale, homepage)}
+                            className={styles.link}
+                          >
+                            {link.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+
+                <div className={styles.column}>
+                  <h2 className={styles.heading}>{footer.socialsHeading}</h2>
+                  <ul className={styles.socials}>
+                    {footer.socials.map((social) => (
+                      <li key={social.network}>
+                        {social.href ? (
+                          <a
+                            href={social.href}
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label={social.label}
+                            className={styles.social}
+                          >
+                            {socialIcons[social.network]}
+                          </a>
+                        ) : (
+                          <span
+                            role="img"
+                            aria-label={social.label}
+                            aria-disabled="true"
+                            title={social.label}
+                            className={styles.social}
+                          >
+                            {socialIcons[social.network]}
+                          </span>
+                        )}
                       </li>
                     ))}
                   </ul>
                 </div>
-              ))}
+              </nav>
+            </div>
 
-              <div className={styles.column}>
-                <h2 className={styles.heading}>{footer.socialsHeading}</h2>
-                <ul className={styles.socials}>
-                  {footer.socials.map((social) => (
-                    <li key={social.network}>
-                      {social.href ? (
-                        <a
-                          href={social.href}
-                          target="_blank"
-                          rel="noreferrer"
-                          aria-label={social.label}
-                          className={styles.social}
-                        >
-                          {socialIcons[social.network]}
-                        </a>
-                      ) : (
-                        <span
-                          role="img"
-                          aria-label={social.label}
-                          aria-disabled="true"
-                          title={social.label}
-                          className={styles.social}
-                        >
-                          {socialIcons[social.network]}
-                        </span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </nav>
-          </div>
+            <FooterWordmark lines={footer.wordmark} fillSrc={wordmarkFill} />
 
-          <FooterWordmark lines={footer.wordmark} fillSrc={wordmarkFill} />
-
-          <div className={`page-shell ${styles.bottom}`}>
-            <ul className={styles.legal}>
-              {footer.legal.map((item) => (
-                <li key={item.label}>
-                  {item.href ? (
-                    <Link
-                      href={localeHref(item.href, locale, homepage)}
-                      className={styles.tag}
-                    >
-                      {item.label}
-                    </Link>
-                  ) : (
-                    <span aria-disabled="true" className={styles.tag}>
-                      {item.label}
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ul>
-            <p className={styles.copyright} dir="ltr">
-              © {new Date().getFullYear()} {footer.copyright}
-            </p>
-          </div>
-        </footer>
-      </FooterParallax>
+            <div className={`page-shell ${styles.bottom}`}>
+              <ul className={styles.legal}>
+                {footer.legal.map((item) => (
+                  <li key={item.label}>
+                    {item.href ? (
+                      <Link
+                        href={localeHref(item.href, locale, homepage)}
+                        className={styles.tag}
+                      >
+                        {item.label}
+                      </Link>
+                    ) : (
+                      <span aria-disabled="true" className={styles.tag}>
+                        {item.label}
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+              <p className={styles.copyright} dir="ltr">
+                © {new Date().getFullYear()} {footer.copyright}
+              </p>
+            </div>
+          </footer>
+        </div>
+      </div>
     </>
   );
 }

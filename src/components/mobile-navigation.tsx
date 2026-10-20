@@ -20,11 +20,23 @@ import type { SiteContent } from "@/i18n/dictionaries";
 import { anchorHref } from "@/lib/anchor-href";
 import {
   buildLiquidWindowGrid,
-  LIQUID_WINDOW_DURATION,
   LIQUID_WINDOW_EASING,
   type LiquidWindowGrid,
 } from "@/lib/liquid-window-grid";
 import styles from "./mobile-navigation.module.css";
+
+const menuWindowDuration = 240;
+const menuOpenDuration = 350;
+const menuCloseDuration = 240;
+const menuDelaySpread = menuOpenDuration - menuWindowDuration;
+
+function menuGrid() {
+  return buildLiquidWindowGrid(
+    window.innerWidth,
+    window.innerHeight,
+    menuDelaySpread,
+  );
+}
 
 type Phase = "closed" | "opening" | "open" | "closing";
 type WindowScene = {
@@ -48,11 +60,13 @@ function playScene(scene: WindowScene, direction: 1 | -1) {
   scene.direction = direction;
   for (const animation of [...scene.windows, scene.clock]) {
     animation.currentTime = time;
-    animation.updatePlaybackRate(direction);
+    animation.updatePlaybackRate(
+      direction === 1 ? 1 : -menuOpenDuration / menuCloseDuration,
+    );
     animation.play();
   }
   window.clearTimeout(scene.deadline);
-  scene.deadline = window.setTimeout(() => scene.clock.finish(), 3000);
+  scene.deadline = window.setTimeout(() => scene.clock.finish(), 700);
 }
 
 export function MobileNavigation({
@@ -104,18 +118,19 @@ export function MobileNavigation({
   useLayoutEffect(() => {
     const dialog = dialogRef.current;
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (phase !== "open" || !dialog || motion.matches) return;
+    if (!iconOpen || !dialog || motion.matches) return;
 
-    // Follow the window reveal with one quiet, top-to-bottom reading sequence.
+    // Let the links arrive during the windows, rather than queuing another reveal.
     const context = gsap.context(() => {
       gsap.fromTo(
         dialog.querySelectorAll(".navigation-links > li"),
-        { y: 16, opacity: 0 },
+        { y: 8, opacity: 0 },
         {
           y: 0,
           opacity: 1,
-          duration: 0.45,
-          stagger: 0.06,
+          delay: 0.125,
+          duration: 0.15,
+          stagger: 0.015,
           ease: "power2.out",
           clearProps: "transform,opacity",
         },
@@ -130,16 +145,14 @@ export function MobileNavigation({
       motion.removeEventListener("change", finish);
       context.revert();
     };
-  }, [phase]);
+  }, [iconOpen]);
 
   useLayoutEffect(() => {
     if (!grid || !dialogRef.current?.open || !windowsRef.current) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let scene: WindowScene | null = null;
     try {
-      const duration =
-        Math.max(...grid.cells.map((cell) => cell.delay)) +
-        LIQUID_WINDOW_DURATION;
+      const duration = menuOpenDuration;
       const windows = Array.from(windowsRef.current.children).map(
         (element, i) => {
           const animation = element.animate(
@@ -149,11 +162,11 @@ export function MobileNavigation({
               { transform: "scale(1.1)", opacity: 1 },
             ],
             {
-              duration: LIQUID_WINDOW_DURATION,
+              duration: menuWindowDuration,
               delay: grid.cells[i].delay,
               // WAAPI play() rewinds reverse playback past an effect's end.
               // A common end keeps every cell on the same reversible clock.
-              endDelay: duration - grid.cells[i].delay - LIQUID_WINDOW_DURATION,
+              endDelay: duration - grid.cells[i].delay - menuWindowDuration,
               easing: LIQUID_WINDOW_EASING,
               fill: "both",
             },
@@ -173,7 +186,7 @@ export function MobileNavigation({
       clock.onfinish = () => finishRef.current(currentScene.direction === 1);
       scene.deadline = window.setTimeout(
         () => finishRef.current(phaseRef.current !== "closing"),
-        3000,
+        700,
       );
       if (phaseRef.current === "open") {
         for (const animation of [...windows, clock])
@@ -208,7 +221,7 @@ export function MobileNavigation({
         finishRef.current(false);
       } else {
         finishRef.current(true);
-        setGrid(buildLiquidWindowGrid(window.innerWidth, window.innerHeight));
+        setGrid(menuGrid());
       }
     };
     const onMotion = () => {
@@ -233,7 +246,7 @@ export function MobileNavigation({
     if (open) {
       pendingHref.current = null;
       if (phaseRef.current === "closed") {
-        setGrid(buildLiquidWindowGrid(window.innerWidth, window.innerHeight));
+        setGrid(menuGrid());
         dialogRef.current?.showModal();
         closeRef.current?.focus({ preventScroll: true });
       }

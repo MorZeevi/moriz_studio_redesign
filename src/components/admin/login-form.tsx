@@ -1,26 +1,27 @@
 "use client";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { requestLoginLink } from "@/app/admin/actions";
+import { loginWithPassword } from "@/app/admin/actions";
 import { Button } from "@/components/ui/button";
 import styles from "./admin.module.css";
-export function LoginForm({ invalidLink = false }: { invalidLink?: boolean }) {
-  const [email, setEmail] = useState("");
-  const [sent, setSent] = useState(false);
-  const [error, setError] = useState(
-    invalidLink
-      ? "הקישור שגוי או פג תוקף. בקשו קישור חדש ופתחו אותו באותו דפדפן."
-      : "",
-  );
+export function LoginForm() {
+  const [ready, setReady] = useState(false);
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [pending, start] = useTransition();
   const router = useRouter();
-  function send() {
+  // Controlled fields must wait for hydration so early input is not reset.
+  useEffect(() => setReady(true), []);
+  function login() {
     setError("");
     start(async () => {
       try {
-        const result = await requestLoginLink(email);
-        if (result.ok) setSent(true);
-        else setError(result.error);
+        const result = await loginWithPassword(password);
+        if (result.ok) {
+          setPassword("");
+          router.replace("/admin/projects");
+          router.refresh();
+        } else setError(result.error);
       } catch {
         setError("לא ניתן להתחבר כרגע. נסו שוב.");
       }
@@ -29,50 +30,41 @@ export function LoginForm({ invalidLink = false }: { invalidLink?: boolean }) {
   return (
     <main className={styles.login}>
       <h1>כניסה לניהול</h1>
-      <p>כניסה פרטית באמצעות קישור למייל.</p>
+      <p>הזינו את הסיסמה כדי להיכנס לניהול האתר.</p>
       <form
+        method="post"
         onSubmit={(event) => {
           event.preventDefault();
-          send();
+          login();
         }}
       >
         <label className={styles.field}>
-          <span>כתובת מייל</span>
+          <span>סיסמה</span>
           <input
-            type="email"
-            autoComplete="email"
+            name="password"
+            type="password"
+            autoComplete="current-password"
             dir="ltr"
             required
-            value={email}
-            disabled={pending}
+            maxLength={1024}
+            value={password}
+            disabled={!ready || pending}
+            aria-invalid={Boolean(error)}
+            aria-describedby={error ? "login-error" : undefined}
             onChange={(e) => {
-              setEmail(e.target.value);
-              setSent(false);
+              setPassword(e.target.value);
+              setError("");
             }}
           />
         </label>
-        {sent && (
-          <p role="status">
-            הקישור נשלח. פתחו אותו באותו דפדפן כדי להיכנס לניהול.
-          </p>
-        )}
         {error && (
-          <p role="alert" className={styles.error}>
+          <p id="login-error" role="alert" className={styles.error}>
             {error}
           </p>
         )}
-        <Button type="submit" disabled={pending}>
-          {pending ? "שולח…" : sent ? "שליחת קישור מחדש" : "שליחת קישור כניסה"}
+        <Button type="submit" disabled={!ready || pending}>
+          {pending ? "מתחבר…" : "כניסה לניהול"}
         </Button>
-        {sent && (
-          <Button
-            variant="ghost"
-            disabled={pending}
-            onClick={() => router.refresh()}
-          >
-            כבר התחברתי — רענון
-          </Button>
-        )}
       </form>
     </main>
   );

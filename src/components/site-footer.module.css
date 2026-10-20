@@ -1,8 +1,7 @@
 .footer {
   /* The contact panel's corner radius, so the two surfaces read as a set. */
   --footer-radius: clamp(2rem, 4vw, 4rem);
-  /* Risen-from-below letters must not widen or lengthen the page: a taller
-     page would move the wordmark trigger's end while it scrubs. */
+  /* Keep the desktop wordmark's short entrance inside the footer surface. */
   overflow: clip;
   position: relative;
   border-start-start-radius: var(--footer-radius);
@@ -285,7 +284,6 @@ a.social:hover {
   --letter-bleed: 0.08em;
   margin: -0.15em calc(0em - var(--letter-bleed));
   padding: 0.15em var(--letter-bleed);
-  will-change: transform;
 }
 
 /* A round dot over the dotless ı, measured from Leon 900 in em: the stem's

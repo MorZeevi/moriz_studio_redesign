@@ -489,13 +489,13 @@ test("private routes and a complete editor publishing flow", async ({
   const webp = readFileSync("public/party-mode/disco-ball.webp");
   await page.goto("/admin/projects/new");
   await expect(page).toHaveURL(/admin\/login/);
-  await page.getByLabel("כתובת מייל").fill("not-the-owner@example.invalid");
+  await page.getByLabel("סיסמה", { exact: true }).fill("incorrect-password");
   await page
-    .getByRole("button", { name: "שליחת קישור כניסה", exact: true })
+    .getByRole("button", { name: "כניסה לניהול", exact: true })
     .click();
   await expect(
-    page.getByRole("alert").filter({ hasText: "חשבון הבעלים" }),
-  ).toContainText("חשבון הבעלים");
+    page.getByRole("alert").filter({ hasText: "הסיסמה שגויה" }),
+  ).toContainText("הסיסמה שגויה");
   await page.context().addCookies(f.cookies);
   await page.goto("/admin/projects/new");
   await page.getByLabel("שם הפרויקט", { exact: true }).fill("CMS browser test");

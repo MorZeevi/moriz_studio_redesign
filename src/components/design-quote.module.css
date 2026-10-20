@@ -11,7 +11,7 @@
      text. ch scales with the type, so the two lines hold at every width. */
   max-inline-size: min(100%, 14.5ch);
   margin: 0 auto;
-  padding-block: var(--section-space-sm);
+  padding-block: var(--space-6);
   color: var(--quote-accent);
   font-size: var(--text-h2);
   text-align: center;
@@ -21,7 +21,7 @@
 .mark {
   position: absolute;
   z-index: -1;
-  inset-block-start: calc(var(--section-space-sm) - 0.3em);
+  inset-block-start: calc(var(--space-6) - 0.3em);
   inset-inline-start: -0.75em;
   color: var(--quote-accent);
   font-family: var(--font-display);
@@ -45,17 +45,6 @@
 
 .quote p {
   margin: 0;
-}
-
-/* Each word clips its letters as they slide up into it. The clip reaches past
-   the tight line box, so ascenders and descenders show once in place. */
-.word {
-  display: inline-block;
-  clip-path: inset(-0.2em -0.1em -0.25em);
-}
-
-.char {
-  display: inline-block;
 }
 
 .author {

@@ -12,7 +12,11 @@ export type LiquidWindowGrid = {
 };
 
 /** The owner's opening geometry, shared without its session/playback rules. */
-export function buildLiquidWindowGrid(w: number, h: number): LiquidWindowGrid {
+export function buildLiquidWindowGrid(
+  w: number,
+  h: number,
+  delaySpread = 620,
+): LiquidWindowGrid {
   const narrow = w < 640;
   const ch = Math.ceil(h / (narrow ? 9 : 7));
   const cw = Math.ceil(ch * (narrow ? 1.4 : 1.8));
@@ -21,7 +25,7 @@ export function buildLiquidWindowGrid(w: number, h: number): LiquidWindowGrid {
   const cells: LiquidWindowGrid["cells"] = [];
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols; x++) {
-      cells.push({ x, y, delay: Math.round(Math.random() * 620) });
+      cells.push({ x, y, delay: Math.round(Math.random() * delaySpread) });
     }
   }
   return { w, h, cw, ch, ox: -cw / 2, oy: -ch / 2, cells };

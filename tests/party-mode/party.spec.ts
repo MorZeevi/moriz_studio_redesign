@@ -327,7 +327,7 @@ test("mobile uses fewer lights, preserves touch scrolling and menu behavior", as
     );
   expect(visibleDots).toBe(10);
   expect(visibleBeams).toBe(2);
-  await expect(page.locator("[data-party-rig]")).toHaveCSS("width", "77px");
+  await expect(page.locator("[data-party-rig]")).toHaveCSS("width", "140px");
   await expect(page.locator("[data-party-video]")).toHaveAttribute(
     "src",
     /-mobile\.(webm|mov)$/,
@@ -336,7 +336,7 @@ test("mobile uses fewer lights, preserves touch scrolling and menu behavior", as
   await expect(page.getByRole("dialog")).toBeVisible();
   await page
     .getByRole("dialog")
-    .getByRole("link", { name: "קצת עליי" })
+    .getByRole("link", { name: "קצת עלי", exact: true })
     .click();
   await expect(page.getByRole("dialog")).not.toBeVisible();
   await expect(state(page)).toHaveAttribute("data-party-state", "active");
@@ -378,7 +378,10 @@ test("200% text enlargement keeps both switch labels whole and contained", async
     await page.setViewportSize({ width, height: 1000 });
     await toggle(page).scrollIntoViewIfNeeded();
     if (width === 390)
-      await expect(page.locator("[data-party-rig]")).toHaveCSS("width", "77px");
+      await expect(page.locator("[data-party-rig]")).toHaveCSS(
+        "width",
+        "140px",
+      );
     await expect
       .poll(() =>
         toggle(page).evaluate((button) => {

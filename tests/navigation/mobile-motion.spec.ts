@@ -125,7 +125,7 @@ test("mobile FAQ actions fill their column and the hero projects action works", 
   }
 });
 
-test("mobile footer rises with scroll and reveals the image-filled wordmark", async ({
+test("mobile footer stays still and preserves the image-filled wordmark", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
@@ -138,7 +138,7 @@ test("mobile footer rises with scroll and reveals the image-filled wordmark", as
       scrollY + node.getBoundingClientRect().top - innerHeight * 0.65,
     );
   });
-  await expect.poll(() => translation(surface, "y")).toBeLessThan(-10);
+  await expect(surface).toHaveCSS("transform", "none");
   await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight));
   await expect.poll(() => translation(surface, "y")).toBeCloseTo(0, 0);
   const letters = page.locator("[data-footer-wordmark] [data-letter]");
@@ -150,7 +150,8 @@ test("mobile footer rises with scroll and reveals the image-filled wordmark", as
   await expect.poll(() => translation(letters.last(), "y")).toBeCloseTo(0, 0);
   await page.screenshot({ path: "test-results/mobile-motion/footer.png" });
   await page.evaluate(() => scrollBy(0, -150));
-  await expect.poll(() => translation(letters.last(), "y")).toBeGreaterThan(1);
+  await expect(surface).toHaveCSS("transform", "none");
+  await expect(letters.last()).toHaveCSS("transform", "none");
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(
     390,
   );

@@ -94,6 +94,7 @@
   visibility: hidden;
 }
 
+.dialog[data-state="opening"] .body,
 .dialog[data-state="open"] .body {
   visibility: visible;
 }

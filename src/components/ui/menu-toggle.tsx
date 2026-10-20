@@ -41,14 +41,14 @@ export function MenuToggle({
         aria-hidden="true"
         focusable="false"
         className={cn(
-          "size-8 transition-transform duration-[600ms] ease-out motion-reduce:transition-none",
+          "size-8 transition-transform duration-200 ease-out motion-reduce:transition-none",
           open && "-rotate-45",
           iconClassName,
         )}
       >
         <path
           className={cn(
-            "transition-all duration-[600ms] ease-out motion-reduce:transition-none",
+            "transition-all duration-200 ease-out motion-reduce:transition-none",
             open
               ? "[stroke-dasharray:20_300] [stroke-dashoffset:-32.42px]"
               : "[stroke-dasharray:12_63]",

@@ -25,6 +25,7 @@
 
 .scrollSurface {
   position: relative;
+  isolation: isolate;
   background: transparent;
 }
 
@@ -453,6 +454,33 @@
   z-index: 1;
 }
 
+/* Cover the full pinned band, including gutters and the space below the
+   desktop header. Content scrolling behind it must never peek through. */
+.stackIntro::before,
+.stackHead::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -1px calc(0px - var(--page-gutter));
+  background: var(--project-background);
+  pointer-events: none;
+}
+
+.stackIntro::before {
+  inset-block-start: calc(
+    0px -
+    var(--stack-top) -
+    env(safe-area-inset-top, 0px) -
+    1px
+  );
+}
+
+.stackIntro > canvas,
+.stackHead > canvas {
+  inset-inline: calc(0px - var(--page-gutter));
+  inline-size: calc(100% + var(--page-gutter) * 2);
+}
+
 /* ProjectScrollSurface measures --stack-intro and each --stack-offset so
    every pinned strip shows its full name and description. */
 .stackHead {
@@ -483,8 +511,8 @@
   align-items: center;
   justify-content: center;
   align-self: center;
-  inline-size: clamp(3.5rem, 6vw, 6rem);
-  block-size: clamp(2rem, 4vw, 3.5rem);
+  inline-size: 6rem;
+  block-size: 3.5rem;
 }
 .stackLogo img {
   display: block;
@@ -548,7 +576,21 @@
 }
 
 /* Single column: the category tags follow the image. */
-@media (max-width: 59.999rem) {
+@media (max-width: 63.999rem) {
+  .stackHead {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "title logo";
+    align-items: center;
+  }
+
+  .stackTitle {
+    grid-area: title;
+  }
+
+  .stackLogo {
+    grid-area: logo;
+  }
+
   .stackInfo {
     display: contents;
   }
@@ -558,7 +600,7 @@
   }
 }
 
-@media (min-width: 60rem) {
+@media (min-width: 64rem) {
   .stackHead {
     grid-template-columns: 6rem minmax(0, 1fr) minmax(0, 24rem);
   }
