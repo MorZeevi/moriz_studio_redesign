@@ -156,17 +156,22 @@ test("reduced motion fades the header instead of sliding it", async ({
   await context.close();
 });
 
-test("mobile leaves the header alone", async ({ browser, baseURL }) => {
+test("mobile keeps the header pinned without sliding it away", async ({
+  browser,
+  baseURL,
+}) => {
   const context = await browser.newContext({
     viewport: { width: 390, height: 844 },
   });
   const page = await context.newPage();
   await page.goto(`${baseURL}/he`);
+  const header = page.locator(".site-header");
+  await expect(header).not.toHaveAttribute("data-header-stuck");
   await scrollPastFirstScreen(page);
   await scrollDown(page);
-  expect(
-    await page.locator(".site-header").getAttribute("data-header-hidden"),
-  ).toBeNull();
+  expect(await header.getAttribute("data-header-hidden")).toBeNull();
+  await expect(header).toHaveAttribute("data-header-stuck", "");
+  expect((await header.boundingBox())?.y).toBe(0);
   expect(
     await page
       .locator(".header-brand")
@@ -342,8 +347,7 @@ test("Projects remains aligned across desktop, tablet and mobile breakpoints", a
     await expect
       .poll(async () => {
         const stack = await projectStack(page);
-        const clearance =
-          width >= 1024 && !stack.headerHidden ? stack.headerBottom : 0;
+        const clearance = stack.headerHidden ? 0 : stack.headerBottom;
         return stack.introTop - clearance;
       })
       .toBeCloseTo(0, 0);
@@ -354,8 +358,7 @@ test("Projects remains aligned across desktop, tablet and mobile breakpoints", a
       })
       .toBeCloseTo(0, 0);
     const stack = await projectStack(page);
-    if (width < 1024 || stack.headerHidden)
-      expect(stack.topCoveredByIntro).toBe(true);
+    if (stack.headerHidden) expect(stack.topCoveredByIntro).toBe(true);
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,

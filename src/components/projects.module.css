@@ -417,8 +417,9 @@
 }
 
 /* Home: project strips stick and pile up while their bodies scroll beneath. */
+/* The site header is pinned at every width, so the stack starts below it. */
 .scrollSurface {
-  --stack-top: 0px;
+  --stack-top: var(--site-header-height, 4rem);
   --stack-step: 2.25rem;
 }
 
@@ -479,6 +480,15 @@
 .stackHead > canvas {
   inset-inline: calc(0px - var(--page-gutter));
   inline-size: calc(100% + var(--page-gutter) * 2);
+}
+
+/* Grain the plate's reach above the intro too, or that area reads as a
+   darker blank band whenever the intro sits unpinned below the header. */
+.stackIntro > canvas {
+  --intro-reach: calc(var(--stack-top) + env(safe-area-inset-top, 0px) + 1px);
+  inset-block-start: calc(0px - var(--intro-reach));
+  /* A canvas keeps its intrinsic height under auto, so size it explicitly. */
+  block-size: calc(100% + var(--intro-reach));
 }
 
 /* ProjectScrollSurface measures --stack-intro and each --stack-offset so
