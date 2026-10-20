@@ -24,7 +24,40 @@ export type GateCookie = {
 export type GateFixture = {
   smoke: { session: Session; cookies: GateCookie[] };
   logout: { session: Session; cookies: GateCookie[] };
+  // Fresh sessions whose cookie marks the access token as expired while the
+  // refresh token is valid, so the proxy has to refresh them. Each is used by
+  // one test, because a refresh rotates the refresh token.
+  expiredCms: { session: Session; cookies: GateCookie[] };
+  expiredLeads: { session: Session; cookies: GateCookie[] };
 };
+
+const CHUNK = 3180;
+/**
+ * Rewrites the stored session so expires_at is in the past. The access token
+ * itself is untouched; the server sees an expired session and must refresh it.
+ */
+export function expireCookies(cookies: GateCookie[]): GateCookie[] {
+  const chunks = [...cookies].sort(
+    (a, b) =>
+      Number(/\.(\d+)$/.exec(a.name)?.[1] ?? 0) -
+      Number(/\.(\d+)$/.exec(b.name)?.[1] ?? 0),
+  );
+  const base = chunks[0].name.replace(/\.\d+$/, "");
+  const joined = chunks.map((cookie) => cookie.value).join("");
+  if (!joined.startsWith("base64-"))
+    throw new Error("Unexpected auth cookie encoding.");
+  const stored = JSON.parse(
+    Buffer.from(joined.slice("base64-".length), "base64url").toString("utf8"),
+  );
+  stored.expires_at = 1;
+  const value = `base64-${Buffer.from(JSON.stringify(stored)).toString("base64url")}`;
+  const parts = value.match(new RegExp(`.{1,${CHUNK}}`, "g")) ?? [value];
+  return parts.map((part, index) => ({
+    ...chunks[0],
+    name: parts.length === 1 ? base : `${base}.${index}`,
+    value: part,
+  }));
+}
 
 function required(name: string) {
   const value = process.env[name];
@@ -91,15 +124,25 @@ export default async function setup() {
     return { session: verified.session, cookies };
   }
 
-  const fixture: GateFixture = { smoke: await mint(), logout: await mint() };
+  const expiredCms = await mint();
+  const expiredLeads = await mint();
+  const fixture: GateFixture = {
+    smoke: await mint(),
+    logout: await mint(),
+    expiredCms: { ...expiredCms, cookies: expireCookies(expiredCms.cookies) },
+    expiredLeads: {
+      ...expiredLeads,
+      cookies: expireCookies(expiredLeads.cookies),
+    },
+  };
   mkdirSync(".cache", { recursive: true });
   writeFileSync(gatePath, JSON.stringify(fixture), { mode: 0o600 });
 
   return async () => {
-    // Only the two sessions minted above are revoked, never the owner's other
+    // Only the sessions minted above are revoked, never the owner's other
     // sessions. An already-revoked session (for example after a UI logout)
     // errors harmlessly.
-    for (const { session } of [fixture.smoke, fixture.logout]) {
+    for (const { session } of Object.values(fixture)) {
       try {
         await admin.auth.admin.signOut(session.access_token, "local");
       } catch {

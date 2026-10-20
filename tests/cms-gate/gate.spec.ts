@@ -107,3 +107,79 @@ test("the owner's other (smoke) session survives the logout above", async ({
   ).toBeVisible();
   await context.close();
 });
+
+// --- Proxy (M-A3): lead-admin coverage without any CMS redirect change ---
+
+function storedExpiry(cookies: { name: string; value: string }[]) {
+  const auth = cookies
+    .filter((cookie) => /^sb-.+-auth-token(\.\d+)?$/.test(cookie.name))
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map((cookie) => cookie.value)
+    .join("");
+  if (!auth.startsWith("base64-")) return 0;
+  return JSON.parse(
+    Buffer.from(auth.slice("base64-".length), "base64url").toString("utf8"),
+  ).expires_at as number;
+}
+
+test("signed-out lead admin redirects to login with next, on the same host", async ({
+  page,
+}) => {
+  await page.goto("/digital-audit/admin?status=new");
+  const url = new URL(page.url());
+  expect(url.origin).toBe("http://127.0.0.1:4398");
+  expect(url.pathname).toBe("/admin/login");
+  expect(url.searchParams.get("next")).toBe("/digital-audit/admin?status=new");
+  await page.goto("/digital-audit/admin/leads/11111111-2222-4333-8444-555555555555");
+  expect(new URL(page.url()).searchParams.get("next")).toBe(
+    "/digital-audit/admin/leads/11111111-2222-4333-8444-555555555555",
+  );
+});
+
+test("lead admin APIs and the public diagnostic are never redirected", async ({
+  request,
+}) => {
+  const status = await request.post("/digital-audit/api/admin/lead-status", {
+    data: "{}",
+    maxRedirects: 0,
+  });
+  expect(status.status()).toBe(404);
+  // A plain GET: no browser, so the public funnel's scripts never run.
+  const landing = await request.get("/digital-audit", { maxRedirects: 0 });
+  expect(landing.status()).toBe(200);
+});
+
+test("CMS with an expired access token and a valid refresh token still loads", async ({
+  browser,
+}) => {
+  const { cookies } = fixture().expiredCms;
+  const context = await browser.newContext();
+  await context.addCookies(cookies);
+  expect(storedExpiry(cookies)).toBe(1);
+  const page = await context.newPage();
+  await page.goto("/admin/projects");
+  await expect(page).toHaveURL(/\/admin\/projects$/);
+  await expect(
+    page.getByRole("heading", { level: 1, name: "פרויקטים" }),
+  ).toBeVisible();
+  // The proxy refreshed the session and the browser received the new cookies.
+  expect(storedExpiry(await context.cookies())).toBeGreaterThan(
+    Date.now() / 1000,
+  );
+  await context.close();
+});
+
+test("lead admin with an expired access token and a valid refresh token is not sent to login", async ({
+  browser,
+}) => {
+  const { cookies } = fixture().expiredLeads;
+  const context = await browser.newContext();
+  await context.addCookies(cookies);
+  const page = await context.newPage();
+  await page.goto("/digital-audit/admin");
+  expect(new URL(page.url()).pathname).toBe("/digital-audit/admin");
+  expect(storedExpiry(await context.cookies())).toBeGreaterThan(
+    Date.now() / 1000,
+  );
+  await context.close();
+});
