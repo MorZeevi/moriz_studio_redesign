@@ -1,3 +1,10 @@
+// READ-ONLY CMS GATE SETUP. This file may only mint temporary sessions for the
+// EXISTING owner identity:
+//  - it asserts user.id === SUPABASE_ADMIN_USER_ID before any cookie is written
+//    and aborts otherwise;
+//  - it never calls admin.createUser (or any other user management call), never
+//    runs SQL, and never inserts, updates or deletes any table or storage object;
+//  - teardown revokes only the sessions minted here, with scope "local".
 import { mkdirSync, writeFileSync } from "node:fs";
 import { loadEnvConfig } from "@next/env";
 import { createServerClient } from "@supabase/ssr";
