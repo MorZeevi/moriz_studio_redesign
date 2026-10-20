@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { adminLoginPath, safeAdminNext } from "./next-path.ts";
+import { adminDestination, adminLoginPath, safeAdminNext } from "./next-path.ts";
 
 test("allows the CMS and lead admin pages and preserves the query string", () => {
   assert.equal(safeAdminNext("/admin"), "/admin");
@@ -141,5 +141,30 @@ test("adminLoginPath carries only a safe next", () => {
   assert.equal(
     adminLoginPath("/admin/projects"),
     "/admin/login?next=%2Fadmin%2Fprojects",
+  );
+});
+
+test("a hostile or missing next falls back to the CMS project list", () => {
+  assert.equal(adminDestination(), "/admin/projects");
+  assert.equal(adminDestination(undefined), "/admin/projects");
+  assert.equal(adminDestination(["/admin/os"]), "/admin/projects");
+  for (const hostile of [
+    "//evil.example",
+    "https://evil.example/admin",
+    "/\\evil.example",
+    "javascript:alert(1)",
+    "/adminx",
+    "/admin/login",
+    "/admin/auth/callback",
+    "/admin/%2e%2e/evil",
+    "/digital-audit/result",
+    "/admin%0a/x",
+    "/admin\u000a/x",
+  ])
+    assert.equal(adminDestination(hostile), "/admin/projects", hostile);
+  assert.equal(adminDestination("/admin/os"), "/admin/os");
+  assert.equal(
+    adminDestination("/digital-audit/admin?status=new"),
+    "/digital-audit/admin?status=new",
   );
 });

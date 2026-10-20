@@ -183,3 +183,37 @@ test("lead admin with an expired access token and a valid refresh token is not s
   );
   await context.close();
 });
+
+// --- Login `next` (M-A4) ---
+
+test("signed-out login keeps the password screen and ignores hostile next values", async ({
+  page,
+}) => {
+  for (const next of ["%2Fadmin%2Fos", "%2F%2Fevil.example", "https%3A%2F%2Fevil.example"]) {
+    await page.goto(`/admin/login?next=${next}`);
+    await expect(page).toHaveURL(/\/admin\/login\?next=/);
+    await expect(page.getByLabel("סיסמה", { exact: true })).toBeVisible();
+  }
+});
+
+test("signed-in owner is forwarded to a safe next and to projects otherwise", async ({
+  browser,
+}) => {
+  const context = await browser.newContext();
+  await context.addCookies(fixture().smoke.cookies);
+  const page = await context.newPage();
+  await page.goto("/admin/login?next=%2Fadmin%2Fos");
+  await expect(page).toHaveURL(/\/admin\/os$/);
+  await page.goto("/admin/login?next=%2Fadmin%2Fcategories%3Fkind%3Dtype");
+  await expect(page).toHaveURL(/\/admin\/categories\?kind=type$/);
+  for (const next of [
+    "%2F%2Fevil.example",
+    "https%3A%2F%2Fevil.example",
+    "%2Fadminx",
+    "%2Fadmin%2Flogin",
+  ]) {
+    await page.goto(`/admin/login?next=${next}`);
+    await expect(page).toHaveURL(/\/admin\/projects$/);
+  }
+  await context.close();
+});

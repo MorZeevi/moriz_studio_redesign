@@ -57,3 +57,10 @@ export function adminLoginPath(next?: unknown): string {
     ? `/admin/login?next=${encodeURIComponent(safe)}`
     : "/admin/login";
 }
+
+export const DEFAULT_ADMIN_DESTINATION = "/admin/projects";
+
+/** Where a successful login goes: a safe `next`, else the CMS project list. */
+export function adminDestination(next?: unknown): string {
+  return safeAdminNext(next) ?? DEFAULT_ADMIN_DESTINATION;
+}

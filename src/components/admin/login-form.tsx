@@ -3,8 +3,9 @@ import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { loginWithPassword } from "@/app/admin/actions";
 import { Button } from "@/components/ui/button";
+import { adminDestination } from "@/lib/auth/next-path";
 import styles from "./admin.module.css";
-export function LoginForm() {
+export function LoginForm({ next }: { next?: string }) {
   const [ready, setReady] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -19,7 +20,7 @@ export function LoginForm() {
         const result = await loginWithPassword(password);
         if (result.ok) {
           setPassword("");
-          router.replace("/admin/projects");
+          router.replace(adminDestination(next));
           router.refresh();
         } else setError(result.error);
       } catch {
