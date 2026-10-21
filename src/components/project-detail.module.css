@@ -475,10 +475,11 @@
     grid-row: 2;
     padding-block-start: 6rem;
   }
-  /* The panel scrolls away with the page, as tall as its content. */
+  /* Fill the project layout height while scrolling with the page. */
   .panel {
     grid-column: 1;
     grid-row: 1 / 4;
+    align-self: stretch;
     display: flex;
     flex-direction: column;
     border-inline-end: 1px solid currentColor;

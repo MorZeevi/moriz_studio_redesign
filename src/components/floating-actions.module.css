@@ -324,7 +324,7 @@
   }
 }
 
-/* The homepage keeps only WhatsApp on phones; case studies keep a compact
+/* Mobile keeps the AI tab above WhatsApp; case studies use a compact
    action rail inside the mobile page gutter. */
 @media (max-width: 63.999rem) {
   .whatsappPortrait {
@@ -340,10 +340,6 @@
   .action.action:has(.whatsappIcon) {
     --liquid-fill: transparent;
     --liquid-pressed-fill: transparent;
-  }
-
-  .mobileWhatsappOnly .aiTab {
-    display: none;
   }
 
   /* Touch can't hover the label open, so the resting stub read as a button
