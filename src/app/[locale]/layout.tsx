@@ -32,8 +32,13 @@ export async function generateMetadata({
     alternates: { canonical: `/${locale}` },
     openGraph: { ...siteOpenGraph, title, description, url: `/${locale}` },
     twitter: { card: "summary_large_image" },
-    // Keeps the Search Console property verified after the old site.
-    verification: { google: "xO6LYWGPw9X4BfBOz8e1Zwbb15voRIleYgqwqAmp6W4" },
+    // Search Console: the previous site's token and the current one.
+    verification: {
+      google: [
+        "xO6LYWGPw9X4BfBOz8e1Zwbb15voRIleYgqwqAmp6W4",
+        "O849dYcTqlkDRxzJoO16ei1ObwdFd4inKLcSOFTpxkQ",
+      ],
+    },
     // Index the launched public site; preview builds remain excluded.
     robots: {
       index: isIndexable,
