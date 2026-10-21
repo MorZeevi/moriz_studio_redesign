@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { JsonLd } from "@/components/json-ld";
 import { ProjectDetail } from "@/components/project-detail";
 import { isEnabledLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { localized } from "@/lib/cms/localize";
 import { getNextProject, getPublicProject } from "@/lib/cms/queries";
 import { isVideoSrc } from "@/lib/cms/validation";
-import type { ProjectContentBlock } from "@/types/project";
+import { siteOpenGraph } from "@/lib/site";
+import { projectStructuredData } from "@/lib/structured-data";
+import type { Project, ProjectContentBlock } from "@/types/project";
 
 type PageParams = { params: Promise<{ locale: string; slug: string }> };
 async function load(params: PageParams["params"]) {
@@ -39,22 +42,34 @@ export async function generateMetadata({
     localized(project, "short_description", locale) ||
     localized(project, "description", locale) ||
     undefined;
-  // Social image: the chosen one, else the hero when it is an image.
-  const image =
-    project.og_image_url ??
-    (project.cover_image_url && !isVideoSrc(project.cover_image_url)
-      ? project.cover_image_url
-      : null);
+  const image = socialImage(project);
+  const url = projectPath(locale, project.slug);
   return {
-    title,
+    // CMS titles already carry the studio name; skip the layout template.
+    title: { absolute: title },
     description,
+    alternates: { canonical: url },
     openGraph: {
+      ...siteOpenGraph,
       title,
       description,
+      url,
       type: "article",
       ...(image ? { images: [{ url: image }] } : {}),
     },
   };
+}
+// Social image: the chosen one, else the hero when it is an image.
+function socialImage(project: Project) {
+  return (
+    project.og_image_url ??
+    (project.cover_image_url && !isVideoSrc(project.cover_image_url)
+      ? project.cover_image_url
+      : null)
+  );
+}
+function projectPath(locale: string, slug: string | null) {
+  return `/${locale}/projects/${encodeURIComponent(slug ?? "")}`;
 }
 export default async function ProjectPage({
   params,
@@ -88,5 +103,21 @@ export default async function ProjectPage({
     data.project = { ...data.project, content };
   }
   const nextProject = await getNextProject(data.project);
-  return <ProjectDetail {...data} nextProject={nextProject} />;
+  const { locale, content, project } = data;
+  return (
+    <>
+      <JsonLd
+        data={projectStructuredData({
+          content,
+          locale,
+          slug: project.slug ?? "",
+          name: localized(project, "title", locale),
+          description:
+            localized(project, "short_description", locale) || undefined,
+          image: socialImage(project),
+        })}
+      />
+      <ProjectDetail {...data} nextProject={nextProject} />
+    </>
+  );
 }

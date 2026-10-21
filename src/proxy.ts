@@ -16,7 +16,8 @@ export async function proxy(request: NextRequest) {
   }
   const destination = request.nextUrl.clone();
   destination.pathname = `/${defaultLocale}`;
-  return NextResponse.redirect(destination);
+  // Permanent: the locale home is the canonical entry URL.
+  return NextResponse.redirect(destination, 308);
 }
 
 // Only the entry URL is redirected. Assets and future routes are unaffected.
