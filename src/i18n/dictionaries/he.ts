@@ -8,7 +8,7 @@ import type { Testimonial } from "@/content/testimonials";
 export const he = {
   metadata: {
     title: "Moriz Studio",
-    description: "שלד עמוד בית בשחור־לבן לבחינת המבנה.",
+    description: "Moriz Studio — איפיון, עיצוב ופיתוח אתרים, אפליקציות WEB וכלי AI מבוססי מחקר. מהרעיון ועד מוצר דיגיטלי שעובד בשבילכם.",
   },
   studioName: "Moriz Studio",
   theme: {

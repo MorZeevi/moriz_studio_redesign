@@ -23,8 +23,12 @@ export async function generateMetadata({
   const content = await getDictionary(locale);
   return {
     ...content.metadata,
-    // Local prototype only. Production indexing remains a separate decision.
-    robots: { index: false, follow: false },
+    // Index the launched public site; preview builds remain excluded.
+    metadataBase: new URL("https://moriz.studio"),
+    robots: {
+      index: process.env.VERCEL_ENV === "production",
+      follow: process.env.VERCEL_ENV === "production",
+    },
   };
 }
 
