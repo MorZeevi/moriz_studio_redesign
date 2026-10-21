@@ -324,15 +324,30 @@
   }
 }
 
-/* Mobile keeps the AI tab above WhatsApp; case studies use a compact
-   action rail inside the mobile page gutter. */
+/* Mobile docks both tabs to the screen edge, with the WhatsApp icon below AI. */
 @media (max-width: 63.999rem) {
+  .action.action {
+    margin-inline-end: calc(-1 * var(--rail-inset));
+  }
+
+  .action :global(.liquid__portrait) {
+    clip-path: none;
+  }
+
   .whatsappPortrait {
     display: none;
   }
 
   .whatsappIcon {
     display: block;
+    border-start-start-radius: var(--radius-liquid);
+    border-end-start-radius: var(--radius-liquid);
+    overflow: hidden;
+    filter: none;
+  }
+
+  .whatsappIcon rect {
+    rx: 0;
   }
 
   /* The WhatsApp app tile is the whole button, so the green blob behind it
@@ -342,8 +357,7 @@
     --liquid-pressed-fill: transparent;
   }
 
-  /* Touch can't hover the label open, so the resting stub read as a button
-     cut off at the screen edge. Phones get a whole round button instead. */
+  /* Keep an icon-only tab on touch screens, with no expanding label. */
   .mobileWhatsappOnly .action.action {
     --liquid-height: 3rem;
     --liquid-icon-size: 3rem;
