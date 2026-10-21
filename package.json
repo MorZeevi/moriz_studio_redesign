@@ -24,6 +24,7 @@
     "node": ">=22.0.0"
   },
   "dependencies": {
+    "@microsoft/clarity": "^1.0.2",
     "@next/third-parties": "^16.4.2",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.117.3",
