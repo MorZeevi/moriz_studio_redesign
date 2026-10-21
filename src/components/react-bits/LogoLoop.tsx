@@ -42,6 +42,8 @@ export interface LogoLoopProps {
   fadeOut?: boolean;
   fadeOutColor?: string;
   scaleOnHover?: boolean;
+  /** Horizontal loops only: drag or swipe the strip; a flick glides on. */
+  draggable?: boolean;
   renderItem?: (item: LogoItem, key: React.Key) => React.ReactNode;
   ariaLabel?: string;
   className?: string;
@@ -52,6 +54,10 @@ const ANIMATION_CONFIG = {
   SMOOTH_TAU: 0.25,
   MIN_COPIES: 2,
   COPY_HEADROOM: 2,
+  /** Release speed cap (px/s) for a flicked drag. */
+  MAX_FLING: 2000,
+  /** A pointer held still this long (ms) before release doesn't fling. */
+  FLING_WINDOW: 100,
 } as const;
 
 const toCssLength = (value?: number | string): string | undefined =>
@@ -138,11 +144,13 @@ const useAnimationLoop = (
   hoverSpeed: number | undefined,
   isVertical: boolean,
   visible: boolean,
+  draggable: boolean,
 ) => {
   const rafRef = useRef<number | null>(null);
   const lastTimestampRef = useRef<number | null>(null);
   const offsetRef = useRef(0);
   const velocityRef = useRef(0);
+  const draggingRef = useRef(false);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: The forwarded track ref is stable and attached for this component lifetime.
   useEffect(() => {
@@ -180,7 +188,8 @@ const useAnimationLoop = (
         1 - Math.exp(-deltaTime / ANIMATION_CONFIG.SMOOTH_TAU);
       velocityRef.current += (target - velocityRef.current) * easingFactor;
 
-      if (seqSize > 0) {
+      // A held strip follows the pointer (see the drag effect below).
+      if (seqSize > 0 && !draggingRef.current) {
         let nextOffset = offsetRef.current + velocityRef.current * deltaTime;
         nextOffset = ((nextOffset % seqSize) + seqSize) % seqSize;
         offsetRef.current = nextOffset;
@@ -204,6 +213,63 @@ const useAnimationLoop = (
       lastTimestampRef.current = null;
     };
   }, [targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical, visible]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: The forwarded track ref is stable and attached for this component lifetime.
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track || !draggable || isVertical || seqWidth <= 0) return;
+
+    let pointerId: number | null = null;
+    let lastX = 0;
+    let lastTime = 0;
+    let dragVelocity = 0;
+
+    const onDown = (event: PointerEvent) => {
+      if (event.pointerType === "mouse" && event.button !== 0) return;
+      pointerId = event.pointerId;
+      lastX = event.clientX;
+      lastTime = event.timeStamp;
+      dragVelocity = 0;
+      draggingRef.current = true;
+      track.setPointerCapture(event.pointerId);
+    };
+    const onMove = (event: PointerEvent) => {
+      if (event.pointerId !== pointerId) return;
+      const dx = event.clientX - lastX;
+      const dt = Math.max(1, event.timeStamp - lastTime) / 1000;
+      lastX = event.clientX;
+      lastTime = event.timeStamp;
+      dragVelocity = -dx / dt;
+      const next = offsetRef.current - dx;
+      offsetRef.current = ((next % seqWidth) + seqWidth) % seqWidth;
+      track.style.transform = `translate3d(${-offsetRef.current}px, 0, 0)`;
+    };
+    const onEnd = (event: PointerEvent) => {
+      if (event.pointerId !== pointerId) return;
+      pointerId = null;
+      draggingRef.current = false;
+      // A flick keeps gliding, then the loop eases it back to the drift.
+      const flung =
+        event.type === "pointerup" &&
+        event.timeStamp - lastTime < ANIMATION_CONFIG.FLING_WINDOW;
+      const max = ANIMATION_CONFIG.MAX_FLING;
+      velocityRef.current = flung
+        ? Math.max(-max, Math.min(max, dragVelocity))
+        : 0;
+    };
+
+    track.addEventListener("pointerdown", onDown);
+    track.addEventListener("pointermove", onMove);
+    track.addEventListener("pointerup", onEnd);
+    track.addEventListener("pointercancel", onEnd);
+    return () => {
+      track.removeEventListener("pointerdown", onDown);
+      track.removeEventListener("pointermove", onMove);
+      track.removeEventListener("pointerup", onEnd);
+      track.removeEventListener("pointercancel", onEnd);
+      draggingRef.current = false;
+    };
+  }, [draggable, isVertical, seqWidth]);
 };
 
 export const LogoLoop = React.memo<LogoLoopProps>(
@@ -219,6 +285,7 @@ export const LogoLoop = React.memo<LogoLoopProps>(
     fadeOut = false,
     fadeOutColor,
     scaleOnHover = false,
+    draggable = false,
     renderItem,
     ariaLabel = "Partner logos",
     className,
@@ -322,6 +389,7 @@ export const LogoLoop = React.memo<LogoLoopProps>(
       effectiveHoverSpeed,
       isVertical,
       visible,
+      draggable,
     );
 
     const cssVariables = useMemo(
@@ -341,11 +409,12 @@ export const LogoLoop = React.memo<LogoLoopProps>(
           isVertical ? "logoloop--vertical" : "logoloop--horizontal",
           fadeOut && "logoloop--fade",
           scaleOnHover && "logoloop--scale-hover",
+          draggable && !isVertical && "logoloop--draggable",
           className,
         ]
           .filter(Boolean)
           .join(" "),
-      [isVertical, fadeOut, scaleOnHover, className],
+      [isVertical, fadeOut, scaleOnHover, draggable, className],
     );
 
     const handleMouseEnter = useCallback(() => {

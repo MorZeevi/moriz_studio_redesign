@@ -20,15 +20,12 @@ import { useMediaBadge } from "./use-media-badge";
  */
 export function ProjectArchiveCard({
   project,
-  index,
   sizes,
   eager,
   badgeLabel,
   soonLabel,
 }: {
   project: ArchiveProject;
-  /** Position in the current results, shown as 01, 02… */
-  index: number;
   sizes: string;
   eager: boolean;
   /** The pointer badge's text, as on the homepage ("view project"). */
@@ -40,7 +37,6 @@ export function ProjectArchiveCard({
   const cardRef = useRef<HTMLElement>(null);
   const mediaRef = useRef<HTMLDivElement>(null);
   const badge = useMediaBadge(cardRef, mediaRef);
-  const number = String(index + 1).padStart(2, "0");
   const meta = [project.type, project.year].filter(Boolean).join(" · ");
   const hasReveal = Boolean(
     project.description || project.categories?.length || project.highlight,
@@ -118,9 +114,6 @@ export function ProjectArchiveCard({
       </div>
 
       <div className={styles.caption}>
-        <span className={styles.number} aria-hidden="true">
-          {number}
-        </span>
         <h3 id={`${id}-title`} className={styles.title}>
           {project.title}
         </h3>
@@ -198,7 +191,6 @@ export function ProjectArchiveCardPreview({
     >
       <ProjectArchiveCard
         project={project}
-        index={0}
         sizes="(min-width: 64rem) 56rem, 94vw"
         eager
         badgeLabel={badgeLabel}

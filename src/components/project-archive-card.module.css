@@ -60,23 +60,15 @@
 
 .caption {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   grid-template-areas:
-    "number title arrow"
-    ". meta arrow";
+    "title arrow"
+    "meta arrow";
   column-gap: var(--space-3);
   row-gap: var(--space-1);
   align-items: baseline;
 }
 
-.number {
-  grid-area: number;
-  color: var(--site-heading-accent, var(--color-action-primary));
-  font-size: var(--text-caption);
-  font-weight: var(--font-weight-label);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.04em;
-}
 
 .title {
   grid-area: title;
@@ -122,6 +114,13 @@
 
 .card:dir(rtl) {
   --card-direction: -1;
+}
+
+/* Desktop cards carry the view badge on hover; the circle is touch-only. */
+@media (min-width: 64rem) {
+  .arrow {
+    display: none;
+  }
 }
 
 /* ---------- Information layer ---------- */

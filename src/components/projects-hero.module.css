@@ -1,17 +1,10 @@
 /* Projects hero: the heading carries the page; no media. */
 .hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-areas:
-    "heading"
-    "lede";
-  row-gap: var(--space-6);
   padding-block: clamp(var(--space-12), 9vw, var(--space-30))
     clamp(var(--space-10), 6vw, var(--space-20));
 }
 
 .heading {
-  grid-area: heading;
   margin: 0;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display);
@@ -19,34 +12,4 @@
   line-height: var(--text-display--line-height);
   letter-spacing: var(--text-display--letter-spacing);
   text-wrap: balance;
-}
-
-.count {
-  margin-inline-start: 0.06em;
-  vertical-align: top;
-  color: var(--site-heading-accent, var(--color-action-primary));
-  font-size: 0.32em;
-  line-height: 1;
-  letter-spacing: 0;
-  font-variant-numeric: tabular-nums;
-}
-
-.lede {
-  grid-area: lede;
-  margin: 0;
-  max-inline-size: 34ch;
-  color: var(--color-text-secondary);
-  font-size: clamp(var(--text-body-lg), 1.6vw, 1.5rem);
-  line-height: 1.4;
-  text-wrap: pretty;
-}
-
-/* Wide screens: the lede sits off-axis, under the end of the heading. */
-@media (min-width: 64rem) {
-  .hero {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 26rem);
-    grid-template-areas:
-      "heading heading"
-      ". lede";
-  }
 }

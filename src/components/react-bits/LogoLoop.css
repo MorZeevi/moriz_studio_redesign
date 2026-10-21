@@ -27,6 +27,16 @@
   z-index: 0;
 }
 
+/* Horizontal drags move the strip; vertical swipes still scroll the page. */
+.logoloop--draggable .logoloop__track {
+  touch-action: pan-y;
+  cursor: grab;
+}
+
+.logoloop--draggable .logoloop__track:active {
+  cursor: grabbing;
+}
+
 .logoloop--vertical .logoloop__track {
   flex-direction: column;
   height: max-content;

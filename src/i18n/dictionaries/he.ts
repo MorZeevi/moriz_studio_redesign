@@ -156,8 +156,6 @@ export const he = {
     backLink: "חזרה לפרויקטים",
     archive: {
       heading: "עבודות נבחרות",
-      countLabel: "פרויקטים",
-      lede: "תיאור קצר יתווסף בהמשך.",
       layoutLabel: "תצוגת הפרויקטים",
       layouts: { standard: "רשת", compact: "צפוף", editorial: "מגזין" },
       results: "מוצגים {count} פרויקטים",
@@ -330,6 +328,26 @@ export const he = {
       {
         src: "/images/about-gallery/10.webp",
         alt: "מסך תכונות למערכת ניהול משימות עם תרשים מרכזי",
+      },
+      {
+        src: "/images/about-gallery/11.webp",
+        alt: "אתר Bucket Cult עם כובעי באקט וחברים בסמטת גרפיטי",
+      },
+      {
+        src: "/images/about-gallery/12.webp",
+        alt: "אתר אופניים חשמליים עם הכותרת Chase the Horizon ונתונים בצהוב ליים",
+      },
+      {
+        src: "/images/about-gallery/13.webp",
+        alt: "אתר LUCID-O לאמנות דיגיטלית עם כותרת לבנה על רקע שחור",
+      },
+      {
+        src: "/images/about-gallery/14.webp",
+        alt: "אתר RAMANIA עם איור קערת ראמן על עיגול אדום",
+      },
+      {
+        src: "/images/about-gallery/15.webp",
+        alt: "אתר אדריכלות עירונית עם בניין לבן מכוסה צמחייה",
       },
     ],
   },
@@ -634,8 +652,8 @@ export const he = {
   floatingActions: {
     label: "פעולות מהירות",
     whatsapp: "שנדבר בוואטסאפ?",
-    ai: "Ask moriz.ai",
+    ai: "moriz.ai",
     // Starts with the visible label so voice control can match it.
-    aiLabel: "Ask moriz.ai – שאלו אותי כל שאלה",
+    aiLabel: "moriz.ai – שאלו אותי כל שאלה",
   },
 };

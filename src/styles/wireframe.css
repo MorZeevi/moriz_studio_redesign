@@ -281,8 +281,8 @@ html:not([data-pixel-reveal]) .hero-video-stage {
     gap: var(--space-6);
   }
 
-  /* Three lines on phones ("יוצרת" / phrase / "מבוססי מחקר"), so the type can
-     grow past the two-line fit of the longest phrase. */
+  /* Three lines on phones (avatar + "יוצרת" / phrase / "מבוססי מחקר"), so the
+     type can grow past the two-line fit of the longest phrase. */
   .hero-heading {
     font-size: clamp(2.25rem, 12.5vw, 4rem);
   }
@@ -294,9 +294,9 @@ html:not([data-pixel-reveal]) .hero-video-stage {
   .hero-heading-avatar {
     position: relative;
     display: inline-block;
-    inline-size: 0.9em;
-    block-size: 0.72em;
-    margin-inline-start: 0.2em;
+    inline-size: 1.1em;
+    block-size: 0.88em;
+    margin-inline-end: 0.2em;
     vertical-align: -0.04em;
     border-radius: var(--radius-liquid);
     background: var(--color-secondary);

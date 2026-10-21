@@ -42,6 +42,7 @@ export function HeroHeading({
       aria-label={content.label}
     >
       <span className="hero-heading-line">
+        <HeadingAvatar />
         {content.start}{" "}
         <span className="hero-heading-rotating" aria-hidden="true">
           <RotatingText
@@ -59,24 +60,19 @@ export function HeroHeading({
           />
         </span>
       </span>
-      <span className="hero-heading-line">
-        {content.end}
-        <HeadingAvatar />
-      </span>
+      <span className="hero-heading-line">{content.end}</span>
       <PartyHeadingLight
         text={
           <>
             <span className="hero-heading-line">
+              {/* Keeps the light copy's line width matching the live heading. */}
+              <span className="hero-heading-avatar" />
               {content.start}{" "}
               <span className="hero-heading-rotating">
                 {content.rotating[index]}
               </span>
             </span>
-            <span className="hero-heading-line">
-              {content.end}
-              {/* Keeps the light copy's line width matching the live heading. */}
-              <span className="hero-heading-avatar" />
-            </span>
+            <span className="hero-heading-line">{content.end}</span>
           </>
         }
       />

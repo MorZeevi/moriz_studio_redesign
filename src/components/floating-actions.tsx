@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import {
-  type CSSProperties,
   useCallback,
   useEffect,
   useId,
@@ -11,7 +10,7 @@ import {
 } from "react";
 import { AskAiChat } from "@/components/ask-ai-chat";
 import { WhatsappLogoIcon } from "@/components/contact-icons";
-import { LiquidButton, LiquidLink } from "@/components/ui/liquid-link";
+import { LiquidLink } from "@/components/ui/liquid-link";
 import { SparkleIcon } from "@/components/ui/sparkle-icon";
 import type { SiteContent } from "@/i18n/dictionaries";
 import {
@@ -50,7 +49,8 @@ function Portrait() {
   );
 }
 
-// Corner stack on every public page: moriz.ai (opens the chat drawer) above WhatsApp.
+// On every public page, in the lower inline-end corner (left in RTL): a
+// moriz.ai tab on the screen edge (opens the chat drawer) above WhatsApp.
 export function FloatingActions({
   content,
   ask,
@@ -65,7 +65,6 @@ export function FloatingActions({
   const [open, setOpen] = useState(false);
   const [openCount, setOpenCount] = useState(0);
   const titleId = useId();
-  const outlineId = `ai-outline-${useId().replace(/:/g, "")}`;
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const openerRef = useRef<HTMLElement | null>(null);
@@ -134,39 +133,6 @@ export function FloatingActions({
 
   return (
     <>
-      {/* Rings the AI pill after the goo filter has merged its shapes, so the
-          border follows the neck as the label grows. */}
-      <svg
-        width="0"
-        height="0"
-        className="liquid__filter"
-        aria-hidden="true"
-        focusable="false"
-      >
-        <defs>
-          <filter
-            id={outlineId}
-            x="-10%"
-            y="-50%"
-            width="120%"
-            height="200%"
-            colorInterpolationFilters="sRGB"
-          >
-            <feMorphology
-              in="SourceAlpha"
-              operator="dilate"
-              radius="1"
-              result="grown"
-            />
-            <feFlood className={styles.outlineInk} result="ink" />
-            <feComposite in="ink" in2="grown" operator="in" result="ring" />
-            <feMerge>
-              <feMergeNode in="ring" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-      </svg>
       {/* Stays mounted while closed so the conversation is there on reopen. */}
       <dialog
         ref={dialogRef}
@@ -189,11 +155,10 @@ export function FloatingActions({
         className={`${styles.root}${compactOnMobile ? ` ${styles.compactMobile}` : ""}${mobileWhatsappOnly ? ` ${styles.mobileWhatsappOnly}` : ""}`}
       >
         <nav aria-label={content.label} className={styles.stack}>
-          <LiquidButton
+          <button
             ref={triggerRef}
-            className={`${styles.action} ${styles.ai} floating-action`}
-            style={{ "--ai-outline": `url("#${outlineId}")` } as CSSProperties}
-            glyph={<SparkleIcon />}
+            type="button"
+            className={`${styles.aiTab} floating-action`}
             aria-label={content.aiLabel}
             aria-haspopup="dialog"
             aria-expanded={open}
@@ -202,8 +167,13 @@ export function FloatingActions({
               open ? closeChat() : openChat(event.currentTarget)
             }
           >
-            {content.ai}
-          </LiquidButton>
+            <span className={styles.aiTabInner}>
+              {content.ai}
+              <span className={styles.aiTabIcon}>
+                <SparkleIcon />
+              </span>
+            </span>
+          </button>
           {WHATSAPP_URL && (
             <LiquidLink
               className={`${styles.action} floating-action floating-whatsapp`}

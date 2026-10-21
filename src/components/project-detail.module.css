@@ -475,31 +475,21 @@
     grid-row: 2;
     padding-block-start: 6rem;
   }
+  /* The panel scrolls away with the page, as tall as its content. */
   .panel {
-    /* Span the complete case, so a short gallery cannot collapse the sticky track. */
     grid-column: 1;
     grid-row: 1 / 4;
-    position: sticky;
-    inset-block-start: var(--case-gap);
     display: flex;
     flex-direction: column;
-    block-size: calc(100dvh - 2 * var(--case-gap));
     border-inline-end: 1px solid currentColor;
   }
-  /* The content scrolls inside the panel; its surface and grain stay put. */
   .panelScroll {
-    flex: 1;
-    min-block-size: 0;
-    overflow-y: auto;
     padding-inline-end: 1.5rem;
-    overscroll-behavior: contain;
-    scrollbar-gutter: stable;
   }
   .panelFooter {
     padding-inline-end: 1.5rem;
   }
   .panel[data-surface] {
-    position: sticky;
     padding-block: 1.5rem;
     padding-inline: 1.5rem 0;
     border-inline-end: 0;

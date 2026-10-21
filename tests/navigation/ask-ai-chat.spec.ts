@@ -35,7 +35,7 @@ test("the sparkle launcher opens a full-height chat drawer", async ({
   page,
 }) => {
   await page.goto("/he");
-  await expect(trigger(page)).toContainText("Ask moriz.ai");
+  await expect(trigger(page)).toContainText("moriz.ai");
   // Sparkle glyph, no portrait; the label stays collapsed until hover.
   await expect(trigger(page).locator("img")).toHaveCount(0);
   await expect(trigger(page).locator("svg path")).not.toHaveCount(0);

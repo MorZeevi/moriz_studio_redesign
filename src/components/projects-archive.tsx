@@ -316,7 +316,6 @@ export function ProjectsArchive({
                 ) : (
                   <ProjectArchiveCard
                     project={item.project}
-                    index={projectIndex}
                     sizes={projectImageSizes[layout]}
                     eager={projectIndex < 2}
                     badgeLabel={labels.viewProject}

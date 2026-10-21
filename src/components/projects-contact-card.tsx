@@ -18,7 +18,6 @@ export function ProjectsContactCard({
   const words = question ? heading.slice(0, -1) : heading;
   return (
     <aside className={styles.card} aria-labelledby="projects-contact-heading">
-      <span className={styles.blob} aria-hidden="true" />
       <h2 id="projects-contact-heading" className={styles.heading}>
         {words}
         {question && <span className={styles.mark}>?</span>}

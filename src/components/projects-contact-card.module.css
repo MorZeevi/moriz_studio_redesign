@@ -1,5 +1,5 @@
-/* Brand-red invitation inside the projects grid. Ink is dark: the headline is
-   large text (3:1 is enough) and the body copy is heavy and ≥ 1.25rem. */
+/* Invitation inside the projects grid, styled like the homepage diagnostic
+   banner: dark panel, muted wordmark image, light ink, red call to action. */
 .card {
   position: relative;
   display: flex;
@@ -10,28 +10,23 @@
   padding: clamp(var(--space-6), 5cqi, var(--space-12));
   overflow: hidden;
   border-radius: var(--radius-md);
-  background: var(--color-primary);
-  color: var(--color-dark);
+  background: var(--color-dark);
+  color: var(--color-light);
   container-type: inline-size;
   isolation: isolate;
+  --color-focus: var(--color-light);
 }
 
-/* A secondary-colour shape grows from the end corner on hover or focus. */
-.blob {
+/* The diagnostic banner's image, muted the same way so the copy stays legible. */
+.card::before {
   position: absolute;
-  inset-block-end: -30cqi;
-  inset-inline-end: -30cqi;
+  inset: 0;
   z-index: -1;
-  inline-size: 60cqi;
-  aspect-ratio: 1;
-  border-radius: var(--radius-pill);
-  background: var(--color-secondary);
-  scale: 0.35;
-  transition: scale var(--duration-slow) var(--ease-enter);
-}
-
-.card:is(:hover, :focus-within) .blob {
-  scale: 1;
+  border-radius: inherit;
+  background: url("/images/footer/wordmark-fill.webp") center / cover no-repeat;
+  opacity: 0.3;
+  pointer-events: none;
+  content: "";
 }
 
 .heading {
@@ -40,14 +35,14 @@
   font-family: var(--font-display);
   font-weight: var(--font-weight-display);
   font-size: clamp(2.75rem, 12cqi, 7.5rem);
-  line-height: 0.86;
-  letter-spacing: -0.02em;
+  line-height: 1;
+  letter-spacing: -0.025em;
   text-wrap: balance;
 }
 
 .mark {
   display: inline-block;
-  color: var(--color-light);
+  color: var(--color-action-primary);
   transform-origin: 50% 85%;
   transition:
     rotate var(--duration-slow) var(--ease-enter),
@@ -67,23 +62,15 @@
   margin: 0;
   max-inline-size: 30ch;
   font-size: var(--text-body-lg);
-  line-height: 1.35;
-  font-weight: var(--font-weight-heading);
+  line-height: var(--text-body-lg--line-height);
+  text-wrap: pretty;
 }
 
 .link {
-  --lb-fill: var(--color-dark);
-  --lb-pressed-fill: color-mix(
-    in srgb,
-    var(--color-dark) 85%,
-    var(--color-light)
-  );
-  --lb-ink: var(--color-light);
+  --liquid-fill: var(--color-action-primary);
+  --liquid-pressed-fill: var(--color-action-primary-hover);
+  --liquid-ink: var(--color-light);
   align-self: flex-start;
-}
-
-.link:focus-visible {
-  outline-color: var(--color-dark);
 }
 
 /* Wide slots (editorial 21:9, or alone after a filter): read across. */

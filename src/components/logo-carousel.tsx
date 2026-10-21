@@ -14,6 +14,16 @@ function subscribeMotion(callback: () => void) {
 const readMotion = () => window.matchMedia(motionQuery).matches;
 const serverMotion = () => true;
 
+// Phones and tablets: a faster drift the visitor can swipe.
+const mobileQuery = "(max-width: 63.999rem)";
+function subscribeMobile(callback: () => void) {
+  const query = window.matchMedia(mobileQuery);
+  query.addEventListener("change", callback);
+  return () => query.removeEventListener("change", callback);
+}
+const readMobile = () => window.matchMedia(mobileQuery).matches;
+const serverMobile = () => false;
+
 export function LogoCarousel({
   labels,
 }: {
@@ -23,6 +33,11 @@ export function LogoCarousel({
     subscribeMotion,
     readMotion,
     serverMotion,
+  );
+  const mobile = useSyncExternalStore(
+    subscribeMobile,
+    readMobile,
+    serverMobile,
   );
   const logos = useMemo<LogoItem[]>(
     () =>
@@ -76,7 +91,7 @@ export function LogoCarousel({
         <div className="logo-carousel-window" dir="ltr">
           <LogoLoop
             logos={logos}
-            speed={reducedMotion ? 0 : 12}
+            speed={reducedMotion ? 0 : mobile ? 36 : 12}
             direction="left"
             style={
               {
@@ -84,7 +99,10 @@ export function LogoCarousel({
                 "--logoloop-gap": "var(--space-16)",
               } as CSSProperties
             }
-            hoverSpeed={0}
+            // A tap counts as hover on touch screens; it would stall the strip.
+            hoverSpeed={mobile ? undefined : 0}
+            pauseOnHover={!mobile}
+            draggable={mobile}
             ariaLabel={labels.label}
           />
         </div>

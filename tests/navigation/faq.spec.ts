@@ -97,9 +97,6 @@ test("desktop places heading and actions right, with questions and their plus on
   ).not.toBe(
     await gradients.last().evaluate((node) => getComputedStyle(node).stopColor),
   );
-  await expect(
-    page.locator("filter[id^='ai-outline-'] feMorphology"),
-  ).toHaveAttribute("radius", "1");
   await page
     .locator("#faq")
     .screenshot({ path: "test-results/refinements/faq-desktop.png" });

@@ -31,7 +31,6 @@ export async function generateMetadata({
   const archive = content.projects.archive;
   return {
     title: `${archive.heading} | ${content.studioName}`,
-    description: archive.lede,
   };
 }
 
@@ -88,12 +87,7 @@ export default async function ProjectsPage({
         pageAnchors={["#projects", "#contact"]}
       />
       <main id="main-content" tabIndex={-1}>
-        <ProjectsHero
-          heading={content.projects.archive.heading}
-          lede={content.projects.archive.lede}
-          count={projects.length}
-          countLabel={content.projects.archive.countLabel}
-        />
+        <ProjectsHero heading={content.projects.archive.heading} />
         {/* Applies the saved grid layout before the grid paints. */}
         <script
           // biome-ignore lint/security/noDangerouslySetInnerHtml: First-party pre-paint layout preference; no user input.
