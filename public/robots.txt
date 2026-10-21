@@ -1,7 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /admin
-Disallow: /api/
-Disallow: /media/
-Disallow: /digital-audit
-Disallow: /he/fonts

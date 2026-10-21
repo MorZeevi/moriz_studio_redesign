@@ -12,6 +12,7 @@ import { HeroHeading } from "@/components/hero-heading";
 import { HeroVideo } from "@/components/hero-video";
 import { HomepagePattern } from "@/components/homepage-pattern";
 import { InfinityLoop } from "@/components/infinity-loop";
+import { JsonLd } from "@/components/json-ld";
 import { LogoCarousel } from "@/components/logo-carousel";
 import { MainHeader } from "@/components/main-header";
 import { PartyModeProvider } from "@/components/party-mode/party-mode-provider";
@@ -28,6 +29,7 @@ import { isEnabledLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { projectCard } from "@/lib/cms/project-card";
 import { getPublicProjects } from "@/lib/cms/queries";
+import { homeStructuredData } from "@/lib/structured-data";
 
 export default async function Home({
   params,
@@ -40,6 +42,7 @@ export default async function Home({
   const projects = await getPublicProjects("homepage");
   return (
     <PartyModeProvider labels={content.advantages.party}>
+      <JsonLd data={homeStructuredData(content, locale)} />
       <PixelReveal />
       <a
         href="#main-content"

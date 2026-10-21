@@ -55,6 +55,22 @@ function project(row: JoinedProject): Project {
     type: terms.find((t) => t.kind === "type") ?? null,
   };
 }
+/** Project pages for the sitemap: published and shown on a public surface. */
+export async function getSitemapProjects() {
+  const { data, error } = await publicSupabase()
+    .from("projects")
+    .select("slug, updated_at, show_on_projects, show_on_homepage")
+    .eq("source", CMS_SOURCE)
+    .eq("published", true)
+    .not("slug", "is", null)
+    .order("projects_order", { nullsFirst: false });
+  if (error) throw new Error("Unable to load sitemap projects.");
+  return (data ?? []).flatMap((p) =>
+    p.slug && (p.show_on_projects || p.show_on_homepage)
+      ? [{ slug: p.slug, updatedAt: p.updated_at }]
+      : [],
+  );
+}
 export async function getPublicProjects(
   surface: "homepage" | "projects",
   category?: string,

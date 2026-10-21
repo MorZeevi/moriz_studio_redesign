@@ -6,7 +6,9 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { danidin } from "@/styles/fonts";
 import { futurism, manhattan, polin } from "@/styles/font-candidates";
 
-export const metadata: Metadata = { title: "Moriz Studio — השוואת פונטים" };
+export const metadata: Metadata = {
+  title: { absolute: "Moriz Studio — השוואת פונטים" },
+};
 
 export default async function Fonts({
   params,
