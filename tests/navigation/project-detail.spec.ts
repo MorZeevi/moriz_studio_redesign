@@ -9,6 +9,15 @@ test("Hebrew project URLs load directly and from the project archive", async ({
   expect(response?.status()).toBe(200);
   await expect(page).toHaveTitle(/וורדעל/);
   await expect(page.locator("[data-project-detail] h1")).toHaveText("וורדעל");
+  await page.evaluate(() => document.fonts.ready);
+  await page.screenshot({
+    path: ".cache/footer-project-fixes/project-desktop.png",
+  });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.screenshot({
+    path: ".cache/footer-project-fixes/project-mobile.png",
+  });
+  await page.setViewportSize({ width: 1440, height: 1000 });
 
   await page.goto("/he/projects");
   await page
@@ -22,13 +31,21 @@ test("Hebrew project URLs load directly and from the project archive", async ({
 test("case-study panel stays pinned while short and long galleries scroll", async ({
   page,
 }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/he/projects/practicalai");
   const panel = page.locator("[data-project-detail] aside");
   await expect(panel).toBeVisible();
+  await expect(panel.locator("details, summary, h2")).toHaveCount(0);
   await page.evaluate(() => document.fonts.ready);
+  expect(
+    await panel
+      .locator("h1")
+      .evaluate((element) => element.getBoundingClientRect().top),
+  ).toBeGreaterThanOrEqual(32);
   for (const height of [1000, 500]) {
     await page.setViewportSize({ width: 1440, height });
     await expect(panel).toHaveCSS("height", `${height - 64}px`);
+    await expect(panel).toHaveCSS("max-height", `${height - 64}px`);
     for (const direction of ["rtl", "ltr"]) {
       await page
         .locator("[data-project-detail]")
@@ -48,7 +65,12 @@ test("case-study panel stays pinned while short and long galleries scroll", asyn
         const max = await page.evaluate(
           () => document.documentElement.scrollHeight - innerHeight,
         );
-        expect(max).toBeGreaterThan(start - 32);
+        expect(max).toBeGreaterThan(start);
+        const titleTop = await panel
+          .locator("h1")
+          .evaluate((element) =>
+            Math.round(element.getBoundingClientRect().top),
+          );
         for (const scroll of [start + 32, max]) {
           await page.evaluate((value) => window.scrollTo(0, value), scroll);
           await expect
@@ -58,17 +80,42 @@ test("case-study panel stays pinned while short and long galleries scroll", asyn
               ),
             )
             .toBe(32);
+          await expect
+            .poll(() =>
+              panel
+                .locator("h1")
+                .evaluate((element) =>
+                  Math.round(element.getBoundingClientRect().top),
+                ),
+            )
+            .toBe(titleTop);
+          await expect
+            .poll(() =>
+              panel.evaluate((element) =>
+                Math.round(
+                  innerHeight - element.getBoundingClientRect().bottom,
+                ),
+              ),
+            )
+            .toBe(32);
         }
       }
     }
   }
   await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.locator("[data-project-detail]").evaluate((element) => {
+    element.setAttribute("dir", "rtl");
+    document.documentElement.dataset.theme = "light";
+  });
   await page
     .getByRole("region", { name: "תמונות הפרויקט", exact: true })
     .evaluate((element) => {
       element.style.minHeight = "3000px";
     });
   await page.evaluate(() => window.scrollTo(0, 1500));
+  await page.screenshot({
+    path: ".cache/footer-project-fixes/practicalai-scrolled.png",
+  });
   await expect
     .poll(() =>
       panel.evaluate((element) =>

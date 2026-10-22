@@ -1,5 +1,7 @@
 # Projects surface brief
 
+Owner update, 2026-10-22: the desktop case-study sidebar fills the available viewport height between the original 32px top and bottom gutters (`100dvh - 64px`) and stays sticky throughout gallery scrolling. The gallery shares the original top gutter; colored panels retain their original 24px inner top and bottom padding. Mobile retains normal flow and its original padding. Project information appears as open text without accordion controls or section headings. On homepage cards, the user-count label appears only when its value contains a number; status text such as “המערכת בהרצה” stands alone.
+
 Primary targets: homepage `#projects`, `/he/projects` and `/he/projects/[slug]`.
 References: owner-selected basement.studio capture in `docs/research/assets/mobbin-projects-2026-10-07/d01-basement-studio.jpg` for rows; `/Users/morzeevi/Desktop/Screen Recording 2026-10-08 at 19.06.38.mov` showing the LAM website for the latest whole-canvas scroll transition.
 Scope: extend the established site; preserve its typography, palette, Hebrew direction and other sections. No new visual identity. Use the owner's existing project inventory provisionally; final order, imagery and four questions/answers await owner data.

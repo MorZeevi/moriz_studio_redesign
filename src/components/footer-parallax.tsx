@@ -38,12 +38,18 @@ export function FooterParallax({ children }: { children: ReactNode }) {
       gsap.registerPlugin(ScrollTrigger);
       tween = gsap.fromTo(
         surface,
-        // Never rise further than the contact band above can cover, or the
-        // footer would peek out over the section before it.
+        // Keep the reveal within the empty top gutter. Moving navigation
+        // under the contact band makes links unreachable when focused or
+        // scrolled into view, especially in a footer taller than the viewport.
         {
           y: () => {
             const cover = stage.previousElementSibling;
+            const footer = surface.querySelector("footer");
+            const gutter = footer
+              ? Number.parseFloat(getComputedStyle(footer).paddingBlockStart)
+              : 0;
             return -Math.min(
+              gutter,
               window.innerHeight,
               cover instanceof HTMLElement
                 ? cover.offsetHeight
@@ -57,9 +63,13 @@ export function FooterParallax({ children }: { children: ReactNode }) {
           scrollTrigger: {
             trigger: stage,
             start: "top bottom",
-            // The footer can be shorter than the viewport, so its top may
-            // never reach the top; settle when the page bottoms out instead.
-            end: "bottom bottom",
+            // A tall mobile footer must settle when its top reaches the
+            // viewport; otherwise the contact band covers its first links.
+            // Short footers settle at the bottom of the document instead.
+            end: () =>
+              stage.offsetHeight >= window.innerHeight
+                ? "top top"
+                : "bottom bottom",
             scrub: true,
             invalidateOnRefresh: true,
           },

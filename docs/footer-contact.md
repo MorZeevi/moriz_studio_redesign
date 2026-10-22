@@ -1,5 +1,7 @@
 # Contact form
 
+Footer navigation correction, 2026-10-22: local section links use native anchors so repeated clicks on the current hash scroll again; page and cross-page links retain Next.js navigation. The parallax travel is capped at the empty top gutter so navigation never moves beneath the contact band. A footer taller than the viewport finishes its reveal when its top reaches the viewport top; shorter footers finish at the document bottom. The decorative wordmark ignores pointer events.
+
 Current implementation, 15 October 2026. One `#contact` section appears before, and outside, the shared `<footer>` on the homepage and Projects page. Its outer canvas is transparent, exposing the site's fixed `page-grain` over the regular light/dark background. The form itself stays on the oversized red, grain-textured liquid silhouette.
 
 ## Layout and visual authority

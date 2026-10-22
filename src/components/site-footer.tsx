@@ -123,16 +123,19 @@ export function SiteFooter({
                 <div key={column.heading} className={styles.column}>
                   <h2 className={styles.heading}>{column.heading}</h2>
                   <ul className={styles.links}>
-                    {column.links.map((link) => (
-                      <li key={link.href}>
-                        <Link
-                          href={localeHref(link.href, locale, homepage)}
-                          className={styles.link}
-                        >
-                          {link.label}
-                        </Link>
-                      </li>
-                    ))}
+                    {column.links.map((link) => {
+                      const href = localeHref(link.href, locale, homepage);
+                      // Native anchors also scroll when this hash is already
+                      // in the URL; Next Link skips that repeated navigation.
+                      const FooterLink = href.startsWith("#") ? "a" : Link;
+                      return (
+                        <li key={link.href}>
+                          <FooterLink href={href} className={styles.link}>
+                            {link.label}
+                          </FooterLink>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               ))}

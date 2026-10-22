@@ -8,7 +8,6 @@ import {
   useRef,
   useState,
 } from "react";
-import { LanguageLink } from "@/components/language-link";
 import { StudioLogo } from "@/components/studio-logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { MenuToggle } from "@/components/ui/menu-toggle";
@@ -196,7 +195,6 @@ export function MobileNavigation({
                 ))}
               </ul>
             </nav>
-            <LanguageLink locale={locale} content={content.languages} />
           </div>
         </div>
       </dialog>

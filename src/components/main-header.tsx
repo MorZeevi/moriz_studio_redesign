@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { LanguageLink } from "@/components/language-link";
 import { Navigation } from "@/components/navigation";
 import Noise from "@/components/react-bits/Noise";
 import { SiteHeader } from "@/components/site-header";
@@ -11,7 +10,7 @@ import type { SiteContent } from "@/i18n/dictionaries";
 import { anchorHref } from "@/lib/anchor-href";
 
 /**
- * The public site header: logo, section navigation, theme and language, and
+ * The public site header: logo, section navigation, theme, and
  * the contact CTA. Off the homepage, pass the anchors that exist on the page;
  * the other section links then lead back to the homepage.
  */
@@ -55,13 +54,9 @@ export function MainHeader({
           pageAnchors={pageAnchors}
         />
         <div className="header-actions">
-          {/* Desktop: theme and language sit together beside the CTA. */}
+          {/* Desktop: the theme control sits beside the CTA. */}
           <div className="header-controls">
             <ThemeToggle labels={content.theme} />
-            <LanguageLink
-              locale={locale}
-              content={content.navigation.languages}
-            />
           </div>
           <LiquidLink
             className="header-contact-link"

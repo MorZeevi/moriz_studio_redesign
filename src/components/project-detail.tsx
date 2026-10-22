@@ -172,28 +172,11 @@ export function ProjectDetail({
                   ))}
                 </dl>
               )}
-              {information.map((section, index) => (
-                <details
+              {information.map((section) => (
+                <div
                   key={`${project.id}-${section.id}`}
-                  className={detail.accordion}
-                  name={`project-${project.id}`}
-                  open={index === 0}
+                  className={detail.information}
                 >
-                  <summary className={detail.summary}>
-                    <h2>{section.title}</h2>
-                    <span className={detail.plus} aria-hidden="true">
-                      <svg
-                        aria-hidden="true"
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                      >
-                        <path d="M2 8h12" />
-                        <path className={detail.vertical} d="M8 2v12" />
-                      </svg>
-                    </span>
-                  </summary>
                   {section.text && (
                     <p className={detail.answer}>{section.text}</p>
                   )}
@@ -204,7 +187,7 @@ export function ProjectDetail({
                       {sub.text && <p className={detail.answer}>{sub.text}</p>}
                     </div>
                   ))}
-                </details>
+                </div>
               ))}
             </div>
             {project.website_url && (

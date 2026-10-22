@@ -387,7 +387,7 @@ export type InformationSection = {
   text: string;
   subsections: { title: string; text: string }[];
 };
-/** Panel accordions: description, target audience, then text blocks. */
+/** Panel information: description, target audience, then text blocks. */
 export function projectInformation(
   project: Pick<
     Project,

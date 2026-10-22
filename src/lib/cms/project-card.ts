@@ -64,11 +64,13 @@ export function projectCard(
       : project.highlights.find((h) =>
           surface === "homepage" ? h.on_homepage : h.on_archive,
         );
-  const textUserCount =
-    highlight === userCountHighlight(project.highlights) &&
-    !!highlight &&
-    /\p{L}/u.test(highlight.value) &&
-    !/^\s*\d[\d.,\s]*[kmb]\s*\+?\s*$/i.test(highlight.value);
+  const highlightLabel = highlight
+    ? surface === "homepage" &&
+      highlight === userCountHighlight(project.highlights) &&
+      !/\p{Number}/u.test(highlight.value)
+      ? ""
+      : localized(highlight, "label", locale)
+    : "";
   return {
     id: project.id,
     slug: project.slug,
@@ -92,13 +94,7 @@ export function projectCard(
           }
         : null,
     highlight: highlight
-      ? {
-          value: highlight.value,
-          label:
-            surface === "homepage" && textUserCount
-              ? ""
-              : localized(highlight, "label", locale),
-        }
+      ? { value: highlight.value, label: highlightLabel }
       : null,
     type: project.type ? termName(project.type, locale) : null,
     details: project.content
