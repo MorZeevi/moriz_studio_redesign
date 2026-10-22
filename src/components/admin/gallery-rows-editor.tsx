@@ -12,6 +12,7 @@ import {
 } from "@/lib/cms/gallery-rows";
 import type { GalleryRow, ProjectMediaItem } from "@/types/project";
 import { BulkUpload, MediaDetails, ReplaceFile } from "./gallery-manager";
+import { ExistingMediaPicker } from "./existing-media-picker";
 import { MediaPreview } from "./media-upload";
 import { moveItem, SortableList } from "./sortable-list";
 import styles from "./admin.module.css";
@@ -108,7 +109,9 @@ export function GalleryRowsEditor({
     return [
       item.kind === "video" ? "סרטון" : "תמונה",
       // Isolated left-to-right, so "1600×900" is not mirrored in Hebrew.
-      item.width && item.height ? `\u2066${item.width}×${item.height}\u2069` : "",
+      item.width && item.height
+        ? `\u2066${item.width}×${item.height}\u2069`
+        : "",
       item.src === cover ? "תמונה ראשית" : "",
       item.src === ogImage ? "תמונת שיתוף" : "",
     ]
@@ -122,7 +125,18 @@ export function GalleryRowsEditor({
           ? `${rows.length} שורות · ${counts.image} תמונות · ${counts.video} סרטונים. הסדר כאן הוא הסדר בעמוד הפרויקט; במובייל הפריטים מוצגים בטור אחד באותו סדר.`
           : "הגלריה ריקה. העלו תמונות וסרטונים, או הוסיפו קבצים שכבר בפרויקט."}
       </p>
-      <BulkUpload projectId={projectId} onBusy={onBusy} onUploaded={onUploaded} />
+      <BulkUpload
+        projectId={projectId}
+        onBusy={onBusy}
+        onUploaded={onUploaded}
+      />
+      <ExistingMediaPicker
+        projectId={projectId}
+        media={media}
+        rows={rows}
+        onUploaded={onUploaded}
+        onBusy={onBusy}
+      />
       <SortableList
         className={styles.galleryRows}
         items={rows}
@@ -138,7 +152,8 @@ export function GalleryRowsEditor({
               className={styles.galleryRow}
               aria-label={`שורה ${index + 1}`}
               onDragOver={(e) => {
-                if (e.dataTransfer.types.includes(ITEM_MIME)) e.preventDefault();
+                if (e.dataTransfer.types.includes(ITEM_MIME))
+                  e.preventDefault();
               }}
               onDrop={drop(row.id)}
             >
@@ -183,9 +198,7 @@ export function GalleryRowsEditor({
                   if (!item)
                     return (
                       <div key={src} className={styles.rowItem}>
-                        <p className={styles.error}>
-                          הקובץ כבר לא בפרויקט.
-                        </p>
+                        <p className={styles.error}>הקובץ כבר לא בפרויקט.</p>
                         <Button
                           size="sm"
                           variant="ghost"

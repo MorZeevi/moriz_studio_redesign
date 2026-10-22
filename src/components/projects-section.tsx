@@ -94,7 +94,7 @@ export function ProjectHighlight({
   return (
     <p className={styles.cardHighlight}>
       <bdi className={styles.cardHighlightValue}>{highlight.value}</bdi>
-      <span>{highlight.label}</span>
+      {highlight.label && <span>{highlight.label}</span>}
     </p>
   );
 }
@@ -191,7 +191,16 @@ export function ProjectsSection({
                   {cms && description && (
                     <p className={styles.stackAbout}>{description}</p>
                   )}
-                  <ProjectHighlight highlight={project.highlight} />
+                  {(project.client || project.highlight?.value) && (
+                    <div className={styles.stackFacts}>
+                      {project.client && (
+                        <p className={styles.stackClient}>
+                          <bdi>{project.client}</bdi>
+                        </p>
+                      )}
+                      <ProjectHighlight highlight={project.highlight} />
+                    </div>
+                  )}
                   <CategoryTags
                     categories={project.categories ?? []}
                     className={styles.stackTags}

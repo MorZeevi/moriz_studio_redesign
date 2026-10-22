@@ -23,6 +23,62 @@ import type { Project, ProjectInput } from "../../src/types/project";
 import { openMoreSettings } from "./editor";
 import { fixture } from "./setup";
 
+test("homepage cards show the localized client and omit the users label for text counts", () => {
+  const project = {
+    id: randomUUID(),
+    title: "Example",
+    media: [],
+    content: [],
+    categories: [],
+    client: "לקוח לדוגמה",
+    client_en: "Example client",
+    highlights: [
+      {
+        id: "user-count",
+        value: "המערכת בהרצה",
+        label: "משתמשים",
+        label_en: "users",
+        on_homepage: true,
+        on_archive: true,
+      },
+    ],
+  } as unknown as Project;
+  expect(projectCard(project, "homepage")).toMatchObject({
+    client: "לקוח לדוגמה",
+    highlight: { value: "המערכת בהרצה", label: "" },
+  });
+  expect(projectCard(project, "homepage", "en").client).toBe("Example client");
+  expect(
+    projectCard({ ...project, client_en: null }, "homepage", "en").client,
+  ).toBe("לקוח לדוגמה");
+  for (const value of ["10,000+", "250", "1.5", "0", "7K+", "80k+", "1.5M"]) {
+    expect(
+      projectCard(
+        { ...project, highlights: [{ ...project.highlights[0], value }] },
+        "homepage",
+      ).highlight?.label,
+    ).toBe("משתמשים");
+  }
+  // Only the homepage's user-count fact changes; other facts keep their labels.
+  expect(projectCard(project, "projects").highlight?.label).toBe("משתמשים");
+  expect(
+    projectCard(
+      {
+        ...project,
+        highlights: [
+          {
+            id: "fact",
+            value: "24/7 support",
+            label: "שירות",
+            on_homepage: true,
+          },
+        ],
+      },
+      "homepage",
+    ).highlight?.label,
+  ).toBe("שירות");
+});
+
 test("card hover selections survive parsing, replacement and removal", () => {
   const id = randomUUID();
   const src = (ext: string) => `/media/${id}/${randomUUID()}.${ext}`;

@@ -100,9 +100,10 @@ Client preparation and any subsequent steps: TODO: Decision required
 
 On 2026-10-06, the owner deferred supplying the common questions that prospective clients ask before agreeing to a project. The owner will complete this later; continue the current planning work in the meantime.
 
-Questions: TODO: Decision required
-
-Answers and final website wording: TODO: Decision required
+The owner's FAQ copy lives in `faq.questions` in the Hebrew dictionary. Owner
+update, 2026-10-22: the first question is **את מציעה שירותי אפיון, עיצוב ופיתוח?**,
+giving all three services equal weight. Its answer starts **כן.**; the rest is
+preserved.
 
 ### About (קצת עליי) — homepage biography
 
@@ -110,7 +111,7 @@ Supplied verbatim by the owner on 2026-10-10. Bold phrases (shown in bold) were 
 
 אני עוזרת ליזמים, מנהלי מוצר ובעלי עסקים שמתמודדים עם קושי להעביר את הערך שלהם במרחב הדיגיטלי. הם השקיעו משאבים רבים בפיתוח המוצר או השירות שלהם, אבל **חווית המשתמש הנוכחית עושה להם עוול וההשקעה יורדת לטמיון.**
 
-עם **תואר אקדמי בטכנולוגיות למידה מ-H.I.T וניסיון של שנים בפיתוח**, יצרתי תהליך לבניית מעטפת דיגיטלית **מבוססת פרקטיקות מחקריות ומתודולוגיות מעולם שימור הקשב.** הכלים שאני יוצרת שונים בסוגם: אתרי תדמית, אפליקציות Web, מערכות מותאמות אישית וכלים אינטראקטיביים (כמו מחשבונים ואינפוגרפיקות). כולם כוללים חלוקת תוכן חכמה, משחקיות, אנימציות ומסע לקוח הדרגתי וברור.
+עם **תואר אקדמי בטכנולוגיות למידה מ-H.I.T וניסיון של שנים בפיתוח**, יצרתי תהליך לבניית מעטפת דיגיטלית **מבוססת פרקטיקות מחקריות ומתודולוגיות מעולם שימור הקשב.** הכלים שאני יוצרת שונים בסוגם: אתרי תדמית, אפליקציות Web, מערכות מותאמות אישית, פתרונות AI מותאמים לעסק וכלים אינטראקטיביים (כמו מחשבונים ואינפוגרפיקות). כולם כוללים חלוקת תוכן חכמה, משחקיות, אנימציות ומסע לקוח הדרגתי וברור.
 
 **בסוף התהליך, הלקוחות שלי מצוידים בכלים דיגיטליים שעוזרים לקהל שלהם לעשות יותר עם פחות מאמץ, ומשיגים את המטרות העסקיות שלהם.**
 
