@@ -648,6 +648,15 @@
 }
 
 /* CMS v2: card highlight, archive project type, next project and contact. */
+.stackFacts {
+  min-inline-size: 0;
+}
+.stackClient {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-body);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
 .cardHighlight {
   display: flex;
   align-items: baseline;

@@ -43,6 +43,11 @@ Hebrew field by field. The public `/en` routes stay disabled until the rest of t
 site has English copy (`src/i18n/config.ts`). Project labels for both languages
 live in `src/i18n/project-copy.ts`.
 
+Homepage project cards show the localized client name above the selected user
+count. Numeric counts, including shorthand such as `7K+` or `80k+`, retain the
+users label; prose counts such as `המערכת בהרצה` show their value without that
+suffix. Other highlight labels and archive cards keep their existing behavior.
+
 Preview in the editor includes unsaved changes, is private, and shows the case
 study, the homepage card or the archive card in Hebrew or English. The project list
 also links to a private preview of the last saved version
@@ -131,6 +136,15 @@ previous or next row, swapped within a pair, dragged onto another row, replaced,
 removed from the gallery (the file stays in the project), or deleted from the
 project. Single rows keep the optional width (full, two-thirds, half at either
 edge). The order in the editor is the order on the page.
+
+**בחירה מקבצים קיימים** opens a multi-select panel of the files in the current
+project's storage folder only, through the signed-in admin's existing Storage
+policies. Files are marked as in the gallery, in the project but outside the
+gallery, or orphaned (missing from `media`). Selecting them restores missing media
+records, measures image/video dimensions through the authenticated `/media`
+route and adds each file as a new gallery row without uploading it again. Existing
+media metadata is preserved. Changes persist only when the project is saved.
+Logos, SVGs and the main video stay in their dedicated fields.
 
 The rows are a `gallery_rows` block in the existing `content` JSON
 (`{ type: "gallery_rows", rows: [{ id, items: [src, src?] }] }`), kept last and

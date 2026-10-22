@@ -333,6 +333,73 @@
 .picker {
   margin-block: var(--space-3);
 }
+.existingMedia {
+  margin-block: var(--space-3) var(--space-6);
+}
+.existingPanel {
+  margin-block-start: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+}
+.existingPanel h3 {
+  margin: 0;
+  font-size: var(--text-body-lg);
+}
+.existingGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+  gap: var(--space-4);
+  max-block-size: 36rem;
+  overflow-y: auto;
+  padding: var(--space-2);
+}
+.existingFile {
+  min-inline-size: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+.existingFile[data-selected] {
+  outline: 2px solid var(--color-action-primary);
+  outline-offset: -2px;
+}
+.existingPreview {
+  display: grid;
+  place-items: center;
+  block-size: 9rem;
+  min-inline-size: 0;
+  min-block-size: 0;
+  overflow: hidden;
+  margin-block-end: var(--space-3);
+}
+.existingPreview img,
+.existingPreview video {
+  inline-size: 100%;
+  block-size: 9rem;
+  min-inline-size: 0;
+  min-block-size: 0;
+  object-fit: contain;
+}
+.existingChoice {
+  display: flex;
+  align-items: start;
+  gap: var(--space-2);
+  min-block-size: 2.75rem;
+  cursor: pointer;
+}
+.existingChoice bdi {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+  font-size: var(--text-body-sm);
+}
+.existingActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-block-start: var(--space-4);
+}
 .picker summary {
   cursor: pointer;
 }

@@ -17,7 +17,234 @@ import {
   validateProject,
   slugify,
 } from "../../src/lib/cms/validation";
-import type { ProjectInput } from "../../src/types/project";
+import type { ProjectInput, ProjectMediaItem } from "../../src/types/project";
+
+test("existing storage files restore removed media to gallery without uploading or saving early", async ({
+  page,
+}) => {
+  const f = fixture();
+  const owner = createClient<Database>(f.url, f.key, {
+    global: { headers: { Authorization: `Bearer ${f.owner.access_token}` } },
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+  const id = randomUUID();
+  const otherId = randomUUID();
+  const folders = JSON.parse(
+    readFileSync(".cache/cms-qa-folders.json", "utf8"),
+  );
+  writeFileSync(
+    ".cache/cms-qa-folders.json",
+    JSON.stringify([...folders, id, otherId]),
+  );
+  const storage = owner.storage.from("project-media");
+  async function upload(folder: string, video = false) {
+    const name = `${randomUUID()}.${video ? "mp4" : "webp"}`;
+    const { error } = await storage.upload(
+      `${folder}/${name}`,
+      readFileSync(
+        video
+          ? "public/videos/hero-showreel.mp4"
+          : "public/party-mode/disco-ball.webp",
+      ),
+      { contentType: video ? "video/mp4" : "image/webp" },
+    );
+    expect(error).toBeNull();
+    return {
+      name,
+      src: `/media/${folder}/${name}`,
+      kind: video ? ("video" as const) : ("image" as const),
+    };
+  }
+  const first = await upload(id);
+  const removed = await upload(id);
+  const extra = await upload(id);
+  const video = await upload(id, true);
+  const other = await upload(otherId);
+  const original: ProjectMediaItem[] = [
+    first,
+    removed,
+    { ...extra, caption: "Keep this caption" },
+    video,
+  ].map(({ src, kind, ...rest }) => ({ ...rest, src, kind }));
+  expect(
+    (
+      await owner.from("projects").insert({
+        id,
+        slug: `${f.prefix}-existing-media`,
+        title: `${f.prefix} existing media`,
+        published: false,
+        cover_image_url: first.src,
+        media: original,
+      })
+    ).error,
+  ).toBeNull();
+  const remaining = original.filter(
+    (item) => item.src !== removed.src && item.src !== video.src,
+  );
+  const content = [
+    {
+      type: "gallery_rows",
+      id: randomUUID(),
+      rows: [{ id: randomUUID(), items: [first.src] }],
+    },
+  ];
+  // Reproduce a saved record losing media while the original objects remain in Storage.
+  expect(
+    (
+      await owner
+        .from("projects")
+        .update({ media: remaining, content })
+        .eq("id", id)
+    ).error,
+  ).toBeNull();
+  const before = await storage.list(id, {
+    sortBy: { column: "name", order: "asc" },
+  });
+  expect(before.error).toBeNull();
+  expect(before.data).toHaveLength(4);
+  const uploads: string[] = [];
+  const prefixes: string[] = [];
+  page.on("request", (request) => {
+    if (
+      request.method() === "POST" &&
+      request.url().includes("/storage/v1/object/list/")
+    )
+      prefixes.push(request.postDataJSON().prefix);
+    if (
+      ["POST", "PUT", "PATCH"].includes(request.method()) &&
+      /\/storage\/v1\/object\/(?!list\/)/.test(request.url())
+    )
+      uploads.push(request.url());
+  });
+  await page.context().addCookies(f.cookies);
+  await page.goto(`/admin/projects/${id}`);
+  await editorTab(page, "case");
+  const trigger = page.getByRole("button", {
+    name: "בחירה מקבצים קיימים",
+    exact: true,
+  });
+  await trigger.click();
+  const picker = page.getByRole("region", {
+    name: "בחירה מקבצים קיימים",
+    exact: true,
+  });
+  const file = (name: string) =>
+    picker.locator(`[data-storage-file="${name}"]`);
+  await expect(file(removed.name)).toContainText("לא בפרויקט (יתום)");
+  await expect(file(video.name)).toContainText("לא בפרויקט (יתום)");
+  await expect(file(extra.name)).toContainText("בפרויקט ולא בגלריה");
+  await expect(file(first.name)).toContainText("בגלריה");
+  await expect(file(first.name).getByRole("checkbox")).toBeDisabled();
+  await expect(file(other.name)).toHaveCount(0);
+  const recoveredImage = file(removed.name).locator("img");
+  await expect
+    .poll(() =>
+      recoveredImage.evaluate((image: HTMLImageElement) => image.naturalWidth),
+    )
+    .toBeGreaterThan(0);
+  const dimensions = await recoveredImage.evaluate(
+    (image: HTMLImageElement) => ({
+      width: image.naturalWidth,
+      height: image.naturalHeight,
+    }),
+  );
+  await expect(file(video.name).locator("video")).toHaveAttribute(
+    "src",
+    video.src,
+  );
+  await file(removed.name).getByRole("checkbox").check();
+  await picker.getByRole("button", { name: "סגירה", exact: true }).click();
+  await expect(trigger).toBeFocused();
+  await trigger.click();
+  await expect(file(removed.name).getByRole("checkbox")).not.toBeChecked();
+  for (const item of [removed, video, extra])
+    await file(item.name).getByRole("checkbox").check();
+  await expect(picker.getByRole("status")).toHaveText("3 קבצים נבחרו");
+  async function expectContainedPreviews() {
+    for (const item of [first, removed, extra, video]) {
+      expect(
+        await file(item.name).evaluate((card) => {
+          const preview = card.querySelector("img, video");
+          const choice = card.querySelector("label");
+          return (
+            !!preview &&
+            !!choice &&
+            preview.getBoundingClientRect().bottom <=
+              choice.getBoundingClientRect().top
+          );
+        }),
+      ).toBe(true);
+    }
+  }
+  await expectContainedPreviews();
+  await picker.screenshot({ path: ".cache/existing-media-desktop.png" });
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  await expectContainedPreviews();
+  await picker.screenshot({ path: ".cache/existing-media-mobile.png" });
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await picker
+    .getByRole("button", { name: "הוספת הקבצים לגלריה", exact: true })
+    .click();
+  await expect(picker).toHaveCount(0);
+  const gallery = page.locator("#section-gallery");
+  await expect(gallery.getByRole("region", { name: /^שורה \d+$/ })).toHaveCount(
+    4,
+  );
+  const unchanged = await owner
+    .from("projects")
+    .select("media,content")
+    .eq("id", id)
+    .single();
+  expect(unchanged.data).toEqual({ media: remaining, content });
+  await trigger.click();
+  for (const item of [removed, video, extra])
+    await expect(file(item.name)).toContainText("בגלריה");
+  await picker.getByRole("button", { name: "סגירה", exact: true }).click();
+  await page.getByRole("button", { name: "שמירת טיוטה", exact: true }).click();
+  await expect(page.getByRole("status")).toContainText("הטיוטה נשמרה");
+  const saved = await owner
+    .from("projects")
+    .select("media,content")
+    .eq("id", id)
+    .single();
+  const media = parseMedia(saved.data?.media);
+  expect(media).toHaveLength(4);
+  expect(media.find((item) => item.src === removed.src)).toMatchObject({
+    kind: "image",
+    ...dimensions,
+  });
+  expect(media.find((item) => item.src === video.src)).toMatchObject({
+    kind: "video",
+    width: expect.any(Number),
+    height: expect.any(Number),
+  });
+  expect(media.find((item) => item.src === extra.src)?.caption).toBe(
+    "Keep this caption",
+  );
+  const rows = parseContent(saved.data?.content).find(
+    (block) => block.type === "gallery_rows",
+  )?.rows;
+  expect(rows).toHaveLength(4);
+  expect(new Set(rows?.flatMap((row) => row.items))).toEqual(
+    new Set([first.src, removed.src, video.src, extra.src]),
+  );
+  expect(uploads).toEqual([]);
+  expect(prefixes.length).toBeGreaterThan(0);
+  expect(new Set(prefixes)).toEqual(new Set([id]));
+  expect(
+    (await storage.list(id, { sortBy: { column: "name", order: "asc" } })).data,
+  ).toEqual(before.data);
+  await page.reload();
+  await editorTab(page, "case");
+  await expect(gallery.getByRole("region", { name: /^שורה \d+$/ })).toHaveCount(
+    4,
+  );
+});
 
 test("validation rejects malformed blocks and preserves Hebrew slugs", () => {
   expect(slugify("חב״ד קלאב")).toBe("חבד-קלאב");
@@ -490,9 +717,7 @@ test("private routes and a complete editor publishing flow", async ({
   await page.goto("/admin/projects/new");
   await expect(page).toHaveURL(/admin\/login/);
   await page.getByLabel("סיסמה", { exact: true }).fill("incorrect-password");
-  await page
-    .getByRole("button", { name: "כניסה לניהול", exact: true })
-    .click();
+  await page.getByRole("button", { name: "כניסה לניהול", exact: true }).click();
   await expect(
     page.getByRole("alert").filter({ hasText: "הסיסמה שגויה" }),
   ).toContainText("הסיסמה שגויה");

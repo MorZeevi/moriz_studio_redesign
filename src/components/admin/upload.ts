@@ -38,35 +38,56 @@ export function checkFile(file: File, kind: UploadKind): string | null {
     return "יש לבחור קובץ עד 50 MiB שאינו ריק.";
   return null;
 }
-/** Natural size of an image or video, read locally before upload. */
-async function measure(
-  file: File,
+/** Natural size through a local object URL or the authenticated /media route. */
+export async function measureMediaUrl(
+  url: string,
+  kind: ProjectMediaItem["kind"],
 ): Promise<{ width?: number; height?: number }> {
-  const url = URL.createObjectURL(file);
+  const element =
+    kind === "video" ? document.createElement("video") : new Image();
+  let timer: ReturnType<typeof setTimeout> | undefined;
   try {
-    if (file.type.startsWith("video/")) {
-      const video = document.createElement("video");
-      video.preload = "metadata";
-      video.muted = true;
-      await new Promise<void>((resolve, reject) => {
-        video.onloadedmetadata = () => resolve();
-        video.onerror = () => reject();
-        video.src = url;
-      });
-      return {
-        width: video.videoWidth || undefined,
-        height: video.videoHeight || undefined,
-      };
-    }
-    const image = new Image();
-    image.src = url;
-    await image.decode();
-    return {
-      width: image.naturalWidth || undefined,
-      height: image.naturalHeight || undefined,
-    };
+    await new Promise<void>((resolve, reject) => {
+      timer = setTimeout(
+        () => reject(new Error("Media metadata timed out")),
+        10000,
+      );
+      element.onerror = () => reject(new Error("Media could not be loaded"));
+      if (element instanceof HTMLVideoElement) {
+        element.preload = "metadata";
+        element.muted = true;
+        element.onloadedmetadata = () => resolve();
+      } else element.onload = () => resolve();
+      element.src = url;
+    });
+    const width =
+      element instanceof HTMLVideoElement
+        ? element.videoWidth
+        : element.naturalWidth;
+    const height =
+      element instanceof HTMLVideoElement
+        ? element.videoHeight
+        : element.naturalHeight;
+    return { width: width || undefined, height: height || undefined };
   } catch {
     return {};
+  } finally {
+    clearTimeout(timer);
+    element.onerror = null;
+    element.onload = null;
+    if (element instanceof HTMLVideoElement) element.onloadedmetadata = null;
+    element.removeAttribute("src");
+    if (element instanceof HTMLVideoElement) element.load();
+  }
+}
+/** Natural size of an image or video, read locally before upload. */
+async function measure(file: File) {
+  const url = URL.createObjectURL(file);
+  try {
+    return await measureMediaUrl(
+      url,
+      file.type.startsWith("video/") ? "video" : "image",
+    );
   } finally {
     URL.revokeObjectURL(url);
   }

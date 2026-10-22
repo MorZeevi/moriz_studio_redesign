@@ -5,6 +5,7 @@ import type {
 import type { Locale } from "@/i18n/config";
 import type { Project, ProjectMediaItem } from "@/types/project";
 import { localized, termName } from "./localize";
+import { userCountHighlight } from "./card-options";
 import { isVideoSrc } from "./validation";
 
 export function projectCard(
@@ -63,12 +64,18 @@ export function projectCard(
       : project.highlights.find((h) =>
           surface === "homepage" ? h.on_homepage : h.on_archive,
         );
+  const textUserCount =
+    highlight === userCountHighlight(project.highlights) &&
+    !!highlight &&
+    /\p{L}/u.test(highlight.value) &&
+    !/^\s*\d[\d.,\s]*[kmb]\s*\+?\s*$/i.test(highlight.value);
   return {
     id: project.id,
     slug: project.slug,
     title,
     description,
     summary,
+    client: localized(project, "client", locale).trim() || null,
     image,
     logo: logo
       ? { src: logo.src, alt: localized(logo, "alt", locale) || title }
@@ -85,7 +92,13 @@ export function projectCard(
           }
         : null,
     highlight: highlight
-      ? { value: highlight.value, label: localized(highlight, "label", locale) }
+      ? {
+          value: highlight.value,
+          label:
+            surface === "homepage" && textUserCount
+              ? ""
+              : localized(highlight, "label", locale),
+        }
       : null,
     type: project.type ? termName(project.type, locale) : null,
     details: project.content
