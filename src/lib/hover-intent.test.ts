@@ -78,11 +78,26 @@ test("a second visit after the first request skips the dwell", () => {
 test("leaving and re-entering restarts the dwell", () => {
   const { log, time, intent } = setup();
   intent.enter();
-  time.tick(200);
+  time.tick(HOVER_INTENT_MS - 50);
   intent.leave();
   intent.enter();
-  time.tick(200);
+  time.tick(HOVER_INTENT_MS - 50);
   assert.deepEqual(log, []);
-  time.tick(100);
+  time.tick(50);
   assert.deepEqual(log, ["intent"]);
+});
+
+test("a zero delay (image hover media) fires on enter with no timer", () => {
+  const log: string[] = [];
+  const time = clock();
+  const intent = createHoverIntent(
+    { onIntent: () => log.push("intent"), onLeave: () => log.push("leave") },
+    0,
+    time.timers,
+  );
+  intent.enter();
+  assert.deepEqual(log, ["intent"]);
+  assert.equal(time.pending, 0);
+  intent.leave();
+  assert.deepEqual(log, ["intent", "leave"]);
 });

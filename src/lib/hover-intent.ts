@@ -3,7 +3,7 @@
  * A video request starts streaming the whole file, so a pointer sweeping across
  * the page must not trigger one per card.
  */
-export const HOVER_INTENT_MS = 300;
+export const HOVER_INTENT_MS = 200;
 
 type Timers = {
   set: (callback: () => void, ms: number) => unknown;
@@ -42,7 +42,7 @@ export function createHoverIntent(
   return {
     enter() {
       if (intended || pending !== null) return;
-      if (immediate()) fire();
+      if (delay <= 0 || immediate()) fire();
       else pending = timers.set(fire, delay);
     },
     leave() {

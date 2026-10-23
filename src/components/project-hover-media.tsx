@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import type { Project } from "@/content/projects";
-import { createHoverIntent } from "@/lib/hover-intent";
+import { createHoverIntent, HOVER_INTENT_MS } from "@/lib/hover-intent";
 import { CoverVideo } from "./cover-video";
 import styles from "./project-hover-media.module.css";
 
@@ -37,18 +37,22 @@ export function ProjectHoverMedia({
       setActive(next);
     };
     // A video request streams the whole file, so the pointer must rest on the
-    // card before it starts; sweeping across the grid fetches nothing.
-    const intent = createHoverIntent({
-      onIntent: () => {
-        hovered = true;
-        sync();
+    // card before it starts; sweeping across the grid fetches nothing. Image
+    // hover media is cheap and stays immediate.
+    const intent = createHoverIntent(
+      {
+        onIntent: () => {
+          hovered = true;
+          sync();
+        },
+        onLeave: () => {
+          hovered = false;
+          sync();
+        },
+        immediate: () => requestedRef.current,
       },
-      onLeave: () => {
-        hovered = false;
-        sync();
-      },
-      immediate: () => requestedRef.current,
-    });
+      media.kind === "video" ? HOVER_INTENT_MS : 0,
+    );
     const enter = (event: PointerEvent) => {
       if (
         event.pointerType === "touch" ||
@@ -84,7 +88,7 @@ export function ProjectHoverMedia({
       boundary.removeEventListener("focusin", focus);
       boundary.removeEventListener("focusout", blur);
     };
-  }, []);
+  }, [media.kind]);
 
   const image = media.kind === "image" ? media.src : media.poster;
   return (
