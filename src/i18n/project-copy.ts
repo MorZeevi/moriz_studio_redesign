@@ -75,6 +75,8 @@ export const projectCopy: Record<Locale, ProjectCopy> = {
     backLink: "Back to projects",
     archive: {
       heading: "Selected work",
+      description:
+        "Selected work by Moriz Studio: websites, web apps and product design projects.",
       layoutLabel: "Project layout",
       layouts: { standard: "Grid", compact: "Compact", editorial: "Editorial" },
       results: "Showing {count} projects",
