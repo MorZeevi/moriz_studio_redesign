@@ -34,11 +34,13 @@ export async function generateMetadata({
   return {
     // The layout's title template appends the studio name.
     title: archive.heading,
+    description: archive.description,
     // One canonical for every ?type= filter view.
     alternates: { canonical: url },
     openGraph: {
       ...siteOpenGraph,
       title: `${archive.heading} | ${content.studioName}`,
+      description: archive.description,
       url,
     },
   };

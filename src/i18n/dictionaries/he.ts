@@ -10,7 +10,7 @@ export const he = {
     // The old site's ranking title, kept for search continuity.
     title: "בניית אתרים בישראל | עיצוב ופיתוח אתרים | Moriz Studio",
     description:
-      "Moriz Studio — איפיון, עיצוב ופיתוח אתרים, אפליקציות WEB וכלי AI מבוססי מחקר. מהרעיון ועד מוצר דיגיטלי שעובד בשבילכם.",
+      "Moriz Studio — סטודיו לעיצוב ופיתוח אתרים בישראל. איפיון, עיצוב ופיתוח אתרים, אפליקציות WEB וכלי AI מבוססי מחקר, מהרעיון ועד מוצר דיגיטלי שעובד בשבילכם.",
   },
   studioName: "Moriz Studio",
   theme: {
@@ -158,6 +158,8 @@ export const he = {
     backLink: "חזרה לפרויקטים",
     archive: {
       heading: "עבודות נבחרות",
+      description:
+        "עבודות נבחרות של Moriz Studio: אתרים, אפליקציות WEB ופרויקטי איפיון ועיצוב, בהם עבודות עבור עיתון הארץ, חב״ד קלאב ו-AI פרקטי.",
       layoutLabel: "תצוגת הפרויקטים",
       layouts: { standard: "רשת", compact: "צפוף", editorial: "מגזין" },
       results: "מוצגים {count} פרויקטים",
