@@ -11,7 +11,7 @@ Source: the Phase 2 plan and its Codex review, plus the commercial-opportunity s
 | Homepage meta description and Open Graph / JSON-LD description (`src/i18n/dictionaries/he.ts`, `metadata.description`) | Moriz Studio — איפיון, עיצוב ופיתוח אתרים, אפליקציות WEB וכלי AI מבוססי מחקר. מהרעיון ועד מוצר דיגיטלי שעובד בשבילכם. | Moriz Studio — סטודיו לעיצוב ופיתוח אתרים בישראל. איפיון, עיצוב ופיתוח אתרים, אפליקציות WEB וכלי AI מבוססי מחקר, מהרעיון ועד מוצר דיגיטלי שעובד בשבילכם. |
 | `/he/projects` meta description (new `projects.archive.description`, used in `projects/page.tsx`) | inherited the homepage description | עבודות נבחרות של Moriz Studio: אתרים, אפליקציות WEB ופרויקטי איפיון ועיצוב, בהם עבודות עבור עיתון הארץ, חב״ד קלאב ו-AI פרקטי. |
 
-Unchanged on purpose: `<title>`, H1, hero, visible copy, FAQ, canonical, routing, language. The homepage description is not visible on the page; it only shapes the search snippet and does not affect ranking. Mor should rewrite either string in her own voice before merge.
+Unchanged on purpose: `<title>`, H1, hero, visible copy, FAQ, canonical, routing, language. The homepage description is not visible on the page. It feeds the search snippet, the Open Graph description (social previews) and the Organization JSON-LD description; Google does not rank on it. The client names in the projects description (עיתון הארץ, חב״ד קלאב, AI פרקטי) are the names shown on the live site's project cards. Mor should rewrite either string in her own voice before merge.
 
 ## 2. `/en` and `www` (verified read-only on production, 2026-10-26)
 
