@@ -4,9 +4,9 @@ import { SITE_URL } from "@/lib/site";
 
 // Schema.org graph for search engines, adapted from the previous site so the
 // studio keeps the same entity ids.
-const organizationId = `${SITE_URL}/#organization`;
-const personId = `${SITE_URL}/#person`;
-const websiteId = `${SITE_URL}/#website`;
+export const organizationId = `${SITE_URL}/#organization`;
+export const personId = `${SITE_URL}/#person`;
+export const websiteId = `${SITE_URL}/#website`;
 
 export function homeStructuredData(
   content: SiteContent,

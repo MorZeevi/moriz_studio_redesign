@@ -6,8 +6,11 @@ import type { Database } from "@/types/database.types";
 import { supabaseConfig } from "./config";
 
 export async function serverSupabase() {
-  const { url, key } = supabaseConfig();
+  // Read cookies before the env check. cookies() marks the route dynamic, so a
+  // preview build with no CMS keys is not killed while prerendering /admin.
+  // With the keys present, the client is unchanged.
   const store = await cookies();
+  const { url, key } = supabaseConfig();
   return createServerClient<Database>(url, key, {
     cookies: {
       getAll: () => store.getAll(),

@@ -49,8 +49,10 @@
 
 .item:focus-within,
 .item:has(> [aria-current="location"]),
+.item:has(> [aria-current="page"]),
 .item:has(+ .item:focus-within),
-.item:has(+ .item > [aria-current="location"]) {
+.item:has(+ .item > [aria-current="location"]),
+.item:has(+ .item > [aria-current="page"]) {
   --liquid-gap: var(--liquid-gap-open);
 }
 
@@ -113,7 +115,8 @@
   display: none;
 }
 
-.pill[aria-current="location"]::after {
+.pill[aria-current="location"]::after,
+.pill[aria-current="page"]::after {
   content: "";
   position: absolute;
   inset-inline-start: 50%;

@@ -109,7 +109,8 @@
   text-decoration: none;
 }
 
-.links a:hover {
+.links a:hover,
+.links a[aria-current="page"] {
   text-decoration: underline;
   text-underline-offset: 0.18em;
 }

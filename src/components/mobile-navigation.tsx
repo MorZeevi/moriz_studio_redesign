@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { usePathname } from "next/navigation";
 import { StudioLogo } from "@/components/studio-logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { MenuToggle } from "@/components/ui/menu-toggle";
@@ -37,6 +38,7 @@ export function MobileNavigation({
 }) {
   const id = useId().replace(/:/g, "");
   const dialogId = `mobile-navigation-${id}`;
+  const pathname = usePathname();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -186,13 +188,23 @@ export function MobileNavigation({
           <div className={styles.body} inert={!open}>
             <nav aria-label={content.label}>
               <ul className={`navigation-links ${styles.links}`}>
-                {[...content.desktopLinks, content.contactLink].map((link) => (
+                {[...content.desktopLinks, content.contactLink].map((link) => {
+                  const localized = anchorHref(link.href, locale, pageAnchors);
+                  const onPage =
+                    !link.href.startsWith("#") &&
+                    (pathname === localized ||
+                      pathname.startsWith(`${localized}/`));
+                  return (
                   <li key={link.href}>
-                    <a href={anchorHref(link.href, locale, pageAnchors)}>
+                    <a
+                      href={localized}
+                      aria-current={onPage ? "page" : undefined}
+                    >
                       {link.label}
                     </a>
                   </li>
-                ))}
+                  );
+                })}
               </ul>
             </nav>
           </div>
