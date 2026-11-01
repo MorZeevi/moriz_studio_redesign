@@ -33,9 +33,9 @@ export const he = {
     closeLabel: "סגירת תפריט",
     desktopLinks: [
       { label: "פרויקטים", href: "#projects" },
-      { label: "מאמרים", href: "/articles" },
       { label: "קצת עלי", href: "#about" },
       { label: "איך מתחילים", href: "#getting-started" },
+      { label: "מאמרים", href: "/articles" },
       { label: "שאלות תשובות", href: "#faq" },
       { label: "אבחון דיגיטלי", href: "/digital-audit" },
     ],

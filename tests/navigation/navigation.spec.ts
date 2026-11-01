@@ -4,6 +4,7 @@ const labels = [
   "פרויקטים",
   "קצת עלי",
   "איך מתחילים",
+  "מאמרים",
   "שאלות תשובות",
   "אבחון דיגיטלי",
 ];
@@ -11,6 +12,7 @@ const destinations = [
   "#projects",
   "#about",
   "#getting-started",
+  "/he/articles",
   "#faq",
   "/digital-audit",
 ];
@@ -258,6 +260,7 @@ test("mobile matches desktop links and closes it when entering desktop", async (
     "פרויקטים",
     "קצת עלי",
     "איך מתחילים",
+    "מאמרים",
     "שאלות תשובות",
     "אבחון דיגיטלי",
     "בואו נדבר",
