@@ -1,6 +1,7 @@
 "use client";
 
 import { type CSSProperties, useEffect, useId, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import type { SiteContent } from "@/i18n/dictionaries";
 import { anchorHref } from "@/lib/anchor-href";
 import styles from "./liquid-navigation.module.css";
@@ -17,6 +18,7 @@ export function LiquidNavigation({
 }) {
   const listRef = useRef<HTMLUListElement>(null);
   const filterId = `liquid-goo-${useId().replace(/:/g, "")}`;
+  const pathname = usePathname();
   const [activeHref, setActiveHref] = useState<string | null>(null);
 
   useEffect(() => {
@@ -211,12 +213,25 @@ export function LiquidNavigation({
         className={`${styles.list} desktop-navigation-links`}
         style={{ "--liquid-filter": `url("#${filterId}")` } as CSSProperties}
       >
-        {links.map(({ href, label }) => (
+        {links.map(({ href, label }) => {
+          const localized = anchorHref(href, locale, pageAnchors);
+          const onPage =
+            !href.startsWith("#") &&
+            (pathname === localized || pathname.startsWith(`${localized}/`));
+          return (
           <li className={styles.item} key={href}>
             <a
               className={styles.pill}
-              href={anchorHref(href, locale, pageAnchors)}
-              aria-current={activeHref === href ? "location" : undefined}
+              href={localized}
+              aria-current={
+                href.startsWith("#")
+                  ? activeHref === href
+                    ? "location"
+                    : undefined
+                  : onPage
+                    ? "page"
+                    : undefined
+              }
               data-liquid-shape
             >
               <span className={styles.label}>{label}</span>
@@ -227,7 +242,8 @@ export function LiquidNavigation({
               />
             </a>
           </li>
-        ))}
+          );
+        })}
       </ul>
       <svg
         className={styles.filter}

@@ -33,6 +33,7 @@ export const he = {
     closeLabel: "סגירת תפריט",
     desktopLinks: [
       { label: "פרויקטים", href: "#projects" },
+      { label: "מאמרים", href: "/articles" },
       { label: "קצת עלי", href: "#about" },
       { label: "איך מתחילים", href: "#getting-started" },
       { label: "שאלות תשובות", href: "#faq" },
@@ -622,6 +623,7 @@ export const he = {
         links: [
           { label: "עמוד הבית", href: "/" },
           { label: "כל הפרויקטים", href: "/projects" },
+          { label: "מאמרים", href: "/articles" },
         ],
       },
     ],
@@ -728,6 +730,29 @@ export const he = {
         ],
       },
     ],
+  },
+  articles: {
+    heading: "מאמרים",
+    description:
+      "מאמרים של Moriz Studio על עיצוב, מחקר משתמשים, אתרים וכלים דיגיטליים. רעיונות מהעבודה עצמה, למי שבונה מוצר ורוצה בסיס ברור.",
+    empty:
+      "עדיין אין כאן מאמרים שפורסמו. כתבות חדשות יעלו לכאן, ואפשר בינתיים לראות עבודה או לחזור הביתה.",
+    emptyProjects: "לכל הפרויקטים",
+    emptyHome: "לעמוד הבית",
+    listLabel: "רשימת מאמרים",
+    rss: "RSS",
+    readingMinute: "דקת קריאה",
+    readingMinutes: "דקות קריאה",
+    published: "פורסם",
+    updated: "עודכן",
+    byline: "מור זאבי",
+    toc: "תוכן העניינים",
+    related: "מאמרים נוספים",
+    sources: "מקורות",
+    faq: "שאלות נפוצות",
+    breadcrumbs: "מיקום בעמוד",
+    draft: "טיוטה. העמוד הזה לא מופיע ברשימת המאמרים ולא במפת האתר.",
+    coverFallbackAlt: "Moriz Studio",
   },
   floatingActions: {
     label: "פעולות מהירות",

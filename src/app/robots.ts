@@ -9,7 +9,13 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
       // /media stays crawlable: it serves the project and social images.
-      disallow: ["/admin", "/api/", "/digital-audit", "/he/fonts"],
+      disallow: [
+        "/admin",
+        "/api/",
+        "/digital-audit",
+        "/he/fonts",
+        "/he/articles/preview",
+      ],
     },
     sitemap: `${SITE_URL}/sitemap.xml`,
     host: SITE_URL,

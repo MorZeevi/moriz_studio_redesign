@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import createMDX from "@next/mdx";
 
 const nextConfig: NextConfig = {
   async redirects() {
@@ -8,6 +9,19 @@ const nextConfig: NextConfig = {
       { source: "/en", destination: "/he", permanent: true },
       { source: "/en/:path+", destination: "/he/:path+", permanent: true },
     ];
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/:locale/articles/:slug",
+        has: [{ type: "query", key: "preview", value: "1" }],
+        destination: "/:locale/articles/preview/:slug",
+      },
+    ];
+  },
+  outputFileTracingIncludes: {
+    "/sitemap.xml": ["./content/articles/**/*.mdx"],
+    "/[locale]/articles/rss.xml": ["./content/articles/**/*.mdx"],
   },
   // Keep Next's developer badge from covering the lower-side contact control.
   devIndicators: false,
@@ -29,4 +43,14 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+const withMDX = createMDX({
+  options: {
+    remarkPlugins: [
+      "remark-frontmatter",
+      "remark-mdx-frontmatter",
+      "remark-gfm",
+    ],
+  },
+});
+
+export default withMDX(nextConfig);
