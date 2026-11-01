@@ -90,7 +90,6 @@ function HeadingAvatar() {
         width={600}
         height={600}
         sizes="64px"
-        priority
       />
     </span>
   );

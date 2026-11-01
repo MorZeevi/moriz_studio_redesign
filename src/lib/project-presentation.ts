@@ -137,7 +137,7 @@ export function projectGallery(
   const title = localized(project, "title", locale);
   const blocks = project.content.filter((block) => !block.hidden);
   /** Block text wins; empty text falls back to the gallery file's metadata. */
-  function resolve(image: ProjectImage, fallbackAlt = ""): GalleryImage {
+  function resolve(image: ProjectImage, fallbackAlt = title): GalleryImage {
     const item = meta.get(image.src);
     return {
       src: image.src,

@@ -657,8 +657,9 @@ html:has(.navigation-dialog[open]) {
   padding: var(--space-6);
 }
 
-.advantages-body h3 {
+.advantages-body h2 {
   margin: 0;
+  font-family: var(--font-body);
   font-size: clamp(1.25rem, 1.8vw, 1.625rem);
   font-weight: 700;
   line-height: 1.2;
