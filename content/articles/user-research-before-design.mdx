@@ -60,6 +60,86 @@ faq:
 
 > עיצוב בלי משימה ברורה מייצר מסכים. עיצוב עם משימה ברורה מייצר החלטה.
 
+## למה חמישה אנשים מספיקים
+
+התרשימים בחלק הזה מדגימים את רכיבי ההמחשה במאמרים. כל מספר מצוטט ממאמר של Nielsen Norman Group על בדיקות שימושיות, ולא מנתונים של לקוח.
+
+<StatHighlight
+  title="חמישה משתמשים בסבב אחד"
+  source="Why You Only Need to Test with 5 Users, Nielsen Norman Group"
+  sourceUrl="https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/"
+>
+  <Stat value="5" label="משתמשים מומלצים בסבב בדיקה אחד" />
+  <Stat value="85" suffix="%" label="מבעיות השימושיות שחמישה משתמשים מגלים" />
+  <Stat value="31" suffix="%" label="מבעיות השימושיות שמשתמש אחד מגלה, בממוצע" />
+</StatHighlight>
+
+אותו מאמר מתאר עקומה: בלי משתמשים אין תובנה, משתמש אחד מגלה כשליש, וחמישה מגלים את רוב הבעיות.
+
+<CompareBars
+  title="כמה בעיות שימושיות מתגלות"
+  unit="%"
+  max="100"
+  source="Why You Only Need to Test with 5 Users, Nielsen Norman Group"
+  sourceUrl="https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/"
+>
+  <Bar label="אפס משתמשים" value="0" />
+  <Bar label="משתמש אחד" value="31" />
+  <Bar label="חמישה משתמשים" value="85" />
+</CompareBars>
+
+ההמלצה שם אינה לעצור אחרי סבב אחד, אלא לתקן ואז לבדוק שוב.
+
+<ProcessSteps
+  title="שלושה סבבים במקום מבחן אחד גדול"
+  source="Why You Only Need to Test with 5 Users, Nielsen Norman Group"
+  sourceUrl="https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/"
+>
+  <Step title="סבב ראשון">
+    חמישה משתמשים מגלים 85% מבעיות השימושיות. אחר כך מתקנים את העיצוב, לפני שמגייסים אנשים נוספים.
+  </Step>
+  <Step title="סבב שני">
+    בודקים אם התיקון עבד. מבעיות הסבב המקורי נשארים 2% אחרי הסבב הזה, ויש סיכון שנוצרה בעיה חדשה.
+  </Step>
+  <Step title="סבב שלישי">
+    אחרי שהשטח נקי מבעיות בולטות, אפשר לבדוק מבנה, זרימה והתאמה לצורך. זה העומק שמבחן אחד גדול מפספס.
+  </Step>
+</ProcessSteps>
+
+<BeforeAfter
+  title="איך מחלקים את אותו תקציב"
+  beforeLabel="סבב אחד"
+  afterLabel="שלושה סבבים"
+  source="Why You Only Need to Test with 5 Users, Nielsen Norman Group"
+  sourceUrl="https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/"
+>
+  <Before title="חמישה עשר משתמשים בבת אחת">
+    מבחן אחד גדול מתעד את החולשות. התקציב נגמר לפני שמספיקים לתקן ולבדוק אם התיקון עבד.
+  </Before>
+  <After title="חמישה משתמשים, שלוש פעמים">
+    אותו מספר אנשים, מחולק לשלושה סבבים. בין סבב לסבב מתקנים, והחוויה משתפרת יותר.
+  </After>
+</BeforeAfter>
+
+<Timeline
+  title="סדר העבודה שהמאמר ממליץ עליו"
+  source="Why You Only Need to Test with 5 Users, Nielsen Norman Group"
+  sourceUrl="https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/"
+>
+  <TimelineItem when="סבב 1" title="מוצאים את רוב הבעיות">
+    חמישה משתמשים מגלים 85% מבעיות השימושיות בממשק הנוכחי.
+  </TimelineItem>
+  <TimelineItem when="תיקון" title="מתקנים לפני שממשיכים">
+    חוזרים לעיצוב וסוגרים את מה שהסבב הראשון חשף, בלי לגייס עוד חמישה עשר איש לאותו מסך.
+  </TimelineItem>
+  <TimelineItem when="סבב 2" title="בודקים שהתיקון עבד">
+    נשארים 2% מבעיות הסבב המקורי, ובודקים שלא נולדה בעיה חדשה במקום הישנה.
+  </TimelineItem>
+  <TimelineItem when="סבב 3" title="יורדים לעומק">
+    בודקים ארכיטקטורת מידע, זרימת משימה והתאמה לצורך, אחרי שהבעיות השטחיות כבר לא חוסמות.
+  </TimelineItem>
+</Timeline>
+
 ## מתי אפשר להתחיל לעצב
 
 אפשר לפתוח את קובץ העיצוב כשיש שלושה דברים על השולחן:

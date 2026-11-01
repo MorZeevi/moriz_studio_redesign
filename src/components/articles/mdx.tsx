@@ -3,6 +3,11 @@ import path from "node:path";
 import Image from "next/image";
 import Link from "next/link";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import { After, Before, BeforeAfter } from "@/components/articles/infographics/before-after";
+import { Bar, CompareBars } from "@/components/articles/infographics/compare-bars";
+import { ProcessSteps, Step } from "@/components/articles/infographics/process-steps";
+import { Stat, StatHighlight } from "@/components/articles/infographics/stat-highlight";
+import { Timeline, TimelineItem } from "@/components/articles/infographics/timeline";
 import { LiquidLink } from "@/components/ui/liquid-link";
 import type { ArticleEmbeds } from "@/lib/articles/embeds";
 import { createHeadingIdAllocator } from "@/lib/articles/headings";
@@ -108,6 +113,17 @@ export function articleMdxComponents({
         </Link>
       );
     },
+    StatHighlight,
+    Stat,
+    CompareBars,
+    Bar,
+    ProcessSteps,
+    Step,
+    BeforeAfter,
+    Before,
+    After,
+    Timeline,
+    TimelineItem,
     RelatedArticle({ slug }: { slug?: string }) {
       if (!slug) return null;
       const teaser = embeds.articles.get(slug);

@@ -116,6 +116,65 @@ One or more paragraphs. type is note, tip, or warning. Omit type for note.
 <ProjectCard slug="guesto" />
 
 <RelatedArticle slug="from-tasks-to-pages" />
+
+<StatHighlight
+  title="חמישה משתמשים בסבב אחד"
+  source="Why You Only Need to Test with 5 Users, Nielsen Norman Group"
+  sourceUrl="https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/"
+>
+  <Stat value="5" label="משתמשים מומלצים בסבב בדיקה אחד" />
+  <Stat value="85" suffix="%" label="מבעיות השימושיות שחמישה משתמשים מגלים" />
+</StatHighlight>
+
+<CompareBars
+  title="כמה בעיות שימושיות מתגלות"
+  unit="%"
+  max="100"
+  source="Why You Only Need to Test with 5 Users, Nielsen Norman Group"
+  sourceUrl="https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/"
+>
+  <Bar label="משתמש אחד" value="31" />
+  <Bar label="חמישה משתמשים" value="85" />
+</CompareBars>
+
+<ProcessSteps
+  title="שלושה סבבים"
+  source="Why You Only Need to Test with 5 Users, Nielsen Norman Group"
+  sourceUrl="https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/"
+>
+  <Step title="סבב ראשון">
+    חמישה משתמשים מגלים 85% מבעיות השימושיות. אחר כך מתקנים.
+  </Step>
+  <Step title="סבב שני">
+    בודקים אם התיקון עבד. מבעיות הסבב המקורי נשארים 2%.
+  </Step>
+</ProcessSteps>
+
+<BeforeAfter
+  beforeLabel="סבב אחד"
+  afterLabel="שלושה סבבים"
+  source="Why You Only Need to Test with 5 Users, Nielsen Norman Group"
+  sourceUrl="https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/"
+>
+  <Before title="חמישה עשר משתמשים בבת אחת">
+    מבחן אחד גדול מתעד חולשות, והתקציב נגמר לפני הבדיקה של התיקון.
+  </Before>
+  <After title="חמישה משתמשים, שלוש פעמים">
+    אותו מספר אנשים בשלושה סבבים. בין סבב לסבב מתקנים.
+  </After>
+</BeforeAfter>
+
+<Timeline
+  source="Why You Only Need to Test with 5 Users, Nielsen Norman Group"
+  sourceUrl="https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/"
+>
+  <TimelineItem when="סבב 1" title="מוצאים את רוב הבעיות">
+    חמישה משתמשים מגלים 85% מבעיות השימושיות.
+  </TimelineItem>
+  <TimelineItem when="סבב 2" title="בודקים את התיקון">
+    נשארים 2% מבעיות הסבב המקורי.
+  </TimelineItem>
+</Timeline>
 ```
 
 `Figure`: `src` and `alt` are quoted strings. `caption` is optional.
@@ -125,6 +184,22 @@ One or more paragraphs. type is note, tip, or warning. Omit type for note.
 `ProjectCard` shows one published project: its existing title, its existing image, and a link to `/he/projects/<slug>`. It does not add results, quotes, or metrics. `slug` is the project's real slug. If that project is missing, the card is omitted. If the CMS cannot be read, the reader gets a plain link to the project URL.
 
 `RelatedArticle` is a compact קראו גם card. `slug` is another file in `content/articles/`. The card uses that file's title and description. In production a draft target is omitted, so do not point a published article at a draft. On a draft preview the card can point at another draft, and the link keeps `?preview=1`. The list of related articles at the bottom of the page stays; this card is an extra link inside the body.
+
+### Infographics
+
+Use these when a cited fact is easier to see than to read. Every number must be copied from a real source. Do not invent, round into a different claim, estimate, or reuse a client's private metric. The validator requires `source` and `sourceUrl`, but it cannot check that the number is true. If you do not have a source you can link, do not use the component. `sourceUrl` is an absolute `https` URL. Attributes are quoted strings. The components are RTL, stack on a narrow column, and keep the published numbers in the HTML.
+
+`StatHighlight` is one to four big numbers. Each `<Stat>` needs `value` (the digits only, such as `85` or `1,200`) and `label`. Optional `prefix` and `suffix` hold the unit, such as `suffix="%"`. Optional `title` on the parent.
+
+`CompareBars` is two to six horizontal bars. `max` is required: the value that fills the track. For percentages, `max="100"`. Optional `unit` is shown with every value (`unit="%"`). Each `<Bar>` needs `label` and `value`. A bar value cannot be larger than `max`.
+
+`ProcessSteps` is two to six steps. Each `<Step title="...">` wraps the detail as text. The detail is 12–800 characters. On a narrow screen the steps stack. On a wider column the step buttons sit in a row and the open detail spans the card. Click or keyboard activates a step. A pointer that can hover also opens it.
+
+`BeforeAfter` compares two approaches. Put `<Before>` first and `<After>` second. Optional `beforeLabel` and `afterLabel` name the switch (the defaults are לפני and אחרי). Optional `title` on a pane is a short heading; the pane body is the comparison. On a narrow screen one side shows at a time. On a wide column both sides show.
+
+`Timeline` is two to eight points. Each `<TimelineItem when="..." title="...">` wraps a short detail. `when` is a label such as a round or a date, not a machine timestamp.
+
+A step, pane, or timeline detail is prose: paragraphs, lists, and emphasis. Do not put another infographic inside it. Do not put the unit inside `value`.
 
 Reading time is computed from the body at about 200 words per minute. Do not put it in frontmatter.
 
@@ -163,7 +238,7 @@ Do not prefix `/digital-audit` with `/he`. Do not link to `/he/articles/preview/
 4. Short paragraphs. A table or a list when comparing items. A `Callout` for the one thing the reader should not skip.
 5. Name sources for facts that are not the studio's own experience, and put them in `sources`. Two to four FAQ questions that match real follow-up searches, with direct answers.
 6. Include 2–4 internal links, as in Internal links above. Link to `/he/projects` or a relevant project when the article describes work the studio does. Link to `/digital-audit` when the reader is still deciding what to build. Link home when describing the studio's process. Do not invent a project slug.
-7. Do not invent client names, metrics, quotes, or prices. Do not publish the fixture article.
+7. Do not invent client names, metrics, quotes, or prices. Numbers inside `StatHighlight` and `CompareBars` must come from a real source linked on that component. Do not publish the fixture article.
 8. Set `date` to the publish day. Set `updated` only on a later revision, and refresh `description` if the conclusion changed.
 9. The page already emits the canonical URL, Open Graph `article` tags (`publishedTime`, `modifiedTime`, cover), a Twitter large card, `BlogPosting` and `BreadcrumbList` JSON-LD, and `FAQPage` JSON-LD when `faq` is set. Do not add a JSON-LD script or a second title in the body.
 
