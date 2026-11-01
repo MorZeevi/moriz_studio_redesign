@@ -140,8 +140,6 @@ export default async function Home({
           partyReaction
         />
 
-        <DiagnosticBanner content={content.diagnosticBanner} />
-
         <Section id="about" title={content.about.heading} showHeading={false}>
           <AboutMe content={content.about} />
         </Section>
@@ -172,6 +170,8 @@ export default async function Home({
         >
           <DesignQuote content={content.designQuote} />
         </Section>
+
+        <DiagnosticBanner content={content.diagnosticBanner} />
 
         <Section id="faq" title={content.faq.heading} showHeading={false}>
           <Faq content={content.faq} />

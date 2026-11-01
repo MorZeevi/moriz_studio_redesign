@@ -753,7 +753,7 @@ body[data-secondary-ink="light"] main {
 .secondary-surface > .wireframe-section,
 .secondary-surface + .wireframe-section,
 [data-wireframe-section="about-gallery-reverse"] + .wireframe-section,
-#design-quote + .wireframe-section {
+#diagnostic-banner + .wireframe-section {
   border-block-start: 0;
 }
 

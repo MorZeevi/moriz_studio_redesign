@@ -226,35 +226,30 @@ export const he = {
   },
   about: {
     heading: "קצת עליי",
-    // Verbatim from the owner (2026-10-10); `strong` marks her bold phrases.
+    // Approved by the owner (2026-11-01); `strong` marks the bold phrases.
     paragraphs: [
+      [{ text: "נעים להכיר, אני מור זאבי." }],
       [
         {
-          text: "אני עוזרת ליזמים, מנהלי מוצר ובעלי עסקים שמתמודדים עם קושי להעביר את הערך שלהם במרחב הדיגיטלי. הם השקיעו משאבים רבים בפיתוח המוצר או השירות שלהם, אבל ",
+          text: "אם השקעתם משאבים רבים בפיתוח המוצר או השירות שלכם, ואתם יודעים שהפער ביניכם לבין ההצלחה הוא אתר או מערכת חכמה, ",
         },
-        {
-          text: "חווית המשתמש הנוכחית עושה להם עוול וההשקעה יורדת לטמיון.",
-          strong: true,
-        },
+        { text: "הגעתם למקום הנכון.", strong: true },
       ],
       [
-        { text: "עם " },
+        { text: "יש לי " },
         {
-          text: "תואר אקדמי בטכנולוגיות למידה מ-H.I.T וניסיון של שנים בפיתוח",
+          text: "תואר בטכנולוגיות למידה מ-H.I.T וניסיון של שנים בפיתוח",
           strong: true,
         },
-        { text: ", יצרתי תהליך לבניית מעטפת דיגיטלית " },
+        { text: ", ומהם בניתי תהליך שמבוסס על " },
+        { text: "מחקר.", strong: true },
         {
-          text: "מבוססת פרקטיקות מחקריות ומתודולוגיות מעולם שימור הקשב.",
-          strong: true,
-        },
-        {
-          text: " הכלים שאני יוצרת שונים בסוגם: אתרי תדמית, אפליקציות Web, מערכות מותאמות אישית, פתרונות AI מותאמים לעסק וכלים אינטראקטיביים (כמו מחשבונים ואינפוגרפיקות). כולם כוללים חלוקת תוכן חכמה, משחקיות, אנימציות ומסע לקוח הדרגתי וברור.",
+          text: " אני יוצרת אפליקציות Web, מערכות מותאמות אישית, פתרונות AI לעסק וכלים אינטראקטיביים (כמו מחשבונים ואינפוגרפיקות). בכולם תמצאו חלוקת תוכן חכמה, משחקיות, אנימציות ומסע לקוח ברור.",
         },
       ],
       [
         {
-          text: "בסוף התהליך, הלקוחות שלי מצוידים בכלים דיגיטליים שעוזרים לקהל שלהם לעשות יותר עם פחות מאמץ, ומשיגים את המטרות העסקיות שלהם.",
+          text: "בסוף התהליך יהיו לכם כלים דיגיטליים שעוזרים לקהל שלכם לעשות יותר במאמץ קטן יותר, ומקדמים אתכם למטרות העסקיות שלכם.",
           strong: true,
         },
       ],
@@ -280,7 +275,29 @@ export const he = {
   },
   aboutGallery: {
     label: "גלריה",
+    // The order sets what each strip opens with: AboutGallery deals the list
+    // out to its two strips by position, so the strongest images go first.
     images: [
+      {
+        src: "/images/about-gallery/11.webp",
+        alt: "אתר Bucket Cult עם כובעי באקט וחברים בסמטת גרפיטי",
+      },
+      {
+        src: "/images/about-gallery/12.webp",
+        alt: "אתר אופניים חשמליים עם הכותרת Chase the Horizon ונתונים בצהוב ליים",
+      },
+      {
+        src: "/images/about-gallery/13.webp",
+        alt: "אתר LUCID-O לאמנות דיגיטלית עם כותרת לבנה על רקע שחור",
+      },
+      {
+        src: "/images/about-gallery/14.webp",
+        alt: "אתר RAMANIA עם איור קערת ראמן על עיגול אדום",
+      },
+      {
+        src: "/images/about-gallery/15.webp",
+        alt: "אתר אדריכלות עירונית עם בניין לבן מכוסה צמחייה",
+      },
       // Owner-supplied original: פרויקטים לפורטופוליו/קרוסלה/image 2.png.
       {
         src: "/images/about-gallery/engaging-page.png",
@@ -330,26 +347,6 @@ export const he = {
       {
         src: "/images/about-gallery/10.webp",
         alt: "מסך תכונות למערכת ניהול משימות עם תרשים מרכזי",
-      },
-      {
-        src: "/images/about-gallery/11.webp",
-        alt: "אתר Bucket Cult עם כובעי באקט וחברים בסמטת גרפיטי",
-      },
-      {
-        src: "/images/about-gallery/12.webp",
-        alt: "אתר אופניים חשמליים עם הכותרת Chase the Horizon ונתונים בצהוב ליים",
-      },
-      {
-        src: "/images/about-gallery/13.webp",
-        alt: "אתר LUCID-O לאמנות דיגיטלית עם כותרת לבנה על רקע שחור",
-      },
-      {
-        src: "/images/about-gallery/14.webp",
-        alt: "אתר RAMANIA עם איור קערת ראמן על עיגול אדום",
-      },
-      {
-        src: "/images/about-gallery/15.webp",
-        alt: "אתר אדריכלות עירונית עם בניין לבן מכוסה צמחייה",
       },
     ],
   },
@@ -452,28 +449,28 @@ export const he = {
   },
   gettingStarted: {
     heading: "איך מתחילים לעבוד יחד",
-    // Facts are owner-supplied (2026-10-10). The step 2 and 3 lines and the
-    // shortened step 2 title are drafts awaiting owner approval.
+    // Facts are owner-supplied (2026-10-10) and the titles are the owner's
+    // (2026-11-01). The step 2 and 3 lines are drafts awaiting owner approval.
     steps: [
       {
         image: "/images/getting-started-phone.webp",
-        title: "שיחת טלפון קצרה",
+        title: "מדברים 5-10 דקות בטלפון",
         detail: "כמה שאלות פשוטות, כדי לראות אם יש התאמה ראשונית לצרכים שלכם.",
       },
       {
         image: "/images/getting-started-call.webp",
-        title: "שיחת אפיון",
+        title: "עולים לשיחת איפיון",
         detail:
           "שיחה בזום, ללא עלות, שבה נכיר לעומק את הפרויקט, המטרות והצרכים שלכם.",
       },
       {
         image: "/images/getting-started-quote.webp",
-        title: "קבלת הצעת מחיר",
+        title: "מקבלים הצעת מחיר",
         detail: "הצעה מסודרת שמבוססת על מה שאפיינו יחד, בתוקף ל־14 ימי עבודה.",
       },
     ] satisfies GettingStartedStep[],
   },
-  // Transition between Getting started and the FAQ. The quote stays in its
+  // Transition between Getting started and the banner. The quote stays in its
   // original English.
   designQuote: {
     label: "ציטוט",
@@ -504,7 +501,7 @@ export const he = {
       {
         question: "כמה עולה אתר?",
         answer: [
-          "זה תלוי במה שאתם צריכים: יש אתרים וכלים פשוטים יחסית, ויש מורכבים יותר. בשיחה קצרה של 3–5 דקות אוכל לתת לכם הערכה ראשונית.",
+          "זה תלוי במה שאתם צריכים: יש אתרים וכלים פשוטים יחסית, ויש מורכבים יותר. בשיחה קצרה של 5-10 דקות אוכל לתת לכם הערכה ראשונית.",
           "ואם יתברר שאני לא ההתאמה הנכונה עבורכם, אשמח להפנות אתכם לקולגה מתאימה שאני סומכת עליה.",
         ],
       },

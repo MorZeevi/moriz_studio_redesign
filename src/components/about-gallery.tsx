@@ -19,8 +19,9 @@ const serverMotion = () => true;
 /**
  * An endless strip of images that drifts on its own and can be dragged; while
  * held, the cards loosen into a scattered tilt. Based on mwg_008.
- * `reverse` mirrors its tilt and drift and starts halfway through the set,
- * so two strips on one page never show the same images side by side.
+ * `reverse` mirrors its tilt and drift. The two strips split the set by
+ * position, so an image only ever appears in one of them and both still open
+ * with the first images in the list.
  */
 export function AboutGallery({
   content,
@@ -35,11 +36,9 @@ export function AboutGallery({
     readMotion,
     serverMotion,
   );
-  const shift = reverse ? Math.ceil(content.images.length / 2) : 0;
-  const images = [
-    ...content.images.slice(shift),
-    ...content.images.slice(0, shift),
-  ];
+  const images = content.images.filter(
+    (_, index) => index % 2 === (reverse ? 1 : 0),
+  );
 
   useEffect(() => {
     const track = trackRef.current;

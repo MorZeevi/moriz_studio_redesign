@@ -8,10 +8,11 @@
   align-items: center;
   gap: var(--space-6);
   padding: clamp(16px, 6.15vw, 24px);
-  border-radius: var(--radius-md);
+  /* The contact panel's and footer's radius, so the big surfaces read as a set. */
+  border-radius: clamp(2rem, 4vw, 4rem);
   background: var(--color-dark);
   color: var(--color-light);
-  text-align: center;
+  text-align: start;
   isolation: isolate;
   --color-focus: var(--color-light);
 }
@@ -52,7 +53,7 @@
 }
 
 .description {
-  justify-self: center;
+  justify-self: start;
   max-inline-size: 40ch;
   margin: 0;
   font-size: var(--text-body-lg);
@@ -111,7 +112,7 @@
 
   .action {
     inline-size: fit-content;
-    justify-self: center;
+    justify-self: start;
   }
 }
 
