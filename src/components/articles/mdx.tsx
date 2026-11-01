@@ -10,6 +10,7 @@ import { webpSize } from "@/lib/articles/webp";
 import type { EnabledLocale } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
 import styles from "./article-prose.module.css";
+import { Compare, CompareRow, Stat, Step, Steps } from "./infographics";
 
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
@@ -47,6 +48,11 @@ export function articleMdxComponents({
     table: ArticleTable,
     Callout,
     Figure,
+    Steps,
+    Step,
+    Compare,
+    CompareRow,
+    Stat,
     CtaCard(props: {
       title?: string;
       text?: string;

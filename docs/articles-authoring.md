@@ -116,6 +116,20 @@ One or more paragraphs. type is note, tip, or warning. Omit type for note.
 <ProjectCard slug="guesto" />
 
 <RelatedArticle slug="from-tasks-to-pages" />
+
+<Steps title="איך ממצא מהשיחות הופך למסך">
+<Step title="שיחה" text="חמש שיחות קצרות עם אנשים שכבר ניסו לפתור את הבעיה." />
+<Step title="מיון" text="שלוש משימות שחוזרות, כתובות במילים שהלקוחות אמרו." />
+<Step title="מסך" text="כל משימה מקבלת מקום בעמוד, לפני שנפתח קובץ עיצוב." />
+</Steps>
+
+<Compare title="אותו אתר, כשהסדר נקבע מהעסק או מהלקוח" start="מהעסק" end="מהלקוח">
+<CompareRow start="סיסמה על איכות ושירות" end="המשימה שהמבקר בא לבצע" />
+<CompareRow start="רשימת שירותים ארוכה" end="שלוש משימות, מהחשובה לפחות" />
+<CompareRow start="גלריה בלי הסבר" end="הוכחה קצרה ליד ההחלטה" />
+</Compare>
+
+<Stat title="דוגמה ממקור פומבי: חמישה משתמשים במבחן שימושיות אחד" value="5" label="משתמשים במבחן שימושיות אחד, לפי נילסן נורמן" source="Why You Only Need to Test with 5 Users" url="https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/" />
 ```
 
 `Figure`: `src` and `alt` are quoted strings. `caption` is optional.
@@ -125,6 +139,24 @@ One or more paragraphs. type is note, tip, or warning. Omit type for note.
 `ProjectCard` shows one published project: its existing title, its existing image, and a link to `/he/projects/<slug>`. It does not add results, quotes, or metrics. `slug` is the project's real slug. If that project is missing, the card is omitted. If the CMS cannot be read, the reader gets a plain link to the project URL.
 
 `RelatedArticle` is a compact קראו גם card. `slug` is another file in `content/articles/`. The card uses that file's title and description. In production a draft target is omitted, so do not point a published article at a draft. On a draft preview the card can point at another draft, and the link keeps `?preview=1`. The list of related articles at the bottom of the page stays; this card is an extra link inside the body.
+
+`Steps`, `Compare`, and `Stat` are infographics. Every attribute is a quoted string on one line. No JavaScript expressions (`{...}`), no unknown attributes, and no `"` or `>` inside a value. An apostrophe inside double quotes is fine. `title` is required on `Steps`, `Compare`, and `Stat`: it is the visible accessible name (the alt text of the graphic).
+
+`Steps` is an ordered process. `title` is 8–140 characters. Inside it, put 2–6 `<Step />` elements and nothing else (no paragraphs, no extra Markdown). Each `Step` is self-closing: `title` is 2–60 characters and `text` is 12–240 characters. `Step` cannot stand outside `Steps`.
+
+`Compare` is a qualitative side-by-side table, not a chart and not a set of measurements. `title` is 8–140 characters. `start` is the first column heading and `end` is the second; each is 2–40 characters. In Hebrew the first column sits on the right. Inside it, put 2–6 `<CompareRow />` elements and nothing else. Each row is self-closing, with `start` and `end` text of 2–160 characters. `CompareRow` cannot stand outside `Compare`.
+
+`Stat` is one sourced number. It is self-closing. All five attributes are required:
+
+| Attribute | Rule |
+| --- | --- |
+| `title` | 8–140 characters. The claim, visible above the number. |
+| `value` | 1–8 characters. A number such as `5`, `85%`, `1.5`, `1,000`, or a range `1–8`. Digits only, plus a comma, decimal point, `%`, or a single dash range. |
+| `label` | 8–80 characters. What the number means, visible under it. |
+| `source` | 2–160 characters. The source's title. It is the visible link text. |
+| `url` | An absolute `https` URL with no username or password. The build fails without it. The credit renders as a link; the hostname is shown next to the title. |
+
+Do not invent a number, a client metric, or a source. If the number is not the studio's own experience, `url` must be the real public page the number comes from. A `Stat` source does not replace frontmatter `sources`. When the article depends on that fact, add the same source there too.
 
 Reading time is computed from the body at about 200 words per minute. Do not put it in frontmatter.
 
