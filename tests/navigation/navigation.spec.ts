@@ -2,7 +2,7 @@ import { expect, type Page, test } from "@playwright/test";
 
 const labels = [
   "פרויקטים",
-  "קצת עלי",
+  "קצת עליי",
   "איך מתחילים",
   "מאמרים",
   "שאלות תשובות",
@@ -258,7 +258,7 @@ test("mobile matches desktop links and closes it when entering desktop", async (
   await expect(page.locator(".navigation-dialog")).toBeVisible();
   await expect(page.locator(".navigation-links a")).toHaveText([
     "פרויקטים",
-    "קצת עלי",
+    "קצת עליי",
     "איך מתחילים",
     "מאמרים",
     "שאלות תשובות",

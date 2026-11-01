@@ -9,9 +9,9 @@ export const he = {
   metadata: {
     // Positions the studio on complex systems, characterization and product
     // development. The visible hero H1 stays as the owner set it.
-    title: "איפיון, UX ופיתוח מערכות דיגיטליות | Moriz Studio",
+    title: "אפיון, UX ופיתוח מערכות דיגיטליות | Moriz Studio",
     description:
-      "איפיון, עיצוב ופיתוח של מערכות Web, אפליקציות וכלים אינטראקטיביים מבוססי מחקר. מהרעיון ועד מוצר דיגיטלי שעובד.",
+      "אפיון, עיצוב ופיתוח של מערכות Web, אפליקציות וכלים אינטראקטיביים מבוססי מחקר. מהרעיון ועד מוצר דיגיטלי שעובד.",
   },
   studioName: "Moriz Studio",
   theme: {
@@ -34,7 +34,7 @@ export const he = {
     closeLabel: "סגירת תפריט",
     desktopLinks: [
       { label: "פרויקטים", href: "#projects" },
-      { label: "קצת עלי", href: "#about" },
+      { label: "קצת עליי", href: "#about" },
       { label: "איך מתחילים", href: "#getting-started" },
       { label: "מאמרים", href: "/articles" },
       { label: "שאלות תשובות", href: "#faq" },
@@ -63,11 +63,11 @@ export const he = {
   hero: {
     heading: {
       start: "יוצרת",
-      rotating: ["אתרים מורכבים", "אפליקציות WEB", "איפיון ועיצוב", "כלי AI"],
+      rotating: ["אתרים מורכבים", "אפליקציות WEB", "אפיון ועיצוב", "כלי AI"],
       end: "מבוססי מחקר",
       // Accessible name: the rotation is visual only.
       label:
-        "יוצרת אתרים מורכבים, אפליקציות WEB, איפיון ועיצוב וכלי AI מבוססי מחקר",
+        "יוצרת אתרים מורכבים, אפליקציות WEB, אפיון ועיצוב וכלי AI מבוססי מחקר",
     },
     introduction: "נעים להכיר, אני מור",
     portraitAlt: "מור — בעלת הסטודיו",
@@ -103,7 +103,7 @@ export const he = {
   advantages: {
     heading: "שלושת היתרונות",
     themes: [
-      "איפיון ועיצוב מבוססי מחקר",
+      "אפיון ועיצוב מבוססי מחקר",
       "חוויה אינטראקטיבית ואטרקטיבית",
       "פיתוח ללא גבולות",
     ],
@@ -161,7 +161,7 @@ export const he = {
     archive: {
       heading: "עבודות נבחרות",
       description:
-        "מערכות למידה, אפליקציות Web, כלים אינטראקטיביים ומוצרים מותאמים. האיפיון, העיצוב והפיתוח של עבודות הסטודיו.",
+        "מערכות למידה, אפליקציות Web, כלים אינטראקטיביים ומוצרים מותאמים. האפיון, העיצוב והפיתוח של עבודות הסטודיו.",
       layoutLabel: "תצוגת הפרויקטים",
       layouts: { standard: "רשת", compact: "צפוף", editorial: "מגזין" },
       results: "מוצגים {count} פרויקטים",
@@ -463,7 +463,7 @@ export const he = {
       },
       {
         image: "/images/getting-started-call.webp",
-        title: "עולים לשיחת איפיון",
+        title: "עולים לשיחת אפיון",
         detail:
           "שיחה בזום, ללא עלות, שבה נכיר לעומק את הפרויקט, המטרות והצרכים שלכם.",
       },
@@ -756,7 +756,7 @@ export const he = {
     draft: "טיוטה. העמוד הזה לא מופיע ברשימת המאמרים ולא במפת האתר.",
     coverFallbackAlt: "Moriz Studio",
     tldr: "בקצרה",
-    ctaTitle: "נדבר על איפיון המערכת?",
+    ctaTitle: "נדבר על אפיון המערכת?",
     ctaText:
       "אני מור. אם יש מערכת, אתר או תהליך שצריך סדר, אשמח לשמוע מה אתם מנסים לעשות ולאפיין את זה יחד.",
     ctaLabel: "בואו נדבר",

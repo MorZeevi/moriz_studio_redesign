@@ -172,7 +172,7 @@ test("the homepage header, outline pills and media badge carry over", async ({
   // Section links that live on the homepage lead back to it; #projects and
   // #contact exist on this page.
   const nav = page.locator(".desktop-navigation");
-  await expect(nav.getByRole("link", { name: "קצת עלי" })).toHaveAttribute(
+  await expect(nav.getByRole("link", { name: "קצת עליי" })).toHaveAttribute(
     "href",
     "/he#about",
   );

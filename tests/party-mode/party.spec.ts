@@ -365,7 +365,7 @@ test("mobile uses fewer lights, preserves touch scrolling and menu behavior", as
   await expect(page.getByRole("dialog")).toBeVisible();
   await page
     .getByRole("dialog")
-    .getByRole("link", { name: "קצת עלי", exact: true })
+    .getByRole("link", { name: "קצת עליי", exact: true })
     .click();
   await expect(page.getByRole("dialog")).not.toBeVisible();
   await expect(state(page)).toHaveAttribute("data-party-state", "active");

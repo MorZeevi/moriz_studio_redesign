@@ -9,14 +9,18 @@ import {
   publicSitemapEntries,
 } from "./seo.ts";
 
-test("hreflang lists Hebrew only", () => {
+test("hreflang lists Hebrew and x-default only", () => {
   const alternates = pageAlternates("/he/projects/chabad-club");
   assert.deepEqual(alternates, {
     canonical: "/he/projects/chabad-club",
-    languages: { "he-IL": "/he/projects/chabad-club" },
+    languages: {
+      he: "/he/projects/chabad-club",
+      "x-default": "/he/projects/chabad-club",
+    },
   });
   assert.equal(Object.hasOwn(alternates.languages, "en"), false);
   assert.equal(Object.hasOwn(alternates.languages, "en-US"), false);
+  assert.equal(Object.hasOwn(alternates.languages, "he-IL"), false);
 });
 
 test("a saved SEO description wins over the short label and the body", () => {
@@ -39,13 +43,48 @@ test("a short label falls back to the stored project description", () => {
   assert.equal((text ?? "").includes("אפליקציית Web"), false);
 });
 
-test("a description that is already a sentence stays as written", () => {
-  const sentence =
-    "פלטפורמה מקוונת ללימוד מתמטיקה באמצעות בינה מלאכותית.";
+test("a longer stored description replaces a sentence it already contains", () => {
+  const sentence = "פלטפורמה מקוונת ללימוד מתמטיקה באמצעות בינה מלאכותית.";
+  const body = `${sentence} מיתוג מסכי הלמידה.`;
+  assert.equal(projectSearchDescription({ short: sentence, body }), body);
+});
+
+test("short stored prose is filled from other stored sentences and facts", () => {
+  const text = projectSearchDescription({
+    short: "פלטפורמה מקוונת ללימוד מתמטיקה באמצעות בינה מלאכותית.",
+    passages: [
+      "מיתוג ואיפיון מסכי למידה למערכת למידה ללימוד של מתמטיקה לינארית",
+    ],
+    facts: ["אפיון ועיצוב", "אפליקציית Web", "2025"],
+  });
+  assert.ok(text);
+  assert.ok(text.length >= 140, text);
+  assert.ok(text.length <= META_DESCRIPTION_MAX, text);
+  assert.equal(text.includes("בינה מלאכותית"), true);
+  assert.equal(text.includes("מתמטיקה לינארית"), true);
+});
+
+test("a saved SEO description is not clipped or extended", () => {
+  const seo = "מ".repeat(180);
   assert.equal(
-    projectSearchDescription({ short: sentence, body: `${sentence} ועוד.` }),
-    sentence,
+    projectSearchDescription({
+      seo,
+      body: "פסקה אחרת לגמרי שאסור שתיכנס לתיאור.",
+      facts: ["עיצוב ופיתוח"],
+    }),
+    seo,
   );
+});
+
+test("facts are not added once the stored prose is already long enough", () => {
+  const body = `${"מילה ".repeat(30).trim()}.`;
+  const text = projectSearchDescription({
+    body,
+    facts: ["אין להוסיף את העובדה הזו"],
+  });
+  assert.ok(text);
+  assert.equal(text.includes("אין להוסיף"), false);
+  assert.ok(text.length <= META_DESCRIPTION_MAX);
 });
 
 test("long fallback text is clipped on a space", () => {
@@ -87,7 +126,10 @@ test("sitemap encodes a Hebrew slug once and lists published articles", () => {
     urls.some((url) => url.includes("%25") || url.includes("/digital-audit")),
     false,
   );
-  assert.equal(entries[0]?.lastModified?.toISOString(), "2026-10-23T11:50:20.692Z");
+  assert.equal(
+    entries[0]?.lastModified?.toISOString(),
+    "2026-10-23T11:50:20.692Z",
+  );
   assert.equal(
     entries[2]?.lastModified?.toISOString(),
     "2026-11-01T12:00:00.000Z",

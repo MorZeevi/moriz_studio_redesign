@@ -7,6 +7,7 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { localized } from "@/lib/cms/localize";
 import { getNextProject, getPublicProject } from "@/lib/cms/queries";
 import { isVideoSrc } from "@/lib/cms/validation";
+import { projectSnippetInput } from "@/lib/project-snippet";
 import { pageAlternates, projectSearchDescription } from "@/lib/seo";
 import { siteOpenGraph } from "@/lib/site";
 import { projectStructuredData } from "@/lib/structured-data";
@@ -38,11 +39,9 @@ export async function generateMetadata({
   const title =
     localized(project, "seo_title", locale) ||
     `${localized(project, "title", locale)} | ${content.studioName}`;
-  const description = projectSearchDescription({
-    seo: localized(project, "seo_description", locale),
-    short: localized(project, "short_description", locale),
-    body: localized(project, "description", locale),
-  });
+  const description = projectSearchDescription(
+    projectSnippetInput(project, locale),
+  );
   const image = socialImage(project);
   const url = projectPath(locale, project.slug);
   return {
@@ -113,11 +112,9 @@ export default async function ProjectPage({
           locale,
           slug: project.slug ?? "",
           name: localized(project, "title", locale),
-          description: projectSearchDescription({
-            seo: localized(project, "seo_description", locale),
-            short: localized(project, "short_description", locale),
-            body: localized(project, "description", locale),
-          }),
+          description: projectSearchDescription(
+            projectSnippetInput(project, locale),
+          ),
           image: socialImage(project),
         })}
       />
