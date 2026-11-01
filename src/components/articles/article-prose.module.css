@@ -1,10 +1,11 @@
 .prose {
+  color: var(--color-text-primary);
   font-size: var(--text-body-lg);
-  line-height: var(--text-body-lg--line-height);
+  line-height: 1.45;
 }
 
 .prose > * + * {
-  margin-block-start: var(--space-4);
+  margin-block-start: var(--space-3);
 }
 
 .prose :is(h2, h3, h4) {
@@ -16,7 +17,7 @@
 }
 
 .prose > * + h2 {
-  margin-block-start: var(--space-12);
+  margin-block-start: var(--space-8);
 }
 
 .prose h2 {
@@ -26,7 +27,7 @@
 }
 
 .prose > * + h3 {
-  margin-block-start: var(--space-8);
+  margin-block-start: var(--space-6);
 }
 
 .prose h3 {
@@ -37,7 +38,7 @@
 }
 
 .prose > * + h4 {
-  margin-block-start: var(--space-6);
+  margin-block-start: var(--space-4);
 }
 
 .prose h4 {
@@ -72,9 +73,9 @@
 }
 
 .prose blockquote {
-  padding-inline-start: var(--space-4);
+  padding-inline-start: var(--space-3);
   border-inline-start: 2px solid var(--color-primary);
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
 }
 
 .prose code {
@@ -143,40 +144,55 @@
 }
 
 .figure figcaption {
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
   font-size: var(--text-body-sm);
-  line-height: var(--text-body-sm--line-height);
+  line-height: 1.4;
 }
 
 .callout {
   display: grid;
-  gap: var(--space-2);
+  gap: var(--space-1);
   margin: 0;
-  padding: var(--space-4) var(--space-5);
-  border: 1px solid var(--color-border);
-  border-inline-start-width: 3px;
-  border-inline-start-style: solid;
+  padding: var(--space-3) var(--space-4);
+  border: 0;
   border-radius: var(--radius-sm);
-  background: var(--color-surface);
+  color: var(--color-text-primary);
+  background: color-mix(
+    in srgb,
+    var(--color-text-primary) 8%,
+    var(--color-background)
+  );
 }
 
 .note {
-  border-inline-start-color: var(--color-text-primary);
+  color: var(--color-text-primary);
 }
 
 .tip {
-  border-inline-start-color: var(--color-secondary);
+  background: var(--color-secondary);
+  color: var(--color-dark);
 }
 
 .warning {
-  border-inline-start-color: var(--color-primary);
+  background: color-mix(
+    in srgb,
+    var(--color-primary) 18%,
+    var(--color-background)
+  );
 }
 
 .calloutLabel {
   margin: 0;
+  color: inherit;
   font-size: var(--text-label);
   font-weight: var(--font-weight-heading, 700);
-  line-height: var(--text-label--line-height);
+  line-height: 1.2;
+}
+
+.calloutBody {
+  color: inherit;
+  font-size: var(--text-body);
+  line-height: 1.4;
 }
 
 .calloutBody > :first-child {
@@ -187,15 +203,11 @@
   margin-block-end: 0;
 }
 
-.prose > .callout {
-  margin-block: var(--space-2);
-}
-
 .cta {
   display: grid;
-  gap: var(--space-5);
+  gap: var(--space-3);
   margin: 0;
-  padding: var(--space-6);
+  padding: var(--space-4);
   border-radius: var(--radius-sm);
   background: var(--color-dark);
   color: var(--color-light);
@@ -204,19 +216,20 @@
 .ctaTitle {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-size: clamp(1.5rem, 3vw, 2.05rem);
   font-weight: var(--font-weight-display);
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   text-wrap: balance;
+  color: var(--color-light);
 }
 
 .ctaText {
-  margin: var(--space-3) 0 0;
+  margin: 0;
   max-inline-size: 38rem;
   color: var(--color-light);
   font-size: var(--text-body);
-  line-height: var(--text-body--line-height);
+  line-height: 1.45;
   text-wrap: pretty;
 }
 
@@ -230,13 +243,12 @@
 .projectCard,
 .also {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-3);
   margin: 0;
-  padding: var(--space-4);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background: var(--color-surface);
-  color: inherit;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-primary);
   text-decoration: none;
 }
 
@@ -287,9 +299,9 @@
 }
 
 .alsoText {
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
   font-size: var(--text-body-sm);
-  line-height: var(--text-body-sm--line-height);
+  line-height: 1.4;
   text-wrap: pretty;
 }
 
