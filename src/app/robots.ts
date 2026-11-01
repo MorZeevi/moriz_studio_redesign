@@ -12,6 +12,8 @@ export default function robots(): MetadataRoute.Robots {
       disallow: [
         "/admin",
         "/api/",
+        // Public lead magnet, kept out of the index on purpose. The layout
+        // also sends noindex. Do not remove this until that decision changes.
         "/digital-audit",
         "/he/fonts",
         "/he/articles/preview",

@@ -22,7 +22,7 @@ export function homeStructuredData(
         "@id": organizationId,
         name: content.studioName,
         alternateName: "מוריז סטודיו",
-        url: SITE_URL,
+        url,
         image: `${SITE_URL}/og-image.png`,
         description: content.metadata.description,
         founder: { "@id": personId },
@@ -54,7 +54,7 @@ export function homeStructuredData(
       {
         "@type": "WebSite",
         "@id": websiteId,
-        url: SITE_URL,
+        url,
         name: content.studioName,
         inLanguage: "he-IL",
         publisher: { "@id": organizationId },

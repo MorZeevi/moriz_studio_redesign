@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { enabledLocales, isEnabledLocale, localeConfig } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { pixelRevealBootstrap } from "@/lib/pixel-reveal";
+import { pageAlternates } from "@/lib/seo";
 import { isIndexable, SITE_URL, siteOpenGraph } from "@/lib/site";
 import { themeBootstrap } from "@/lib/theme";
 import { ClarityAnalytics } from "@/components/clarity";
@@ -29,7 +30,9 @@ export async function generateMetadata({
     title: { default: title, template: `%s | ${content.studioName}` },
     description,
     metadataBase: new URL(SITE_URL),
-    alternates: { canonical: `/${locale}` },
+    // Default for the locale home. Pages that set `alternates` replace this
+    // entirely, and must keep `he-IL` only — English is not enabled.
+    alternates: pageAlternates(`/${locale}`),
     openGraph: { ...siteOpenGraph, title, description, url: `/${locale}` },
     twitter: { card: "summary_large_image" },
     // Search Console: the previous site's token and the current one.

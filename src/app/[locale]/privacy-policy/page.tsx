@@ -6,6 +6,7 @@ import { PrivacyPolicy } from "@/components/privacy-policy";
 import { SiteFooter } from "@/components/site-footer";
 import { isEnabledLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
+import { pageAlternates } from "@/lib/seo";
 import { siteOpenGraph } from "@/lib/site";
 
 type PageParams = { params: Promise<{ locale: string }> };
@@ -21,7 +22,7 @@ export async function generateMetadata({
   return {
     title,
     description: intro,
-    alternates: { canonical: url },
+    alternates: pageAlternates(url),
     openGraph: {
       ...siteOpenGraph,
       title: `${title} | ${content.studioName}`,

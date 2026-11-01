@@ -42,6 +42,20 @@ export default async function Home({
   const projects = await getPublicProjects("homepage");
   return (
     <PartyModeProvider labels={content.advantages.party}>
+      <link
+        rel="preload"
+        as="image"
+        href="/videos/hero-showreel-poster.webp"
+        media="(min-width: 64rem)"
+        fetchPriority="high"
+      />
+      <link
+        rel="preload"
+        as="image"
+        href="/videos/hero-showreel-poster-mobile.webp"
+        media="(max-width: 63.999rem)"
+        fetchPriority="high"
+      />
       <JsonLd data={homeStructuredData(content, locale)} />
       <PixelReveal />
       <a
@@ -118,7 +132,7 @@ export default async function Home({
                     )}
                   </div>
                   <div className="advantages-body">
-                    <h3>{theme}</h3>
+                    <h2>{theme}</h2>
                     <p>
                       {index === 0
                         ? content.advantages.research.description

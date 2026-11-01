@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { EnabledLocale } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
+import { pageAlternates } from "@/lib/seo";
 import { siteOpenGraph } from "@/lib/site";
 import { ARTICLE_LIMITS } from "./limits.ts";
 import type { Article } from "./schema.ts";
@@ -16,7 +17,7 @@ export function articlesIndexMetadata(
     title: { absolute: title },
     description,
     alternates: {
-      canonical: url,
+      ...pageAlternates(url),
       types: { "application/rss+xml": `${url}/rss.xml` },
     },
     openGraph: { ...siteOpenGraph, title, description, url },
@@ -58,7 +59,7 @@ export function articleMetadata({
     description: article.description,
     ...(keywords.length ? { keywords } : {}),
     authors: [{ name: "Mor Zeevi", url: `/${locale}` }],
-    alternates: article.draft ? undefined : { canonical: url },
+    alternates: article.draft ? undefined : pageAlternates(url),
     robots:
       preview || article.draft ? { index: false, follow: false } : undefined,
     openGraph: {

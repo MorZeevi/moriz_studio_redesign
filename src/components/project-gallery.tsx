@@ -40,6 +40,7 @@ function MediaImage({
       width={image.width}
       height={image.height}
       loading={eager ? "eager" : "lazy"}
+      fetchPriority={eager ? "high" : "auto"}
       decoding="async"
       onError={() => setFailed(true)}
     />
