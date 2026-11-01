@@ -147,10 +147,25 @@ test("webp dimensions are read from a VP8X header", () => {
   assert.equal(webpSize(new Uint8Array(8)), null);
 });
 
-test("the sample article is a draft and nothing is published", () => {
+test("fixture articles stay drafts and the three posts are published", () => {
   const articles = getAllArticles();
-  assert.equal(getPublishedArticles().length, 0);
-  assert.ok(articles.every((article) => article.draft));
+  assert.deepEqual(
+    getPublishedArticles()
+      .map((article) => article.slug)
+      .sort(),
+    [
+      "ai-agents-spec-bottleneck",
+      "complex-system-ux-design",
+      "ux-specification-process",
+    ],
+  );
+  assert.deepEqual(
+    articles
+      .filter((article) => article.draft)
+      .map((article) => article.slug)
+      .sort(),
+    ["from-tasks-to-pages", "user-research-before-design"],
+  );
   const sample = articles.find(
     (article) => article.slug === "user-research-before-design",
   );
