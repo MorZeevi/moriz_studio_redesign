@@ -16,6 +16,7 @@ import { demoArchive, demoEnabled } from "@/lib/cms/demo-projects";
 import { termName } from "@/lib/cms/localize";
 import { projectArchiveCard } from "@/lib/cms/project-card";
 import { getPublicProjects } from "@/lib/cms/queries";
+import { pageAlternates } from "@/lib/seo";
 import { siteOpenGraph } from "@/lib/site";
 
 type PageParams = {
@@ -31,14 +32,17 @@ export async function generateMetadata({
   const content = await getDictionary(locale);
   const archive = content.projects.archive;
   const url = `/${locale}/projects`;
+  const title = `${archive.heading} | ${content.studioName}`;
   return {
     // The layout's title template appends the studio name.
     title: archive.heading,
-    // One canonical for every ?type= filter view.
-    alternates: { canonical: url },
+    description: archive.description,
+    // One canonical for every ?type= filter view. Hebrew only.
+    alternates: pageAlternates(url),
     openGraph: {
       ...siteOpenGraph,
-      title: `${archive.heading} | ${content.studioName}`,
+      title,
+      description: archive.description,
       url,
     },
   };

@@ -147,7 +147,7 @@ test("webp dimensions are read from a VP8X header", () => {
   assert.equal(webpSize(new Uint8Array(8)), null);
 });
 
-test("fixture articles stay drafts and the three posts are published", () => {
+test("fixture articles stay drafts and the published posts are listed", () => {
   const articles = getAllArticles();
   assert.deepEqual(
     getPublishedArticles()
@@ -156,6 +156,7 @@ test("fixture articles stay drafts and the three posts are published", () => {
     [
       "ai-agents-spec-bottleneck",
       "complex-system-ux-design",
+      "custom-web-system-cost",
       "ux-specification-process",
     ],
   );
