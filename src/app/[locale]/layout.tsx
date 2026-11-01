@@ -31,7 +31,7 @@ export async function generateMetadata({
     description,
     metadataBase: new URL(SITE_URL),
     // Default for the locale home. Pages that set `alternates` replace this
-    // entirely, and must keep `he-IL` only — English is not enabled.
+    // entirely, and must keep Hebrew plus x-default only — English is not enabled.
     alternates: pageAlternates(`/${locale}`),
     openGraph: { ...siteOpenGraph, title, description, url: `/${locale}` },
     twitter: { card: "summary_large_image" },

@@ -92,15 +92,21 @@ export function AboutMe({ content }: { content: SiteContent["about"] }) {
         <div className={styles.copy} data-about-copy>
           {content.paragraphs.map((segments) => (
             <p key={segments[0].text} className={styles.paragraph}>
-              {segments.map((segment) =>
-                segment.strong ? (
-                  <strong key={segment.text} className={styles.strong}>
-                    <Words text={segment.text} />
-                  </strong>
-                ) : (
-                  <Words key={segment.text} text={segment.text} />
-                ),
-              )}
+              {/* The scroll fill splits words. The full sentence stays one string. */}
+              <span className="sr-only">
+                {segments.map((segment) => segment.text).join("")}
+              </span>
+              <span aria-hidden="true">
+                {segments.map((segment) =>
+                  segment.strong ? (
+                    <strong key={segment.text} className={styles.strong}>
+                      <Words text={segment.text} />
+                    </strong>
+                  ) : (
+                    <Words key={segment.text} text={segment.text} />
+                  ),
+                )}
+              </span>
             </p>
           ))}
         </div>

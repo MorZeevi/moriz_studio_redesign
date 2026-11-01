@@ -38,13 +38,13 @@ export function HeroHeading({
       id="hero-heading"
       className={`hero-heading ${partyStyles.lightHeading}`}
       data-party-react="heading"
-      // The rotation is visual only; the name lists every option.
-      aria-label={content.label}
     >
-      <span className="hero-heading-line">
+      {/* One continuous name for crawlers and screen readers. The rotation is visual only. */}
+      <span className="sr-only">{content.label}</span>
+      <span className="hero-heading-line" aria-hidden="true">
         <HeadingAvatar />
         {content.start}{" "}
-        <span className="hero-heading-rotating" aria-hidden="true">
+        <span className="hero-heading-rotating">
           <RotatingText
             texts={content.rotating}
             auto={!reducedMotion && !partying}
@@ -60,7 +60,9 @@ export function HeroHeading({
           />
         </span>
       </span>
-      <span className="hero-heading-line">{content.end}</span>
+      <span className="hero-heading-line" aria-hidden="true">
+        {content.end}
+      </span>
       <PartyHeadingLight
         text={
           <>
@@ -80,7 +82,7 @@ export function HeroHeading({
   );
 }
 
-// Phones only (see wireframe.css); the heading's aria-label carries the name.
+// Phones only (see wireframe.css). The heading's screen-reader text carries the name.
 function HeadingAvatar() {
   return (
     <span className="hero-heading-avatar" aria-hidden="true">

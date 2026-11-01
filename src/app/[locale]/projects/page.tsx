@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { FloatingActions } from "@/components/floating-actions";
+import { JsonLd } from "@/components/json-ld";
 import { MainHeader } from "@/components/main-header";
 import {
   type ArchiveType,
@@ -17,6 +18,7 @@ import { termName } from "@/lib/cms/localize";
 import { projectArchiveCard } from "@/lib/cms/project-card";
 import { getPublicProjects } from "@/lib/cms/queries";
 import { pageAlternates } from "@/lib/seo";
+import { projectsIndexStructuredData } from "@/lib/structured-data";
 import { siteOpenGraph } from "@/lib/site";
 
 type PageParams = {
@@ -89,6 +91,13 @@ export default async function ProjectsPage({
 
   return (
     <>
+      <JsonLd
+        data={projectsIndexStructuredData({
+          content,
+          locale,
+          projects: published,
+        })}
+      />
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:start-5 focus:top-5 focus:z-30 focus:bg-background focus:p-4"
