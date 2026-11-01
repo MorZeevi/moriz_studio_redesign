@@ -45,7 +45,7 @@ The list is not an enum. A new label does not require a code change. There is no
 
 ### Article structure
 
-One MDX file, `content/articles/<slug>.mdx`, plus optional WebP images in `public/articles/<slug>/`. Frontmatter holds title, description, dates, category, tags, cover, focus keyword, sources, FAQ, an optional `tldr` list, a `cta` flag, and draft. The body starts at `h2`. The page adds the title, byline, reading time, בקצרה, table of contents, a contact card, FAQ, and sources. The body may also include `<CtaCard />`, `<ProjectCard slug="..." />`, and `<RelatedArticle slug="..." />`. See the authoring spec for the exact schema.
+One MDX file, `content/articles/<slug>.mdx`, plus optional WebP images in `public/articles/<slug>/`. Frontmatter holds title, description, dates, category, tags, cover, focus keyword, sources, FAQ, an optional `tldr` list, a `cta` flag, and draft. The body starts at `h2`. The page adds the title, byline, reading time, בקצרה, table of contents, a contact card, FAQ, and sources. The body may also include `<CtaCard />`, `<ProjectCard slug="..." />`, `<RelatedArticle slug="..." />`, and the cited infographics (`StatHighlight`, `CompareBars`, `ProcessSteps`, `BeforeAfter`, `Timeline`). See the authoring spec for the exact schema.
 
 ### Tags
 

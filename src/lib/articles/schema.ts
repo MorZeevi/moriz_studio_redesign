@@ -6,6 +6,7 @@ import {
   RESERVED_SLUGS,
   type CalloutType,
 } from "./limits.ts";
+import { validateInfographicMarkup } from "./infographic-markup.ts";
 import { readingMinutes } from "./reading-time.ts";
 import { webpSize } from "./webp.ts";
 
@@ -16,6 +17,17 @@ const ALLOWED_COMPONENTS = new Set([
   "CtaCard",
   "ProjectCard",
   "RelatedArticle",
+  "StatHighlight",
+  "Stat",
+  "CompareBars",
+  "Bar",
+  "ProcessSteps",
+  "Step",
+  "BeforeAfter",
+  "Before",
+  "After",
+  "Timeline",
+  "TimelineItem",
 ]);
 const CTA_ATTRS = new Set(["title", "text", "href", "label"]);
 const DATE = /^(\d{4})-(\d{2})-(\d{2})$/;
@@ -565,7 +577,7 @@ function validateBody(
   }
   if (/<\/?[a-z][\w:-]*(\s|\/?>)/.test(prose)) {
     issues.push(
-      "Raw HTML is not allowed. Use Markdown, Callout, Figure, CtaCard, ProjectCard, or RelatedArticle.",
+      "Raw HTML is not allowed. Use Markdown and the components listed in docs/articles-authoring.md.",
     );
   }
   if (/javascript:/i.test(prose)) {
@@ -579,6 +591,7 @@ function validateBody(
       );
     }
   }
+  validateInfographicMarkup(prose, issues);
   for (const match of prose.matchAll(/<CtaCard\b([^>]*?)\/?>/g)) {
     validateAttributes(match[1], "CtaCard", CTA_ATTRS, issues);
     const href = quotedAttr(match[1], "href");

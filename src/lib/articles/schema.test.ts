@@ -163,6 +163,42 @@ test("the sample article is a draft and nothing is published", () => {
   assert.match(sample.body, /<RelatedArticle slug="from-tasks-to-pages" \/>/);
 });
 
+test("infographics require a cited https source and published numbers", () => {
+  const cited = `source="Why You Only Need to Test with 5 Users" sourceUrl="https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/"`;
+  const article = validateArticleSource(
+    slug,
+    `${source()}
+<StatHighlight ${cited}>
+  <Stat value="85" suffix="%" label="מבעיות השימושיות שחמישה משתמשים מגלים" />
+</StatHighlight>
+`,
+    files({}),
+  );
+  assert.match(article.body, /<StatHighlight/);
+
+  assert.throws(
+    () =>
+      validateArticleSource(
+        slug,
+        `${source()}
+<StatHighlight sourceUrl="http://example.com/stats">
+  <Stat value="הרבה" label="משתמשים" />
+</StatHighlight>
+<Bar value="1" label="משתמש אחד" />
+`,
+        files({}),
+      ),
+    (error: unknown) => {
+      assert.ok(error instanceof ArticleValidationError);
+      assert.match(error.message, /sourceUrl must be an absolute https URL/);
+      assert.match(error.message, /needs a quoted source/);
+      assert.match(error.message, /plain number/);
+      assert.match(error.message, /<Bar> must be inside <CompareBars>/);
+      return true;
+    },
+  );
+});
+
 test("tldr, cta, and the inline cards are validated", () => {
   const ok = validateArticleSource(
     slug,
