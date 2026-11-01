@@ -16,8 +16,20 @@ const ALLOWED_COMPONENTS = new Set([
   "CtaCard",
   "ProjectCard",
   "RelatedArticle",
+  "Steps",
+  "Step",
+  "Compare",
+  "CompareRow",
+  "Stat",
 ]);
 const CTA_ATTRS = new Set(["title", "text", "href", "label"]);
+const STEPS_ATTRS = new Set(["title"]);
+const STEP_ATTRS = new Set(["title", "text"]);
+const COMPARE_ATTRS = new Set(["title", "start", "end"]);
+const COMPARE_ROW_ATTRS = new Set(["start", "end"]);
+const STAT_ATTRS = new Set(["title", "value", "label", "source", "url"]);
+/** A poster number: 5, 85%, 1.5, 1,000, or a range such as 1–8. */
+const STAT_VALUE = /^(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?%?$|^\d+[–—-]\d+%?$/;
 const DATE = /^(\d{4})-(\d{2})-(\d{2})$/;
 const LETTER = /\p{L}/u;
 const IMAGE_FILE = /^[a-z0-9-]+\.webp$/;
@@ -565,7 +577,7 @@ function validateBody(
   }
   if (/<\/?[a-z][\w:-]*(\s|\/?>)/.test(prose)) {
     issues.push(
-      "Raw HTML is not allowed. Use Markdown, Callout, Figure, CtaCard, ProjectCard, or RelatedArticle.",
+      "Raw HTML is not allowed. Use Markdown, Callout, Figure, CtaCard, ProjectCard, RelatedArticle, Steps, Compare, or Stat.",
     );
   }
   if (/javascript:/i.test(prose)) {
@@ -634,6 +646,7 @@ function validateBody(
   for (const match of prose.matchAll(/<Figure\b([^>]*)\/?>/g)) {
     validateFigure(slug, match[1], issues, files);
   }
+  validateInfographics(prose, issues);
   for (const match of prose.matchAll(/!\[([^\]]*)]\(([^)\s]+)(?:\s+"[^"]*")?\)/g)) {
     const alt = match[1].trim();
     const src = match[2];
@@ -708,12 +721,13 @@ function validateAttributes(
   allowed: Set<string>,
   issues: string[],
 ) {
-  if (/\w+\s*=\s*\{/.test(attrs)) {
+  const outsideQuotes = attrs.replace(/"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/g, "");
+  if (/\w+\s*=\s*\{/.test(outsideQuotes)) {
     issues.push(
       `${name} attributes must be quoted strings, not JavaScript expressions.`,
     );
   }
-  for (const match of attrs.matchAll(/([A-Za-z][\w-]*)\s*=/g)) {
+  for (const match of outsideQuotes.matchAll(/([A-Za-z][\w-]*)\s*=/g)) {
     if (!allowed.has(match[1])) {
       issues.push(
         `${name} does not accept "${match[1]}". Allowed: ${[...allowed].join(", ") || "slug"}.`,
@@ -722,8 +736,285 @@ function validateAttributes(
   }
 }
 
+type TagBlock = { attrs: string; inner: string | null };
+
+function tagBlocks(prose: string, name: string): TagBlock[] {
+  const re = new RegExp(
+    `<${name}\\b([^>]*?)(?:\\/>|>([\\s\\S]*?)<\\/${name}>)`,
+    "g",
+  );
+  return [...prose.matchAll(re)].map((match) => ({
+    attrs: match[1] ?? "",
+    inner: match[0].endsWith("/>") ? null : (match[2] ?? ""),
+  }));
+}
+
+function isBalanced(prose: string, name: string, issues: string[]) {
+  const opens = prose.match(new RegExp(`<${name}\\b`, "g"))?.length ?? 0;
+  const closes = prose.match(new RegExp(`</${name}>`, "g"))?.length ?? 0;
+  const selfClosing = prose.match(new RegExp(`<${name}\\b[^>]*/>`, "g"))?.length ?? 0;
+  if (opens === closes + selfClosing) return true;
+  issues.push(`${name} tag is not closed. Use <${name} ... /> or </${name}>.`);
+  return false;
+}
+
+function requireText(
+  attrs: string,
+  component: string,
+  name: string,
+  bounds: { min: number; max: number },
+  issues: string[],
+  example: string,
+) {
+  const value = quotedAttr(attrs, name);
+  if (value === undefined || value.trim() === "") {
+    issues.push(`${component} needs a quoted ${name}, for example ${example}.`);
+    return;
+  }
+  if (value !== value.trim()) {
+    issues.push(`${component} ${name} has leading or trailing whitespace.`);
+  }
+  const length = [...value].length;
+  if (length < bounds.min || length > bounds.max) {
+    issues.push(
+      `${component} ${name} must be ${bounds.min}–${bounds.max} characters (got ${length}).`,
+    );
+  }
+  if (!LETTER.test(value)) {
+    issues.push(`${component} ${name} must contain a letter.`);
+  }
+}
+
+function validateInfographics(prose: string, issues: string[]) {
+  validateSteps(prose, issues);
+  validateCompare(prose, issues);
+  validateStats(prose, issues);
+}
+
+function validateSteps(prose: string, issues: string[]) {
+  const stepsBalanced = isBalanced(prose, "Steps", issues);
+  const stepBalanced = isBalanced(prose, "Step", issues);
+  for (const block of tagBlocks(prose, "Steps")) {
+    validateAttributes(block.attrs, "Steps", STEPS_ATTRS, issues);
+    requireText(
+      block.attrs,
+      "Steps",
+      "title",
+      ARTICLE_LIMITS.infographicTitle,
+      issues,
+      'title="איך ממצא הופך למסך"',
+    );
+    if (block.inner === null) {
+      issues.push(
+        `Steps needs ${ARTICLE_LIMITS.steps.min}–${ARTICLE_LIMITS.steps.max} Step components. It cannot be self-closing.`,
+      );
+      continue;
+    }
+    const steps = tagBlocks(block.inner, "Step");
+    const leftover = block.inner
+      .replace(/<Step\b([^>]*?)(?:\/>|>([\s\S]*?)<\/Step>)/g, "")
+      .trim();
+    if (leftover) {
+      issues.push(
+        "Steps can only contain Step components. Remove extra Markdown inside it.",
+      );
+    }
+    if (
+      steps.length < ARTICLE_LIMITS.steps.min ||
+      steps.length > ARTICLE_LIMITS.steps.max
+    ) {
+      issues.push(
+        `Steps needs ${ARTICLE_LIMITS.steps.min}–${ARTICLE_LIMITS.steps.max} Step components (got ${steps.length}).`,
+      );
+    }
+    for (const step of steps) {
+      validateAttributes(step.attrs, "Step", STEP_ATTRS, issues);
+      requireText(
+        step.attrs,
+        "Step",
+        "title",
+        ARTICLE_LIMITS.stepTitle,
+        issues,
+        'title="שיחה"',
+      );
+      requireText(
+        step.attrs,
+        "Step",
+        "text",
+        ARTICLE_LIMITS.stepText,
+        issues,
+        'text="חמש שיחות קצרות עם אנשים אמיתיים."',
+      );
+      if (step.inner?.trim()) {
+        issues.push("Step takes title and text attributes, not nested content.");
+      }
+    }
+  }
+  if (stepsBalanced && stepBalanced) {
+    const outside = prose.replace(
+      /<Steps\b([^>]*?)(?:\/>|>([\s\S]*?)<\/Steps>)/g,
+      "",
+    );
+    if (/<Step\b/.test(outside)) {
+      issues.push("Step must be inside <Steps>. It cannot stand on its own.");
+    }
+  }
+}
+
+function validateCompare(prose: string, issues: string[]) {
+  const compareBalanced = isBalanced(prose, "Compare", issues);
+  const rowBalanced = isBalanced(prose, "CompareRow", issues);
+  for (const block of tagBlocks(prose, "Compare")) {
+    validateAttributes(block.attrs, "Compare", COMPARE_ATTRS, issues);
+    requireText(
+      block.attrs,
+      "Compare",
+      "title",
+      ARTICLE_LIMITS.infographicTitle,
+      issues,
+      'title="אותו אתר, שני סדרי עדיפויות"',
+    );
+    requireText(
+      block.attrs,
+      "Compare",
+      "start",
+      ARTICLE_LIMITS.compareHeading,
+      issues,
+      'start="מהעסק"',
+    );
+    requireText(
+      block.attrs,
+      "Compare",
+      "end",
+      ARTICLE_LIMITS.compareHeading,
+      issues,
+      'end="מהלקוח"',
+    );
+    if (block.inner === null) {
+      issues.push(
+        `Compare needs ${ARTICLE_LIMITS.compareRows.min}–${ARTICLE_LIMITS.compareRows.max} CompareRow components. It cannot be self-closing.`,
+      );
+      continue;
+    }
+    const rows = tagBlocks(block.inner, "CompareRow");
+    const leftover = block.inner
+      .replace(/<CompareRow\b([^>]*?)(?:\/>|>([\s\S]*?)<\/CompareRow>)/g, "")
+      .trim();
+    if (leftover) {
+      issues.push(
+        "Compare can only contain CompareRow components. Remove extra Markdown inside it.",
+      );
+    }
+    if (
+      rows.length < ARTICLE_LIMITS.compareRows.min ||
+      rows.length > ARTICLE_LIMITS.compareRows.max
+    ) {
+      issues.push(
+        `Compare needs ${ARTICLE_LIMITS.compareRows.min}–${ARTICLE_LIMITS.compareRows.max} CompareRow components (got ${rows.length}).`,
+      );
+    }
+    for (const row of rows) {
+      validateAttributes(row.attrs, "CompareRow", COMPARE_ROW_ATTRS, issues);
+      requireText(
+        row.attrs,
+        "CompareRow",
+        "start",
+        ARTICLE_LIMITS.compareCell,
+        issues,
+        'start="סיסמה על איכות"',
+      );
+      requireText(
+        row.attrs,
+        "CompareRow",
+        "end",
+        ARTICLE_LIMITS.compareCell,
+        issues,
+        'end="המשימה שהמבקר בא לבצע"',
+      );
+      if (row.inner?.trim()) {
+        issues.push(
+          "CompareRow takes start and end attributes, not nested content.",
+        );
+      }
+    }
+  }
+  if (compareBalanced && rowBalanced) {
+    const outside = prose.replace(
+      /<Compare\b([^>]*?)(?:\/>|>([\s\S]*?)<\/Compare>)/g,
+      "",
+    );
+    if (/<CompareRow\b/.test(outside)) {
+      issues.push(
+        "CompareRow must be inside <Compare>. It cannot stand on its own.",
+      );
+    }
+  }
+}
+
+function validateStats(prose: string, issues: string[]) {
+  isBalanced(prose, "Stat", issues);
+  for (const block of tagBlocks(prose, "Stat")) {
+    validateAttributes(block.attrs, "Stat", STAT_ATTRS, issues);
+    requireText(
+      block.attrs,
+      "Stat",
+      "title",
+      ARTICLE_LIMITS.infographicTitle,
+      issues,
+      'title="חמישה משתמשים במבחן שימושיות אחד"',
+    );
+    requireText(
+      block.attrs,
+      "Stat",
+      "label",
+      ARTICLE_LIMITS.statLabel,
+      issues,
+      'label="משתמשים במבחן שימושיות אחד"',
+    );
+    requireText(
+      block.attrs,
+      "Stat",
+      "source",
+      ARTICLE_LIMITS.sourceTitle,
+      issues,
+      'source="Why You Only Need to Test with 5 Users"',
+    );
+    const value = quotedAttr(block.attrs, "value");
+    if (value === undefined || value.trim() === "" || !STAT_VALUE.test(value)) {
+      issues.push(
+        'Stat value must be a quoted number, for example value="5", value="85%", or value="1–8".',
+      );
+    } else if (value !== value.trim()) {
+      issues.push("Stat value has leading or trailing whitespace.");
+    } else {
+      const length = [...value].length;
+      if (
+        length < ARTICLE_LIMITS.statValue.min ||
+        length > ARTICLE_LIMITS.statValue.max
+      ) {
+        issues.push(
+          `Stat value must be ${ARTICLE_LIMITS.statValue.min}–${ARTICLE_LIMITS.statValue.max} characters (got ${length}).`,
+        );
+      }
+    }
+    const url = quotedAttr(block.attrs, "url");
+    if (url === undefined || url.trim() === "") {
+      issues.push(
+        'Stat needs a quoted https url, for example url="https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/".',
+      );
+    } else if (!isHttpsUrl(url)) {
+      issues.push(
+        "Stat url must be an absolute https URL without a username or password.",
+      );
+    }
+    if (block.inner?.trim()) {
+      issues.push("Stat is self-closing. Put the number in value, not inside the tag.");
+    }
+  }
+}
+
 function quotedAttr(attrs: string, name: string) {
-  return new RegExp(`${name}\\s*=\\s*["']([^"']*)["']`).exec(attrs)?.[1];
+  return new RegExp(`${name}\\s*=\\s*(["'])([\\s\\S]*?)\\1`).exec(attrs)?.[2];
 }
 
 function checkQuotedLength(

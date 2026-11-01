@@ -1,0 +1,388 @@
+.steps {
+  display: grid;
+  gap: var(--space-6);
+  max-inline-size: 100%;
+  min-inline-size: 0;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+@media (min-width: 40rem) {
+  .steps {
+    padding: var(--space-6);
+  }
+}
+
+.infographicTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+  font-weight: var(--font-weight-display);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-align: start;
+  text-wrap: balance;
+  color: var(--color-text-primary);
+}
+
+.stepList {
+  display: grid;
+  gap: var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  column-gap: var(--space-4);
+  align-items: start;
+}
+
+.step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset-inline-start: 1.0625rem;
+  inset-block-start: 2.25rem;
+  inline-size: 0.125rem;
+  block-size: calc(100% - 2.25rem + var(--space-6));
+  background: var(--color-primary);
+  transform-origin: top center;
+}
+
+.marker {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  background: var(--color-secondary);
+  color: var(--color-dark);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: var(--font-weight-display);
+  line-height: 1;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.stepBody {
+  display: grid;
+  gap: var(--space-2);
+  min-inline-size: 0;
+  padding-block-start: 0.2rem;
+}
+
+.stepTitle,
+.stepText,
+.statLabel,
+.source {
+  margin: 0;
+}
+
+.stepTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2vw, 1.6rem);
+  font-weight: var(--font-weight-display);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  color: var(--color-text-primary);
+}
+
+.stepText {
+  color: var(--color-text-primary);
+  font-size: var(--text-body);
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+
+.compare.table {
+  display: table;
+  inline-size: 100%;
+  max-inline-size: 100%;
+  margin: 0;
+  border: 0;
+  border-collapse: separate;
+  border-spacing: var(--space-2) 0;
+  background: transparent;
+  table-layout: fixed;
+}
+
+.compare.table caption {
+  caption-side: top;
+  padding: 0 0 var(--space-4);
+}
+
+.compare.table :is(th, td) {
+  inline-size: 50%;
+  margin: 0;
+  padding: var(--space-3);
+  border: 0;
+  vertical-align: top;
+  text-align: start;
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+  hyphens: manual;
+}
+
+@media (min-width: 40rem) {
+  .compare.table :is(th, td) {
+    padding: var(--space-4);
+  }
+}
+
+.compare.table th {
+  font-size: var(--text-label);
+  font-weight: var(--font-weight-heading, 700);
+  line-height: 1.3;
+}
+
+.compare.table td {
+  font-size: var(--text-body-sm);
+  line-height: 1.45;
+}
+
+@media (min-width: 40rem) {
+  .compare.table td {
+    font-size: var(--text-body);
+  }
+}
+
+.compare.table :is(.startHead, .startCell) {
+  background: var(--color-dark);
+  color: var(--color-light);
+}
+
+.compare.table :is(.endHead, .endCell) {
+  background: var(--color-secondary);
+  color: var(--color-dark);
+}
+
+.startHead {
+  border-start-start-radius: var(--radius-sm);
+  border-start-end-radius: var(--radius-sm);
+  box-shadow: inset 0 0.28rem 0 var(--color-secondary);
+}
+
+.endHead {
+  border-start-start-radius: var(--radius-sm);
+  border-start-end-radius: var(--radius-sm);
+  box-shadow: inset 0 0.28rem 0 var(--color-action-primary);
+}
+
+.startCell {
+  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--color-light) 18%, transparent);
+}
+
+.endCell {
+  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--color-dark) 22%, transparent);
+}
+
+.compare.table tbody tr:last-child .startCell {
+  border-end-start-radius: var(--radius-sm);
+  border-end-end-radius: var(--radius-sm);
+  box-shadow: none;
+}
+
+.compare.table tbody tr:last-child .endCell {
+  border-end-start-radius: var(--radius-sm);
+  border-end-end-radius: var(--radius-sm);
+  box-shadow: none;
+}
+
+.stat {
+  position: relative;
+  display: grid;
+  justify-items: start;
+  gap: var(--space-3);
+  max-inline-size: 100%;
+  min-inline-size: 0;
+  margin: 0;
+  padding: var(--space-6);
+  padding-inline-start: calc(var(--space-6) + 0.55rem);
+  border: 1px solid color-mix(in srgb, var(--color-light) 16%, var(--color-dark));
+  border-radius: var(--radius-sm);
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  container-type: inline-size;
+}
+
+.stat::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block: 0;
+  inline-size: 0.4rem;
+  background-color: var(--color-primary);
+  border-start-start-radius: var(--radius-sm);
+  border-end-start-radius: var(--radius-sm);
+}
+
+.statTitle {
+  margin: 0;
+  max-inline-size: 36ch;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-style: normal;
+  font-weight: var(--font-weight-heading, 700);
+  line-height: 1.35;
+  text-wrap: balance;
+  color: var(--color-light);
+}
+
+.valueSlot {
+  position: relative;
+  display: inline-grid;
+  justify-items: start;
+  max-inline-size: 100%;
+  color: var(--color-secondary);
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 14vw, 5.75rem);
+  font-weight: var(--font-weight-display);
+  font-variant-numeric: tabular-nums;
+  line-height: 0.85;
+  letter-spacing: -0.045em;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+@supports (width: 1cqi) {
+  .valueSlot {
+    font-size: clamp(1.75rem, calc(90cqi / (var(--stat-digits, 2) + 0.5)), 5.75rem);
+  }
+}
+
+.valueSizer,
+.valueAnim {
+  grid-area: 1 / 1;
+  white-space: nowrap;
+}
+
+.valueSizer {
+  visibility: hidden;
+  user-select: none;
+}
+
+.rule {
+  display: block;
+  inline-size: 3.25rem;
+  block-size: 0.28rem;
+  background: var(--color-primary);
+  transform-origin: inline-start;
+}
+
+.statLabel {
+  max-inline-size: 36ch;
+  color: var(--color-light);
+  font-size: var(--text-body-lg);
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+
+.source {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2) var(--space-3);
+  max-inline-size: 100%;
+  padding-block-start: var(--space-3);
+  border-block-start: 1px solid color-mix(in srgb, var(--color-light) 22%, transparent);
+  color: var(--color-light);
+  font-size: var(--text-body-sm);
+  line-height: 1.45;
+}
+
+.sourceLabel {
+  font-size: var(--text-label);
+  font-weight: var(--font-weight-heading, 700);
+  line-height: 1.2;
+}
+
+.sourceLink {
+  position: relative;
+  color: var(--color-secondary);
+  text-decoration-color: var(--color-secondary);
+  text-underline-offset: 0.18em;
+  overflow-wrap: anywhere;
+}
+
+.sourceLink:hover {
+  color: var(--color-light);
+}
+
+.sourceLink:focus-visible {
+  outline: 2px solid var(--color-light);
+  outline-offset: 3px;
+  border-radius: var(--radius-xs);
+}
+
+.sourceHost {
+  color: var(--color-light);
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .step:not(:last-child)::after {
+      animation: infographic-draw var(--duration-slow) var(--ease-enter) both;
+      animation-timeline: view();
+      animation-range: entry 8% entry 55%;
+    }
+
+    .rule {
+      animation: infographic-rule var(--duration-slow) var(--ease-enter) both;
+      animation-timeline: view();
+      animation-range: entry 12% entry 42%;
+    }
+  }
+}
+
+@keyframes infographic-draw {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes infographic-rule {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step:not(:last-child)::after,
+  .rule {
+    animation: none;
+  }
+}

@@ -161,6 +161,12 @@ test("the sample article is a draft and nothing is published", () => {
   assert.match(sample.body, /<CtaCard \/>/);
   assert.match(sample.body, /<ProjectCard slug="guesto" \/>/);
   assert.match(sample.body, /<RelatedArticle slug="from-tasks-to-pages" \/>/);
+  assert.match(sample.body, /<Steps\b/);
+  assert.match(sample.body, /<Compare\b/);
+  assert.match(
+    sample.body,
+    /<Stat\b[\s\S]*url="https:\/\/www\.nngroup\.com\/articles\/why-you-only-need-to-test-with-5-users\/"/,
+  );
 });
 
 test("tldr, cta, and the inline cards are validated", () => {
@@ -191,6 +197,61 @@ cta: false
       assert.match(error.message, /Unknown component <Widget>/);
       assert.match(error.message, /CtaCard href/);
       assert.match(error.message, /ProjectCard needs a quoted project slug/);
+      return true;
+    },
+  );
+});
+
+test("infographics accept a sourced stat and reject unknown or unsourced props", () => {
+  const stat =
+    '<Stat title="דוגמה ממקור פומבי: חמישה משתמשים במבחן אחד" value="5" label="משתמשים במבחן שימושיות אחד" source="Why You Only Need to Test with 5 Users" url="https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/?utm=1" />';
+  const steps = `<Steps title="איך ממצא מהשיחות הופך למסך">
+<Step title="שיחה" text="חמש שיחות קצרות עם אנשים שכבר ניסו לפתור את הבעיה." />
+<Step title="מיון" text="שלוש משימות שחוזרות, כתובות במילים שהלקוחות אמרו." />
+</Steps>`;
+  const compare = `<Compare title="אותו אתר, כשהסדר נקבע מהעסק או מהלקוח" start="מהעסק" end="מהלקוח">
+<CompareRow start="סיסמה על איכות ושירות" end="המשימה שהמבקר בא לבצע" />
+<CompareRow start="רשימת שירותים ארוכה" end="שלוש משימות, מהחשובה לפחות" />
+</Compare>`;
+  const article = validateArticleSource(
+    slug,
+    `${source()}
+${steps}
+${compare}
+${stat}
+`,
+    files({}),
+  );
+  assert.match(article.body, /<Stat\b/);
+
+  assert.throws(
+    () =>
+      validateArticleSource(
+        slug,
+        `${source()}
+<Stat title="דוגמה בלי קישור למקור פומבי" value="5" label="משתמשים במבחן אחד" source="בלי קישור" note="no" />
+<Stat title="דוגמה עם כתובת לא מאובטחת כאן" value="חמש" label="משתמשים במבחן אחד" source="Nielsen Norman Group" url="http://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/" />
+<Stat title="דוגמה עם כתובת שמכילה סיסמה" value="5" label="משתמשים במבחן אחד" source="Nielsen Norman Group" url="https://user:secret@www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/" />
+<Steps title="תהליך קצר מדי בשביל קו">
+<Step title="שיחה" text="רק צעד אחד, וזה לא מספיק לקו זמן." extra="no" />
+</Steps>
+<Step title="בחוץ" text="הצעד הזה לא יושב בתוך תהליך בכלל." />
+<Compare title="השוואה בלי שורות בכלל כאן" start="ימין" end="שמאל" />
+<CompareRow start="שורה יתומה" end="בלי טבלה מסביב" />
+`,
+        files({}),
+      ),
+    (error: unknown) => {
+      assert.ok(error instanceof ArticleValidationError);
+      assert.match(error.message, /Stat needs a quoted https url/);
+      assert.match(error.message, /Stat does not accept "note"/);
+      assert.match(error.message, /Stat value must be a quoted number/);
+      assert.match(error.message, /Stat url must be an absolute https URL/);
+      assert.match(error.message, /Steps needs 2–6 Step/);
+      assert.match(error.message, /Step does not accept "extra"/);
+      assert.match(error.message, /Step must be inside <Steps>/);
+      assert.match(error.message, /Compare needs 2–6 CompareRow/);
+      assert.match(error.message, /CompareRow must be inside <Compare>/);
       return true;
     },
   );
