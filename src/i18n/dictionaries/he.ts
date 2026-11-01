@@ -7,10 +7,11 @@ import type { Testimonial } from "@/content/testimonials";
 // Final website content remains planned separately in docs/03-content.md.
 export const he = {
   metadata: {
-    // The old site's ranking title, kept for search continuity.
-    title: "בניית אתרים בישראל | עיצוב ופיתוח אתרים | Moriz Studio",
+    // Positions the studio on complex systems, characterization and product
+    // development. The visible hero H1 stays as the owner set it.
+    title: "איפיון, UX ופיתוח מערכות דיגיטליות | Moriz Studio",
     description:
-      "Moriz Studio — איפיון, עיצוב ופיתוח אתרים, אפליקציות WEB וכלי AI מבוססי מחקר. מהרעיון ועד מוצר דיגיטלי שעובד בשבילכם.",
+      "איפיון, עיצוב ופיתוח של מערכות Web, אפליקציות וכלים אינטראקטיביים מבוססי מחקר. מהרעיון ועד מוצר דיגיטלי שעובד.",
   },
   studioName: "Moriz Studio",
   theme: {
@@ -159,6 +160,8 @@ export const he = {
     backLink: "חזרה לפרויקטים",
     archive: {
       heading: "עבודות נבחרות",
+      description:
+        "מערכות למידה, אפליקציות Web, כלים אינטראקטיביים ומוצרים מותאמים. האיפיון, העיצוב והפיתוח של עבודות הסטודיו.",
       layoutLabel: "תצוגת הפרויקטים",
       layouts: { standard: "רשת", compact: "צפוף", editorial: "מגזין" },
       results: "מוצגים {count} פרויקטים",
@@ -649,6 +652,8 @@ export const he = {
   // Privacy policy carried over verbatim from the previous site (18.07.2026).
   privacyPolicy: {
     title: "מדיניות פרטיות",
+    // ISO date for the sitemap. The sentence below is the visible line.
+    updatedOn: "2026-07-18",
     intro:
       "ב־Moriz Studio פרטיות היא חלק מהשירות. המדיניות הזו מסבירה איזה מידע נאסף באתר ובאבחון הדיגיטלי, למה אנו משתמשים בו, עם מי הוא עשוי להיות משותף ואילו בחירות עומדות לרשותכם.",
     lastUpdated: "עודכן לאחרונה: 18 ביולי 2026",

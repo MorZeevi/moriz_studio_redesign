@@ -7,6 +7,7 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { localized } from "@/lib/cms/localize";
 import { getNextProject, getPublicProject } from "@/lib/cms/queries";
 import { isVideoSrc } from "@/lib/cms/validation";
+import { pageAlternates, projectSearchDescription } from "@/lib/seo";
 import { siteOpenGraph } from "@/lib/site";
 import { projectStructuredData } from "@/lib/structured-data";
 import type { Project, ProjectContentBlock } from "@/types/project";
@@ -37,18 +38,18 @@ export async function generateMetadata({
   const title =
     localized(project, "seo_title", locale) ||
     `${localized(project, "title", locale)} | ${content.studioName}`;
-  const description =
-    localized(project, "seo_description", locale) ||
-    localized(project, "short_description", locale) ||
-    localized(project, "description", locale) ||
-    undefined;
+  const description = projectSearchDescription({
+    seo: localized(project, "seo_description", locale),
+    short: localized(project, "short_description", locale),
+    body: localized(project, "description", locale),
+  });
   const image = socialImage(project);
   const url = projectPath(locale, project.slug);
   return {
     // CMS titles already carry the studio name; skip the layout template.
     title: { absolute: title },
     description,
-    alternates: { canonical: url },
+    alternates: pageAlternates(url),
     openGraph: {
       ...siteOpenGraph,
       title,
@@ -112,8 +113,11 @@ export default async function ProjectPage({
           locale,
           slug: project.slug ?? "",
           name: localized(project, "title", locale),
-          description:
-            localized(project, "short_description", locale) || undefined,
+          description: projectSearchDescription({
+            seo: localized(project, "seo_description", locale),
+            short: localized(project, "short_description", locale),
+            body: localized(project, "description", locale),
+          }),
           image: socialImage(project),
         })}
       />
