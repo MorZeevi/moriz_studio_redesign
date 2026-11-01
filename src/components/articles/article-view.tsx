@@ -104,6 +104,16 @@ export function ArticleView({
             </nav>
           ) : null}
           <div>
+            {article.tldr.length ? (
+              <aside className={styles.tldr} aria-label={copy.tldr}>
+                <p className={styles.tldrLabel}>{copy.tldr}</p>
+                <ul className={styles.tldrList}>
+                  {article.tldr.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </aside>
+            ) : null}
             <div className={prose.prose}>{children}</div>
             {article.faq.length ? (
               <section className={styles.section} aria-labelledby="article-faq">

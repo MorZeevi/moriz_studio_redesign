@@ -10,6 +10,14 @@ import { readingMinutes } from "./reading-time.ts";
 import { webpSize } from "./webp.ts";
 
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const ALLOWED_COMPONENTS = new Set([
+  "Callout",
+  "Figure",
+  "CtaCard",
+  "ProjectCard",
+  "RelatedArticle",
+]);
+const CTA_ATTRS = new Set(["title", "text", "href", "label"]);
 const DATE = /^(\d{4})-(\d{2})-(\d{2})$/;
 const LETTER = /\p{L}/u;
 const IMAGE_FILE = /^[a-z0-9-]+\.webp$/;
@@ -30,6 +38,10 @@ export type Article = {
   focusKeyword?: string;
   sources: ArticleSource[];
   faq: ArticleFaq[];
+  /** Short bullets shown above the body. Empty when the field is omitted. */
+  tldr: string[];
+  /** When false, the page does not insert a contact card on its own. */
+  cta: boolean;
   draft: boolean;
   readingMinutes: number;
   headings: Heading[];
@@ -81,6 +93,8 @@ const ARTICLE_KEYS = new Set([
   "focusKeyword",
   "sources",
   "faq",
+  "tldr",
+  "cta",
   "draft",
 ]);
 
@@ -154,6 +168,8 @@ export function validateArticleSource(
   }
   const sources = readSources(data, issues);
   const faq = readFaq(data, issues);
+  const tldr = readTldr(data, issues);
+  const cta = readCta(data, issues);
   const draft = readDraft(data, issues);
   const body = split.body.replace(/^\n/, "");
   validateBody(slug, body, issues, files);
@@ -168,6 +184,8 @@ export function validateArticleSource(
     !tags ||
     !sources ||
     !faq ||
+    !tldr ||
+    cta === undefined ||
     draft === undefined ||
     issues.length
   ) {
@@ -186,6 +204,8 @@ export function validateArticleSource(
     ...(focusKeyword ? { focusKeyword } : {}),
     sources,
     faq,
+    tldr,
+    cta,
     draft,
     readingMinutes: readingMinutes(body),
     headings: inspected.headings,
@@ -479,6 +499,39 @@ function readText(
   return trimmed;
 }
 
+function readTldr(data: Record<string, unknown>, issues: string[]) {
+  if (!("tldr" in data) || data.tldr === undefined) return [];
+  if (!Array.isArray(data.tldr) || data.tldr.length === 0) {
+    issues.push(
+      `tldr must be a YAML list of ${ARTICLE_LIMITS.tldr.max} bullets or fewer. Omit the field when there is no summary.`,
+    );
+    return null;
+  }
+  if (data.tldr.length > ARTICLE_LIMITS.tldr.max) {
+    issues.push(`tldr can include at most ${ARTICLE_LIMITS.tldr.max} bullets.`);
+  }
+  const bullets: string[] = [];
+  for (const item of data.tldr) {
+    const bullet = readLine({ tldr: item }, "tldr", issues, {
+      required: true,
+      ...ARTICLE_LIMITS.tldrItem,
+    });
+    if (bullet) bullets.push(bullet);
+  }
+  return bullets;
+}
+
+function readCta(data: Record<string, unknown>, issues: string[]) {
+  if (!("cta" in data) || data.cta === undefined) return true;
+  if (typeof data.cta !== "boolean") {
+    issues.push(
+      "cta must be a boolean. Omit it, or set cta: false to skip the automatic contact card.",
+    );
+    return undefined;
+  }
+  return data.cta;
+}
+
 function readDraft(data: Record<string, unknown>, issues: string[]) {
   if (!("draft" in data) || data.draft === undefined) return false;
   if (typeof data.draft !== "boolean") {
@@ -507,19 +560,63 @@ function validateBody(
   const prose = stripFences(body);
   if (/^[ \t]*import\s/m.test(prose) || /^[ \t]*export\s/m.test(prose)) {
     issues.push(
-      "The body cannot import or export JavaScript. Use Markdown plus Callout and Figure only.",
+      "The body cannot import or export JavaScript. Use Markdown and the components listed in docs/articles-authoring.md.",
     );
   }
   if (/<\/?[a-z][\w:-]*(\s|\/?>)/.test(prose)) {
-    issues.push("Raw HTML is not allowed. Use Markdown, Callout, or Figure.");
+    issues.push(
+      "Raw HTML is not allowed. Use Markdown, Callout, Figure, CtaCard, ProjectCard, or RelatedArticle.",
+    );
   }
   if (/javascript:/i.test(prose)) {
     issues.push("javascript: URLs are not allowed.");
   }
   for (const match of prose.matchAll(/<\/?([A-Z][A-Za-z0-9]*)\b/g)) {
     const name = match[1];
-    if (name !== "Callout" && name !== "Figure") {
-      issues.push(`Unknown component <${name}>. Allowed components: Callout, Figure.`);
+    if (!ALLOWED_COMPONENTS.has(name)) {
+      issues.push(
+        `Unknown component <${name}>. Allowed components: ${[...ALLOWED_COMPONENTS].join(", ")}.`,
+      );
+    }
+  }
+  for (const match of prose.matchAll(/<CtaCard\b([^>]*?)\/?>/g)) {
+    validateAttributes(match[1], "CtaCard", CTA_ATTRS, issues);
+    const href = quotedAttr(match[1], "href");
+    if (
+      href &&
+      (href.startsWith("//") ||
+        !/^(\/|#)/.test(href) ||
+        /javascript:/i.test(href) ||
+        /\s/.test(href))
+    ) {
+      issues.push(
+        'CtaCard href must be a site path or a hash, for example href="#contact" or href="/digital-audit".',
+      );
+    }
+    checkQuotedLength(match[1], "title", ARTICLE_LIMITS.ctaTitle, issues);
+    checkQuotedLength(match[1], "text", ARTICLE_LIMITS.ctaText, issues);
+    checkQuotedLength(match[1], "label", ARTICLE_LIMITS.ctaLabel, issues);
+  }
+  for (const match of prose.matchAll(/<ProjectCard\b([^>]*?)\/?>/g)) {
+    validateAttributes(match[1], "ProjectCard", new Set(["slug"]), issues);
+    const projectSlug = quotedAttr(match[1], "slug");
+    if (!projectSlug || !SLUG.test(projectSlug)) {
+      issues.push(
+        'ProjectCard needs a quoted project slug, for example slug="guesto".',
+      );
+    }
+  }
+  for (const match of prose.matchAll(/<RelatedArticle\b([^>]*?)\/?>/g)) {
+    validateAttributes(match[1], "RelatedArticle", new Set(["slug"]), issues);
+    const articleSlug = quotedAttr(match[1], "slug");
+    if (
+      !articleSlug ||
+      !SLUG.test(articleSlug) ||
+      RESERVED_SLUGS.has(articleSlug)
+    ) {
+      issues.push(
+        'RelatedArticle needs the other article\'s filename slug, for example slug="from-tasks-to-pages".',
+      );
     }
   }
   for (const match of prose.matchAll(/<Callout\b([^>]*)>/g)) {
@@ -601,6 +698,46 @@ function validateImagePath(
   ) {
     issues.push(
       `${src} is ${size.width}×${size.height}. Each edge must be 1–${ARTICLE_LIMITS.imageMaxEdge} pixels.`,
+    );
+  }
+}
+
+function validateAttributes(
+  attrs: string,
+  name: string,
+  allowed: Set<string>,
+  issues: string[],
+) {
+  if (/\w+\s*=\s*\{/.test(attrs)) {
+    issues.push(
+      `${name} attributes must be quoted strings, not JavaScript expressions.`,
+    );
+  }
+  for (const match of attrs.matchAll(/([A-Za-z][\w-]*)\s*=/g)) {
+    if (!allowed.has(match[1])) {
+      issues.push(
+        `${name} does not accept "${match[1]}". Allowed: ${[...allowed].join(", ") || "slug"}.`,
+      );
+    }
+  }
+}
+
+function quotedAttr(attrs: string, name: string) {
+  return new RegExp(`${name}\\s*=\\s*["']([^"']*)["']`).exec(attrs)?.[1];
+}
+
+function checkQuotedLength(
+  attrs: string,
+  name: string,
+  bounds: { min: number; max: number },
+  issues: string[],
+) {
+  const value = quotedAttr(attrs, name);
+  if (value === undefined) return;
+  const length = [...value].length;
+  if (length < bounds.min || length > bounds.max) {
+    issues.push(
+      `CtaCard ${name} must be ${bounds.min}–${bounds.max} characters (got ${length}).`,
     );
   }
 }

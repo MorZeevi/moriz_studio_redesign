@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { articleMdxComponents } from "@/components/articles/mdx";
+import { ArticleContent } from "@/components/articles/article-content";
 import { ArticleView } from "@/components/articles/article-view";
 import { ArticlesFrame } from "@/components/articles/articles-frame";
 import { JsonLd } from "@/components/json-ld";
@@ -8,7 +8,6 @@ import { isEnabledLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getAllArticles, getArticle } from "@/lib/articles/load";
 import { articleMetadata } from "@/lib/articles/metadata";
-import { importArticle } from "@/lib/articles/modules";
 import { relatedArticles } from "@/lib/articles/related";
 import { articleStructuredData } from "@/lib/articles/structured-data";
 
@@ -44,7 +43,6 @@ export async function generateMetadata({
 
 export default async function ArticlePreviewPage({ params }: PageParams) {
   const { locale, content, article } = await loadPreview(params);
-  const { default: Content } = await importArticle(article.slug);
   return (
     <ArticlesFrame content={content} locale={locale}>
       <JsonLd
@@ -61,7 +59,12 @@ export default async function ArticlePreviewPage({ params }: PageParams) {
         locale={locale}
         related={relatedArticles(article, getAllArticles())}
       >
-        <Content components={articleMdxComponents()} />
+        <ArticleContent
+          article={article}
+          content={content}
+          locale={locale}
+          preview
+        />
       </ArticleView>
     </ArticlesFrame>
   );

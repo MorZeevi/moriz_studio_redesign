@@ -753,6 +753,14 @@ export const he = {
     breadcrumbs: "מיקום בעמוד",
     draft: "טיוטה. העמוד הזה לא מופיע ברשימת המאמרים ולא במפת האתר.",
     coverFallbackAlt: "Moriz Studio",
+    tldr: "בקצרה",
+    ctaTitle: "נדבר על איפיון המערכת?",
+    ctaText:
+      "אני מור. אם יש מערכת, אתר או תהליך שצריך סדר, אשמח לשמוע מה אתם מנסים לעשות ולאפיין את זה יחד.",
+    ctaLabel: "בואו נדבר",
+    projectKicker: "פרויקט",
+    projectFallback: "לעמוד הפרויקט",
+    alsoRead: "קראו גם",
   },
   floatingActions: {
     label: "פעולות מהירות",

@@ -60,6 +60,8 @@ test("a complete article passes, and missing optional fields pass", () => {
     files({}),
   );
   assert.equal(article.draft, false);
+  assert.equal(article.cta, true);
+  assert.deepEqual(article.tldr, []);
   assert.deepEqual(article.tags, []);
   assert.equal(article.cover, undefined);
   assert.deepEqual(article.sources, []);
@@ -147,9 +149,49 @@ test("webp dimensions are read from a VP8X header", () => {
 
 test("the sample article is a draft and nothing is published", () => {
   const articles = getAllArticles();
-  assert.equal(articles.length, 1);
-  assert.equal(articles[0]?.slug, "user-research-before-design");
-  assert.equal(articles[0]?.draft, true);
   assert.equal(getPublishedArticles().length, 0);
-  assert.ok((articles[0]?.headings.length ?? 0) >= 2);
+  assert.ok(articles.every((article) => article.draft));
+  const sample = articles.find(
+    (article) => article.slug === "user-research-before-design",
+  );
+  assert.ok(sample);
+  assert.ok(sample.tldr.length >= 2);
+  assert.equal(sample.cta, true);
+  assert.ok(sample.headings.length >= 2);
+  assert.match(sample.body, /<CtaCard \/>/);
+  assert.match(sample.body, /<ProjectCard slug="guesto" \/>/);
+  assert.match(sample.body, /<RelatedArticle slug="from-tasks-to-pages" \/>/);
+});
+
+test("tldr, cta, and the inline cards are validated", () => {
+  const ok = validateArticleSource(
+    slug,
+    source(`tldr:
+  - "משפט קצר שמסכם את הטענה המרכזית של המאמר."
+cta: false
+`),
+    files({}),
+  );
+  assert.equal(ok.cta, false);
+  assert.equal(ok.tldr.length, 1);
+
+  assert.throws(
+    () =>
+      validateArticleSource(
+        slug,
+        `${source()}
+<Widget />
+<CtaCard href="javascript:alert(1)" />
+<ProjectCard />
+`,
+        files({}),
+      ),
+    (error: unknown) => {
+      assert.ok(error instanceof ArticleValidationError);
+      assert.match(error.message, /Unknown component <Widget>/);
+      assert.match(error.message, /CtaCard href/);
+      assert.match(error.message, /ProjectCard needs a quoted project slug/);
+      return true;
+    },
+  );
 });

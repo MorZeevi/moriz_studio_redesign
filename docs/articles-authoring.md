@@ -42,6 +42,8 @@ The file starts with YAML between two lines that are exactly `---`. Quote string
 | `focusKeyword` | no | One line, 2–50 characters. The phrase the article should rank for. |
 | `sources` | no | List of 1–10 `{ title, url }`. `title` is 2–160 characters. `url` is an absolute `https` URL with no username or password. No duplicate URLs. Rendered as a sources section. Omit when unused. |
 | `faq` | no | List of 1–8 `{ q, a }`. `q` is one line, 8–160 characters, unique. `a` is 20–600 characters. Rendered on the page and emitted as `FAQPage` JSON-LD. Do not repeat the FAQ in the body. |
+| `tldr` | no | List of 1–5 one-line bullets, each 12–180 characters. Rendered as בקצרה after the header and cover, before the body. Omit the field when there is no summary. |
+| `cta` | no | `true` or `false`. Omitted means `true`. `cta: false` stops the automatic contact card. A `<CtaCard />` you place yourself still renders. |
 | `draft` | no | `true` or `false`. Omitted means published. `draft: true` keeps the file in the repo but out of the index, sitemap, and RSS. |
 
 Character counts are Unicode code points (one Hebrew letter is one character). No leading or trailing whitespace. No line breaks inside `title`, `description`, `category`, `tags`, `coverAlt`, `focusKeyword`, or `q`.
@@ -63,6 +65,9 @@ cover: "/articles/user-research-before-design/cover.webp"
 coverAlt: "רקע כהה עם פס אדום וכותרת מחקר משתמשים של Moriz Studio"
 focusKeyword: "מחקר משתמשים"
 draft: false
+tldr:
+  - "מחקר קצר לפני העיצוב מגלה את שלוש המשימות שהלקוח בא לבצע."
+  - "חמש שיחות עם אנשים אמיתיים מספיקות כדי לזהות שפה ונקודת נטישה."
 sources:
   - title: "When to Use Which User-Experience Research Methods"
     url: "https://www.nngroup.com/articles/which-ux-research-methods/"
@@ -104,9 +109,22 @@ One or more paragraphs. type is note, tip, or warning. Omit type for note.
 </Callout>
 
 <Figure src="/articles/<slug>/diagram.webp" alt="What the image shows" caption="Optional caption" />
+
+<CtaCard />
+<CtaCard title="נדבר על איפיון המערכת?" text="אני מור. אשמח לשמוע מה אתם מנסים לעשות." href="#contact" label="בואו נדבר" />
+
+<ProjectCard slug="guesto" />
+
+<RelatedArticle slug="from-tasks-to-pages" />
 ```
 
-`src` and `alt` are quoted strings. `caption` is optional.
+`Figure`: `src` and `alt` are quoted strings. `caption` is optional.
+
+`CtaCard` is the contact invitation. With no props it uses the site default: a first-person line from Mor inviting the reader to talk about characterizing their system, linking to `#contact` on the same page (the footer form). Override `title`, `text`, `href`, and `label` with quoted strings. `href` is a site path or a hash (`#contact`, `/he`, `/digital-audit`), not an external URL. Place it where the invitation belongs. If the body has no `<CtaCard>`, the build inserts one near the middle, before the closest `##`. Set `cta: false` to stop that insertion.
+
+`ProjectCard` shows one published project: its existing title, its existing image, and a link to `/he/projects/<slug>`. It does not add results, quotes, or metrics. `slug` is the project's real slug. If that project is missing, the card is omitted. If the CMS cannot be read, the reader gets a plain link to the project URL.
+
+`RelatedArticle` is a compact קראו גם card. `slug` is another file in `content/articles/`. The card uses that file's title and description. In production a draft target is omitted, so do not point a published article at a draft. On a draft preview the card can point at another draft, and the link keeps `?preview=1`. The list of related articles at the bottom of the page stays; this card is an extra link inside the body.
 
 Reading time is computed from the body at about 200 words per minute. Do not put it in frontmatter.
 
@@ -118,7 +136,13 @@ Other images live in the same folder and use the same WebP rules. Do not hotlink
 
 ## Internal links
 
-Use root-relative paths, at least one per article when it fits:
+Each article includes 2–4 contextual internal links. Put them in the sentence where they help, not in a dump at the end. Mix them when it fits:
+
+- another article, with `<RelatedArticle slug="..." />` (preferred) or `[label](/he/articles/<slug>)`
+- a real project, with `<ProjectCard slug="..." />` or `[label](/he/projects/<project-slug>)`
+- a service or decision page: `/digital-audit`, `/he/projects`, `/he`
+
+Use these paths:
 
 | Destination | Path |
 | --- | --- |
@@ -138,7 +162,7 @@ Do not prefix `/digital-audit` with `/he`. Do not link to `/he/articles/preview/
 3. Two to six `##` headings. They should be phrases a person would search, not "מבוא" or "סיכום" alone.
 4. Short paragraphs. A table or a list when comparing items. A `Callout` for the one thing the reader should not skip.
 5. Name sources for facts that are not the studio's own experience, and put them in `sources`. Two to four FAQ questions that match real follow-up searches, with direct answers.
-6. Link to `/he/projects` or a relevant project when the article describes work the studio does. Link to `/digital-audit` when the reader is still deciding what to build. Link home when describing the studio's process.
+6. Include 2–4 internal links, as in Internal links above. Link to `/he/projects` or a relevant project when the article describes work the studio does. Link to `/digital-audit` when the reader is still deciding what to build. Link home when describing the studio's process. Do not invent a project slug.
 7. Do not invent client names, metrics, quotes, or prices. Do not publish the fixture article.
 8. Set `date` to the publish day. Set `updated` only on a later revision, and refresh `description` if the conclusion changed.
 9. The page already emits the canonical URL, Open Graph `article` tags (`publishedTime`, `modifiedTime`, cover), a Twitter large card, `BlogPosting` and `BreadcrumbList` JSON-LD, and `FAQPage` JSON-LD when `faq` is set. Do not add a JSON-LD script or a second title in the body.
