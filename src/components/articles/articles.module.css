@@ -267,9 +267,17 @@
 
 .layout {
   display: grid;
+  /* One shrinkable column. Without the 0 minimum, a table or a balanced
+     heading reports a min-content wider than the phone and the column
+     slides into the gutter. */
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-6);
   align-items: start;
   padding-block: var(--space-6) var(--space-16);
+}
+
+.layout > * {
+  min-inline-size: 0;
 }
 
 @media (min-width: 64rem) {

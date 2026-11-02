@@ -1,4 +1,6 @@
 .prose {
+  min-inline-size: 0;
+  max-inline-size: 100%;
   color: var(--color-text-primary);
   font-size: var(--text-body-lg);
   line-height: 1.45;
@@ -111,6 +113,8 @@
 .tableScroll {
   overflow-x: auto;
   margin: 0;
+  max-inline-size: 100%;
+  min-inline-size: 0;
 }
 
 .prose table {
@@ -121,15 +125,26 @@
 }
 
 .prose :is(th, td) {
+  min-inline-size: 0;
   padding: var(--space-3);
   border: 1px solid var(--color-border);
   text-align: start;
   vertical-align: top;
+  overflow-wrap: break-word;
 }
 
 .prose th {
   font-weight: var(--font-weight-heading, 700);
   background: var(--color-surface);
+}
+
+/* Three content-sized columns are about 20px wider than a 360px column.
+   Slightly tighter inline padding lets the words stay whole inside the
+   column. From 390px up the published tables already fit. */
+@media (max-width: 24rem) {
+  .prose :is(th, td) {
+    padding-inline: var(--space-2);
+  }
 }
 
 .figure {
@@ -206,6 +221,8 @@
 .cta {
   display: grid;
   gap: var(--space-3);
+  min-inline-size: 0;
+  max-inline-size: 100%;
   margin: 0;
   padding: var(--space-4);
   border-radius: var(--radius-sm);
@@ -213,8 +230,13 @@
   color: var(--color-light);
 }
 
+.cta > div {
+  min-inline-size: 0;
+}
+
 .ctaTitle {
   margin: 0;
+  min-inline-size: 0;
   font-family: var(--font-display);
   font-size: clamp(1.5rem, 3vw, 2.05rem);
   font-weight: var(--font-weight-display);
@@ -226,6 +248,7 @@
 
 .ctaText {
   margin: 0;
+  min-inline-size: 0;
   max-inline-size: 38rem;
   color: var(--color-light);
   font-size: var(--text-body);
@@ -238,12 +261,28 @@
   --liquid-pressed-fill: var(--color-action-primary-hover);
   --liquid-ink: var(--color-light);
   justify-self: start;
+  box-sizing: border-box;
+  max-inline-size: 100%;
+}
+
+/* The shared liquid label uses min-inline-size: 0 and overflow-wrap: anywhere,
+   which lets a shrink-to-fit pill collapse to a few characters. Size this one
+   to its words, and let it wrap only once it meets the card edge. */
+.ctaLink:global(.liquid) :global(.liquid__icon) {
+  min-inline-size: var(--liquid-height);
+}
+
+.ctaLink:global(.liquid) :global(.liquid__label) {
+  min-inline-size: min(100%, max-content);
+  overflow-wrap: break-word;
 }
 
 .projectCard,
 .also {
   display: grid;
   gap: var(--space-3);
+  min-inline-size: 0;
+  max-inline-size: 100%;
   margin: 0;
   padding: 0;
   border: 0;
