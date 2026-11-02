@@ -185,8 +185,11 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  box-sizing: border-box;
   inline-size: 100%;
-  min-block-size: var(--control-height-md);
+  max-inline-size: 100%;
+  min-inline-size: 0;
+  min-block-size: max(2.75rem, var(--control-height-md));
   margin: 0;
   padding: var(--space-3);
   border: 1px solid color-mix(in srgb, var(--color-light) 28%, transparent);
@@ -196,6 +199,11 @@
   font: inherit;
   text-align: start;
   cursor: pointer;
+}
+
+.stepButton > span:last-child {
+  min-inline-size: 0;
+  overflow-wrap: break-word;
 }
 
 .stepButton[aria-expanded="true"] {
@@ -263,7 +271,9 @@
 
 .switchButton {
   appearance: none;
-  min-block-size: var(--control-height-sm);
+  box-sizing: border-box;
+  min-inline-size: 0;
+  min-block-size: max(2.75rem, var(--control-height-sm));
   margin: 0;
   padding: var(--space-2) var(--space-3);
   border: 1px solid color-mix(in srgb, var(--color-light) 28%, transparent);
@@ -272,6 +282,7 @@
   color: inherit;
   font: inherit;
   font-size: var(--text-body-sm);
+  overflow-wrap: break-word;
   cursor: pointer;
 }
 
@@ -417,8 +428,11 @@
 
   .stepButton {
     order: 1;
-    flex: 1 1 0;
+    /* A 0 basis lets several labels shrink into unreadably narrow pills.
+       Grow to share the row, and wrap once a label needs about 9rem. */
+    flex: 1 1 9rem;
     inline-size: auto;
+    min-inline-size: min(100%, 9rem);
   }
 
   .detail {

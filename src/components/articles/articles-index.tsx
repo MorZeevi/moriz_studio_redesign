@@ -19,7 +19,7 @@ export function ArticlesIndex({
     <div className="site-container">
       <header className={styles.hero}>
         <h1 className={styles.heading}>{copy.heading}</h1>
-        <p className={styles.lede}>{copy.description}</p>
+        <p className={styles.lede}>{copy.lede}</p>
         <a className={styles.rss} href={`/${locale}/articles/rss.xml`}>
           {copy.rss}
         </a>
