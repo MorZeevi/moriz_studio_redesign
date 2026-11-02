@@ -38,6 +38,7 @@ const nextConfig: NextConfig = {
   },
   outputFileTracingIncludes: {
     "/sitemap.xml": ["./content/articles/**/*.mdx"],
+    "/llms.txt": ["./content/articles/**/*.mdx"],
     "/[locale]/articles/rss.xml": ["./content/articles/**/*.mdx"],
   },
   // Keep Next's developer badge from covering the lower-side contact control.

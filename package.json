@@ -11,7 +11,7 @@
     "test:diagnostic": "node --experimental-strip-types --test \"src/diagnostic/**/*.test.ts\" \"src/diagnostic-core/**/*.test.ts\" \"src/lib/auth/**/*.test.ts\"",
     "test:contact": "node --experimental-strip-types --test src/lib/contact-email.test.ts",
     "test:articles": "node --experimental-strip-types --test src/lib/articles/*.test.ts src/lib/anchor-href.test.ts",
-    "test:seo": "node --experimental-strip-types --test src/lib/seo.test.ts",
+    "test:seo": "node --experimental-strip-types --import ./tools/register-alias.mjs --test src/lib/seo.test.ts src/lib/llms.test.ts src/lib/structured-data.test.ts",
     "diagnostic:analytics-readback": "node --env-file=.env.local tools/diagnostic/analytics-readback.ts",
     "test:party": "playwright test --config=playwright.party.config.ts",
     "test:inspector:unit": "node --test tests/devtools/source-loader.test.cjs",

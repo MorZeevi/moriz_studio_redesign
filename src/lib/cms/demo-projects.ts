@@ -41,7 +41,7 @@ const seeds: Seed[] = [
     image: "showreel",
     featured: true,
     categories: [1, 2],
-    services: ["איפיון", "עיצוב UI", "פיתוח Next.js"],
+    services: ["אפיון", "עיצוב UI", "פיתוח Next.js"],
     description:
       "תיאור דמו באורך של שתי שורות, כדי לבדוק איך שכבת המידע מתנהגת בכרטיס גדול.",
   },

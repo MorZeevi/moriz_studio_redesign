@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 const labels = [
   "פרויקטים",
-  "קצת עלי",
+  "קצת עליי",
   "איך מתחילים",
   "מאמרים",
   "שאלות תשובות",
@@ -106,7 +106,7 @@ test("links close the menu and keep page-aware native destinations", async ({
   await expect(dialog).toHaveAttribute("data-state", "open");
   await expect(
     dialog.locator('.navigation-links a[href="/he#about"]'),
-  ).toHaveText("קצת עלי");
+  ).toHaveText("קצת עליי");
   await expect(
     dialog.locator('.navigation-links a[href="#projects"]'),
   ).toHaveText("פרויקטים");
