@@ -150,3 +150,5 @@ The owner superseded floating-only WhatsApp access: the hero now offers a primar
 Owner follow-up, 6 November 2026: remove the hero WhatsApp action and Elementor quote/attribution; retain the qualified 400K+ line. The projects link is again the sole primary hero action. The mobile bottom-bar WhatsApp label is **שנדבר בוואטסאפ?**. Project-page actions and the full testimonial section are retained.
 
 Owner follow-up: remove the compact WhatsApp enquiry action from the project sidebar; retain the enquiry block before next-project navigation.
+
+Owner follow-up before merge: remove the 400K+ line from the hero. The mobile header starts transparent and gains its opaque background after scrolling more than 8px; the existing About statistic remains.

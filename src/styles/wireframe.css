@@ -897,25 +897,16 @@ body[data-project-backdrop]
 .hero-actions {
   max-inline-size: 100%;
 }
-.hero-trust {
-  margin-block-start: var(--space-6);
-  max-inline-size: 60ch;
-}
-.hero-trust p {
-  font-weight: 700;
-}
-.hero-trust blockquote {
-  margin: var(--space-4) 0 0;
-}
-.hero-trust cite {
-  display: block;
-  font-style: normal;
-  margin-block-start: var(--space-2);
-  font-size: var(--text-body-sm);
-}
 @media (max-width: 63.999rem) {
   .site-header {
+    background: transparent;
+  }
+  .site-header[data-scrolled] {
     background: var(--color-background);
+  }
+  .site-header:not([data-scrolled]) .site-header-backdrop {
+    opacity: 0;
+    visibility: hidden;
   }
   .hero-actions > a {
     inline-size: 100%;

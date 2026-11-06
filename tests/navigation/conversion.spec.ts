@@ -15,15 +15,20 @@ test("mobile project titles scroll naturally and contact actions remain clear", 
       "href",
       "#projects",
     );
-    await expect(page.locator(".hero-trust blockquote")).toHaveCount(0);
-    await expect(page.locator(".hero-trust")).toContainText(
-      "400K+ משתמשים במוצרים שבניתי או לקחתי בהם חלק",
+    await expect(page.locator(".hero-trust")).toHaveCount(0);
+    await expect(page.locator(".site-header")).toHaveCSS(
+      "background-color",
+      "rgba(0, 0, 0, 0)",
     );
     await page.locator(".hero-actions").scrollIntoViewIfNeeded();
     await expect(page.locator("[data-mobile-actions]")).toBeHidden();
     const head = page.locator("[data-stack-head]").last();
     await head.scrollIntoViewIfNeeded();
     await expect(head).toHaveCSS("position", "relative");
+    await expect(page.locator(".site-header")).toHaveAttribute(
+      "data-scrolled",
+      "",
+    );
     await expect(page.locator("[data-mobile-actions]")).toBeVisible();
     await expect(page.locator("[data-mobile-actions] a")).toHaveText(
       "שנדבר בוואטסאפ?",

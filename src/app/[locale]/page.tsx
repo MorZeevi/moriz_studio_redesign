@@ -95,12 +95,6 @@ export default async function Home({
                     {content.hero.projectsLink}
                   </LiquidLink>
                 </div>
-                <div className="hero-trust">
-                  <p>
-                    <bdi dir="ltr">{conversionCopy.trust.slice(0, 5)}</bdi>
-                    {conversionCopy.trust.slice(5)}
-                  </p>
-                </div>
               </div>
               <HeroVideo labels={content.hero.video} />
               <LogoCarousel labels={content.logoCarousel} />

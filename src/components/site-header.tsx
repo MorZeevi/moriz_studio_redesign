@@ -59,6 +59,19 @@ export function SiteHeader({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const header = root.current;
+    if (!header || isDesktop) return;
+    const sync = () =>
+      header.toggleAttribute("data-scrolled", window.scrollY > 8);
+    sync();
+    window.addEventListener("scroll", sync, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", sync);
+      header.removeAttribute("data-scrolled");
+    };
+  }, [isDesktop]);
+
+  useEffect(() => {
+    const header = root.current;
     // Keyed on React's media state, not gsap.matchMedia: a matchMedia change
     // reverts and refreshes every ScrollTrigger on the page.
     if (!header || !isDesktop) return;
