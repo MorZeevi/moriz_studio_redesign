@@ -1,4 +1,3 @@
-import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { enabledLocales, isEnabledLocale, localeConfig } from "@/i18n/config";
@@ -7,8 +6,7 @@ import { pixelRevealBootstrap } from "@/lib/pixel-reveal";
 import { pageAlternates } from "@/lib/seo";
 import { isIndexable, SITE_URL, siteOpenGraph } from "@/lib/site";
 import { themeBootstrap } from "@/lib/theme";
-import { ConversionAnalytics } from "@/components/conversion-analytics";
-import { ClarityAnalytics } from "@/components/clarity";
+import { PublicAnalytics } from "@/components/public-analytics";
 import { ThemeProvider } from "@/components/theme-provider";
 import Noise from "@/components/react-bits/Noise";
 import { caveat, danidin, leon } from "@/styles/fonts";
@@ -103,13 +101,7 @@ export default async function RootLayout({
       </body>
       {/* Public pages only: the admin and diagnostic areas have their own root
           layouts, so the admin secret in their URLs never reaches analytics. */}
-      {isIndexable ? (
-        <>
-          <GoogleAnalytics gaId="G-R1KN0P3K42" />
-          <ClarityAnalytics projectId="z1751pirhl" />
-          <ConversionAnalytics />
-        </>
-      ) : null}
+      {isIndexable ? <PublicAnalytics /> : null}
     </html>
   );
 }
