@@ -727,3 +727,22 @@
   font-size: var(--text-h2);
   line-height: 1.1;
 }
+
+@media (max-width: 63.999rem) {
+  .stackIntro,
+  .stackHead {
+    position: relative;
+    inset-block-start: auto;
+  }
+  .stackIntro::before {
+    inset-block-start: -1px;
+  }
+  .stackIntro > canvas {
+    inset-block-start: 0;
+    block-size: 100%;
+  }
+  .stackLogo {
+    inline-size: 4rem;
+    block-size: 2.5rem;
+  }
+}

@@ -2,6 +2,8 @@ import type { CSSProperties } from "react";
 import Link from "next/link";
 import { CategoryTags } from "@/components/category-tags";
 import { ProjectArrow } from "@/components/projects-section";
+import { mediaVariant } from "@/lib/media-variants";
+import { ProjectEnquiry } from "./project-enquiry";
 import { ProjectGallery } from "@/components/project-gallery";
 import Noise from "@/components/react-bits/Noise";
 import { FloatingActions } from "@/components/floating-actions";
@@ -190,6 +192,7 @@ export function ProjectDetail({
                 </div>
               ))}
             </div>
+            {!preview && <ProjectEnquiry compact />}
             {project.website_url && (
               <div className={detail.panelFooter}>
                 <a
@@ -214,7 +217,9 @@ export function ProjectDetail({
                   <span className={detail.websiteArrow} aria-hidden="true">
                     <ProjectArrow />
                   </span>
-                  <span className={detail.websiteLabel}>{copy.visitWebsite}</span>
+                  <span className={detail.websiteLabel}>
+                    {copy.visitWebsite}
+                  </span>
                 </a>
               </div>
             )}
@@ -222,6 +227,7 @@ export function ProjectDetail({
           <ProjectGallery key={project.id} {...gallery} labels={labels} />
           {!preview && (
             <footer className={detail.footer}>
+              <ProjectEnquiry />
               {nextProject?.slug && (
                 <nav
                   className={styles.nextProject}
@@ -233,7 +239,7 @@ export function ProjectDetail({
                       // biome-ignore lint/performance/noImgElement: private CMS media bypasses the optimizer; this thumbnail uses the next project's cover or video poster.
                       <img
                         className={styles.nextPreview}
-                        src={nextCover.src}
+                        src={mediaVariant(nextCover.src, 640)}
                         alt=""
                         width={320}
                         height={200}

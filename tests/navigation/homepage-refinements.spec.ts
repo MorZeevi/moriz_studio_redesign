@@ -46,54 +46,19 @@ for (const width of [320, 390, 430, 768]) {
   });
 }
 
-test("mobile project names lead logos and pinned strips cover scrolling content", async ({
+test("mobile project names lead compact logos and headings scroll naturally", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/he#projects");
-  await page.evaluate(() => document.fonts.ready);
   const heads = page.locator("[data-stack-head]");
   expect(await heads.count()).toBeGreaterThan(1);
   for (const head of await heads.all()) {
+    await expect(head).toHaveCSS("position", "relative");
     const name = await head.locator("h3").boundingBox();
     const logo = await head.locator("span[aria-hidden]").boundingBox();
     expect(name?.x).toBeGreaterThan((logo?.x ?? 0) + (logo?.width ?? 0));
-    await head.evaluate((node) =>
-      scrollTo(0, scrollY + node.getBoundingClientRect().top),
-    );
-    // Sample the pinned heading, every row above this one, and the side gutters.
-    const covered = await page.locator("#projects").evaluate((section) => {
-      const pinned = Array.from(
-        section.querySelectorAll<HTMLElement>(
-          "[data-stack-intro], [data-stack-head]",
-        ),
-      ).filter(
-        (node) =>
-          Math.abs(
-            node.getBoundingClientRect().top -
-              Number.parseFloat(getComputedStyle(node).top),
-          ) < 2,
-      );
-      return (
-        pinned.length > 0 &&
-        pinned.every((node) => {
-          const rect = node.getBoundingClientRect();
-          const backing = getComputedStyle(node, "::before");
-          const sample = document.elementFromPoint(
-            rect.left + 8,
-            rect.top + rect.height / 2,
-          );
-          return (
-            backing.backgroundColor !== "rgba(0, 0, 0, 0)" &&
-            rect.left + Number.parseFloat(backing.left) <= 0 &&
-            rect.right - Number.parseFloat(backing.right) >= innerWidth &&
-            !!sample &&
-            node.contains(sample)
-          );
-        })
-      );
-    });
-    expect(covered).toBe(true);
+    expect(logo?.width).toBeLessThanOrEqual(64);
   }
 });
 

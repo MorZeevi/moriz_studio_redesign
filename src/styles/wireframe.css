@@ -97,14 +97,11 @@ html:has(.site-header) {
   white-space: nowrap;
 }
 
-/* Hero CTA keeps the module's action red; dark mode turns it white. */
+/* Viewing work remains secondary to the enquiry action. */
 .hero-actions .hero-projects-link {
-  --liquid-fill: var(--site-cta-fill, var(--color-action-primary));
-  --liquid-pressed-fill: var(
-    --site-cta-pressed,
-    var(--color-action-primary-hover)
-  );
-  --liquid-ink: var(--site-cta-ink, var(--color-text-inverse));
+  --liquid-fill: var(--color-secondary);
+  --liquid-pressed-fill: var(--color-action-secondary-hover);
+  --liquid-ink: var(--color-dark);
 }
 
 .header-actions .header-contact-link:focus-visible {
@@ -887,4 +884,50 @@ body[data-project-backdrop]
     color-mix(in srgb, var(--color-dark) 25%, var(--color-light))
   );
   --color-focus: var(--site-focus, var(--color-dark));
+}
+
+.hero-service {
+  margin: 0 0 var(--space-4);
+  font-weight: 700;
+  font-size: var(--text-body-lg);
+}
+.hero-actions {
+  max-inline-size: 100%;
+}
+.hero-trust {
+  margin-block-start: var(--space-6);
+  max-inline-size: 60ch;
+}
+.hero-trust p {
+  font-weight: 700;
+}
+.hero-trust blockquote {
+  margin: var(--space-4) 0 0;
+}
+.hero-trust cite {
+  display: block;
+  font-style: normal;
+  margin-block-start: var(--space-2);
+  font-size: var(--text-body-sm);
+}
+@media (max-width: 63.999rem) {
+  .site-header {
+    background: var(--color-background);
+  }
+  .hero-actions > a {
+    inline-size: 100%;
+  }
+  .hero-heading-rotating {
+    min-block-size: 1.15em;
+  }
+  html[data-public-site] body:has([data-mobile-actions]) {
+    padding-block-end: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (max-width: 63.999rem) {
+  .hero-actions .liquid__label {
+    flex: 1;
+    justify-content: center;
+  }
 }

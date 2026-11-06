@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "./cms-image";
 import { type CSSProperties, Fragment } from "react";
 import type { Project } from "@/content/projects";
 import { type Locale, localeConfig } from "@/i18n/config";
@@ -188,7 +188,7 @@ export function ProjectsSection({
                   {summary && !(cms && summary === description) && (
                     <p className={styles.stackBodyDescription}>{summary}</p>
                   )}
-                  {cms && description && (
+                  {cms && description && !summary && (
                     <p className={styles.stackAbout}>{description}</p>
                   )}
                   {(project.client || project.highlight?.value) && (

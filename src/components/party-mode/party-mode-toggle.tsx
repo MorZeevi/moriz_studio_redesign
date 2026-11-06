@@ -2,7 +2,6 @@
 
 import { useEffect, useId, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { warmPartyAssets } from "./media";
 import styles from "./party-mode.module.css";
 import { usePartyMode } from "./party-mode-provider";
 
@@ -24,7 +23,6 @@ export function PartyModeToggle() {
   useEffect(() => {
     const toggle = toggleRef.current;
     if (!toggle) return;
-    let release: (() => void) | undefined;
     let cueTimer: ReturnType<typeof setTimeout> | undefined;
     const visibility = new IntersectionObserver(([entry]) => {
       setInlineVisible(entry.isIntersecting);
@@ -35,21 +33,10 @@ export function PartyModeToggle() {
         );
       }
     });
-    const preload = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        release = warmPartyAssets();
-        preload.disconnect();
-      },
-      { rootMargin: "500px" },
-    );
     visibility.observe(toggle);
-    preload.observe(toggle);
     return () => {
       clearTimeout(cueTimer);
       visibility.disconnect();
-      preload.disconnect();
-      release?.();
     };
   }, [toggleRef, setInlineVisible]);
 
