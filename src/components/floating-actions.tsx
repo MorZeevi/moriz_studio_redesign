@@ -61,7 +61,7 @@ export function FloatingActions({
   mobileWhatsappOnly?: boolean;
 }) {
   const [open, setOpen] = useState(false);
-  const [barHidden, setBarHidden] = useState(false);
+  const [barHidden, setBarHidden] = useState(true);
   useEffect(() => {
     const sync = () => {
       const active = document.activeElement;

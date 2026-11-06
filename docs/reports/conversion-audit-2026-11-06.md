@@ -33,11 +33,11 @@ The primary checkout and its local changes were preserved. A fresh isolated clon
 ## Verification
 
 - Lint, TypeScript and production build.
-- 15 browser regressions: conversion flow, existing homepage refinements and first-content visibility. Public routes include home, archive, PracticalAI, Chabad Club and a representative article; widths include 320, 393 × 852, 740 × 360, 768, 1024 and 1440. Light and dark layouts were exercised.
+- 17 browser regressions: conversion flow, existing homepage refinements and first-content visibility. Public routes include home, archive, PracticalAI, Chabad Club and a representative article; widths include 320, 393 × 852, 740 × 360, 768, 1024 and 1440. Light and dark layouts were exercised.
 - Three unit checks cover analytics privacy/host gating and width/format restrictions; three existing contact tests pass.
 - The public resized-image endpoint returned 200 with `Cache-Control: private, no-store`; unsupported width returned 400. No storage policy or schema changed. Live draft/unpublish/cross-owner mutation fixtures were not run against production; verify those in the existing isolated CMS acceptance environment before rollout.
 - Desktop/mobile visual inspection used Chrome, including iPhone viewport emulation. Physical iOS keyboard and safe-area rendering are still release-device checks; viewport/focus emulation is not a physical-device result.
-- Contact failure browser tests intercept delivery, so no test enquiry was sent.
+- Contact success/failure browser tests intercept delivery, so no test enquiry was sent.
 
 ### Preliminary cold-load comparison
 

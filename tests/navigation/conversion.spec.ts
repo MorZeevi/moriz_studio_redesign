@@ -98,3 +98,40 @@ test("public surfaces fit tablet and desktop in both themes", async ({
     }
   }
 });
+
+test("mobile chat hides the bar and restores its opener after Escape", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/he#projects");
+  const bar = page.locator("[data-mobile-actions]");
+  const opener = bar.getByRole("button", { name: "moriz.ai" });
+  await expect(bar).toBeVisible();
+  await opener.click();
+  await expect(page.locator("dialog[open] textarea")).toBeVisible();
+  await expect(bar).toBeHidden();
+  await page.keyboard.press("Escape");
+  await expect(bar).toBeVisible();
+  await expect(opener).toBeFocused();
+});
+
+test("accepted contact form clears the fields and announces success", async ({
+  page,
+}) => {
+  await page.route("**/api/contact", (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: '{"ok":true}',
+    }),
+  );
+  await page.goto("/he#contact");
+  await page.locator("#contact-name").fill("בדיקה");
+  await page.locator("#contact-phone").fill("0521234567");
+  await page
+    .locator("#contact")
+    .getByRole("button", { name: "שליחת הודעה" })
+    .click();
+  await expect(page.locator("#contact-name")).toHaveValue("");
+  await expect(page.locator("#contact-status")).not.toBeEmpty();
+});
