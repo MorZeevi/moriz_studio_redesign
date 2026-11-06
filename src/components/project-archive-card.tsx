@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "./cms-image";
 import Link from "next/link";
 import { type CSSProperties, useId, useRef } from "react";
 import type { ArchiveProject } from "@/content/projects";
@@ -63,7 +63,6 @@ export function ProjectArchiveCard({
               loading={eager ? "eager" : "lazy"}
               fetchPriority={eager ? "high" : undefined}
               className={styles.media}
-              unoptimized={project.image.src.startsWith("/media/")}
             />
           ) : (
             <div className={styles.fallback} aria-hidden="true">

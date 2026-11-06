@@ -17,7 +17,7 @@ import { LogoCarousel } from "@/components/logo-carousel";
 import { MainHeader } from "@/components/main-header";
 import { PartyModeProvider } from "@/components/party-mode/party-mode-provider";
 import { PartyModeToggle } from "@/components/party-mode/party-mode-toggle";
-import { PixelReveal } from "@/components/pixel-reveal";
+import { conversionCopy } from "@/content/conversion-copy";
 import { ProjectsSection } from "@/components/projects-section";
 import FallingText from "@/components/react-bits/FallingText";
 import { SecondaryScrollSurface } from "@/components/secondary-scroll-surface";
@@ -57,7 +57,7 @@ export default async function Home({
         fetchPriority="high"
       />
       <JsonLd data={homeStructuredData(content, locale)} />
-      <PixelReveal />
+
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:start-5 focus:top-5 focus:z-30 focus:bg-background focus:p-4"
@@ -80,11 +80,12 @@ export default async function Home({
                 <HeroHeading content={content.hero.heading} />
               </div>
               <div className="hero-copy">
+                <p className="hero-service">{conversionCopy.service}</p>
                 <HeroDescription
                   className="hero-description"
                   content={content.hero.description}
                 />
-                <div className="hero-actions">
+                <div className="hero-actions" data-contact-placement="hero">
                   <LiquidLink
                     className="hero-projects-link"
                     arrow="down"

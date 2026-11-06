@@ -1,3 +1,4 @@
+import { parseMediaWidth } from "@/lib/media-variants";
 import { supabaseConfig } from "@/lib/supabase/config";
 import { serverSupabase } from "@/lib/supabase/server";
 import { CMS_MEDIA_BUCKET } from "@/lib/cms/source";
@@ -12,6 +13,20 @@ export async function GET(request: Request, { params }: Params) {
     !UUID.test(filename.slice(0, 36))
   )
     return new Response(null, { status: 404 });
+  let width: number | null;
+  try {
+    width = parseMediaWidth(new URL(request.url).searchParams.get("w"));
+  } catch {
+    return new Response(null, {
+      status: 400,
+      headers: { "Cache-Control": "private, no-store" },
+    });
+  }
+  if (width && !/\.(png|jpe?g|webp|avif)$/i.test(filename))
+    return new Response(null, {
+      status: 400,
+      headers: { "Cache-Control": "private, no-store" },
+    });
   const { url, key } = supabaseConfig();
   const client = await serverSupabase();
   const {
@@ -28,10 +43,13 @@ export async function GET(request: Request, { params }: Params) {
     apikey: key,
     Authorization: `Bearer ${token}`,
   };
-  const range = request.headers.get("range");
+  if (width) headers.Accept = "image/webp";
+  const range = width ? null : request.headers.get("range");
   if (range && /^bytes=\d*-\d*$/.test(range)) headers.Range = range;
   const upstream = await fetch(
-    `${url}/storage/v1/object/${CMS_MEDIA_BUCKET}/${projectId}/${filename}`,
+    width
+      ? `${url}/storage/v1/render/image/authenticated/${CMS_MEDIA_BUCKET}/${projectId}/${filename}?width=${width}&quality=80&resize=contain`
+      : `${url}/storage/v1/object/${CMS_MEDIA_BUCKET}/${projectId}/${filename}`,
     { headers, cache: "no-store", signal: request.signal },
   );
   if (!upstream.ok)

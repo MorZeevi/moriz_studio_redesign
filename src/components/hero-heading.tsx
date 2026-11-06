@@ -45,19 +45,23 @@ export function HeroHeading({
         <HeadingAvatar />
         {content.start}{" "}
         <span className="hero-heading-rotating">
-          <RotatingText
-            texts={content.rotating}
-            auto={!reducedMotion && !partying}
-            rotationInterval={2500}
-            staggerFrom="first"
-            staggerDuration={0.025}
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            exit={{ y: "-120%" }}
-            transition={{ type: "spring", damping: 30, stiffness: 400 }}
-            splitLevelClassName="hero-heading-rotating-word"
-            onNext={setIndex}
-          />
+          {reducedMotion ? (
+            content.rotating[0]
+          ) : (
+            <RotatingText
+              texts={content.rotating}
+              auto={!reducedMotion && !partying}
+              rotationInterval={2500}
+              staggerFrom="first"
+              staggerDuration={0.025}
+              initial={false}
+              animate={{ y: 0 }}
+              exit={{ y: "-120%" }}
+              transition={{ type: "spring", damping: 30, stiffness: 400 }}
+              splitLevelClassName="hero-heading-rotating-word"
+              onNext={setIndex}
+            />
+          )}
         </span>
       </span>
       <span className="hero-heading-line" aria-hidden="true">

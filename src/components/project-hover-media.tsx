@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "./cms-image";
 import { useEffect, useRef, useState } from "react";
 import type { Project } from "@/content/projects";
 import { CoverVideo } from "./cover-video";
@@ -88,7 +88,6 @@ export function ProjectHoverMedia({
               alt=""
               fill
               sizes={sizes}
-              unoptimized={image.startsWith("/media/")}
               className={styles.media}
               onLoad={() => setReady(true)}
               onError={() => setFailed(true)}

@@ -7,6 +7,7 @@ import type {
   GalleryImage,
   GalleryRowItem,
 } from "@/lib/project-presentation";
+import { mediaVariant, mediaSrcSet } from "@/lib/media-variants";
 import { CoverVideo } from "./cover-video";
 import styles from "./project-detail.module.css";
 
@@ -35,7 +36,9 @@ function MediaImage({
     // biome-ignore lint/performance/noImgElement: private CMS media is served without shared caching.
     <img
       ref={element}
-      src={image.src}
+      src={mediaVariant(image.src, 1200)}
+      srcSet={mediaSrcSet(image.src)}
+      sizes="(min-width: 1024px) 70vw, calc(100vw - 64px)"
       alt={image.alt}
       width={image.width}
       height={image.height}

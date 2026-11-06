@@ -142,3 +142,13 @@ Button colors corrected, 2026-10-09: the header "בואו נדבר" pill goes ba
 Header opening correction, 2026-10-09: render `.site-header` immediately beneath the pixel opening cover on desktop and mobile, so it appears through the opening windows with the page. Remove the separate header visibility delay and its fallback animation. This supersedes the earlier instruction to hide the header during playback.
 
 Testimonials authorization, 2026-10-10: the owner supplied four testimonials and asked for Mobbin research followed by the design judged best. Section 5 is a local "spotlight + client index" trial: a numbered client tablist with counter/arrows beside one verbatim testimonial at a time, an optional pull-quote headline and a **להמשך קריאה** clamp; mobile uses avatar chips above the quote. No visible heading, no autoplay, reduced-motion and no-JavaScript fallbacks retained. Missing attributions stay marked **— להשלמה**; nothing is invented. Visual acceptance and publication permission remain pending. See [the workbook](docs/homepage-workbook.md#5-client-testimonials) and [decision](docs/14-decisions.md#testimonials-spotlight-with-client-index).
+
+## Conversion and mobile usability — approved 6 November 2026
+
+The owner superseded floating-only WhatsApp access: the hero now offers a primary WhatsApp action alongside secondary project browsing, with the exact qualified 400K+ claim and attributed Elementor excerpt. Project-end enquiry invitations take priority over next-project browsing. Below 1024px, project cards scroll in normal flow and the contact controls share a compact bottom bar that yields to the hero actions, form, keyboard and dialogs. The content-delaying opening cover is removed; the remaining identity is retained. Measurement lands first; recordings, case-study SEO/content enrichment and social landing polish follow the first-priority release. See [implementation evidence and release checklist](docs/reports/conversion-audit-2026-11-06.md).
+
+Owner follow-up, 6 November 2026: remove the hero WhatsApp action and Elementor quote/attribution; retain the qualified 400K+ line. The projects link is again the sole primary hero action. The mobile bottom-bar WhatsApp label is **שנדבר בוואטסאפ?**. Project-page actions and the full testimonial section are retained.
+
+Owner follow-up: remove the compact WhatsApp enquiry action from the project sidebar; retain the enquiry block before next-project navigation.
+
+Owner follow-up before merge: remove the 400K+ line from the hero. The mobile header starts transparent and gains its opaque background after scrolling more than 8px; the existing About statistic remains.

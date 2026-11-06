@@ -1,14 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import {
-  useCallback,
-  useEffect,
-  useId,
-  useRef,
-  useState,
-} from "react";
-import { AskAiChat } from "@/components/ask-ai-chat";
+import { conversionCopy } from "@/content/conversion-copy";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { WhatsappLogoIcon } from "@/components/contact-icons";
 import { LiquidLink } from "@/components/ui/liquid-link";
 import { SparkleIcon } from "@/components/ui/sparkle-icon";
@@ -20,6 +15,10 @@ import {
 } from "@/lib/chat-launcher";
 import { WHATSAPP_URL } from "@/lib/whatsapp";
 import styles from "./floating-actions.module.css";
+
+const AskAiChat = dynamic(() =>
+  import("@/components/ask-ai-chat").then((m) => m.AskAiChat),
+);
 
 // Phones get a full-screen modal sheet; wider screens a drawer beside the page.
 const SHEET_QUERY = "(max-width: 39.999rem)";
@@ -63,6 +62,34 @@ export function FloatingActions({
   mobileWhatsappOnly?: boolean;
 }) {
   const [open, setOpen] = useState(false);
+  const [barHidden, setBarHidden] = useState(true);
+  useEffect(() => {
+    const sync = () => {
+      const active = document.activeElement;
+      const editing =
+        active instanceof HTMLElement &&
+        active.matches("input, textarea, select, [contenteditable=true]");
+      const targets = document.querySelectorAll(".hero-actions, #contact");
+      const visible = [...targets].some((el) => {
+        const rect = el.getBoundingClientRect();
+        return rect.top < window.innerHeight && rect.bottom > 0;
+      });
+      setBarHidden(editing || visible);
+    };
+    sync();
+    window.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync);
+    window.visualViewport?.addEventListener("resize", sync);
+    document.addEventListener("focusin", sync);
+    document.addEventListener("focusout", sync);
+    return () => {
+      window.removeEventListener("scroll", sync);
+      window.removeEventListener("resize", sync);
+      window.visualViewport?.removeEventListener("resize", sync);
+      document.removeEventListener("focusin", sync);
+      document.removeEventListener("focusout", sync);
+    };
+  }, []);
   const [openCount, setOpenCount] = useState(0);
   const titleId = useId();
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -126,9 +153,11 @@ export function FloatingActions({
     if (dialogRef.current?.open) return;
     setOpen(false);
     const opener = openerRef.current;
-    (opener?.isConnected ? opener : triggerRef.current)?.focus({
-      preventScroll: true,
-    });
+    requestAnimationFrame(() =>
+      (opener?.isConnected ? opener : triggerRef.current)?.focus({
+        preventScroll: true,
+      }),
+    );
   }
 
   return (
@@ -137,21 +166,47 @@ export function FloatingActions({
       <dialog
         ref={dialogRef}
         id={AI_CHAT_DIALOG_ID}
+        data-clarity-mask="true"
         className={styles.drawer}
         aria-labelledby={titleId}
         onClose={onDialogClose}
       >
-        <AskAiChat
-          content={ask}
-          whatsappUrl={WHATSAPP_URL}
-          titleId={titleId}
-          openCount={openCount}
-          composerRef={composerRef}
-          onClose={closeChat}
-        />
+        {openCount > 0 && (
+          <AskAiChat
+            content={ask}
+            whatsappUrl={WHATSAPP_URL}
+            titleId={titleId}
+            openCount={openCount}
+            composerRef={composerRef}
+            onClose={closeChat}
+          />
+        )}
       </dialog>
 
+      <nav
+        data-mobile-actions=""
+        data-contact-placement="mobile-bar"
+        className={styles.mobileBar}
+        hidden={barHidden || open}
+        aria-label={content.label}
+      >
+        {WHATSAPP_URL && (
+          <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+            {conversionCopy.mobileAction}
+          </a>
+        )}
+        <button
+          type="button"
+          aria-haspopup="dialog"
+          aria-controls={AI_CHAT_DIALOG_ID}
+          aria-expanded={open}
+          onClick={(event) => openChat(event.currentTarget)}
+        >
+          moriz.ai
+        </button>
+      </nav>
       <div
+        data-contact-placement="floating"
         className={`${styles.root}${compactOnMobile ? ` ${styles.compactMobile}` : ""}${mobileWhatsappOnly ? ` ${styles.mobileWhatsappOnly}` : ""}`}
       >
         <nav aria-label={content.label} className={styles.stack}>

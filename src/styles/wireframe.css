@@ -97,7 +97,7 @@ html:has(.site-header) {
   white-space: nowrap;
 }
 
-/* Hero CTA keeps the module's action red; dark mode turns it white. */
+/* The projects link is the hero’s primary action. */
 .hero-actions .hero-projects-link {
   --liquid-fill: var(--site-cta-fill, var(--color-action-primary));
   --liquid-pressed-fill: var(
@@ -887,4 +887,41 @@ body[data-project-backdrop]
     color-mix(in srgb, var(--color-dark) 25%, var(--color-light))
   );
   --color-focus: var(--site-focus, var(--color-dark));
+}
+
+.hero-service {
+  margin: 0 0 var(--space-4);
+  font-weight: 700;
+  font-size: var(--text-body-lg);
+}
+.hero-actions {
+  max-inline-size: 100%;
+}
+@media (max-width: 63.999rem) {
+  .site-header {
+    background: transparent;
+  }
+  .site-header[data-scrolled] {
+    background: var(--color-background);
+  }
+  .site-header:not([data-scrolled]) .site-header-backdrop {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .hero-actions > a {
+    inline-size: 100%;
+  }
+  .hero-heading-rotating {
+    min-block-size: 1.15em;
+  }
+  html[data-public-site] body:has([data-mobile-actions]) {
+    padding-block-end: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (max-width: 63.999rem) {
+  .hero-actions .liquid__label {
+    flex: 1;
+    justify-content: center;
+  }
 }

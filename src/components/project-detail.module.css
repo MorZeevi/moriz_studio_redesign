@@ -412,8 +412,9 @@
 @media (min-width: 64rem) {
   .composition {
     grid-template-columns: minmax(15rem, 1fr) minmax(0, 3fr);
-    grid-template-rows:
-      minmax(calc(100dvh - 2 * var(--case-gap)), auto) auto var(--case-gap);
+    grid-template-rows: minmax(calc(100dvh - 2 * var(--case-gap)), auto) auto var(
+        --case-gap
+      );
     column-gap: var(--case-gap);
     row-gap: 0;
     padding-block: var(--case-gap) 0;
@@ -589,4 +590,20 @@
   .mediaText[data-side="end"] > :first-child {
     order: 2;
   }
+}
+
+.enquiry {
+  padding-block: var(--space-8);
+  min-inline-size: 0;
+}
+.enquiry h2 {
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  margin: 0 0 var(--space-4);
+}
+.enquiry p {
+  margin: 0 0 var(--space-6);
+  max-inline-size: 50ch;
+}
+.enquiry a {
+  max-inline-size: 100%;
 }
