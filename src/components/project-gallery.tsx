@@ -253,7 +253,7 @@ export function ProjectGallery({
             controls
             muted
             playsInline
-            preload="metadata"
+            preload={item.poster ? "none" : "metadata"}
             aria-label={item.label || labels.video}
           />
         )}
@@ -307,7 +307,7 @@ export function ProjectGallery({
                       controls
                       muted
                       playsInline
-                      preload="metadata"
+                      preload={entry.video.poster ? "none" : "metadata"}
                       aria-label={entry.video.label}
                     />
                   </div>
@@ -339,7 +339,7 @@ export function ProjectGallery({
                   muted={entry.block.muted || entry.block.autoplay}
                   controls={entry.block.controls ?? true}
                   playsInline
-                  preload="metadata"
+                  preload={entry.block.poster ? "none" : "metadata"}
                   aria-label={entry.label || labels.video}
                 />
               </div>

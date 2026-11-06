@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import type { Project } from "@/content/projects";
+import { createHoverIntent, HOVER_INTENT_MS } from "@/lib/hover-intent";
 import { CoverVideo } from "./cover-video";
 import styles from "./project-hover-media.module.css";
 
@@ -16,6 +17,7 @@ export function ProjectHoverMedia({
 }) {
   const layer = useRef<HTMLDivElement>(null);
   const [requested, setRequested] = useState(false);
+  const requestedRef = useRef(false);
   const [active, setActive] = useState(false);
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -28,22 +30,38 @@ export function ProjectHoverMedia({
     let focused = false;
     const sync = () => {
       const next = hovered || focused;
-      if (next) setRequested(true);
+      if (next) {
+        requestedRef.current = true;
+        setRequested(true);
+      }
       setActive(next);
     };
+    // A video request streams the whole file, so the pointer must rest on the
+    // card before it starts; sweeping across the grid fetches nothing. Image
+    // hover media is cheap and stays immediate.
+    const intent = createHoverIntent(
+      {
+        onIntent: () => {
+          hovered = true;
+          sync();
+        },
+        onLeave: () => {
+          hovered = false;
+          sync();
+        },
+        immediate: () => requestedRef.current,
+      },
+      media.kind === "video" ? HOVER_INTENT_MS : 0,
+    );
     const enter = (event: PointerEvent) => {
       if (
         event.pointerType === "touch" ||
         !window.matchMedia("(hover: hover) and (pointer: fine)").matches
       )
         return;
-      hovered = true;
-      sync();
+      intent.enter();
     };
-    const leave = () => {
-      hovered = false;
-      sync();
-    };
+    const leave = () => intent.leave();
     const focus = () => {
       focused =
         boundary.matches(":focus-visible") ||
@@ -64,12 +82,13 @@ export function ProjectHoverMedia({
     boundary.addEventListener("focusin", focus);
     boundary.addEventListener("focusout", blur);
     return () => {
+      intent.leave();
       boundary.removeEventListener("pointerenter", enter);
       boundary.removeEventListener("pointerleave", leave);
       boundary.removeEventListener("focusin", focus);
       boundary.removeEventListener("focusout", blur);
     };
-  }, []);
+  }, [media.kind]);
 
   const image = media.kind === "image" ? media.src : media.poster;
   return (
