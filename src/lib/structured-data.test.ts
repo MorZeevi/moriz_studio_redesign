@@ -37,6 +37,8 @@ test("homepage JSON-LD is well-formed and keeps the existing entities", () => {
   );
   assert.equal(json.includes("aggregateRating"), false);
   assert.equal(json.includes("reviewRating"), false);
+  assert.equal("review" in organization, false);
+  assert.equal(json.includes('"@type":"Review"'), false);
 });
 
 test("each service is copied from the site and has no price", () => {
@@ -57,24 +59,6 @@ test("each service is copied from the site and has no price", () => {
     true,
   );
   assert.equal(JSON.stringify(catalog).includes("price"), false);
-});
-
-test("reviews quote the written testimonials and skip the video without text", () => {
-  const reviews = graphNode("Organization").review as Array<{
-    author: { name: string };
-    reviewBody: string;
-  }>;
-  const quoted = he.testimonials.items.filter((item) => item.body.length > 0);
-  assert.equal(reviews.length, quoted.length);
-  assert.equal(
-    reviews.some((review) => review.author.name === "אשר מורגנשטיין"),
-    false,
-  );
-  for (const item of quoted) {
-    const review = reviews.find((entry) => entry.author.name === item.name);
-    assert.ok(review, item.name);
-    assert.equal(review.reviewBody, item.body.join("\n\n"));
-  }
 });
 
 test("person credentials come from the about section", () => {
