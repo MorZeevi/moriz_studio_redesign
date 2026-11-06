@@ -62,3 +62,5 @@ The opt-in comparison test is `tests/navigation/conversion-performance.spec.ts`;
 ## Owner follow-up: hero simplification
 
 The inline hero WhatsApp action and Elementor excerpt/attribution were removed at the owner's request. The qualified 400K+ line remains, and project browsing is again the sole primary hero action. The mobile bottom-bar label is now **שנדבר בוואטסאפ?**. Project-page enquiry actions and the original testimonial section remain. TypeScript, lint and the focused mobile regression (393×852, 740×360, 320×568) pass.
+
+Owner follow-up: the project-sidebar WhatsApp action is removed. The project-end enquiry invitation remains before next-project navigation.

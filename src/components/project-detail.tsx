@@ -192,7 +192,6 @@ export function ProjectDetail({
                 </div>
               ))}
             </div>
-            {!preview && <ProjectEnquiry compact />}
             {project.website_url && (
               <div className={detail.panelFooter}>
                 <a
