@@ -137,6 +137,7 @@ export function FloatingActions({
       <dialog
         ref={dialogRef}
         id={AI_CHAT_DIALOG_ID}
+        data-clarity-mask="true"
         className={styles.drawer}
         aria-labelledby={titleId}
         onClose={onDialogClose}

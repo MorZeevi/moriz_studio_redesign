@@ -5,6 +5,7 @@ import { CheckIcon } from "@/components/contact-icons";
 import { LiquidButton } from "@/components/ui/liquid-link";
 import { PaperPlaneIcon } from "@/components/ui/paper-plane-icon";
 import type { SiteContent } from "@/i18n/dictionaries";
+import { trackConversion } from "@/lib/conversion";
 import { WHATSAPP_URL } from "@/lib/whatsapp";
 import styles from "./footer-contact-form.module.css";
 
@@ -38,6 +39,7 @@ export function FooterContactForm({
   const [submissionState, setSubmissionState] =
     useState<SubmissionState>("idle");
   const sendingRef = useRef(false);
+  const startedRef = useRef(false);
 
   function validate(control: HTMLInputElement) {
     const field = control.name as Field;
@@ -90,11 +92,17 @@ export function FooterContactForm({
   return (
     <form
       className={styles.form}
+      data-clarity-mask="true"
+      data-contact-placement="contact-form"
       aria-labelledby="contact-heading"
       aria-describedby="contact-status"
       aria-busy={submissionState === "sending"}
       noValidate
       onChange={() => {
+        if (!startedRef.current) {
+          startedRef.current = true;
+          trackConversion("contact_form_start");
+        }
         if (submissionState !== "sending") setSubmissionState("idle");
       }}
       onSubmit={async (event) => {
@@ -144,8 +152,10 @@ export function FooterContactForm({
           formElement.reset();
           setWhatsapp(!!WHATSAPP_URL);
           setSubmissionState("success");
+          trackConversion("contact_form_success");
         } catch {
           setSubmissionState("error");
+          trackConversion("contact_form_error");
         } finally {
           window.clearTimeout(timeout);
           sendingRef.current = false;

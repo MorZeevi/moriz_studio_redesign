@@ -7,6 +7,7 @@ import { pixelRevealBootstrap } from "@/lib/pixel-reveal";
 import { pageAlternates } from "@/lib/seo";
 import { isIndexable, SITE_URL, siteOpenGraph } from "@/lib/site";
 import { themeBootstrap } from "@/lib/theme";
+import { ConversionAnalytics } from "@/components/conversion-analytics";
 import { ClarityAnalytics } from "@/components/clarity";
 import { ThemeProvider } from "@/components/theme-provider";
 import Noise from "@/components/react-bits/Noise";
@@ -106,6 +107,7 @@ export default async function RootLayout({
         <>
           <GoogleAnalytics gaId="G-R1KN0P3K42" />
           <ClarityAnalytics projectId="z1751pirhl" />
+          <ConversionAnalytics />
         </>
       ) : null}
     </html>
