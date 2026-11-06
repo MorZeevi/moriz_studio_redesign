@@ -97,11 +97,14 @@ html:has(.site-header) {
   white-space: nowrap;
 }
 
-/* Viewing work remains secondary to the enquiry action. */
+/* The projects link is the hero’s primary action. */
 .hero-actions .hero-projects-link {
-  --liquid-fill: var(--color-secondary);
-  --liquid-pressed-fill: var(--color-action-secondary-hover);
-  --liquid-ink: var(--color-dark);
+  --liquid-fill: var(--site-cta-fill, var(--color-action-primary));
+  --liquid-pressed-fill: var(
+    --site-cta-pressed,
+    var(--color-action-primary-hover)
+  );
+  --liquid-ink: var(--site-cta-ink, var(--color-text-inverse));
 }
 
 .header-actions .header-contact-link:focus-visible {

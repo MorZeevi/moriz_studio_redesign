@@ -58,3 +58,7 @@ The opt-in comparison test is `tests/navigation/conversion-performance.spec.ts`;
 2. Review and release the UX/media changes after checking a physical phone and isolated CMS permission fixtures. Nothing was published by this task.
 3. Only after this first-priority release: review PracticalAI/Chabad Club recordings and reproduce concrete friction; enrich case-study challenge/approach/result and service-oriented SEO using supported material; prepare campaign-tagged Facebook landing recommendations. Existing authored CMS SEO and recently merged metadata remain preserved.
 4. Review complete 7-day and 28-day windows by device/acquisition source. Report **contact intent**, **server-accepted forms**, and **owner-confirmed qualified leads** separately. Five qualified enquiries per 100 visits is a business target, not a promise.
+
+## Owner follow-up: hero simplification
+
+The inline hero WhatsApp action and Elementor excerpt/attribution were removed at the owner's request. The qualified 400K+ line remains, and project browsing is again the sole primary hero action. The mobile bottom-bar label is now **שנדבר בוואטסאפ?**. Project-page enquiry actions and the original testimonial section remain. TypeScript, lint and the focused mobile regression (393×852, 740×360, 320×568) pass.

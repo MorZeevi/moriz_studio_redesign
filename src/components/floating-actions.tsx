@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { conversionCopy } from "@/content/conversion-copy";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { WhatsappLogoIcon } from "@/components/contact-icons";
@@ -191,7 +192,7 @@ export function FloatingActions({
       >
         {WHATSAPP_URL && (
           <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-            בואו נדבר בוואטסאפ
+            {conversionCopy.mobileAction}
           </a>
         )}
         <button

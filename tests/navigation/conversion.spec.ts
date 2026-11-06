@@ -10,9 +10,12 @@ test("mobile project titles scroll naturally and contact actions remain clear", 
   ]) {
     await page.setViewportSize(viewport);
     await page.goto("/he");
-    await expect(
-      page.locator('.hero-actions a[href^="https://wa.me/"]'),
-    ).toBeVisible();
+    await expect(page.locator(".hero-actions a")).toHaveCount(1);
+    await expect(page.locator(".hero-actions a")).toHaveAttribute(
+      "href",
+      "#projects",
+    );
+    await expect(page.locator(".hero-trust blockquote")).toHaveCount(0);
     await expect(page.locator(".hero-trust")).toContainText(
       "400K+ משתמשים במוצרים שבניתי או לקחתי בהם חלק",
     );
@@ -22,6 +25,9 @@ test("mobile project titles scroll naturally and contact actions remain clear", 
     await head.scrollIntoViewIfNeeded();
     await expect(head).toHaveCSS("position", "relative");
     await expect(page.locator("[data-mobile-actions]")).toBeVisible();
+    await expect(page.locator("[data-mobile-actions] a")).toHaveText(
+      "שנדבר בוואטסאפ?",
+    );
     await page.locator("#contact").scrollIntoViewIfNeeded();
     await expect(page.locator("[data-mobile-actions]")).toBeHidden();
     await page.locator("#contact-name").focus();

@@ -18,7 +18,6 @@ import { MainHeader } from "@/components/main-header";
 import { PartyModeProvider } from "@/components/party-mode/party-mode-provider";
 import { PartyModeToggle } from "@/components/party-mode/party-mode-toggle";
 import { conversionCopy } from "@/content/conversion-copy";
-import { WHATSAPP_URL } from "@/lib/whatsapp";
 import { ProjectsSection } from "@/components/projects-section";
 import FallingText from "@/components/react-bits/FallingText";
 import { SecondaryScrollSurface } from "@/components/secondary-scroll-surface";
@@ -87,17 +86,7 @@ export default async function Home({
                   content={content.hero.description}
                 />
                 <div className="hero-actions" data-contact-placement="hero">
-                  {WHATSAPP_URL && (
-                    <LiquidLink
-                      href={WHATSAPP_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {conversionCopy.action}
-                    </LiquidLink>
-                  )}
                   <LiquidLink
-                    variant="secondary"
                     className="hero-projects-link"
                     arrow="down"
                     href="#projects"
@@ -111,10 +100,6 @@ export default async function Home({
                     <bdi dir="ltr">{conversionCopy.trust.slice(0, 5)}</bdi>
                     {conversionCopy.trust.slice(5)}
                   </p>
-                  <blockquote>
-                    ״{conversionCopy.quote}״
-                    <cite>{conversionCopy.attribution}</cite>
-                  </blockquote>
                 </div>
               </div>
               <HeroVideo labels={content.hero.video} />
