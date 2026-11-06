@@ -114,27 +114,6 @@ function personDetails(content: SiteContent) {
   };
 }
 
-function reviews(content: SiteContent) {
-  return content.testimonials.items.flatMap((item) => {
-    const quote = item.body
-      .map((paragraph) => paragraph.trim())
-      .filter(Boolean);
-    if (!quote.length) return [];
-    return [
-      {
-        "@type": "Review" as const,
-        author: {
-          "@type": "Person" as const,
-          name: item.name,
-          ...(item.role ? { jobTitle: item.role } : {}),
-        },
-        reviewBody: quote.join("\n\n"),
-        itemReviewed: { "@id": organizationId },
-      },
-    ];
-  });
-}
-
 export function homeStructuredData(
   content: SiteContent,
   locale: EnabledLocale,
@@ -142,7 +121,6 @@ export function homeStructuredData(
   const url = `${SITE_URL}/${locale}`;
   const sameAs = content.footer.socials.map((social) => social.href);
   const services = offerServices(content);
-  const clientReviews = reviews(content);
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -186,7 +164,6 @@ export function homeStructuredData(
               },
             }
           : {}),
-        ...(clientReviews.length ? { review: clientReviews } : {}),
       },
       {
         "@type": "Person",
