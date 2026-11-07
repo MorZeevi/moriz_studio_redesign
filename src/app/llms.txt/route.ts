@@ -1,4 +1,5 @@
 import { connection } from "next/server";
+import { serviceLlmsPages } from "@/content/services";
 import { defaultLocale } from "@/i18n/config";
 import { he } from "@/i18n/dictionaries/he";
 import { getPublishedArticles } from "@/lib/articles/load";
@@ -51,6 +52,7 @@ export async function GET() {
       slug: article.slug,
       description: article.description,
     })),
+    services: serviceLlmsPages(),
   });
   return new Response(text, {
     headers: {

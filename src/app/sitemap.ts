@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { connection } from "next/server";
+import { serviceSitemapEntries } from "@/content/services";
 import { defaultLocale } from "@/i18n/config";
 import { he } from "@/i18n/dictionaries/he";
 import { articleInstant } from "@/lib/articles/format";
@@ -27,5 +28,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       updatedAt: articleInstant(article.updated ?? article.date),
     })),
     privacyUpdatedOn: he.privacyPolicy.updatedOn,
+    services: serviceSitemapEntries(),
   });
 }

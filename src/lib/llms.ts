@@ -51,6 +51,7 @@ export function renderLlmsTxt({
   whatsappUrl,
   projects,
   articles,
+  services,
 }: {
   content: SiteContent;
   siteUrl: string;
@@ -58,6 +59,7 @@ export function renderLlmsTxt({
   whatsappUrl: string | null;
   projects: LlmsLink[];
   articles: LlmsLink[];
+  services?: { title: string; path: string; description?: string }[];
 }): string {
   const home = absolute(siteUrl, locale);
   const lines: string[] = [
@@ -109,6 +111,14 @@ export function renderLlmsTxt({
   }
   const ai = answer(content, "AI");
   if (ai) lines.push("", ai);
+  if (services?.length) {
+    lines.push("");
+    for (const service of services) {
+      lines.push(
+        linkLine(service.title, `${home}${service.path}`, service.description),
+      );
+    }
+  }
 
   lines.push("", `## ${content.gettingStarted.heading}`, "");
   content.gettingStarted.steps.forEach((step, index) => {
