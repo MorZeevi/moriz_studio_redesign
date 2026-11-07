@@ -181,6 +181,10 @@ test("sitemap and llms.txt list the Hebrew service URLs", () => {
     services: serviceSitemapEntries(),
   });
   const urls = entries.map((entry) => entry.url);
+  for (const entry of entries) {
+    if (!entry.url.includes("/services")) continue;
+    assert.ok(entry.lastModified instanceof Date, entry.url);
+  }
   assert.deepEqual(
     urls.filter((url) => url.includes("/services")),
     [
