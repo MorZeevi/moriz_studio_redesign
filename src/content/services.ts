@@ -62,7 +62,7 @@ export type ServiceDocument = {
   showCatalog: boolean;
 };
 
-export const SERVICES_UPDATED_ON = "2026-11-07";
+export const SERVICES_UPDATED_ON = "2026-11-08";
 
 export const servicesChrome = {
   breadcrumbs: "פירורי לחם",
@@ -92,6 +92,12 @@ export const ownerReviewClaims = {
   ctaMvp: "ספרו לי על המוצר ועל הגרסה הראשונה, ונחשוב יחד מה נכנס לאפיון.",
   ctaAi: "ספרו לי על התהליך שחוזר על עצמו בעסק, ונחשוב יחד אם סוכן AI מתאים.",
   ctaUx: "ספרו לי על המערכת ועל מי שמשתמש בה, ונחשוב יחד איך לפשט אותה.",
+  learningUsers:
+    "בפלטפורמת למידה אני מתחילה משני משתמשים: מי שלומד, ומי שמנהל את הלמידה.",
+  learningModule:
+    "לומדה אצלי היא יחידה אינטראקטיבית עם משימה ללומד, לא מצגת.",
+  ctaLearning:
+    "ספרו לי על פלטפורמת הלמידה או על הלומדה, ונחשוב יחד מה הלומד צריך להשלים.",
   studio:
     "אני מור זאבי, בעלת הסטודיו Moriz Studio. אתם עובדים מולי, לא מול מחלקה אנונימית.",
 } as const;
@@ -194,6 +200,8 @@ const servicesHub: ServiceDocument = {
           { text: "עיצוב UX/UI למערכות מורכבות", href: "/services/ux-design" },
           ". תהליך שחוזר על עצמו וגוזל שעות מתחיל ב",
           { text: "סוכן AI לעסק", href: "/services/ai-agents" },
+          ". קורס דיגיטלי, לומדה או מערכת למידה מתחילים ב",
+          { text: "פלטפורמת למידה", href: "/services/elearning" },
           ".",
         ],
         [
@@ -1001,11 +1009,195 @@ const uxDesign: ServiceDocument = {
     "synthetic-users-ux-research",
   ],
   projectSlugs: ["practicalai", "awscience", "guesto", "chabad-club"],
-  relatedSlugs: ["mvp", "business-websites", "ai-agents"],
+  relatedSlugs: ["elearning", "mvp", "business-websites", "ai-agents"],
   cta: ownerReviewClaims.ctaUx,
 };
 
-export const services = [businessWebsites, mvp, aiAgents, uxDesign] as const;
+const elearning: ServiceDocument = {
+  slug: "elearning",
+  path: "/services/elearning",
+  title: "פלטפורמת למידה ופיתוח לומדות",
+  description:
+    "פלטפורמת למידה, פיתוח לומדות ומערכת למידה LMS: אפיון, עיצוב ופיתוח ללומד ולמי שמנהל את הלמידה. אצל מור זאבי, עם תואר בטכנולוגיות למידה.",
+  keyword: "פלטפורמת למידה",
+  heading: "פלטפורמת למידה ופיתוח לומדות",
+  answer: [
+    p(
+      "פלטפורמת למידה אצלי היא אפיון, עיצוב ופיתוח של המקום שבו לומדים, ושל הצד שבו מנהלים את הלמידה. זה יכול להיות מערכת למידה LMS, קורס דיגיטלי, או פיתוח לומדות.",
+    ),
+    p(ownerReviewClaims.learningUsers),
+    p(
+      "יש לי תואר בטכנולוגיות למידה מ-H.I.T וניסיון של שנים בפיתוח, והתהליך מבוסס על מחקר.",
+    ),
+  ],
+  showCatalog: false,
+  sections: [
+    {
+      type: "prose",
+      id: "kinds",
+      heading: "פלטפורמה, לומדה ומערכת ניהול למידה",
+      paragraphs: [
+        p(
+          "מערכת ניהול למידה (LMS) מחזיקה קורסים, משייכת לומדים ומראה התקדמות. פלטפורמת למידה יכולה לכלול את זה, וגם את החוויה שבה הלומד לומד.",
+        ),
+        p(ownerReviewClaims.learningModule),
+        [
+          "על העיצוב לשני המשתמשים כתבתי ב",
+          {
+            text: "עיצוב פלטפורמת למידה",
+            href: "/articles/learning-platform-design",
+          },
+          ". כשהמערכת עמוסה, העיצוב הוא ",
+          {
+            text: "עיצוב UX/UI למערכות מורכבות",
+            href: "/services/ux-design",
+          },
+          ". כשעוד לא ברור מה נכנס לגרסה הראשונה, מתחילים ב",
+          { text: "אפיון ופיתוח MVP", href: "/services/mvp" },
+          ".",
+        ],
+      ],
+    },
+    {
+      type: "split",
+      id: "fit",
+      heading: "למי מתאימה פלטפורמת למידה",
+      columns: [
+        {
+          heading: "למי זה מתאים",
+          items: [
+            "ארגון או יזם שבונה מערכת למידה, קורס דיגיטלי או לומדה.",
+            "מוצר עם לומד, וגם מי שמנהל תכנים, שיוך והתקדמות.",
+            "מי שצריך עיצוב לומדה עם משימה, לא מצגת.",
+            "מי שרוצה אפיון, עיצוב, ולפעמים גם פיתוח, מכתובת אחת.",
+          ],
+        },
+        {
+          heading: "למי זה לא מתאים",
+          paragraphs: [p(referral)],
+          items: [
+            "מי שרוצה רק מנוי לכלי מוכן, בלי אפיון ובלי פיתוח.",
+            "אתר תדמית לקורס, בלי מסע למידה ובלי ניהול לומדים.",
+            "מצגת שאין בה משימה ללומד.",
+          ],
+        },
+      ],
+    },
+    {
+      type: "steps",
+      id: "process",
+      heading: "איך נראה התהליך",
+      steps: [
+        ...startSteps,
+        {
+          title: "ממפים את שני הצדדים",
+          detail: ownerReviewClaims.learningUsers,
+        },
+        designStep,
+        buildStep,
+      ],
+    },
+    {
+      type: "prose",
+      id: "included",
+      heading: "מה כלול",
+      paragraphs: [
+        p("בפלטפורמת למידה, בלומדה או במערכת למידה ההצעה נשענת על אלה:"),
+      ],
+      items: [
+        "אפיון המסע של הלומד ושל מי שמנהל את הלמידה.",
+        "עיצוב לומדה, או עיצוב מסכי הקורס וההתקדמות.",
+        "עיצוב רספונסיבי מלא.",
+        "סימולטור אינטראקטיבי לתרחישים המרכזיים, לפני קוד.",
+        "הצעת מחיר שמבוססת על האפיון, בתוקף ל־14 ימי עבודה.",
+        "פיתוח בקוד נקי, כשההצעה כוללת אותו.",
+      ],
+    },
+    {
+      type: "prose",
+      id: "cost",
+      heading: "איך נקבעת העלות",
+      paragraphs: [
+        p(estimate),
+        p("בפלטפורמת למידה ובפיתוח לומדות ההיקף זז לפי המוצר:"),
+      ],
+      items: [
+        "לומדה אחת, או פלטפורמה עם כמה קורסים ומסלולים.",
+        "כמה סוגי משתמשים יש, ומה כל אחד צריך להשלים.",
+        "אם התכנים כבר כתובים, או שעוד צריך להחליט מה הלומד עושה.",
+        "אם צריך לחבר מערכת קיימת.",
+        "אם העבודה נשארת באפיון ובעיצוב, או ממשיכה לפיתוח.",
+        "תכנים מוכנים ומשוב מהיר מקצרים את הדרך.",
+      ],
+    },
+  ],
+  faq: [
+    {
+      question: "מה זה פלטפורמת למידה?",
+      answer: [
+        "פלטפורמת למידה היא מערכת ללומד ולמי שמנהל את הלמידה: תכנים, תרגול, התקדמות, ולפעמים שיוך של לומדים לקורס.",
+        ownerReviewClaims.learningUsers,
+      ],
+    },
+    {
+      question: "מה ההבדל בין פלטפורמת למידה ללומדה?",
+      answer: [
+        "לומדה היא יחידת למידה אחת. פלטפורמת למידה מחזיקה הרבה יחידות כאלה, ומנהלת את הלומדים ואת ההתקדמות.",
+        ownerReviewClaims.learningModule,
+      ],
+    },
+    {
+      question: "מה זה מערכת ניהול למידה (LMS)?",
+      answer: [
+        "מערכת ניהול למידה, או LMS, מחזיקה קורסים, משייכת לומדים ומראה התקדמות. פלטפורמת למידה יכולה לכלול LMS, וגם את המסכים שבהם הלומד לומד.",
+      ],
+    },
+    {
+      question: "מה כולל פיתוח לומדות?",
+      answer: [
+        "אפיון המשימה של הלומד, עיצוב לומדה, וסימולטור לתרחישים המרכזיים לפני קוד. פיתוח נכנס כשההצעה כוללת אותו.",
+        ownerReviewClaims.learningModule,
+      ],
+    },
+    {
+      question: "במה עיצוב לומדה שונה מעיצוב אתר?",
+      answer: [
+        "אתר מוביל להבנה וליצירת קשר. עיצוב לומדה נמדד בזה שהלומד משלים משימה, ושמי שמנהל את הלמידה יכול לעדכן תוכן ולראות מה קורה.",
+      ],
+    },
+    {
+      question: "כמה עולה פלטפורמת למידה?",
+      answer: [
+        estimate,
+        "לומדה אחת ומערכת למידה עם כמה סוגי משתמשים, קורסים וחיבורים הן לא אותו היקף.",
+      ],
+    },
+    {
+      question: "האם הפיתוח כלול?",
+      answer: [
+        "אפיון ועיצוב באים לפני קוד. פיתוח בקוד נקי נכנס כשההצעה כוללת אותו, והקוד נשאר שלכם.",
+        ownership,
+      ],
+    },
+  ],
+  articleSlugs: [
+    "learning-platform-design",
+    "complex-system-ux-design",
+    "dashboard-design-decisions",
+    "ux-specification-process",
+  ],
+  projectSlugs: ["practicalai", "awscience"],
+  relatedSlugs: ["ux-design", "mvp", "business-websites"],
+  cta: ownerReviewClaims.ctaLearning,
+};
+
+export const services = [
+  businessWebsites,
+  mvp,
+  aiAgents,
+  uxDesign,
+  elearning,
+] as const;
 
 export const servicesHubDocument = servicesHub;
 

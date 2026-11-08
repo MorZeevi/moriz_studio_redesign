@@ -113,7 +113,7 @@ test("JSON-LD matches the visible FAQ and reuses the studio entity", () => {
     assert.equal(types.includes("BreadcrumbList"), true);
     assert.equal(
       types.filter((type) => type === "Service").length,
-      page.showCatalog ? 5 : 1,
+      page.showCatalog ? services.length + 1 : 1,
     );
     const service = parsed["@graph"].find(
       (node) => node["@type"] === "Service",
@@ -193,6 +193,7 @@ test("sitemap and llms.txt list the Hebrew service URLs", () => {
       "https://moriz.studio/he/services/mvp",
       "https://moriz.studio/he/services/ai-agents",
       "https://moriz.studio/he/services/ux-design",
+      "https://moriz.studio/he/services/elearning",
     ],
   );
   const text = renderLlmsTxt({
