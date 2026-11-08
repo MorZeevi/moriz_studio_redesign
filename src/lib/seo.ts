@@ -158,12 +158,15 @@ export function publicSitemapEntries({
   projects,
   articles,
   privacyUpdatedOn,
+  services,
 }: {
   siteUrl: string;
   locale: string;
   projects: SitemapProject[];
   articles: SitemapArticle[];
   privacyUpdatedOn?: string;
+  /** Locale-less paths such as `/services` and `/services/mvp`. */
+  services?: { path: string; updatedOn?: string }[];
 }): PublicSitemapEntry[] {
   const base = `${siteUrl}/${locale}`;
   const listingUpdated = latest(projects.map((project) => project.updatedAt));
@@ -197,6 +200,22 @@ export function publicSitemapEntries({
       priority: 0.2,
     },
   ];
+  const serviceEntries: PublicSitemapEntry[] = (services ?? []).map(
+    (service) => {
+      const updated = service.updatedOn
+        ? latest([`${service.updatedOn}T12:00:00.000Z`])
+        : undefined;
+      return {
+        url: `${base}${service.path}`,
+        ...(updated ? { lastModified: updated } : {}),
+        changeFrequency: "monthly" as const,
+        priority: service.path === "/services" ? 0.8 : 0.7,
+      };
+    },
+  );
+  // After the projects index, before the articles index. Empty when omitted,
+  // so the previous URL order stays intact.
+  entries.splice(2, 0, ...serviceEntries);
   for (const project of projects) {
     const updated = latest([project.updatedAt]);
     entries.push({

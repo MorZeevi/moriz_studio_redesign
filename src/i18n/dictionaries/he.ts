@@ -624,6 +624,7 @@ export const he = {
           { label: "עמוד הבית", href: "/" },
           { label: "כל הפרויקטים", href: "/projects" },
           { label: "מאמרים", href: "/articles" },
+          { label: "שירותים", href: "/services" },
         ],
       },
     ],
