@@ -147,14 +147,14 @@ test("webp dimensions are read from a VP8X header", () => {
   assert.equal(webpSize(new Uint8Array(8)), null);
 });
 
-test("the sample article is a draft and nothing is published", () => {
+test("the sample article stays a draft while other articles are published", () => {
   const articles = getAllArticles();
-  assert.equal(getPublishedArticles().length, 0);
-  assert.ok(articles.every((article) => article.draft));
+  assert.ok(getPublishedArticles().length > 0);
   const sample = articles.find(
     (article) => article.slug === "user-research-before-design",
   );
   assert.ok(sample);
+  assert.equal(sample.draft, true);
   assert.ok(sample.tldr.length >= 2);
   assert.equal(sample.cta, true);
   assert.ok(sample.headings.length >= 2);
