@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { AboutGallery } from "@/components/about-gallery";
 import { AboutMe } from "@/components/about-me";
@@ -41,6 +42,10 @@ export default async function Home({
   if (!isEnabledLocale(locale)) notFound();
   const content = await getDictionary(locale);
   const projects = await getPublicProjects("homepage");
+  const heroQuote = content.testimonials.items.find(
+    (item) => item.id === content.hero.quoteId,
+  );
+
   return (
     <PartyModeProvider labels={content.advantages.party}>
       <link
@@ -77,11 +82,26 @@ export default async function Home({
             className="hero-background"
           >
             <div className="hero-shell hero">
-              <div className="hero-heading-block">
-                <HeroHeading content={content.hero.heading} />
-              </div>
               <div className="hero-copy">
-                <p className="hero-service">{conversionCopy.service}</p>
+                <p className="hero-identity">
+                  <span className="hero-identity-avatar">
+                    <Image
+                      src="/images/mor-avatar-cutout.webp"
+                      alt=""
+                      width={600}
+                      height={600}
+                      sizes="48px"
+                    />
+                  </span>
+                  <span className="hero-identity-text">
+                    <strong>{content.hero.identity.name}</strong>
+                    <span>{conversionCopy.service}</span>
+                  </span>
+                  <span className="hero-status">
+                    {content.hero.identity.status}
+                  </span>
+                </p>
+                <HeroHeading content={content.hero.heading} />
                 <HeroDescription
                   className="hero-description"
                   content={content.hero.description}
@@ -109,6 +129,20 @@ export default async function Home({
                   <p className="hero-promise">
                     {conversionCopy.responsePromise}
                   </p>
+                </div>
+                <div className="hero-proof">
+                  <p className="hero-stat">
+                    <bdi>{content.hero.proof.value}</bdi>
+                    <span>{content.hero.proof.label}</span>
+                  </p>
+                  {heroQuote?.headline && (
+                    <figure className="hero-quote">
+                      <blockquote>{heroQuote.headline}</blockquote>
+                      <figcaption>
+                        {heroQuote.name} · {heroQuote.role}
+                      </figcaption>
+                    </figure>
+                  )}
                 </div>
               </div>
               <HeroVideo labels={content.hero.video} />

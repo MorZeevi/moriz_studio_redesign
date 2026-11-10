@@ -62,13 +62,19 @@ export const he = {
   },
   hero: {
     heading: {
-      start: "יוצרת",
-      rotating: ["אתרים מורכבים", "אפליקציות WEB", "אפיון ועיצוב", "כלי AI"],
-      end: "מבוססי מחקר",
-      // Accessible name: the rotation is visual only.
-      label:
-        "יוצרת אתרים מורכבים, אפליקציות WEB, אפיון ועיצוב וכלי AI מבוססי מחקר",
+      start: "בניית אתרים ומערכות שהופכים אתגרים",
+      accent: "לפתרונות סופר חכמים",
+      // The whole heading as one string, for the font preview page.
+      label: "בניית אתרים ומערכות שהופכים אתגרים לפתרונות סופר חכמים",
     },
+    identity: {
+      name: "מור זאבי",
+      status: "זמינה לפרויקטים חדשים",
+    },
+    // A real figure from the AI פרקטי project page.
+    proof: { value: "7K+", label: "משתמשים במערכת AI פרקטי" },
+    // The testimonial quoted beside the hero actions.
+    quoteId: "elbi-ben-shimol",
     introduction: "נעים להכיר, אני מור",
     portraitAlt: "מור — בעלת הסטודיו",
     description: {

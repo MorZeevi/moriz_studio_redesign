@@ -10,8 +10,13 @@ test("mobile project titles scroll naturally and contact actions remain clear", 
   ]) {
     await page.setViewportSize(viewport);
     await page.goto("/he");
-    await expect(page.locator(".hero-actions a")).toHaveCount(1);
-    await expect(page.locator(".hero-actions a")).toHaveAttribute(
+    // Contact first, then the projects link.
+    await expect(page.locator(".hero-actions a")).toHaveCount(2);
+    await expect(page.locator(".hero-actions a").first()).toHaveAttribute(
+      "href",
+      /^https:\/\/wa\.me\//,
+    );
+    await expect(page.locator(".hero-actions a").last()).toHaveAttribute(
       "href",
       "#projects",
     );
