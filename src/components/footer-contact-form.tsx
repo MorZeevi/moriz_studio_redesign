@@ -6,6 +6,7 @@ import { LiquidButton } from "@/components/ui/liquid-link";
 import { PaperPlaneIcon } from "@/components/ui/paper-plane-icon";
 import type { SiteContent } from "@/i18n/dictionaries";
 import { getAttribution } from "@/diagnostic/attribution";
+import { CONTACT_INTERESTS, type ContactInterest } from "@/lib/contact-interests";
 import { trackConversion } from "@/lib/conversion";
 import { WHATSAPP_URL } from "@/lib/whatsapp";
 import styles from "./footer-contact-form.module.css";
@@ -24,6 +25,35 @@ function errorFor(field: Field, value: string) {
   if (field === "name") return value.trim() ? undefined : "name";
   return isPhone(value) ? undefined : "phone";
 }
+
+// Small line drawings, one per choice; decorative beside the label.
+const icon = (paths: React.ReactNode) => (
+  <svg
+    className={styles.interestIcon}
+    viewBox="0 0 32 32"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.6"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <rect x="4" y="5" width="24" height="17" rx="2.5" />
+    <path d="M12 27h8M16 22v5" />
+    {paths}
+  </svg>
+);
+const interestIcons: Record<ContactInterest, React.ReactNode> = {
+  website: icon(<path d="M4 10h24M13 14l-2.5 2.5L13 19M19 14l2.5 2.5L19 19" />),
+  "web-app": icon(<path d="M9 10h6v8H9zM19 10h4M19 14h4M19 18h4" />),
+  "interactive-tool": icon(
+    <path d="M9 11h14M9 16h14M13 9.5v3M19 14.5v3" />,
+  ),
+  "ux-ui": icon(<path d="M16 9l3 6-3 3-3-3zM16 9v6M9 18h2M21 18h2" />),
+  specification: icon(
+    <path d="M9 10h4v3H9zM19 15h4v3h-4zM13 11.5h3v5h3" />,
+  ),
+};
 
 export function FooterContactForm({
   content,
@@ -152,6 +182,7 @@ export function FooterContactForm({
               phone,
               message,
               preferWhatsApp: whatsapp,
+              interests: form.getAll("interests").map(String),
               website,
               source: {
                 utmSource: attribution?.utm?.utm_source,
@@ -195,6 +226,24 @@ export function FooterContactForm({
           aria-hidden="true"
           autoComplete="off"
         />
+        <fieldset className={`${styles.interests} ${styles.full}`}>
+          <legend className={styles.label}>
+            {content.interests}{" "}
+            <span className={styles.optional}>{content.fields.optional}</span>
+          </legend>
+          <div className={styles.interestGrid}>
+            {CONTACT_INTERESTS.map((interest) => (
+              <label key={interest.id} className={styles.interest}>
+                <input type="checkbox" name="interests" value={interest.id} />
+                <span className={styles.interestMark} aria-hidden="true">
+                  <CheckIcon />
+                </span>
+                {interestIcons[interest.id]}
+                <span>{interest.label}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
         {question(
           "name",
           <input

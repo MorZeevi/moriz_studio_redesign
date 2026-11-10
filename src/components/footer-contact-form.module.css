@@ -90,6 +90,104 @@
   border-block-end-color: var(--site-foreground);
 }
 
+/* "What interests you?": optional cards, any number of them. */
+.interests {
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.interests legend {
+  margin-block-end: var(--space-3);
+  padding: 0;
+}
+
+.interestGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
+  gap: var(--space-2);
+}
+
+.interest {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: var(--space-2);
+  min-block-size: 6.5rem;
+  padding: var(--space-3) var(--space-2);
+  border: var(--border-width-default) solid var(--contact-line);
+  border-radius: 1rem;
+  font-size: var(--text-body-sm);
+  line-height: 1.3;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
+}
+
+.interest input {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  margin: 0;
+  border-radius: inherit;
+  appearance: none;
+  cursor: pointer;
+}
+
+.interest:hover {
+  border-color: var(--site-foreground);
+}
+
+.interest:has(input:checked) {
+  border-color: var(--site-foreground);
+  background: var(--site-foreground);
+  color: var(--color-action-primary);
+}
+
+.interest input:focus-visible {
+  outline: var(--focus-ring-width) solid var(--site-focus);
+  outline-offset: var(--space-1);
+}
+
+.interestIcon {
+  inline-size: 2rem;
+  block-size: 2rem;
+}
+
+.interestMark {
+  position: absolute;
+  inset-block-start: var(--space-2);
+  inset-inline-end: var(--space-2);
+  display: grid;
+  place-items: center;
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  border-radius: 50%;
+  background: var(--color-action-primary);
+  color: var(--site-foreground);
+  opacity: 0;
+  scale: 0.5;
+  transition:
+    opacity var(--duration-fast) var(--ease-standard),
+    scale var(--duration-fast) var(--ease-enter);
+}
+
+.interestMark svg {
+  inline-size: 0.8rem;
+  block-size: 0.8rem;
+}
+
+.interest:has(input:checked) .interestMark {
+  opacity: 1;
+  scale: 1;
+}
+
 /* Errors sit under their field, so paired fields stay level. */
 .hint {
   margin: 0;
@@ -228,6 +326,16 @@
 }
 
 @media (max-width: 63.999rem) {
+  /* Two columns on phones; the odd last card fills its row. */
+  .interestGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .interest:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    min-block-size: 4.5rem;
+  }
+
   .submit.submit {
     inline-size: 100%;
   }
@@ -251,7 +359,9 @@
 @media (prefers-reduced-motion: reduce) {
   .submit,
   .box,
-  .tick {
+  .tick,
+  .interest,
+  .interestMark {
     animation: none;
     transition: none;
   }

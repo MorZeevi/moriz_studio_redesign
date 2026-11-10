@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { CONTACT_INTERESTS, type ContactInterest } from "./contact-interests.ts";
 
 export const CONTACT_RECIPIENT = "morzavi1@gmail.com";
 export const CONTACT_MAX_BODY_LENGTH = 10000;
@@ -9,6 +10,7 @@ export type ContactSubmission = {
   message: string;
   preferWhatsApp: boolean;
   website: string;
+  interests: ContactInterest[];
   source?: ContactSource;
 };
 
@@ -76,6 +78,11 @@ export function parseContactSubmission(
   )
     return null;
 
+  // Optional; unknown ids are dropped so only the form's own choices remain.
+  const chosen = Array.isArray(fields.interests) ? fields.interests : [];
+  const interests = CONTACT_INTERESTS.map((interest) => interest.id).filter(
+    (id) => chosen.includes(id),
+  );
   const source = parseContactSource(fields.source);
   return {
     name,
@@ -83,6 +90,7 @@ export function parseContactSubmission(
     message,
     preferWhatsApp: fields.preferWhatsApp,
     website,
+    interests,
     ...(source && { source }),
   };
 }
@@ -110,6 +118,13 @@ export function buildContactEmail(submission: ContactSubmission) {
       `שם: ${submission.name}`,
       `טלפון: ${submission.phone}`,
       `עדיפות לוואטסאפ: ${submission.preferWhatsApp ? "כן" : "לא"}`,
+      `מתעניינים ב: ${
+        CONTACT_INTERESTS.filter((interest) =>
+          submission.interests.includes(interest.id),
+        )
+          .map((interest) => interest.label)
+          .join(", ") || "(לא נבחר)"
+      }`,
       "",
       "הודעה:",
       submission.message || "(לא נכתבה הודעה)",

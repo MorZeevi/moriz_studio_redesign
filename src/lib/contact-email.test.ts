@@ -22,6 +22,7 @@ test("accepts a short contact request and normalizes its text", () => {
     message: "אשמח לדבר על פרויקט.",
     preferWhatsApp: true,
     website: "",
+    interests: [],
   });
   assert.equal(parseContactSubmission({ ...valid, phone: "123" }), null);
   assert.equal(parseContactSubmission({ ...valid, name: " " }), null);
@@ -103,4 +104,20 @@ test("email reports where the visitor came from, and drops a malformed source", 
   assert.ok(untagged);
   assert.equal(untagged.source, undefined);
   assert.match(buildContactEmail(untagged).text, /מקור: לא ידוע/);
+});
+
+test("keeps only the interests the form offers and lists them in the email", () => {
+  const submission = parseContactSubmission({
+    ...valid,
+    interests: ["web-app", "seo", 7, "website"],
+  });
+  assert.ok(submission);
+  assert.deepEqual(submission.interests, ["website", "web-app"]);
+  assert.match(
+    buildContactEmail(submission).text,
+    /מתעניינים ב: בניית אתר, מערכת או אפליקציית Web/,
+  );
+  const none = parseContactSubmission(valid);
+  assert.ok(none);
+  assert.match(buildContactEmail(none).text, /מתעניינים ב: \(לא נבחר\)/);
 });

@@ -580,6 +580,7 @@ export const he = {
     description: "ספרו לי בקצרה על הפרויקט שלכם.",
     promise: "חוזרת אליכם תוך יום עסקים.",
     phoneHint: "רק כדי לחזור אליכם.",
+    interests: "מה מעניין אותך?",
     fields: {
       name: "מה השם שלך?",
       phone: "מה המספר שלך?",
