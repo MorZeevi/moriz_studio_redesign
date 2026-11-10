@@ -139,122 +139,46 @@ html:has(.site-header) {
   text-align: start;
 }
 
+.hero-heading-block {
+  min-inline-size: 0;
+}
+
 .hero-heading {
   min-inline-size: 0;
   margin: 0;
   overflow-wrap: anywhere;
   font-size: var(--trial-hero-size);
   font-weight: 700;
-  line-height: 1.02;
+  line-height: 1;
   letter-spacing: -0.025em;
   text-wrap: balance;
 }
 
-/* Dark mode swaps the action red for the secondary color. */
-.hero-heading-rotating {
-  color: var(--site-hero-rotating, var(--color-action-primary));
-}
-
-/* Who is speaking, above the promise: portrait, name, service, availability. */
-.hero-identity {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2) var(--space-3);
-  margin: 0;
-  font-size: var(--text-body-sm);
-  line-height: 1.35;
-}
-
-.hero-identity-avatar {
-  flex-shrink: 0;
-  inline-size: 2.75rem;
-  block-size: 2.75rem;
-  overflow: hidden;
-  border-radius: 50%;
-  background: var(--color-secondary);
-}
-
-.hero-identity-avatar img {
-  inline-size: 100%;
-  block-size: 100%;
-  object-fit: cover;
-  object-position: top;
-}
-
-.hero-identity-text {
-  display: grid;
-  flex: 1;
-  min-inline-size: 0;
-}
-
-.hero-identity-text strong {
-  font-weight: var(--font-weight-heading);
-}
-
-/* Small technical labels in a hairline pill. Hebrew stays in the body font
-   (monospace Hebrew spreads its letters); only the figure is monospace. */
-.hero-status,
-.hero-stat {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin: 0;
-  padding: 0.3em 0.8em;
-  border: var(--border-width-default) solid var(--color-border);
-  border-radius: 999px;
-  font-size: 0.8125rem;
-  line-height: 1.4;
+/* "יוצרת" + rotating phrase / "מבוססי מחקר": two fixed lines on every
+   screen; phones shrink the type so the longest phrase still fits. */
+.hero-heading-line {
+  display: block;
   white-space: nowrap;
 }
 
-.hero-status::before {
-  inline-size: 0.5rem;
-  block-size: 0.5rem;
-  border-radius: 50%;
-  background: #1faa59;
-  box-shadow: 0 0 0 0.2rem color-mix(in srgb, #1faa59 25%, transparent);
-  content: "";
+.hero-heading-rotating {
+  display: inline-flex;
+  vertical-align: bottom;
+  /* Dark mode swaps the action red for the secondary color. */
+  color: var(--site-hero-rotating, var(--color-action-primary));
 }
 
-.hero-proof {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-3) var(--space-6);
-  padding-block-start: var(--space-4);
-  border-block-start: var(--border-width-default) solid var(--color-border);
-  inline-size: 100%;
+/* Clips each word's slide to the ink, not the line box: with line-height 1
+   Hebrew letters sit low (ink from ~0.24em, ל from ~0.09em, ק down to
+   ~1.06em), so a box clip would show letters leaving through the empty top. */
+.hero-heading-rotating-word {
+  clip-path: inset(0.07em -0.1em -0.07em);
 }
 
-.hero-stat bdi {
-  font-family: var(--font-mono, ui-monospace, monospace);
-  font-weight: 700;
-}
-
-.hero-quote {
-  display: grid;
-  gap: 0.15em;
-  margin: 0;
-  font-size: var(--text-body-sm);
-  line-height: 1.4;
-}
-
-.hero-quote blockquote {
-  margin: 0;
-  font-weight: var(--font-weight-heading);
-}
-
-.hero-quote blockquote::before {
-  content: "״";
-}
-
-.hero-quote blockquote::after {
-  content: "״";
-}
-
-.hero-quote figcaption {
-  color: var(--color-text-secondary);
+/* Mor's cutout after "מבוססי מחקר", phones only: a lime pill with the head
+   rising out of its top, like the header contact portrait. */
+.hero-heading-avatar {
+  display: none;
 }
 
 /* Inline-end (left in RTL) corner; narrower on mobile so it still has room to grow. */
@@ -323,11 +247,6 @@ html:not([data-pixel-reveal]) .hero-video-stage {
   font-weight: var(--font-weight-heading);
 }
 
-/* The hero keeps the opening two sentences; the rest lives in About. */
-.hero-description-line:nth-child(n + 3) {
-  display: none;
-}
-
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -362,13 +281,41 @@ html:not([data-pixel-reveal]) .hero-video-stage {
     gap: var(--space-6);
   }
 
+  /* Three lines on phones (avatar + "יוצרת" / phrase / "מבוססי מחקר"), so the
+     type can grow past the two-line fit of the longest phrase. */
   .hero-heading {
-    font-size: clamp(2.25rem, 11vw, 3.75rem);
+    font-size: clamp(2.25rem, 12.5vw, 4rem);
   }
 
-  /* Name and service fill the row beside the portrait; the status drops below. */
-  .hero-identity-text {
-    flex-basis: calc(100% - 2.75rem - var(--space-3));
+  .hero-heading-rotating {
+    display: flex;
+  }
+
+  .hero-heading-avatar {
+    position: relative;
+    display: inline-block;
+    inline-size: 1.1em;
+    block-size: 0.88em;
+    margin-inline-end: 0.2em;
+    vertical-align: -0.04em;
+    border-radius: var(--radius-liquid);
+    background: var(--color-secondary);
+    /* Open at the top so the head rises out; the sides and base follow the pill. */
+    clip-path: inset(
+      -60% 0 0 round 0 0 var(--radius-liquid) var(--radius-liquid)
+    );
+  }
+
+  .hero-heading-avatar img {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    display: block;
+    inline-size: auto;
+    block-size: 135%;
+    max-inline-size: none;
+    aspect-ratio: 1;
+    translate: -50% 0;
   }
 
   .hero-copy {
@@ -483,36 +430,48 @@ html:has(.navigation-dialog[open]) {
     display: none;
   }
 
-  /* Two halves: the promise and its actions at the start, the showreel as
-     proof beside it, and the full-width logos underneath. */
+  /* Columns follow the header: the menu's measured width in the middle,
+     the same gap. The heading leads; copy with its CTA and the video share
+     the lower row, followed by the full-width logos. */
   .hero {
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-    grid-template-rows: 1fr auto;
-    align-items: center;
-    column-gap: var(--space-12);
+    grid-template-columns:
+      minmax(0, 1fr) var(--site-nav-inline-size, 34rem)
+      minmax(0, 1fr);
+    grid-template-rows: auto 1fr auto auto;
+    column-gap: var(--space-6);
     row-gap: 0;
     min-block-size: calc(100svh - var(--site-header-height, var(--space-24)));
     padding-block: var(--space-6) 0;
   }
 
+  /* Bottom row, from the wordmark to about the middle of the menu. */
   .hero-copy {
-    grid-column: 1;
-    grid-row: 1;
-    gap: var(--space-5, 1.25rem);
-    max-inline-size: 42rem;
-    margin-block: var(--space-8);
+    grid-column: 1 / span 2;
+    grid-row: 3;
+    align-self: end;
+    max-inline-size: calc(100% - var(--site-nav-inline-size, 34rem) / 2);
+    margin-block: var(--space-16) var(--space-10);
   }
 
+  /* Keep the projects CTA directly below the description. */
   .hero-actions {
     max-inline-size: none;
   }
 
   .hero-video {
-    grid-column: 2;
-    grid-row: 1;
+    grid-column: 3;
+    grid-row: 3;
+    align-self: end;
     justify-self: stretch;
     inline-size: auto;
-    margin-block: var(--space-8);
+    margin-block-end: var(--space-10);
+  }
+
+  /* Top row, from the wordmark to the menu's far edge. */
+  .hero-heading-block {
+    grid-column: 1 / span 2;
+    grid-row: 1;
+    align-self: start;
   }
 
   .hero-heading {
@@ -521,7 +480,7 @@ html:has(.navigation-dialog[open]) {
 
   .hero .logo-carousel {
     grid-column: 1 / -1;
-    grid-row: 2;
+    grid-row: 4;
   }
 }
 
@@ -930,6 +889,11 @@ body[data-project-backdrop]
   --color-focus: var(--site-focus, var(--color-dark));
 }
 
+.hero-service {
+  margin: 0 0 var(--space-4);
+  font-weight: 700;
+  font-size: var(--text-body-lg);
+}
 .hero-actions {
   max-inline-size: 100%;
   align-items: center;
@@ -953,6 +917,9 @@ body[data-project-backdrop]
   }
   .hero-actions > a {
     inline-size: 100%;
+  }
+  .hero-heading-rotating {
+    min-block-size: 1.15em;
   }
   html[data-public-site] body:has([data-mobile-actions]) {
     padding-block-end: calc(4.5rem + env(safe-area-inset-bottom, 0px));
