@@ -9,7 +9,44 @@ export type ContactSubmission = {
   message: string;
   preferWhatsApp: boolean;
   website: string;
+  source?: ContactSource;
 };
+
+/** Where the visitor came from, as their own browser recorded it. Shown to
+ * Mor in the email as plain text; never trusted for anything else. */
+export type ContactSource = {
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  referrer?: string;
+  landingPath?: string;
+  page?: string;
+};
+
+const SOURCE_FIELDS = [
+  "utmSource",
+  "utmMedium",
+  "utmCampaign",
+  "referrer",
+  "landingPath",
+  "page",
+] as const;
+
+// Optional and best-effort: anything malformed is dropped, not rejected, so a
+// bad source never costs a real enquiry.
+function parseContactSource(value: unknown): ContactSource | undefined {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return;
+  const fields = value as Record<string, unknown>;
+  const source: ContactSource = {};
+  for (const key of SOURCE_FIELDS) {
+    const raw = fields[key];
+    if (typeof raw !== "string") continue;
+    // biome-ignore lint/suspicious/noControlCharactersInRegex: control characters are removed so a value stays on its own line.
+    const text = raw.replace(/[\u0000-\u001f\u007f]/g, " ").trim();
+    if (text) source[key] = text.slice(0, 300);
+  }
+  return Object.keys(source).length ? source : undefined;
+}
 
 export function parseContactSubmission(
   value: unknown,
@@ -39,13 +76,28 @@ export function parseContactSubmission(
   )
     return null;
 
+  const source = parseContactSource(fields.source);
   return {
     name,
     phone,
     message,
     preferWhatsApp: fields.preferWhatsApp,
     website,
+    ...(source && { source }),
   };
+}
+
+function sourceLines(source: ContactSource | undefined) {
+  if (!source) return ["מקור: לא ידוע"];
+  const campaign = [source.utmSource, source.utmMedium, source.utmCampaign]
+    .filter(Boolean)
+    .join(" / ");
+  return [
+    `מקור: ${campaign || (source.referrer ? "הפניה מאתר אחר" : "כניסה ישירה")}`,
+    source.referrer && `הגיעו מ: ${source.referrer}`,
+    source.landingPath && `עמוד כניסה: ${source.landingPath}`,
+    source.page && `נשלח מעמוד: ${source.page}`,
+  ].filter((line): line is string => !!line);
 }
 
 export function buildContactEmail(submission: ContactSubmission) {
@@ -61,6 +113,8 @@ export function buildContactEmail(submission: ContactSubmission) {
       "",
       "הודעה:",
       submission.message || "(לא נכתבה הודעה)",
+      "",
+      ...sourceLines(submission.source),
     ].join("\n"),
   };
 }

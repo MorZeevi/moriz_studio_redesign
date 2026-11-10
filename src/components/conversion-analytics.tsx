@@ -22,12 +22,22 @@ export function ConversionAnalytics() {
             : url.protocol === "mailto:"
               ? "email"
               : null;
-      if (channel)
-        trackConversion("contact_click", {
-          channel,
-          placement:
-            link.closest<HTMLElement>("[data-contact-placement]")?.dataset
-              .contactPlacement ?? "page",
+      const placement =
+        link.closest<HTMLElement>("[data-contact-placement]")?.dataset
+          .contactPlacement ?? "page";
+      if (channel) trackConversion("contact_click", { channel, placement });
+      else if (url.origin !== location.origin) return;
+      else if (url.hash === "#contact")
+        trackConversion("contact_anchor_click", {
+          placement: link.closest("header")
+            ? "header"
+            : link.closest("footer")
+              ? "footer"
+              : placement,
+        });
+      else if (/^\/digital-audit(?:\/|$)/.test(url.pathname))
+        trackConversion("diagnostic_click", {
+          placement: link.closest("#diagnostic-banner") ? "banner" : "nav",
         });
     };
     document.addEventListener("click", click, true);

@@ -73,3 +73,34 @@ test("sends through Gmail with a fixed sender and recipient", async () => {
     false,
   );
 });
+
+test("email reports where the visitor came from, and drops a malformed source", () => {
+  const tagged = parseContactSubmission({
+    ...valid,
+    source: {
+      utmSource: "facebook",
+      utmMedium: "group",
+      utmCampaign: "2026-11-chatbot-article",
+      landingPath: "/he",
+      page: "/he/services\nBcc: someone",
+      referrer: 42,
+      extra: "ignored",
+    },
+  });
+  assert.ok(tagged);
+  assert.deepEqual(tagged.source, {
+    utmSource: "facebook",
+    utmMedium: "group",
+    utmCampaign: "2026-11-chatbot-article",
+    landingPath: "/he",
+    page: "/he/services Bcc: someone",
+  });
+  const text = buildContactEmail(tagged).text;
+  assert.match(text, /מקור: facebook \/ group \/ 2026-11-chatbot-article/);
+  assert.match(text, /עמוד כניסה: \/he\n/);
+
+  const untagged = parseContactSubmission({ ...valid, source: "nonsense" });
+  assert.ok(untagged);
+  assert.equal(untagged.source, undefined);
+  assert.match(buildContactEmail(untagged).text, /מקור: לא ידוע/);
+});

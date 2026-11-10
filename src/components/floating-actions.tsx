@@ -13,7 +13,8 @@ import {
   AI_CHAT_OPEN_EVENT,
   type AiChatOpenEvent,
 } from "@/lib/chat-launcher";
-import { WHATSAPP_URL } from "@/lib/whatsapp";
+import { trackConversion } from "@/lib/conversion";
+import { WHATSAPP_CONTACT_URL as WHATSAPP_URL } from "@/lib/whatsapp";
 import styles from "./floating-actions.module.css";
 
 const AskAiChat = dynamic(() =>
@@ -106,6 +107,7 @@ export function FloatingActions({
       return;
     }
     showChat(dialog, composerRef.current);
+    trackConversion("chat_open");
     setOpen(true);
     setOpenCount((count) => count + 1);
   }, []);

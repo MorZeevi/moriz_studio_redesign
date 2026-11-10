@@ -8,7 +8,7 @@ import Noise from "@/components/react-bits/Noise";
 import { StudioLogo } from "@/components/studio-logo";
 import type { EnabledLocale } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
-import { WHATSAPP_URL } from "@/lib/whatsapp";
+import { WHATSAPP_CONTACT_URL as WHATSAPP_URL } from "@/lib/whatsapp";
 import styles from "./site-footer.module.css";
 
 const wordmarkFill = "/images/footer/wordmark-fill.webp";
@@ -80,7 +80,11 @@ export function SiteFooter({
             </div>
             <div className={styles.reach}>
               <FooterContactForm content={content.contact} />
-              <ul className={styles.details} aria-label={details.label}>
+              <ul
+                className={styles.details}
+                aria-label={details.label}
+                data-contact-placement="contact-details"
+              >
                 <li>
                   <a href={`mailto:${details.email}`} className={styles.detail}>
                     <MailIcon className={styles.detailIcon} />

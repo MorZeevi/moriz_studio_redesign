@@ -5,6 +5,7 @@ import { CheckIcon } from "@/components/contact-icons";
 import { LiquidButton } from "@/components/ui/liquid-link";
 import { PaperPlaneIcon } from "@/components/ui/paper-plane-icon";
 import type { SiteContent } from "@/i18n/dictionaries";
+import { getAttribution } from "@/diagnostic/attribution";
 import { trackConversion } from "@/lib/conversion";
 import { WHATSAPP_URL } from "@/lib/whatsapp";
 import styles from "./footer-contact-form.module.css";
@@ -131,6 +132,8 @@ export function FooterContactForm({
         const name = String(form.get("name") ?? "").trim();
         const phone = String(form.get("phone") ?? "").trim();
         const message = String(form.get("message") ?? "").trim();
+        const website = String(form.get("website") ?? "");
+        const attribution = getAttribution();
         sendingRef.current = true;
         setSubmissionState("sending");
         const controller = new AbortController();
@@ -144,7 +147,15 @@ export function FooterContactForm({
               phone,
               message,
               preferWhatsApp: whatsapp,
-              website: String(form.get("website") ?? ""),
+              website,
+              source: {
+                utmSource: attribution?.utm?.utm_source,
+                utmMedium: attribution?.utm?.utm_medium,
+                utmCampaign: attribution?.utm?.utm_campaign,
+                referrer: attribution?.referrer,
+                landingPath: attribution?.landingPath,
+                page: window.location.pathname,
+              },
             }),
             signal: controller.signal,
           });
@@ -152,7 +163,11 @@ export function FooterContactForm({
           formElement.reset();
           setWhatsapp(!!WHATSAPP_URL);
           setSubmissionState("success");
-          trackConversion("contact_form_success");
+          // A filled trap field is spam: the server drops it, so it is no lead.
+          if (!website) {
+            trackConversion("contact_form_success");
+            trackConversion("generate_lead", { channel: "form" });
+          }
         } catch {
           setSubmissionState("error");
           trackConversion("contact_form_error");

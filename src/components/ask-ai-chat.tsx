@@ -380,6 +380,7 @@ export function AskAiChat({
                         {whatsappUrl && (
                           <a
                             className={styles.whatsapp}
+                            data-contact-placement="chat"
                             href={whatsappUrl}
                             target="_blank"
                             rel="noopener noreferrer"

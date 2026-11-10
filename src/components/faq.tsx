@@ -10,7 +10,7 @@ import {
 import { SparkleIcon } from "@/components/ui/sparkle-icon";
 import type { SiteContent } from "@/i18n/dictionaries";
 import { AI_CHAT_DIALOG_ID, openAiChat } from "@/lib/chat-launcher";
-import { WHATSAPP_URL } from "@/lib/whatsapp";
+import { WHATSAPP_CONTACT_URL as WHATSAPP_URL } from "@/lib/whatsapp";
 import styles from "./faq.module.css";
 
 const subscribeNothing = () => () => {};
@@ -142,6 +142,7 @@ export function Faq({ content }: { content: SiteContent["faq"] }) {
             href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
+            data-contact-placement="faq"
             icon={
               <Image
                 src="/images/mor-avatar-cutout.webp"
