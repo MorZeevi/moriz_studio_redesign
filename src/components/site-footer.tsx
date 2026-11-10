@@ -76,6 +76,8 @@ export function SiteFooter({
               </h2>
               <p className={styles.contactDescription}>
                 {content.contact.description}
+                <br />
+                {content.contact.promise}
               </p>
             </div>
             <div className={styles.reach}>

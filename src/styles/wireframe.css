@@ -97,8 +97,8 @@ html:has(.site-header) {
   white-space: nowrap;
 }
 
-/* The projects link is the hero’s primary action. */
-.hero-actions .hero-projects-link {
+/* Contact is the hero’s primary action; browsing projects is the second. */
+.hero-actions .hero-contact-link {
   --liquid-fill: var(--site-cta-fill, var(--color-action-primary));
   --liquid-pressed-fill: var(
     --site-cta-pressed,
@@ -343,12 +343,12 @@ html:not([data-pixel-reveal]) .hero-video-stage {
     margin-block-start: 0;
   }
 
-  .hero-actions .hero-projects-link {
+  .hero-actions > .liquid {
     inline-size: 100%;
     --liquid-height: 3rem;
   }
 
-  .hero-projects-link .liquid__label {
+  .hero-actions .liquid__label {
     flex: 1;
     justify-content: center;
   }
@@ -896,6 +896,13 @@ body[data-project-backdrop]
 }
 .hero-actions {
   max-inline-size: 100%;
+  align-items: center;
+}
+.hero-promise {
+  flex-basis: 100%;
+  margin: var(--space-1) 0 0;
+  color: var(--color-text-secondary, currentColor);
+  font-size: var(--text-body-sm, 0.875rem);
 }
 @media (max-width: 63.999rem) {
   .site-header {

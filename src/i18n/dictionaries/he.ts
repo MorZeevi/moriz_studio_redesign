@@ -578,6 +578,8 @@ export const he = {
   contact: {
     heading: "בואו נדבר",
     description: "ספרו לי בקצרה על הפרויקט שלכם.",
+    promise: "חוזרת אליכם תוך יום עסקים.",
+    phoneHint: "רק כדי לחזור אליכם.",
     fields: {
       name: "מה השם שלך?",
       phone: "מה המספר שלך?",

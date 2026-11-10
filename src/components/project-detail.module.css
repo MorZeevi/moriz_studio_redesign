@@ -607,3 +607,15 @@
 .enquiry a {
   max-inline-size: 100%;
 }
+.enquiryActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4) var(--space-6);
+}
+.enquiryForm {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 3rem;
+  text-underline-offset: 0.2em;
+}

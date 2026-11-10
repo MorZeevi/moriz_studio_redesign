@@ -226,7 +226,10 @@ export function ProjectDetail({
           <ProjectGallery key={project.id} {...gallery} labels={labels} />
           {!preview && (
             <footer className={detail.footer}>
-              <ProjectEnquiry />
+              <ProjectEnquiry
+                title={localized(project, "title", locale)}
+                formHref={`/${locale}#contact`}
+              />
               {nextProject?.slug && (
                 <nav
                   className={styles.nextProject}

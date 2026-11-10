@@ -1,9 +1,20 @@
 import { conversionCopy as copy } from "@/content/conversion-copy";
-import { WHATSAPP_URL } from "@/lib/whatsapp";
+import { whatsappUrl } from "@/lib/whatsapp";
 import { LiquidLink } from "./ui/liquid-link";
 import styles from "./project-detail.module.css";
-export function ProjectEnquiry({ compact = false }: { compact?: boolean }) {
-  if (!WHATSAPP_URL) return null;
+export function ProjectEnquiry({
+  compact = false,
+  title,
+  formHref,
+}: {
+  compact?: boolean;
+  /** Named in the WhatsApp opening message. */
+  title: string;
+  /** The contact form, for visitors who prefer not to use WhatsApp. */
+  formHref: string;
+}) {
+  const href = whatsappUrl(copy.projectWhatsappMessage(title));
+  if (!href) return null;
   return (
     <section
       className={styles.enquiry}
@@ -15,9 +26,16 @@ export function ProjectEnquiry({ compact = false }: { compact?: boolean }) {
           <p>{copy.projectBody}</p>
         </>
       )}
-      <LiquidLink href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-        {copy.action}
-      </LiquidLink>
+      <div className={styles.enquiryActions}>
+        <LiquidLink href={href} target="_blank" rel="noopener noreferrer">
+          {copy.action}
+        </LiquidLink>
+        {!compact && (
+          <a className={styles.enquiryForm} href={formHref}>
+            {copy.projectFormLink}
+          </a>
+        )}
+      </div>
     </section>
   );
 }

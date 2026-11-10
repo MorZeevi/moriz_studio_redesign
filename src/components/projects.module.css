@@ -678,6 +678,8 @@
   color: var(--project-secondary);
 }
 .nextProject {
+  /* The whole row, label included, opens the next project. */
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -695,6 +697,11 @@
   font-size: clamp(1.25rem, 2.5vw, var(--text-h3));
   line-height: 1.15;
   text-decoration: none;
+}
+.nextProject a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
 }
 .nextProject a > bdi {
   min-inline-size: 0;

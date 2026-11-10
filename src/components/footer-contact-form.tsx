@@ -70,7 +70,11 @@ export function FooterContactForm({
   }
 
   // A required question over its field, with any error underneath.
-  function question(field: Field, control: React.ReactNode) {
+  function question(
+    field: Field,
+    control: React.ReactNode,
+    hint?: string,
+  ) {
     const error = errors[field];
     return (
       <div className={styles.field}>
@@ -81,6 +85,7 @@ export function FooterContactForm({
           </span>
         </label>
         {control}
+        {hint && !error && <p className={styles.hint}>{hint}</p>}
         {error && (
           <p id={`contact-${field}-error`} className={styles.error}>
             {error}
@@ -209,6 +214,7 @@ export function FooterContactForm({
             dir="ltr"
             spellCheck={false}
           />,
+          content.phoneHint,
         )}
 
         {WHATSAPP_URL && (
