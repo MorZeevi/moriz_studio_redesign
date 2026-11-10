@@ -158,8 +158,15 @@ export function HeroVideo({
     build();
     document.fonts.ready.then(build);
     window.addEventListener("resize", rebuild);
+    // The logo strip and the copy beside the video settle after the first
+    // build (images, fonts). A stale measure leaves the grown video short of
+    // its end slot and over the logos, so remeasure when either box changes.
+    const layout = new ResizeObserver(rebuild);
+    layout.observe(start);
+    if (logos) layout.observe(logos);
     return () => {
       active = false;
+      layout.disconnect();
       opening.disconnect();
       clearTimeout(resizeTimer);
       window.removeEventListener("resize", rebuild);
