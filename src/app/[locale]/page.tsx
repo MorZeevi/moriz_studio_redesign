@@ -106,9 +106,6 @@ export default async function Home({
                   >
                     {content.hero.projectsLink}
                   </LiquidLink>
-                  <p className="hero-promise">
-                    {conversionCopy.responsePromise}
-                  </p>
                 </div>
               </div>
               <HeroVideo labels={content.hero.video} />

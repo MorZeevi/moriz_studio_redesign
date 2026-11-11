@@ -898,12 +898,6 @@ body[data-project-backdrop]
   max-inline-size: 100%;
   align-items: center;
 }
-.hero-promise {
-  flex-basis: 100%;
-  margin: var(--space-1) 0 0;
-  color: var(--color-text-secondary, currentColor);
-  font-size: var(--text-body-sm, 0.875rem);
-}
 @media (max-width: 63.999rem) {
   .site-header {
     background: transparent;
