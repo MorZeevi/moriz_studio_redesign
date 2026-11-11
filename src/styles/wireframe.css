@@ -154,28 +154,17 @@ html:has(.site-header) {
   text-wrap: balance;
 }
 
-/* "יוצרת" + rotating phrase / "מבוססי מחקר": two fixed lines on every
-   screen; phones shrink the type so the longest phrase still fits. */
+/* One sentence per line; phones let each sentence wrap. */
 .hero-heading-line {
   display: block;
-  white-space: nowrap;
 }
 
-.hero-heading-rotating {
-  display: inline-flex;
-  vertical-align: bottom;
+.hero-heading-accent {
   /* Dark mode swaps the action red for the secondary color. */
   color: var(--site-hero-rotating, var(--color-action-primary));
 }
 
-/* Clips each word's slide to the ink, not the line box: with line-height 1
-   Hebrew letters sit low (ink from ~0.24em, ל from ~0.09em, ק down to
-   ~1.06em), so a box clip would show letters leaving through the empty top. */
-.hero-heading-rotating-word {
-  clip-path: inset(0.07em -0.1em -0.07em);
-}
-
-/* Mor's cutout after "מבוססי מחקר", phones only: a lime pill with the head
+/* Mor's cutout before the first sentence, phones only: a lime pill with the head
    rising out of its top, like the header contact portrait. */
 .hero-heading-avatar {
   display: none;
@@ -281,14 +270,10 @@ html:not([data-pixel-reveal]) .hero-video-stage {
     gap: var(--space-6);
   }
 
-  /* Three lines on phones (avatar + "יוצרת" / phrase / "מבוססי מחקר"), so the
-     type can grow past the two-line fit of the longest phrase. */
+  /* Each sentence wraps to two lines on phones. */
   .hero-heading {
-    font-size: clamp(2.25rem, 12.5vw, 4rem);
-  }
-
-  .hero-heading-rotating {
-    display: flex;
+    font-size: clamp(2rem, 10.5vw, 3.5rem);
+    line-height: 1.05;
   }
 
   .hero-heading-avatar {
@@ -476,6 +461,11 @@ html:has(.navigation-dialog[open]) {
 
   .hero-heading {
     font-size: var(--trial-hero-size-desktop);
+  }
+
+  /* One sentence per line; the size is fitted to the longer sentence. */
+  .hero-heading-line {
+    white-space: nowrap;
   }
 
   .hero .logo-carousel {
@@ -911,9 +901,6 @@ body[data-project-backdrop]
   }
   .hero-actions > a {
     inline-size: 100%;
-  }
-  .hero-heading-rotating {
-    min-block-size: 1.15em;
   }
   html[data-public-site] body:has([data-mobile-actions]) {
     padding-block-end: calc(4.5rem + env(safe-area-inset-bottom, 0px));
