@@ -1,0 +1,35 @@
+{
+  "width": 1500,
+  "height": 1000,
+  "fps": 30,
+  "bitrate": "1800k",
+  "shots": [
+    { "note": "Groove: white socks fill with colour", "src": "groove-raw1.mp4", "at": 0.45, "frames": 45, "crop": [1464, 958, 2874], "to": [1464, 900, 2500], "ease": "inout" },
+    { "note": "Wordle: first row flips, snap in", "src": "wordle-raw.mp4", "at": 5.45, "frames": 30, "crop": [1114, 536, 1100], "to": [1114, 420, 720] },
+    { "note": "PracticalAi: laptop scroll, tight", "src": "pai-mock1.mp4", "at": 1.0, "speed": 2, "frames": 30, "crop": [740, 490, 1000] },
+    { "note": "Groove: scroll into pizza socks", "src": "groove-raw1.mp4", "at": 2.0, "speed": 1.5, "frames": 30, "crop": [1464, 958, 2874] },
+    { "note": "AWScience: laptop swings to close-up", "src": "aws-raw.mp4", "at": 3.2, "frames": 30, "crop": [960, 540, 1620] },
+    { "note": "ChabadClub: hero, snap push-in", "src": "chabad-Hero.png", "frames": 30, "crop": [662, 400, 1200], "to": [740, 340, 860] },
+    { "note": "Breath: PracticalAi two phones", "src": "pai-raw.mp4", "at": 3.5, "speed": 1.5, "frames": 60, "crop": [960, 540, 1620], "to": [900, 540, 1450], "ease": "inout" },
+    {
+      "note": "Triple split: ChabadClub mobile | Wordle win | PracticalAi phone",
+      "frames": 45,
+      "split": [
+        { "src": "chabad-mobile.png", "crop": [220, 441, 441], "to": [220, 516, 441], "ease": "linear" },
+        { "src": "wordle-raw.mp4", "at": 42.0, "crop": [1114, 700, 640] },
+        { "src": "pai-mock2.mp4", "at": 2.0, "speed": 2, "crop": [875, 600, 500] }
+      ]
+    },
+    { "note": "Quick-fire 1: Groove hero", "src": "groove-6.png", "frames": 8 },
+    { "note": "Quick-fire 2: AWScience palette", "src": "aws-still2.png", "frames": 7 },
+    { "note": "Quick-fire 3: ChabadClub how it works", "src": "chabad-how-it-works.png", "frames": 8 },
+    { "note": "Quick-fire 4: Wordle stats", "src": "wordle-2.png", "frames": 7 },
+    { "note": "Quick-fire 5: PracticalAi laptop", "src": "pai-still5.webp", "frames": 8 },
+    { "note": "Quick-fire 6: AWScience components", "src": "aws-still3.png", "frames": 7 },
+    { "note": "Quick-fire 7: ChabadClub signup", "src": "chabad-signup.png", "frames": 8 },
+    { "note": "Quick-fire 8: Groove map", "src": "groove-3.png", "frames": 7 },
+    { "note": "Groove: outline headline fills with the blob", "src": "groove-raw1.mp4", "at": 13.3, "frames": 30, "crop": [1464, 800, 2400] },
+    { "note": "Wordle: winning row flips green, tight", "src": "wordle-raw.mp4", "at": 42.2, "frames": 30, "crop": [1114, 560, 900], "to": [1114, 760, 700] },
+    { "note": "Calm close: Groove floating circles", "src": "groove-raw4.mp4", "at": 4.0, "frames": 30, "crop": [1715, 932, 2796], "to": [1715, 932, 2600], "ease": "inout" }
+  ]
+}
