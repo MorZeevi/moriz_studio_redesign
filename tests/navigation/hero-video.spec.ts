@@ -186,12 +186,13 @@ for (const viewport of [
     const projects = page.locator(".hero-projects-link");
     await expect(page.locator(".hero-description")).toBeHidden();
     await expect(service).toBeVisible();
+    await expect(page.locator(".hero-contact-link")).toBeHidden();
     await expect(projects).toBeVisible();
     await expect(projects).toHaveAttribute("href", "#projects");
     await expect(page.locator(".hero-scroll-cue")).toHaveCount(0);
     await page.evaluate(() => document.fonts.ready);
     const boxes = await Promise.all(
-      [page.locator("#hero-heading"), service, projects, page.locator(target)]
+      [service, page.locator("#hero-heading"), page.locator(target), projects]
         .map((element) => element.boundingBox()),
     );
     for (let index = 1; index < boxes.length; index++) {
