@@ -35,7 +35,6 @@ export function HeroVideo({
   const [manualPause, setManualPause] = useState<boolean | null>(null);
   const [playing, setPlaying] = useState(false);
   const [ready, setReady] = useState(false);
-  const [mobileStarted, setMobileStarted] = useState(false);
   const reducedMotion = useSyncExternalStore(
     subscribeMotion,
     readMotion,
@@ -60,7 +59,6 @@ export function HeroVideo({
     const sync = () => {
       const shouldPlay =
         visible &&
-        (!mobile || mobileStarted) &&
         !paused &&
         !document.hidden &&
         document.documentElement.dataset.pixelReveal !== "active";
@@ -84,7 +82,7 @@ export function HeroVideo({
       opening.disconnect();
       document.removeEventListener("visibilitychange", sync);
     };
-  }, [paused, mobile, mobileStarted]);
+  }, [paused]);
 
   useEffect(() => {
     const start = slot.current;
@@ -184,9 +182,7 @@ export function HeroVideo({
           <video
             ref={video}
             className={styles.video}
-            src={
-              !mobile || mobileStarted ? "/videos/hero-showreel.mp4" : undefined
-            }
+            src="/videos/hero-showreel.mp4"
             poster={
               mobile
                 ? "/videos/hero-showreel-poster-mobile.webp"
@@ -196,26 +192,11 @@ export function HeroVideo({
             muted
             loop
             playsInline
-            preload={mobile && !mobileStarted ? "none" : "metadata"}
+            preload="metadata"
             onPlay={() => setPlaying(true)}
             onPause={() => setPlaying(false)}
           />
-          {ready && mobile && !mobileStarted && (
-            <button
-              type="button"
-              className={styles.posterPlay}
-              aria-label={labels.resume}
-              onClick={() => {
-                setManualPause(false);
-                setMobileStarted(true);
-              }}
-            >
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="m8 4 12 8-12 8V4Z" fill="currentColor" />
-              </svg>
-            </button>
-          )}
-          {ready && (!mobile || mobileStarted) && (
+          {ready && (
             <button
               type="button"
               className={styles.control}

@@ -308,17 +308,8 @@ html:not([data-pixel-reveal]) .hero-video-stage {
     max-inline-size: none;
   }
 
+  /* Phones keep one message: the heading, then the service line and actions. */
   .hero-description {
-    font-size: 1rem;
-    line-height: 1.5;
-  }
-
-  .hero-description-line:not(:first-child) {
-    display: inline;
-  }
-
-  /* Phones keep the opening two sentences only. */
-  .hero-description-line:nth-child(n + 3) {
     display: none;
   }
 

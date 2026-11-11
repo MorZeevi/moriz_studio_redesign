@@ -174,31 +174,24 @@ for (const viewport of [
   { width: 430, height: 932 },
   { width: 768, height: 1024 },
 ]) {
-  test(`mobile video waits for a tap at ${viewport.width}px`, async ({
+  test(`mobile video plays on its own at ${viewport.width}px`, async ({
     page,
   }) => {
     await page.setViewportSize(viewport);
-    const videoRequests: string[] = [];
-    page.on("request", (request) => {
-      if (request.url().includes("/videos/hero-showreel.mp4"))
-        videoRequests.push(request.url());
-    });
     await page.goto("/he");
     const video = page.locator("[data-hero-video] video");
-    await expect(video).not.toHaveAttribute("src");
-    expect(videoRequests).toHaveLength(0);
     await expect(page.locator(".hero-video-stage")).toBeHidden();
     await expectLogosBelowVideo(page);
-    const description = page.locator(".hero-description");
+    const service = page.locator(".hero-service");
     const projects = page.locator(".hero-projects-link");
-    await expect(description).toBeVisible();
-    await expect(description).toContainText("מחקר מנצח טיעונים.");
+    await expect(page.locator(".hero-description")).toBeHidden();
+    await expect(service).toBeVisible();
     await expect(projects).toBeVisible();
     await expect(projects).toHaveAttribute("href", "#projects");
     await expect(page.locator(".hero-scroll-cue")).toHaveCount(0);
     await page.evaluate(() => document.fonts.ready);
     const boxes = await Promise.all(
-      [page.locator("#hero-heading"), description, projects, page.locator(target)]
+      [page.locator("#hero-heading"), service, projects, page.locator(target)]
         .map((element) => element.boundingBox()),
     );
     for (let index = 1; index < boxes.length; index++) {
@@ -210,9 +203,7 @@ for (const viewport of [
     await page.locator("#hero").screenshot({
       path: `test-results/hero-video/mobile-${viewport.width}.png`,
     });
-    await page.getByRole("button", { name: "הפעלת הסרטון" }).click();
-    await expect(video).toHaveAttribute("src", "/videos/hero-showreel.mp4");
-    await expect.poll(() => videoRequests.length).toBeGreaterThan(0);
+    await video.scrollIntoViewIfNeeded();
     await expect
       .poll(() => video.evaluate((element: HTMLVideoElement) => element.paused))
       .toBe(false);
@@ -261,7 +252,7 @@ test("logos follow the static video without JavaScript", async ({
       if (width >= 1024)
         expect(await logoVideoGap(page)).toBeLessThanOrEqual(64);
       else {
-        await expect(page.locator(".hero-description")).toBeVisible();
+        await expect(page.locator(".hero-description")).toBeHidden();
         await expect(page.locator(".hero-projects-link")).toBeVisible();
         await expect(page.locator(".hero-scroll-cue")).toHaveCount(0);
       }
