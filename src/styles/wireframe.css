@@ -150,6 +150,7 @@ html:has(.site-header) {
 }
 
 .hero-proof strong {
+  font-size: 1.35em;
   font-weight: 700;
 }
 
