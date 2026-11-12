@@ -62,12 +62,11 @@ export const he = {
   },
   hero: {
     heading: {
-      start: "יוצרת",
       rotating: ["אתרים מורכבים", "אפליקציות WEB", "אפיון ועיצוב", "כלי AI"],
       end: "מבוססי מחקר",
       // Accessible name: the rotation is visual only.
       label:
-        "יוצרת אתרים מורכבים, אפליקציות WEB, אפיון ועיצוב וכלי AI מבוססי מחקר",
+        "אתרים מורכבים, אפליקציות WEB, אפיון ועיצוב וכלי AI מבוססי מחקר",
     },
     introduction: "נעים להכיר, אני מור",
     portraitAlt: "מור — בעלת הסטודיו",

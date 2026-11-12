@@ -42,7 +42,6 @@ export function HeroHeading({
       {/* One continuous name for crawlers and screen readers. The rotation is visual only. */}
       <span className="sr-only">{content.label}</span>
       <span className="hero-heading-line" aria-hidden="true">
-        {content.start}{" "}
         <span className="hero-heading-rotating">
           {reducedMotion ? (
             content.rotating[0]
@@ -70,7 +69,6 @@ export function HeroHeading({
         text={
           <>
             <span className="hero-heading-line">
-              {content.start}{" "}
               <span className="hero-heading-rotating">
                 {content.rotating[index]}
               </span>

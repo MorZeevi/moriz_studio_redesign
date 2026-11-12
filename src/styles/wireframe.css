@@ -155,7 +155,7 @@ html:has(.site-header) {
   text-wrap: balance;
 }
 
-/* "יוצרת" + rotating phrase / "מבוססי מחקר": two fixed lines on every
+/* Rotating phrase / "מבוססי מחקר": two fixed lines on every
    screen; phones shrink the type so the longest phrase still fits. */
 .hero-heading-line {
   display: block;
@@ -320,6 +320,11 @@ html:not([data-pixel-reveal]) .hero-video-stage {
   .hero-proof {
     margin-block-end: var(--space-2);
     font-size: 0.875rem;
+  }
+
+  /* Each phrase has a line to itself, so the type can grow on phones. */
+  .hero-heading {
+    font-size: clamp(2.25rem, 12.5vw, 4rem);
   }
 
   .hero-avatar {
