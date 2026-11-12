@@ -78,6 +78,10 @@ export default async function Home({
           >
             <div className="hero-shell hero">
               <div className="hero-heading-block">
+                <p className="hero-proof">
+                  <strong dir="ltr">{conversionCopy.proof.value}</strong>{" "}
+                  {conversionCopy.proof.label}
+                </p>
                 <HeroHeading content={content.hero.heading} />
               </div>
               <div className="hero-copy">

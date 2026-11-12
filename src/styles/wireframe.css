@@ -143,6 +143,16 @@ html:has(.site-header) {
   min-inline-size: 0;
 }
 
+.hero-proof {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-body-lg);
+  line-height: 1.3;
+}
+
+.hero-proof strong {
+  font-weight: 700;
+}
+
 .hero-heading {
   min-inline-size: 0;
   margin: 0;
@@ -306,6 +316,11 @@ html:not([data-pixel-reveal]) .hero-video-stage {
   }
 
   /* Each sentence wraps to two lines on phones. */
+  .hero-proof {
+    margin-block-end: var(--space-2);
+    font-size: 0.875rem;
+  }
+
   .hero-heading {
     font-size: clamp(2rem, 10.5vw, 3.5rem);
     line-height: 1.05;
