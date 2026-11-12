@@ -169,25 +169,6 @@ html:has(.site-header) {
   color: var(--site-hero-rotating, var(--color-action-primary));
 }
 
-/* The footer wordmark's picture shows through the phrase. Every letter clips
-   the same phrase-wide picture, shifted by its own offset (hero-heading.tsx).
-   The padding keeps ink that leaves the tight line box inside the paint box. */
-.hero-heading-rotating {
-  position: relative;
-}
-
-.hero-heading-rotating[data-filled] .text-rotate-element {
-  margin: -0.15em -0.06em;
-  padding: 0.15em 0.06em;
-  background-image: var(--fill-image);
-  background-position: var(--fill-x, 0) var(--fill-y, 50%);
-  background-size: var(--fill-w, 100%) auto;
-  background-repeat: no-repeat;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
 /* Clips each word's slide to the ink, not the line box: with line-height 1
    Hebrew letters sit low (ink from ~0.24em, ל from ~0.09em, ק down to
    ~1.06em), so a box clip would show letters leaving through the empty top. */
