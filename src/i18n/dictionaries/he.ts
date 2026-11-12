@@ -62,10 +62,12 @@ export const he = {
   },
   hero: {
     heading: {
-      // Two sentences, one per line on desktop; `accent` takes the action color.
-      first: "לומדת את העסק שלכם לעומק.",
-      second: { start: "בונה את", accent: "מה שהוא באמת צריך." },
-      label: "לומדת את העסק שלכם לעומק. בונה את מה שהוא באמת צריך.",
+      start: "יוצרת",
+      rotating: ["אתרים מורכבים", "אפליקציות WEB", "אפיון ועיצוב", "כלי AI"],
+      end: "מבוססי מחקר",
+      // Accessible name: the rotation is visual only.
+      label:
+        "יוצרת אתרים מורכבים, אפליקציות WEB, אפיון ועיצוב וכלי AI מבוססי מחקר",
     },
     introduction: "נעים להכיר, אני מור",
     portraitAlt: "מור — בעלת הסטודיו",
