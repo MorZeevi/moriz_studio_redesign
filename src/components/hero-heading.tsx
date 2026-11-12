@@ -53,7 +53,7 @@ export function HeroHeading({
               rotationInterval={2500}
               staggerFrom="first"
               staggerDuration={0.025}
-              initial={false}
+              initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "-120%" }}
               transition={{ type: "spring", damping: 30, stiffness: 400 }}
