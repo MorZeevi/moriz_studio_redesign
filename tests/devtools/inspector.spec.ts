@@ -54,11 +54,11 @@ test("double-click copies ID first, otherwise classes, without website activatio
     ".floating-whatsapp",
   );
   await page.getByRole("button", { name: "Move panel left" }).click();
-  await page.locator(".hero-description-line:first-child strong").dblclick();
+  await page.locator(".hero-description strong").dblclick();
   const fallbackSelector = await page.evaluate(() =>
     navigator.clipboard.readText(),
   );
-  await expect(page.locator(fallbackSelector)).toHaveText("חוקרים יחד את הבעיה");
+  await expect(page.locator(fallbackSelector)).toHaveText("מחקר מנצח טיעונים");
   await page.getByLabel("Ask Codex about this element").dblclick();
   expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
     fallbackSelector,
@@ -215,7 +215,7 @@ test("closing and reopening the panel preserves inspection, selection and draft"
   await expect(
     page.getByRole("button", { name: "Inspector: ON" }),
   ).toHaveAttribute("aria-pressed", "true");
-  await select(page, ".hero-description-line:first-child strong");
+  await select(page, ".hero-description strong");
   await page
     .getByRole("button", { name: "Developer tools", exact: true })
     .click();
@@ -238,12 +238,12 @@ test("nested nodes and icons can be selected; source fallback is explicit", asyn
 }) => {
   await openTools(page);
   await page.getByRole("button", { name: "Move panel left" }).click();
-  await select(page, ".hero-description-line:first-child strong");
+  await select(page, ".hero-description strong");
   await expect(page.locator("[data-inspector-details]")).toContainText(
     "HeroDescription",
   );
   await expect(page.locator("[data-inspector-details]")).toContainText(
-    "חוקרים יחד את הבעיה",
+    "מחקר מנצח טיעונים",
   );
   await page.getByRole("button", { name: "Move panel right" }).click();
   const control = page.locator(".floating-whatsapp");

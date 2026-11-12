@@ -244,10 +244,6 @@ html:not([data-pixel-reveal]) .hero-video-stage {
   display: block;
 }
 
-.hero-description-line + .hero-description-line {
-  margin-block-start: var(--space-3);
-}
-
 .hero-description-line strong {
   font-weight: var(--font-weight-heading);
 }

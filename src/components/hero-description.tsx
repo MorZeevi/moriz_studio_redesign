@@ -9,11 +9,12 @@ export function HeroDescription({
 }) {
   return (
     <p className={className}>
-      {content.map((point) => (
-        <span key={point.emphasis} className="hero-description-line">
-          <strong>{point.emphasis}</strong> {point.text}
-        </span>
-      ))}
+      <span className="hero-description-line">
+        <strong>{content.emphasis}</strong>
+      </span>{" "}
+      <span className="hero-description-line">{content.firstLine}</span>{" "}
+      <span className="hero-description-line">{content.secondLine}</span>{" "}
+      <span className="hero-description-line">{content.thirdLine}</span>
     </p>
   );
 }
