@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState, useSyncExternalStore } from "react";
 import partyStyles from "@/components/party-mode/party-mode.module.css";
 import { PartyHeadingLight } from "@/components/party-mode/party-heading-light";
@@ -78,20 +77,5 @@ export function HeroHeading({
         }
       />
     </h1>
-  );
-}
-
-// Mor's cutout beside the service line, phones only (see wireframe.css).
-export function HeroAvatar() {
-  return (
-    <span className="hero-avatar" aria-hidden="true">
-      <Image
-        src="/images/mor-avatar-cutout.webp"
-        alt=""
-        width={600}
-        height={600}
-        sizes="64px"
-      />
-    </span>
   );
 }

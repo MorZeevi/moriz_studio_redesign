@@ -1,7 +1,6 @@
 export const conversionCopy = {
   action: "בואו נדבר בוואטסאפ",
   mobileAction: "שנדבר בוואטסאפ?",
-  service: "אתרים ומערכות Web עם כלי AI חכמים בפנים",
   // Shown above the hero heading; `value` is set in bold.
   proof: { value: "400K+", label: "משתמשים במוצרים שלקחתי בהם חלק" },
   projectHeading: "רוצים לבנות משהו דומה?",

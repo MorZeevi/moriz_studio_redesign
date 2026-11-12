@@ -176,12 +176,6 @@ html:has(.site-header) {
   clip-path: inset(0.07em -0.1em -0.07em);
 }
 
-/* Mor's cutout beside the service line, phones only: a lime pill with the head
-   rising out of its top, like the header contact portrait. */
-.hero-avatar {
-  display: none;
-}
-
 /* Inline-end (left in RTL) corner; narrower on mobile so it still has room to grow. */
 .hero-video {
   inline-size: 75%;
@@ -282,23 +276,10 @@ html:not([data-pixel-reveal]) .hero-video-stage {
     gap: var(--space-6);
   }
 
-  /* Phones read: service line, heading, showreel, one action, logos. The copy
+  /* Phones read: heading, showreel, one action, logos. The copy
      wrapper dissolves so its children can be ordered around the showreel. */
   .hero-copy {
     display: contents;
-  }
-
-  /* .hero prefix: the base .hero-service rule comes later in this file. */
-  .hero .hero-service {
-    order: 1;
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    /* Sits close to the heading it introduces. */
-    margin: 0 0 calc(var(--space-3) - var(--space-6));
-    font-size: 0.875rem;
-    font-weight: 500;
-    line-height: 1.3;
   }
 
   .hero-heading-block {
@@ -325,32 +306,6 @@ html:not([data-pixel-reveal]) .hero-video-stage {
   /* Each phrase has a line to itself, so the type can grow on phones. */
   .hero-heading {
     font-size: clamp(2.25rem, 12.5vw, 4rem);
-  }
-
-  .hero-avatar {
-    position: relative;
-    flex: none;
-    display: inline-block;
-    inline-size: 2.5rem;
-    block-size: 2rem;
-    border-radius: var(--radius-liquid);
-    background: var(--color-secondary);
-    /* Open at the top so the head rises out; the sides and base follow the pill. */
-    clip-path: inset(
-      -60% 0 0 round 0 0 var(--radius-liquid) var(--radius-liquid)
-    );
-  }
-
-  .hero-avatar img {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    display: block;
-    inline-size: auto;
-    block-size: 135%;
-    max-inline-size: none;
-    aspect-ratio: 1;
-    translate: -50% 0;
   }
 
   /* Phones keep one message and one action. */
@@ -910,11 +865,6 @@ body[data-project-backdrop]
   --color-focus: var(--site-focus, var(--color-dark));
 }
 
-.hero-service {
-  margin: 0 0 var(--space-4);
-  font-weight: 700;
-  font-size: var(--text-body-lg);
-}
 .hero-actions {
   max-inline-size: 100%;
   align-items: center;

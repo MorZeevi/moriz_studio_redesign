@@ -8,7 +8,7 @@ import { Faq } from "@/components/faq";
 import { FloatingActions } from "@/components/floating-actions";
 import { GettingStarted } from "@/components/getting-started";
 import { HeroDescription } from "@/components/hero-description";
-import { HeroAvatar, HeroHeading } from "@/components/hero-heading";
+import { HeroHeading } from "@/components/hero-heading";
 import { HeroVideo } from "@/components/hero-video";
 import { HomepagePattern } from "@/components/homepage-pattern";
 import { InfinityLoop } from "@/components/infinity-loop";
@@ -84,10 +84,6 @@ export default async function Home({
                 <HeroHeading content={content.hero.heading} />
               </div>
               <div className="hero-copy">
-                <p className="hero-service">
-                  <HeroAvatar />
-                  {conversionCopy.service}
-                </p>
                 <HeroDescription
                   className="hero-description"
                   content={content.hero.description}

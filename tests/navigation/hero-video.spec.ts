@@ -182,17 +182,16 @@ for (const viewport of [
     const video = page.locator("[data-hero-video] video");
     await expect(page.locator(".hero-video-stage")).toBeHidden();
     await expectLogosBelowVideo(page);
-    const service = page.locator(".hero-service");
     const projects = page.locator(".hero-projects-link");
     await expect(page.locator(".hero-description")).toBeHidden();
-    await expect(service).toBeVisible();
+    await expect(page.locator(".hero-service")).toHaveCount(0);
     await expect(page.locator(".hero-contact-link")).toHaveCount(0);
     await expect(projects).toBeVisible();
     await expect(projects).toHaveAttribute("href", "#projects");
     await expect(page.locator(".hero-scroll-cue")).toHaveCount(0);
     await page.evaluate(() => document.fonts.ready);
     const boxes = await Promise.all(
-      [service, page.locator("#hero-heading"), page.locator(target), projects]
+      [page.locator("#hero-heading"), page.locator(target), projects]
         .map((element) => element.boundingBox()),
     );
     for (let index = 1; index < boxes.length; index++) {
