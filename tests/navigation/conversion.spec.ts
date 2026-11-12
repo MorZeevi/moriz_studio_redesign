@@ -10,12 +10,8 @@ test("mobile project titles scroll naturally and contact actions remain clear", 
   ]) {
     await page.setViewportSize(viewport);
     await page.goto("/he");
-    // Contact first, then the projects link.
-    await expect(page.locator(".hero-actions a")).toHaveCount(2);
-    await expect(page.locator(".hero-actions a").first()).toHaveAttribute(
-      "href",
-      /^https:\/\/wa\.me\//,
-    );
+    // The hero offers one action; WhatsApp lives in the floating controls.
+    await expect(page.locator(".hero-actions a")).toHaveCount(1);
     await expect(page.locator(".hero-actions a").last()).toHaveAttribute(
       "href",
       "#projects",

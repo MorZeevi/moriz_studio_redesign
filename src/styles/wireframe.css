@@ -97,16 +97,6 @@ html:has(.site-header) {
   white-space: nowrap;
 }
 
-/* Contact is the hero’s primary action; browsing projects is the second. */
-.hero-actions .hero-contact-link {
-  --liquid-fill: var(--site-cta-fill, var(--color-action-primary));
-  --liquid-pressed-fill: var(
-    --site-cta-pressed,
-    var(--color-action-primary-hover)
-  );
-  --liquid-ink: var(--site-cta-ink, var(--color-text-inverse));
-}
-
 .header-actions .header-contact-link:focus-visible {
   --liquid-fill: var(--color-secondary);
   --liquid-pressed-fill: var(--color-action-secondary-hover);
@@ -353,9 +343,8 @@ html:not([data-pixel-reveal]) .hero-video-stage {
     translate: -50% 0;
   }
 
-  /* Phones keep one message and one action; WhatsApp lives in the bottom bar. */
-  .hero-description,
-  .hero-actions .hero-contact-link {
+  /* Phones keep one message and one action. */
+  .hero-description {
     display: none;
   }
 

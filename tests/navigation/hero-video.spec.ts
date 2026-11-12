@@ -186,7 +186,7 @@ for (const viewport of [
     const projects = page.locator(".hero-projects-link");
     await expect(page.locator(".hero-description")).toBeHidden();
     await expect(service).toBeVisible();
-    await expect(page.locator(".hero-contact-link")).toBeHidden();
+    await expect(page.locator(".hero-contact-link")).toHaveCount(0);
     await expect(projects).toBeVisible();
     await expect(projects).toHaveAttribute("href", "#projects");
     await expect(page.locator(".hero-scroll-cue")).toHaveCount(0);

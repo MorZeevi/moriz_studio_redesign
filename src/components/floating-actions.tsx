@@ -1,10 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { conversionCopy } from "@/content/conversion-copy";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import { WhatsappLogoIcon } from "@/components/contact-icons";
+import { WhatsappGlyphIcon, WhatsappLogoIcon } from "@/components/contact-icons";
 import { LiquidLink } from "@/components/ui/liquid-link";
 import { SparkleIcon } from "@/components/ui/sparkle-icon";
 import type { SiteContent } from "@/i18n/dictionaries";
@@ -35,18 +34,6 @@ function showChat(
   // Non-modal, so the page stays readable and scrollable beside the chat.
   dialog.show();
   composer?.focus({ preventScroll: true });
-}
-
-function Portrait() {
-  return (
-    <Image
-      src="/images/mor-avatar-cutout.webp"
-      alt=""
-      width={600}
-      height={600}
-      sizes="72px"
-    />
-  );
 }
 
 // On every public page, in the lower inline-end corner (left in RTL): a
@@ -240,9 +227,7 @@ export function FloatingActions({
               aria-label={content.whatsapp}
               icon={
                 <>
-                  <span className={styles.whatsappPortrait}>
-                    <Portrait />
-                  </span>
+                  <WhatsappGlyphIcon className={styles.whatsappGlyph} />
                   <WhatsappLogoIcon className={styles.whatsappIcon} />
                 </>
               }

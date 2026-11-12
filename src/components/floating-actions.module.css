@@ -34,8 +34,14 @@
   white-space: nowrap;
 }
 
-.whatsappPortrait {
-  display: contents;
+/* Desktop: the WhatsApp mark in dark ink, centred on the green blob. */
+.whatsappGlyph {
+  position: absolute;
+  inset: 0;
+  inline-size: 62%;
+  block-size: 62%;
+  margin: auto;
+  color: var(--color-dark);
 }
 
 .whatsappIcon {
@@ -123,7 +129,7 @@
   block-size: 1.75em;
 }
 
-/* At rest: only the portrait blob. Hover grows the neck and the label out
+/* At rest: only the icon blob. Hover grows the neck and the label out
    through the goo, as the header's contact pill opens. Names stay in
    aria-label, so collapsing never hides them. */
 .action :global(.liquid__bridge) {
@@ -166,7 +172,7 @@
   }
 }
 
-/* Desktop: the portrait blob sits flush on the screen edge like the AI tab
+/* Desktop: the icon blob sits flush on the screen edge like the AI tab
    (the extra 2px swallows the resting gap), square on the edge side. Open,
    the label takes the edge and the blob rounds off again. */
 @media (min-width: 64rem) {
@@ -334,7 +340,7 @@
     clip-path: none;
   }
 
-  .whatsappPortrait {
+  .whatsappGlyph {
     display: none;
   }
 

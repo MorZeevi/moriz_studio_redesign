@@ -28,7 +28,6 @@ import { Section } from "@/components/wireframe";
 import { isEnabledLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { projectCard } from "@/lib/cms/project-card";
-import { WHATSAPP_CONTACT_URL } from "@/lib/whatsapp";
 import { getPublicProjects } from "@/lib/cms/queries";
 import { homeStructuredData } from "@/lib/structured-data";
 
@@ -94,17 +93,6 @@ export default async function Home({
                   content={content.hero.description}
                 />
                 <div className="hero-actions" data-contact-placement="hero">
-                  {WHATSAPP_CONTACT_URL && (
-                    <LiquidLink
-                      className="hero-contact-link"
-                      href={WHATSAPP_CONTACT_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      data-party-react="cta"
-                    >
-                      {conversionCopy.mobileAction}
-                    </LiquidLink>
-                  )}
                   <LiquidLink
                     className="hero-projects-link"
                     variant="secondary"
