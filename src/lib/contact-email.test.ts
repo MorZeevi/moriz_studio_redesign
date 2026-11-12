@@ -112,10 +112,10 @@ test("keeps only the interests the form offers and lists them in the email", () 
     interests: ["web-app", "seo", 7, "website"],
   });
   assert.ok(submission);
-  assert.deepEqual(submission.interests, ["website", "web-app"]);
+  assert.deepEqual(submission.interests, ["web-app", "website"]);
   assert.match(
     buildContactEmail(submission).text,
-    /מתעניינים ב: בניית אתר, מערכת או אפליקציית Web/,
+    /מתעניינים ב: מערכת או אפליקציית Web, בניית אתר/,
   );
   const none = parseContactSubmission(valid);
   assert.ok(none);

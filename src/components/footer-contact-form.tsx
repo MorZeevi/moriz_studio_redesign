@@ -46,12 +46,15 @@ const icon = (paths: React.ReactNode) => (
 const interestIcons: Record<ContactInterest, React.ReactNode> = {
   website: icon(<path d="M4 10h24M13 14l-2.5 2.5L13 19M19 14l2.5 2.5L19 19" />),
   "web-app": icon(<path d="M9 10h6v8H9zM19 10h4M19 14h4M19 18h4" />),
-  "interactive-tool": icon(
-    <path d="M9 11h14M9 16h14M13 9.5v3M19 14.5v3" />,
+  "ai-tool": icon(
+    <path d="M15 8.5l1.3 3.2 3.2 1.3-3.2 1.3L15 17.5l-1.3-3.2-3.2-1.3 3.2-1.3zM21.5 15v4M19.5 17h4" />,
   ),
   "ux-ui": icon(<path d="M16 9l3 6-3 3-3-3zM16 9v6M9 18h2M21 18h2" />),
   specification: icon(
     <path d="M9 10h4v3H9zM19 15h4v3h-4zM13 11.5h3v5h3" />,
+  ),
+  diagnosis: icon(
+    <path d="M13.5 11.5a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1.9-1.1 1.8M16 18.5v.01" />,
   ),
 };
 

@@ -92,6 +92,7 @@
 
 /* "What interests you?": optional cards, any number of them. */
 .interests {
+  container-type: inline-size;
   min-inline-size: 0;
   margin: 0;
   padding: 0;
@@ -105,8 +106,15 @@
 
 .interestGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
+  /* Six cards: two even rows, or one row where the form is wide enough. */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-2);
+}
+
+@container (min-width: 44rem) {
+  .interestGrid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
 }
 
 .interest {
