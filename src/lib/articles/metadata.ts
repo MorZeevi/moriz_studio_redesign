@@ -4,7 +4,7 @@ import type { SiteContent } from "@/i18n/dictionaries";
 import { pageAlternates } from "@/lib/seo";
 import { siteOpenGraph } from "@/lib/site";
 import { ARTICLE_LIMITS } from "./limits.ts";
-import type { Article } from "./schema.ts";
+import { articleHeadline, type Article } from "./schema.ts";
 
 export function articlesIndexMetadata(
   locale: EnabledLocale,
@@ -41,7 +41,7 @@ export function articleMetadata({
   content: SiteContent;
   preview: boolean;
 }): Metadata {
-  const title = `${article.title} | ${content.studioName}`;
+  const title = `${articleHeadline(article)} | ${content.studioName}`;
   const url = `/${locale}/articles/${article.slug}`;
   const image = article.cover
     ? {

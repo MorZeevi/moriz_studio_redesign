@@ -5,7 +5,7 @@ import {
   websiteId,
 } from "@/lib/structured-data";
 import { SITE_URL } from "@/lib/site";
-import type { Article } from "./schema.ts";
+import { articleHeadline, type Article } from "./schema.ts";
 
 export function articlesIndexStructuredData({
   locale,
@@ -34,7 +34,7 @@ export function articlesIndexStructuredData({
   if (articles.length) {
     blog.blogPost = articles.map((article) => ({
       "@type": "BlogPosting",
-      headline: article.title,
+      headline: articleHeadline(article),
       description: article.description,
       datePublished: article.date,
       url: `${url}/${article.slug}`,
@@ -86,7 +86,7 @@ export function articleStructuredData({
       "@id": `${url}#article`,
       mainEntityOfPage: url,
       url,
-      headline: article.title,
+      headline: articleHeadline(article),
       description: article.description,
       datePublished: article.date,
       dateModified: article.updated ?? article.date,

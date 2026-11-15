@@ -32,6 +32,7 @@ The file starts with YAML between two lines that are exactly `---`. Quote string
 | Field | Required | Rule |
 | --- | --- | --- |
 | `title` | yes | One line, 8–100 characters. The page's only `<h1>`. Do not include `\|` or `Moriz Studio`; the site sets the document title to `{title} \| Moriz Studio`. |
+| `seoTitle` | no | One line, 8–45 characters. Optional search title. When set, the document title is `{seoTitle} \| Moriz Studio` (at most 60 characters) and the on-page `<h1>` stays `title`. Do not include `\|` or `Moriz Studio`. When `focusKeyword` is set, `seoTitle` must start with it. Omit it when `{title} \| Moriz Studio` is already within about 60 characters. |
 | `description` | yes | One line, 50–160 characters. This is the meta description. Aim for 110–155. If `focusKeyword` is set, the description must contain it exactly. |
 | `date` | yes | `YYYY-MM-DD`, a real calendar date from 2000 through 2100. The publish date. |
 | `updated` | no | `YYYY-MM-DD`, on or after `date`. Set it only when the article is revised. |
@@ -46,7 +47,7 @@ The file starts with YAML between two lines that are exactly `---`. Quote string
 | `cta` | no | `true` or `false`. Omitted means `true`. `cta: false` stops the automatic contact card. A `<CtaCard />` you place yourself still renders. |
 | `draft` | no | `true` or `false`. Omitted means published. `draft: true` keeps the file in the repo but out of the index, sitemap, and RSS. |
 
-Character counts are Unicode code points (one Hebrew letter is one character). No leading or trailing whitespace. No line breaks inside `title`, `description`, `category`, `tags`, `coverAlt`, `focusKeyword`, or `q`.
+Character counts are Unicode code points (one Hebrew letter is one character). No leading or trailing whitespace. No line breaks inside `title`, `seoTitle`, `description`, `category`, `tags`, `coverAlt`, `focusKeyword`, or `q`.
 
 Suggested categories: `עיצוב ממשק`, `חוויית משתמש`, `מחקר משתמשים`, `חשיבת מוצר`, `דפוסי ממשק`, `עיצוב אתרים`, `עיצוב אפליקציות`, `כלים`, `ניסויים`, `ממצאים`.
 
