@@ -65,7 +65,7 @@ Author is fixed: Mor Zeevi / מור זאבי, the existing Person node. `date` i
 
 ### SEO requirements
 
-Per article: absolute title `{title} | Moriz Studio`, meta description, canonical `/he/articles/<slug>`, Open Graph `article` with `publishedTime`, `modifiedTime`, and the 1200×630 cover (or the site OG image), Twitter large card, `BlogPosting` plus `BreadcrumbList` JSON-LD. FAQ in frontmatter is also rendered and emitted as `FAQPage`. The index is a `CollectionPage` whose main entity is a `Blog`. Sitemap includes the index and every non-draft article, with `lastModified`. Drafts are `noindex` and absent from the sitemap and the RSS feed at `/he/articles/rss.xml`.
+Per article: absolute title `{seoTitle or title} | Moriz Studio`, meta description, canonical `/he/articles/<slug>`, Open Graph `article` with `publishedTime`, `modifiedTime`, and the 1200×630 cover (or the site OG image), Twitter large card, `BlogPosting` plus `BreadcrumbList` JSON-LD. FAQ in frontmatter is also rendered and emitted as `FAQPage`. The index is a `CollectionPage` whose main entity is a `Blog`. Sitemap includes the index and every non-draft article, with `lastModified`. Drafts are `noindex` and absent from the sitemap and the RSS feed at `/he/articles/rss.xml`.
 
 ### Future automation considerations
 

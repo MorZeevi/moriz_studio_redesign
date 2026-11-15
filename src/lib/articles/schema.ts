@@ -40,6 +40,8 @@ export type ArticleFaq = { q: string; a: string };
 export type Article = {
   slug: string;
   title: string;
+  /** Document title when the on-page h1 (`title`) is too long for search results. */
+  seoTitle?: string;
   description: string;
   date: string;
   updated?: string;
@@ -95,6 +97,7 @@ export type ArticleFiles = {
 
 const ARTICLE_KEYS = new Set([
   "title",
+  "seoTitle",
   "description",
   "date",
   "updated",
@@ -143,6 +146,15 @@ export function validateArticleSource(
       'title must not contain "|" or "Moriz Studio". The site appends " | Moriz Studio".',
     );
   }
+  const seoTitle = readLine(data, "seoTitle", issues, {
+    required: false,
+    ...ARTICLE_LIMITS.seoTitle,
+  });
+  if (seoTitle?.includes("|") || seoTitle?.includes("Moriz Studio")) {
+    issues.push(
+      'seoTitle must not contain "|" or "Moriz Studio". The site appends " | Moriz Studio".',
+    );
+  }
 
   const description = readLine(data, "description", issues, {
     required: true,
@@ -178,6 +190,11 @@ export function validateArticleSource(
       `description must include the focus keyword "${focusKeyword}" exactly.`,
     );
   }
+  if (seoTitle && focusKeyword && !seoTitle.startsWith(focusKeyword)) {
+    issues.push(
+      `seoTitle must start with the focus keyword "${focusKeyword}".`,
+    );
+  }
   const sources = readSources(data, issues);
   const faq = readFaq(data, issues);
   const tldr = readTldr(data, issues);
@@ -207,6 +224,7 @@ export function validateArticleSource(
   return {
     slug,
     title,
+    ...(seoTitle ? { seoTitle } : {}),
     description,
     date,
     ...(updated ? { updated } : {}),
@@ -223,6 +241,11 @@ export function validateArticleSource(
     headings: inspected.headings,
     body,
   };
+}
+
+/** Search-result headline. The on-page h1 stays `title`. */
+export function articleHeadline(article: Pick<Article, "title" | "seoTitle">) {
+  return article.seoTitle ?? article.title;
 }
 
 function validateSlug(slug: string, issues: string[]) {

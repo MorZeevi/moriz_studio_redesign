@@ -5,6 +5,7 @@ import { getAllArticles, getPublishedArticles } from "./load.ts";
 import { readingMinutes } from "./reading-time.ts";
 import {
   ArticleValidationError,
+  articleHeadline,
   validateArticleSource,
   type ArticleFiles,
 } from "./schema.ts";
@@ -60,6 +61,7 @@ test("a complete article passes, and missing optional fields pass", () => {
     files({}),
   );
   assert.equal(article.draft, false);
+  assert.equal(article.seoTitle, undefined);
   assert.equal(article.cta, true);
   assert.deepEqual(article.tldr, []);
   assert.deepEqual(article.tags, []);
@@ -197,6 +199,54 @@ test("infographics require a cited https source and published numbers", () => {
       return true;
     },
   );
+});
+
+test("seoTitle shortens the document title and must lead with the focus keyword", () => {
+  const seoTitle = "מחקר משתמשים לפני עיצוב אתר חדש";
+  const article = validateArticleSource(
+    slug,
+    source(`seoTitle: "${seoTitle}"`),
+    files({}),
+  );
+  assert.equal(article.seoTitle, seoTitle);
+  assert.equal(article.title, "מחקר קצר לפני עיצוב אתר");
+  assert.equal(articleHeadline(article), seoTitle);
+  assert.equal(articleHeadline({ title: article.title }), article.title);
+
+  assert.throws(
+    () =>
+      validateArticleSource(
+        slug,
+        source('seoTitle: "עיצוב אתר בלי מילת המפתח"'),
+        files({}),
+      ),
+    (error: unknown) => {
+      assert.ok(error instanceof ArticleValidationError);
+      assert.match(error.message, /seoTitle must start with the focus keyword/);
+      return true;
+    },
+  );
+});
+
+test("published document titles stay within 60 characters", () => {
+  const suffix = " | Moriz Studio";
+  for (const article of getPublishedArticles()) {
+    const rendered = `${articleHeadline(article)}${suffix}`;
+    const length = [...rendered].length;
+    assert.ok(
+      length <= 60,
+      `${article.slug} document title is ${length} characters: ${rendered}`,
+    );
+    const original = [...`${article.title}${suffix}`].length;
+    if (original > 60) {
+      assert.ok(article.seoTitle, `${article.slug} needs seoTitle`);
+      assert.equal(article.seoTitle.startsWith(article.focusKeyword ?? ""), true);
+      assert.ok(
+        length >= 50,
+        `${article.slug} seo title is only ${length} characters: ${rendered}`,
+      );
+    }
+  }
 });
 
 test("tldr, cta, and the inline cards are validated", () => {

@@ -2,6 +2,8 @@
 export const ARTICLE_LIMITS = {
   slug: { min: 3, max: 80 },
   title: { min: 8, max: 100 },
+  /** Keeps `{seoTitle} | Moriz Studio` within 60 characters (suffix is 15). */
+  seoTitle: { min: 8, max: 45 },
   description: { min: 50, max: 160 },
   category: { min: 2, max: 40 },
   tag: { min: 2, max: 40 },
