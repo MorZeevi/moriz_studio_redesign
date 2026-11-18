@@ -187,6 +187,7 @@ export function publicSitemapEntries({
   projects,
   articles,
   privacyUpdatedOn,
+  legal,
   services,
   alternateLocales,
 }: {
@@ -196,6 +197,8 @@ export function publicSitemapEntries({
   articles: SitemapArticle[] | null;
   alternateLocales?: readonly EnabledLocale[];
   privacyUpdatedOn?: string;
+  /** Other legal pages, as locale-less paths such as `/terms-of-use`. */
+  legal?: { path: string; updatedOn: string }[];
   /** Locale-less paths such as `/services` and `/services/mvp`. */
   services?: { path: string; updatedOn?: string }[];
 }): PublicSitemapEntry[] {
@@ -236,6 +239,12 @@ export function publicSitemapEntries({
       changeFrequency: "yearly",
       priority: 0.2,
     },
+    ...(legal ?? []).map((page) => ({
+      url: `${base}${page.path}`,
+      lastModified: new Date(`${page.updatedOn}T12:00:00.000Z`),
+      changeFrequency: "yearly" as const,
+      priority: 0.2,
+    })),
   ];
   const serviceEntries: PublicSitemapEntry[] = (services ?? []).map(
     (service) => {

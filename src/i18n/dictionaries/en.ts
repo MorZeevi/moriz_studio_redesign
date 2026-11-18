@@ -701,11 +701,10 @@ export const en = {
         href: "https://www.linkedin.com/in/mor-zeevi",
       },
     ],
-    // An empty href renders as a placeholder, not a link.
     legal: [
       { label: "Privacy", href: "/privacy-policy" },
-      { label: "Terms of use", href: "" },
-      { label: "Accessibility statement", href: "" },
+      { label: "Terms of use", href: "/terms-of-use" },
+      { label: "Accessibility statement", href: "/accessibility" },
     ],
     copyright: "moriz.studio",
     wordmark: [{ text: "moriz", bold: true }],
@@ -827,6 +826,144 @@ export const en = {
     projectKicker: "Project",
     projectFallback: "View the project",
     alsoRead: "Also read",
+  },
+  // Faithful translation of the Hebrew terms of use (18.11.2026).
+  termsOfUse: {
+    title: "Terms of Use",
+    intro:
+      "The terms of use of the Moriz Studio website: information about the services, rights in the content, use of the AI tools and contacting the studio.",
+    updatedOn: "2026-11-18",
+    lastUpdated: "Last updated: November 18, 2026",
+    contactLabel: "Questions about the terms of use",
+    contactName: "Mor Zeevi — Moriz Studio",
+    sections: [
+      {
+        title: "About the website and these terms",
+        paragraphs: [
+          "The website moriz.studio is operated by Mor Zeevi, owner of Moriz Studio. It presents the studio's work and its services: specification, user experience and interface design, and development of websites, web systems and AI tools, as well as articles and tools for initial guidance.",
+          "These terms apply to use of the website, including browsing the content, sending an inquiry, and using moriz.ai and the digital audit. Please read them before using the website.",
+        ],
+      },
+      {
+        title: "Information on the website and engaging the studio",
+        paragraphs: [
+          "The information on the website is meant for introduction and general guidance. Project examples, testimonials and service descriptions are not a promise of the same result in another project.",
+          "Sending a form, chatting with the assistant or completing an audit is not a work order and does not create an obligation to provide a service. The scope of work, price, payment terms, timelines, deliverables, usage rights and cancellation terms of a project will be set in a separate proposal or agreement agreed with the client. These terms do not replace such an agreement.",
+        ],
+      },
+      {
+        title: "Permitted use of the website",
+        paragraphs: [
+          "You may browse the content, consider whether the studio's services fit your needs and share links to pages of the website. When using the forms and tools, provide accurate information that you are permitted to provide.",
+          "Do not use the website for unlawful activity, harassment, sending spam, or harming the privacy and rights of others. Do not try to access information that is not meant for you, bypass protection mechanisms, disrupt the website, or run automated collection that burdens it or infringes rights. This does not prevent ordinary indexing by search engines or the use of assistive technologies.",
+        ],
+      },
+      {
+        title: "Copyright and intellectual property",
+        paragraphs: [
+          "The rights in the website's content, design, texts, code and visual materials belong to Moriz Studio or to the relevant rights holders, as the case may be. Names, logos, screenshots and deliverables of clients and third parties may be owned by them and are shown in order to present the work.",
+          "Showing material on the website does not transfer ownership or grant a license to copy, change, distribute or use it commercially. Use that requires permission needs prior written approval from the rights holder. This does not limit use permitted by law, including fair use.",
+        ],
+      },
+      {
+        title: "moriz.ai and the digital audit",
+        paragraphs: [
+          "The moriz.ai assistant and the digital audit are meant to provide information and initial guidance. Answers and recommendations may be generated automatically, including with the help of artificial intelligence, and may be partial, out of date or wrong. The audit result is based on the answers you gave and is not a full review of the website or the business.",
+          "The outputs are not a binding quote, a commitment to a business result, legal advice, or a substitute for specification and a professional review. Before a decision or material reliance, verify the information with Mor. We recommend not entering passwords, sensitive information, or personal information of others that you are not authorized to provide.",
+        ],
+      },
+      {
+        title: "Inquiries and privacy",
+        paragraphs: [
+          "Details provided in the forms and tools are processed according to the website's privacy policy. Providing details in order to get a response to an inquiry is not in itself a subscription to marketing messages. More information about data collection, external providers and your rights appears in the privacy policy.",
+        ],
+        links: [
+          {
+            label: "To the privacy policy",
+            href: "/privacy-policy",
+          },
+        ],
+      },
+      {
+        title: "Links and external services",
+        paragraphs: [
+          "The website may link to client websites, WhatsApp, social networks and external services. Those services and their content are managed by their operators, and using them is also subject to their terms and policies. The studio does not control their availability or changes made to them.",
+        ],
+      },
+      {
+        title: "Website availability and liability",
+        paragraphs: [
+          "We work to make the information on the website useful and to keep the website running properly, but there may be errors, faults or temporary interruptions. The content and tools are offered as they are and as available, with no promise that they will suit every need or be available at all times.",
+          "Subject to law, the studio will not be liable for indirect damage arising from reliance on general information or on automated output on the website. Nothing in these terms exempts from liability that cannot be limited by law, or takes away rights you have under mandatory provisions of law.",
+        ],
+      },
+      {
+        title: "Updates and governing law",
+        paragraphs: [
+          "The website's content, tools and terms of use may be updated from time to time. The current version and the date it was updated will be published on this page. An update does not change in retrospect a separate agreement already made with a client.",
+          "The laws of the State of Israel apply to use of the website. Any dispute will be heard in the court with jurisdiction under the law. If a provision of these terms is not valid, the remaining provisions will continue to apply as far as possible.",
+        ],
+      },
+    ],
+  },
+  // Faithful translation of the Hebrew accessibility statement (18.11.2026).
+  accessibility: {
+    title: "Accessibility Statement",
+    intro:
+      "It matters to me that every person can get to know Moriz Studio, browse the content and contact me. This page describes the accessibility efforts on the website and the ways to reach me when you run into a difficulty.",
+    updatedOn: "2026-11-18",
+    lastUpdated: "Last updated: November 18, 2026",
+    contactLabel: "Accessibility inquiries",
+    contactName: "Mor Zeevi — Moriz Studio",
+    sections: [
+      {
+        title: "The commitment to accessibility",
+        paragraphs: [
+          "The website moriz.studio presents the studio's services, work, articles and digital tools. We work to improve accessibility so that people with disabilities can also use it comfortably, with reference to the principles of Israeli Standard SI 5568 and to the WCAG guidelines at level AA as a target for improvement.",
+          "The website has not yet had a full professional accessibility audit. This statement describes the existing efforts and adjustments. It is not a confirmation of full compliance with the standard, or a commitment that every component has been tested with every assistive technology.",
+        ],
+      },
+      {
+        title: "Adjustments on the website",
+        paragraphs: [
+          "The website was built with measures that help with orientation, reading and operation:",
+        ],
+        bullets: [
+          "A skip link to the main content on the public pages, and a content structure based on headings and defined regions.",
+          "Links and buttons that can be operated with the keyboard, and a visible focus indicator.",
+          "A navigation menu on mobile devices with focus management and the option to close it with the keyboard.",
+          "A display adapted to screens of different sizes, and support for zooming the display with the browser.",
+          "Support for the reduced motion preference set in the operating system, in the animated components that support it.",
+          "The option to get in touch directly by email or phone, in addition to the contact form.",
+        ],
+      },
+      {
+        title: "Limitations and ongoing improvement",
+        paragraphs: [
+          "Alongside the adjustments, there may be difficulties in some of the content, in project views, in media and in interactive components. A comprehensive check of the whole website and of the audit tool with screen readers has not been carried out. External websites and services linked from the website are managed separately and their accessibility may vary.",
+          "If content or an action is not accessible to you, you can contact me and I will try to help, provide the information in an accessible way and look into the fix needed. You do not need to use the website's form to ask for help.",
+        ],
+      },
+      {
+        title: "How the service is provided",
+        paragraphs: [
+          "The studio's services are provided online and by prior arrangement. The studio has no premises open to the public. If you need an adjustment in the way we communicate, or to receive information in another format, you can contact Mor using the details below.",
+        ],
+      },
+      {
+        title: "How to report a difficulty",
+        paragraphs: [
+          "Mor Zeevi handles accessibility inquiries. So that I can understand the difficulty and help, it is useful to include as many of the following details as you can. You can also get in touch without all of them:",
+        ],
+        bullets: [
+          "A link to the page where you ran into the difficulty.",
+          "What you tried to do and what went wrong.",
+          "The type of device, operating system and browser, including the version if known.",
+          "The name of the assistive technology you used, if relevant.",
+          "Your preferred way to be contacted for follow-up.",
+        ],
+      },
+    ],
   },
   floatingActions: {
     label: "Quick actions",

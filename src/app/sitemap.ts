@@ -25,17 +25,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     updatedAt: articleInstant(article.updated ?? article.date),
   }));
   const perLocale = await Promise.all(
-    enabledLocales.map(async (locale) =>
-      publicSitemapEntries({
+    enabledLocales.map(async (locale) => {
+      const content = await getDictionary(locale);
+      return publicSitemapEntries({
         siteUrl: SITE_URL,
         locale,
         projects,
         articles: hasArticles(locale) ? articles : null,
-        privacyUpdatedOn: (await getDictionary(locale)).privacyPolicy.updatedOn,
+        privacyUpdatedOn: content.privacyPolicy.updatedOn,
+        legal: [
+          { path: "/terms-of-use", updatedOn: content.termsOfUse.updatedOn },
+          {
+            path: "/accessibility",
+            updatedOn: content.accessibility.updatedOn,
+          },
+        ],
         services: serviceSitemapEntries(),
         alternateLocales: enabledLocales,
-      }),
-    ),
+      });
+    }),
   );
   return perLocale.flat();
 }
