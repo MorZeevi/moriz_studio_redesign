@@ -68,7 +68,7 @@ test("llms.txt lists the Hebrew pages and keeps project slugs encoded once", () 
     text,
     /\[מדיניות פרטיות\]\(https:\/\/moriz\.studio\/he\/privacy-policy\)/,
   );
-  assert.match(text, /\/en מופנית באופן קבוע אל https:\/\/moriz\.studio\/he/);
+  assert.equal(text.includes("מופנית באופן קבוע"), false);
   assert.equal(text.includes("%25"), false);
 });
 
@@ -77,4 +77,28 @@ test("llms.txt leaves out prices and the lead magnet", () => {
   assert.equal(text.includes("₪"), false);
   assert.equal(text.includes("/digital-audit"), false);
   assert.equal(text.includes("איפיון"), false);
+});
+
+test("llms.txt lists the English pages without articles", () => {
+  const withEnglish = renderLlmsTxt({
+    content: he,
+    siteUrl: "https://moriz.studio",
+    locale: "he",
+    whatsappUrl: null,
+    projects: [],
+    articles: [],
+    english: [
+      { title: "Home", url: "https://moriz.studio/en", description: "Studio." },
+      {
+        title: "Privacy policy",
+        url: "https://moriz.studio/en/privacy-policy",
+      },
+    ],
+  });
+  assert.match(
+    withEnglish,
+    /## English\n\n- \[Home\]\(https:\/\/moriz\.studio\/en\): Studio\./,
+  );
+  assert.match(withEnglish, /ובאנגלית \(https:\/\/moriz\.studio\/en\)/);
+  assert.equal(withEnglish.includes("/en/articles"), false);
 });

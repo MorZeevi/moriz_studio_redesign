@@ -26,6 +26,7 @@ import { projectArchiveCard, projectCard } from "@/lib/cms/project-card";
 import {
   setHoverMedia,
   setUserCount,
+  setUserCountEn,
   userCountHighlight,
   type HoverSurface,
 } from "@/lib/cms/card-options";
@@ -613,6 +614,29 @@ export function ProjectEditor({
                       {canAddUserCount
                         ? "לא חובה. טקסט חופשי, למשל 10,000+ או 6K+."
                         : "כבר יש שלוש עובדות בפרויקט. הסירו היילייט בלשונית Case Study כדי להוסיף מספר משתמשים."}
+                    </small>
+                  </label>
+                  <label className={styles.field}>
+                    <span>מספר משתמשים (English)</span>
+                    <input
+                      aria-label="מספר משתמשים (English)"
+                      dir="ltr"
+                      maxLength={40}
+                      placeholder="In pilot"
+                      value={userCount?.value_en ?? ""}
+                      disabled={!userCount}
+                      onChange={(e) =>
+                        change((current) => ({
+                          ...current,
+                          highlights: setUserCountEn(
+                            current.highlights,
+                            e.target.value,
+                          ),
+                        }))
+                      }
+                    />
+                    <small>
+                      רק כשהערך כתוב במילים בעברית. מספרים מוצגים כמו שהם.
                     </small>
                   </label>
                   <label className={styles.field}>

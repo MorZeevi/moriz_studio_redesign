@@ -9,6 +9,7 @@ import { getAttribution } from "@/diagnostic/attribution";
 import { CONTACT_INTERESTS, type ContactInterest } from "@/lib/contact-interests";
 import { trackConversion } from "@/lib/conversion";
 import { WHATSAPP_URL } from "@/lib/whatsapp";
+import type { EnabledLocale } from "@/i18n/config";
 import styles from "./footer-contact-form.module.css";
 
 type Field = "name" | "phone";
@@ -60,8 +61,10 @@ const interestIcons: Record<ContactInterest, React.ReactNode> = {
 
 export function FooterContactForm({
   content,
+  locale,
 }: {
   content: SiteContent["contact"];
+  locale: EnabledLocale;
 }) {
   const hydrated = useSyncExternalStore(
     subscribe,
@@ -242,7 +245,9 @@ export function FooterContactForm({
                   <CheckIcon />
                 </span>
                 {interestIcons[interest.id]}
-                <span>{interest.label}</span>
+                <span>
+                  {locale === "he" ? interest.label : interest.labelEn}
+                </span>
               </label>
             ))}
           </div>

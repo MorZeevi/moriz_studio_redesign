@@ -17,7 +17,7 @@ import { LogoCarousel } from "@/components/logo-carousel";
 import { MainHeader } from "@/components/main-header";
 import { PartyModeProvider } from "@/components/party-mode/party-mode-provider";
 import { PartyModeToggle } from "@/components/party-mode/party-mode-toggle";
-import { conversionCopy } from "@/content/conversion-copy";
+import { conversionCopyFor } from "@/content/conversion-copy";
 import { ProjectsSection } from "@/components/projects-section";
 import FallingText from "@/components/react-bits/FallingText";
 import { SecondaryScrollSurface } from "@/components/secondary-scroll-surface";
@@ -25,7 +25,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { Testimonials } from "@/components/testimonials";
 import { LiquidLink } from "@/components/ui/liquid-link";
 import { Section } from "@/components/wireframe";
-import { isEnabledLocale } from "@/i18n/config";
+import { hasDiagnostic, isEnabledLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { projectCard } from "@/lib/cms/project-card";
 import { getPublicProjects } from "@/lib/cms/queries";
@@ -39,6 +39,7 @@ export default async function Home({
   const { locale } = await params;
   if (!isEnabledLocale(locale)) notFound();
   const content = await getDictionary(locale);
+  const conversionCopy = conversionCopyFor(locale);
   const projects = await getPublicProjects("homepage");
   return (
     <PartyModeProvider labels={content.advantages.party}>
@@ -100,7 +101,7 @@ export default async function Home({
                 </div>
               </div>
               <HeroVideo labels={content.hero.video} />
-              <LogoCarousel labels={content.logoCarousel} />
+              <LogoCarousel labels={content.logoCarousel} locale={locale} />
             </div>
             <div className="hero-shell hero-video-stage">
               <div
@@ -152,7 +153,9 @@ export default async function Home({
         </HomepagePattern>
 
         <ProjectsSection
-          projects={projects.map((project) => projectCard(project, "homepage"))}
+          projects={projects.map((project) =>
+            projectCard(project, "homepage", locale),
+          )}
           locale={locale}
           content={content.projects}
           partyReaction
@@ -189,10 +192,12 @@ export default async function Home({
           <DesignQuote content={content.designQuote} />
         </Section>
 
-        <DiagnosticBanner content={content.diagnosticBanner} />
+        {hasDiagnostic(locale) && (
+          <DiagnosticBanner content={content.diagnosticBanner} />
+        )}
 
         <Section id="faq" title={content.faq.heading} showHeading={false}>
-          <Faq content={content.faq} />
+          <Faq content={content.faq} locale={locale} />
         </Section>
       </main>
 
@@ -201,6 +206,7 @@ export default async function Home({
       <FloatingActions
         content={content.floatingActions}
         ask={content.askAi}
+        locale={locale}
         mobileWhatsappOnly
       />
     </PartyModeProvider>

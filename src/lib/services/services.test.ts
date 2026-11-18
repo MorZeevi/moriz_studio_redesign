@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
+  getService,
   ownerReviewList,
   paragraphsText,
   publicServicePages,
@@ -8,12 +9,21 @@ import {
   serviceSitemapEntries,
   services,
   servicesChrome,
+  servicesChromeFor,
+  servicesContent,
+  servicesFor,
+  servicesHubDocument,
+  servicesHubFor,
 } from "@/content/services.ts";
+import { isEnabledLocale } from "@/i18n/config.ts";
 import { he } from "@/i18n/dictionaries/he.ts";
 import { getPublishedArticles } from "@/lib/articles/load.ts";
 import { renderLlmsTxt } from "@/lib/llms.ts";
 import { META_DESCRIPTION_MAX, publicSitemapEntries } from "@/lib/seo.ts";
-import { serviceDocumentTitle } from "@/lib/services/metadata.ts";
+import {
+  serviceDocumentTitle,
+  serviceMetadata,
+} from "@/lib/services/metadata.ts";
 import { serviceStructuredData } from "@/lib/services/structured-data.ts";
 import { organizationId } from "@/lib/structured-data.ts";
 
@@ -217,4 +227,177 @@ test("sitemap and llms.txt list the Hebrew service URLs", () => {
   assert.equal(text.includes("₪"), false);
   assert.equal(text.includes("איפיון"), false);
   assert.equal(text.includes("כמה עולה אתר"), false);
+});
+
+// English. Same structure as the Hebrew, no articles and no diagnostic.
+
+const enPages = publicServicePages("en");
+const enServices = servicesFor("en");
+
+test("Hebrew accessors default to Hebrew and keep the old exports", () => {
+  assert.equal(servicesHubFor(), servicesHubDocument);
+  assert.equal(servicesHubFor("he"), servicesHubDocument);
+  assert.equal(servicesFor(), services);
+  assert.equal(servicesChromeFor(), servicesChrome);
+  assert.deepEqual(publicServicePages(), pages);
+  assert.equal(getService("mvp"), getService("mvp", "he"));
+  assert.notEqual(getService("mvp", "en"), getService("mvp", "he"));
+  assert.equal(getService("missing", "en"), null);
+});
+
+test("English service pages mirror the Hebrew structure", () => {
+  assert.equal(enPages.length, pages.length);
+  pages.forEach((he, index) => {
+    const en = enPages[index];
+    assert.ok(en);
+    assert.equal(en.slug, he.slug);
+    assert.equal(en.path, he.path);
+    assert.equal(en.showCatalog, he.showCatalog);
+    assert.deepEqual(en.projectSlugs, he.projectSlugs);
+    assert.deepEqual(en.relatedSlugs, he.relatedSlugs);
+    assert.equal(en.answer.length, he.answer.length, he.path);
+    assert.equal(en.faq.length, he.faq.length, he.path);
+    assert.deepEqual(
+      en.sections.map((section) => [section.type, section.id]),
+      he.sections.map((section) => [section.type, section.id]),
+    );
+    en.sections.forEach((section, i) => {
+      const other = he.sections[i];
+      if (section.type === "steps" && other?.type === "steps") {
+        assert.equal(section.steps.length, other.steps.length, section.id);
+      }
+      if (section.type === "split" && other?.type === "split") {
+        assert.equal(section.columns.length, other.columns.length);
+      }
+    });
+  });
+  for (const slug of services.map((service) => service.slug)) {
+    assert.ok(slug && getService(slug, "en"), String(slug));
+  }
+});
+
+test("each English service page has a short keyword-led title and description", () => {
+  const titles = new Set<string>();
+  const descriptions = new Set<string>();
+  for (const page of enPages) {
+    const title = serviceDocumentTitle(page.title, he.studioName);
+    assert.equal(titles.has(title), false, title);
+    assert.equal(descriptions.has(page.description), false, page.description);
+    titles.add(title);
+    descriptions.add(page.description);
+    assert.ok(title.length <= 60, `${title} (${title.length})`);
+    assert.ok(page.title.startsWith(page.keyword), page.title);
+    assert.ok(page.heading.includes(page.keyword), page.heading);
+    assert.ok(page.description.startsWith(page.keyword), page.description);
+    assert.ok(page.description.length >= 80, page.description);
+    assert.ok(
+      page.description.length <= META_DESCRIPTION_MAX,
+      `${page.description} (${page.description.length})`,
+    );
+    assert.equal(
+      new Set(page.faq.map((item) => item.question)).size,
+      page.faq.length,
+    );
+  }
+});
+
+test("English service pages have no Hebrew, articles, diagnostic or prices", () => {
+  const { ownerReviewClaims, chrome } = servicesContent("en");
+  // Project slugs are ids (one is Hebrew) and are not rendered as text.
+  const blob = JSON.stringify([
+    chrome,
+    ...enPages.map(({ projectSlugs: _ids, ...page }) => page),
+  ]);
+  assert.doesNotMatch(blob, /[\u0590-\u05FF]/u);
+  assert.equal(blob.includes("/articles"), false);
+  assert.equal(blob.includes("/digital-audit"), false);
+  assert.equal(blob.includes("₪"), false);
+  assert.equal(blob.includes("$"), false);
+  for (const page of enPages) {
+    assert.equal(page.articleSlugs.length, 0, page.path);
+  }
+  for (const claim of Object.values(ownerReviewClaims)) {
+    assert.equal(blob.includes(claim), true, claim);
+  }
+  assert.deepEqual(
+    Object.keys(ownerReviewClaims).sort(),
+    Object.keys(servicesContent("he").ownerReviewClaims).sort(),
+  );
+  assert.equal(chrome.label, "Services");
+});
+
+test("English facts match the Hebrew", () => {
+  const blob = JSON.stringify(enPages);
+  assert.match(blob, /5-10 minute/);
+  assert.match(blob, /valid for 14 business days/);
+  assert.match(blob, /3-month warranty/);
+  assert.match(blob, /Tel Aviv/);
+  assert.match(blob, /Storyline or Articulate/);
+  assert.match(blob, /H\.I\.T/);
+});
+
+test("English JSON-LD is English and points at /en", () => {
+  for (const page of enPages) {
+    const data = serviceStructuredData({
+      // `en` may not be an enabled locale yet; the builder only reads it.
+      locale: "en" as never,
+      studioName: he.studioName,
+      servicesLabel: servicesChromeFor("en").label,
+      page,
+      catalog: page.showCatalog ? [...enServices] : [],
+    });
+    const graph = (data as { "@graph": Array<Record<string, unknown>> })[
+      "@graph"
+    ];
+    const nodes = graph.filter((node) => node["@type"] === "Service");
+    assert.equal(nodes.length, page.showCatalog ? enServices.length + 1 : 1);
+    for (const node of nodes) {
+      assert.equal(node.inLanguage, "en");
+      assert.match(String(node.url), /^https:\/\/moriz\.studio\/en\/services/);
+    }
+    assert.equal(nodes[0]?.name, page.heading);
+    const json = JSON.stringify(data);
+    assert.equal(json.includes("/articles"), false);
+    assert.doesNotMatch(json, /[\u0590-\u05FF]/u);
+  }
+  const heData = serviceStructuredData({
+    locale: "he",
+    studioName: "Moriz Studio",
+    servicesLabel: servicesChrome.label,
+    page: servicesHubDocument,
+  });
+  const heNode = (heData as { "@graph": Array<Record<string, unknown>> })[
+    "@graph"
+  ][0];
+  assert.equal(heNode?.inLanguage, "he-IL");
+});
+
+test("service metadata has hreflang per enabled locale and x-default Hebrew", () => {
+  const meta = serviceMetadata("he", servicesHubDocument, he.studioName);
+  const alternates = meta.alternates as {
+    canonical: string;
+    languages: Record<string, string>;
+  };
+  assert.equal(alternates.canonical, "/he/services");
+  assert.equal(alternates.languages.he, "/he/services");
+  assert.equal(alternates.languages["x-default"], "/he/services");
+  assert.equal(
+    (meta.openGraph as { locale?: string } | undefined)?.locale,
+    "he_IL",
+  );
+  if (isEnabledLocale("en")) {
+    assert.equal(alternates.languages.en, "/en/services");
+    const page = getService("mvp", "en");
+    assert.ok(page);
+    const en = serviceMetadata("en", page, he.studioName);
+    const enAlternates = en.alternates as typeof alternates;
+    assert.equal(enAlternates.canonical, "/en/services/mvp");
+    assert.equal(enAlternates.languages.he, "/he/services/mvp");
+    assert.equal(enAlternates.languages["x-default"], "/he/services/mvp");
+    assert.equal(
+      (en.openGraph as { locale?: string } | undefined)?.locale,
+      "en_US",
+    );
+    assert.equal(en.description, page.description);
+  }
 });

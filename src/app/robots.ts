@@ -16,6 +16,7 @@ export default function robots(): MetadataRoute.Robots {
         // also sends noindex. Do not remove this until that decision changes.
         "/digital-audit",
         "/he/fonts",
+        "/en/fonts",
         "/he/articles/preview",
       ],
     },

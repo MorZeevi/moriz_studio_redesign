@@ -52,6 +52,7 @@ export function renderLlmsTxt({
   projects,
   articles,
   services,
+  english,
 }: {
   content: SiteContent;
   siteUrl: string;
@@ -60,6 +61,11 @@ export function renderLlmsTxt({
   projects: LlmsLink[];
   articles: LlmsLink[];
   services?: { title: string; path: string; description?: string }[];
+  /**
+   * The English site's pages, as absolute URLs. English has no articles
+   * section, so none are listed here.
+   */
+  english?: { title: string; url: string; description?: string }[];
 }): string {
   const home = absolute(siteUrl, locale);
   const lines: string[] = [
@@ -194,9 +200,17 @@ export function renderLlmsTxt({
     lines.push(`- [${social.label}](${social.href})`);
   }
 
+  if (english?.length) {
+    lines.push("", "## English", "");
+    for (const page of english)
+      lines.push(linkLine(page.title, page.url, page.description));
+  }
+
   lines.push(
     "",
-    `האתר בעברית בלבד. כתובת ${siteUrl}/en מופנית באופן קבוע אל ${home}.`,
+    english?.length
+      ? `האתר זמין בעברית (${home}) ובאנגלית (${siteUrl}/en). המאמרים בעברית בלבד.`
+      : "האתר בעברית.",
     "",
   );
   return lines.join("\n");

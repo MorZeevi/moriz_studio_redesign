@@ -7,7 +7,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { isEnabledLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { pageAlternates } from "@/lib/seo";
-import { siteOpenGraph } from "@/lib/site";
+import { openGraphFor } from "@/lib/site";
 
 type PageParams = { params: Promise<{ locale: string }> };
 
@@ -24,7 +24,7 @@ export async function generateMetadata({
     description: intro,
     alternates: pageAlternates(url),
     openGraph: {
-      ...siteOpenGraph,
+      ...openGraphFor(locale),
       title: `${title} | ${content.studioName}`,
       description: intro,
       url,
@@ -59,6 +59,7 @@ export default async function PrivacyPolicyPage({ params }: PageParams) {
       <FloatingActions
         content={content.floatingActions}
         ask={content.askAi}
+        locale={locale}
         mobileWhatsappOnly
       />
     </>

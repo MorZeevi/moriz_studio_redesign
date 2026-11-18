@@ -7,6 +7,7 @@ import { ProjectEnquiry } from "./project-enquiry";
 import { ProjectGallery } from "@/components/project-gallery";
 import Noise from "@/components/react-bits/Noise";
 import { FloatingActions } from "@/components/floating-actions";
+import { LanguageLink } from "@/components/language-link";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { type Locale, localeConfig } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
@@ -72,7 +73,7 @@ export function ProjectDetail({
     [labels.client, t("client") || null],
     [labels.year, project.year],
     [copy.role, t("role") || null],
-    [copy.users, projectUserCount(project)],
+    [copy.users, projectUserCount(project, locale)],
     [copy.type, project.type ? termName(project.type, locale) : null],
   ];
   return (
@@ -115,7 +116,13 @@ export function ProjectDetail({
                     <ProjectArrow back />
                     {copy.backLink}
                   </Link>
-                  <ThemeToggle labels={content.theme} />
+                  <div className={detail.panelControls}>
+                    <ThemeToggle labels={content.theme} />
+                    <LanguageLink
+                      locale={locale}
+                      content={content.navigation.languages}
+                    />
+                  </div>
                 </div>
               )}
               <div className={detail.identity}>
@@ -229,6 +236,7 @@ export function ProjectDetail({
               <ProjectEnquiry
                 title={localized(project, "title", locale)}
                 formHref={`/${locale}#contact`}
+                locale={locale}
               />
               {nextProject?.slug && (
                 <nav
@@ -262,6 +270,7 @@ export function ProjectDetail({
         <FloatingActions
           content={content.floatingActions}
           ask={content.askAi}
+          locale={locale}
           compactOnMobile
         />
       )}

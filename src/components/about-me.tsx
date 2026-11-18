@@ -12,6 +12,8 @@ import styles from "./about-me.module.css";
 const latinRun = /([A-Za-z](?:[A-Za-z./\- ]*[A-Za-z])?)/;
 
 function Isolated({ text }: { text: string }) {
+  // English copy is all Latin: one unbreakable run would overflow the column.
+  if (!/[֐-׿]/.test(text)) return text;
   return text.split(latinRun).map((part, index) =>
     index % 2 ? (
       // biome-ignore lint/suspicious/noArrayIndexKey: static split of fixed copy

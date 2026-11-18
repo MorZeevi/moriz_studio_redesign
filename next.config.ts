@@ -10,14 +10,9 @@ const remarkInsertCta = path.join(
 );
 
 const nextConfig: NextConfig = {
-  async redirects() {
-    return [
-      // English content is not enabled in the redesign yet. Permanent, so
-      // search engines move the previous site's /en ranking to Hebrew pages.
-      { source: "/en", destination: "/he", permanent: true },
-      { source: "/en/:path+", destination: "/he/:path+", permanent: true },
-    ];
-  },
+  // English lives at /en (src/i18n/config.ts). The earlier permanent
+  // /en → /he redirects were removed when English launched; `/` still
+  // redirects to /he in src/proxy.ts.
   async rewrites() {
     return [
       {

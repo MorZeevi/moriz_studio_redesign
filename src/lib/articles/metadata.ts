@@ -17,7 +17,7 @@ export function articlesIndexMetadata(
     title: { absolute: title },
     description,
     alternates: {
-      ...pageAlternates(url),
+      ...pageAlternates(url, { hebrewOnly: true }),
       types: { "application/rss+xml": `${url}/rss.xml` },
     },
     openGraph: { ...siteOpenGraph, title, description, url },
@@ -59,7 +59,9 @@ export function articleMetadata({
     description: article.description,
     ...(keywords.length ? { keywords } : {}),
     authors: [{ name: "Mor Zeevi", url: `/${locale}` }],
-    alternates: article.draft ? undefined : pageAlternates(url),
+    alternates: article.draft
+      ? undefined
+      : pageAlternates(url, { hebrewOnly: true }),
     robots:
       preview || article.draft ? { index: false, follow: false } : undefined,
     openGraph: {

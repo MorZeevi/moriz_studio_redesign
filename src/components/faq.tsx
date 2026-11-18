@@ -8,14 +8,22 @@ import {
   LiquidLink,
 } from "@/components/ui/liquid-link";
 import { SparkleIcon } from "@/components/ui/sparkle-icon";
+import type { EnabledLocale } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
 import { AI_CHAT_DIALOG_ID, openAiChat } from "@/lib/chat-launcher";
-import { WHATSAPP_CONTACT_URL as WHATSAPP_URL } from "@/lib/whatsapp";
+import { whatsappContactUrl } from "@/lib/whatsapp";
 import styles from "./faq.module.css";
 
 const subscribeNothing = () => () => {};
 
-export function Faq({ content }: { content: SiteContent["faq"] }) {
+export function Faq({
+  content,
+  locale,
+}: {
+  content: SiteContent["faq"];
+  locale: EnabledLocale;
+}) {
+  const WHATSAPP_URL = whatsappContactUrl(locale);
   const id = useId().replace(/:/g, "");
   const filterId = `faq-liquid-${id}`;
   const outlineId = `faq-ai-outline-${id}`;

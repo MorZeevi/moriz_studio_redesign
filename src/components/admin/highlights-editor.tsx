@@ -84,6 +84,17 @@ export function HighlightsEditor({
                 onChange={(e) => patch(h.id, { value: e.target.value })}
               />
             </label>
+            <label className={styles.field}>
+              <span>ערך (English)</span>
+              <input
+                dir="ltr"
+                maxLength={40}
+                value={h.value_en ?? ""}
+                onChange={(e) =>
+                  patch(h.id, { value_en: e.target.value || undefined })
+                }
+              />
+            </label>
             <LocalizedField
               label="תווית"
               maxLength={200}

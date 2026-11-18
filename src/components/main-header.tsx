@@ -1,16 +1,17 @@
 import Image from "next/image";
+import { LanguageLink } from "@/components/language-link";
 import { Navigation } from "@/components/navigation";
 import Noise from "@/components/react-bits/Noise";
 import { SiteHeader } from "@/components/site-header";
 import { StudioLogo } from "@/components/studio-logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LiquidLink } from "@/components/ui/liquid-link";
-import type { EnabledLocale } from "@/i18n/config";
+import { availableLinks, type EnabledLocale } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
 import { anchorHref } from "@/lib/anchor-href";
 
 /**
- * The public site header: logo, section navigation, theme, and
+ * The public site header: logo, section navigation, theme and language, and
  * the contact CTA. Off the homepage, pass the anchors that exist on the page;
  * the other section links then lead back to the homepage.
  */
@@ -23,6 +24,13 @@ export function MainHeader({
   locale: EnabledLocale;
   pageAnchors?: string[];
 }) {
+  // Links to sections this locale hides (diagnostic, articles) are dropped
+  // here, on the server, so the client navigation gets stable arrays.
+  const navigation = {
+    ...content.navigation,
+    desktopLinks: availableLinks(content.navigation.desktopLinks, locale),
+    links: availableLinks(content.navigation.links, locale),
+  };
   return (
     <SiteHeader>
       <div className="hero-shell site-header-inner">
@@ -48,15 +56,19 @@ export function MainHeader({
         </div>
         <Navigation
           locale={locale}
-          content={content.navigation}
+          content={navigation}
           studioName={content.studioName}
           theme={content.theme}
           pageAnchors={pageAnchors}
         />
         <div className="header-actions">
-          {/* Desktop: the theme control sits beside the CTA. */}
+          {/* Desktop: theme and language sit together beside the CTA. */}
           <div className="header-controls">
             <ThemeToggle labels={content.theme} />
+            <LanguageLink
+              locale={locale}
+              content={content.navigation.languages}
+            />
           </div>
           <LiquidLink
             className="header-contact-link"

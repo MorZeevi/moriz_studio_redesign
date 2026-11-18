@@ -69,11 +69,12 @@ test("menu opens and closes instantly and keeps modal state", async ({
     ),
   ).toBe(0);
   await expect(dialog.locator(".menu-close svg")).toHaveCSS("rotate", "-45deg");
-  await dialog.locator(".navigation-links a").last().focus();
+  // The language toggle closes the panel's keyboard cycle.
+  await dialog.locator(".language-link").focus();
   await page.keyboard.press("Tab");
   await expect(dialog.locator("a[href]").first()).toBeFocused();
   await page.keyboard.press("Shift+Tab");
-  await expect(dialog.locator(".navigation-links a").last()).toBeFocused();
+  await expect(dialog.locator(".language-link")).toBeFocused();
   await dialog.locator(".menu-close").click();
   await expect(dialog).toBeHidden();
   await expect(page.locator("html")).not.toHaveCSS("overflow", "hidden");

@@ -141,6 +141,8 @@ export type ProjectMediaItem = {
 export type Highlight = {
   id: string;
   value: string;
+  /** English value, for values written as words (e.g. "In pilot"). */
+  value_en?: string;
   label: string;
   label_en?: string;
   description?: string;

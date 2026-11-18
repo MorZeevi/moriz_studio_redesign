@@ -282,6 +282,16 @@
   transform-origin: bottom left;
 }
 
+/* English (LTR): the rows swap sides, so their pop grows from the mirrored
+   corners. */
+:global(html[dir="ltr"]) .userRow:last-child {
+  transform-origin: bottom left;
+}
+
+:global(html[dir="ltr"]) .answerRow:last-child {
+  transform-origin: bottom right;
+}
+
 .bubble {
   max-inline-size: 82%;
   padding: 0.65rem 0.95rem;

@@ -355,3 +355,85 @@
     transition: none;
   }
 }
+
+/* English (LTR): the same layout mirrored. The rules above pin Hebrew
+   physically; these only apply under <html dir="ltr">, so Hebrew is unchanged.
+   The heading moves to the left, the questions to the right, and each
+   question's control to its right (inline-end) edge. */
+:global(html[dir="ltr"]) .intro,
+:global(html[dir="ltr"]) .heading {
+  text-align: left;
+}
+
+:global(html[dir="ltr"]) .item .summary {
+  padding-left: var(--space-6);
+  padding-right: calc(var(--faq-inset) + var(--space-6));
+}
+
+:global(html[dir="ltr"]) .bodyShape {
+  inset: 0 var(--faq-inset) 0 0;
+}
+
+:global(html[dir="ltr"]) .controlShape,
+:global(html[dir="ltr"]) .control {
+  left: auto;
+  right: 0;
+}
+
+:global(html[dir="ltr"]) .bridge {
+  left: auto;
+  right: calc(var(--faq-control) - 0.5rem);
+}
+
+:global(html[dir="ltr"]) .answer {
+  padding-left: var(--space-6);
+  padding-right: calc(var(--faq-inset) + var(--space-6));
+}
+
+:global(html[dir="ltr"]) .actions {
+  justify-self: start;
+}
+
+@media (max-width: 63.999rem) {
+  :global(html[dir="ltr"]) .actions {
+    justify-self: stretch;
+  }
+}
+
+@media (max-width: 23rem) {
+  :global(html[dir="ltr"]) .item .summary {
+    padding-left: var(--space-4);
+    padding-right: calc(var(--faq-inset) + var(--space-4));
+  }
+
+  :global(html[dir="ltr"]) .answer {
+    padding-left: var(--space-4);
+    padding-right: calc(var(--faq-inset) + var(--space-4));
+  }
+}
+
+@media (min-width: 64rem) {
+  :global(html[dir="ltr"]) .layout {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    grid-template-areas: "heading questions" "actions questions";
+  }
+
+  :global(html[dir="ltr"]) .intro {
+    justify-self: start;
+  }
+
+  :global(html[dir="ltr"]) .heading {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  :global(html[dir="ltr"]) .item .summary {
+    padding-left: var(--space-8);
+    padding-right: calc(var(--faq-inset) + var(--space-8));
+  }
+
+  :global(html[dir="ltr"]) .answer {
+    padding-left: var(--space-8);
+    padding-right: calc(var(--faq-inset) + var(--space-8));
+  }
+}

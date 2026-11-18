@@ -179,52 +179,29 @@ test("gallery reveals on scroll with shared corners and accessible theme control
       }));
     expect(radius.actual).toBe("6px");
     expect(Number.parseFloat(radius.expected)).toBe(0.375);
-    const last = gallery.locator("[data-gallery-reveal]").last();
-    await expect(last).toHaveAttribute("data-reveal", "pending");
-    await last.evaluate((element) =>
-      window.scrollTo(
-        0,
-        element.getBoundingClientRect().top + scrollY - innerHeight * 0.65,
+    // Gallery media is shown as is: no scroll reveal.
+    const last = gallery.locator("a").last();
+    await expect(page.locator("[data-reveal]")).toHaveCount(0);
+    await last.scrollIntoViewIfNeeded();
+    await expect(last).toHaveCSS("clip-path", "none");
+    expect(
+      await gallery.evaluate(
+        (element) => element.getAnimations({ subtree: true }).length,
       ),
-    );
-    await expect
-      .poll(() =>
-        last.evaluate(
-          (element) => element.getAnimations({ subtree: true }).length,
-        ),
-      )
-      .toBe(1);
-    const motion = await last.evaluate((element) => {
-      const effect = element.getAnimations({ subtree: true })[0]
-        .effect as KeyframeEffect;
-      return {
-        duration: effect.getTiming().duration,
-        frames: effect.getKeyframes(),
-      };
-    });
-    expect(motion.duration).toBe(900);
-    expect(motion.frames[0].clipPath).toContain("100%");
-    await expect(last.locator("a")).not.toHaveCSS("clip-path", "none");
-    await expect(last).toHaveCSS("opacity", "1");
-    await expect
-      .poll(() =>
-        last.evaluate(
-          (element) => element.getAnimations({ subtree: true }).length,
-        ),
-      )
-      .toBe(0);
-    await expect(last.locator("a")).toHaveCSS("clip-path", "none");
-    await last.locator("a").click();
+    ).toBe(0);
+    await last.click();
     const viewer = page.getByRole("dialog", { name: "צפייה בתמונות הפרויקט" });
     await expect(viewer).toBeVisible();
     await expect(viewer).toContainText("6 / 6");
     await page.keyboard.press("Escape");
-    await expect(last.locator("a")).toBeFocused();
+    await expect(last).toBeFocused();
   }
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/he/projects/practicalai?gallery=demo6");
-  await expect(page.locator("[data-reveal=pending]")).toHaveCount(0);
   await expect(
-    page.locator("[data-gallery-reveal]").last().locator("a"),
+    page
+      .getByRole("region", { name: "תמונות הפרויקט", exact: true })
+      .locator("a")
+      .last(),
   ).toHaveCSS("clip-path", "none");
 });

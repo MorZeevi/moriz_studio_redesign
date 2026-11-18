@@ -33,6 +33,7 @@ export function ArticlesFrame({
       <FloatingActions
         content={content.floatingActions}
         ask={content.askAi}
+        locale={locale}
         mobileWhatsappOnly
       />
     </>

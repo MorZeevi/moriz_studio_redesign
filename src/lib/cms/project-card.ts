@@ -94,7 +94,7 @@ export function projectCard(
           }
         : null,
     highlight: highlight
-      ? { value: highlight.value, label: highlightLabel }
+      ? { value: localized(highlight, "value", locale), label: highlightLabel }
       : null,
     type: project.type ? termName(project.type, locale) : null,
     details: project.content

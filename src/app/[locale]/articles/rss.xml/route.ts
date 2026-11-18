@@ -1,11 +1,13 @@
-import { defaultLocale, isEnabledLocale } from "@/i18n/config";
+import { enabledLocales, hasArticles } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getPublishedArticles } from "@/lib/articles/load";
 import { articlesRss } from "@/lib/articles/rss";
 import { SITE_URL } from "@/lib/site";
 
 export function generateStaticParams() {
-  return [{ locale: defaultLocale }];
+  return enabledLocales
+    .filter((locale) => hasArticles(locale))
+    .map((locale) => ({ locale }));
 }
 
 export async function GET(
@@ -13,7 +15,8 @@ export async function GET(
   context: { params: Promise<{ locale: string }> },
 ) {
   const { locale } = await context.params;
-  if (!isEnabledLocale(locale) || locale !== defaultLocale) {
+  // Articles are Hebrew-only: no English feed (src/i18n/config.ts).
+  if (!hasArticles(locale)) {
     return new Response("Not found", { status: 404 });
   }
   const content = await getDictionary(locale);

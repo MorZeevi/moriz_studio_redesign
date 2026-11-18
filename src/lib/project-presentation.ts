@@ -95,8 +95,12 @@ export type GalleryEntry =
     };
 
 /** The user count is shown with the project details, not as a highlight. */
-export function projectUserCount(project: Pick<Project, "highlights">) {
-  return userCountHighlight(project.highlights)?.value.trim() || null;
+export function projectUserCount(
+  project: Pick<Project, "highlights">,
+  locale: Locale = "he",
+) {
+  const userCount = userCountHighlight(project.highlights);
+  return (userCount && localized(userCount, "value", locale).trim()) || null;
 }
 export function projectHighlights(
   project: Pick<Project, "highlights">,
@@ -107,7 +111,7 @@ export function projectHighlights(
     .filter((h) => h !== userCount && h.value.trim() && h.label.trim())
     .map((h) => ({
       id: h.id,
-      value: h.value,
+      value: localized(h, "value", locale),
       label: localized(h, "label", locale),
       description: localized(h, "description", locale),
     }));

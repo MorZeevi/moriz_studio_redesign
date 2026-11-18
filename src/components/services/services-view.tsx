@@ -5,9 +5,9 @@ import {
   paragraphText,
   type ServiceDocument,
   type ServiceSection,
-  servicesChrome,
+  servicesChromeFor,
 } from "@/content/services";
-import type { EnabledLocale } from "@/i18n/config";
+import { type EnabledLocale, isLinkAvailable } from "@/i18n/config";
 import styles from "./services.module.css";
 
 type ServiceLink = {
@@ -37,6 +37,9 @@ function RichText({
 }) {
   return paragraph.map((part) => {
     if (typeof part === "string") return part;
+    // Articles and the diagnostic are Hebrew-only. Elsewhere, keep the words
+    // and drop the link (the English content has none; this is a guard).
+    if (!isLinkAvailable(part.href, locale)) return part.text;
     const href = hrefFor(part.href, locale);
     const LinkTag = href.startsWith("#") ? "a" : Link;
     return (
@@ -158,6 +161,7 @@ export function ServicesView({
   projects: ServiceLink[];
   related: ServiceLink[];
 }) {
+  const servicesChrome = servicesChromeFor(locale);
   const hubHref = `/${locale}/services`;
   const toc = [
     ...(page.showCatalog

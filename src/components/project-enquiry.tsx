@@ -1,4 +1,5 @@
-import { conversionCopy as copy } from "@/content/conversion-copy";
+import { conversionCopyFor } from "@/content/conversion-copy";
+import type { EnabledLocale } from "@/i18n/config";
 import { whatsappUrl } from "@/lib/whatsapp";
 import { LiquidLink } from "./ui/liquid-link";
 import styles from "./project-detail.module.css";
@@ -6,13 +7,16 @@ export function ProjectEnquiry({
   compact = false,
   title,
   formHref,
+  locale,
 }: {
   compact?: boolean;
   /** Named in the WhatsApp opening message. */
   title: string;
   /** The contact form, for visitors who prefer not to use WhatsApp. */
   formHref: string;
+  locale: EnabledLocale;
 }) {
+  const copy = conversionCopyFor(locale);
   const href = whatsappUrl(copy.projectWhatsappMessage(title));
   if (!href) return null;
   return (

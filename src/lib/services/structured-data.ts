@@ -1,21 +1,25 @@
 import type { ServiceDocument } from "@/content/services";
 import { paragraphsText } from "@/content/services";
-import type { EnabledLocale } from "@/i18n/config";
+import { type EnabledLocale, localeConfig } from "@/i18n/config";
 import { SITE_URL } from "@/lib/site";
 import { organizationId, websiteId } from "@/lib/structured-data";
 
 const israel = { "@type": "Country" as const, name: "Israel" };
+// The English site is aimed at clients abroad (owner decision, 2026-11-18).
+const worldwide = { "@type": "Place" as const, name: "Worldwide" };
 
 function serviceNode({
   url,
   name,
   description,
   serviceType,
+  locale,
 }: {
   url: string;
   name: string;
   description: string;
   serviceType: string;
+  locale: EnabledLocale;
 }) {
   return {
     "@type": "Service" as const,
@@ -24,9 +28,9 @@ function serviceNode({
     description,
     serviceType,
     url,
-    inLanguage: "he-IL" as const,
+    inLanguage: localeConfig[locale].languageTag,
     provider: { "@id": organizationId },
-    areaServed: israel,
+    areaServed: locale === "en" ? worldwide : israel,
     isPartOf: { "@id": websiteId },
   };
 }
@@ -67,6 +71,7 @@ export function serviceStructuredData({
       name: page.heading,
       description: paragraphsText(page.answer),
       serviceType: page.keyword,
+      locale,
     }),
     ...catalog.map((service) =>
       serviceNode({
@@ -74,6 +79,7 @@ export function serviceStructuredData({
         name: service.heading,
         description: paragraphsText(service.answer),
         serviceType: service.keyword,
+        locale,
       }),
     ),
     {

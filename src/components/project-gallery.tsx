@@ -60,104 +60,10 @@ export function ProjectGallery({
   labels: Labels;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
-  const gallery = useRef<HTMLElement>(null);
   const trigger = useRef<HTMLAnchorElement | null>(null);
   const previousOverflow = useRef("");
   const [active, setActive] = useState(0);
   const [opened, setOpened] = useState(false);
-  useEffect(() => {
-    const root = gallery.current;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (!root || reduced.matches || !window.IntersectionObserver) return;
-    const items = Array.from(
-      root.querySelectorAll<HTMLElement>("[data-gallery-reveal]"),
-    );
-    const animations = new Map<HTMLElement, Animation>();
-    const tokens = getComputedStyle(document.documentElement);
-    const duration =
-      Number.parseFloat(tokens.getPropertyValue("--duration-slow")) * 1500 ||
-      900;
-    const easing =
-      tokens.getPropertyValue("--ease-enter").trim() ||
-      "cubic-bezier(0.16, 1, 0.3, 1)";
-    let nextStart = 0;
-    const revealImmediately = (item: HTMLElement) => {
-      item.removeAttribute("data-reveal");
-      animations.get(item)?.cancel();
-      animations.delete(item);
-    };
-    const observer = new IntersectionObserver(
-      (observed) => {
-        const entering = observed
-          .filter((entry) => entry.isIntersecting)
-          .sort(
-            (a, b) =>
-              items.indexOf(a.target as HTMLElement) -
-              items.indexOf(b.target as HTMLElement),
-          );
-        for (const entry of entering) {
-          const item = entry.target as HTMLElement;
-          const media = item.firstElementChild;
-          if (!(media instanceof HTMLElement)) continue;
-          observer.unobserve(item);
-          const now = performance.now();
-          // Preserve the queued rhythm without a backlog after fast scrolling.
-          const delay = Math.min(300, Math.max(0, nextStart - now));
-          nextStart = now + delay + 100;
-          // Observe the unmasked figure; a fully clipped target cannot intersect.
-          const animation = media.animate(
-            [
-              {
-                clipPath: "inset(0 0 100% 0)",
-                transform: "translateY(1.5rem)",
-              },
-              {
-                clipPath: "inset(0 0 0% 0)",
-                transform: "translateY(0)",
-              },
-            ],
-            { duration, delay, easing, fill: "both" },
-          );
-          item.removeAttribute("data-reveal");
-          animations.set(item, animation);
-          animation.onfinish = () => revealImmediately(item);
-        }
-      },
-      {
-        rootMargin: `0px 0px -${Math.round(window.innerHeight * 0.2)}px 0px`,
-        threshold: 0,
-      },
-    );
-    for (const item of items) {
-      // Restored/deep scroll positions must not hide already-passed work.
-      if (item.getBoundingClientRect().bottom <= 0) continue;
-      item.dataset.reveal = "pending";
-      observer.observe(item);
-    }
-    const focus = (event: FocusEvent) => {
-      const item = (event.target as HTMLElement).closest<HTMLElement>(
-        "[data-gallery-reveal]",
-      );
-      if (item) {
-        observer.unobserve(item);
-        revealImmediately(item);
-      }
-    };
-    const settle = () => {
-      observer.disconnect();
-      items.forEach(revealImmediately);
-    };
-    const preference = () => {
-      if (reduced.matches) settle();
-    };
-    root.addEventListener("focusin", focus);
-    reduced.addEventListener("change", preference);
-    return () => {
-      settle();
-      root.removeEventListener("focusin", focus);
-      reduced.removeEventListener("change", preference);
-    };
-  }, []);
   useEffect(() => {
     const element = dialog.current;
     return () => {
@@ -179,7 +85,6 @@ export function ProjectGallery({
         key={image.index}
         className={styles.figure}
         style={style}
-        data-gallery-reveal
       >
         <a
           href={image.src}
@@ -239,7 +144,6 @@ export function ProjectGallery({
             ? ({ "--ratio": `${item.width} / ${item.height}` } as CSSProperties)
             : undefined
         }
-        data-gallery-reveal
       >
         {item.ambient ? (
           <CoverVideo
@@ -266,7 +170,6 @@ export function ProjectGallery({
   return (
     <>
       <section
-        ref={gallery}
         className={styles.gallery}
         aria-label={labels.gallery}
       >
@@ -279,7 +182,7 @@ export function ProjectGallery({
             data-cover={entry.id === "cover" ? "true" : undefined}
           >
             {entry.type === "highlights" ? (
-              <div className={styles.highlightsBand} data-gallery-reveal>
+              <div className={styles.highlightsBand}>
                 <div>
                   {entry.title && <h2>{entry.title}</h2>}
                   <dl className={styles.highlights}>
@@ -303,7 +206,7 @@ export function ProjectGallery({
               >
                 {entry.image && figure(entry.image)}
                 {entry.video && (
-                  <div data-gallery-reveal>
+                  <div>
                     <video
                       src={entry.video.src}
                       poster={entry.video.poster}
@@ -324,7 +227,7 @@ export function ProjectGallery({
                 </div>
               </div>
             ) : entry.type === "video" && entry.ambient ? (
-              <div data-gallery-reveal>
+              <div>
                 <CoverVideo
                   src={entry.block.src}
                   poster={entry.block.poster}
@@ -333,7 +236,7 @@ export function ProjectGallery({
                 />
               </div>
             ) : entry.type === "video" ? (
-              <div data-gallery-reveal>
+              <div>
                 <video
                   src={entry.block.src}
                   poster={entry.block.poster || undefined}

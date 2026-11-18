@@ -4,7 +4,7 @@ import { FontPreview } from "@/components/font-preview";
 import { isEnabledLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { pageAlternates } from "@/lib/seo";
-import { siteOpenGraph } from "@/lib/site";
+import { openGraphFor } from "@/lib/site";
 import { danidin } from "@/styles/fonts";
 import { futurism, manhattan, polin } from "@/styles/font-candidates";
 
@@ -24,7 +24,7 @@ export async function generateMetadata({
     description,
     // Utility page. Its own URL, so it does not inherit the homepage canonical.
     alternates: pageAlternates(url),
-    openGraph: { ...siteOpenGraph, title, description, url },
+    openGraph: { ...openGraphFor(locale), title, description, url },
     robots: { index: false, follow: false },
   };
 }

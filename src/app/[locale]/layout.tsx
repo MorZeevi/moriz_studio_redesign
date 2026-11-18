@@ -4,7 +4,7 @@ import { enabledLocales, isEnabledLocale, localeConfig } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { pixelRevealBootstrap } from "@/lib/pixel-reveal";
 import { pageAlternates } from "@/lib/seo";
-import { isIndexable, SITE_URL, siteOpenGraph } from "@/lib/site";
+import { isIndexable, SITE_URL, openGraphFor } from "@/lib/site";
 import { themeBootstrap } from "@/lib/theme";
 import { PublicAnalytics } from "@/components/public-analytics";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -30,9 +30,15 @@ export async function generateMetadata({
     description,
     metadataBase: new URL(SITE_URL),
     // Default for the locale home. Pages that set `alternates` replace this
-    // entirely, and must keep Hebrew plus x-default only — English is not enabled.
+    // entirely: bilingual pages list he, en and x-default (Hebrew); the
+    // Hebrew-only articles list he and x-default.
     alternates: pageAlternates(`/${locale}`),
-    openGraph: { ...siteOpenGraph, title, description, url: `/${locale}` },
+    openGraph: {
+      ...openGraphFor(locale),
+      title,
+      description,
+      url: `/${locale}`,
+    },
     twitter: { card: "summary_large_image" },
     // Search Console: the previous site's token and the current one.
     verification: {

@@ -80,3 +80,42 @@ test("person credentials come from the about section", () => {
     assert.equal(blob.includes(topic), true, topic);
   }
 });
+
+test("English JSON-LD lists the same offers in English and its own language", async () => {
+  const { en } = await import("../i18n/dictionaries/en.ts");
+  const english = homeStructuredData(en, "en");
+  const englishBlob = JSON.stringify(en);
+  const offers = offerServices(en, "en");
+  assert.equal(offers.length, offerServices(he).length);
+  for (const offer of offers) {
+    assert.equal(
+      englishBlob.toLowerCase().includes(offer.name.toLowerCase()),
+      true,
+      offer.name,
+    );
+    assert.equal(englishBlob.includes(offer.description), true, offer.name);
+  }
+  const graph = english["@graph"] as Array<Record<string, unknown>>;
+  const website = graph.find((item) => item["@type"] === "WebSite");
+  assert.equal(website?.inLanguage, "en");
+  assert.equal(
+    (graph[0]?.address as { addressLocality: string } | undefined)
+      ?.addressLocality,
+    "Tel Aviv",
+  );
+  assert.equal(graph[0]?.url, "https://moriz.studio/en");
+  assert.deepEqual(graph[0]?.areaServed, {
+    "@type": "Place",
+    name: "Worldwide",
+  });
+  // The Hebrew graph keeps Hebrew values.
+  const hebrew = data["@graph"] as Array<Record<string, unknown>>;
+  assert.deepEqual(hebrew[0]?.areaServed, {
+    "@type": "Country",
+    name: "Israel",
+  });
+  assert.equal(
+    hebrew.find((item) => item["@type"] === "WebSite")?.inLanguage,
+    "he-IL",
+  );
+});

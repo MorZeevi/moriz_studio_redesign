@@ -67,13 +67,16 @@ for (const { width, height } of [
         )
         .toBeGreaterThanOrEqual(0);
     }
-    await expect(page.locator(".language-link")).toHaveCount(0);
+    // The language toggle is back (English launched): header and menu.
+    await expect(
+      page.locator(".header-controls .language-link"),
+    ).toHaveAttribute("href", /^\/en/);
     if (width < 1024) {
       await page.locator(".mobile-menu-toggle").click();
       await expect(page.locator(".navigation-dialog")).toBeVisible();
       await expect(
         page.locator(".navigation-dialog .language-link"),
-      ).toHaveCount(0);
+      ).toHaveAttribute("href", /^\/en/);
     }
   });
 }

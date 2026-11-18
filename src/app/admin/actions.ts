@@ -41,9 +41,10 @@ function failure(error: unknown): Result<never> {
   };
 }
 function refreshPortfolio() {
-  revalidatePath("/he");
-  revalidatePath("/he/projects");
-  revalidatePath("/he/projects/[slug]", "page");
+  // Route patterns cover every locale (/he and /en).
+  revalidatePath("/[locale]", "page");
+  revalidatePath("/[locale]/projects", "page");
+  revalidatePath("/[locale]/projects/[slug]", "page");
   revalidatePath("/admin/projects");
   revalidatePath("/admin/categories");
 }

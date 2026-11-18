@@ -11,6 +11,7 @@ import {
   useState,
 } from "react";
 import { LiquidButton } from "@/components/ui/liquid-link";
+import type { EnabledLocale } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
 import type { AiAnswer } from "@/lib/ai/kimi";
 import {
@@ -124,6 +125,7 @@ function RevealText({ text, animate }: { text: string; animate: boolean }) {
 export function AskAiChat({
   content,
   whatsappUrl,
+  locale,
   titleId,
   openCount,
   composerRef,
@@ -131,6 +133,8 @@ export function AskAiChat({
 }: {
   content: SiteContent["askAi"];
   whatsappUrl: string | null;
+  /** The page language; the assistant answers in it. */
+  locale: EnabledLocale;
   titleId: string;
   /** Bumps on every open, which replays the typing hint. */
   openCount: number;
@@ -202,7 +206,11 @@ export function AskAiChat({
       const response = await fetch("/api/ai/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question, history: toHistory(earlier) }),
+        body: JSON.stringify({
+          question,
+          history: toHistory(earlier),
+          locale,
+        }),
         signal: controller.signal,
       });
       if (!response.ok) throw new Error(String(response.status));

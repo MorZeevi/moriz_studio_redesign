@@ -1,3 +1,4 @@
+import { defaultLocale, isEnabledLocale } from "@/i18n/config";
 import { type AiAnswer, askKimi } from "@/lib/ai/kimi";
 import { buildSystemPrompt, getActiveKnowledge } from "@/lib/ai/knowledge";
 import {
@@ -36,7 +37,16 @@ export async function POST(request: Request) {
   const history = parseHistory(
     "history" in fields ? fields.history : undefined,
   );
-  if (!question || question.length > MAX_QUESTION_LENGTH || !history)
+  // The page language. Missing means Hebrew (older clients); anything else
+  // that is not an enabled locale is rejected.
+  const rawLocale = "locale" in fields ? fields.locale : undefined;
+  const locale =
+    rawLocale === undefined
+      ? defaultLocale
+      : typeof rawLocale === "string" && isEnabledLocale(rawLocale)
+        ? rawLocale
+        : null;
+  if (!question || question.length > MAX_QUESTION_LENGTH || !history || !locale)
     return Response.json(
       { error: "invalid_question" },
       { status: 400, headers },
@@ -50,7 +60,7 @@ export async function POST(request: Request) {
         { answer: "", hasAnswer: false } satisfies AiAnswer,
         { headers },
       );
-    const result = await askKimi(buildSystemPrompt(knowledge), [
+    const result = await askKimi(buildSystemPrompt(knowledge, locale), [
       ...history,
       { role: "user", content: question },
     ]);

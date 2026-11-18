@@ -21,6 +21,18 @@ export function userCountHighlight(highlights: Highlight[]) {
   );
 }
 
+/** English wording of the user-count value; empty clears it. */
+export function setUserCountEn(
+  highlights: Highlight[],
+  value: string,
+): Highlight[] {
+  const existing = userCountHighlight(highlights);
+  if (!existing) return highlights;
+  return highlights.map((h) =>
+    h.id === existing.id ? { ...h, value_en: value || undefined } : h,
+  );
+}
+
 export function setUserCount(
   highlights: Highlight[],
   value: string,

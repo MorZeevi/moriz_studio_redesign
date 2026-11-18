@@ -1,16 +1,40 @@
+import {
+  defaultLocale,
+  type EnabledLocale,
+  enabledLocales,
+} from "@/i18n/config";
+
 const SHORT_LABEL = 40;
 export const META_DESCRIPTION_MAX = 160;
 
+const LOCALE_PREFIX = new RegExp(`^/(?:${enabledLocales.join("|")})(?=/|$)`);
+
+/** Swap or add the locale prefix of a site path (`/he/x` → `/en/x`). */
+export function localePath(path: string, locale: EnabledLocale) {
+  const match = path.match(LOCALE_PREFIX);
+  const rest = match ? path.slice(match[0].length) : path;
+  return `/${locale}${rest === "/" ? "" : rest}`;
+}
+
 /**
- * Canonical URL plus Hebrew and x-default alternates. English is configured
- * in the locale list but not enabled, so it is not advertised. x-default
- * points at the Hebrew URL: it is the only version of the page.
+ * Canonical URL plus hreflang alternates. `path` is a locale-prefixed path
+ * such as `/en/projects`. The canonical stays self-referencing; the
+ * alternates name the same page in every enabled locale, and x-default points
+ * at Hebrew. Pass `{ hebrewOnly: true }` for pages that exist in Hebrew only
+ * (the articles): they list Hebrew and x-default.
  */
-export function pageAlternates(path: string) {
-  return {
-    canonical: path,
-    languages: { he: path, "x-default": path },
-  };
+export function pageAlternates(
+  path: string,
+  { hebrewOnly = false }: { hebrewOnly?: boolean } = {},
+) {
+  const hebrew = localePath(path, defaultLocale);
+  if (hebrewOnly)
+    return { canonical: path, languages: { he: hebrew, "x-default": hebrew } };
+  const languages: Record<string, string> = {};
+  for (const locale of enabledLocales)
+    languages[locale] = localePath(path, locale);
+  languages["x-default"] = hebrew;
+  return { canonical: path, languages };
 }
 
 /** Collapse whitespace and cut on a word boundary once the snippet is too long. */
@@ -136,6 +160,8 @@ export type PublicSitemapEntry = {
   lastModified?: Date;
   changeFrequency: "weekly" | "monthly" | "yearly";
   priority: number;
+  /** hreflang alternates, only on pages that exist in every listed locale. */
+  alternates?: { languages: Record<string, string> };
 };
 
 function latest(dates: Array<string | Date | undefined>) {
@@ -149,8 +175,11 @@ function latest(dates: Array<string | Date | undefined>) {
 }
 
 /**
- * Indexable public URLs. Callers pass published articles only. Hebrew slugs
- * are encoded once, for the path segment.
+ * Indexable public URLs for one locale. Callers pass published articles only,
+ * or `null` for a locale without an articles section (no index entry then).
+ * Hebrew slugs are encoded once, for the path segment. With
+ * `alternateLocales`, every page except the articles carries hreflang
+ * alternates for those locales plus x-default (Hebrew).
  */
 export function publicSitemapEntries({
   siteUrl,
@@ -159,18 +188,22 @@ export function publicSitemapEntries({
   articles,
   privacyUpdatedOn,
   services,
+  alternateLocales,
 }: {
   siteUrl: string;
   locale: string;
   projects: SitemapProject[];
-  articles: SitemapArticle[];
+  articles: SitemapArticle[] | null;
+  alternateLocales?: readonly EnabledLocale[];
   privacyUpdatedOn?: string;
   /** Locale-less paths such as `/services` and `/services/mvp`. */
   services?: { path: string; updatedOn?: string }[];
 }): PublicSitemapEntry[] {
   const base = `${siteUrl}/${locale}`;
   const listingUpdated = latest(projects.map((project) => project.updatedAt));
-  const newestArticle = latest(articles.map((article) => article.updatedAt));
+  const newestArticle = latest(
+    (articles ?? []).map((article) => article.updatedAt),
+  );
   const privacyUpdated = privacyUpdatedOn
     ? latest([`${privacyUpdatedOn}T12:00:00.000Z`])
     : undefined;
@@ -187,12 +220,16 @@ export function publicSitemapEntries({
       changeFrequency: "weekly",
       priority: 0.8,
     },
-    {
-      url: `${base}/articles`,
-      ...(newestArticle ? { lastModified: newestArticle } : {}),
-      changeFrequency: "weekly",
-      priority: 0.7,
-    },
+    ...(articles
+      ? [
+          {
+            url: `${base}/articles`,
+            ...(newestArticle ? { lastModified: newestArticle } : {}),
+            changeFrequency: "weekly" as const,
+            priority: 0.7,
+          },
+        ]
+      : []),
     {
       url: `${base}/privacy-policy`,
       ...(privacyUpdated ? { lastModified: privacyUpdated } : {}),
@@ -216,6 +253,7 @@ export function publicSitemapEntries({
   // After the projects index, before the articles index. Empty when omitted,
   // so the previous URL order stays intact.
   entries.splice(2, 0, ...serviceEntries);
+  const articleIndex = `${base}/articles`;
   for (const project of projects) {
     const updated = latest([project.updatedAt]);
     entries.push({
@@ -225,7 +263,19 @@ export function publicSitemapEntries({
       priority: 0.6,
     });
   }
-  for (const article of articles) {
+  if (alternateLocales?.length) {
+    for (const entry of entries) {
+      // The articles index exists in Hebrew only.
+      if (entry.url === articleIndex) continue;
+      const path = entry.url.slice(siteUrl.length);
+      const languages: Record<string, string> = {};
+      for (const alternate of alternateLocales)
+        languages[alternate] = `${siteUrl}${localePath(path, alternate)}`;
+      languages["x-default"] = `${siteUrl}${localePath(path, defaultLocale)}`;
+      entry.alternates = { languages };
+    }
+  }
+  for (const article of articles ?? []) {
     entries.push({
       url: `${base}/articles/${encodeURIComponent(article.slug)}`,
       lastModified: article.updatedAt,

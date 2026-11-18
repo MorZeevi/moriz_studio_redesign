@@ -1,11 +1,12 @@
 "use client";
 
-import { conversionCopy } from "@/content/conversion-copy";
+import { conversionCopyFor } from "@/content/conversion-copy";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { WhatsappGlyphIcon, WhatsappLogoIcon } from "@/components/contact-icons";
 import { LiquidLink } from "@/components/ui/liquid-link";
 import { SparkleIcon } from "@/components/ui/sparkle-icon";
+import type { EnabledLocale } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
 import {
   AI_CHAT_DIALOG_ID,
@@ -13,7 +14,7 @@ import {
   type AiChatOpenEvent,
 } from "@/lib/chat-launcher";
 import { trackConversion } from "@/lib/conversion";
-import { WHATSAPP_CONTACT_URL as WHATSAPP_URL } from "@/lib/whatsapp";
+import { whatsappContactUrl } from "@/lib/whatsapp";
 import styles from "./floating-actions.module.css";
 
 const AskAiChat = dynamic(() =>
@@ -41,14 +42,18 @@ function showChat(
 export function FloatingActions({
   content,
   ask,
+  locale,
   compactOnMobile = false,
   mobileWhatsappOnly = false,
 }: {
   content: SiteContent["floatingActions"];
+  /** WhatsApp opening message and the chat's answer language. */
+  locale: EnabledLocale;
   ask: SiteContent["askAi"];
   compactOnMobile?: boolean;
   mobileWhatsappOnly?: boolean;
 }) {
+  const WHATSAPP_URL = whatsappContactUrl(locale);
   const [open, setOpen] = useState(false);
   const [barHidden, setBarHidden] = useState(true);
   useEffect(() => {
@@ -164,6 +169,7 @@ export function FloatingActions({
           <AskAiChat
             content={ask}
             whatsappUrl={WHATSAPP_URL}
+            locale={locale}
             titleId={titleId}
             openCount={openCount}
             composerRef={composerRef}
@@ -181,7 +187,7 @@ export function FloatingActions({
       >
         {WHATSAPP_URL && (
           <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-            {conversionCopy.mobileAction}
+            {conversionCopyFor(locale).mobileAction}
           </a>
         )}
         <button

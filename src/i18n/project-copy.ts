@@ -1,9 +1,9 @@
 import type { Locale } from "./config";
+import { en } from "./dictionaries/en";
 import { he } from "./dictionaries/he";
 
-// Labels used by the project surfaces (cards, archive, case study). Hebrew
-// reuses the site dictionary; English exists so the CMS preview can render
-// projects in English before the public /en site is enabled.
+// Labels used by the project surfaces (cards, archive, case study) and the
+// CMS preview. Both languages reuse their site dictionary's project labels.
 type DictionaryLabels = Omit<(typeof he)["projects"], "items">;
 export type ProjectCopy = DictionaryLabels & {
   info: string;
@@ -31,6 +31,7 @@ export type ProjectCopy = DictionaryLabels & {
   >;
 };
 const { items: _items, ...heLabels } = he.projects;
+const { items: _enItems, ...enLabels } = en.projects;
 export const projectCopy: Record<Locale, ProjectCopy> = {
   he: {
     ...heLabels,
@@ -62,48 +63,7 @@ export const projectCopy: Record<Locale, ProjectCopy> = {
     },
   },
   en: {
-    heading: "Projects",
-    allHeading: "All projects",
-    allLink: "View all projects",
-    homeLink: "Back to home",
-    visualLabel: "Screens / visual — coming soon",
-    answerPlaceholder: "Answer — coming soon",
-    detailsHeading: "About the project",
-    projectLink: "Full case study",
-    viewProject: "View project",
-    comingSoon: "Coming soon",
-    backLink: "Back to projects",
-    archive: {
-      heading: "Selected work",
-      description:
-        "Learning systems, web applications, interactive tools and custom products. Characterization, design and development of the studio's work.",
-      layoutLabel: "Project layout",
-      layouts: { standard: "Grid", compact: "Compact", editorial: "Editorial" },
-      results: "Showing {count} projects",
-      resultOne: "Showing one project",
-      resultNone: "No projects to show",
-      showAll: "Show all projects",
-      cta: {
-        heading: "Could the next project be yours?",
-        body: "Tell me what you want to build, and we'll work out the right way to do it together.",
-        link: "Let's talk",
-      },
-    },
-    caseStudy: {
-      additionalInfo: "More information",
-      gallery: "Project images",
-      client: "Client",
-      year: "Year",
-      services: "Services",
-      openImage: "Enlarge image",
-      viewer: "Project image viewer",
-      close: "Close image",
-      previous: "Previous image",
-      next: "Next image",
-      imageError: "The image could not be loaded.",
-      openOriginal: "Open the original image",
-      video: "Project video",
-    },
+    ...enLabels,
     info: "Project information",
     client: "Client",
     year: "Year",
@@ -117,7 +77,7 @@ export const projectCopy: Record<Locale, ProjectCopy> = {
     highlights: "Project highlights",
     nextProject: "Next project",
     contactHeading: "Want to build something similar?",
-    contactLink: "Let's talk",
+    contactLink: en.navigation.contactLink.label,
     video: "Project video",
     categories: "Categories",
     filterLabel: "Filter projects by type",

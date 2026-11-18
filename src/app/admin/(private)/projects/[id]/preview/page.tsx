@@ -58,7 +58,7 @@ export default async function Preview({
           <ProjectDetail
             project={project}
             locale={locale}
-            content={await getDictionary("he")}
+            content={await getDictionary(locale)}
             preview
           />
         ) : view === "archive" ? (

@@ -1,7 +1,14 @@
 // Hebrew service pages. Voice matches the site: first person, feminine, "אתם".
+// English lives in `services.en.ts` with the same structure. Use the
+// locale-aware accessors at the bottom (`servicesFor`, `servicesHubFor`,
+// `servicesChromeFor`, `getService(slug, locale)`). The plain exports
+// (`services`, `servicesHubDocument`, `servicesChrome`) stay Hebrew.
 // Facts already on the homepage (process, code, ownership, warranty, AI) are
 // reused. Strings in `ownerReviewClaims` are new first-person lines for Mor
 // to approve or edit. They are also listed in the pull request.
+
+import { servicesEn } from "@/content/services.en";
+import type { Locale } from "@/i18n/config";
 
 export type TextPart = string | { text: string; href: string };
 export type Paragraph = TextPart[];
@@ -64,7 +71,28 @@ export type ServiceDocument = {
 
 export const SERVICES_UPDATED_ON = "2026-11-08";
 
-export const servicesChrome = {
+export type ServicesChrome = {
+  breadcrumbs: string;
+  label: string;
+  catalog: string;
+  projects: string;
+  projectsAll: string;
+  articles: string;
+  related: string;
+  faq: string;
+  toc: string;
+};
+
+/** Everything one locale needs to render the service pages. */
+export type ServicesContent = {
+  hub: ServiceDocument;
+  services: readonly ServiceDocument[];
+  chrome: ServicesChrome;
+  /** New first-person lines for Mor to review, same keys in each locale. */
+  ownerReviewClaims: Readonly<Record<string, string>>;
+};
+
+export const servicesChrome: ServicesChrome = {
   breadcrumbs: "פירורי לחם",
   label: "שירותים",
   catalog: "השירותים",
@@ -1190,14 +1218,49 @@ export const services = [
 
 export const servicesHubDocument = servicesHub;
 
-export function publicServicePages(): ServiceDocument[] {
-  return [servicesHub, ...services];
+const servicesHe: ServicesContent = {
+  hub: servicesHub,
+  services,
+  chrome: servicesChrome,
+  ownerReviewClaims,
+};
+
+const servicesByLocale: Record<Locale, ServicesContent> = {
+  he: servicesHe,
+  en: servicesEn,
+};
+
+/** Hub, service documents and chrome strings for one locale. */
+export function servicesContent(locale: Locale = "he"): ServicesContent {
+  return servicesByLocale[locale];
 }
 
-export function getService(slug: string) {
-  return services.find((service) => service.slug === slug) ?? null;
+export function servicesFor(locale: Locale = "he") {
+  return servicesByLocale[locale].services;
 }
 
+export function servicesHubFor(locale: Locale = "he") {
+  return servicesByLocale[locale].hub;
+}
+
+export function servicesChromeFor(locale: Locale = "he") {
+  return servicesByLocale[locale].chrome;
+}
+
+export function publicServicePages(locale: Locale = "he"): ServiceDocument[] {
+  const { hub, services: pages } = servicesByLocale[locale];
+  return [hub, ...pages];
+}
+
+export function getService(slug: string, locale: Locale = "he") {
+  return (
+    servicesByLocale[locale].services.find(
+      (service) => service.slug === slug,
+    ) ?? null
+  );
+}
+
+/** Paths are locale-less and identical in every locale. */
 export function serviceSitemapEntries() {
   return publicServicePages().map((page) => ({
     path: page.path,
@@ -1205,8 +1268,8 @@ export function serviceSitemapEntries() {
   }));
 }
 
-export function serviceLlmsPages() {
-  return publicServicePages().map((page) => ({
+export function serviceLlmsPages(locale: Locale = "he") {
+  return publicServicePages(locale).map((page) => ({
     title: page.heading,
     path: page.path,
     description: page.description,

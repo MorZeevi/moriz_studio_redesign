@@ -6,9 +6,9 @@ import { FooterParallax } from "@/components/footer-parallax";
 import { FooterWordmark } from "@/components/footer-wordmark";
 import Noise from "@/components/react-bits/Noise";
 import { StudioLogo } from "@/components/studio-logo";
-import type { EnabledLocale } from "@/i18n/config";
+import { availableLinks, type EnabledLocale } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
-import { WHATSAPP_CONTACT_URL as WHATSAPP_URL } from "@/lib/whatsapp";
+import { whatsappContactUrl } from "@/lib/whatsapp";
 import styles from "./site-footer.module.css";
 
 const wordmarkFill = "/images/footer/wordmark-fill.webp";
@@ -49,6 +49,7 @@ export function SiteFooter({
   /** False on other pages, so homepage section links leave the page. */
   homepage?: boolean;
 }) {
+  const WHATSAPP_URL = whatsappContactUrl(locale);
   const footer = content.footer;
   const details = content.contact.details;
   return (
@@ -81,7 +82,7 @@ export function SiteFooter({
               </p>
             </div>
             <div className={styles.reach}>
-              <FooterContactForm content={content.contact} />
+              <FooterContactForm content={content.contact} locale={locale} />
               <ul
                 className={styles.details}
                 aria-label={details.label}
@@ -129,7 +130,7 @@ export function SiteFooter({
                 <div key={column.heading} className={styles.column}>
                   <h2 className={styles.heading}>{column.heading}</h2>
                   <ul className={styles.links}>
-                    {column.links.map((link) => {
+                    {availableLinks(column.links, locale).map((link) => {
                       const href = localeHref(link.href, locale, homepage);
                       // Native anchors also scroll when this hash is already
                       // in the URL; Next Link skips that repeated navigation.

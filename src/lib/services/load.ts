@@ -2,10 +2,10 @@ import "server-only";
 import { connection } from "next/server";
 import {
   type ServiceDocument,
-  services,
-  servicesChrome,
+  servicesChromeFor,
+  servicesFor,
 } from "@/content/services";
-import type { EnabledLocale } from "@/i18n/config";
+import { type EnabledLocale, hasArticles, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getPublishedArticles } from "@/lib/articles/load";
 import { localized } from "@/lib/cms/localize";
@@ -22,13 +22,23 @@ export type ServiceLink = {
 
 // Titles of projects that are on the public site today. Used only when the
 // CMS cannot be read, so the page still links to real work.
-const fallbackTitles: Record<string, string> = {
-  guesto: "Guesto",
-  "chabad-club": "חב״ד קלאב",
-  practicalai: "AI פרקטי",
-  awscience: "Awescience",
-  hatchly: "Hatchly",
-  וורדעל: "וורדעל",
+const fallbackTitles: Record<Locale, Record<string, string>> = {
+  he: {
+    guesto: "Guesto",
+    "chabad-club": "חב״ד קלאב",
+    practicalai: "AI פרקטי",
+    awscience: "Awescience",
+    hatchly: "Hatchly",
+    וורדעל: "וורדעל",
+  },
+  en: {
+    guesto: "Guesto",
+    "chabad-club": "Chabad Club",
+    practicalai: "Practical AI",
+    awscience: "Awescience",
+    hatchly: "Hatchly",
+    וורדעל: "Haaretz Wordle",
+  },
 };
 
 async function loadProjects(
@@ -43,7 +53,7 @@ async function loadProjects(
   );
   if (!published) {
     return slugs.flatMap((slug) => {
-      const title = fallbackTitles[slug];
+      const title = fallbackTitles[locale][slug];
       if (!title) return [];
       return [{ href: `/${locale}/projects/${slug}`, title }];
     });
@@ -67,6 +77,8 @@ async function loadProjects(
 }
 
 function loadArticles(slugs: string[], locale: EnabledLocale): ServiceLink[] {
+  // Articles are Hebrew-only: other locales get no article links.
+  if (!hasArticles(locale)) return [];
   const published = new Map(
     getPublishedArticles().map((article) => [article.slug, article]),
   );
@@ -90,6 +102,7 @@ export async function loadServicePage(
   // Opt into request-time rendering before the CMS call. Catching the
   // connection() signal would hide it and log a false outage at build time.
   await connection();
+  const services = servicesFor(locale);
   const bySlug = new Map(
     services.flatMap((service) =>
       service.slug ? [[service.slug, service] as const] : [],
@@ -127,7 +140,7 @@ export async function loadServicePage(
     data: serviceStructuredData({
       locale,
       studioName: content.studioName,
-      servicesLabel: servicesChrome.label,
+      servicesLabel: servicesChromeFor(locale).label,
       page,
       catalog: page.showCatalog ? [...services] : [],
     }),

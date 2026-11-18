@@ -9,18 +9,69 @@ import {
   publicSitemapEntries,
 } from "./seo.ts";
 
-test("hreflang lists Hebrew and x-default only", () => {
-  const alternates = pageAlternates("/he/projects/chabad-club");
-  assert.deepEqual(alternates, {
-    canonical: "/he/projects/chabad-club",
+test("hreflang lists Hebrew, English and x-default (Hebrew)", () => {
+  assert.deepEqual(pageAlternates("/en/projects/chabad-club"), {
+    canonical: "/en/projects/chabad-club",
     languages: {
       he: "/he/projects/chabad-club",
+      en: "/en/projects/chabad-club",
       "x-default": "/he/projects/chabad-club",
     },
   });
-  assert.equal(Object.hasOwn(alternates.languages, "en"), false);
-  assert.equal(Object.hasOwn(alternates.languages, "en-US"), false);
-  assert.equal(Object.hasOwn(alternates.languages, "he-IL"), false);
+  const home = pageAlternates("/he");
+  assert.equal(home.canonical, "/he");
+  assert.deepEqual(home.languages, {
+    he: "/he",
+    en: "/en",
+    "x-default": "/he",
+  });
+  assert.equal(Object.hasOwn(home.languages, "en-US"), false);
+  assert.equal(Object.hasOwn(home.languages, "he-IL"), false);
+});
+
+test("Hebrew-only pages list Hebrew and x-default only", () => {
+  const alternates = pageAlternates("/he/articles/x", { hebrewOnly: true });
+  assert.deepEqual(alternates, {
+    canonical: "/he/articles/x",
+    languages: { he: "/he/articles/x", "x-default": "/he/articles/x" },
+  });
+});
+
+test("English sitemap has no articles and pairs every page with Hebrew", () => {
+  const entries = publicSitemapEntries({
+    siteUrl: "https://moriz.studio",
+    locale: "en",
+    projects: [{ slug: "chabad-club", updatedAt: "2026-10-23T11:50:20.692Z" }],
+    articles: null,
+    alternateLocales: ["he", "en"],
+  });
+  assert.deepEqual(
+    entries.map((entry) => entry.url),
+    [
+      "https://moriz.studio/en",
+      "https://moriz.studio/en/projects",
+      "https://moriz.studio/en/privacy-policy",
+      "https://moriz.studio/en/projects/chabad-club",
+    ],
+  );
+  assert.deepEqual(entries[3]?.alternates?.languages, {
+    he: "https://moriz.studio/he/projects/chabad-club",
+    en: "https://moriz.studio/en/projects/chabad-club",
+    "x-default": "https://moriz.studio/he/projects/chabad-club",
+  });
+});
+
+test("Hebrew article entries carry no English alternates", () => {
+  const entries = publicSitemapEntries({
+    siteUrl: "https://moriz.studio",
+    locale: "he",
+    projects: [],
+    articles: [{ slug: "a", updatedAt: new Date("2026-11-01T12:00:00.000Z") }],
+    alternateLocales: ["he", "en"],
+  });
+  for (const entry of entries.filter((item) => item.url.includes("/articles")))
+    assert.equal(entry.alternates, undefined, entry.url);
+  assert.ok(entries[0]?.alternates?.languages.en);
 });
 
 test("a saved SEO description wins over the short label and the body", () => {

@@ -1347,3 +1347,18 @@ Later owner correction, 2026-10-15: restore the regular theme canvas to the oute
 Final join correction, 2026-10-15: the owner compared the button and panel side by side and chose the button's shallow, compact notch over the exaggerated hourglass. Reduce the desktop inner corner radius to `clamp(3.5rem, 6vw, 6rem)` and extend the bridge so the top and bottom cuts stay short. Preserve the red grain, hover/focus liquid motion, fixed content, mobile shape and form behavior.
 
 Contact sending, canvas and footer reveal, 2026-10-15: the owner wants a real email sent to `morzavi1@gmail.com` from **שליחת הודעה**, with no message placeholder. Move `#contact` out of `<footer>` and match its outer band to the page theme and grain; keep the red grain liquid form shape. The owner rejected Resend for this form, so use a server-only Gmail SMTP POST route with the Gmail account as fixed sender and recipient. The WhatsApp checkbox becomes a reply preference inside the email. Show honest sending/success/error states and keep direct contact links available. Increase the footer's top padding and reveal it beneath the contact section with scroll parallax on desktop; use a static footer for reduced-motion and narrow viewports. No database or diagnostic behavior changes.
+
+### English site (LTR) at /en
+
+Date: 2026-11-18. Owner decisions for the English version:
+
+- **URLs:** English at `/en/...`, Hebrew stays at `/he/...`. `/` keeps redirecting to `/he` for everyone (no browser-language detection). The permanent `/en` → `/he` redirects in `next.config.ts` were removed.
+- **Scope:** marketing pages, services, projects (CMS `_en` fields) and the moriz.ai chat/FAQ.
+- **Hidden in English:** the Moriz Diagnostic (`/digital-audit`, Hebrew-only product) and the articles (25 Hebrew MDX posts). On `/en` there is no diagnostic banner, no nav/menu/footer link to either, and `/en/articles/**` (index, posts, preview, RSS) returns 404. Neither appears in the English sitemap or the English part of `llms.txt`. Hebrew is unchanged. Implemented as per-locale flags in `localeConfig` (`diagnostic`, `articles`) with `hasDiagnostic`, `hasArticles`, `isLinkAvailable` and `availableLinks` in `src/i18n/config.ts`; the dictionaries keep the same shape in both languages.
+- **Out of scope:** `/digital-audit` and the admin screens stay Hebrew-only.
+- **Language toggle:** restored (reverses 2026-10-22); see [navigation](navigation.md).
+- **Copy:** natural marketing English drafted for owner review (`src/i18n/dictionaries/en.ts`, plus `conversion-copy.ts` and the contact-form interest labels). The contact email to the owner stays Hebrew whatever site the visitor used.
+- **AI chat:** the page sends its locale; on `/en` the model answers in English from the existing Hebrew `ai_knowledge` rows. No schema change.
+- **Images with Hebrew text:** English uses the Hebrew `og-image.png` and getting-started quote image until the owner supplies English versions.
+- **Service area:** the English site presents the studio as serving clients worldwide (`areaServed: Worldwide`); Hebrew keeps Israel.
+

@@ -1,6 +1,7 @@
 import { connection } from "next/server";
 import { serviceLlmsPages } from "@/content/services";
 import { defaultLocale } from "@/i18n/config";
+import { en } from "@/i18n/dictionaries/en";
 import { he } from "@/i18n/dictionaries/he";
 import { getPublishedArticles } from "@/lib/articles/load";
 import { localized } from "@/lib/cms/localize";
@@ -32,9 +33,39 @@ async function publishedProjects(): Promise<Project[]> {
   return projects;
 }
 
+/** The English site's pages. Articles are Hebrew-only and stay out. */
+function englishPages(projects: Project[]) {
+  const home = `${SITE_URL}/en`;
+  return [
+    { title: en.studioName, url: home, description: en.metadata.description },
+    {
+      title: en.projects.archive.heading,
+      url: `${home}/projects`,
+      description: en.projects.archive.description,
+    },
+    ...projects.map((project) => ({
+      title: localized(project, "title", "en"),
+      url: `${home}/projects/${encodeURIComponent(project.slug ?? "")}`,
+      description: projectSearchDescription(projectSnippetInput(project, "en")),
+    })),
+    ...serviceLlmsPages("en").map((service) => ({
+      title: service.title,
+      url: `${home}${service.path}`,
+      description: service.description,
+    })),
+    {
+      title: en.privacyPolicy.title,
+      url: `${home}/privacy-policy`,
+      description: en.privacyPolicy.lastUpdated,
+    },
+  ];
+}
+
 export async function GET() {
   await connection();
   const projects = await publishedProjects();
+  // The Hebrew site is the main text; the English pages follow in their own
+  // section.
   const text = renderLlmsTxt({
     content: he,
     siteUrl: SITE_URL,
@@ -53,6 +84,7 @@ export async function GET() {
       description: article.description,
     })),
     services: serviceLlmsPages(),
+    english: englishPages(projects),
   });
   return new Response(text, {
     headers: {

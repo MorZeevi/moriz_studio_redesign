@@ -392,6 +392,14 @@ html:has(.navigation-dialog[open]) {
     text-decoration: none;
   }
 
+  /* At the narrowest desktop widths the full Hebrew menu leaves little room;
+     the toggle drops its square minimum (it stays well over 24px wide). */
+  @media (max-width: 79.999rem) {
+    .header-controls .language-link {
+      min-inline-size: auto;
+    }
+  }
+
   .header-controls .language-link:hover {
     text-decoration: underline;
   }
@@ -457,6 +465,20 @@ html:has(.navigation-dialog[open]) {
   .hero .logo-carousel {
     grid-column: 1 / -1;
     grid-row: 4;
+  }
+
+  /* English: the translated description lines run longer than the Hebrew
+     ones and the shorter menu widens this column, so the growing video met
+     the text. Wrap the English lines at about the Hebrew measure. */
+  html[lang="en"] .hero-copy {
+    max-inline-size: min(
+      31rem,
+      calc(100% - var(--site-nav-inline-size, 34rem) / 2)
+    );
+  }
+
+  html[lang="en"] .hero-description-line {
+    text-wrap: balance;
   }
 }
 

@@ -39,9 +39,14 @@ unsaved changes:
 
 Every user-facing text has a Hebrew field and an English field side by side
 (`<key>` and `<key>_en`). English is optional; missing English falls back to
-Hebrew field by field. The public `/en` routes stay disabled until the rest of the
-site has English copy (`src/i18n/config.ts`). Project labels for both languages
-live in `src/i18n/project-copy.ts`.
+Hebrew field by field. The public English site at `/en` shows the `_en` fields
+(enabled 2026-11-18, `src/i18n/config.ts`). `Highlight.value` has no English
+field, so a value written as Hebrew prose stays Hebrew on `/en`. Project labels
+for both languages live in `src/i18n/project-copy.ts` (each spreads its site
+dictionary's project labels). Saving a project revalidates the route patterns
+`/[locale]`, `/[locale]/projects` and `/[locale]/projects/[slug]`, so both
+languages refresh. The private preview renders the case study with the chosen
+locale's dictionary.
 
 Homepage project cards show the localized client name above the selected user
 count. Numeric counts, including shorthand such as `7K+` or `80k+`, retain the

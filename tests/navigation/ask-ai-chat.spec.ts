@@ -3,6 +3,8 @@ import { expect, type Page, type Route, test } from "@playwright/test";
 type AskBody = {
   question: string;
   history: { role: string; content: string }[];
+  /** The page language; the assistant answers in it. */
+  locale: string;
 };
 
 // Answers from a stub so the tests never call the model.
@@ -83,7 +85,11 @@ test("suggestions send, answers carry the avatar, and follow-ups include history
   await expect(thread).toContainText("תשובה על מחירים");
   // Mor's photo sits beside the answer; the visitor bubble has none.
   await expect(thread.locator("li img")).toHaveCount(1);
-  expect(bodies[0]).toEqual({ question: "כמה עולה אתר?", history: [] });
+  expect(bodies[0]).toEqual({
+    question: "כמה עולה אתר?",
+    history: [],
+    locale: "he",
+  });
 
   // The asked question leaves the chip row.
   await expect(
@@ -112,6 +118,7 @@ test("suggestions send, answers carry the avatar, and follow-ups include history
       { role: "user", content: "כמה עולה אתר?" },
       { role: "assistant", content: "תשובה על מחירים" },
     ],
+    locale: "he",
   });
 });
 
@@ -217,6 +224,13 @@ test.describe("on a phone", () => {
 test("the API rejects malformed history", async ({ request }) => {
   const response = await request.post("/api/ai/ask", {
     data: { question: "שלום", history: [{ role: "system", content: "x" }] },
+  });
+  expect(response.status()).toBe(400);
+});
+
+test("the API rejects an unknown locale", async ({ request }) => {
+  const response = await request.post("/api/ai/ask", {
+    data: { question: "hello", locale: "fr" },
   });
   expect(response.status()).toBe(400);
 });

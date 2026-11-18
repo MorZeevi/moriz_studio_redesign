@@ -4,7 +4,7 @@ import { ArticleContent } from "@/components/articles/article-content";
 import { ArticleView } from "@/components/articles/article-view";
 import { ArticlesFrame } from "@/components/articles/articles-frame";
 import { JsonLd } from "@/components/json-ld";
-import { isEnabledLocale } from "@/i18n/config";
+import { hasArticles } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getAllArticles, getArticle } from "@/lib/articles/load";
 import { articleMetadata } from "@/lib/articles/metadata";
@@ -15,7 +15,8 @@ type PageParams = { params: Promise<{ locale: string; slug: string }> };
 
 async function loadPreview(params: PageParams["params"]) {
   const { locale, slug } = await params;
-  if (!isEnabledLocale(locale)) notFound();
+  // Articles are Hebrew-only: other locales 404 (src/i18n/config.ts).
+  if (!hasArticles(locale)) notFound();
   let articleSlug: string;
   try {
     articleSlug = decodeURIComponent(slug);
@@ -30,7 +31,12 @@ async function loadPreview(params: PageParams["params"]) {
   return { locale, content, article };
 }
 
-export function generateStaticParams() {
+export function generateStaticParams({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  if (!hasArticles(locale)) return [];
   return getAllArticles().map((article) => ({ slug: article.slug }));
 }
 

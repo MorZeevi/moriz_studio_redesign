@@ -298,6 +298,7 @@ function validHighlight(value: unknown): value is Highlight {
     value.id.length <= 100 &&
     typeof value.value === "string" &&
     value.value.length <= 40 &&
+    optionalString(value.value_en, 40) &&
     typeof value.label === "string" &&
     value.label.length <= 200 &&
     optionalString(value.label_en, 200) &&

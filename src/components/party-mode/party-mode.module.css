@@ -466,3 +466,16 @@
     transition: none;
   }
 }
+
+/* English (LTR): the text column sits on the left, so the fallback ball
+   position mirrors to the right. On desktop PartyAnimations still sets
+   --ball-left inline from the header, which wins over these. */
+:global(html[dir="ltr"]) .effects {
+  --ball-left: calc(60% - var(--ball-size) / 2);
+}
+
+@media (max-width: 63.999rem) {
+  :global(html[dir="ltr"]) .effects {
+    --ball-left: calc(53% - var(--ball-size) / 2);
+  }
+}

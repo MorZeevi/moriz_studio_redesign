@@ -9,6 +9,7 @@ import partyStyles from "./party-mode/party-mode.module.css";
 import { ProjectMediaLink, ProjectMediaSoon } from "./project-media-link";
 import { ProjectScrollSurface } from "./project-scroll-surface";
 import styles from "./projects.module.css";
+import { projectCopy } from "@/i18n/project-copy";
 import { CategoryTags } from "./category-tags";
 import Noise from "./react-bits/Noise";
 import { CoverVideo } from "./cover-video";
@@ -202,6 +203,7 @@ export function ProjectsSection({
                     </div>
                   )}
                   <CategoryTags
+                    label={projectCopy[locale].categories}
                     categories={project.categories ?? []}
                     className={styles.stackTags}
                   />

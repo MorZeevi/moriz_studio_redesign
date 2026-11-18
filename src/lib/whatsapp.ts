@@ -1,4 +1,5 @@
-import { conversionCopy } from "@/content/conversion-copy";
+import { conversionCopyByLocale } from "@/content/conversion-copy";
+import type { EnabledLocale } from "@/i18n/config";
 
 // The single WhatsApp destination for the site. To change it, set
 // NEXT_PUBLIC_WHATSAPP_NUMBER (international digits, no +), or edit the fallback here.
@@ -15,5 +16,11 @@ export function whatsappUrl(text: string) {
   return WHATSAPP_URL && `${WHATSAPP_URL}?text=${encodeURIComponent(text)}`;
 }
 
-/** The default contact link: WhatsApp with the general opening message. */
-export const WHATSAPP_CONTACT_URL = whatsappUrl(conversionCopy.whatsappMessage);
+/** The default contact link: WhatsApp with the general opening message, in
+ * the page's language. */
+export function whatsappContactUrl(locale: EnabledLocale) {
+  return whatsappUrl(conversionCopyByLocale[locale].whatsappMessage);
+}
+
+/** The Hebrew contact link, kept for callers that have no locale. */
+export const WHATSAPP_CONTACT_URL = whatsappContactUrl("he");

@@ -9,7 +9,7 @@ import { getNextProject, getPublicProject } from "@/lib/cms/queries";
 import { isVideoSrc } from "@/lib/cms/validation";
 import { projectSnippetInput } from "@/lib/project-snippet";
 import { pageAlternates, projectSearchDescription } from "@/lib/seo";
-import { siteOpenGraph } from "@/lib/site";
+import { openGraphFor } from "@/lib/site";
 import { projectStructuredData } from "@/lib/structured-data";
 import type { Project, ProjectContentBlock } from "@/types/project";
 
@@ -50,7 +50,7 @@ export async function generateMetadata({
     description,
     alternates: pageAlternates(url),
     openGraph: {
-      ...siteOpenGraph,
+      ...openGraphFor(locale),
       title,
       description,
       url,

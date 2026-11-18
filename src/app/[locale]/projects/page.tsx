@@ -19,7 +19,7 @@ import { projectArchiveCard } from "@/lib/cms/project-card";
 import { getPublicProjects } from "@/lib/cms/queries";
 import { pageAlternates } from "@/lib/seo";
 import { projectsIndexStructuredData } from "@/lib/structured-data";
-import { siteOpenGraph } from "@/lib/site";
+import { openGraphFor } from "@/lib/site";
 
 type PageParams = {
   params: Promise<{ locale: string }>;
@@ -39,10 +39,10 @@ export async function generateMetadata({
     // The layout's title template appends the studio name.
     title: archive.heading,
     description: archive.description,
-    // One canonical for every ?type= filter view. Hebrew only.
+    // One canonical for every ?type= filter view.
     alternates: pageAlternates(url),
     openGraph: {
-      ...siteOpenGraph,
+      ...openGraphFor(locale),
       title,
       description: archive.description,
       url,
@@ -136,6 +136,7 @@ export default async function ProjectsPage({
       <FloatingActions
         content={content.floatingActions}
         ask={content.askAi}
+        locale={locale}
         mobileWhatsappOnly
       />
     </>

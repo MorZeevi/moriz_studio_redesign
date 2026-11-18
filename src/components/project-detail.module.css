@@ -74,6 +74,22 @@
   gap: var(--space-3);
   margin-block-end: 1.5rem;
 }
+/* Theme and language, together at the panel's inline end. */
+.panelControls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.panelControls :global(.language-link) {
+  min-block-size: var(--control-height-sm);
+  padding-inline: var(--space-1);
+  color: inherit;
+  font-weight: 500;
+  text-decoration: none;
+}
+.panelControls :global(.language-link):hover {
+  text-decoration: underline;
+}
 .identity {
   display: flex;
   align-items: center;
@@ -153,9 +169,14 @@
   text-align: center;
   overflow-wrap: anywhere;
 }
-.page[dir="ltr"] .websiteOutline,
-:where(.page[dir="ltr"]) .websiteArrow svg {
+/* English: the outline mirrors. The arrow already points forward through
+   the shared .arrow:dir(ltr) rotation, so it is not flipped again, and the
+   hover nudge follows the reading direction. */
+.page[dir="ltr"] .websiteOutline {
   scale: -1 1;
+}
+.page[dir="ltr"] .websiteLink:hover .websiteArrow {
+  transform: translateX(3px);
 }
 .information {
   margin-block-start: var(--space-6);
@@ -210,10 +231,6 @@
 .mediaBlock[data-cover] :is(img, video) {
   aspect-ratio: 16 / 9;
   object-fit: cover;
-}
-.gallery [data-reveal="pending"] > :first-child {
-  clip-path: inset(0 0 100% 0);
-  transform: translateY(1.5rem);
 }
 .figure figcaption {
   margin-block-start: 0.75rem;
@@ -488,10 +505,6 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .gallery [data-reveal="pending"] > :first-child {
-    clip-path: none;
-    transform: none;
-  }
   .enlarge,
   .websiteArrow {
     transition: none;

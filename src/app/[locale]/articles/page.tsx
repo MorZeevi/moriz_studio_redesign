@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { ArticlesFrame } from "@/components/articles/articles-frame";
 import { ArticlesIndex } from "@/components/articles/articles-index";
 import { JsonLd } from "@/components/json-ld";
-import { isEnabledLocale } from "@/i18n/config";
+import { hasArticles } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getPublishedArticles } from "@/lib/articles/load";
 import { articlesIndexMetadata } from "@/lib/articles/metadata";
@@ -16,14 +16,16 @@ export async function generateMetadata({
   params,
 }: PageParams): Promise<Metadata> {
   const { locale } = await params;
-  if (!isEnabledLocale(locale)) notFound();
+  // Articles are Hebrew-only: other locales 404 (src/i18n/config.ts).
+  if (!hasArticles(locale)) notFound();
   const content = await getDictionary(locale);
   return articlesIndexMetadata(locale, content);
 }
 
 export default async function ArticlesPage({ params }: PageParams) {
   const { locale } = await params;
-  if (!isEnabledLocale(locale)) notFound();
+  // Articles are Hebrew-only: other locales 404 (src/i18n/config.ts).
+  if (!hasArticles(locale)) notFound();
   await assertArticlesCompile();
   const [content, articles] = await Promise.all([
     getDictionary(locale),

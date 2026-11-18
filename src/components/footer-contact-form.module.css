@@ -61,9 +61,14 @@
   transition: border-color var(--duration-fast) var(--ease-standard);
 }
 
-/* Phone digits read left-to-right but line up with the Hebrew fields. */
+/* Phone digits read left-to-right but line up with the Hebrew fields. On the
+   English site they align with the other (left-aligned) fields. */
 .control[dir="ltr"] {
   text-align: right;
+}
+
+:global(html[dir="ltr"]) .control[dir="ltr"] {
+  text-align: left;
 }
 
 .control::placeholder {
