@@ -19,7 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error("Sitemap projects unavailable.", error);
     return [];
   });
-  return publicSitemapEntries({
+  const pages = publicSitemapEntries({
     siteUrl: SITE_URL,
     locale: defaultLocale,
     projects,
@@ -30,4 +30,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     privacyUpdatedOn: he.privacyPolicy.updatedOn,
     services: serviceSitemapEntries(),
   });
+  return [
+    ...pages,
+    ...[
+      { path: "terms-of-use", updatedOn: he.termsOfUse.updatedOn },
+      { path: "accessibility", updatedOn: he.accessibility.updatedOn },
+    ].map(({ path, updatedOn }) => ({
+      url: `${SITE_URL}/${defaultLocale}/${path}`,
+      lastModified: new Date(`${updatedOn}T12:00:00.000Z`),
+      changeFrequency: "yearly" as const,
+      priority: 0.2,
+    })),
+  ];
 }
