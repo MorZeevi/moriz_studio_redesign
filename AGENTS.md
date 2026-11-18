@@ -8,6 +8,14 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
+## English site (`/en`): translate only when the owner says so
+
+Hebrew is the source. The English site (`src/i18n/dictionaries/en.ts`, `src/content/services.en.ts`, the `*_en` CMS fields, English-only LTR styles) follows it only on the owner's word. This applies to both Codex and Claude Code.
+
+- On a new task or prompt, do the work in Hebrew only. Do not update the English text, layout or design alongside it, unless the owner asks for English in that task.
+- Before merging, remind the owner that English was not updated, list what changed in Hebrew that English lacks (texts, design, layout), and ask whether to translate it. Merge without the English update only after the owner answers.
+- Changes that both languages share by construction (a shared component or style) may reach `/en` on their own. Say so in the pre-merge reminder; do not add English copy to go with them.
+
 # Moriz Diagnostic (`/digital-audit`)
 
 The Moriz Diagnostic (a lead-magnet questionnaire with AI personalization and an admin lead queue) lives in this repo under the public route `/digital-audit`. It was transplanted unchanged from the standalone app `Moriz_studio/moriz-diagnostic` (commit `b96a88d`), which stays the behavioral reference for questions, scoring, result copy, AI behavior and analytics. Overview, route map and env: [docs/digital-audit.md](docs/digital-audit.md).
