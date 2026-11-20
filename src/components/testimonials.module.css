@@ -440,3 +440,11 @@
     transform: none;
   }
 }
+
+/* What the work was: lets a reader find the testimonial closest to their project. */
+.attributionProject {
+  display: block;
+  margin-block-start: 0.125rem;
+  color: var(--testimonial-muted);
+  font-size: 0.8125em;
+}

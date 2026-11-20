@@ -1,5 +1,7 @@
 # Hero showreel video
 
+Superseded on 2026-11-17: the homepage now uses the owner’s transparent MacBook portrait with a CSS bottom fade, rendered by `src/components/hero-portrait.tsx`. The hero no longer mounts `HeroVideo`, preloads its posters, or reserves its expansion stage. The showreel component and media remain available for future use. The behavior and tests below describe the previous video implementation.
+
 Implemented 2026-10-09 on the `scaling-element-on-scroll-gsap-flip` branch, replacing the nine-image hero slideshow. The reference is Osmo's "Scaling Element on Scroll (GSAP Flip)": a small media box in the hero that grows into a large box below as the page scrolls.
 
 ## Media

@@ -359,6 +359,11 @@ export function Testimonials({ content }: { content: TestimonialsContent }) {
                   <span className={styles.attributionText}>
                     <span className={styles.attributionName}>{item.name}</span>
                     <span className={styles.attributionRole}>{item.role}</span>
+                    {item.project && (
+                      <span className={styles.attributionProject}>
+                        {item.project}
+                      </span>
+                    )}
                   </span>
                 </figcaption>
               </figure>

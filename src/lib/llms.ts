@@ -77,18 +77,18 @@ export function renderLlmsTxt({
     "",
   ];
 
-  const intro =
-    content.about.paragraphs[0]?.map((segment) => segment.text).join("") ?? "";
+  // Her role follows the sentence in which she introduces herself, wherever
+  // that sentence sits in the About text.
   const role = content.hero.portraitAlt.split("—")[1]?.trim();
-  lines.push(role ? `${intro} ${role}.` : intro, "");
-  for (const paragraph of content.about.paragraphs.slice(1)) {
-    lines.push(
-      paragraph
-        .map((segment) => segment.text)
-        .join("")
-        .trim(),
-      "",
-    );
+  let introduced = false;
+  for (const paragraph of content.about.paragraphs) {
+    const parts = paragraph.map((segment) => segment.text);
+    const index = parts.findIndex((part) => part.includes("אני מור"));
+    if (role && !introduced && index >= 0) {
+      parts[index] = `${parts[index].trimEnd()} ${role}.`;
+      introduced = true;
+    }
+    lines.push(parts.join("").trim(), "");
   }
   for (const credential of content.about.credentials) {
     const detail = credential.detail ? `. ${credential.detail}` : "";

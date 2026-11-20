@@ -3,11 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./projects.module.css";
 
-// Every logo gets the same visible area inside a 96×56 slot, so a wide
+// Every logo gets the same visible area inside an 80×46 box, so a wide
 // wordmark and a square icon read as the same size.
-const AREA = 56 * 56;
-const MAX_WIDTH = 96;
-const MAX_HEIGHT = 56;
+const AREA = 46 * 46;
+const MAX_WIDTH = 80;
+const MAX_HEIGHT = 46;
 
 type Fit = {
   width: number;

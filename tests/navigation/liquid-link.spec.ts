@@ -132,6 +132,7 @@ test("keyboard focus is visible and reduced motion stays static", async ({
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/he");
+  // The projects link is a plain underlined text link.
   const link = page.locator(selector);
   await link.focus();
   await page.keyboard.press("Shift+Tab");
@@ -140,25 +141,36 @@ test("keyboard focus is visible and reduced motion stays static", async ({
     await link.evaluate((element) => element.matches(":focus-visible")),
   ).toBe(true);
   expect(
-    await link
-      .locator("span")
-      .last()
-      .evaluate((label) => getComputedStyle(label).textDecorationLine),
-  ).toContain("underline");
-  await moveToLink(page);
-  expect(await gap(page)).toBe(2);
-  expect(
     await link.evaluate(
+      (element) => getComputedStyle(element).textDecorationLine,
+    ),
+  ).toContain("underline");
+  // The liquid action beside it stays still under reduced motion.
+  const action = page.locator(".hero-contact-link");
+  const bounds = await action.boundingBox();
+  if (!bounds) throw new Error("Missing hero action");
+  await page.mouse.move(
+    bounds.x + bounds.width / 2,
+    bounds.y + bounds.height / 2,
+  );
+  expect(
+    await action.evaluate((element) =>
+      parseFloat(getComputedStyle(element).columnGap),
+    ),
+  ).toBe(2);
+  expect(
+    await action.evaluate(
       (element) => getComputedStyle(element).transitionDuration,
     ),
   ).toBe("0s");
   expect(
-    await link
+    await action
       .locator(".liquid__icon")
       .first()
       .evaluate((element) => getComputedStyle(element).backgroundImage),
   ).toBe("none");
   await capture(page, "keyboard-reduced");
+  await link.focus();
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/#projects$/);
 });
@@ -207,7 +219,7 @@ test("the mobile projects action activates its native destination", async ({
   await context.close();
 });
 
-test("the liquid hero remains a usable link without JavaScript and mirrors in LTR", async ({
+test("the hero projects link works without JavaScript and mirrors in LTR", async ({
   browser,
   baseURL,
 }) => {
@@ -218,7 +230,7 @@ test("the liquid hero remains a usable link without JavaScript and mirrors in LT
   const page = await context.newPage();
   await page.goto(`${baseURL}/he`);
   const link = page.locator(selector);
-  await expect(link).toHaveAccessibleName("לצפיה בפרויקטים");
+  await expect(link).toHaveAccessibleName("לפרויקטים שלי");
   await capture(page, "no-js");
   await link.click();
   await expect(page).toHaveURL(/#projects$/);
@@ -231,11 +243,12 @@ test("the liquid hero remains a usable link without JavaScript and mirrors in LT
   await ltrPage.evaluate(() => {
     document.documentElement.dir = "ltr";
   });
+  // Left to right, the arrow turns to point the reading way.
   expect(
     await ltrPage
       .locator(`${selector} svg`)
       .evaluate((element) => getComputedStyle(element).scale),
-  ).toBe("none");
+  ).toBe("-1 1");
   await capture(ltrPage, "ltr");
   await ltrContext.close();
 });

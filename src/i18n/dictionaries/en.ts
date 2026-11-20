@@ -31,6 +31,7 @@ export const en = {
     desktopLinks: [
       { label: "Projects", href: "#projects" },
       { label: "About me", href: "#about" },
+      { label: "Services", href: "/services" },
       { label: "Getting started", href: "#getting-started" },
       { label: "Articles", href: "/articles" },
       { label: "FAQ", href: "#faq" },
@@ -60,24 +61,25 @@ export const en = {
   },
   hero: {
     heading: {
-      rotating: ["Complex websites", "Web apps", "UX & UI design", "AI tools"],
-      end: "built on research",
-      // Accessible name: the rotation is visual only.
+      start:
+        "I solve business problems through UX, design and development of systems, websites and AI tools",
+      end: "From problem to working product",
+      // The headline's two lines: the first in outline, the second filled.
+      endParts: ["From problem to", "working product"],
       label:
-        "Complex websites, web apps, UX and UI design, and AI tools built on research",
+        "From problem to working product. I solve business problems through UX, design and development of systems, websites and AI tools",
     },
     introduction: "Nice to meet you, I'm Mor",
+    // Desktop portrait: her hello, set vertically along the page edge behind
+    // her.
+    note: "Nice to meet you, I'm Mor",
     // structured-data.ts and llms.ts read the job title after the "—".
     portraitAlt: "Mor — studio owner",
     description: {
       emphasis: "Research wins arguments.",
-      firstLine: "That's how I approach every project, however complex.",
-      secondLine:
-        "With a degree in learning technologies from HIT and years of development experience,",
-      thirdLine:
-        "I'll build your digital tool from the first idea to a product that works brilliantly.",
+      body: "I start from research, not assumptions, so you invest only in what your users actually need.",
     },
-    projectsLink: "View projects",
+    projectsLink: "See my projects",
     scrollLabel: "Scroll to explore",
     video: {
       label: "Showreel: selected work",
@@ -86,13 +88,14 @@ export const en = {
     },
   },
   diagnosticBanner: {
-    headingStart: "Which digital tool",
-    headingEnd: "does your business need?",
-    introduction: "A website, an app, or maybe an AI tool?",
-    emphasis: "Answer 7 questions",
-    description: "and we'll find the right direction for you together.",
-    action: "Find your tool with a smart AI questionnaire",
-    actionMobile: "Find your tool",
+    headingStart: "Not sure",
+    headingEnd: "what your business needs?",
+    introduction: "A website, a system or an AI tool?",
+    emphasis: "7 questions, two minutes,",
+    description:
+      "and a written recommendation at the end. No contact details needed.",
+    action: "Start the audit",
+    actionMobile: "Start the audit",
   },
   logoCarousel: {
     label: "Logos",
@@ -109,11 +112,11 @@ export const en = {
     ],
     experience: {
       description:
-        "A website or system should speak for itself. If it needs explaining, something isn't working. Besides, nobody reads text anymore.",
+        "A website or system should speak for itself. If it needs explaining, something isn't working. That's why I design interfaces people understand without a walkthrough.",
     },
     development: {
       description:
-        "I turn the UX plan and design into a working digital product, with solutions built around your needs. Down to the smallest detail.",
+        "I turn the UX plan and design into a working digital product, with solutions built around your needs, down to the smallest detail. And the code stays yours.",
       infinity: {
         symbol: "Infinity symbol",
         dot: "Move the dot along the infinity symbol",
@@ -133,7 +136,7 @@ export const en = {
     },
     research: {
       description:
-        "Together we research your problem, define it and weigh the possible solutions. From academic research to your competitors.",
+        "Together we research your problem, define it and weigh the possible solutions, from academic research to your competitors. That's how we build the right thing from the start.",
       termsLabel: "Terms from research and user experience design",
       terms: [
         "User research",
@@ -403,7 +406,7 @@ export const en = {
     ],
   },
   testimonials: {
-    heading: "What clients say",
+    heading: "What people who worked with me say",
     indexLabel: "Choose a testimonial",
     previous: "Previous testimonial",
     next: "Next testimonial",
@@ -421,6 +424,7 @@ export const en = {
         ],
         name: "Gabriela Lester",
         role: "Product Marketing Director, Elementor",
+        project: "Interactive experience development",
         image: {
           src: "/images/testimonials/elementor-logo.webp",
           kind: "mark",
@@ -436,6 +440,7 @@ export const en = {
         },
         name: "Asher Morgenstern",
         role: "CTO, AI at Eye Level",
+        project: "UX and design of a learning system · Practical AI",
         image: {
           src: "/images/testimonials/asher-morgenstern.webp",
           kind: "portrait",
@@ -449,6 +454,7 @@ export const en = {
         ],
         name: "Elbi Ben Shimol",
         role: "Insurance and finance",
+        project: "Landing page",
         image: { src: "/images/testimonials/elbi-logo.webp", kind: "logo" },
       },
       {
@@ -460,6 +466,7 @@ export const en = {
         ],
         name: "Rona Even",
         role: "Mom Back in Jeans",
+        project: "Homepage design",
         image: {
           src: "/images/testimonials/rona-even-logo.webp",
           kind: "logo",
@@ -478,6 +485,7 @@ export const en = {
         ],
         name: "Tal Lev",
         role: "Certified Chinese medicine practitioner",
+        project: "Clinic website",
         image: {
           src: "/images/testimonials/tal-lev.webp",
           kind: "portrait",
@@ -493,6 +501,7 @@ export const en = {
         ],
         name: "Shay Goren",
         role: "Workshop business owner",
+        project: "Business website",
         image: {
           src: "/images/testimonials/shay-goren.webp",
           kind: "portrait",
@@ -506,9 +515,9 @@ export const en = {
     steps: [
       {
         image: "/images/getting-started-phone.webp",
-        title: "A 5–10 minute phone call",
+        title: "An intro call, 10 minutes",
         detail:
-          "A few simple questions to see whether we're a good first fit for your needs.",
+          "A few questions to understand what you need. If I'm not the right address, I'll say so and point you to someone who is.",
       },
       {
         image: "/images/getting-started-call.webp",
@@ -556,14 +565,14 @@ export const en = {
         ],
       },
       {
-        question: "How much does a website cost?",
+        question: "How much does a project cost?",
         answer: [
-          "It depends on what you need: some websites and tools are relatively simple, others are more complex. In a short 5–10 minute call I can give you an initial estimate.",
-          "And if it turns out I'm not the right fit for you, I'll gladly refer you to a colleague I trust.",
+          "It depends on scope. What sets the price: how many types of users there are, how many processes the system manages, and whether it needs to connect to existing systems.",
+          "In a 10-minute call I can give you an initial estimate. And if it turns out I'm not the right fit for you, I'll gladly refer you to a colleague I trust.",
         ],
       },
       {
-        question: "How long does it take to build a website?",
+        question: "How long does a project take?",
         answer: [
           "The timeline depends on the project's scope and complexity. At the start we set a schedule together with clear milestones, so you always know where we stand. Part of the pace is up to you too: ready content and quick feedback shorten the way.",
         ],
@@ -576,19 +585,19 @@ export const en = {
         ],
       },
       {
-        question: "Who owns the website and its rights?",
+        question: "Who owns the code and the rights?",
         answer: [
           "You do, in full. The code, the domain and the content are yours, and you don't depend on me. If you ever want to work with another developer, they'll get well-organized code that's easy to build on.",
         ],
       },
       {
-        question: "Is there a warranty on the website?",
+        question: "Is there a warranty after launch?",
         answer: [
-          "Yes. Every site comes with a 3-month warranty for fixing significant bugs (not including design changes or new features).",
+          "Yes. Every project comes with a 3-month warranty for fixing significant bugs (not including design changes or new features).",
         ],
       },
       {
-        question: "Do you keep maintaining the site after launch?",
+        question: "Do you keep maintaining the system after launch?",
         answer: [
           "Yes. For existing clients I offer discounted monthly retainer packages for maintenance, updates and ongoing improvements. And if you only need a one-off change, you can always reach out on an hourly basis.",
         ],
@@ -598,6 +607,13 @@ export const en = {
           "Everyone's talking about AI. How do we bring it into our business?",
         answer: [
           "AI is a tool, and it's worth using exactly where it saves time. We'll go through the recurring processes in your business together and see which tools fit you, from existing ones to small tools I build just for you. Sometimes one such tool saves hours every week and frees up your time for what really matters.",
+        ],
+      },
+      {
+        question:
+          "We already have a system. Can it be improved instead of rebuilt?",
+        answer: [
+          "Yes. Often the problem isn't the whole system but a few screens or a single process. I start by checking where users get stuck, and suggest what's worth fixing, what to redesign and what to leave as it is.",
         ],
       },
     ],
@@ -614,7 +630,7 @@ export const en = {
     // The same four questions as he.ts; each maps to a live knowledge row:
     // prices, process, services, fit.
     suggestions: [
-      "How much does a website cost?",
+      "How much does a project cost?",
       "What does the work process look like?",
       "What services do you offer?",
       "Who is this for?",
@@ -623,7 +639,7 @@ export const en = {
     send: "Send",
     loading: "One moment, checking…",
     fallback:
-      "I don't have that information yet 🙂\nYou can talk to me directly on WhatsApp.",
+      "That one is better answered by Mor herself.\nYou can write to her directly on WhatsApp.",
     whatsapp: "Talk to me on WhatsApp",
     error:
       "Something went wrong and I couldn't answer right now. Please try again in a moment.",
@@ -632,25 +648,25 @@ export const en = {
     close: "Close",
   },
   contact: {
-    heading: "Let's talk",
-    description: "Tell me a little about your project.",
+    heading: "Let's talk about your project",
+    description: "A first 10-minute call, no commitment.",
     promise: "I'll get back to you within one business day.",
     phoneHint: "Only so I can get back to you.",
-    interests: "What are you interested in?",
+    interests: "What is it about?",
     fields: {
       name: "What's your name?",
       phone: "What's your number?",
       whatsapp: "WhatsApp preferred",
-      message: "A few words",
+      message: "What do you want to build, or what isn't working today?",
       optional: "(optional)",
     },
     errors: {
       name: "A nickname you like works too",
       phone: "Hmm, something's off with that number.",
     },
-    submit: "Send message",
+    submit: "Send, and I'll get back to you",
     sending: "Sending your message...",
-    sent: "Message sent. I'll get back to you soon.",
+    sent: "Got it, thank you. I'll get back to you within one business day, on WhatsApp or by phone.",
     sendError:
       "I couldn't send it just now. Try again, or reach me through one of the links below.",
     details: {

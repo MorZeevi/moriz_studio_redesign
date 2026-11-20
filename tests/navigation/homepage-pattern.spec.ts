@@ -126,6 +126,9 @@ test("reduced motion stays static and direct section links have no background le
   await expect(ink(page)).toHaveCSS("transform", "none");
   await expectBoundary(page);
   await page.emulateMedia({ reducedMotion: "no-preference" });
+  // The pattern starts with the advantages, so it shifts once the reader
+  // scrolls into it.
+  await page.mouse.wheel(0, 300);
   await expect.poll(() => shift(page)).toBeGreaterThan(0);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(ink(page)).toHaveCSS("transform", "none");
@@ -149,7 +152,9 @@ test("without JavaScript both themes keep the pattern confined to the opening", 
       colorScheme,
     });
     const page = await context.newPage();
-    await page.goto(`${baseURL}/he`);
+    // The hero stands on a clean ground; the pattern begins with the
+    // advantages.
+    await page.goto(`${baseURL}/he#advantages`);
     await expect(pattern(page)).toBeInViewport();
     await expect(ink(page)).toHaveCSS("mask-repeat", "no-repeat");
     await expect(ink(page)).toHaveCSS(
