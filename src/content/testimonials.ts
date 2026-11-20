@@ -11,6 +11,8 @@ export type Testimonial = {
   };
   name: string;
   role: string;
+  /** What the work was, so a reader can find the testimonial closest to their own project. */
+  project?: string;
   image: {
     src: string;
     /**

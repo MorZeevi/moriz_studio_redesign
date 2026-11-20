@@ -3,8 +3,16 @@ import type { EnabledLocale } from "@/i18n/config";
 type ConversionCopy = {
   action: string;
   mobileAction: string;
-  /** Shown above the hero heading; `value` is set in bold. */
-  proof: { value: string; label: string };
+  /** The hero's main action, opened in WhatsApp. */
+  heroAction: string;
+  /**
+   * The line above the hero headline; `value` is set in the action colour.
+   * `detail` shows from tablet width up; phones keep the short line.
+   */
+  proof: { before: string; value: string; label: string; detail: string };
+  /** Invitations to talk placed along the homepage. */
+  invitations: { afterProjects: string; afterProcess: string };
+  projectNote: string;
   projectHeading: string;
   projectBody: string;
   projectFormLink: string;
@@ -18,7 +26,18 @@ export const conversionCopyByLocale = {
   he: {
     action: "בואו נדבר בוואטסאפ",
     mobileAction: "שנדבר בוואטסאפ?",
-    proof: { value: "400K+", label: "משתמשים במוצרים שלקחתי בהם חלק" },
+    heroAction: "בואו נדבר על הפרויקט שלכם",
+    proof: {
+      before: "מעל",
+      value: "400k+",
+      label: "משתמשים",
+      detail: "במוצרים שעבדתי עליהם",
+    },
+    invitations: {
+      afterProjects: "יש לכם מערכת או מוצר בראש?",
+      afterProcess: "מתחילים בשיחה של 10 דקות, בלי התחייבות.",
+    },
+    projectNote: "שיחה ראשונה של 10 דקות, בלי התחייבות.",
     projectHeading: "רוצים לבנות משהו דומה?",
     projectBody: "ספרו לי בקצרה על הפרויקט שלכם, ונחשוב יחד על הצעד הבא.",
     projectFormLink: "או השאירו פרטים",
@@ -29,7 +48,18 @@ export const conversionCopyByLocale = {
   en: {
     action: "Let's talk on WhatsApp",
     mobileAction: "Chat on WhatsApp?",
-    proof: { value: "400K+", label: "users of products I helped build" },
+    heroAction: "Let's talk about your project",
+    proof: {
+      before: "Over",
+      value: "400k+",
+      label: "users",
+      detail: "of products I've worked on",
+    },
+    invitations: {
+      afterProjects: "Have a system or product in mind?",
+      afterProcess: "We start with a 10-minute call, no commitment.",
+    },
+    projectNote: "A first 10-minute call, no commitment.",
     projectHeading: "Want to build something similar?",
     projectBody:
       "Tell me briefly about your project, and we'll work out the next step together.",
@@ -46,4 +76,4 @@ export function conversionCopyFor(locale: EnabledLocale): ConversionCopy {
 }
 
 /** Hebrew copy, kept for callers that have no locale. */
-export const conversionCopy = conversionCopyByLocale.he;
+export const conversionCopy: ConversionCopy = conversionCopyByLocale.he;

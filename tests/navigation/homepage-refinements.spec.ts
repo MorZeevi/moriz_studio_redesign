@@ -1,20 +1,22 @@
 import { expect, test } from "@playwright/test";
 
 for (const width of [320, 390, 430, 768]) {
-  test(`mobile CTA, quote and footer remain readable at ${width}px`, async ({
+  test(`mobile hero, quote and footer remain readable at ${width}px`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 844 });
     await page.goto("/he");
     await page.evaluate(() => document.fonts.ready);
-    const action = page.locator(".hero-projects-link");
-    const container = await page.locator(".hero-copy").boundingBox();
+    // The hero carries no action of its own; contact lives in the header,
+    // the bottom bar and the invitations along the page.
+    const action = page.locator(".hero-contact-link");
+    const container = await page.locator(".hero-actions").boundingBox();
     const box = await action.boundingBox();
     expect(box?.width).toBeCloseTo(container?.width ?? 0, 0);
     expect(box?.height).toBeGreaterThanOrEqual(48);
-    const label = action.locator(".liquid__label");
+    // The label stays on one line.
     expect(
-      await label.evaluate((node) => {
+      await action.locator(".liquid__label").evaluate((node) => {
         const range = document.createRange();
         range.selectNodeContents(node);
         return range.getClientRects().length;

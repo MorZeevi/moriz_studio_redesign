@@ -389,7 +389,7 @@ test("changing theme preserves an active Party and restores dark tag colors", as
   expect(await canvas(page)).toBe("rgb(38, 38, 38)");
 });
 
-test("dark mode tints the rotating phrase and turns both CTAs white", async ({
+test("dark mode keeps the heading colours and turns the header CTA white", async ({
   page,
 }) => {
   const read = () =>
@@ -399,9 +399,9 @@ test("dark mode tints the rotating phrase and turns both CTAs white", async ({
       const fill = (selector: string) =>
         style(`${selector} [class*="label"]`).backgroundColor;
       return {
-        rotating: style(".hero-heading-rotating").color,
-        heroFill: fill(".hero-projects-link"),
-        heroInk: style(".hero-projects-link").color,
+        accent: style(".hero-heading-accent").color,
+        action: style(".hero-proof strong").color,
+        heading: style(".hero-heading").color,
         contactFill: fill(".header-contact-link"),
         contactInk: style(".header-contact-link").color,
       };
@@ -409,17 +409,18 @@ test("dark mode tints the rotating phrase and turns both CTAs white", async ({
   await page.emulateMedia({ colorScheme: "dark" });
   await page.goto("/he");
   await expectTheme(page, "dark");
-  expect(await read()).toEqual({
-    rotating: "rgb(221, 220, 140)",
-    heroFill: "rgb(251, 251, 255)",
-    heroInk: "rgb(38, 38, 38)",
+  const dark = await read();
+  // The services line is in the action colour, like the figure above it.
+  expect(dark.accent).toBe(dark.action);
+  expect(dark).toMatchObject({
+    heading: "rgb(251, 251, 255)",
     contactFill: "rgb(251, 251, 255)",
     contactInk: "rgb(38, 38, 38)",
   });
   await page.emulateMedia({ colorScheme: "light" });
   await expectTheme(page, "light");
   const light = await read();
-  expect(light.rotating).not.toBe("rgb(221, 220, 140)");
+  expect(light.accent).toBe(light.action);
+  expect(light.accent).not.toBe(light.heading);
   expect(light.contactFill).toBe("rgb(38, 38, 38)");
-  expect(light.heroInk).toBe("rgb(251, 251, 255)");
 });

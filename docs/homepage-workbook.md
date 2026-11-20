@@ -6,6 +6,8 @@ This is our shared workspace for homepage content and layout. Work through one s
 
 ## Working process
 
+Owner-approved hero update, 2026-11-15: replace the rotating H1 with **אפיון, עיצוב ופיתוח מערכות משולבות AI שעוזרות לעסק שלך לעבוד חכם יותר.** Keep the existing hero composition, typeface and two-color treatment; let the longer heading wrap naturally at desktop and mobile widths. Preserve the supporting copy, CTA, showreel and Party Mode heading projections.
+
 1. Define the section's purpose and required information from confirmed studio facts.
 2. Review relevant saved Mobbin references together, noting what helps Moriz and what does not.
 3. Draft 2–3 Hebrew content options, discuss the preferred version, and refine it together.
@@ -427,3 +429,6 @@ Visual acceptance, actual social-profile URLs and legal pages remain pending; no
 - [ ] Agreed content reflected in [03-content.md](03-content.md), layout in [02-page-structure.md](02-page-structure.md), and owner choices in [14-decisions.md](14-decisions.md), with links back here rather than competing draft versions.
 
 Workbook creation is complete; joint section review is still open. The owner authorized and requested the hero/header trial before later sections are reviewed. The later first-advantages-card and Projects section/page requests grant their own specific exceptions; these areas remain In progress and other sections remain Not started. Continue section-by-section collaboration for remaining work. The implemented shared palette/fonts now apply to local trials; logo and remaining art direction stay open. No API changes or publishing are included.
+
+## Hero portrait update — 17 November 2026
+The owner replaces the hero showreel with her supplied MacBook portrait, with the white background removed and a gradual bottom alpha fade inspired by her reference. Desktop places the portrait on the left of the heading and supporting copy; mobile keeps heading → portrait → projects CTA → client logos. Preserve the current H1, supporting copy, palette, grain, navigation and other sections. Remove the showreel preloads and scroll-expansion end slot. The fade reveals the current page background in both themes.

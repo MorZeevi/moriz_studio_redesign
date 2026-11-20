@@ -123,6 +123,12 @@ Preview notice: **תצוגה מקדימה בלבד — ההודעה לא תיש�
 
 ### Headlines
 
+Current hero H1 — approved by the owner on 2026-11-15:
+
+> אפיון, עיצוב ופיתוח מערכות משולבות AI שעוזרות לעסק שלך לעבוד חכם יותר.
+
+This replaces the rotating hero heading. Supporting copy remains as implemented.
+
 Hero H1 — agreed, supplied by the owner on 2026-10-06; preserved verbatim:
 
 > יוצרת פתרונות דיגיטליים מבוססי מחקר

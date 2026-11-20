@@ -1,81 +1,119 @@
 "use client";
 
-import { useState, useSyncExternalStore } from "react";
+import { useEffect, useRef } from "react";
 import partyStyles from "@/components/party-mode/party-mode.module.css";
 import { PartyHeadingLight } from "@/components/party-mode/party-heading-light";
-import { usePartyMode } from "@/components/party-mode/party-mode-provider";
-import RotatingText from "@/components/react-bits/RotatingText";
 import type { SiteContent } from "@/i18n/dictionaries";
-
-const motionQuery = "(prefers-reduced-motion: reduce)";
-function subscribeMotion(callback: () => void) {
-  const query = window.matchMedia(motionQuery);
-  query.addEventListener("change", callback);
-  return () => query.removeEventListener("change", callback);
-}
-const readMotion = () => window.matchMedia(motionQuery).matches;
-const serverMotion = () => true;
 
 export function HeroHeading({
   content,
 }: {
   content: SiteContent["hero"]["heading"];
 }) {
-  const [index, setIndex] = useState(0);
-  const reducedMotion = useSyncExternalStore(
-    subscribeMotion,
-    readMotion,
-    serverMotion,
+  const heading = useRef<HTMLHeadingElement>(null);
+
+  // A light follows the pointer inside the letters, like the one in the
+  // header menu. Desktop pointers only; it eases toward the pointer.
+  useEffect(() => {
+    const element = heading.current;
+    if (!element) return;
+    const desktop = window.matchMedia(
+      "(min-width: 64rem) and (hover: hover) and (pointer: fine)",
+    );
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let frame = 0;
+    let inside = false;
+    let px = 0;
+    let py = 0;
+    let gx = 0;
+    let gy = 0;
+
+    function paint() {
+      // Each painted run of text: the services line and both headline halves.
+      const lines = element?.querySelectorAll<HTMLElement>(
+        "[data-hero-light-run]",
+      );
+      for (const line of lines ?? []) {
+        const box = line.getBoundingClientRect();
+        line.style.setProperty("--hero-light-x", `${gx - box.left}px`);
+        line.style.setProperty("--hero-light-y", `${gy - box.top}px`);
+      }
+    }
+
+    function tick() {
+      gx += (px - gx) * 0.18;
+      gy += (py - gy) * 0.18;
+      paint();
+      frame =
+        inside && Math.abs(px - gx) + Math.abs(py - gy) > 0.5
+          ? requestAnimationFrame(tick)
+          : 0;
+    }
+
+    function track(event: PointerEvent) {
+      if (
+        event.pointerType === "touch" ||
+        !desktop.matches ||
+        reducedMotion.matches
+      )
+        return;
+      px = event.clientX;
+      py = event.clientY;
+      if (!inside) {
+        gx = px;
+        gy = py;
+      }
+      inside = true;
+      element?.setAttribute("data-hero-light", "");
+      if (!frame) frame = requestAnimationFrame(tick);
+    }
+
+    function leave() {
+      inside = false;
+      element?.removeAttribute("data-hero-light");
+    }
+
+    element.addEventListener("pointerenter", track);
+    element.addEventListener("pointermove", track);
+    element.addEventListener("pointerleave", leave);
+    element.addEventListener("pointercancel", leave);
+    return () => {
+      cancelAnimationFrame(frame);
+      element.removeEventListener("pointerenter", track);
+      element.removeEventListener("pointermove", track);
+      element.removeEventListener("pointerleave", leave);
+      element.removeEventListener("pointercancel", leave);
+    };
+  }, []);
+
+  const text = (
+    <>
+      <span className="hero-heading-line hero-heading-split">
+        <span className="hero-heading-outline" data-hero-light-run>
+          {content.endParts[0]}
+        </span>{" "}
+        <span className="hero-heading-fill" data-hero-light-run>
+          {content.endParts[1]}
+        </span>
+      </span>{" "}
+      <span
+        className="hero-heading-line hero-heading-accent"
+        data-hero-light-run
+      >
+        {content.start}
+      </span>
+    </>
   );
-  const { enabled, phase } = usePartyMode();
-  // Party lights project a static copy of the heading; hold the phrase still
-  // so the copy matches the live text.
-  const partying = enabled || phase !== "idle";
 
   return (
     <h1
+      ref={heading}
       id="hero-heading"
       className={`hero-heading ${partyStyles.lightHeading}`}
       data-party-react="heading"
     >
-      {/* One continuous name for crawlers and screen readers. The rotation is visual only. */}
-      <span className="sr-only">{content.label}</span>
-      <span className="hero-heading-line" aria-hidden="true">
-        <span className="hero-heading-rotating">
-          {reducedMotion ? (
-            content.rotating[0]
-          ) : (
-            <RotatingText
-              texts={content.rotating}
-              auto={!reducedMotion && !partying}
-              rotationInterval={2500}
-              staggerFrom="first"
-              staggerDuration={0.025}
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "-120%" }}
-              transition={{ type: "spring", damping: 30, stiffness: 400 }}
-              splitLevelClassName="hero-heading-rotating-word"
-              onNext={setIndex}
-            />
-          )}
-        </span>
-      </span>
-      <span className="hero-heading-line" aria-hidden="true">
-        {content.end}
-      </span>
-      <PartyHeadingLight
-        text={
-          <>
-            <span className="hero-heading-line">
-              <span className="hero-heading-rotating">
-                {content.rotating[index]}
-              </span>
-            </span>
-            <span className="hero-heading-line">{content.end}</span>
-          </>
-        }
-      />
+      {text}
+      <PartyHeadingLight text={text} />
     </h1>
   );
 }

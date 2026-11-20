@@ -69,6 +69,7 @@
 }
 .panelNavigation {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
@@ -631,4 +632,16 @@
   align-items: center;
   min-block-size: 3rem;
   text-underline-offset: 0.2em;
+}
+
+/* The studio wordmark in the project bar: the way back to the studio for a
+   visitor who landed on a project directly. */
+.studioLink {
+  /* Its own row above the back link: the panel is too narrow for three items. */
+  order: -1;
+  flex: 0 0 100%;
+  /* The wordmark is LTR; `end` keeps it on the page's start side in RTL. */
+  text-align: end;
+  font-size: 1.125rem;
+  text-decoration: none;
 }

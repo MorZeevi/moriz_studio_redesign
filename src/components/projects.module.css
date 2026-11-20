@@ -636,8 +636,9 @@
     text-align: end;
   }
 
+  /* The short description shows in the card too, above the client. */
   .stackBodyDescription {
-    display: none;
+    margin-block-end: var(--space-3);
   }
 
   .stackBody {

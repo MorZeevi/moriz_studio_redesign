@@ -27,7 +27,9 @@ export function ProjectEnquiry({
       {!compact && (
         <>
           <h2>{copy.projectHeading}</h2>
-          <p>{copy.projectBody}</p>
+          <p>
+            {copy.projectBody} {copy.projectNote}
+          </p>
         </>
       )}
       <div className={styles.enquiryActions}>
