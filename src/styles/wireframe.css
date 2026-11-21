@@ -651,7 +651,13 @@ html:has(.navigation-dialog[open]) {
   }
 
   .hero-portrait {
+    align-items: flex-end;
     block-size: clamp(26rem, calc(100svh - 14rem), 52rem);
+  }
+
+  /* She stands on the foot of the frame, a little smaller than it. */
+  .hero-portrait-image {
+    block-size: 84%;
   }
 
   /* Laid exactly over the photograph (same size, same centring), behind it.
