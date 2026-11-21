@@ -95,13 +95,18 @@ export function HeroHeading({
         <span className="hero-heading-fill" data-hero-light-run>
           {content.endParts[1]}
         </span>
-      </span>{" "}
-      <span
-        className="hero-heading-line hero-heading-accent"
-        data-hero-light-run
-      >
-        {content.start}
       </span>
+      {content.start ? (
+        <>
+          {" "}
+          <span
+            className="hero-heading-line hero-heading-accent"
+            data-hero-light-run
+          >
+            {content.start}
+          </span>
+        </>
+      ) : null}
     </>
   );
 
