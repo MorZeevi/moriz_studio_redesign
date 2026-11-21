@@ -1,20 +1,21 @@
-import Image from "./cms-image";
 import { type CSSProperties, Fragment } from "react";
 import type { Project } from "@/content/projects";
 import { type Locale, localeConfig } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
+import { projectCopy } from "@/i18n/project-copy";
+import { CategoryTags } from "./category-tags";
+import Image from "./cms-image";
+import { CoverVideo } from "./cover-video";
 import { PartyHeadingLight } from "./party-mode/party-heading-light";
-import { LiquidLink } from "./ui/liquid-link";
 import partyStyles from "./party-mode/party-mode.module.css";
+import { ProjectGridWall } from "./project-grid-wall";
+import { ProjectHoverMedia } from "./project-hover-media";
+import { ProjectLogo } from "./project-logo";
 import { ProjectMediaLink, ProjectMediaSoon } from "./project-media-link";
 import { ProjectScrollSurface } from "./project-scroll-surface";
 import styles from "./projects.module.css";
-import { projectCopy } from "@/i18n/project-copy";
-import { CategoryTags } from "./category-tags";
 import Noise from "./react-bits/Noise";
-import { CoverVideo } from "./cover-video";
-import { ProjectHoverMedia } from "./project-hover-media";
-import { ProjectLogo } from "./project-logo";
+import { LiquidLink } from "./ui/liquid-link";
 
 type ProjectLabels = Omit<SiteContent["projects"], "items">;
 
@@ -153,6 +154,13 @@ export function ProjectsSection({
           // description under it. Static items have one description.
           const cms = project.summary !== undefined;
           const summary = cms ? project.summary : description;
+          // The moving wall of the project's images; without images, the
+          // single mockup.
+          const media = project.gridImages?.length ? (
+            <ProjectGridWall images={project.gridImages} />
+          ) : (
+            <ProjectMedia project={project} label={content.visualLabel} />
+          );
           return (
             // Strips and bodies are siblings so every strip sticks within
             // the whole list and the strips pile up while scrolling.
@@ -214,17 +222,11 @@ export function ProjectsSection({
                     label={content.viewProject}
                     title={project.title}
                   >
-                    <ProjectMedia
-                      project={project}
-                      label={content.visualLabel}
-                    />
+                    {media}
                   </ProjectMediaLink>
                 ) : (
                   <ProjectMediaSoon label={content.comingSoon}>
-                    <ProjectMedia
-                      project={project}
-                      label={content.visualLabel}
-                    />
+                    {media}
                   </ProjectMediaSoon>
                 )}
               </div>

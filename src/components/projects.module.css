@@ -94,6 +94,12 @@
   object-fit: cover;
 }
 
+/* The moving wall of project images fills the media frame. */
+.wall {
+  position: absolute;
+  inset: 0;
+}
+
 .mediaPlaceholder {
   display: grid;
   block-size: 100%;
