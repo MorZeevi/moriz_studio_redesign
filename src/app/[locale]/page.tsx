@@ -250,11 +250,6 @@ export default async function Home({
         <SecondaryScrollSurface>
           <Section id="getting-started" title={content.gettingStarted.heading}>
             <GettingStarted steps={content.gettingStarted.steps} />
-            <ContactInvitation
-              locale={locale}
-              placement="after-process"
-              text={conversionCopy.invitations.afterProcess}
-            />
           </Section>
         </SecondaryScrollSurface>
 
