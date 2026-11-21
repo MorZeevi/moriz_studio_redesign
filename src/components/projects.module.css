@@ -94,6 +94,11 @@
   object-fit: cover;
 }
 
+/* The wall needs no outline: its faded edges are the frame. */
+.wallFrame {
+  border: 0;
+}
+
 /* The moving wall of project images fills the media frame. */
 .wall {
   position: absolute;
