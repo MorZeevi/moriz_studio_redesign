@@ -5,7 +5,7 @@ export function HeroPortrait({ alt }: { alt: string }) {
     <div className="hero-portrait">
       <Image
         className="hero-portrait-image"
-        src="/images/mor-hero-white-shirt.webp"
+        src="/images/mor-hero-white-shirt-mirrored.webp"
         alt={alt}
         width={714}
         height={1071}
