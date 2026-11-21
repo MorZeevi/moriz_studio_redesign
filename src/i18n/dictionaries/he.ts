@@ -93,7 +93,7 @@ export const he = {
     headingEnd: "מה העסק צריך?",
     introduction: "אתר, מערכת או כלי AI?",
     emphasis: "7 שאלות, שתי דקות,",
-    description: "ובסוף המלצה כתובה. בלי להשאיר פרטים.",
+    description: "ובסוף המלצה. בלי להשאיר פרטים.",
     action: "להתחיל את האבחון",
     actionMobile: "להתחיל את האבחון",
   },
@@ -591,7 +591,8 @@ export const he = {
   contact: {
     heading: "בואו נדבר על הפרויקט שלכם",
     description: "שיחה ראשונה של 10 דקות, בלי התחייבות.",
-    promise: "אני חוזרת אליכם תוך יום עסקים.",
+    // A second line under the description; empty hides it.
+    promise: "",
     phoneHint: "רק כדי לחזור אליכם.",
     interests: "במה מדובר?",
     fields: {
