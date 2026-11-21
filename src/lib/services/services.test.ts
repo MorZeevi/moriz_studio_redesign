@@ -91,13 +91,17 @@ test("service links point at published articles and real projects", () => {
   assert.equal(servicesChrome.label, "שירותים");
 });
 
-test("new first-person lines are on a page, and prices are not", () => {
+const approvedRange = "בין ₪20,000 ל-₪50,000";
+
+test("new first-person lines are on a page, and the only price is the approved range", () => {
   const blob = JSON.stringify(pages);
   for (const claim of ownerReviewList) {
     assert.equal(blob.includes(claim), true, claim);
   }
   assert.equal(blob.includes("איפיון"), false);
-  assert.equal(blob.includes("₪"), false);
+  // The only figure is the owner-approved range (17 November 2026).
+  assert.equal(blob.includes(approvedRange), true);
+  assert.equal(blob.replaceAll(approvedRange, "").includes("₪"), false);
   assert.equal(blob.includes("ש״ח"), false);
   assert.equal(blob.includes('ש"ח'), false);
   assert.equal(blob.includes("/digital-audit"), true);
@@ -178,7 +182,7 @@ test("JSON-LD matches the visible FAQ and reuses the studio entity", () => {
     const json = JSON.stringify(data);
     assert.equal(json.includes("price"), false);
     assert.equal(json.includes("aggregateRating"), false);
-    assert.equal(json.includes("₪"), false);
+    assert.equal(json.replaceAll(approvedRange, "").includes("₪"), false);
   }
 });
 
@@ -328,7 +332,7 @@ test("English service pages have no Hebrew, articles, diagnostic or prices", () 
 
 test("English facts match the Hebrew", () => {
   const blob = JSON.stringify(enPages);
-  assert.match(blob, /5-10 minute/);
+  assert.match(blob, /10-minute/);
   assert.match(blob, /valid for 14 business days/);
   assert.match(blob, /3-month warranty/);
   assert.match(blob, /Tel Aviv/);

@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { AboutGallery } from "@/components/about-gallery";
 import { AboutMe } from "@/components/about-me";
 import { AdvantagesMotion } from "@/components/advantages-motion";
+import { ContactInvitation } from "@/components/contact-invitation";
 import { DesignQuote } from "@/components/design-quote";
 import { DiagnosticBanner } from "@/components/diagnostic-banner";
 import { Faq } from "@/components/faq";
@@ -9,6 +10,7 @@ import { FloatingActions } from "@/components/floating-actions";
 import { GettingStarted } from "@/components/getting-started";
 import { HeroDescription } from "@/components/hero-description";
 import { HeroHeading } from "@/components/hero-heading";
+import { HeroPortrait } from "@/components/hero-portrait";
 import { HeroVideo } from "@/components/hero-video";
 import { HomepagePattern } from "@/components/homepage-pattern";
 import { InfinityLoop } from "@/components/infinity-loop";
@@ -25,11 +27,12 @@ import { SiteFooter } from "@/components/site-footer";
 import { Testimonials } from "@/components/testimonials";
 import { LiquidLink } from "@/components/ui/liquid-link";
 import { Section } from "@/components/wireframe";
-import { hasDiagnostic, isEnabledLocale } from "@/i18n/config";
+import { hasDiagnostic, isEnabledLocale, localeConfig } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { projectCard } from "@/lib/cms/project-card";
 import { getPublicProjects } from "@/lib/cms/queries";
 import { homeStructuredData } from "@/lib/structured-data";
+import { whatsappContactUrl } from "@/lib/whatsapp";
 
 export default async function Home({
   params,
@@ -40,23 +43,10 @@ export default async function Home({
   if (!isEnabledLocale(locale)) notFound();
   const content = await getDictionary(locale);
   const conversionCopy = conversionCopyFor(locale);
+  const whatsappHref = whatsappContactUrl(locale);
   const projects = await getPublicProjects("homepage");
   return (
     <PartyModeProvider labels={content.advantages.party}>
-      <link
-        rel="preload"
-        as="image"
-        href="/videos/hero-showreel-poster.webp"
-        media="(min-width: 64rem)"
-        fetchPriority="high"
-      />
-      <link
-        rel="preload"
-        as="image"
-        href="/videos/hero-showreel-poster-mobile.webp"
-        media="(max-width: 63.999rem)"
-        fetchPriority="high"
-      />
       <JsonLd data={homeStructuredData(content, locale)} />
 
       <a
@@ -69,49 +59,117 @@ export default async function Home({
       <MainHeader content={content} locale={locale} />
 
       <main id="main-content" tabIndex={-1}>
-        <HomepagePattern>
-          <section
-            id="hero"
-            data-wireframe-section="hero"
-            aria-labelledby="hero-heading"
-            className="hero-background"
-          >
-            <div className="hero-shell hero">
-              <div className="hero-heading-block">
-                <p className="hero-proof">
-                  <strong dir="ltr">{conversionCopy.proof.value}</strong>{" "}
-                  {conversionCopy.proof.label}
-                </p>
-                <HeroHeading content={content.hero.heading} />
-              </div>
-              <div className="hero-copy">
-                <HeroDescription
-                  className="hero-description"
-                  content={content.hero.description}
-                />
-                <div className="hero-actions" data-contact-placement="hero">
-                  <LiquidLink
-                    className="hero-projects-link"
-                    variant="secondary"
-                    arrow="down"
-                    href="#projects"
-                  >
-                    {content.hero.projectsLink}
-                  </LiquidLink>
+        {/* The hero stands on a clean ground; the wordmark pattern begins
+            with the advantages below it. */}
+        <section
+          id="hero"
+          data-wireframe-section="hero"
+          aria-labelledby="hero-heading"
+          className="hero-background"
+        >
+          <div className="hero-shell hero">
+            {/* The first screen: the message and the person. On phones it
+                fills the screen, with the portrait above the action. */}
+            <div className="hero-top">
+              <div className="hero-message">
+                <div className="hero-heading-block">
+                  <p className="hero-proof">
+                    {/* A stack of faces beside the figure: stock portraits the
+                      owner supplied, decoration only, so no alt text. */}
+                    <span className="hero-proof-faces" aria-hidden="true">
+                      {[1, 2, 3, 4].map((face) => (
+                        // biome-ignore lint/performance/noImgElement: four tiny local avatars, already small files.
+                        <img
+                          key={face}
+                          src={`/images/proof-faces/${face}.webp`}
+                          alt=""
+                          width={36}
+                          height={36}
+                        />
+                      ))}
+                    </span>
+                    {conversionCopy.proof.before}{" "}
+                    <strong dir="ltr">{conversionCopy.proof.value}</strong>{" "}
+                    {conversionCopy.proof.label}
+                    <span className="hero-proof-detail">
+                      {" "}
+                      {conversionCopy.proof.detail}
+                    </span>
+                  </p>
+                  <HeroHeading content={content.hero.heading} />
+                </div>
+                {/* Pinned to the foot of the hero on desktop: figures, copy,
+                  actions. */}
+                <div className="hero-lower">
+                  <HeroDescription
+                    className="hero-description"
+                    content={content.hero.description}
+                  />
+                  <div className="hero-actions" data-contact-placement="hero">
+                    {whatsappHref && (
+                      <LiquidLink
+                        className="hero-contact-link"
+                        variant="secondary"
+                        href={whatsappHref}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {conversionCopy.heroAction}
+                      </LiquidLink>
+                    )}
+                    <a className="hero-projects-link" href="#projects">
+                      {content.hero.projectsLink}
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M19 12H5M11 6l-6 6 6 6" />
+                      </svg>
+                    </a>
+                  </div>
                 </div>
               </div>
-              <HeroVideo labels={content.hero.video} />
-              <LogoCarousel labels={content.logoCarousel} locale={locale} />
+              {/* The person. */}
+              <div className="hero-visual">
+                {/* Desktop only: her hello in outline letters, turned to run
+                  down the page edge behind her. The drawing shares the
+                  photograph's 1024 x 1536 frame, so it stays placed against
+                  her. */}
+                <svg
+                  className="hero-note"
+                  viewBox="0 0 1024 1536"
+                  role="img"
+                  aria-label={content.hero.note}
+                >
+                  <text
+                    className="hero-note-line"
+                    // Along the outer page edge: the left edge in Hebrew,
+                    // the right edge in English.
+                    transform={
+                      localeConfig[locale].direction === "rtl"
+                        ? "translate(112 16) rotate(-90)"
+                        : "translate(912 16) rotate(90)"
+                    }
+                    textAnchor="start"
+                  >
+                    {content.hero.note}
+                  </text>
+                </svg>
+                <HeroPortrait alt={content.hero.portraitAlt} />
+              </div>
             </div>
-            <div className="hero-shell hero-video-stage">
-              <div
-                className="hero-video-end"
-                data-hero-video-end
-                aria-hidden="true"
-              />
-            </div>
-          </section>
+            <LogoCarousel labels={content.logoCarousel} locale={locale} />
+            {/* The work, under the client logos. */}
+            <HeroVideo labels={content.hero.video} />
+          </div>
+        </section>
 
+        <HomepagePattern>
           <Section
             id="advantages"
             title={content.advantages.heading}
@@ -161,6 +219,13 @@ export default async function Home({
           partyReaction
         />
 
+        <ContactInvitation
+          locale={locale}
+          shell
+          placement="after-projects"
+          text={conversionCopy.invitations.afterProjects}
+        />
+
         <Section id="about" title={content.about.heading} showHeading={false}>
           <AboutMe content={content.about} />
         </Section>
@@ -170,7 +235,6 @@ export default async function Home({
         <Section
           id="testimonials"
           title={content.testimonials.heading}
-          showHeading={false}
           className="testimonials-section"
         >
           <Testimonials content={content.testimonials} />
@@ -179,6 +243,11 @@ export default async function Home({
         <SecondaryScrollSurface>
           <Section id="getting-started" title={content.gettingStarted.heading}>
             <GettingStarted steps={content.gettingStarted.steps} />
+            <ContactInvitation
+              locale={locale}
+              placement="after-process"
+              text={conversionCopy.invitations.afterProcess}
+            />
           </Section>
         </SecondaryScrollSurface>
 

@@ -3,14 +3,16 @@ import { expect, type Page, test } from "@playwright/test";
 const labels = [
   "פרויקטים",
   "קצת עליי",
+  "שירותים",
   "איך מתחילים",
   "מאמרים",
-  "שאלות תשובות",
+  "שאלות ותשובות",
   "אבחון דיגיטלי",
 ];
 const destinations = [
   "#projects",
   "#about",
+  "/he/services",
   "#getting-started",
   "/he/articles",
   "#faq",
@@ -118,7 +120,7 @@ test("desktop copy, RTL order and the full expanded menu fit every target width"
       .poll(() =>
         page
           .locator(`${navSelector} li`)
-          .nth(2)
+          .nth(4)
           .evaluate((element) =>
             parseFloat(getComputedStyle(element).paddingInlineEnd),
           ),
@@ -259,9 +261,10 @@ test("mobile matches desktop links and closes it when entering desktop", async (
   await expect(page.locator(".navigation-links a")).toHaveText([
     "פרויקטים",
     "קצת עליי",
+    "שירותים",
     "איך מתחילים",
     "מאמרים",
-    "שאלות תשובות",
+    "שאלות ותשובות",
     "אבחון דיגיטלי",
     "בואו נדבר",
   ]);

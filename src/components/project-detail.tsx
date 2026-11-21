@@ -4,12 +4,13 @@ import { CategoryTags } from "@/components/category-tags";
 import { ProjectArrow } from "@/components/projects-section";
 import { mediaVariant } from "@/lib/media-variants";
 import { ProjectEnquiry } from "./project-enquiry";
+import { StudioLogo } from "./studio-logo";
 import { ProjectGallery } from "@/components/project-gallery";
 import Noise from "@/components/react-bits/Noise";
 import { FloatingActions } from "@/components/floating-actions";
 import { LanguageLink } from "@/components/language-link";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { type Locale, localeConfig } from "@/i18n/config";
+import { isEnabledLocale, type Locale, localeConfig } from "@/i18n/config";
 import type { SiteContent } from "@/i18n/dictionaries";
 import { projectCopy } from "@/i18n/project-copy";
 import { localized, termName } from "@/lib/cms/localize";
@@ -116,6 +117,15 @@ export function ProjectDetail({
                     <ProjectArrow back />
                     {copy.backLink}
                   </Link>
+                  {/* A visitor who lands here from a search or a shared link
+                      has no site header: the wordmark leads to the studio. */}
+                  {isEnabledLocale(locale) && (
+                    <StudioLogo
+                      name={content.studioName}
+                      locale={locale}
+                      className={`studio-wordmark ${detail.studioLink}`}
+                    />
+                  )}
                   <div className={detail.panelControls}>
                     <ThemeToggle labels={content.theme} />
                     <LanguageLink

@@ -152,3 +152,6 @@ Owner follow-up, 6 November 2026: remove the hero WhatsApp action and Elementor 
 Owner follow-up: remove the compact WhatsApp enquiry action from the project sidebar; retain the enquiry block before next-project navigation.
 
 Owner follow-up before merge: remove the 400K+ line from the hero. The mobile header starts transparent and gains its opaque background after scrolling more than 8px; the existing About statistic remains.
+
+## Hero portrait — approved 17 November 2026
+The owner replaces the hero showreel with her supplied MacBook portrait, with the white background removed and a gradual bottom alpha fade inspired by her reference. Desktop places the portrait on the left of the heading and supporting copy; mobile keeps heading → portrait → projects CTA → client logos. Preserve the current H1, supporting copy, palette, grain, navigation and other sections. Remove the showreel preloads and scroll-expansion end slot. The fade reveals the current page background in both themes.

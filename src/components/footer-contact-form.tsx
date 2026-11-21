@@ -232,26 +232,6 @@ export function FooterContactForm({
           aria-hidden="true"
           autoComplete="off"
         />
-        <fieldset className={`${styles.interests} ${styles.full}`}>
-          <legend className={styles.label}>
-            {content.interests}{" "}
-            <span className={styles.optional}>{content.fields.optional}</span>
-          </legend>
-          <div className={styles.interestGrid}>
-            {CONTACT_INTERESTS.map((interest) => (
-              <label key={interest.id} className={styles.interest}>
-                <input type="checkbox" name="interests" value={interest.id} />
-                <span className={styles.interestMark} aria-hidden="true">
-                  <CheckIcon />
-                </span>
-                {interestIcons[interest.id]}
-                <span>
-                  {locale === "he" ? interest.label : interest.labelEn}
-                </span>
-              </label>
-            ))}
-          </div>
-        </fieldset>
         {question(
           "name",
           <input
@@ -301,6 +281,27 @@ export function FooterContactForm({
             dir="auto"
           />
         </div>
+
+        <fieldset className={`${styles.interests} ${styles.full}`}>
+          <legend className={styles.label}>
+            {content.interests}{" "}
+            <span className={styles.optional}>{content.fields.optional}</span>
+          </legend>
+          <div className={styles.interestGrid}>
+            {CONTACT_INTERESTS.map((interest) => (
+              <label key={interest.id} className={styles.interest}>
+                <input type="checkbox" name="interests" value={interest.id} />
+                <span className={styles.interestMark} aria-hidden="true">
+                  <CheckIcon />
+                </span>
+                {interestIcons[interest.id]}
+                <span>
+                  {locale === "he" ? interest.label : interest.labelEn}
+                </span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
 
         <div className={`${styles.actions} ${styles.full}`}>
           {/* The server sends the message to Mor; this label stays stable. */}

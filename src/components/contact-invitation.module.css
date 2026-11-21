@@ -1,0 +1,35 @@
+.invitation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4) var(--space-8);
+  min-inline-size: 0;
+  padding-block: var(--space-8);
+}
+
+.text {
+  margin: 0;
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+  font-weight: var(--font-weight-heading);
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-6);
+}
+
+.actions a {
+  max-inline-size: 100%;
+}
+
+.form {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 3rem;
+  text-underline-offset: 0.2em;
+}

@@ -10,8 +10,12 @@ test("mobile project titles scroll naturally and contact actions remain clear", 
   ]) {
     await page.setViewportSize(viewport);
     await page.goto("/he");
-    // The hero offers one action; WhatsApp lives in the floating controls.
-    await expect(page.locator(".hero-actions a")).toHaveCount(1);
+    // The hero invites a conversation first, then offers the projects.
+    await expect(page.locator(".hero-actions a")).toHaveCount(2);
+    await expect(page.locator(".hero-actions a").first()).toHaveAttribute(
+      "href",
+      /^https:\/\/wa\.me\//,
+    );
     await expect(page.locator(".hero-actions a").last()).toHaveAttribute(
       "href",
       "#projects",
@@ -21,8 +25,6 @@ test("mobile project titles scroll naturally and contact actions remain clear", 
       "background-color",
       "rgba(0, 0, 0, 0)",
     );
-    await page.locator(".hero-actions").scrollIntoViewIfNeeded();
-    await expect(page.locator("[data-mobile-actions]")).toBeHidden();
     const head = page.locator("[data-stack-head]").last();
     await head.scrollIntoViewIfNeeded();
     await expect(head).toHaveCSS("position", "relative");
@@ -53,7 +55,10 @@ test("project end invites enquiry before the next project and retains private va
   await page.goto("/he/projects/practicalai");
   const end = page.locator('[data-contact-placement="project-end"]');
   await expect(end.getByRole("heading")).toHaveText("רוצים לבנות משהו דומה?");
-  await expect(end.locator("a")).toHaveAttribute("href", /^https:\/\/wa.me\//);
+  await expect(end.locator("a").first()).toHaveAttribute(
+    "href",
+    /^https:\/\/wa.me\//,
+  );
   await expect(page.locator('img[srcset*="?w="]').first()).toBeAttached();
   const image = page.locator('img[srcset*="?w="]').first();
   const src = await image.getAttribute("src");
@@ -76,7 +81,7 @@ test("contact server failure preserves entered values and communicates recovery"
   await page.locator("#contact-phone").fill("0521234567");
   await page
     .locator("#contact")
-    .getByRole("button", { name: "שליחת הודעה" })
+    .getByRole("button", { name: "שלחו ואחזור אליכם" })
     .click();
   await expect(page.locator("#contact-status")).not.toBeEmpty();
   await expect(page.locator("#contact-name")).toHaveValue("בדיקה");
@@ -142,7 +147,7 @@ test("accepted contact form clears the fields and announces success", async ({
   await page.locator("#contact-phone").fill("0521234567");
   await page
     .locator("#contact")
-    .getByRole("button", { name: "שליחת הודעה" })
+    .getByRole("button", { name: "שלחו ואחזור אליכם" })
     .click();
   await expect(page.locator("#contact-name")).toHaveValue("");
   await expect(page.locator("#contact-status")).not.toBeEmpty();

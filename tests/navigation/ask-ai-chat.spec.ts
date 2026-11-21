@@ -70,30 +70,30 @@ test("suggestions send, answers carry the avatar, and follow-ups include history
   page,
 }) => {
   const bodies = await stubAnswers(page, (body) =>
-    body.question === "כמה עולה אתר?"
+    body.question === "כמה עולה פרויקט?"
       ? { answer: "תשובה על מחירים", hasAnswer: true }
       : { answer: "", hasAnswer: false },
   );
   await page.goto("/he");
   await trigger(page).click();
 
-  await drawer(page).getByRole("button", { name: "כמה עולה אתר?" }).click();
+  await drawer(page).getByRole("button", { name: "כמה עולה פרויקט?" }).click();
   const thread = drawer(page).getByRole("region", {
     name: "השיחה עם moriz.ai",
   });
-  await expect(thread.getByText("כמה עולה אתר?")).toBeVisible();
+  await expect(thread.getByText("כמה עולה פרויקט?")).toBeVisible();
   await expect(thread).toContainText("תשובה על מחירים");
   // Mor's photo sits beside the answer; the visitor bubble has none.
   await expect(thread.locator("li img")).toHaveCount(1);
   expect(bodies[0]).toEqual({
-    question: "כמה עולה אתר?",
+    question: "כמה עולה פרויקט?",
     history: [],
     locale: "he",
   });
 
   // The asked question leaves the chip row.
   await expect(
-    drawer(page).getByRole("button", { name: "כמה עולה אתר?" }),
+    drawer(page).getByRole("button", { name: "כמה עולה פרויקט?" }),
   ).toHaveCount(0);
 
   const field = drawer(page).getByRole("textbox", { name: "השאלה שלך" });
@@ -115,7 +115,7 @@ test("suggestions send, answers carry the avatar, and follow-ups include history
   expect(bodies[1]).toEqual({
     question: "ותוך\nכמה\nזמן?",
     history: [
-      { role: "user", content: "כמה עולה אתר?" },
+      { role: "user", content: "כמה עולה פרויקט?" },
       { role: "assistant", content: "תשובה על מחירים" },
     ],
     locale: "he",

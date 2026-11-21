@@ -62,7 +62,7 @@ const referral =
   "And if it turns out I'm not the right fit for you, I'll gladly refer you to a colleague I trust.";
 
 const estimate =
-  "It depends on what you need: some websites and tools are fairly simple, others are more complex. In a short 5-10 minute call I can give you an initial estimate.";
+  "It depends on what you need: some websites and tools are fairly simple, others are more complex. In a 10-minute call I can give you an initial estimate.";
 
 const timing =
   "Project length depends on its scope and complexity. At the start we set a schedule together with clear milestones, so you always know where things stand. Part of the pace is up to you too: ready content and quick feedback shorten the road.";
@@ -80,7 +80,7 @@ const alone = [
 
 const startSteps = [
   {
-    title: "A 5-10 minute phone call",
+    title: "An intro call, 10 minutes",
     detail:
       "A few simple questions, to see whether there's an initial fit with what you need.",
   },
@@ -186,7 +186,7 @@ const servicesHub: ServiceDocument = {
           paragraphs: [p(claims.notTemplate), p(referral)],
           items: [
             "Anyone looking for a free website or a WordPress or Wix template.",
-            "Anyone who needs a number before understanding what's being built.",
+            "Anyone looking for a fixed quote without a discovery call. A final price comes only once we understand what's being built.",
           ],
         },
       ],
@@ -235,7 +235,7 @@ const servicesHub: ServiceDocument = {
     {
       question: "How do we start?",
       answer: [
-        "We talk for 5-10 minutes on the phone, to see whether there's a fit. Then a free discovery call on Zoom, and then a quote based on what we specified, valid for 14 business days.",
+        "We start with a 10-minute intro call, to see whether there's a fit. Then a free discovery call on Zoom, and then a quote based on what we specified, valid for 14 business days.",
       ],
     },
     {

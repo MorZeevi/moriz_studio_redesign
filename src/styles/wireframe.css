@@ -115,99 +115,190 @@ html:has(.site-header) {
   min-inline-size: 0;
 }
 
+/* One line of proof above the headline, its number in the action colour. */
 .hero-proof {
   margin: 0 0 var(--space-3);
-  font-size: var(--text-body-lg);
+  font-size: clamp(0.9375rem, 1.25vw, 1.125rem);
   line-height: 1.3;
 }
 
-.hero-proof strong {
-  font-size: 1.35em;
-  font-weight: 700;
+.hero-proof {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3em 0.35em;
 }
 
+/* Overlapping client faces beside the figure. */
+.hero-proof-faces {
+  display: inline-flex;
+  flex: none;
+  margin-inline-end: 0.35em;
+}
+
+.hero-proof-faces img {
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  border: 2px solid var(--color-background, #fff);
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px color-mix(in srgb, currentColor 18%, transparent);
+}
+
+.hero-proof-faces img + img {
+  margin-inline-start: -0.7rem;
+}
+
+.hero-proof strong {
+  font-weight: var(--font-weight-heading);
+  color: var(--color-action-primary);
+}
+
+/* The headline's two lines, then the services line. */
 .hero-heading {
+  display: flex;
+  flex-direction: column;
   min-inline-size: 0;
   margin: 0;
   overflow-wrap: anywhere;
-  font-size: var(--trial-hero-size);
+  font-size: clamp(3rem, 18.5vw, 6rem);
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.025em;
+}
+
+.hero-heading-line {
+  display: block;
+}
+
+.hero-heading-split {
+  display: flex;
+  flex-direction: column;
+}
+
+/* The first line is drawn in outline only; the second is filled. */
+.hero-heading-outline {
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.02em currentColor;
+}
+
+/* The services line: bold, in the action colour, wrapping freely. */
+.hero-heading-accent {
+  color: var(--color-action-primary);
+  margin-block-start: 0.5em;
+  font-size: clamp(1.25rem, 5.8vw, 1.625rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
   text-wrap: balance;
 }
 
-/* Rotating phrase / "מבוססי מחקר": two fixed lines on every
-   screen; phones shrink the type so the longest phrase still fits. */
-.hero-heading-line {
-  display: block;
-  white-space: nowrap;
-}
-
-.hero-heading-rotating {
-  display: inline-flex;
-  vertical-align: bottom;
-  /* Dark mode swaps the action red for the secondary color. */
-  color: var(--site-hero-rotating, var(--color-action-primary));
-}
-
-/* Clips each word's slide to the ink, not the line box: with line-height 1
-   Hebrew letters sit low (ink from ~0.24em, ל from ~0.09em, ק down to
-   ~1.06em), so a box clip would show letters leaving through the empty top. */
-.hero-heading-rotating-word {
-  clip-path: inset(0.07em -0.1em -0.07em);
-}
-
-/* Inline-end (left in RTL) corner; narrower on mobile so it still has room to grow. */
-.hero-video {
-  inline-size: 75%;
-  margin: 0;
-  justify-self: end;
-}
-
-/* The video target is absolute and grows out of this slot on scroll. */
-.hero-video-slot {
-  position: relative;
-  inline-size: 100%;
-  aspect-ratio: 3 / 2;
-}
-
-.hero-video-stage {
-  position: relative;
-  /* The logos start in the hero grid and travel below the expanding video. */
-  padding-block-end: calc(var(--space-16) + var(--hero-logo-height, 0px));
-}
-
-.hero-video-end {
-  inline-size: 100%;
-  aspect-ratio: 3 / 2;
-  max-block-size: calc(100svh - var(--space-16));
-}
-
-/* Nothing grows into the end slot without JavaScript (the homepage bootstrap
-   always sets data-pixel-reveal) or with reduced motion; drop the empty space. */
-html:not([data-pixel-reveal]) .hero-video-stage {
-  display: none;
+/* Pointer light inside the letters (set by HeroHeading on desktop). The glyphs
+   are painted by the background, so the light can sit within them. */
+@keyframes hero-note-rise {
+  from {
+    opacity: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-video-stage {
-    display: none;
+  .hero-note-line {
+    animation: none;
   }
 }
 
-@media (max-width: 63.999rem) {
-  .hero-video-stage {
-    display: none;
+@property --hero-light-mix {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 0%;
+}
+
+.hero-heading {
+  --hero-light-mix: 0%;
+  transition: --hero-light-mix 0.5s ease;
+}
+
+.hero-heading[data-hero-light] {
+  --hero-light-mix: 100%;
+}
+
+@media (min-width: 64rem) and (hover: hover) and (pointer: fine) {
+  [data-hero-light-run] {
+    /* Room for descenders, which background-clip would otherwise cut. */
+    margin-block: -0.14em;
+    padding-block: 0.14em;
+    background-color: currentColor;
+    background-image: radial-gradient(
+      circle 2.6em at var(--hero-light-x, -999px) var(--hero-light-y, -999px),
+      color-mix(
+          in srgb,
+          var(--hero-light-color, var(--color-secondary)) var(--hero-light-mix),
+          transparent
+        )
+        0%,
+      color-mix(
+          in srgb,
+          var(--hero-light-color, var(--color-secondary))
+            calc(var(--hero-light-mix) * 0.45),
+          transparent
+        )
+        45%,
+      transparent 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* The outline line stays empty; only the light fills it. */
+  .hero-heading-outline[data-hero-light-run] {
+    background-color: transparent;
   }
 }
 
-.hero-copy {
-  display: grid;
-  justify-items: start;
-  gap: var(--space-4);
+/* The portrait: larger than its frame, fading into what follows. */
+.hero-visual {
+  position: relative;
   min-inline-size: 0;
-  max-inline-size: 36rem;
+}
+
+.hero-portrait {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  min-inline-size: 0;
+  margin: 0;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+}
+
+.hero-portrait-image {
+  display: block;
+  flex: none;
+  inline-size: auto;
+  block-size: 102%;
+  max-inline-size: none;
+}
+
+/* The giant hello and the caption belong to the desktop portrait. */
+.hero-note {
+  display: none;
+}
+
+/* The showreel sits under the client logos as a framed video with air
+   around it: narrower than the page and never taller than the screen. */
+.hero-video {
+  justify-self: center;
+  inline-size: min(80%, 65rem, (100svh - 12.5rem) * 1.5);
+  min-inline-size: 0;
+  margin-block: var(--space-8) var(--space-16);
+}
+
+.hero-video-slot {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radius-md);
+  box-shadow: 0 1.5rem 3rem -1.5rem rgb(0 0 0 / 0.35);
 }
 
 .hero-description {
@@ -216,24 +307,48 @@ html:not([data-pixel-reveal]) .hero-video-stage {
   line-height: 1.5;
 }
 
-.hero-description-line {
-  display: block;
-}
-
-.hero-description-line strong {
+.hero-description strong {
   font-weight: var(--font-weight-heading);
 }
 
+/* The main action, then a quieter link to the work. */
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-8);
+}
+
+.hero-projects-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   gap: var(--space-2);
-  /* Reserve the provisional floating WhatsApp control's inline-end space. */
-  max-inline-size: calc(
-    100% -
-    min(var(--control-height-lg) + var(--space-4), 25%)
-  );
-  margin-block-start: var(--space-2);
+  min-block-size: 3rem;
+  font-weight: var(--font-weight-heading);
+  text-decoration: underline;
+  text-decoration-thickness: 0.09em;
+  text-underline-offset: 0.3em;
+}
+
+.hero-projects-link svg {
+  flex: none;
+  inline-size: 1.15em;
+  block-size: 1.15em;
+  transition: translate 0.25s ease;
+}
+
+.hero-projects-link:hover svg {
+  translate: -0.25em 0;
+}
+
+/* Left to right, the arrow points and moves the other way. */
+html[dir="ltr"] .hero-projects-link svg {
+  scale: -1 1;
+}
+
+html[dir="ltr"] .hero-projects-link:hover svg {
+  translate: 0.25em 0;
 }
 
 @media (max-width: 63.999rem) {
@@ -253,66 +368,107 @@ html:not([data-pixel-reveal]) .hero-video-stage {
     font-size: 1.3125rem;
   }
 
-  /* One readable column: heading, copy/action, showreel, client logos. */
+  /* The first screen holds the short proof line, the headline, the portrait
+     and the action, centred, and fills the screen under the header. The
+     message wrapper dissolves so its children can be ordered around the
+     portrait, which takes whatever height is left. */
   .hero {
     gap: var(--space-6);
+    padding-block-start: var(--space-4);
   }
 
-  /* Phones read: heading, showreel, one action, logos. The copy
-     wrapper dissolves so its children can be ordered around the showreel. */
-  .hero-copy {
+  .hero-top {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-inline-size: 0;
+    min-block-size: calc(
+      100svh -
+      var(--space-16) -
+      var(--space-4) -
+      var(--space-3)
+    );
+    text-align: center;
+  }
+
+  .hero-message,
+  .hero-lower {
     display: contents;
   }
 
   .hero-heading-block {
-    order: 2;
+    order: 1;
   }
 
-  .hero-video {
-    order: 3;
+  .hero-heading {
+    align-items: center;
   }
 
-  .hero-actions {
-    order: 4;
-  }
-
-  .hero > [data-logo-carousel] {
-    order: 5;
+  /* English words are longer: a smaller headline keeps each half on one
+     line and leaves the portrait its height. */
+  html[lang="en"] .hero-heading {
+    font-size: clamp(2.25rem, 13vw, 5rem);
   }
 
   .hero-proof {
-    margin-block-end: var(--space-2);
-    font-size: 0.875rem;
+    flex-wrap: nowrap;
+    justify-content: center;
+    font-size: clamp(0.8125rem, 4vw, 0.9375rem);
+    white-space: nowrap;
   }
 
-  /* Each phrase has a line to itself, so the type can grow on phones. */
-  .hero-heading {
-    font-size: clamp(2.25rem, 12.5vw, 4rem);
+  .hero-proof-faces img {
+    inline-size: clamp(1.25rem, 6.6vw, 1.625rem);
+    block-size: clamp(1.25rem, 6.6vw, 1.625rem);
   }
 
-  /* Phones keep one message and one action. */
+  .hero-proof-faces img + img {
+    margin-inline-start: -0.5rem;
+  }
+
+  .hero-proof-detail,
   .hero-description {
     display: none;
   }
 
+  .hero-visual {
+    order: 2;
+    flex: 1 1 0;
+    min-block-size: 6.5rem;
+  }
+
+  .hero-portrait {
+    block-size: 100%;
+  }
+
   .hero-actions {
-    inline-size: 100%;
-    max-inline-size: none;
-    margin-block-start: 0;
+    order: 3;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-1);
   }
 
   .hero-actions > .liquid {
     inline-size: 100%;
-    --liquid-height: 3rem;
+    --liquid-height: 3.25rem;
   }
 
+  /* The label stays on one line down to the narrowest phones. */
   .hero-actions .liquid__label {
     flex: 1;
     justify-content: center;
+    font-size: clamp(0.75rem, 3.9vw, 1rem);
+    white-space: nowrap;
+  }
+
+  .hero > [data-logo-carousel] {
+    order: 6;
   }
 
   .hero-video {
-    inline-size: 100%;
+    order: 7;
+    inline-size: min(96%, 32rem);
+    margin-block: var(--space-4) var(--space-12);
   }
 
   .hero > .logo-carousel {
@@ -322,6 +478,23 @@ html:not([data-pixel-reveal]) .hero-video-stage {
 
 html:has(.navigation-dialog[open]) {
   overflow: hidden;
+}
+
+/* Narrow desktops: seven links, the language link and the contact button
+   share one row, so the controls sit closer together and the opened menu
+   has room to spread. */
+@media (min-width: 64rem) and (max-width: 99.99rem) {
+  .site-header .header-actions {
+    gap: 0.125rem;
+  }
+}
+
+/* At the narrowest desktop width the contact button drops its side padding
+   a little, which keeps the menu's links from running together. */
+@media (min-width: 64rem) and (max-width: 74.99rem) {
+  .site-header .header-contact-link .liquid__label {
+    padding-inline: 0.625rem;
+  }
 }
 
 @media (min-width: 64rem) {
@@ -396,71 +569,122 @@ html:has(.navigation-dialog[open]) {
     display: none;
   }
 
-  /* Columns follow the header: the menu's measured width in the middle,
-     the same gap. The heading leads; copy with its CTA and the video share
-     the lower row, followed by the full-width logos. */
+  /* Two columns: the message on the start side, the portrait on the end
+     side with a handwritten note pointing at her; logos, then the showreel,
+     beneath both. */
   .hero {
-    grid-template-columns:
-      minmax(0, 1fr) var(--site-nav-inline-size, 34rem)
-      minmax(0, 1fr);
-    grid-template-rows: auto 1fr auto auto;
-    column-gap: var(--space-6);
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    grid-template-rows: 1fr auto auto;
+    column-gap: var(--space-8);
+    /* No row gap: the portrait stands on the logo strip. */
     row-gap: 0;
+    align-items: center;
+    /* The portrait and its note are drawn larger than their column. */
+    overflow-x: clip;
     min-block-size: calc(100svh - var(--site-header-height, var(--space-24)));
-    padding-block: var(--space-6) 0;
+    padding-block: var(--space-4) 0;
   }
 
-  /* Bottom row, from the wordmark to about the middle of the menu. */
-  .hero-copy {
-    grid-column: 1 / span 2;
-    grid-row: 3;
-    align-self: end;
-    max-inline-size: calc(100% - var(--site-nav-inline-size, 34rem) / 2);
-    margin-block: var(--space-16) var(--space-10);
+  /* One reading column: headline, services line, copy, actions, figures. */
+  /* The first-screen wrapper only matters on phones. */
+  .hero-top {
+    display: contents;
   }
 
-  /* Keep the projects CTA directly below the description. */
-  .hero-actions {
-    max-inline-size: none;
-  }
-
-  .hero-video {
-    grid-column: 3;
-    grid-row: 3;
-    align-self: end;
-    justify-self: stretch;
-    inline-size: auto;
-    margin-block-end: var(--space-10);
-  }
-
-  /* Top row, from the wordmark to the menu's far edge. */
-  .hero-heading-block {
-    grid-column: 1 / span 2;
+  .hero-message {
+    display: flex;
+    flex-direction: column;
+    /* The headline holds the top, the figures, copy and actions the foot. */
+    justify-content: space-between;
+    align-self: stretch;
+    gap: var(--space-8);
+    grid-column: 1;
     grid-row: 1;
-    align-self: start;
+    min-inline-size: 0;
+    padding-block: var(--space-10) var(--space-10);
+  }
+
+  .hero-lower {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(var(--space-4), 2.6svh, var(--space-6));
+    min-inline-size: 0;
   }
 
   .hero-heading {
-    font-size: var(--trial-hero-size-desktop);
+    font-size: clamp(4rem, min(7.4vw, 13.5svh), 9rem);
+  }
+
+  .hero-heading-accent {
+    margin-block-start: 0.4em;
+    font-size: clamp(1.375rem, 2.05vw, 2.375rem);
+    /* Two even lines, never a lone last word. */
+    text-wrap: balance;
+  }
+
+  .hero-description {
+    max-inline-size: 36rem;
+  }
+
+  .hero-visual {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
+  }
+
+  .hero-portrait {
+    block-size: clamp(26rem, calc(100svh - 14rem), 52rem);
+  }
+
+  /* Laid exactly over the photograph (same size, same centring), behind it.
+     Outline letters, like the headline's first line, and faint: a texture
+     beside her, not a second headline. */
+  .hero-note {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    display: block;
+    block-size: 128%;
+    aspect-ratio: 1024 / 1536;
+    translate: -50% 0;
+    overflow: visible;
+    pointer-events: none;
+    opacity: 0.4;
+    fill: none;
+    stroke: var(--color-text-primary);
+    stroke-width: 1.5px;
+    font-family: var(--font-display);
+    font-size: 136px;
+    font-weight: 700;
+    direction: rtl;
+  }
+
+  /* It fades in once when the page loads. */
+  .hero-note-line {
+    vector-effect: non-scaling-stroke;
+    animation: hero-note-rise 0.6s ease-out backwards;
+  }
+
+  /* The photograph stands in front of the letters. */
+  .hero-portrait {
+    position: relative;
+  }
+
+  .hero-video {
+    grid-column: 1 / -1;
+    grid-row: 3;
   }
 
   .hero .logo-carousel {
     grid-column: 1 / -1;
-    grid-row: 4;
+    grid-row: 2;
   }
 
-  /* English: the translated description lines run longer than the Hebrew
-     ones and the shorter menu widens this column, so the growing video met
-     the text. Wrap the English lines at about the Hebrew measure. */
-  html[lang="en"] .hero-copy {
-    max-inline-size: min(
-      31rem,
-      calc(100% - var(--site-nav-inline-size, 34rem) / 2)
-    );
-  }
-
-  html[lang="en"] .hero-description-line {
-    text-wrap: balance;
+  /* English: the hello is longer than the Hebrew one, so it is set smaller
+     to end above the moriz.ai tab. */
+  html[lang="en"] .hero-note {
+    direction: ltr;
+    font-size: 92px;
   }
 }
 
@@ -869,10 +1093,6 @@ body[data-project-backdrop]
   --color-focus: var(--site-focus, var(--color-dark));
 }
 
-.hero-actions {
-  max-inline-size: 100%;
-  align-items: center;
-}
 @media (max-width: 63.999rem) {
   .site-header {
     background: transparent;
@@ -884,17 +1104,7 @@ body[data-project-backdrop]
     opacity: 0;
     visibility: hidden;
   }
-  .hero-actions > a {
-    inline-size: 100%;
-  }
   html[data-public-site] body:has([data-mobile-actions]) {
     padding-block-end: calc(4.5rem + env(safe-area-inset-bottom, 0px));
-  }
-}
-
-@media (max-width: 63.999rem) {
-  .hero-actions .liquid__label {
-    flex: 1;
-    justify-content: center;
   }
 }

@@ -121,12 +121,9 @@ for (const width of [1440, 390]) {
         "background-color",
         "rgb(221, 220, 140)",
       );
-      await page
-        .locator(".advantages-card")
-        .first()
-        .screenshot({
-          path: "test-results/refinements/restored-mobile-research.png",
-        });
+      await page.locator(".advantages-card").first().screenshot({
+        path: "test-results/refinements/restored-mobile-research.png",
+      });
       for (const fraction of [0.96, 0.68, 0.4, 0.96]) {
         await position(page, ".advantages-card:nth-child(2)", fraction);
         expect((await offsets(page)).every((y) => y === 0)).toBe(true);
