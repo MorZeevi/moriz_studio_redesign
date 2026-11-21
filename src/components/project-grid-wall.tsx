@@ -15,16 +15,15 @@ export function ProjectGridWall({ images }: { images: string[] }) {
           src={src}
           alt=""
           fill
-          sizes="(min-width: 960px) 24vw, 40vw"
+          sizes="(min-width: 960px) 18vw, 30vw"
         />
       )),
     [images],
   );
   return (
-    <div className={`${styles.media} ${styles.wallFrame}`}>
+    <div className={styles.media}>
       <GridMotion
         items={items}
-        rows={3}
         gap={12}
         radius={10}
         dim={0.25}
