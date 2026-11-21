@@ -5,10 +5,10 @@ export function HeroPortrait({ alt }: { alt: string }) {
     <div className="hero-portrait">
       <Image
         className="hero-portrait-image"
-        src="/images/mor-hero-high-ponytail.png"
+        src="/images/mor-hero-white-shirt-mirrored.webp"
         alt={alt}
-        width={1024}
-        height={1535}
+        width={714}
+        height={1071}
         sizes="(min-width: 1024px) 40vw, (min-width: 640px) 384px, calc(100vw - 64px)"
         preload
       />

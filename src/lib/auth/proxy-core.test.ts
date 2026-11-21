@@ -162,8 +162,21 @@ test("CMS, media and API paths are never redirected, even when signed out", asyn
     const response = await handleSessionRequest(request(path), signedOut);
     assert.equal(response.status, 200, path);
     assert.equal(response.headers.get("location"), null, path);
-    assert.equal(response.headers.get("cache-control"), "private, no-store");
+    // A visitor's media response is left for the media route to cache.
+    assert.equal(
+      response.headers.get("cache-control"),
+      path.startsWith("/media/") ? null : "private, no-store",
+      path,
+    );
   }
+});
+
+test("signed-in media requests are never cached", async () => {
+  const response = await handleSessionRequest(
+    request("/media/p/f.webp"),
+    signedIn,
+  );
+  assert.equal(response.headers.get("cache-control"), "private, no-store");
 });
 
 test("lead-admin POSTs (server actions) are not redirected by the proxy", async () => {

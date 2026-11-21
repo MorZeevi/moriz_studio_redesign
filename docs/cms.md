@@ -221,6 +221,9 @@ Projects, terms (`categories`) and their links belong to one product, stored in 
 - Media: one private bucket per source, `project-media` (moriz) and
   `project-media-eyal`. Storage policies map the bucket to its source, and a file
   becomes public only while a published project of the same source references it.
+  Visitors' `/media/` responses are cached for one day (CDN and browser), so a file
+  can stay reachable for up to a day after its project is unpublished; the owner's
+  own requests, which include drafts, are never cached.
   `/media/<projectId>/<file>` URLs are unchanged.
 - This site's server never trusts request data for ownership; `CMS_SOURCE` and
   `CMS_MEDIA_BUCKET` are constants.
