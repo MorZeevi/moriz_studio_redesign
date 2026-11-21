@@ -137,35 +137,28 @@ export default async function Home({
               {/* The person. */}
               <div className="hero-visual">
                 {/* Desktop only: her hello in outline letters, turned to run
-                  down the outer page edge: the left edge in Hebrew, the
-                  right edge in English. */}
+                  down the page edge behind her. The drawing shares the
+                  photograph's 1024 x 1536 frame, so it stays placed against
+                  her. */}
                 <svg
                   className="hero-note"
-                  viewBox="0 0 150 1000"
+                  viewBox="0 0 1024 1536"
                   role="img"
                   aria-label={content.hero.note}
                 >
-                  {localeConfig[locale].direction === "rtl" ? (
-                    // Hebrew: on the edge itself, from the top of the hero
-                    // to its foot.
-                    <text
-                      className="hero-note-line"
-                      transform="translate(104 0) rotate(-90)"
-                      textAnchor="start"
-                      textLength="1000"
-                      lengthAdjust="spacingAndGlyphs"
-                    >
-                      {content.hero.note}
-                    </text>
-                  ) : (
-                    <text
-                      className="hero-note-line"
-                      transform="translate(84 26) rotate(90)"
-                      textAnchor="start"
-                    >
-                      {content.hero.note}
-                    </text>
-                  )}
+                  <text
+                    className="hero-note-line"
+                    // Along the outer page edge: the left edge in Hebrew,
+                    // the right edge in English.
+                    transform={
+                      localeConfig[locale].direction === "rtl"
+                        ? "translate(112 16) rotate(-90)"
+                        : "translate(912 16) rotate(90)"
+                    }
+                    textAnchor="start"
+                  >
+                    {content.hero.note}
+                  </text>
                 </svg>
                 <HeroPortrait alt={content.hero.portraitAlt} />
               </div>
