@@ -93,7 +93,7 @@ export const he = {
     headingEnd: "מה העסק צריך?",
     introduction: "אתר, מערכת או כלי AI?",
     emphasis: "7 שאלות, שתי דקות,",
-    description: "ובסוף המלצה כתובה. בלי להשאיר פרטים.",
+    description: "ובסוף המלצה. בלי להשאיר פרטים.",
     action: "להתחיל את האבחון",
     actionMobile: "להתחיל את האבחון",
   },
