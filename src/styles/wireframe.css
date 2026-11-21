@@ -179,7 +179,8 @@ html:has(.site-header) {
   min-inline-size: 0;
   margin: 0;
   overflow-wrap: anywhere;
-  font-size: clamp(3rem, 18.5vw, 6rem);
+  /* Small enough for each half of the headline to hold one line on a phone. */
+  font-size: clamp(2.25rem, 13vw, 6rem);
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.025em;
