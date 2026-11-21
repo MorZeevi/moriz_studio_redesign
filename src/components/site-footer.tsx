@@ -77,8 +77,12 @@ export function SiteFooter({
               </h2>
               <p className={styles.contactDescription}>
                 {content.contact.description}
-                <br />
-                {content.contact.promise}
+                {content.contact.promise ? (
+                  <>
+                    <br />
+                    {content.contact.promise}
+                  </>
+                ) : null}
               </p>
             </div>
             <div className={styles.reach}>
