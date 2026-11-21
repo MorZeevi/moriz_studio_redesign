@@ -660,17 +660,16 @@ html:has(.navigation-dialog[open]) {
     block-size: 84%;
   }
 
-  /* Laid exactly over the photograph (same size, same centring), behind it.
-     Outline letters, like the headline's first line, and faint: a texture
-     beside her, not a second headline. */
+  /* A narrow strip on the outer page edge, behind her, as tall as the hero
+     above the logos. Outline letters, like the headline's first line, and
+     faint: a texture beside her, not a second headline. */
   .hero-note {
     position: absolute;
-    top: 0;
-    left: 50%;
+    top: calc(-1 * var(--space-4));
+    inset-inline-end: calc(-1 * var(--page-gutter));
     display: block;
-    block-size: 128%;
-    aspect-ratio: 1024 / 1536;
-    translate: -50% 0;
+    block-size: calc(100% + var(--space-4));
+    aspect-ratio: 150 / 1000;
     overflow: visible;
     pointer-events: none;
     opacity: 0.4;
@@ -678,7 +677,7 @@ html:has(.navigation-dialog[open]) {
     stroke: var(--color-text-primary);
     stroke-width: 1.5px;
     font-family: var(--font-display);
-    font-size: 136px;
+    font-size: 149px;
     font-weight: 700;
     direction: rtl;
   }
@@ -708,7 +707,7 @@ html:has(.navigation-dialog[open]) {
      to end above the moriz.ai tab. */
   html[lang="en"] .hero-note {
     direction: ltr;
-    font-size: 92px;
+    font-size: 77px;
   }
 }
 
