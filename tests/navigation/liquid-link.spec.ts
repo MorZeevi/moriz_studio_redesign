@@ -168,7 +168,8 @@ test("keyboard focus is visible and reduced motion stays static", async ({
       .locator(".liquid__icon")
       .first()
       .evaluate((element) => getComputedStyle(element).backgroundImage),
-  ).toBe("none");
+    // The CTA fill is a grainy gradient: noise over a vertical gradient.
+  ).toContain("linear-gradient");
   await capture(page, "keyboard-reduced");
   await link.focus();
   await page.keyboard.press("Enter");
@@ -267,7 +268,7 @@ test("secondary liquid link opens the projects collection with independent styli
   const appearance = await collection.evaluate((element) => {
     const shape = element.querySelector(".liquid__icon");
     const sample = document.createElement("span");
-    sample.style.backgroundColor = "var(--color-secondary)";
+    sample.style.backgroundColor = "var(--color-cta)";
     element.appendChild(sample);
     const expected = getComputedStyle(sample).backgroundColor;
     sample.remove();

@@ -114,7 +114,7 @@ test("desktop copy, RTL order and the full expanded menu fit every target width"
       await link(page, "#projects").evaluate(
         (element) => getComputedStyle(element, "::after").backgroundColor,
       ),
-    ).toBe("rgb(251, 44, 54)");
+    ).toBe("rgb(130, 72, 255)");
     await hoverLink(page, "#faq");
     await expect
       .poll(() =>

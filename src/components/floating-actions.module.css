@@ -25,6 +25,8 @@
 .action.action {
   --whatsapp-green: #25d366;
   --liquid-fill: var(--whatsapp-green);
+  --liquid-fill-image: none;
+  --liquid-fill-shade: transparent;
   --liquid-pressed-fill: color-mix(
     in srgb,
     var(--whatsapp-green) 85%,
@@ -54,7 +56,7 @@
 }
 
 /* moriz.ai: a tab right above WhatsApp, pulled out to sit flush with the
-   screen edge. CTA red with the site grain and white ink; the inner corners
+   screen edge. The site CTA fill with its grain; the inner corners
    take the liquid radius. */
 .aiTab {
   display: flex;
@@ -63,10 +65,10 @@
   border: 0;
   border-start-start-radius: var(--radius-liquid);
   border-end-start-radius: var(--radius-liquid);
-  background-color: var(--color-action-primary);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-blend-mode: overlay;
-  color: var(--color-white);
+  background-color: var(--color-cta);
+  background-image: var(--color-cta-image-solo);
+  background-blend-mode: overlay, normal, normal;
+  color: var(--color-cta-ink);
   font: inherit;
   font-size: var(--text-body-lg);
   line-height: 1;
@@ -76,17 +78,17 @@
 }
 
 .aiTab[aria-expanded="true"] {
-  background-color: var(--color-action-primary-hover);
+  background-color: var(--color-cta-pressed);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .aiTab:hover {
-    background-color: var(--color-action-primary-hover);
+    background-color: var(--color-cta-pressed);
   }
 }
 
 .aiTab:focus-visible {
-  outline: 2px solid var(--color-action-primary);
+  outline: 2px solid var(--color-cta);
   outline-offset: 2px;
 }
 
@@ -360,6 +362,8 @@
      goes clear. */
   .action.action:has(.whatsappIcon) {
     --liquid-fill: transparent;
+    --liquid-fill-image: none;
+    --liquid-fill-shade: transparent;
     --liquid-pressed-fill: transparent;
   }
 
@@ -433,8 +437,10 @@
     color: #161616;
   }
   .mobileBar button {
-    background: var(--color-action-primary);
-    color: white;
+    background-color: var(--color-cta);
+    background-image: var(--color-cta-image-solo);
+    background-blend-mode: overlay, normal, normal;
+    color: var(--color-cta-ink);
   }
   :global(body:has(dialog[open])) .mobileBar {
     display: none;

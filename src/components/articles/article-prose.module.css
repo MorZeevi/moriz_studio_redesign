@@ -257,9 +257,6 @@
 }
 
 .ctaLink {
-  --liquid-fill: var(--color-action-primary);
-  --liquid-pressed-fill: var(--color-action-primary-hover);
-  --liquid-ink: var(--color-light);
   justify-self: start;
   box-sizing: border-box;
   max-inline-size: 100%;

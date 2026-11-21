@@ -67,9 +67,6 @@
 
 .action {
   --liquid-height: max(56px, 1.75em);
-  --liquid-fill: var(--color-action-primary);
-  --liquid-pressed-fill: var(--color-action-primary-hover);
-  --liquid-ink: var(--color-light);
   inline-size: 100%;
   max-inline-size: 100%;
 }
@@ -127,5 +124,16 @@
 
   .action {
     font-size: var(--text-body-sm);
+  }
+}
+
+/* On a phone the banner's copy is centred. */
+@media (max-width: 47.999rem) {
+  .panel {
+    text-align: center;
+  }
+
+  .description {
+    justify-self: center;
   }
 }

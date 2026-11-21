@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { AboutGallery } from "@/components/about-gallery";
 import { AboutMe } from "@/components/about-me";
 import { AdvantagesMotion } from "@/components/advantages-motion";
-import { ContactInvitation } from "@/components/contact-invitation";
 import { DesignQuote } from "@/components/design-quote";
 import { DiagnosticBanner } from "@/components/diagnostic-banner";
 import { Faq } from "@/components/faq";
@@ -224,13 +223,6 @@ export default async function Home({
           locale={locale}
           content={content.projects}
           partyReaction
-        />
-
-        <ContactInvitation
-          locale={locale}
-          shell
-          placement="after-projects"
-          text={conversionCopy.invitations.afterProjects}
         />
 
         <Section id="about" title={content.about.heading} showHeading={false}>

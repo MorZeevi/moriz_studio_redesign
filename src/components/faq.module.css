@@ -118,7 +118,8 @@
 }
 
 .item[open] .question {
-  color: var(--color-primary);
+  /* The card stays light in both themes, so it takes the deep violet. */
+  color: var(--violet-deep, var(--color-primary));
 }
 
 .control {
@@ -222,6 +223,8 @@
 
 .ai.ai {
   --liquid-fill: var(--color-white);
+  --liquid-fill-image: none;
+  --liquid-fill-shade: transparent;
   --liquid-pressed-fill: var(--color-surface);
   filter: var(--liquid-filter) var(--ai-outline);
 }
@@ -233,7 +236,7 @@
 }
 
 .ai :global(.liquid__icon) {
-  color: var(--color-action-primary);
+  color: var(--violet-deep, var(--color-action-primary));
 }
 
 .ai :global(.liquid__custom-glyph) {
@@ -243,6 +246,8 @@
 
 .whatsapp.whatsapp {
   --liquid-fill: #25d366;
+  --liquid-fill-image: none;
+  --liquid-fill-shade: transparent;
   --liquid-pressed-fill: color-mix(in srgb, #25d366 85%, var(--color-dark));
 }
 
@@ -264,6 +269,27 @@
 .action:disabled {
   opacity: 0.6;
   cursor: default;
+}
+
+/* Below desktop the section sits on the light page, where a white button
+   fades out; it takes the CTA fill of the moriz.ai tab instead. */
+@media (max-width: 63.999rem) {
+  .ai.ai {
+    --liquid-fill: var(--color-cta);
+    --liquid-fill-image: var(--color-cta-image, none);
+    --liquid-fill-shade: var(--color-cta-shade, transparent);
+    --liquid-pressed-fill: var(--color-cta-pressed);
+    --liquid-ink: var(--color-cta-ink);
+    filter: var(--liquid-filter);
+  }
+
+  .ai :global(.liquid__icon) {
+    color: var(--color-cta-ink);
+  }
+
+  .ai :global(.liquid__custom-glyph) svg {
+    fill: currentColor;
+  }
 }
 
 @media (max-width: 63.999rem) {

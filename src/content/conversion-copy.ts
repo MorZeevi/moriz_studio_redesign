@@ -10,8 +10,6 @@ type ConversionCopy = {
    * `detail` shows from tablet width up; phones keep the short line.
    */
   proof: { before: string; value: string; label: string; detail: string };
-  /** Invitations to talk placed along the homepage. */
-  invitations: { afterProjects: string; afterProcess: string };
   projectNote: string;
   projectHeading: string;
   projectBody: string;
@@ -33,10 +31,6 @@ export const conversionCopyByLocale = {
       label: "משתמשים",
       detail: "במוצרים שעבדתי עליהם",
     },
-    invitations: {
-      afterProjects: "יש לכם מערכת או מוצר בראש?",
-      afterProcess: "מתחילים בשיחה של 10 דקות, בלי התחייבות.",
-    },
     projectNote: "שיחה ראשונה של 10 דקות, בלי התחייבות.",
     projectHeading: "רוצים לבנות משהו דומה?",
     projectBody: "ספרו לי בקצרה על הפרויקט שלכם, ונחשוב יחד על הצעד הבא.",
@@ -54,10 +48,6 @@ export const conversionCopyByLocale = {
       value: "400k+",
       label: "users",
       detail: "of products I've worked on",
-    },
-    invitations: {
-      afterProjects: "Have a system or product in mind?",
-      afterProcess: "We start with a 10-minute call, no commitment.",
     },
     projectNote: "A first 10-minute call, no commitment.",
     projectHeading: "Want to build something similar?",

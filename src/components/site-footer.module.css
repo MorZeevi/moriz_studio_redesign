@@ -47,10 +47,13 @@
 }
 
 .contactShell {
-  --site-foreground: var(--color-light);
-  --site-muted: color-mix(in srgb, var(--color-light) 94%, transparent);
-  --site-focus: var(--color-light);
-  --site-heading-accent: var(--color-light);
+  /* The panel takes the violet of the theme, so its ink follows: light on the
+     deep violet (light mode), dark on the light violet (dark mode). */
+  --contact-ink: var(--color-cta-ink, var(--color-light));
+  --site-foreground: var(--contact-ink);
+  --site-muted: color-mix(in srgb, var(--contact-ink) 94%, transparent);
+  --site-focus: var(--contact-ink);
+  --site-heading-accent: var(--contact-ink);
   position: relative;
   display: grid;
   gap: var(--space-8);
@@ -463,5 +466,18 @@ a.tag:hover {
   .contactShell:focus-within .shellShape {
     --liquid-gap: 2px;
     transition: none;
+  }
+}
+
+/* The contact panel is already violet, so its selection inverts to stay visible. */
+:global(:root[data-public-site]) .contactShell ::selection {
+  background: var(--contact-ink);
+  color: var(--color-action-primary);
+}
+
+/* Phones go straight from the heading to the form. */
+@media (max-width: 47.999rem) {
+  .contactDescription {
+    display: none;
   }
 }

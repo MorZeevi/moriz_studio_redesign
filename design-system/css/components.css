@@ -118,9 +118,22 @@
 .liquid {
   --liquid-gap: 2px;
   --liquid-height: var(--control-height-md);
-  --liquid-fill: var(--color-action-primary);
-  --liquid-pressed-fill: var(--color-action-primary-hover);
-  --liquid-ink: var(--color-text-inverse);
+  /* A site may set --color-cta* to give every liquid CTA one fill; without
+     them the kit's primary and secondary colors apply. */
+  --liquid-fill: var(--color-cta, var(--color-action-primary));
+  --liquid-pressed-fill: var(
+    --color-cta-pressed,
+    var(--color-action-primary-hover)
+  );
+  --liquid-ink: var(--color-cta-ink, var(--color-text-inverse));
+  /* Optional texture over the fill, built so it runs unbroken through the
+     icon, the bridge and the label: --liquid-fill-image varies only from top
+     to bottom, and --liquid-fill-shade is a corner glow that fades out inside
+     the label before it reaches the bridge. An instance that sets its own
+     --liquid-fill must also set the image to none and the shade to
+     transparent. */
+  --liquid-fill-image: var(--color-cta-image, none);
+  --liquid-fill-shade: var(--color-cta-shade, transparent);
   display: inline-flex;
   align-items: stretch;
   gap: var(--liquid-gap);
@@ -139,16 +152,48 @@
 }
 
 .liquid--secondary {
-  --liquid-fill: var(--color-secondary);
-  --liquid-pressed-fill: var(--color-action-secondary-hover);
-  --liquid-ink: var(--color-dark);
+  --liquid-fill: var(--color-cta, var(--color-secondary));
+  --liquid-pressed-fill: var(
+    --color-cta-pressed,
+    var(--color-action-secondary-hover)
+  );
+  --liquid-ink: var(--color-cta-ink, var(--color-dark));
 }
 
 .liquid__icon,
 .liquid__label,
 .liquid__bridge {
-  background: var(--liquid-fill);
+  background-color: var(--liquid-fill);
   pointer-events: none;
+}
+.liquid__icon,
+.liquid__label,
+.liquid__bridge {
+  background-image: var(--liquid-fill-image);
+  background-blend-mode: overlay, normal, normal;
+}
+/* The bridge is shorter than the shapes: show the matching middle slice. */
+.liquid__bridge {
+  background-size:
+    auto,
+    100% var(--liquid-height);
+  background-position:
+    0 0,
+    center;
+  background-repeat: repeat, no-repeat;
+}
+.liquid__label {
+  --liquid-shade-x: 100%;
+  background-image:
+    var(--liquid-fill-image),
+    radial-gradient(
+      85% 150% at var(--liquid-shade-x) 100%,
+      var(--liquid-fill-shade) 0%,
+      transparent 70%
+    );
+}
+[dir="rtl"] .liquid__label {
+  --liquid-shade-x: 0%;
 }
 
 .liquid__icon {
@@ -277,6 +322,7 @@
 .liquid:is(:active, [data-liquid-pressed])
   :is(.liquid__icon, .liquid__label, .liquid__bridge) {
   background-color: var(--liquid-pressed-fill);
+  background-image: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

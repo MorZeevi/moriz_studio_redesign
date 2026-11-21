@@ -389,7 +389,7 @@ test("changing theme preserves an active Party and restores dark tag colors", as
   expect(await canvas(page)).toBe("rgb(38, 38, 38)");
 });
 
-test("dark mode keeps the heading colours and turns the header CTA white", async ({
+test("dark mode keeps the heading colours and turns the header CTA lilac", async ({
   page,
 }) => {
   const read = () =>
@@ -414,7 +414,7 @@ test("dark mode keeps the heading colours and turns the header CTA white", async
   expect(dark.accent).toBe(dark.action);
   expect(dark).toMatchObject({
     heading: "rgb(251, 251, 255)",
-    contactFill: "rgb(251, 251, 255)",
+    contactFill: "rgb(185, 162, 255)",
     contactInk: "rgb(38, 38, 38)",
   });
   await page.emulateMedia({ colorScheme: "light" });
@@ -422,5 +422,5 @@ test("dark mode keeps the heading colours and turns the header CTA white", async
   const light = await read();
   expect(light.accent).toBe(light.action);
   expect(light.accent).not.toBe(light.heading);
-  expect(light.contactFill).toBe("rgb(38, 38, 38)");
+  expect(light.contactFill).toBe("rgb(130, 72, 255)");
 });

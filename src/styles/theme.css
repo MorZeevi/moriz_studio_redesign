@@ -13,18 +13,60 @@
   --site-focus: var(--color-focus);
   --site-heading-accent: var(--color-accent-text);
   --site-scheme: light;
+  /* The one CTA color: ultraviolet in light mode, lilac in dark mode, both
+     as a grainy gradient. Read by every liquid CTA, the moriz.ai tab and the
+     chat send button. Grayscale noise, laid over the fill with overlay.
+     --color-cta-image and --color-cta-shade feed the liquid CTA, whose three
+     shapes must share one unbroken gradient; --color-cta-image-solo is the
+     diagonal version for single-shape buttons. */
+  --cta-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --color-cta: #8248ff;
+  --color-cta-pressed: color-mix(in srgb, #8248ff 80%, var(--color-dark));
+  --color-cta-ink: var(--color-light);
+  /* Ink for a button filled with --color-cta-ink (the contact submit). */
+  --color-cta-ink-inverse: var(--color-dark);
+  /* Violet replaces the kit's red across the public site: the deep violet in
+     light mode, the light violet in dark mode. --violet-deep stays fixed for
+     surfaces that keep one colour in both themes (the secondary canvas). */
+  --violet-deep: #8248ff;
+  /* The canvas behind Getting started and the quote: a pale violet in both
+     themes. SecondaryScrollSurface holds the same value as channels. */
+  --site-secondary-surface: #dcd2ff;
+  --violet-light: #b9a2ff;
+  --color-primary: var(--violet-deep);
+  --color-action-primary: var(--violet-deep);
+  --color-action-primary-hover: color-mix(in srgb, #8248ff 80%, var(--color-dark));
+  /* The CTA colour as text: deeper on light, lighter on dark. */
+  --color-cta-text: color-mix(in srgb, #8248ff 82%, black);
+  --color-cta-image:
+    var(--cta-grain),
+    linear-gradient(to bottom, #c47bff 0%, transparent 80%);
+  --color-cta-shade: #3d2be8;
+  --color-cta-image-solo:
+    var(--cta-grain),
+    radial-gradient(120% 150% at 100% 0%, #c47bff 0%, transparent 62%),
+    radial-gradient(120% 150% at 0% 100%, #3d2be8 0%, transparent 62%);
 }
 
 /* Dark mode adds site-only accents; the kit has already flipped the roles. */
 :root[data-public-site][data-theme="dark"] {
   --site-hero-rotating: var(--color-secondary);
-  --site-cta-fill: var(--color-light);
-  --site-cta-pressed: color-mix(
-    in srgb,
-    var(--color-light) 88%,
-    var(--color-dark)
-  );
-  --site-cta-ink: var(--color-dark);
+  --color-cta: #b9a2ff;
+  --color-cta-pressed: color-mix(in srgb, #b9a2ff 80%, var(--color-dark));
+  --color-cta-ink: var(--color-dark);
+  --color-cta-ink-inverse: var(--color-light);
+  --color-primary: var(--violet-light);
+  --color-action-primary: var(--violet-light);
+  --color-action-primary-hover: color-mix(in srgb, #b9a2ff 80%, var(--color-dark));
+  --color-cta-text: color-mix(in srgb, #b9a2ff 65%, white);
+  --color-cta-image:
+    var(--cta-grain),
+    linear-gradient(to bottom, #ebcbff 0%, transparent 80%);
+  --color-cta-shade: #7f86ff;
+  --color-cta-image-solo:
+    var(--cta-grain),
+    radial-gradient(120% 150% at 100% 0%, #ebcbff 0%, transparent 62%),
+    radial-gradient(120% 150% at 0% 100%, #7f86ff 0%, transparent 62%);
   --site-scheme: dark;
 }
 
@@ -32,13 +74,22 @@
 @media (prefers-color-scheme: dark) {
   :root[data-public-site]:not([data-theme="light"]) {
     --site-hero-rotating: var(--color-secondary);
-    --site-cta-fill: var(--color-light);
-    --site-cta-pressed: color-mix(
-      in srgb,
-      var(--color-light) 88%,
-      var(--color-dark)
-    );
-    --site-cta-ink: var(--color-dark);
+    --color-cta: #b9a2ff;
+    --color-cta-pressed: color-mix(in srgb, #b9a2ff 80%, var(--color-dark));
+    --color-cta-ink: var(--color-dark);
+    --color-cta-ink-inverse: var(--color-light);
+    --color-primary: var(--violet-light);
+    --color-action-primary: var(--violet-light);
+    --color-action-primary-hover: color-mix(in srgb, #b9a2ff 80%, var(--color-dark));
+    --color-cta-text: color-mix(in srgb, #b9a2ff 65%, white);
+    --color-cta-image:
+      var(--cta-grain),
+      linear-gradient(to bottom, #ebcbff 0%, transparent 80%);
+    --color-cta-shade: #7f86ff;
+    --color-cta-image-solo:
+      var(--cta-grain),
+      radial-gradient(120% 150% at 100% 0%, #ebcbff 0%, transparent 62%),
+      radial-gradient(120% 150% at 0% 100%, #7f86ff 0%, transparent 62%);
     --site-scheme: dark;
   }
 }
@@ -76,4 +127,10 @@ html[data-public-site][data-theme="dark"] body[data-project-backdrop] {
   .header-actions .header-contact-link {
     font-size: var(--text-body-sm);
   }
+}
+
+/* Selected text takes the CTA violet instead of the kit's yellow. */
+:root[data-public-site] ::selection {
+  background: var(--color-cta);
+  color: var(--color-cta-ink);
 }
