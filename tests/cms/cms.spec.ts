@@ -575,7 +575,10 @@ test("RLS, category cascades, atomic saving and media privacy", async ({
   ).toHaveLength(1);
   const response = await request.get(`/media/${file}`);
   expect(response.status()).toBe(200);
-  expect(response.headers()["cache-control"]).toContain("no-store");
+  // A visitor's copy of published media is cached for a day.
+  expect(response.headers()["cache-control"]).toBe(
+    "public, max-age=86400, s-maxage=86400",
+  );
   expect(
     (
       await request.get(`/media/${file}`, { headers: { Range: "bytes=0-15" } })

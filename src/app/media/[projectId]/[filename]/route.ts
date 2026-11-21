@@ -33,7 +33,9 @@ export async function GET(request: Request, { params }: Params) {
     data: { user },
   } = await client.auth.getUser();
   let token = key;
-  if (user && user.id === process.env.SUPABASE_ADMIN_USER_ID) {
+  // The owner also sees draft media, so their responses are never cached.
+  const admin = Boolean(user && user.id === process.env.SUPABASE_ADMIN_USER_ID);
+  if (admin) {
     const {
       data: { session },
     } = await client.auth.getSession();
@@ -57,8 +59,14 @@ export async function GET(request: Request, { params }: Params) {
       status: upstream.status === 416 ? 416 : 404,
       headers: { "Cache-Control": "private, no-store" },
     });
+  // Visitors only ever receive media of published projects, the same bytes
+  // for everyone: the CDN and browsers keep it for a day. The cost, accepted
+  // by the owner: a file stays reachable for up to a day after its project
+  // is unpublished.
   const outgoing = new Headers({
-    "Cache-Control": "private, no-store",
+    "Cache-Control": admin
+      ? "private, no-store"
+      : "public, max-age=86400, s-maxage=86400",
     "X-Content-Type-Options": "nosniff",
   });
   for (const header of [

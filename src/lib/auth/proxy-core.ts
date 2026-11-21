@@ -85,6 +85,12 @@ export async function handleSessionRequest(
     return redirect;
   }
 
-  response.headers.set("Cache-Control", CACHE_CONTROL);
+  // A signed-out visitor's media request carries no session and sets no
+  // cookie: the media route decides how long its response may be cached.
+  const visitorMedia =
+    !hasClaims &&
+    pathname.startsWith("/media/") &&
+    response.cookies.getAll().length === 0;
+  if (!visitorMedia) response.headers.set("Cache-Control", CACHE_CONTROL);
   return response;
 }

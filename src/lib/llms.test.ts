@@ -28,7 +28,7 @@ const text = renderLlmsTxt({
 test("llms.txt names Mor, the services, the process and the warranty", () => {
   assert.match(text, /^# Moriz Studio\n/);
   assert.match(text, /נעים להכיר, אני מור זאבי\. בעלת הסטודיו\./);
-  assert.match(text, /תואר בטכנולוגיות למידה מ-H\.I\.T/);
+  assert.match(text, /תואר אקדמי בטכנולוגיות למידה מ-H\.I\.T/);
   assert.match(text, /B\.A — בטכנולוגיות למידה \| H\.I\.T/);
   assert.match(text, /7\+ — שנות ניסיון בפיתוח Front-End/);
   assert.match(text, /אפיון, עיצוב ופיתוח/);
