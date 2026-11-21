@@ -4,8 +4,8 @@ import type {
 } from "@/content/projects";
 import type { Locale } from "@/i18n/config";
 import type { Project, ProjectMediaItem } from "@/types/project";
-import { userCountHighlight } from "./card-options";
 import { localized, termName } from "./localize";
+import { userCountHighlight } from "./card-options";
 import { isVideoSrc } from "./validation";
 
 export function projectCard(
@@ -71,21 +71,6 @@ export function projectCard(
       ? ""
       : localized(highlight, "label", locale)
     : "";
-  // Homepage wall: the card's own still first, then the project's other
-  // images, then its videos' posters; four at most.
-  const wallMedia = project.media.filter((m) => m.role !== "logo");
-  const gridImages =
-    surface === "homepage"
-      ? [
-          ...new Set([
-            ...(image ? [image.src] : []),
-            ...wallMedia.filter((m) => m.kind === "image").map((m) => m.src),
-            ...wallMedia.flatMap((m) =>
-              m.kind === "video" && m.poster ? [m.poster] : [],
-            ),
-          ]),
-        ].slice(0, 4)
-      : undefined;
   return {
     id: project.id,
     slug: project.slug,
@@ -98,7 +83,6 @@ export function projectCard(
       ? { src: logo.src, alt: localized(logo, "alt", locale) || title }
       : null,
     video,
-    gridImages,
     hoverMedia:
       hover && (hover.src !== src || hover.kind === "video")
         ? {

@@ -24,8 +24,6 @@ export type Project = {
     poster?: string;
     alt: string;
   } | null;
-  /** Homepage: the project's images for the moving wall (up to four). */
-  gridImages?: string[];
   /** One project fact picked for this card (not necessarily a result). */
   highlight?: { value: string; label: string } | null;
   type?: string | null;
