@@ -63,12 +63,13 @@ export const he = {
   },
   hero: {
     heading: {
-      // The services line under the headline; empty hides it.
-      start: "",
+      start:
+        "פותרת בעיות עסקיות באמצעות אפיון, עיצוב ופיתוח של מערכות, אתרים וכלי AI",
       end: "פתרונות דיגיטליים מבוססי מחקר",
       // The headline's two lines: the first in outline, the second filled.
       endParts: ["פתרונות דיגיטליים", "מבוססי מחקר"],
-      label: "פתרונות דיגיטליים מבוססי מחקר",
+      label:
+        "פתרונות דיגיטליים מבוססי מחקר. פותרת בעיות עסקיות באמצעות אפיון, עיצוב ופיתוח של מערכות, אתרים וכלי AI",
     },
     introduction: "נעים להכיר, אני מור",
     // Desktop portrait: her hello, set vertically along the page edge behind
