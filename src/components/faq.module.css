@@ -222,6 +222,8 @@
 
 .ai.ai {
   --liquid-fill: var(--color-white);
+  --liquid-fill-image: none;
+  --liquid-fill-shade: transparent;
   --liquid-pressed-fill: var(--color-surface);
   filter: var(--liquid-filter) var(--ai-outline);
 }
@@ -243,6 +245,8 @@
 
 .whatsapp.whatsapp {
   --liquid-fill: #25d366;
+  --liquid-fill-image: none;
+  --liquid-fill-shade: transparent;
   --liquid-pressed-fill: color-mix(in srgb, #25d366 85%, var(--color-dark));
 }
 

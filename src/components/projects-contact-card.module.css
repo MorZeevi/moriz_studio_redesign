@@ -67,9 +67,6 @@
 }
 
 .link {
-  --liquid-fill: var(--color-action-primary);
-  --liquid-pressed-fill: var(--color-action-primary-hover);
-  --liquid-ink: var(--color-light);
   align-self: flex-start;
 }
 

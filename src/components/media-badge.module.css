@@ -22,6 +22,8 @@
 
 .badge > span {
   --liquid-fill: var(--color-light);
+  --liquid-fill-image: none;
+  --liquid-fill-shade: transparent;
   --liquid-ink: var(--color-dark);
 }
 

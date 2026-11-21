@@ -281,6 +281,8 @@
 /* One stable action; the checkbox records the preferred reply channel. */
 .submit.submit {
   --liquid-fill: var(--color-light);
+  --liquid-fill-image: none;
+  --liquid-fill-shade: transparent;
   --liquid-pressed-fill: var(--color-light);
   --liquid-ink: var(--color-dark);
   --liquid-height: 3.25rem;

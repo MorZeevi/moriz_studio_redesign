@@ -211,6 +211,8 @@
    the label. Doubled class outranks the pill's own module rules. */
 .suggestionCard.suggestionCard {
   --liquid-fill: var(--site-card, #fff);
+  --liquid-fill-image: none;
+  --liquid-fill-shade: transparent;
   --liquid-pressed-fill: var(--color-surface);
   --liquid-ink: var(--color-text-primary);
   /* The goo can't carry a border, so a soft shadow outlines the white shape. */
@@ -547,8 +549,10 @@
   place-items: center;
   border: 0;
   border-radius: 50%;
-  background: var(--color-secondary);
-  color: var(--color-dark);
+  background-color: var(--color-cta);
+  background-image: var(--color-cta-image-solo);
+  background-blend-mode: overlay, normal, normal;
+  color: var(--color-cta-ink);
   cursor: pointer;
   transition:
     background var(--duration-fast) var(--ease-standard),
@@ -556,13 +560,13 @@
 }
 
 .send:not(:disabled):hover {
-  background: var(--color-action-secondary-hover);
+  background-color: var(--color-cta-pressed);
   scale: 1.08;
 }
 
-/* Stays yellow while empty, just quieter; the arrow keeps full black. */
+/* Keeps the CTA fill while empty, just quieter. */
 .send:disabled {
-  background: color-mix(in srgb, var(--color-secondary) 55%, transparent);
+  opacity: 0.55;
   cursor: default;
 }
 
