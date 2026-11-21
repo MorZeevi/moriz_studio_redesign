@@ -151,7 +151,7 @@ html:has(.site-header) {
 
 .hero-proof strong {
   font-weight: var(--font-weight-heading);
-  color: var(--color-action-primary);
+  color: var(--color-cta-text, var(--color-action-primary));
 }
 
 /* The headline's two lines, then the services line. */
@@ -183,9 +183,9 @@ html:has(.site-header) {
   -webkit-text-stroke: 0.02em currentColor;
 }
 
-/* The services line: bold, in the action colour, wrapping freely. */
+/* The services line: bold, in the CTA colour, wrapping freely. */
 .hero-heading-accent {
-  color: var(--color-action-primary);
+  color: var(--color-cta-text, var(--color-action-primary));
   margin-block-start: 0.5em;
   font-size: clamp(1.25rem, 5.8vw, 1.625rem);
   line-height: 1.15;
@@ -926,7 +926,7 @@ html:has(.navigation-dialog[open]) {
   position: fixed;
   inset: 0;
   z-index: -2;
-  background: var(--color-secondary);
+  background: var(--site-secondary-surface, var(--color-secondary));
   opacity: var(--secondary-reveal, 0);
   pointer-events: none;
 }
@@ -954,7 +954,7 @@ body[data-secondary-ink="dark"] main {
     transparent
   );
   --color-focus: var(--color-dark);
-  --site-heading-accent: var(--color-action-primary);
+  --site-heading-accent: var(--violet-deep, var(--color-action-primary));
 }
 
 body[data-secondary-ink="light"] main {

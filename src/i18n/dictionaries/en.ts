@@ -91,9 +91,8 @@ export const en = {
     headingStart: "Not sure",
     headingEnd: "what your business needs?",
     introduction: "A website, a system or an AI tool?",
-    emphasis: "7 questions, two minutes,",
-    description:
-      "and a written recommendation at the end. No contact details needed.",
+    emphasis: "7 questions,",
+    description: "and a written recommendation at the end.",
     action: "Start the audit",
     actionMobile: "Start the audit",
   },
@@ -664,7 +663,7 @@ export const en = {
       name: "A nickname you like works too",
       phone: "Hmm, something's off with that number.",
     },
-    submit: "Send, and I'll get back to you",
+    submit: "Mor, let's talk",
     sending: "Sending your message...",
     sent: "Got it, thank you. I'll get back to you within one business day, on WhatsApp or by phone.",
     sendError:

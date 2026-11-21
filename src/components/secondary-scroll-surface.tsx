@@ -2,8 +2,9 @@
 
 import { type ReactNode, useLayoutEffect, useRef } from "react";
 
-// --color-secondary (#dddc8c) as channels, for the ink choice below.
-const SECONDARY = [221, 220, 140];
+// --site-secondary-surface (#dcd2ff, src/styles/theme.css) as channels, for
+// the ink choice below. Keep the two in step.
+const SECONDARY = [220, 210, 255];
 
 const channelsOf = (color: string) =>
   (color.match(/[\d.]+/g) ?? ["251", "251", "255"]).slice(0, 3).map(Number);

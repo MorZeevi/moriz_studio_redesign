@@ -42,7 +42,8 @@
 
 .mark {
   display: inline-block;
-  color: var(--color-action-primary);
+  /* The card is dark in both themes, so the mark takes the light violet. */
+  color: var(--violet-light, var(--color-action-primary));
   transform-origin: 50% 85%;
   transition:
     rotate var(--duration-slow) var(--ease-enter),

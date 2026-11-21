@@ -23,6 +23,21 @@
   --color-cta: #8248ff;
   --color-cta-pressed: color-mix(in srgb, #8248ff 80%, var(--color-dark));
   --color-cta-ink: var(--color-light);
+  /* Ink for a button filled with --color-cta-ink (the contact submit). */
+  --color-cta-ink-inverse: var(--color-dark);
+  /* Violet replaces the kit's red across the public site: the deep violet in
+     light mode, the light violet in dark mode. --violet-deep stays fixed for
+     surfaces that keep one colour in both themes (the secondary canvas). */
+  --violet-deep: #8248ff;
+  /* The canvas behind Getting started and the quote: a pale violet in both
+     themes. SecondaryScrollSurface holds the same value as channels. */
+  --site-secondary-surface: #dcd2ff;
+  --violet-light: #b9a2ff;
+  --color-primary: var(--violet-deep);
+  --color-action-primary: var(--violet-deep);
+  --color-action-primary-hover: color-mix(in srgb, #8248ff 80%, var(--color-dark));
+  /* The CTA colour as text: deeper on light, lighter on dark. */
+  --color-cta-text: color-mix(in srgb, #8248ff 82%, black);
   --color-cta-image:
     var(--cta-grain),
     linear-gradient(to bottom, #c47bff 0%, transparent 80%);
@@ -39,6 +54,11 @@
   --color-cta: #b9a2ff;
   --color-cta-pressed: color-mix(in srgb, #b9a2ff 80%, var(--color-dark));
   --color-cta-ink: var(--color-dark);
+  --color-cta-ink-inverse: var(--color-light);
+  --color-primary: var(--violet-light);
+  --color-action-primary: var(--violet-light);
+  --color-action-primary-hover: color-mix(in srgb, #b9a2ff 80%, var(--color-dark));
+  --color-cta-text: color-mix(in srgb, #b9a2ff 65%, white);
   --color-cta-image:
     var(--cta-grain),
     linear-gradient(to bottom, #ebcbff 0%, transparent 80%);
@@ -57,6 +77,11 @@
     --color-cta: #b9a2ff;
     --color-cta-pressed: color-mix(in srgb, #b9a2ff 80%, var(--color-dark));
     --color-cta-ink: var(--color-dark);
+    --color-cta-ink-inverse: var(--color-light);
+    --color-primary: var(--violet-light);
+    --color-action-primary: var(--violet-light);
+    --color-action-primary-hover: color-mix(in srgb, #b9a2ff 80%, var(--color-dark));
+    --color-cta-text: color-mix(in srgb, #b9a2ff 65%, white);
     --color-cta-image:
       var(--cta-grain),
       linear-gradient(to bottom, #ebcbff 0%, transparent 80%);
@@ -102,4 +127,10 @@ html[data-public-site][data-theme="dark"] body[data-project-backdrop] {
   .header-actions .header-contact-link {
     font-size: var(--text-body-sm);
   }
+}
+
+/* Selected text takes the CTA violet instead of the kit's yellow. */
+:root[data-public-site] ::selection {
+  background: var(--color-cta);
+  color: var(--color-cta-ink);
 }

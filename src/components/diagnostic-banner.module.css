@@ -126,3 +126,14 @@
     font-size: var(--text-body-sm);
   }
 }
+
+/* On a phone the banner's copy is centred. */
+@media (max-width: 47.999rem) {
+  .panel {
+    text-align: center;
+  }
+
+  .description {
+    justify-self: center;
+  }
+}

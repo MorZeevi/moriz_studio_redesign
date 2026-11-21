@@ -81,7 +81,7 @@ test("contact server failure preserves entered values and communicates recovery"
   await page.locator("#contact-phone").fill("0521234567");
   await page
     .locator("#contact")
-    .getByRole("button", { name: "שלחו ואחזור אליכם" })
+    .getByRole("button", { name: "מור, בואי נדבר" })
     .click();
   await expect(page.locator("#contact-status")).not.toBeEmpty();
   await expect(page.locator("#contact-name")).toHaveValue("בדיקה");
@@ -147,7 +147,7 @@ test("accepted contact form clears the fields and announces success", async ({
   await page.locator("#contact-phone").fill("0521234567");
   await page
     .locator("#contact")
-    .getByRole("button", { name: "שלחו ואחזור אליכם" })
+    .getByRole("button", { name: "מור, בואי נדבר" })
     .click();
   await expect(page.locator("#contact-name")).toHaveValue("");
   await expect(page.locator("#contact-status")).not.toBeEmpty();
