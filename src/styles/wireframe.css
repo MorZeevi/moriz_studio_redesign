@@ -659,7 +659,7 @@ html:has(.navigation-dialog[open]) {
     align-items: flex-end;
     justify-content: flex-end;
     block-size: var(--hero-portrait-size);
-    padding-inline-end: calc(var(--hero-portrait-size) * 0.1);
+    padding-inline-end: calc(var(--hero-portrait-size) * 0.065);
   }
 
   /* She stands on the foot of the frame, a little smaller than it. */
