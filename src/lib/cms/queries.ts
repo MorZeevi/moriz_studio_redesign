@@ -1,6 +1,9 @@
 import "server-only";
 import { connection } from "next/server";
-import { publicSupabase } from "@/lib/supabase/server";
+import {
+  prerenderPublicSupabase,
+  publicSupabase,
+} from "@/lib/supabase/server";
 import type {
   Category,
   Project,
@@ -98,6 +101,25 @@ export async function getPublicProjects(
 export async function getPublicProject(slug: string) {
   await connection();
   const { data, error } = await publicSupabase()
+    .from("projects")
+    .select(selection)
+    .eq("source", CMS_SOURCE)
+    .eq("slug", slug)
+    .eq("published", true)
+    .returns<JoinedProject[]>()
+    .maybeSingle();
+  if (error) throw new Error("Unable to load this project.");
+  return data ? project(data) : null;
+}
+
+/**
+ * Published project for a prerendered page, such as an article card.
+ * getPublicProject calls connection() and a no-store fetch so project pages
+ * stay fresh. That same call inside a static article becomes a
+ * DYNAMIC_SERVER_USAGE error and the page responds 500.
+ */
+export async function getPrerenderedPublicProject(slug: string) {
+  const { data, error } = await prerenderPublicSupabase()
     .from("projects")
     .select(selection)
     .eq("source", CMS_SOURCE)

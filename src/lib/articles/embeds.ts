@@ -1,6 +1,6 @@
 import type { EnabledLocale, Locale } from "@/i18n/config";
 import { projectCard } from "@/lib/cms/project-card";
-import { getPublicProject } from "@/lib/cms/queries";
+import { getPrerenderedPublicProject } from "@/lib/cms/queries";
 import { getArticle } from "./load.ts";
 import {
   teaserFromProjectsHtml,
@@ -60,14 +60,13 @@ async function projectTeaser(
     return (await devProjectTeaser(slug, locale)) ?? "unavailable";
   }
   try {
-    const project = await getPublicProject(slug);
+    const project = await getPrerenderedPublicProject(slug);
     if (!project?.slug) return null;
     return teaserFromCard(
       projectCard(project, "projects", locale as Locale),
       locale,
     );
-  } catch (error) {
-    if (isFrameworkSignal(error)) throw error;
+  } catch {
     return (await devProjectTeaser(slug, locale)) ?? "unavailable";
   }
 }
@@ -104,11 +103,6 @@ function cmsConfigured() {
     process.env.NEXT_PUBLIC_SUPABASE_URL &&
       process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
   );
-}
-
-/** Next postpones static rendering with a digest. That signal has to keep going. */
-function isFrameworkSignal(error: unknown) {
-  return typeof error === "object" && error !== null && "digest" in error;
 }
 
 /**

@@ -26,12 +26,14 @@ export async function serverSupabase() {
   });
 }
 
+const statelessAuth = {
+  persistSession: false,
+  autoRefreshToken: false,
+  detectSessionInUrl: false,
+} as const;
+
 const statelessOptions = {
-  auth: {
-    persistSession: false,
-    autoRefreshToken: false,
-    detectSessionInUrl: false,
-  },
+  auth: statelessAuth,
   global: {
     fetch: (input: RequestInfo | URL, init?: RequestInit) =>
       fetch(input, { ...init, cache: "no-store" }),
@@ -42,6 +44,19 @@ const statelessOptions = {
 export function publicSupabase() {
   const { url, key } = supabaseConfig();
   return createClient<Database>(url, key, statelessOptions);
+}
+
+// Cached public reads for pages that are prerendered. A no-store fetch there
+// opts the page into dynamic rendering.
+export function prerenderPublicSupabase() {
+  const { url, key } = supabaseConfig();
+  return createClient<Database>(url, key, {
+    auth: statelessAuth,
+    global: {
+      fetch: (input: RequestInfo | URL, init?: RequestInit) =>
+        fetch(input, { ...init, cache: "force-cache" }),
+    },
+  });
 }
 
 // Bypasses RLS. Only for server code reading tables browsers cannot see.
