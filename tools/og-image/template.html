@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="he">
+  <head>
+    <meta charset="utf-8" />
+    <title>Moriz Studio share image</title>
+    <style>
+      /* Colours, gradient and grain are the site's CTA values (src/styles/theme.css). */
+      @font-face {
+        font-family: "Leon";
+        src: url("../../design-system/fonts/Leon-Regular.woff2") format("woff2");
+        font-weight: 400;
+      }
+      @font-face {
+        font-family: "Leon";
+        src: url("../../design-system/fonts/Leon-Heavy.woff2") format("woff2");
+        font-weight: 900;
+      }
+      @font-face {
+        font-family: "Danidin";
+        src: url("../../design-system/fonts/Danidin-CondensedBold.woff2") format("woff2");
+        font-weight: 700;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+      }
+      .card {
+        position: relative;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        color: #fbfbff;
+        background:
+          radial-gradient(120% 150% at 100% 0%, #c47bff 0%, transparent 62%),
+          radial-gradient(120% 150% at 0% 100%, #3d2be8 0%, transparent 62%),
+          #8248ff;
+      }
+      .grain {
+        position: absolute;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        mix-blend-mode: overlay;
+        opacity: 0.55;
+        pointer-events: none;
+      }
+      .mark {
+        position: absolute;
+        inset-inline-start: 560px;
+        inset-block-start: -40px;
+        width: 860px;
+        opacity: 0.16;
+      }
+      .portrait {
+        position: absolute;
+        inset-inline-start: 640px;
+        inset-block-start: 76px;
+        width: 590px;
+        height: 590px;
+        border-radius: 50%;
+        background: #b9a2ff;
+      }
+      .copy {
+        position: absolute;
+        inset-inline-start: 64px;
+        inset-block-start: 0;
+        width: 510px;
+        height: 630px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .wordmark {
+        font-family: "Leon", sans-serif;
+        font-size: 86px;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+      }
+      .wordmark span {
+        font-weight: 400;
+      }
+      .title {
+        margin-block-start: 56px;
+        font-family: "Danidin", "Leon", sans-serif;
+        font-size: 64px;
+        font-weight: 700;
+        line-height: 1;
+        white-space: nowrap;
+        text-align: start;
+      }
+      .line {
+        margin-block-start: 22px;
+        font-family: "Leon", sans-serif;
+        font-size: 30px;
+        font-weight: 400;
+        line-height: 1.2;
+        white-space: nowrap;
+        opacity: 0.92;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card" dir="ltr">
+      <svg class="mark" viewBox="405 686 3286 2724" aria-hidden="true">
+        <path id="mark-path" fill="#fbfbff" d="" />
+      </svg>
+      <img class="portrait" src="./mor-blazer-cutout.png" alt="" />
+      <div class="grain"></div>
+      <div class="copy">
+        <p class="wordmark" dir="ltr">moriz.<span>studio</span></p>
+        <p class="title" dir="rtl">אפיון, עיצוב ופיתוח<br />מערכות, אתרים וכלי AI</p>
+        <p class="line" dir="rtl">פתרונות דיגיטליים מבוססי מחקר</p>
+      </div>
+    </div>
+  </body>
+</html>
