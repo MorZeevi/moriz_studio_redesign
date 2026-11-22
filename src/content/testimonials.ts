@@ -21,5 +21,24 @@ export type Testimonial = {
      */
     kind: "logo" | "mark" | "portrait";
     objectPosition?: string;
+    /**
+     * Brand on a logo or mark, when that brand is not the person's name.
+     * Portraits leave this empty and use `name`.
+     */
+    brand?: string;
   };
 };
+
+/**
+ * Alt text for a testimonial image. A portrait uses the person's name.
+ * A logo or mark uses `logoAlt`, with `{brand}` replaced by the brand
+ * (or the person's name when the image has no separate brand).
+ */
+export function testimonialImageAlt(
+  item: Pick<Testimonial, "name" | "image">,
+  logoAlt: string,
+) {
+  if (item.image.kind === "portrait") return item.name;
+  const brand = item.image.brand?.trim() || item.name;
+  return logoAlt.replaceAll("{brand}", brand);
+}

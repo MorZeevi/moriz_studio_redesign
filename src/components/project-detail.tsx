@@ -260,7 +260,7 @@ export function ProjectDetail({
                       <img
                         className={styles.nextPreview}
                         src={mediaVariant(nextCover.src, 640)}
-                        alt=""
+                        alt={localized(nextProject, "title", locale).trim()}
                         width={320}
                         height={200}
                         loading="lazy"

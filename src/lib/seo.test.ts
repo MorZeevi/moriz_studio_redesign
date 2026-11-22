@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { en } from "../i18n/dictionaries/en.ts";
 import { he } from "../i18n/dictionaries/he.ts";
 import {
   META_DESCRIPTION_MAX,
@@ -211,4 +212,21 @@ test("homepage and projects descriptions are distinct and within a snippet", () 
   assert.ok(he.projects.archive.description.length <= META_DESCRIPTION_MAX);
   assert.equal(he.metadata.description.includes("מערכות Web"), true);
   assert.equal(he.privacyPolicy.updatedOn, "2026-07-18");
+});
+
+test("long legal intros keep a separate search snippet of at most 155 characters", () => {
+  const snippets = [
+    he.privacyPolicy.metaDescription,
+    en.privacyPolicy.metaDescription,
+    en.accessibility.metaDescription,
+    he.accessibility.metaDescription,
+  ];
+  for (const snippet of snippets) assert.ok(snippet.length <= 155, snippet);
+  assert.ok(he.privacyPolicy.intro.length > 160);
+  assert.ok(en.privacyPolicy.intro.length > 160);
+  assert.ok(en.accessibility.intro.length > 160);
+  assert.equal(he.accessibility.metaDescription, he.accessibility.intro);
+  assert.notEqual(he.privacyPolicy.metaDescription, he.privacyPolicy.intro);
+  assert.notEqual(en.privacyPolicy.metaDescription, en.privacyPolicy.intro);
+  assert.notEqual(en.accessibility.metaDescription, en.accessibility.intro);
 });
