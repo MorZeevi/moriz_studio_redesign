@@ -363,6 +363,8 @@ export const he = {
     readMore: "להמשך קריאה",
     readLess: "סגירה",
     videoLabel: "המלצה בווידאו",
+    // `{brand}` is the logo's brand, or the person's name when there is no separate brand.
+    logoAlt: "לוגו {brand}",
     // Quotes are verbatim from the owner; unknown attribution stays marked.
     items: [
       {
@@ -377,6 +379,8 @@ export const he = {
         image: {
           src: "/images/testimonials/elementor-logo.webp",
           kind: "mark",
+          // The mark is Elementor, named in `role`, not a photo of the person.
+          brand: "אלמנטור",
         },
       },
       {
@@ -418,6 +422,8 @@ export const he = {
         image: {
           src: "/images/testimonials/rona-even-logo.webp",
           kind: "logo",
+          // The drawing is the business named in `role`.
+          brand: "אמא חוזרת לג׳ינס",
         },
       },
       {
@@ -673,6 +679,9 @@ export const he = {
     updatedOn: "2026-07-18",
     intro:
       "ב־Moriz Studio פרטיות היא חלק מהשירות. המדיניות הזו מסבירה איזה מידע נאסף באתר ובאבחון הדיגיטלי, למה אנו משתמשים בו, עם מי הוא עשוי להיות משותף ואילו בחירות עומדות לרשותכם.",
+    // Search snippet only. The visible intro above stays the full paragraph.
+    metaDescription:
+      "ב־Moriz Studio פרטיות היא חלק מהשירות. המדיניות מסבירה איזה מידע נאסף באתר ובאבחון, למה אנו משתמשים בו, עם מי הוא עשוי להיות משותף ואילו בחירות יש לכם.",
     lastUpdated: "עודכן לאחרונה: 18 ביולי 2026",
     backToHome: "חזרה לעמוד הבית",
     contactLabel: "לפניות בנושא פרטיות:",
@@ -864,6 +873,9 @@ export const he = {
   accessibility: {
     title: "הצהרת נגישות",
     intro:
+      "חשוב לי לאפשר לכל אדם להכיר את Moriz Studio, לעיין בתכנים וליצור איתי קשר. כאן מפורטים מאמצי הנגישות באתר והדרכים לפנות אליי כשנתקלים בקושי.",
+    // Already within the meta length, so the snippet matches the visible intro.
+    metaDescription:
       "חשוב לי לאפשר לכל אדם להכיר את Moriz Studio, לעיין בתכנים וליצור איתי קשר. כאן מפורטים מאמצי הנגישות באתר והדרכים לפנות אליי כשנתקלים בקושי.",
     updatedOn: "2026-11-18",
     lastUpdated: "עודכן לאחרונה: 18 בנובמבר 2026",

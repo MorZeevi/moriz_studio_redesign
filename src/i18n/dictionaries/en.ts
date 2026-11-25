@@ -412,6 +412,8 @@ export const en = {
     readMore: "Read more",
     readLess: "Show less",
     videoLabel: "Video testimonial",
+    // `{brand}` is the logo's brand, or the person's name when there is no separate brand.
+    logoAlt: "{brand} logo",
     // Faithful translations of the clients' Hebrew quotes.
     items: [
       {
@@ -427,6 +429,8 @@ export const en = {
         image: {
           src: "/images/testimonials/elementor-logo.webp",
           kind: "mark",
+          // The mark is Elementor, named in `role`, not a photo of the person.
+          brand: "Elementor",
         },
       },
       {
@@ -469,6 +473,8 @@ export const en = {
         image: {
           src: "/images/testimonials/rona-even-logo.webp",
           kind: "logo",
+          // The drawing is the business named in `role`.
+          brand: "Mom Back in Jeans",
         },
       },
       {
@@ -731,6 +737,9 @@ export const en = {
     updatedOn: "2026-07-18",
     intro:
       "At Moriz Studio, privacy is part of the service. This policy explains what information is collected on the website and in the digital audit, why we use it, who it may be shared with, and what choices you have.",
+    // Search snippet only. The visible intro above stays the full paragraph.
+    metaDescription:
+      "At Moriz Studio, privacy is part of the service: what the site and audit collect, why we use it, who we may share it with, and your choices.",
     lastUpdated: "Last updated: July 18, 2026",
     backToHome: "Back to home",
     contactLabel: "Privacy inquiries:",
@@ -926,6 +935,9 @@ export const en = {
     title: "Accessibility Statement",
     intro:
       "It matters to me that every person can get to know Moriz Studio, browse the content and contact me. This page describes the accessibility efforts on the website and the ways to reach me when you run into a difficulty.",
+    // Search snippet only. The visible intro above stays the full paragraph.
+    metaDescription:
+      "Everyone should be able to browse Moriz Studio and get in touch. This page describes the accessibility work and how to reach me if you run into difficulty.",
     updatedOn: "2026-11-18",
     lastUpdated: "Last updated: November 18, 2026",
     contactLabel: "Accessibility inquiries",

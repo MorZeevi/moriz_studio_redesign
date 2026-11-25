@@ -9,6 +9,7 @@ import {
   useSyncExternalStore,
   type KeyboardEvent,
 } from "react";
+import { testimonialImageAlt } from "@/content/testimonials";
 import type { SiteContent } from "@/i18n/dictionaries";
 import styles from "./testimonials.module.css";
 
@@ -28,12 +29,20 @@ const readStacked = () => window.matchMedia(stackedQuery).matches;
 const serverStacked = () => false;
 const noneOpen: ReadonlySet<number> = new Set();
 
-function Avatar({ item, size }: { item: Item; size: number }) {
+function Avatar({
+  item,
+  size,
+  logoAlt,
+}: {
+  item: Item;
+  size: number;
+  logoAlt: string;
+}) {
   return (
     <span className={styles.avatar} data-kind={item.image.kind}>
       <Image
         src={item.image.src}
-        alt=""
+        alt={testimonialImageAlt(item, logoAlt)}
         width={size}
         height={size}
         sizes={`${size}px`}
@@ -279,7 +288,7 @@ export function Testimonials({ content }: { content: TestimonialsContent }) {
               onClick={() => select(index)}
               onKeyDown={onTabKeyDown}
             >
-              <Avatar item={item} size={48} />
+              <Avatar item={item} size={48} logoAlt={content.logoAlt} />
               <span className={styles.tabText}>
                 <span className={styles.tabName}>{item.name}</span>
                 <span className={styles.tabRole}>{item.role}</span>
@@ -354,7 +363,7 @@ export function Testimonials({ content }: { content: TestimonialsContent }) {
                 <figcaption className={styles.attribution}>
                   {/* Phones only; desktop shows the face in the index. */}
                   <span className={styles.cardAvatar}>
-                    <Avatar item={item} size={40} />
+                    <Avatar item={item} size={40} logoAlt={content.logoAlt} />
                   </span>
                   <span className={styles.attributionText}>
                     <span className={styles.attributionName}>{item.name}</span>

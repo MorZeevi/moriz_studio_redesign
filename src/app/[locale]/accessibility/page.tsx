@@ -17,11 +17,11 @@ export async function generateMetadata({
   const { locale } = await params;
   if (!isEnabledLocale(locale)) notFound();
   const content = await getDictionary(locale);
-  const { title, intro } = content.accessibility;
+  const { title, intro, metaDescription } = content.accessibility;
   const url = `/${locale}/accessibility`;
   return {
     title,
-    description: intro,
+    description: metaDescription,
     alternates: pageAlternates(url),
     openGraph: {
       ...openGraphFor(locale),
